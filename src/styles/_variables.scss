@@ -1,0 +1,62 @@
+// Theme Colors
+$app-primary: #eef8f9;
+$app-primary-rgb: 141, 179, 146;
+
+$app-layout-color:#eef5f9;
+
+// Secondary Colors
+$app-secondary: #FBC52D;
+$app-secondary-rgb: 251, 197, 45;
+
+// Text Colors
+$app-text-light: #ffffff;
+$app-text-medium: #667085;
+$app-text-dark: #333843;
+
+// Background Colors
+$app-bg-light: #fbfbfb;
+$app-bg-dark: #202124;
+
+// Grayscale
+$app-white: #fff;
+$app-gray-100: #f8f9fa;
+$app-gray-200: #e9ecef;
+$app-gray-300: #dee2e6;
+$app-gray-400: #ced4da;
+$app-gray-500: #adb5bd;
+$app-gray-600: #868e96;
+$app-gray-700: #495057;
+$app-gray-800: #343a40;
+$app-gray-900: #212529;
+$app-black: #000;
+
+// Spacing
+$app-spacer: 1rem;
+$app-spacers: (
+  0: 0,
+  1: $app-spacer * 0.25,
+  2: $app-spacer * 0.5,
+  3: $app-spacer,
+  4: $app-spacer * 1.5,
+  5: $app-spacer * 3,
+);
+
+// Border Radius
+$app-border-radius: 0.25rem;
+$app-border-radius-sm: 0.2rem;
+$app-border-radius-lg: 0.3rem;
+$app-border-radius-xl: 0.5rem;
+
+// Transitions
+$app-transition-base: all 0.2s ease-in-out;
+$app-transition-fade: opacity 0.15s linear;
+$app-transition-collapse: height 0.35s ease;
+
+// Z-index
+$app-z-dropdown: 1000;
+$app-z-sticky: 1020;
+$app-z-fixed: 1030;
+$app-z-modal-backdrop: 1040;
+$app-z-modal: 1050;
+$app-z-popover: 1060;
+$app-z-tooltip: 1070; 

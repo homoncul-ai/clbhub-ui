@@ -1,8 +1,14 @@
+@use "styles/variables" as *;
 @use "mdb-angular-ui-kit/assets/scss/mdb.scss" as *;
 @import "@fortawesome/fontawesome-free/css/all.css";
 
 $input-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --bs-primary-rgb: #{$app-primary-rgb};
+  --bs-bg-opacity: 1;
+}
 
 html,
 body {
@@ -10,7 +16,7 @@ body {
 }
 
 body {
-  background-color: #fbfbfb;
+  background-color: $app-bg-light;
   margin: 0;
 }
 
@@ -22,7 +28,7 @@ body {
 }
 
 .sidenav-inner .sidenav {
-  z-index: 1000;
+  z-index: $app-z-dropdown;
 }
 
 .sidenav-inner ~ .sidenav-backdrop {
@@ -39,16 +45,46 @@ body {
 #main-wrapper {
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #eef5f9;
+  background-color: $app-layout-color;
 }
 
-
 .body-wrapper {
- // margin-top: 58px;
   padding-top: calc(60px + 30px)
 }
 
 .bg-primary {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-primary-rgb),var(--bs-bg-opacity))!important
+  background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+}
+
+// Navbar text color adjustments
+.navbar.bg-primary {
+  .nav-link,
+  .navbar-brand,
+  .form-control,
+  .input-group-text {
+    color: $app-text-light !important;
+  }
+
+  .form-control::placeholder {
+    color: rgba($app-text-light, 0.7) !important;
+  }
+
+  .dropdown-menu {
+    background-color: $app-white;
+  }
+
+  .dropdown-item {
+    color: $app-text-dark;
+    
+    &:hover {
+      background-color: $app-gray-100;
+    }
+  }
+}
+
+
+.body-wrapper>.container-fluid{
+  padding: 0 24px;
+  min-height: calc(100vh - 160px)
 }
