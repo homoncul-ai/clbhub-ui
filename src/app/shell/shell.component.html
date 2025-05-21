@@ -1,67 +1,9 @@
 <mdb-sidenav-layout>
-  <mdb-sidenav #sidenav="mdbSidenav" [mode]="mode" [position]="'fixed'" [hidden]="hidden">
-    <a class="d-flex justify-content-center py-4" href="#!" mdbRipple rippleColor="primary" style="min-width: 240px;">
-      <img id="MDB-logo" src="imgs/vocops-4.png" width="150" alt="MDB Logo" draggable="false">
-    </a>
-    <ul class="sidenav-menu">
-    
-      <mdb-sidenav-item>
-        <a class="sidenav-link"
-        ><i class="fas fa-tablet-alt fa-fw me-3"></i><span>Apps</span></a
-      >
-      <ul mdbCollapse class="sidenav-collapse">
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/chat" routerLinkActive="active">Chat app</a>
-        </li>
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/mailbox" routerLinkActive="active">Mailbox app</a>
-        </li>
-      </ul>
-      </mdb-sidenav-item>
-      <mdb-sidenav-item>
-        <a class="sidenav-link"
-        ><i class="fas fa-cogs fa-fw me-3"></i><span>Management</span></a
-      >
-      <ul mdbCollapse class="sidenav-collapse">
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/user-profile" routerLinkActive="active">User profile</a>
-        </li>
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/user-management" routerLinkActive="active">User management</a>
-        </li>
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/login-register" routerLinkActive="active">Login / register page</a>
-        </li>
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/forgot-password" routerLinkActive="active">Forgot password page</a>
-        </li>
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/change-password" routerLinkActive="active">Change password page</a>
-        </li>
-        <li class="sidenav-item">
-          <a class="sidenav-link" routerLink="/error" routerLinkActive="active">404 page</a>
-        </li>
-      </ul>
-      </mdb-sidenav-item>
-    </ul>
-  </mdb-sidenav>
-  <mdb-sidenav-content #sidenavContent>
-    <!-- Navbar -->
-    <nav
-      id="main-navbar"
-      class="navbar navbar-expand-lg navbar-light bg-primary fixed-top"
-    >
-      <!-- Container wrapper -->
-      <div class="container-fluid">
-        <!-- Toggler -->
-        <button
-          class="btn shadow-0 p-0 me-3 d-block d-xxl-none"
-          aria-controls="#sidenav-1"
-          aria-haspopup="true"
-          (click)="sidenav.toggle()"
-        >
-
-
+  <!-- Common Header -->
+  <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-primary fixed-top">
+    <div class="container-fluid">
+      <!-- Toggler -->
+      <button class="btn shadow-0 p-0 me-3 d-block d-xxl-none" aria-controls="#sidenav-1" aria-haspopup="true" (click)="sidenav.toggle()">
         <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" style="color: aliceblue;">
           <g fill="none" stroke="currentColor" stroke-width="1.5">
             <rect x="3" y="5" width="18" height="1.5" rx="0.75" />
@@ -69,235 +11,147 @@
             <rect x="3" y="17" width="12" height="1.5" rx="0.75" opacity=".8" />
           </g>
         </svg>
-        
-        
-        </button>
+      </button>
 
-        <!-- Header Menu -->
-        <ul class="navbar-nav me-auto d-flex flex-row align-items-center header-menu">
-
-
-
-
-          <li mdbDropdown class="nav-item dropdown" class="nav-item d-none d-lg-block dropdown nav-icon-hover-bg rounded-circle">
-            <a mdbDropdownToggle  id="navbarDropdownMenuLink" class="nav-link nav-icon-hover" id="drop2" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false">
-              <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 6.5a4 4 0 1 1 8 0a4 4 0 0 1-8 0Zm11 11a4 4 0 1 1 8 0a4 4 0 0 1-8 0Z" opacity=".5"></path><path d="M21.5 6.5a4 4 0 1 0-8 0a4 4 0 0 0 8 0Zm-11 11a4 4 0 1 0-8 0a4 4 0 0 0 8 0Z"></path></g></svg>
-               Dashboard
-            </a>
-            <div  mdbDropdownMenu
-            class=""
-            aria-labelledby="navbarDropdownMenuLink"  class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0 overflow-hidden" aria-labelledby="drop2">
-              <div class="row align-items-center">
-                <div class="col-12">
-                  <div class="ps-3 pt-3">
-                    <div class="border-bottom">
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="position-relative">
-                            <a routerLink="/advocate-dashboard" routerLinkActive="active" class="d-flex align-items-center pb-9 position-relative ">
-                              <div class="bg-primary-subtle rounded-circle round-40 me-3 p-6 d-flex align-items-center justify-content-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
-                                  <g fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="8" cy="8" r="3" />
-                                    <path d="M8 11v3m0 0c-2 0-4 1-4 3h8c0-2-2-3-4-3Z" opacity=".5" />
-                                    <path d="M14 8h4l2 2v-4l-2 2h-4zM14 8v8" />
-                                  </g>
-                                </svg>
-                                
-                              </div>
-                              <div class="d-inline-block ">
-                                <h6 class="mb-0 bg-hover-primary">Advoate</h6>
-                                <span class="fs-3 d-block text-muted">About the Advoate</span>
-                              </div>
-                            </a>
-                            <a routerLink="/broker-dashboard" routerLinkActive="active" class="d-flex align-items-center pb-9 position-relative">
-                              <div class="bg-primary-subtle rounded-circle round-40 me-3 p-6 d-flex align-items-center justify-content-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
-                                  <g fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <!-- Main broker -->
-                                    <circle cx="12" cy="6" r="3" />
-                                    <path d="M12 9v2m0 0c-2.5 0-5 1.5-5 4h10c0-2.5-2.5-4-5-4Z" opacity=".5" />
-                                
-                                    <!-- Clients/Connections -->
-                                    <circle cx="5" cy="17" r="2.5" />
-                                    <circle cx="19" cy="17" r="2.5" />
-                                    <path d="M7.5 17h9" />
-                                  </g>
-                                </svg>
-                                
-                                
-                              </div>
-                              <div class="d-inline-block">
-                                <h6 class="mb-0 bg-hover-primary">Broker</h6>
-                                <span class="fs-3 d-block text-muted">About the Broker</span>
-                              </div>
-                            </a>
-                            <a routerLink="/service-provider-dashboard" routerLinkActive="active" class="d-flex align-items-center pb-9 position-relative">
-                              <div class="bg-primary-subtle rounded-circle round-40 me-3 p-6 d-flex align-items-center justify-content-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
-                                  <g fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <!-- Top-left client (faded) -->
-                                    <circle cx="6" cy="6" r="3" opacity=".5" />
-                                    <!-- Top-right client (faded) -->
-                                    <circle cx="18" cy="6" r="3" opacity=".5" />
-                                    <!-- Central provider -->
-                                    <circle cx="12" cy="14" r="4" />
-                                    <!-- Connecting lines -->
-                                    <path d="M8 8L10.5 11M16 8L13.5 11" />
-                                  </g>
-                                </svg>
-                                
-                              </div>
-                              <div class="d-inline-block">
-                                <h6 class="mb-0 bg-hover-primary">Service Provider </h6>
-                                <span class="fs-3 d-block text-muted">About the Service Provider</span>
-                              </div>
-                            </a>
-                           
-                          </div>
+      <!-- Header Menu -->
+      <ul class="navbar-nav me-auto d-flex flex-row align-items-center header-menu">
+        <li mdbDropdown class="nav-item dropdown nav-item d-none d-lg-block dropdown nav-icon-hover-bg rounded-circle">
+          <a mdbDropdownToggle id="navbarDropdownMenuLink" class="nav-link nav-icon-hover" id="drop2" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2.5 6.5a4 4 0 1 1 8 0a4 4 0 0 1-8 0Zm11 11a4 4 0 1 1 8 0a4 4 0 0 1-8 0Z" opacity=".5"></path>
+                <path d="M21.5 6.5a4 4 0 1 0-8 0a4 4 0 0 0 8 0Zm-11 11a4 4 0 1 0-8 0a4 4 0 0 0 8 0Z"></path>
+              </g>
+            </svg>
+            Dashboard
+          </a>
+          <div mdbDropdownMenu class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0 overflow-hidden" aria-labelledby="drop2">
+            <div class="row align-items-center">
+              <div class="col-12">
+                <div class="ps-3 pt-3">
+                  <div class="border-bottom">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="position-relative">
+                          <a routerLink="/advocate-dashboard" routerLinkActive="active" class="d-flex align-items-center pb-9 position-relative">
+                            <div class="bg-primary-subtle rounded-circle round-40 me-3 p-6 d-flex align-items-center justify-content-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                  <circle cx="8" cy="8" r="3" />
+                                  <path d="M8 11v3m0 0c-2 0-4 1-4 3h8c0-2-2-3-4-3Z" opacity=".5" />
+                                  <path d="M14 8h4l2 2v-4l-2 2h-4zM14 8v8" />
+                                </g>
+                              </svg>
+                            </div>
+                            <div class="d-inline-block">
+                              <h6 class="mb-0 bg-hover-primary">Advocate</h6>
+                              <span class="fs-3 d-block text-muted">About the Advocate</span>
+                            </div>
+                          </a>
+                          <a routerLink="/broker-dashboard" routerLinkActive="active" class="d-flex align-items-center pb-9 position-relative">
+                            <div class="bg-primary-subtle rounded-circle round-40 me-3 p-6 d-flex align-items-center justify-content-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                  <circle cx="12" cy="6" r="3" />
+                                  <path d="M12 9v2m0 0c-2.5 0-5 1.5-5 4h10c0-2.5-2.5-4-5-4Z" opacity=".5" />
+                                  <circle cx="5" cy="17" r="2.5" />
+                                  <circle cx="19" cy="17" r="2.5" />
+                                  <path d="M7.5 17h9" />
+                                </g>
+                              </svg>
+                            </div>
+                            <div class="d-inline-block">
+                              <h6 class="mb-0 bg-hover-primary">Broker</h6>
+                              <span class="fs-3 d-block text-muted">About the Broker</span>
+                            </div>
+                          </a>
+                          <a routerLink="/service-provider-dashboard" routerLinkActive="active" class="d-flex align-items-center pb-9 position-relative">
+                            <div class="bg-primary-subtle rounded-circle round-40 me-3 p-6 d-flex align-items-center justify-content-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                  <circle cx="6" cy="6" r="3" opacity=".5" />
+                                  <circle cx="18" cy="6" r="3" opacity=".5" />
+                                  <circle cx="12" cy="14" r="4" />
+                                  <path d="M8 8L10.5 11M16 8L13.5 11" />
+                                </g>
+                              </svg>
+                            </div>
+                            <div class="d-inline-block">
+                              <h6 class="mb-0 bg-hover-primary">Service Provider</h6>
+                              <span class="fs-3 d-block text-muted">About the Service Provider</span>
+                            </div>
+                          </a>
                         </div>
-                       
                       </div>
                     </div>
-                    
                   </div>
                 </div>
-               
               </div>
             </div>
-          </li>
-          
-        
-        </ul>
+          </div>
+        </li>
+      </ul>
 
-        <!-- Right links -->
-        <ul class="navbar-nav ms-auto d-flex flex-row">
-          <!-- Notification dropdown -->
-          <li mdbDropdown class="nav-item dropdown">
-            <a
-              mdbDropdownToggle
-              class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow"
+      <!-- Right links -->
+      <ul class="navbar-nav ms-auto d-flex flex-row">
+        <!-- Notification dropdown -->
+        <li mdbDropdown class="nav-item dropdown">
+          <a mdbDropdownToggle class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" id="navbarDropdownMenuLink" role="button" aria-expanded="false">
+            <i class="fas fa-bell"></i>
+            <span class="badge rounded-pill badge-notification bg-danger">1</span>
+          </a>
+          <ul mdbDropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item">Some news</a></li>
+            <li><a class="dropdown-item">Another news</a></li>
+            <li><a class="dropdown-item">Something else here</a></li>
+          </ul>
+        </li>
 
-              id="navbarDropdownMenuLink"
-              role="button"
-              aria-expanded="false"
-            >
-              <i class="fas fa-bell"></i>
-              <span class="badge rounded-pill badge-notification bg-danger"
-                >1</span
-              >
-            </a>
-            <ul
-              mdbDropdownMenu
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="navbarDropdownMenuLink"
-            >
-              <li><a class="dropdown-item">Some news</a></li>
-              <li><a class="dropdown-item">Another news</a></li>
-              <li>
-                <a class="dropdown-item">Something else here</a>
-              </li>
-            </ul>
-          </li>
+        <!-- Language dropdown -->
+        <li mdbDropdown class="nav-item dropdown">
+          <a mdbDropdownToggle class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" id="navbarDropdown" role="button" aria-expanded="false">
+            <i class="flag flag-united-kingdom m-0"></i>
+          </a>
+          <ul mdbDropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item"><i class="flag flag-united-kingdom"></i>English<i class="fa fa-check text-success ms-2"></i></a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item"><i class="flag flag-poland"></i>Polski</a></li>
+            <li><a class="dropdown-item"><i class="flag flag-china"></i>中文</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-          <!-- Icon -->
-          <li class="nav-item">
-            <a class="nav-link me-3 me-lg-0">
-              <i class="fas fa-fill-drip"></i>
-            </a>
-          </li>
-          <!-- Icon -->
-          <li class="nav-item me-3 me-lg-0">
-            <a class="nav-link">
-              <i class="fab fa-github"></i>
-            </a>
-          </li>
+  <!-- Dynamic Side Navigation based on route -->
+  <mdb-sidenav #sidenav="mdbSidenav" [mode]="mode" [position]="'fixed'" [hidden]="hidden">
+    <a class="d-flex justify-content-center py-4" href="#!" mdbRipple rippleColor="primary" style="min-width: 240px;">
+      <img id="MDB-logo" src="imgs/vocops-4.png" width="150" alt="MDB Logo" draggable="false">
+    </a>
+    
+    <!-- Dynamic Menu -->
+    <ul class="sidenav-menu">
+      <ng-container *ngFor="let item of menuItems">
+        <mdb-sidenav-item>
+          <a class="sidenav-link" [routerLink]="item.route" routerLinkActive="active">
+            <i [class]="item.icon + ' fa-fw me-3'"></i>
+            <span>{{item.label}}</span>
+          </a>
+          <ul mdbCollapse class="sidenav-collapse" *ngIf="item.children && item.children.length > 0">
+            <li class="sidenav-item" *ngFor="let child of item.children">
+              <a class="sidenav-link" [routerLink]="child.route" routerLinkActive="active">
+                <i [class]="child.icon + ' fa-fw me-3'"></i>
+                {{child.label}}
+              </a>
+            </li>
+          </ul>
+        </mdb-sidenav-item>
+      </ng-container>
+    </ul>
+  </mdb-sidenav>
 
-          <!-- Icon dropdown -->
-          <li mdbDropdown class="nav-item dropdown">
-            <a
-              mdbDropdownToggle
-              class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow"
-
-              id="navbarDropdown"
-              role="button"
-              aria-expanded="false"
-            >
-              <i class="flag flag-united-kingdom m-0"></i>
-            </a>
-            <ul
-              mdbDropdownMenu
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="navbarDropdown"
-            >
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-united-kingdom"></i>English
-                  <i class="fa fa-check text-success ms-2"></i
-                ></a>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-poland"></i>Polski</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-china"></i>中文</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-japan"></i>日本語</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-germany"></i>Deutsch</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-france"></i>Français</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-spain"></i>Español</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-russia"></i>Русский</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item"
-                  ><i class="flag flag-portugal"></i>Português</a
-                >
-              </li>
-            </ul>
-          </li>
-
-          <!-- Avatar and Name -->
-          <li class="nav-item d-flex align-items-center">
-            <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle me-2" height="28" alt="" loading="lazy" />
-            <span class="user-name">Robyn Hills</span>
-          </li>
-        </ul>
-      </div>
-      <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
-
-    <main  class="body-wrapper pb-5">
-      <div class="container-fluid">
-        <router-outlet></router-outlet>
-      </div>
-     
-    </main>
+  <!-- Main Content Area -->
+  <mdb-sidenav-content #sidenavContent>
+    <router-outlet></router-outlet>
   </mdb-sidenav-content>
 </mdb-sidenav-layout>

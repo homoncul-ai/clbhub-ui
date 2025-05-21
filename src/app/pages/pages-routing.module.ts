@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Shell } from '@app/shell/services/shell.service';
-import { DashboardComponent } from '@pages/dashboard/dashboard.component';
+
 
 const routes: Routes = [
-  Shell.childRoutes([
-    {
-      path: 'dashboard',
-      component: DashboardComponent,
-    },
+  Shell.childRoutes([    
     {
       path: 'advocate-dashboard',
       loadComponent: () => import('./advocate-dashboard/advocate-dashboard.component').then(m => m.AdvocateDashboardComponent),
@@ -27,7 +23,7 @@ const routes: Routes = [
     },
 
     // Fallback when no prior route is matched
-    { path: '**', redirectTo: '', pathMatch: 'full' },
+    { path: '**', redirectTo: '/advocate-dashboard', pathMatch: 'full' },
   ]),
 ];
 

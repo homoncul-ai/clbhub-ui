@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 
-import { AuthModule } from '@app/auth';
 import { ShellComponent } from './shell.component';
 
 import { FormsModule } from '@angular/forms';
@@ -29,7 +28,7 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, AuthModule, RouterModule, FormsModule, PagesModule, LanguageSelectorComponent,
+  imports: [CommonModule, TranslateModule, RouterModule, FormsModule, PagesModule, LanguageSelectorComponent,
     BrowserAnimationsModule,MdbSmoothScrollModule,MdbRippleModule,MdbScrollbarModule,MdbScrollspyModule,MdbSelectModule,MdbLoadingModule,MdbLightboxModule,
      MdbSidenavModule,MdbLazyLoadingModule,MdbDropdownModule,MdbFormsModule,MdbInfiniteScrollModule,MdbCheckboxModule,MdbCollapseModule,MdbAccordionModule
     ],
