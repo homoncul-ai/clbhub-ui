@@ -37,4 +37,8 @@ const routes: Routes = [
     AdvoTicketDetailsComponent
   ]
 })
-export class DashAdvoModule { } 
+export class DashAdvoModule { 
+  constructor() {
+    console.log('DashAdvoModule');
+  }
+} 

@@ -4,11 +4,15 @@ import { CommonModule } from '@angular/common';
 
 // Components
 import { DashServiceComponent } from './dash-service.component';
+
+
+
+
 import { ServiceOverviewComponent } from './overview/service-overview.component';
-import { ServiceListComponent } from './services/service-list.component';
-import { ServiceDetailsComponent } from './services/service-details.component';
-import { ServiceRequestListComponent } from './requests/service-request-list.component';
 import { ServiceRequestDetailsComponent } from './requests/service-request-details.component';
+import { ServiceRequestListComponent } from './requests/service-request-list.component';
+import { ServiceDetailsComponent } from './services/service-details.component';
+import { ServiceListComponent } from './services/service-list.component';
 
 const routes: Routes = [
   {
