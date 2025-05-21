@@ -5,4 +5,8 @@ import { Component } from '@angular/core';
   template: `<div>Advocate Messages</div>`,
   standalone: true
 })
-export class AdvoMessagesComponent {} 
+export class AdvoMessagesComponent {
+    constructor() {
+        console.log('AdvoMessagesComponent');
+    }
+} 
