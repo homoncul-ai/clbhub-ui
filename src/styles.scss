@@ -238,7 +238,7 @@ body {
 
 
 .dropdown-menu-nav {
-  min-width: 660px!important;
+  min-width: 460px!important;
   width: 100%
 }
 
@@ -250,9 +250,11 @@ body {
   border-radius: 50% !important;
 }
 .bg-primary-subtle {
-  background-color: var(--bs-primary-bg-subtle) !important;
+  background-color: rgba(var(--bs-primary-rgb)) !important;
 }
-
+.bg-primary-subtle svg{
+  color: #ffffff;
+}
 
 .pb-9 {
   padding-bottom: 20px !important;
