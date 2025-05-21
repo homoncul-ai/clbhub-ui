@@ -25,16 +25,8 @@ export const appConfig: ApplicationConfig = {
     provideKeycloak({
       config: keycloakConfig,
       initOptions: {
-        onLoad: 'login-required',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-        pkceMethod: 'S256'
+        onLoad: 'login-required'      
       },
-      features: [
-        withAutoRefreshToken({
-          onInactivityTimeout: 'logout',
-          sessionTimeout: 60000
-        })
-      ],
       providers: [AutoRefreshTokenService, UserActivityService]
     }),
 
