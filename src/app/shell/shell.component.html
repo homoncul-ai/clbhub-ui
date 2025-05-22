@@ -131,12 +131,7 @@
 
     <!-- Dynamic Menu with MDB Treeview -->
     <div class="treeview-container">
-      <mdb-treeview
-      [nodes]="menuItems"
-      textField="label"
-      childrenField="children"
-      (activeItemChange)="onTreeItemSelect($event)"    
-    ></mdb-treeview>
+      <div class="treeview-container p-2" #treeContainer></div>
     
     </div>
 

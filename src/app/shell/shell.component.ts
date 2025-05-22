@@ -1,18 +1,27 @@
-import { Component, OnDestroy, OnInit, inject, AfterViewInit } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { I18nService } from '@app/i18n';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  NgZone,
+  inject
+} from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { environment } from '@env/environment';
-import { filter, merge, fromEvent } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { fromEvent, merge, filter, Subscription } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { I18nService } from '@app/i18n';
 import { Logger } from '@core/services';
-import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
-import { effect } from '@angular/core';
-import { NgZone, ViewChild } from '@angular/core';
+import { environment } from '@env/environment';
 import { MdbSidenavComponent } from 'mdb-angular-ui-kit/sidenav';
 import { MenuService, MenuItem } from './services/menu.service';
-import { ElementRef } from '@angular/core';
+import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
+import { effect } from '@angular/core';
+
+declare const dhx: any; // DHTMLX global
 
 @UntilDestroy()
 @Component({
@@ -22,193 +31,168 @@ import { ElementRef } from '@angular/core';
 })
 export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sidenav', { static: true }) sidenav!: MdbSidenavComponent;
-  title = 'mdb-angular-admin-dashboards';
-  currentRoute: string = '';
+  @ViewChild('treeContainer') treeContainer!: ElementRef;
+
   menuItems: MenuItem[] = [];
+  currentRoute: string = '';
+  mode: 'side' | 'over' = window.innerWidth >= 1400 ? 'side' : 'over';
+  hidden: boolean = window.innerWidth >= 1400 ? false : true;
 
-  mode = window.innerWidth >= 1400 ? 'side' : 'over';
-  hidden = window.innerWidth >= 1400 ? false : true;
-
+  private tree: any;
+  private resizeSubscription!: Subscription;
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
 
   constructor(
-    private ngZone: NgZone,
-    private readonly _router: Router,
-    private readonly _titleService: Title,
-    private readonly _translateService: TranslateService,
-    private readonly _i18nService: I18nService,
-    private readonly _menuService: MenuService
+    private _router: Router,
+    private _titleService: Title,
+    private _translateService: TranslateService,
+    private _i18nService: I18nService,
+    private _menuService: MenuService,
+    private ngZone: NgZone
   ) {
-    // Setup Keycloak event listener
+    // Keycloak Event
     effect(() => {
       const keycloakEvent = this.keycloakSignal();
       if (keycloakEvent.type === KeycloakEventType.Ready) {
-        console.log('Keycloak is ready');
-        // After Keycloak is ready, navigate to the default route
         this._router.navigate(['/advocate-dashboard/messages']);
       }
-      if (keycloakEvent.type === KeycloakEventType.AuthLogout) {
-        console.log('User logged out');
-      }
     });
 
-    // Subscribe to route changes
-    this._router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      untilDestroyed(this)
-    ).subscribe((event: any) => {
-      console.log('event', event);
-      
-      // Check if this is a Keycloak callback
-      if (event.url.includes('state=') || event.url.includes('code=')) {
-        console.log('Keycloak callback detected, skipping route update');
-        return;
-      }
+    // Listen to Route Changes
+    this._router.events
+      .pipe(filter(event => event instanceof NavigationEnd), untilDestroyed(this))
+      .subscribe((event: any) => {
+        if (!event.url.includes('state=') && !event.url.includes('code=')) {
+          this.currentRoute = event.url;
+          console.log('Route changed:', this.currentRoute);
 
-      this.currentRoute = event.url;
-      this.updateMenuItems();
-    });
-  }
+          const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
+          const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
+          const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
 
-  private updateMenuItems() {
-    const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
-    if (dashboardType) {
-      console.log('Dashboard type:', this._menuService.getMenuItems(dashboardType));
-      this.menuItems = this._menuService.getMenuItems(dashboardType);
-    } else {
-      // Clear menu items if not on a dashboard route
-      this.menuItems = [];
-    }
-  }
+          this.menuItems = newMenuItems;
 
-  // Function to recursively search through menu items and their children
-  findMenuItemByLabel(items: any[], label: string): any {
-    for (const item of items) {
-      // Check if current item matches
-      if (item.label === label) {
-        return item;
-      }
-      
-      // Check children if they exist
-      if (item.children && Array.isArray(item.children)) {
-        const childMatch = this.findMenuItemByLabel(item.children, label);
-        if (childMatch) {
-          return childMatch;
+          if (this.tree) {
+            const openedIds = this.tree.getState().opened;
+
+            this.tree.data.removeAll();
+            this.tree.data.parse(this.menuItems);
+
+            // Restore open state
+            openedIds.forEach(id => this.tree.open(id));
+          }
         }
-      }
-    }
-    return null;
+      });
   }
 
-  onTreeItemSelect(event: any) {
-    const element = event.nativeElement;
-    
-    // Get the text content and find matching menu item (including children)
-    const elementText = element.textContent?.trim();
-
-    
-    if (elementText) {
-      // Search through all menu items and their children
-      const matchedItem = this.findMenuItemByLabel(this.menuItems, elementText);
-      
-      if (matchedItem && matchedItem.route) {
-      
-
-      this._router.navigate([matchedItem.route]);
-        // Navigate to the route
-        // this.router.navigate([matchedItem.route]);
-        return matchedItem.route;
-      } else {
-        console.log('No route found for item:', elementText);
-      }
-    }
-    
-    return null;
-  }
-
-  logEvent(eventName: string, event: any): void {
-    console.log(`${eventName} event:`, event);
-  }
-
-  async ngOnInit() {
-    // Set initial route and menu items
+  ngOnInit() {
     this.currentRoute = this._router.url;
-    this.updateMenuItems();
 
-    // Setup logger
+    const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
+    const rawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
+    this.menuItems = this.convertMenuItemsToTreeFormat(rawMenu);
+
     if (environment.production) {
       Logger.enableProductionMode();
     }
 
-    // Initialize i18nService with default language and supported languages
     this._i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
-    const onNavigationEnd = this._router.events.pipe(filter((event) => event instanceof NavigationEnd));
-
+    const onNavigationEnd = this._router.events.pipe(filter(event => event instanceof NavigationEnd));
     merge(this._translateService.onLangChange, onNavigationEnd)
       .pipe(untilDestroyed(this))
-      .subscribe((event:any) => {
+      .subscribe(() => {
         const titles = this.getTitle(this._router.routerState, this._router.routerState.root);
-
-        if (titles.length === 0) {
-          this._titleService.setTitle(this._translateService.instant('Home'));
-        } else {
-          const translatedTitles = titles.map((titlePart) => this._translateService.instant(titlePart));
-          const allTitlesSame = translatedTitles.every((title, _, arr) => title === arr[0]);
-          this._titleService.setTitle(allTitlesSame ? translatedTitles[0] : translatedTitles.join(' | '));
-        }
-
-        if (event['lang']) {
-          // Uncomment the following line to force a reload of the page when the language changes if needed for translations from backend
-          // window.location.reload();
-        }
+        const translated = titles.map(t => this._translateService.instant(t));
+        const title = translated.every(t => t === translated[0]) ? translated[0] : translated.join(' | ');
+        this._titleService.setTitle(title);
       });
   }
 
   ngAfterViewInit() {
+    this.tree = new dhx.Tree(this.treeContainer.nativeElement, {
+      css: "dhx_widget--bordered",
+      autoWidth: true
+    });
+
+    this.tree.data.parse(this.menuItems);
+
+    this.tree.events.on("itemClick", (id: string) => {
+      const menuItem = this.findMenuItemById(this.menuItems, id);
+      if (menuItem?.data?.route) {
+        this._router.navigate([menuItem.data.route]);
+      }
+    });
+
     this.ngZone.runOutsideAngular(() => {
-      fromEvent(window, 'resize').subscribe(() => {
-        if (window.innerWidth < 1400 && this.mode !== 'over') {
-          this.ngZone.run(() => {
+      this.resizeSubscription = fromEvent(window, 'resize').subscribe(() => {
+        this.ngZone.run(() => {
+          const width = window.innerWidth;
+          if (width < 1400 && this.mode !== 'over') {
             this.mode = 'over';
             this.hideSidenav();
-          });
-        } else if (window.innerWidth >= 1400 && this.mode !== 'side') {
-          this.ngZone.run(() => {
+          } else if (width >= 1400 && this.mode !== 'side') {
             this.mode = 'side';
             this.showSidenav();
-          });
-        }
+          }
+        });
       });
     });
   }
 
+  ngOnDestroy() {
+    this._i18nService.destroy();
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
+  }
+
+  private convertMenuItemsToTreeFormat(menuItems: any[]): any[] {
+    return menuItems.map(item => ({
+      id: item.label,
+      value: item.label,
+      opened: true,
+      icon: {
+        folder: item.icon || "fas fa-folder",
+        openFolder: item.icon || "fas fa-folder-open",
+        file: item.icon || "fas fa-file"
+      },
+      data: {
+        route: item.route,
+        componentPath: item.componentPath,
+        componentName: item.componentName
+      },
+      items: item.children ? this.convertMenuItemsToTreeFormat(item.children) : []
+    }));
+  }
+
+  private findMenuItemById(items: any[], id: string): any {
+    for (const item of items) {
+      if (item.id === id) return item;
+      if (item.items) {
+        const found = this.findMenuItemById(item.items, id);
+        if (found) return found;
+      }
+    }
+    return undefined;
+  }
+
   hideSidenav() {
-    setTimeout(() => {
-      this.sidenav.hide();
-    }, 0);
+    setTimeout(() => this.sidenav.hide(), 0);
   }
 
   showSidenav() {
-    setTimeout(() => {
-      this.sidenav.show();
-    }, 0);
+    setTimeout(() => this.sidenav.show(), 0);
   }
 
-  getTitle(state: any, parent: any): any[] {
-    const data:any = [];
-    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
-      data.push(parent.snapshot.data.title);
+  getTitle(state: any, parent: any): string[] {
+    const titles: string[] = [];
+    if (parent?.snapshot?.data?.title) {
+      titles.push(parent.snapshot.data.title);
     }
-
     if (state && parent) {
-      data.push(...this.getTitle(state, state.firstChild(parent)));
+      titles.push(...this.getTitle(state, state.firstChild(parent)));
     }
-    return data;
-  }
-
-  ngOnDestroy() {
-    this._i18nService.destroy();
+    return titles;
   }
 }
-
