@@ -26,6 +26,7 @@ import { MdbInfiniteScrollModule } from 'mdb-angular-ui-kit/infinite-scroll';
 import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
+import { MdbTreeviewModule } from 'mdb-angular-treeview';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
     MdbInfiniteScrollModule,
     MdbCheckboxModule,
     MdbCollapseModule,
-    MdbAccordionModule
+    MdbAccordionModule,
+    MdbTreeviewModule
   ],
   declarations: [ShellComponent, HeaderComponent, SidebarComponent],
   exports: [ShellComponent]

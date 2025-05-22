@@ -12,6 +12,7 @@ import { effect } from '@angular/core';
 import { NgZone, ViewChild } from '@angular/core';
 import { MdbSidenavComponent } from 'mdb-angular-ui-kit/sidenav';
 import { MenuService, MenuItem } from './services/menu.service';
+import { ElementRef } from '@angular/core';
 
 @UntilDestroy()
 @Component({
@@ -73,6 +74,16 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
     if (dashboardType) {
       this.menuItems = this._menuService.getMenuItems(dashboardType);
+    } else {
+      // Clear menu items if not on a dashboard route
+      this.menuItems = [];
+    }
+  }
+
+  onTreeItemSelect(event: any): void {
+    // Assuming the event provides the selected item's data, including the route
+    if (event && event.route) {
+      this._router.navigate([event.route]);
     }
   }
 

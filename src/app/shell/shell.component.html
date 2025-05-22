@@ -128,26 +128,15 @@
     <a class="d-flex justify-content-center py-4" href="#!" mdbRipple rippleColor="primary" style="min-width: 240px;">
       <img id="MDB-logo" src="imgs/vocops-4.png" width="150" alt="MDB Logo" draggable="false">
     </a>
-    
-    <!-- Dynamic Menu -->
-    <ul class="sidenav-menu">
-      <ng-container *ngFor="let item of menuItems">
-        <mdb-sidenav-item>
-          <a class="sidenav-link" [routerLink]="item.route" routerLinkActive="active">
-            <i [class]="item.icon + ' fa-fw me-3'"></i>
-            <span>{{item.label}}</span>
-          </a>
-          <ul mdbCollapse class="sidenav-collapse" *ngIf="item.children && item.children.length > 0">
-            <li class="sidenav-item" *ngFor="let child of item.children">
-              <a class="sidenav-link" [routerLink]="child.route" routerLinkActive="active">
-                <i [class]="child.icon + ' fa-fw me-3'"></i>
-                {{child.label}}
-              </a>
-            </li>
-          </ul>
-        </mdb-sidenav-item>
-      </ng-container>
-    </ul>
+
+    <!-- Dynamic Menu with MDB Treeview -->
+    <mdb-treeview
+      [nodes]="menuItems"
+      textField="label"
+      childrenField="children"
+      (activeItemChange)="onTreeItemSelect($event)"
+    ></mdb-treeview>
+
   </mdb-sidenav>
 
   <!-- Main Content Area -->

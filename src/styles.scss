@@ -1,6 +1,7 @@
 @use "styles/variables" as *;
 @use "mdb-angular-ui-kit/assets/scss/mdb.scss" as *;
 @import "@fortawesome/fontawesome-free/css/all.css";
+@import 'mdb-angular-treeview/scss/treeview.scss';
 
 $input-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 /* You can add global styles to this file, and also import other style files */
@@ -281,4 +282,8 @@ body {
 
 .h6, h6 {
   font-size: .875rem;
+}
+
+.treeview-primary .active {
+  color: #8db392 !important;
 }

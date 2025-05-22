@@ -24,6 +24,7 @@
     "@ngx-translate/http-loader": "^16.0.1",
     "keycloak-angular": "^19.0.2",
     "keycloak-js": "^26.2.0",
+    "mdb-angular-treeview": "file:mdb-angular-treeview-8.0.0.tgz",
     "mdb-angular-ui-kit": "file:mdb-angular-ui-kit-8.0.0.tgz",
     "rxjs": "~7.8.0",
     "sanitize.css": "^13.0.0",
