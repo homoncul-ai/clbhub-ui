@@ -285,7 +285,7 @@ body {
 }
 
 .sidenav {
-  background: linear-gradient(222deg, #ffffff 25%, #8db392 50%, #ffffff 100%);
+  background: linear-gradient(148deg, #ffffff 25%, #8db392 99%, #ffffff 100%);
 }
 
 .dhx_tree {
@@ -300,13 +300,24 @@ body {
 }
 
 .dhx_tree-folder, .dhx_tree-list-item .dhx_tree-folder  .dhx_tree-list-item__content{
-  margin-top: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   padding: 3px;
 }
 
 
 
 .dhx_widget .dhx_tree-list-item .dhx_tree-list li .dhx_tree-list-item__content{
-    margin-top: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
     padding-top: 3px;
+}
+
+.dhx_tree-folder--focused:before, .dhx_tree-folder:hover:before, .dhx_tree-list-item--focused:before, .dhx_tree-list-item:hover:before {
+  background-color: #acd0b1;
+}
+
+.dhx_tree-list-item__text {
+
+  color: rgb(42 38 38) !important;
 }
