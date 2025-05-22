@@ -284,6 +284,17 @@ body {
   font-size: .875rem;
 }
 
-.treeview-primary .active {
+.treeview-container .treeview-primary .active {
   color: #8db392 !important;
+}
+
+.treeview-container .treeview .treeview-item {
+  margin: 15px 0 3px 0;
+}
+
+.treeview-container .treeview .treeview-item a {
+    padding: 10px;
+}
+.treeview-container .treeview .treeview-item a span {
+  padding-right: 10px;
 }
