@@ -16,7 +16,7 @@
       <!-- Header Menu -->
       <ul class="navbar-nav me-auto d-flex flex-row align-items-center header-menu">
         <li mdbDropdown class="nav-item dropdown nav-item d-none d-lg-block dropdown nav-icon-hover-bg rounded-circle">
-          <a mdbDropdownToggle id="navbarDropdownMenuLink" class="nav-link nav-icon-hover" id="drop2" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false">
+          <a translate mdbDropdownToggle id="navbarDropdownMenuLink" class="nav-link nav-icon-hover" id="drop2" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
               <g fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M2.5 6.5a4 4 0 1 1 8 0a4 4 0 0 1-8 0Zm11 11a4 4 0 1 1 8 0a4 4 0 0 1-8 0Z" opacity=".5"></path>
@@ -108,18 +108,11 @@
         </li>
 
         <!-- Language dropdown -->
-        <li mdbDropdown class="nav-item dropdown">
-          <a mdbDropdownToggle class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" id="navbarDropdown" role="button" aria-expanded="false">
-            <i class="flag flag-united-kingdom m-0"></i>
-          </a>
-          <ul mdbDropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item"><i class="flag flag-united-kingdom"></i>English<i class="fa fa-check text-success ms-2"></i></a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item"><i class="flag flag-poland"></i>Polski</a></li>
-            <li><a class="dropdown-item"><i class="flag flag-china"></i>中文</a></li>
-          </ul>
-        </li>
+
+        <app-language-selector [openAbove]="true"></app-language-selector>
       </ul>
+
+
     </div>
   </nav>
 

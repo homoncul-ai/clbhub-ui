@@ -1,12 +1,12 @@
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { I18nService } from './i18n.service';
 import { NgClass, NgForOf } from '@angular/common';
-
+import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 @Component({
   selector: 'app-language-selector',
   templateUrl: './language-selector.component.html',
   styleUrls: ['./language-selector.component.scss'],
-  imports: [NgClass],
+  imports: [MdbDropdownModule],
 })
 export class LanguageSelectorComponent {
   @Input() inNavbar = true;
