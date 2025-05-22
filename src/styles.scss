@@ -285,7 +285,7 @@ body {
 }
 
 .treeview-container .treeview-primary .active {
-  color: #8db392 !important;
+  color: #216f2c !important
 }
 
 .treeview-container .treeview .treeview-item {
@@ -297,4 +297,8 @@ body {
 }
 .treeview-container .treeview .treeview-item a span {
   padding-right: 10px;
+}
+
+.sidenav {
+  background: linear-gradient(222deg, #ffffff 25%, #8db392 50%, #ffffff 100%);
 }
