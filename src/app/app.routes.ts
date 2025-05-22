@@ -4,6 +4,11 @@ import { ShellComponent } from './shell/shell.component';
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'advocate-dashboard/messages',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: ShellComponent,
     children: [
       {
@@ -17,10 +22,11 @@ export const routes: Routes = [
       {
         path: 'service-provider-dashboard',
         loadChildren: () => import('./features/dash-service/dash-service.module').then(m => m.DashServiceModule)
-      },
-      { path: '', redirectTo: '/advocate-dashboard', pathMatch: 'full' }
-      
+      }
     ]
   },
-  { path: '**', redirectTo: '/advocate-dashboard', pathMatch: 'full' }
+  {
+    path: '**',
+    redirectTo: 'advocate-dashboard/messages'
+  }
 ];

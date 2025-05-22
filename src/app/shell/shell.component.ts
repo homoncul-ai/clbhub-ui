@@ -43,6 +43,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       const keycloakEvent = this.keycloakSignal();
       if (keycloakEvent.type === KeycloakEventType.Ready) {
         console.log('Keycloak is ready');
+        // After Keycloak is ready, navigate to the default route
+        this._router.navigate(['/advocate-dashboard/messages']);
       }
       if (keycloakEvent.type === KeycloakEventType.AuthLogout) {
         console.log('User logged out');
@@ -54,6 +56,14 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       filter(event => event instanceof NavigationEnd),
       untilDestroyed(this)
     ).subscribe((event: any) => {
+      console.log('event', event);
+      
+      // Check if this is a Keycloak callback
+      if (event.url.includes('state=') || event.url.includes('code=')) {
+        console.log('Keycloak callback detected, skipping route update');
+        return;
+      }
+
       this.currentRoute = event.url;
       this.updateMenuItems();
     });
