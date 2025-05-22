@@ -73,6 +73,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   private updateMenuItems() {
     const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
     if (dashboardType) {
+      console.log('Dashboard type:', this._menuService.getMenuItems(dashboardType));
       this.menuItems = this._menuService.getMenuItems(dashboardType);
     } else {
       // Clear menu items if not on a dashboard route
@@ -80,11 +81,53 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  onTreeItemSelect(event: any): void {
-    // Assuming the event provides the selected item's data, including the route
-    if (event && event.route) {
-      this._router.navigate([event.route]);
+  // Function to recursively search through menu items and their children
+  findMenuItemByLabel(items: any[], label: string): any {
+    for (const item of items) {
+      // Check if current item matches
+      if (item.label === label) {
+        return item;
+      }
+      
+      // Check children if they exist
+      if (item.children && Array.isArray(item.children)) {
+        const childMatch = this.findMenuItemByLabel(item.children, label);
+        if (childMatch) {
+          return childMatch;
+        }
+      }
     }
+    return null;
+  }
+
+  onTreeItemSelect(event: any) {
+    const element = event.nativeElement;
+    
+    // Get the text content and find matching menu item (including children)
+    const elementText = element.textContent?.trim();
+
+    
+    if (elementText) {
+      // Search through all menu items and their children
+      const matchedItem = this.findMenuItemByLabel(this.menuItems, elementText);
+      
+      if (matchedItem && matchedItem.route) {
+      
+
+      this._router.navigate([matchedItem.route]);
+        // Navigate to the route
+        // this.router.navigate([matchedItem.route]);
+        return matchedItem.route;
+      } else {
+        console.log('No route found for item:', elementText);
+      }
+    }
+    
+    return null;
+  }
+
+  logEvent(eventName: string, event: any): void {
+    console.log(`${eventName} event:`, event);
   }
 
   async ngOnInit() {
