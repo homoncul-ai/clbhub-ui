@@ -28,10 +28,31 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, RouterModule, FormsModule, PagesModule, LanguageSelectorComponent,
-    BrowserAnimationsModule,MdbSmoothScrollModule,MdbRippleModule,MdbScrollbarModule,MdbScrollspyModule,MdbSelectModule,MdbLoadingModule,MdbLightboxModule,
-     MdbSidenavModule,MdbLazyLoadingModule,MdbDropdownModule,MdbFormsModule,MdbInfiniteScrollModule,MdbCheckboxModule,MdbCollapseModule,MdbAccordionModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    FormsModule,
+    PagesModule,
+    LanguageSelectorComponent,
+    BrowserAnimationsModule,
+    MdbSmoothScrollModule,
+    MdbRippleModule,
+    MdbScrollbarModule,
+    MdbScrollspyModule,
+    MdbSelectModule,
+    MdbLoadingModule,
+    MdbLightboxModule,
+    MdbSidenavModule,
+    MdbLazyLoadingModule,
+    MdbDropdownModule,
+    MdbFormsModule,
+    MdbInfiniteScrollModule,
+    MdbCheckboxModule,
+    MdbCollapseModule,
+    MdbAccordionModule
+  ],
   declarations: [ShellComponent, HeaderComponent, SidebarComponent],
+  exports: [ShellComponent]
 })
 export class ShellModule {}
