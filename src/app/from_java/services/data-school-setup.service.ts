@@ -37,6 +37,7 @@ export class DataSchoolSetupService {
             return DataSchoolSetupService.instance;
         }
         DataSchoolSetupService.instance = this;
+        this.loadFromYaml();
         console.log('[DataSchoolSetupService constructor] Instance created.');
     }
 
