@@ -1,0 +1,33 @@
+eduProvider:
+  - firstName: "Joseph"
+    lastName: "Garcia"
+    emailAddress: "joseph.garcia@whittier.tec.ma.us"
+    birthYear: 1983
+    birthMonth: 7
+    jobTitle: "Manufacturing Technology Instructor"
+    phoneNumber: "978-555-0501"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0502"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Maria"
+    lastName: "Rodriguez"
+    emailAddress: "maria.rodriguez@whittier.tec.ma.us"
+    birthYear: 1986
+    birthMonth: 9
+    jobTitle: "Technology Skills Coordinator"
+    phoneNumber: "978-555-0503"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0504"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "James"
+    lastName: "Lee"
+    emailAddress: "james.lee@whittier.tec.ma.us"
+    birthYear: 1985
+    birthMonth: 2
+    jobTitle: "Vocational Education Specialist"
+    phoneNumber: "978-555-0505"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0506"
+    phoneAltCanReceiveText: true 

@@ -1,0 +1,9 @@
+eduProviderProfiles:
+  - providerCode: "WVT"
+    providerPersonCode: "joseph.garcia@whittier.tec.ma.us"
+    
+  - providerCode: "WVT"
+    providerPersonCode: "maria.rodriguez@whittier.tec.ma.us"
+    
+  - providerCode: "WVT"
+    providerPersonCode: "james.lee@whittier.tec.ma.us" 

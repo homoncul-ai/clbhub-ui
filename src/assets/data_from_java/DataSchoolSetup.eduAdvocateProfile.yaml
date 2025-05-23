@@ -1,0 +1,8 @@
+eduAdvocateProfile:
+  - schoolCode: "HHS"
+    personCode: "jennifer.williams@haverhill.k12.ma.us"
+    shortDescrip: "Specializes in technology and STEM career guidance, helping students explore opportunities in computer science, engineering, and robotics."
+    
+  - schoolCode: "HHS"
+    personCode: "david.miller@haverhill.k12.ma.us"
+    shortDescrip: "Focuses on healthcare, vocational training, and skilled trades guidance, connecting students with opportunities in medical fields and technical careers." 

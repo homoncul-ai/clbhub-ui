@@ -1,0 +1,110 @@
+students:
+  - firstName: "Emma"
+    lastName: "Johnson"
+    emailAddress: "emma.johnson@student.haverhill.k12.ma.us"
+    birthYear: 2008
+    birthMonth: 4
+    jobTitle: "Student"
+    phoneNumber: "978-555-0101"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0102"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Michael"
+    lastName: "Chen"
+    emailAddress: "michael.chen@student.haverhill.k12.ma.us"
+    birthYear: 2009
+    birthMonth: 2
+    jobTitle: "Student"
+    phoneNumber: "978-555-0103"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0104"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Sophia"
+    lastName: "Rodriguez"
+    emailAddress: "sophia.rodriguez@student.haverhill.k12.ma.us"
+    birthYear: 2007
+    birthMonth: 10
+    jobTitle: "Student"
+    phoneNumber: "978-555-0105"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0106"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "James"
+    lastName: "Wilson"
+    emailAddress: "james.wilson@student.haverhill.k12.ma.us"
+    birthYear: 2010
+    birthMonth: 6
+    jobTitle: "Student"
+    phoneNumber: "978-555-0107"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0108"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Olivia"
+    lastName: "Martinez"
+    emailAddress: "olivia.martinez@student.haverhill.k12.ma.us"
+    birthYear: 2009
+    birthMonth: 11
+    jobTitle: "Student"
+    phoneNumber: "978-555-0109"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0110"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Liam"
+    lastName: "Thompson"
+    emailAddress: "liam.thompson@student.haverhill.k12.ma.us"
+    birthYear: 2011
+    birthMonth: 1
+    jobTitle: "Student"
+    phoneNumber: "978-555-0111"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0112"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Ava"
+    lastName: "Garcia"
+    emailAddress: "ava.garcia@student.haverhill.k12.ma.us"
+    birthYear: 2008
+    birthMonth: 8
+    jobTitle: "Student"
+    phoneNumber: "978-555-0113"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0114"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Noah"
+    lastName: "Lee"
+    emailAddress: "noah.lee@student.haverhill.k12.ma.us"
+    birthYear: 2010
+    birthMonth: 3
+    jobTitle: "Student"
+    phoneNumber: "978-555-0115"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0116"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Isabella"
+    lastName: "Brown"
+    emailAddress: "isabella.brown@student.haverhill.k12.ma.us"
+    birthYear: 2009
+    birthMonth: 7
+    jobTitle: "Student"
+    phoneNumber: "978-555-0117"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0118"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "Ethan"
+    lastName: "Davis"
+    emailAddress: "ethan.davis@student.haverhill.k12.ma.us"
+    birthYear: 2011
+    birthMonth: 0
+    jobTitle: "Student"
+    phoneNumber: "978-555-0119"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0120"
+    phoneAltCanReceiveText: true 

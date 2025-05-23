@@ -1,0 +1,26 @@
+schools:
+  - name: "Haverhill High School"
+    businessCode: "HHS"
+    description: "Public high school serving grades 9-12 in Haverhill, MA"
+    available: true
+    address:
+      addressDisplayName: "Haverhill High School"
+      streetNumber: "137"
+      addressLine1: "137 Monument St"
+      city: "Haverhill"
+      stateCode: "MA"
+      postalCode: "01832"
+      countryCode: "US"
+    
+  - name: "Whittier Vocational Technical High School"
+    businessCode: "WVT"
+    description: "Vocational technical high school offering career and technical education programs"
+    available: true
+    address:
+      addressDisplayName: "Whittier Vocational Technical High School"
+      streetNumber: "115"
+      addressLine1: "115 Amesbury Line Rd"
+      city: "Haverhill"
+      stateCode: "MA"
+      postalCode: "01830"
+      countryCode: "US" 

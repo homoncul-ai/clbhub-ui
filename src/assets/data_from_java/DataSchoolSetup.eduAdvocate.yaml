@@ -1,0 +1,22 @@
+eduAdvocate:
+  - firstName: "Jennifer"
+    lastName: "Williams"
+    emailAddress: "jennifer.williams@haverhill.k12.ma.us"
+    birthYear: 1986
+    birthMonth: 8
+    jobTitle: "Education Advocate"
+    phoneNumber: "978-555-0301"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0302"
+    phoneAltCanReceiveText: true
+    
+  - firstName: "David"
+    lastName: "Miller"
+    emailAddress: "david.miller@haverhill.k12.ma.us"
+    birthYear: 1987
+    birthMonth: 11
+    jobTitle: "Education Advocate"
+    phoneNumber: "978-555-0303"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0304"
+    phoneAltCanReceiveText: true 

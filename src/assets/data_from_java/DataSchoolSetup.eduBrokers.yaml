@@ -1,0 +1,11 @@
+eduBrokers:
+  - firstName: "Thomas"
+    lastName: "Clark"
+    emailAddress: "thomas.clark@whittier.tec.ma.us"
+    birthYear: 1984
+    birthMonth: 5
+    jobTitle: "Education Broker"
+    phoneNumber: "978-555-0401"
+    phoneCanReceiveText: true
+    phoneAltNumber: "978-555-0402"
+    phoneAltCanReceiveText: true
