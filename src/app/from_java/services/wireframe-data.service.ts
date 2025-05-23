@@ -18,6 +18,12 @@ export class WireframeDataService {
         WireframeDataService.instance = this;
     }
 
+    public static initialize(dataSchoolSetup: DataSchoolSetupService) {
+        if (!WireframeDataService.instance) {
+            WireframeDataService.instance = new WireframeDataService(dataSchoolSetup);
+        }
+    }
+
     public static getInstance(): WireframeDataService {
         if (!WireframeDataService.instance) {
             throw new Error('WireframeDataService must be initialized first');
@@ -29,8 +35,9 @@ export class WireframeDataService {
      * Get a list of all schools with their UI wrapper
      */
     public schoolList(): UISchoolList {
+        debugger
         const schoolList = new UISchoolList();
-        for (const school of this.data.getSchools()) {
+        for (const school of this.data.schools) {
             const uiSchool = new UISchool();
             uiSchool.school = school;
             schoolList.schools.push(uiSchool);
@@ -43,8 +50,9 @@ export class WireframeDataService {
      * @param schoolCode The business code of the school
      */
     public studentsInSchool(schoolCode: string): UIStudentProfileList {
+        debugger
         const result = new UIStudentProfileList();
-        for (const profile of this.data.getStudentProfiles()) {
+        for (const profile of this.data.studentProfiles) {
             if (schoolCode === profile.schoolCode) {
                 const uiProfile = this.convertStudentProfile(profile);
                 result.students.push(uiProfile);
@@ -64,4 +72,5 @@ export class WireframeDataService {
         uiProfile.school = this.data.findSchoolByCode(profile.schoolCode);
         return uiProfile;
     }
+
 } 

@@ -79,7 +79,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
             this.tree.data.parse(this.menuItems);
 
             // Restore open state
-            openedIds.forEach(id => this.tree.open(id));
+            if (Array.isArray(openedIds)) {
+              openedIds.forEach(id => this.tree.open(id));
+            }
           }
         }
       });
