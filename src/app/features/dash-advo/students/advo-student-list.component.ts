@@ -11,7 +11,7 @@ declare const dhx: any;
   template: `
     <div class="student-list-container">
       <h2>HHS Students</h2>
-      <div #listContainer class="student-list"></div>
+      <div #gridContainer class="student-grid"></div>
     </div>
   `,
   styles: [`
@@ -26,9 +26,9 @@ declare const dhx: any;
       margin: 0 0 16px 0;
       color: #333;
     }
-    .student-list {
+    .student-grid {
       height: 600px;
-      border: 1px solid #eee;
+      /* border: 1px solid #eee; Removed border here as it's handled by outer container */
       border-radius: 4px;
     }
   `],
@@ -37,8 +37,8 @@ declare const dhx: any;
   imports: [CommonModule]
 })
 export class AdvoStudentListComponent implements OnInit, AfterViewInit {
-  @ViewChild('listContainer') listContainer!: ElementRef;
-  private list: any;
+  @ViewChild('gridContainer') gridContainer!: ElementRef;
+  private grid: any;
   private isDhtmlxLoaded = false;
 
   constructor(
@@ -54,22 +54,22 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // If DHTMLX is already loaded, initialize the list
+    // If DHTMLX is already loaded, initialize the grid
     if (this.isDhtmlxLoaded) {
-      this.initializeList();
+      this.initializeGrid();
     }
   }
 
   private checkDhtmlxLoaded() {
-    if (typeof dhx !== 'undefined') {
+    if (typeof dhx !== 'undefined' && typeof dhx.Grid !== 'undefined') {
       this.isDhtmlxLoaded = true;
-      this.initializeList();
+      this.initializeGrid();
     } else {
       // If not loaded, wait for it
       const checkInterval = setInterval(() => {
-        if (typeof dhx !== 'undefined') {
+        if (typeof dhx !== 'undefined' && typeof dhx.Grid !== 'undefined') {
           this.isDhtmlxLoaded = true;
-          this.initializeList();
+          this.initializeGrid();
           clearInterval(checkInterval);
         }
       }, 100);
@@ -81,35 +81,66 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private initializeList() {
-    if (!this.listContainer?.nativeElement || !this.isDhtmlxLoaded) {
+  private initializeGrid() {
+    if (!this.gridContainer?.nativeElement || !this.isDhtmlxLoaded) {
       return;
     }
 
     try {
-      // Initialize DHTMLX list
-      this.list = new dhx.List(this.listContainer.nativeElement, {
-        template: (item: any) => `
-          <div class="student-item">
-            <div class="student-name">${item.student?.firstName || ''} ${item.student?.lastName || ''}</div>
-            <div class="student-id">ID: ${item.profile?.studentPersonCode || ''}</div>
-          </div>
-        `,
-        css: "student-list",
+      // Initialize DHTMLX grid with pagination and drag and drop
+      this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
+        columns: [
+          { id: 'select', header: [{ text: '' }], type: 'checkbox', width: 50 },
+          { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+          { id: 'lastName', header: [{ text: 'Last Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+          { id: 'studentId', header: [{ text: 'Student ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+          { id: 'year', header: [{ text: 'Year', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+        ],
+        css: "student-grid",
         height: 600,
-        itemHeight: 60,
-        templateBack: true,
-        selection: true,
-        drag: false,
-        editable: false
+        autoWidth: false,
+        selection: 'row',
+        editable: false,
+        resizable: true,
+        drag: true, // Enable drag and drop
+        footer: [
+            { text: '' }, // Empty footer for the checkbox column
+            { text: '' }, // Empty footer for the first name column
+            { text: '' }, // Empty footer for the last name column
+            { text: '' }, // Empty footer for the student ID column
+        ],
+        pagination: {
+            limit: 10,
+            enabled: true,
+            countable: true,
+            navs: true,
+            pageSizes: [10, 20, 50],
+            range: true,
+        }
       });
 
-      // Get students and load them into the list
+      // Attach afterRowDrop event listener
+      this.grid.events.on("afterRowDrop", (from: string, to: string, dragInfo: any) => {
+        console.log(`Row with ID ${from} was dropped before row with ID ${to}`);
+        // You would typically update your data source here to reflect the new order
+        // For example, if you have an array of students, you would reorder that array.
+        // The grid's internal data is already updated by the drop action.
+      });
+
+      // Get students and load them into the grid
       const studentList = this.wireframeDataService.studentsInSchool('HHS');
-      this.list.data.parse(studentList.students);
-      console.log("size of students", studentList.students.length);
+      // Map the student data to match grid column IDs
+      const gridData = studentList.students.map(studentProfile => ({
+        id: studentProfile.profile?.studentPersonCode,
+        firstName: studentProfile.student?.firstName,
+        lastName: studentProfile.student?.lastName,
+        studentId: studentProfile.profile?.studentPersonCode,
+        year: studentProfile.profile?.graduationYear,
+      }));
+      this.grid.data.parse(gridData);
+      console.log("size of students", gridData.length);
     } catch (error) {
-      console.error('Error initializing DHTMLX list:', error);
+      console.error('Error initializing DHTMLX grid:', error);
     }
   }
 } 
