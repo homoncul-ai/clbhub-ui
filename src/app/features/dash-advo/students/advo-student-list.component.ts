@@ -10,11 +10,15 @@ import { UIStudentProfileList, UIStudentProfile } from '../../../from_java/model
     <div class="student-list-container">
       <h2>HHS Students</h2>
       <div class="student-list">
-        @for (student of students; track student.profile!.studentPersonCode) {
-          <div class="student-item">
-            <div class="student-name">{{ student.student?.firstName || '' }} {{ student.student?.lastName || '' }}</div>
-            <div class="student-id">ID: {{ student.profile!.studentPersonCode }}</div>
-          </div>
+        @if (students.length > 0) {
+          @for (student of students; track student.profile!.studentPersonCode) {
+            <div class="student-item">
+              <div class="student-name">{{ student.student?.firstName || '' }} {{ student.student?.lastName || '' }}</div>
+              <div class="student-id">ID: {{ student.profile!.studentPersonCode }}</div>
+            </div>
+          }
+        } @else {
+          <div class="loading-message">Loading students...</div>
         }
       </div>
     </div>
@@ -53,6 +57,11 @@ import { UIStudentProfileList, UIStudentProfile } from '../../../from_java/model
       color: #666;
       margin-top: 4px;
     }
+    .loading-message {
+      padding: 16px;
+      text-align: center;
+      color: #666;
+    }
   `],
   standalone: true,
   imports: [CommonModule]
@@ -64,11 +73,16 @@ export class AdvoStudentListComponent implements OnInit {
     return this._studentList.students || [];
   }
 
-  constructor(private dataSchoolSetupService: DataSchoolSetupService) {}
+  constructor(
+    private dataSchoolSetupService: DataSchoolSetupService,
+    private wireframeDataService: WireframeDataService
+  ) {}
 
-  ngOnInit() {
-    WireframeDataService.initialize(this.dataSchoolSetupService);
-    this._studentList = WireframeDataService.getInstance().studentsInSchool('HHS');
+  async ngOnInit() {
+    // Wait for the data to be loaded
+    await this.dataSchoolSetupService.loadFromYaml();
+    // Now get the students using the injected service
+    this._studentList = this.wireframeDataService.studentsInSchool('HHS');
     console.log("size of students", this._studentList.students.length);
   }
 } 

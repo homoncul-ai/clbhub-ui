@@ -34,8 +34,7 @@ export class WireframeDataService {
     /**
      * Get a list of all schools with their UI wrapper
      */
-    public schoolList(): UISchoolList {
-        debugger
+    public schoolList(): UISchoolList {    
         const schoolList = new UISchoolList();
         for (const school of this.data.schools) {
             const uiSchool = new UISchool();
@@ -49,8 +48,7 @@ export class WireframeDataService {
      * Get a list of student profiles for a specific school
      * @param schoolCode The business code of the school
      */
-    public studentsInSchool(schoolCode: string): UIStudentProfileList {
-        debugger
+    public studentsInSchool(schoolCode: string): UIStudentProfileList {    
         const result = new UIStudentProfileList();
         for (const profile of this.data.studentProfiles) {
             if (schoolCode === profile.schoolCode) {

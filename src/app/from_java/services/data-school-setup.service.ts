@@ -118,9 +118,9 @@ export class DataSchoolSetupService {
 
     private async loadEduBrokers(): Promise<void> {
         console.log('[DataSchoolSetupService] Loading eduBrokers...');
-        const response = await this.http.get(`${this.basePath}/DataSchoolSetup.eduBroker.yaml`, { responseType: 'text' }).toPromise();
-        const data = yaml.load(response as string) as { eduBroker: Person[] };
-        this.eduBrokers = data.eduBroker;
+        const response = await this.http.get(`${this.basePath}/DataSchoolSetup.eduBrokers.yaml`, { responseType: 'text' }).toPromise();
+        const data = yaml.load(response as string) as { eduBrokers: Person[] };
+        this.eduBrokers = data.eduBrokers;
         this.prepare(this.eduBrokers);
         console.log(`[DataSchoolSetupService] Loaded ${this.eduBrokers.length} eduBrokers.`);
     }
