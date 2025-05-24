@@ -1,0 +1,32 @@
+.student-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.student-item:last-child {
+  border-bottom: none;
+}
+
+.student-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.student-id {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* DHTMLX List specific styles */
+.dhx_list-item {
+  padding: 0 !important;
+}
+
+.dhx_list-item:hover {
+  background-color: #f5f5f5 !important;
+}
+
+.dhx_list-item--selected {
+  background-color: #e3f2fd !important;
+} 
