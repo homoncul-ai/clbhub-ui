@@ -5,5 +5,7 @@ export function initDataAndWireframeFactory(dataSchoolSetup: DataSchoolSetupServ
   return async () => {
     await dataSchoolSetup.loadFromYaml();
     WireframeDataService.initialize(dataSchoolSetup);
+
+    console.log('initDataAndWireframeFactory');
   };
 } 

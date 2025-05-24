@@ -1,4 +1,4 @@
-import { ApplicationConfig, enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, enableProdMode, importProvidersFrom, provideZoneChangeDetection, APP_INITIALIZER } from '@angular/core';
 import { PreloadAllModules, provideRouter, RouteReuseStrategy, withEnabledBlockingInitialNavigation, withInMemoryScrolling, withPreloading, withRouterConfig } from '@angular/router';
 import { provideKeycloak, withAutoRefreshToken, AutoRefreshTokenService, UserActivityService } from 'keycloak-angular';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -11,6 +11,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandlerInterceptor } from '@core/interceptors';
 import { RouteReusableStrategy } from '@core/helpers';
 import { keycloakConfig } from '@core/config/keycloak.config';
+import { DataSchoolSetupService } from './from_java/services/data-school-setup.service';
+import { WireframeDataService } from './from_java/services/wireframe-data.service';
+import { initDataAndWireframeFactory } from './from_java/services/init-services.factory';
 
 if (environment.production) {
   enableProdMode();
@@ -20,6 +23,16 @@ export const appConfig: ApplicationConfig = {
   providers: [
     // provideZoneChangeDetection is required for Angular's zone.js
     provideZoneChangeDetection({ eventCoalescing: true }),
+
+    // Data initialization
+    DataSchoolSetupService,
+    WireframeDataService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initDataAndWireframeFactory,
+      deps: [DataSchoolSetupService],
+      multi: true
+    },
 
     // Keycloak configuration
     provideKeycloak({
