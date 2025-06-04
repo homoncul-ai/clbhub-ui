@@ -136,4 +136,24 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
       console.error('Error initializing DHTMLX grid:', error);
     }
   }
+
+  public onGoClick() {
+    if (this.grid) {
+      // DHTMLX Suite 8: get checked rows by 'select' column (checkbox)
+      // The checked state is stored in the 'select' property of each row
+      const allData = this.grid.data.serialize();
+      const checkedRows = allData.filter((row: any) => row.select === true);
+      console.log('Checked rows:', checkedRows);
+    }
+  }
+
+  public onSearch(query: string) {
+    // TODO: Implement search logic
+    console.log('Search submitted:', query);
+  }
+
+  public onAdvancedSearch() {
+    // TODO: Implement advanced search logic
+    console.log('Advanced search clicked');
+  }
 } 
