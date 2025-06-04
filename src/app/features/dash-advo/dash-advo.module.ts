@@ -9,6 +9,8 @@ import { AdvoStudentListComponent } from './students/advo-student-list.component
 import { AdvoStudentDetailsComponent } from './students/advo-student-details.component';
 import { AdvoTicketListComponent } from './tickets/advo-ticket-list.component';
 import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.component';
+import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
+import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
 
 const routes: Routes = [
   {
@@ -20,7 +22,9 @@ const routes: Routes = [
       { path: 'students', component: AdvoStudentListComponent },
       { path: 'students/:id', component: AdvoStudentDetailsComponent },
       { path: 'tickets', component: AdvoTicketListComponent },
-      { path: 'tickets/:id', component: AdvoTicketDetailsComponent }
+      { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
+      { path: 'uistarter', component: UistarterHomeComponent },
+      { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent }
     ]
   }
 ];
@@ -34,7 +38,9 @@ const routes: Routes = [
     AdvoStudentListComponent,
     AdvoStudentDetailsComponent,
     AdvoTicketListComponent,
-    AdvoTicketDetailsComponent
+    AdvoTicketDetailsComponent,
+    UistarterHomeComponent,
+    ListSearchStarterComponent
   ]
 })
 export class DashAdvoModule { 
