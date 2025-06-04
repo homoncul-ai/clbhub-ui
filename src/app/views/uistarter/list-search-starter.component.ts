@@ -6,6 +6,14 @@ import { UIStudentProfileList, UIStudentProfile } from '../../from_java/models/u
 
 declare const dhx: any;
 
+/**
+ * Find the object in the restlib called HcclOrganizationGETData.  Using that object definition, 
+ * - create a list of objects in JSON format that can be used to populate the grid.
+ * - replace the data in the grid with the data from the list of objects.
+ * - get the labels from the object definition and use them for the grid columns.
+ * - use the data in tooling/hccl-data Import_Biz.yaml
+ */
+
 @Component({
   selector: 'app-list-search-starter',
   templateUrl: './list-search-starter.component.html',
@@ -68,10 +76,12 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
       this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
         columns: [
           { id: 'select', header: [{ text: '' }], type: 'checkbox', width: 50 },
-          { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-          { id: 'lastName', header: [{ text: 'Last Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-          { id: 'studentId', header: [{ text: 'Student ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-          { id: 'year', header: [{ text: 'Year', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+          { id: 'name', header: [{ text: 'Organization Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+          { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 250, adjust: true },
+          { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
+          { id: 'websiteUrl', header: [{ text: "Website URL", align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+          { id: 'jsonData', header: [{ text: 'JSON Data', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
         ],
         css: "student-grid",
         height: 600,
@@ -82,9 +92,12 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
         drag: true, // Enable drag and drop
         footer: [
             { text: '' }, // Empty footer for the checkbox column
-            { text: '' }, // Empty footer for the first name column
-            { text: '' }, // Empty footer for the last name column
-            { text: '' }, // Empty footer for the student ID column
+            { text: '' }, // Empty footer for the name column
+            { text: '' }, // Empty footer for the business code column
+            { text: '' }, // Empty footer for the description column
+            { text: '' }, // Empty footer for the available column
+            { text: '' }, // Empty footer for the websiteUrl column
+            { text: '' }, // Empty footer for the jsonData column
         ],
         pagination: {
             limit: 10,
@@ -104,18 +117,21 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
         // The grid's internal data is already updated by the drop action.
       });
 
-      // Get students and load them into the grid
-      const studentList = this.wireframeDataService.studentsInSchool('HHS');
-      // Map the student data to match grid column IDs
-      const gridData = studentList.students.map(studentProfile => ({
-        id: studentProfile.profile?.studentPersonCode,
-        firstName: studentProfile.student?.firstName,
-        lastName: studentProfile.student?.lastName,
-        studentId: studentProfile.profile?.studentPersonCode,
-        year: studentProfile.profile?.graduationYear,
-      }));
-      this.grid.data.parse(gridData);
-      console.log("size of students", gridData.length);
+      // Example data from Import_Biz.yaml
+      const orgData = [
+        { name: "Monogram Foods", businessCode: "MF001", description: "Produces pre-assembled sandwiches and operates a large food manufacturing and warehouse facility.", available: 1, websiteUrl: "https://monogramfoods.com/locations/haverhill-massachusetts/", jsonData: '{"focus": "food manufacturing, warehouse, sandwiches"}' },
+        { name: "Magellan Aerospace Haverhill, Inc.", businessCode: "MAH001", description: "Manufactures aerospace components and assemblies.", available: 1, websiteUrl: "https://magellan.aero/", jsonData: '{"focus": "aerospace, components, assemblies"}' },
+        { name: "Joseph's Gourmet Pasta Company", businessCode: "JGP001", description: "Produces gourmet pasta and food products for foodservice and retail.", available: 1, websiteUrl: "https://josephsgourmetpasta.com/", jsonData: '{"focus": "pasta, food manufacturing, foodservice"}' },
+        { name: "Golden Fleece Manufacturing Group LLC", businessCode: "GF001", description: "Garment and textile manufacturing.", available: 1, websiteUrl: "https://southwick.com/", jsonData: '{"focus": "garments, textiles, manufacturing"}' },
+        { name: "SEICA, Inc.", businessCode: "SEI001", description: "Manufactures electronic test systems and automation solutions.", available: 1, websiteUrl: "https://www.seica.com/", jsonData: '{"focus": "electronics, test systems, automation"}' },
+        { name: "Häns Kissle Company", businessCode: "HK001", description: "Produces fresh prepared foods and salads for retail and foodservice.", available: 1, websiteUrl: "https://www.hanskissle.com/", jsonData: '{"focus": "prepared foods, salads, food manufacturing"}' },
+        { name: "AmesburyTruth (Haverhill Facility)", businessCode: "AT001", description: "Manufactures window and door hardware and weatherseals.", available: 1, websiteUrl: "https://www.amesburytruth.com/", jsonData: '{"focus": "window hardware, door hardware, weatherseals"}' },
+        { name: "Haverhill Paperboard Corp", businessCode: "HPC001", description: "Manufactures paperboard and packaging products.", available: 1, websiteUrl: "https://www.linkedin.com/company/haverhill-paperboard-corp", jsonData: '{"focus": "paperboard, packaging, manufacturing"}' },
+        { name: "Progression, Inc.", businessCode: "PRG001", description: "Manufactures industrial NMR and spectroscopy analyzers.", available: 1, websiteUrl: "https://www.zippia.com/company/best-biggest-companies-in-haverhill-ma/", jsonData: '{"focus": "industrial analyzers, NMR, spectroscopy"}' },
+        { name: "Haverhill Manufacturing Company", businessCode: "HM001", description: "Manufactures industrial equipment and machinery.", available: 1, websiteUrl: "https://www.haverhillmanufacturing.com/", jsonData: '{"focus": "industrial equipment, machinery"}' },
+      ];
+      this.grid.data.parse(orgData);
+      console.log("size of orgs", orgData.length);
     } catch (error) {
       console.error('Error initializing DHTMLX grid:', error);
     }
