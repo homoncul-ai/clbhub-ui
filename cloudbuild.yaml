@@ -1,0 +1,72 @@
+#
+# UI Cloudbuilder Yaml.
+# 
+steps:
+- name: gcr.io/cloud-builders/gsutil
+  id: Get M2 Tools
+  entrypoint: /bin/bash
+  args:
+    - -c
+    - |
+      gsutil cp gs://cloudbuild-m2-repo/settings_and_scripts.tgz .
+      tar xzf settings_and_scripts.tgz
+      gsutil -q stat gs://cloudbuild-m2-repo/ui_cache/${_KC_PROJECT_NAME}.tgz
+      if [ $? == 0 ]; then
+        gsutil cp  gs://cloudbuild-m2-repo/ui_cache/${_KC_PROJECT_NAME}.tgz .
+        tar xzf ${_KC_PROJECT_NAME}.tgz
+        echo "Unpacked `du -hs node_module*`"
+      fi                                                                                                       
+
+        
+- name: gcr.io/cloud-builders/docker
+  entrypoint: /bin/bash
+  id: Prep for docker
+  args:
+    - -c
+    - |
+      
+      buildNumber="`./settings_and_scripts/nextbuildnumber_ui.sh`"
+      export imageTag=${_KC_DEPLOY_TAG}
+      export imageName=${_KC_PROJECT_NAME}
+      export dockerImageRoot="us-central1-docker.pkg.dev/adam-devops/cloudbuild-docker-repo/${imageName}"
+      export dockerImageName="${dockerImageRoot}:${buildNumber}"
+
+      # Read environment variables from disk
+      cat servicemanifest.json.tmpl | \
+        sed "s|__APP_NAME__|${imageName}|g" | \
+        sed "s|__BUILD_ID__|${BUILD_ID}|g" | \
+        sed "s|__BUILD_NUMBER__|${buildNumber}|g" | \
+        sed "s|__BUILD_TIME__|`date`|g" | \
+        sed "s|__GIT_URL__|`git remote get-url origin`|g" | \
+        sed "s|__GIT_BRANCH__|${BRANCH_NAME}|g" | \
+        sed "s|__GIT_COMMIT__|`git rev-parse HEAD`|g" | \
+        sed "s|__VERSION__|`git rev-parse --short HEAD`|g" | \
+        sed "s|__DOCKER_IMAGE__|${dockerImageRoot}|g" | \
+        sed "s|__DOCKER_TAG__|${imageTag}|g" > ./src/assets/servicemanifest.json
+
+      echo "ServiceManifest" 
+      cat ./src/assets/servicemanifest.json
+        
+      echo `docker --version`
+      cp tooling/docker/Dockerfile .
+            
+      echo Building docker image: ${dockerImageName}
+      docker build --rm -t ${dockerImageName} . 
+      dockerStatus=$?                                                                                                                                                                                              
+      if [ "$dockerStatus" != '0' ];then
+        echo docker build  failed - $dockerStatus ${imageWarName}                                                                                                                                                 
+        exit $dockerStatus                                                                                                                                                                                        
+      fi                                                                                                                                                                                                           
+
+        docker push ${dockerImageName}
+
+      docker tag ${dockerImageName} ${dockerImageRoot}:${imageTag}
+      docker push ${dockerImageRoot}:${imageTag}
+      echo Pushed ${dockerImageRoot}:${imageTag}
+        
+      
+substitutions:
+    _KC_DEPLOY_TAG: TEST
+    _KC_PROJECT_NAME: hccl
+    _MVN_EXTRA_BUILD_DIRS: 
+
