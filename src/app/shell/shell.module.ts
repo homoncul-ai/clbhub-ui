@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
@@ -27,6 +27,7 @@ import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { MdbTreeviewModule } from 'mdb-angular-treeview';
+import { GravatarModule } from 'ngx-gravatar';
 
 @NgModule({
   imports: [
@@ -52,8 +53,10 @@ import { MdbTreeviewModule } from 'mdb-angular-treeview';
     MdbCheckboxModule,
     MdbCollapseModule,
     MdbAccordionModule,
-    MdbTreeviewModule
+    MdbTreeviewModule,
+    GravatarModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [ShellComponent, HeaderComponent, SidebarComponent],
   exports: [ShellComponent]
 })

@@ -8,5 +8,6 @@
   "Password": "Password",
   "Angular Boiler Plate V18": "Angular Boiler Plate V18",
   "Dashboard": "Dashboard",
-  "Logout": "Logout"
+  "logout": "Logout",
+  "userPreferences": "User Preferences"
 }
