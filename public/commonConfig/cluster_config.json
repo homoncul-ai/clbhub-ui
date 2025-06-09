@@ -1,6 +1,6 @@
 {
   "note": "Whatever is 'constants' gets used",
-  "constantsDev": {
+  "constants": {
     "serviceUrlPrefix": "https://devops2.intigna.io",
     "cdnUrlPrefix": "https://cdn-stage.trutesta.io",
     "keycloakUrlPrefix": "https://keycloak-gbs-dev.trutesta.io",
@@ -12,7 +12,7 @@
     "keycloakUrlPrefix": "https://keycloak-gbs-qa.trutesta.io",
     "gbsUrlPrefix": "https://gbs-stage.intertek.com"
   },
-  "constants": {
+  "constantsDev": { 
     "serviceUrlPrefix": "https://gbs-sandbox.trutesta.io",
     "cdnUrlPrefix": "https://cdn.trutesta.io",
     "keycloakUrlPrefix": "https://keycloak-gbs-sandbox.trutesta.io",
