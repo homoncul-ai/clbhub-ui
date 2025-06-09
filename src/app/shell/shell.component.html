@@ -1,6 +1,6 @@
 <mdb-sidenav-layout>
   <!-- Common Header -->
-  <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-primary fixed-top">
+  <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-primary fixed-top w-100">
     <div class="container-fluid">
       <!-- Toggler -->
       <button class="btn shadow-0 p-0 me-3 d-block d-xxl-none" aria-controls="#sidenav-1" aria-haspopup="true" (click)="sidenav.toggle()">
@@ -94,9 +94,52 @@
 
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">
+        <!-- Language dropdown -->
+        <app-language-selector [openAbove]="true"></app-language-selector>
+        
+        <li class="nav-item dropdown" mdbDropdown>
+          <button
+            class="nav-link text-white dropdown-toggle d-flex align-items-center p-0 me-2"
+            type="button"
+            id="dropdownMenuButton"
+            aria-expanded="false"
+            mdbDropdownToggle
+            >
+            <div class="people_avatar-container">
+              <span class="people_avatar">
+                <img
+                  ngxGravatar
+                  [email]="userDetails?.email"
+                  [size]="31"
+                  [fallback]="'blank'"
+                  />
+                </span>
+                <div class="people_fallbackInitial">
+                  {{ loggedInUserInitials }}
+                </div>
+            </div>
+            {{ user }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" mdbDropdownMenu>
+            <li>
+              <a class="dropdown-item" href="javascript:void(0)" translate>userPreferences</a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="javascript:void(0)"
+                (click)="logout()"
+                translate
+                >logout</a>
+            </li>
+            <!-- <li >
+              <a class="dropdown-item" (click)="toggleBrand()">TruTesta / Intertek</a></li> -->
+          </ul>
+        </li>
+        
         <!-- Notification dropdown -->
         <li mdbDropdown class="nav-item dropdown">
-          <a mdbDropdownToggle class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" id="navbarDropdownMenuLink" role="button" aria-expanded="false">
+          <a mdbDropdownToggle class="nav-link me-3 me-lg-0 p-0 ms-2 mt-1 dropdown-toggle hidden-arrow" id="navbarDropdownMenuLink" role="button" aria-expanded="false">
             <i class="fas fa-bell"></i>
             <span class="badge rounded-pill badge-notification bg-danger">1</span>
           </a>
@@ -106,10 +149,6 @@
             <li><a class="dropdown-item">Something else here</a></li>
           </ul>
         </li>
-
-        <!-- Language dropdown -->
-
-        <app-language-selector [openAbove]="true"></app-language-selector>
       </ul>
 
 
@@ -152,3 +191,15 @@
     
   </mdb-sidenav-content>
 </mdb-sidenav-layout>
+
+<!-- <user-preference-modal
+  [endpoint]="endpoints"
+  [incoming]="userPreferencesData"
+  (sprigInfoEmitter)="getSprigInfo($event)"
+  (changedLanguage)="langChanged($event)"
+  (toastMessage)="toastMessages($event)"
+  (refreshProfileEmitter)="refreshProfile($event)"
+  *axLazyElement="userPreferenceCdnUrl"
+  [getToken]="sendToken"
+  >
+</user-preference-modal> -->
