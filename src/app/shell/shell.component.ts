@@ -18,8 +18,9 @@ import { Logger } from '@core/services';
 import { environment } from '@env/environment';
 import { MdbSidenavComponent } from 'mdb-angular-ui-kit/sidenav';
 import { MenuService, MenuItem } from './services/menu.service';
-import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
+import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType, KeycloakService } from 'keycloak-angular';
 import { effect } from '@angular/core';
+import Keycloak from 'keycloak-js';
 
 declare const dhx: any; // DHTMLX global
 
@@ -41,14 +42,14 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   private tree: any;
   private resizeSubscription!: Subscription;
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
-
+  private readonly keycloak = inject(Keycloak);
   constructor(
     private _router: Router,
     private _titleService: Title,
     private _translateService: TranslateService,
     private _i18nService: I18nService,
     private _menuService: MenuService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
   ) {
     // Keycloak Event
     effect(() => {
@@ -196,5 +197,16 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       titles.push(...this.getTitle(state, state.firstChild(parent)));
     }
     return titles;
+  }
+
+  async logout() {
+    const localStorgeAttributes = [];
+    for (let index = 0; index < localStorgeAttributes.length; index++) {
+      const element = localStorgeAttributes[index];
+      if (element) localStorage.removeItem(element);
+    }
+
+   
+    this.keycloak.logout();
   }
 }
