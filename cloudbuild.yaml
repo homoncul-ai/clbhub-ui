@@ -67,6 +67,6 @@ steps:
       
 substitutions:
     _KC_DEPLOY_TAG: TEST
-    _KC_PROJECT_NAME: hccl
+    _KC_PROJECT_NAME: trutesta-hccl-mdb5-ui
     _MVN_EXTRA_BUILD_DIRS: 
 
