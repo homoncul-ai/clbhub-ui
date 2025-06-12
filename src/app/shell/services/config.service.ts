@@ -62,8 +62,8 @@ export class AppConstants {
       if (this.endPointsLoaded()) return;
 
       const results = await Promise.all([
-        fetch('commonConfig/cluster_config.json'),
-        fetch('commonConfig/keycloak.json'),
+        fetch('assets/commonConfig/cluster_config.json'),
+        fetch('assets/commonConfig/keycloak.json'),
       ]);
       const dataArr = await Promise.all(results.map((res) => res.json()));
 
