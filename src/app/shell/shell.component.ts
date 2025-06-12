@@ -18,9 +18,9 @@ import { Logger } from '@core/services';
 import { environment } from '@env/environment';
 import { MdbSidenavComponent } from 'mdb-angular-ui-kit/sidenav';
 import { MenuService, MenuItem } from './services/menu.service';
-import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType, KeycloakService } from 'keycloak-angular';
+import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import { effect } from '@angular/core';
-import Keycloak from 'keycloak-js';
+import { AppConstants } from './services/config.service';
 
 declare const dhx: any; // DHTMLX global
 
@@ -42,7 +42,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   private tree: any;
   private resizeSubscription!: Subscription;
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
-  private readonly keycloak = inject(Keycloak);
   constructor(
     private _router: Router,
     private _titleService: Title,
@@ -50,6 +49,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private _i18nService: I18nService,
     private _menuService: MenuService,
     private ngZone: NgZone,
+    private appConstants: AppConstants,
   ) {
     // Keycloak Event
     effect(() => {
@@ -88,6 +88,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  userDetails: any = null;
+  loggedInUserInitials:any='';
+  user: string = '';
   ngOnInit() {
     this.currentRoute = this._router.url;
 
@@ -100,6 +103,10 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this._i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
+
+    this.userDetails = this.appConstants.userDetails();
+    this.user = `${this.userDetails?.firstName} ${this.userDetails?.lastName}`;
+    this.loggedInUserInitials = this.user.match(/\b(\w)/g)?.join('');
 
     const onNavigationEnd = this._router.events.pipe(filter(event => event instanceof NavigationEnd));
     merge(this._translateService.onLangChange, onNavigationEnd)
@@ -117,7 +124,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       css: "dhx_widget--bordered",
       autoWidth: true
     });
-
     this.tree.data.parse(this.menuItems);
 
     this.tree.events.on("itemClick", (id: string) => {
@@ -207,6 +213,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
    
-    this.keycloak.logout();
+    this.appConstants.logout();
   }
 }

@@ -17,14 +17,14 @@ const routes: Routes = [
     path: '',
     component: DashAdvoComponent,
     children: [
-      { path: '', redirectTo: 'messages', pathMatch: 'full' },
       { path: 'messages', component: AdvoMessagesComponent },
       { path: 'students', component: AdvoStudentListComponent },
       { path: 'students/:id', component: AdvoStudentDetailsComponent },
       { path: 'tickets', component: AdvoTicketListComponent },
       { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
-      { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent }
+      { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
+      { path: '', redirectTo: 'messages', pathMatch: 'full' },
     ]
   }
 ];
