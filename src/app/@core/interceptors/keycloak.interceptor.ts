@@ -14,6 +14,7 @@ export class KeycloakInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (this.keycloak.isLoggedIn()) {
+      debugger;
       this.keycloak.getToken().then(token => {
         if (token) {
           request = request.clone({

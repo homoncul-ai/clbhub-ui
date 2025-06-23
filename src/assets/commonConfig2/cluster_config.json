@@ -1,0 +1,33 @@
+{
+  "note": "Whatever is 'constants' gets used",
+  "constants": {
+    "serviceUrlPrefix": "https://devops2.intigna.io",
+    "cdnUrlPrefix": "https://cdn-stage.trutesta.io",
+    "keycloakUrlPrefix": "https://keycloak-gbs-dev.trutesta.io",
+    "gbsUrlPrefix": "https://gbs-stage.intertek.com"
+  },
+  "constantsQA": {
+    "serviceUrlPrefix": "https://gbs-qa.trutesta.io",
+    "cdnUrlPrefix": "https://cdn-stage.trutesta.io",
+    "keycloakUrlPrefix": "https://keycloak-gbs-qa.trutesta.io",
+    "gbsUrlPrefix": "https://gbs-stage.intertek.com"
+  },
+  "constantsDev": {
+    "serviceUrlPrefix": "https://gbs-sandbox.trutesta.io",
+    "cdnUrlPrefix": "https://cdn-stage.trutesta.io",
+    "keycloakUrlPrefix": "https://keycloak-gbs-sandbox.trutesta.io",
+    "gbsUrlPrefix": "https://gbs-stage.intertek.com"
+  },
+  "realmsNotes": "Use this to try new realms",
+  "realms": {
+    "default": ["Intertek", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
+    "localhost": ["Intertek", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
+    "general-demo.trutesta.io": [
+      "GenDemo",
+      "00000000-0000-0000-0000-000000000000"
+    ]
+  },
+  "debugEndpoints": {
+    "libraryEndPoint": ""
+  }
+}

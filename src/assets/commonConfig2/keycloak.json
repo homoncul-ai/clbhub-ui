@@ -1,0 +1,9 @@
+{
+  "realm": "Intertek",
+  "url": "${keycloakUrlPrefix}/auth",
+  "ssl-required": "external",
+  "clientId": "trutesta",
+  "public-client": true,
+  "confidential-port": 0,
+  "logoutUrl": "TBD"
+}

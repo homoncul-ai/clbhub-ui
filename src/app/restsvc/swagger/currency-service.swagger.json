@@ -1,0 +1,3030 @@
+
+{
+    "openapi" : "3.0.1",
+    "info" : {
+      "title" : "SemaTree Currency REST Services",
+      "description" : "Currency Services Application",
+      "termsOfService" : "http://www.sematree.com",
+      "contact" : {
+        "name" : "API Team",
+        "url" : "http://www.sematree.com",
+        "email" : "apiteam@sematree.com"
+      },
+      "license" : {
+        "name" : "",
+        "url" : ""
+      },
+      "version" : "0.0.1"
+    },
+    "servers" : [ {
+      "url" : "devops2.intigna.io"
+    } ],
+    "paths" : {
+      "/currency/healthchecks/servicemanifest" : {
+        "get" : {
+          "tags" : [ "/healthchecks" ],
+          "summary" : "Fetches the service manifest created during build.",
+          "operationId" : "getCurrentManifest",
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/healthchecks/internals.json" : {
+        "get" : {
+          "tags" : [ "/healthchecks" ],
+          "summary" : "Fetches the Swagger, replacing the host with property file entry.",
+          "operationId" : "getInternals",
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/healthchecks/swagger.json" : {
+        "get" : {
+          "tags" : [ "/healthchecks" ],
+          "summary" : "Fetches the Swagger, replacing the host with property file entry.",
+          "operationId" : "getSwagger",
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/healthchecks/ping" : {
+        "get" : {
+          "tags" : [ "/healthchecks" ],
+          "summary" : "Ping the Service.",
+          "operationId" : "ping",
+          "responses" : {
+            "204" : {
+              "description" : "Service is Reachable"
+            }
+          }
+        }
+      },
+      "/currency/healthchecks/database" : {
+        "get" : {
+          "tags" : [ "/healthchecks" ],
+          "summary" : "Runs Health Check on Database and return Results.",
+          "operationId" : "runHealthCheckOnDatabase",
+          "responses" : {
+            "200" : {
+              "description" : "Service is Healthy"
+            },
+            "503" : {
+              "description" : "Service is Unavailable"
+            }
+          }
+        }
+      },
+      "/currency/debug/loggers" : {
+        "get" : {
+          "tags" : [ "/debug/loggers" ],
+          "summary" : "Fetches all the Loggers.",
+          "operationId" : "getAllLoggers",
+          "parameters" : [ {
+            "name" : "pageNumber",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "pageSize",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/debug/loggers/changeloggerlevel" : {
+        "put" : {
+          "tags" : [ "/debug/loggers" ],
+          "summary" : "Updates an existing Logger Level.",
+          "operationId" : "updateLoggerLevel",
+          "requestBody" : {
+            "description" : "Updates an existing Logger Level.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoggerConfigurationPUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/job-definitions" : {
+        "get" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Fetches all Job Definitions.",
+          "operationId" : "getJobDefinitions_1",
+          "parameters" : [ {
+            "name" : "status",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }, {
+            "name" : "name",
+            "in" : "query",
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "pageNumber",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "pageSize",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "isPaging",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean",
+              "default" : true
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          },
+          "deprecated" : true
+        },
+        "post" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Create a new Job Definition.",
+          "operationId" : "createJobDefinition",
+          "requestBody" : {
+            "description" : "Create a new Job Definition.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/JobDefinitionPOSTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Created"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/job-definitions/{id}" : {
+        "get" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Fetches a Job Definition based on its id.",
+          "operationId" : "getJobDefinitionById",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "isError",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean",
+              "default" : true
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "put" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Updates an existing Job Definition.",
+          "operationId" : "updateJobDefinition",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Updates an existing Job Definition.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/JobDefinitionPUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "204" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "delete" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Deletes an existing Job Definition.",
+          "operationId" : "deleteJobDefinition",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "204" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/job-definitions/query-job-definitions" : {
+        "post" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Fetches all Job Definitions.",
+          "operationId" : "getJobDefinitions",
+          "requestBody" : {
+            "description" : "Fetches all Job Definitions.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/JobDefinitionCriteria"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/job-definitions/initialize" : {
+        "post" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Initializes Job Definitions from Quartz XML File.",
+          "operationId" : "initializeJobDefinitions",
+          "parameters" : [ {
+            "name" : "enableJob",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean",
+              "default" : false
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/job-definitions/{definition-id}/process-logs" : {
+        "get" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Fetches all Job Process Logs.",
+          "operationId" : "getJobProcessLogs",
+          "parameters" : [ {
+            "name" : "definition-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "name",
+            "in" : "query",
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "dateCreated",
+            "in" : "query",
+            "schema" : {
+              "type" : "string",
+              "format" : "date-time"
+            }
+          }, {
+            "name" : "isNotCompleted",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }, {
+            "name" : "pageNumber",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "pageSize",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "isPaging",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean",
+              "default" : true
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "post" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Create a new Job Process Log.",
+          "operationId" : "createJobProcessLog",
+          "parameters" : [ {
+            "name" : "definition-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Create a new Job Process Log.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/JobProcessLogPOSTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Created"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/job-definitions/{definition-id}/process-logs/{id}" : {
+        "get" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Fetches a Job Process Log based on its id.",
+          "operationId" : "getJobProcessLogById",
+          "parameters" : [ {
+            "name" : "definition-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "put" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Updates an existing Job Process Log.",
+          "operationId" : "updateJobProcessLog",
+          "parameters" : [ {
+            "name" : "definition-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Updates an existing Job Process Log.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/JobProcessLogPUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "204" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "delete" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Deletes an existing Job Process Log.",
+          "operationId" : "deleteJobProcessLog",
+          "parameters" : [ {
+            "name" : "definition-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "204" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/job-definitions/{definition-id}/process-logs/{log-id}/completed" : {
+        "put" : {
+          "tags" : [ "/job-definitions" ],
+          "summary" : "Set Job Process Log as Completed.",
+          "operationId" : "setJobProcessLogCompleted",
+          "parameters" : [ {
+            "name" : "definition-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "log-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/{id}/cancel" : {
+        "put" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Cancels an existing Service Event Log.",
+          "operationId" : "cancelServiceEventLog",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "204" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "406" : {
+              "description" : "Not Accepted"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs" : {
+        "post" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Create a new Service Event Log.",
+          "operationId" : "createServiceEventLog",
+          "requestBody" : {
+            "description" : "Create a new Service Event Log.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceEventLogPOSTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Created"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/events" : {
+        "post" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Create multiple service event log entries.",
+          "operationId" : "createServiceEventLogs",
+          "requestBody" : {
+            "description" : "Create multiple service event log entries.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ServiceEventLogPOSTData"
+                  }
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Created"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/{id}" : {
+        "get" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Fetches a Service Event Log based on its id.",
+          "operationId" : "getServiceEventLogById",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "put" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Updates an existing Service Event Log.",
+          "operationId" : "updateServiceEventLog",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Updates an existing Service Event Log.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceEventLogPUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "204" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "delete" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Deletes an existing Service Event Log.",
+          "operationId" : "deleteServiceEventLog",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "204" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/{service-event-log-id}/download-file" : {
+        "get" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Used to download the file.",
+          "operationId" : "downloadFile",
+          "parameters" : [ {
+            "name" : "service-event-log-id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/query-logs" : {
+        "post" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Fetches all Service Event Logs.",
+          "operationId" : "getServiceEventLogs",
+          "requestBody" : {
+            "description" : "Fetches all Service Event Logs.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceEventLogCriteria"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/query-event-summary-by-name" : {
+        "post" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Fetches a summary Service Event Logs.",
+          "operationId" : "queryEventSummaryByDisplayNameAndEventName",
+          "requestBody" : {
+            "description" : "Fetches a summary Service Event Logs.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceEventLogCriteria"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/query-event-summary" : {
+        "post" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Fetches a summary Service Event Logs and groups by event.",
+          "operationId" : "queryEventSummaryByEventName",
+          "requestBody" : {
+            "description" : "Fetches a summary Service Event Logs and groups by event.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceEventLogCriteria"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/service-event-logs/query-event-summary-by-reference" : {
+        "post" : {
+          "tags" : [ "/service-event-logs" ],
+          "summary" : "Fetches a summary Service Event Logs and groups by reference.",
+          "operationId" : "queryEventSummaryByReferenceIdAndEventName",
+          "requestBody" : {
+            "description" : "Fetches a summary Service Event Logs and groups by reference.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceEventLogCriteria"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/rateperiods" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Fetches a List of Rate Periods.",
+          "operationId" : "findRatePeriods_1",
+          "parameters" : [ {
+            "name" : "datePeriodStarts",
+            "in" : "query",
+            "schema" : {
+              "type" : "string",
+              "format" : "date-time"
+            }
+          }, {
+            "name" : "fetchRates",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }, {
+            "name" : "pageNumber",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "pageSize",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "post" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Creates a new Rate Period.",
+          "operationId" : "createCurrencyRatePeriod_1",
+          "requestBody" : {
+            "description" : "Creates a new Rate Period.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyExchangeRatePeriodPOSTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Created"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/rateperiods/{id}" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Gets a Rate Period based on its Id.",
+          "operationId" : "getCurrencyRatePeriod_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "fetchRates",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "put" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Updates a Rate Period.",
+          "operationId" : "updateCurrencyRatePeriod_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Updates a Rate Period.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyExchangeRatePeriodPUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "delete" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Deletes a Currency Rate Period.",
+          "operationId" : "deleteCurrencyRatePeriod_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/rateperiods/current" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Get Current Rate Period.",
+          "operationId" : "getCurrentRatePeriod_1",
+          "parameters" : [ {
+            "name" : "fetchRates",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/currency-formats" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Fetches a List of Currency Formats.",
+          "operationId" : "findCurrencyFormats_1",
+          "parameters" : [ {
+            "name" : "name",
+            "in" : "query",
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "status",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }, {
+            "name" : "pageNumber",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "pageSize",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "post" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Creates a new program certification type.",
+          "operationId" : "createCurrencyFormat_1",
+          "requestBody" : {
+            "description" : "Creates a new program certification type.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CurrencyFormatPOSTData"
+                  }
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Created"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/currency-formats/{id}" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Gets a document type category based on its id.",
+          "operationId" : "getCurrencyFormat_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "put" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Updates a currency format.",
+          "operationId" : "updateCurrencyFormat_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Updates a currency format.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyFormatPUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "delete" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Deletes a currency format.",
+          "operationId" : "deleteCurrencyFormat_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/currencies" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Fetches a list of currencies.",
+          "operationId" : "findCurrencies_1",
+          "parameters" : [ {
+            "name" : "currencyISOCode",
+            "in" : "query",
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "statusName",
+            "in" : "query",
+            "schema" : {
+              "type" : "string"
+            }
+          }, {
+            "name" : "fetchFormat",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }, {
+            "name" : "pageNumber",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }, {
+            "name" : "pageSize",
+            "in" : "query",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          },
+          "deprecated" : true
+        },
+        "post" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Creates a new currency.",
+          "operationId" : "createCurrency_1",
+          "requestBody" : {
+            "description" : "Creates a new currency.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CurrencyPOSTData"
+                  }
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Created"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/currencies/{id}" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Gets a currency based on its id.",
+          "operationId" : "getCurrency_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }, {
+            "name" : "fetchFormat",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "put" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Updates a currency.",
+          "operationId" : "updateCurrency_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "requestBody" : {
+            "description" : "Updates a currency.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyPUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        },
+        "delete" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Deletes a currency.",
+          "operationId" : "deleteCurrency_1",
+          "parameters" : [ {
+            "name" : "id",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/currencies/options" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Fetches a list of currency options.",
+          "operationId" : "findCurrencyOptions_1",
+          "parameters" : [ {
+            "name" : "currencyISOCode",
+            "in" : "query",
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/query-currencies" : {
+        "post" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Fetches all Currencies.",
+          "operationId" : "getCurrencies_1",
+          "requestBody" : {
+            "description" : "Fetches all Currencies.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyCriteria"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/currencies/widget" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Gets info required for formatting, calculating conversion amounts.",
+          "operationId" : "getCurrencyHelper_1",
+          "parameters" : [ {
+            "name" : "ratePeriodCode",
+            "in" : "query",
+            "schema" : {
+              "type" : "string",
+              "default" : ""
+            }
+          }, {
+            "name" : "activeCurrenciesOnly",
+            "in" : "query",
+            "schema" : {
+              "type" : "boolean",
+              "default" : true
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "404" : {
+              "description" : "Entity does not exist for given Id."
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/exchange-rates/latest" : {
+        "get" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Fetches a List of Rate Periods.",
+          "operationId" : "getLatestExchangeRates_1",
+          "parameters" : [ {
+            "name" : "currencyISOCode",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          } ],
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/admin/exchange-rates" : {
+        "put" : {
+          "tags" : [ "/admin" ],
+          "summary" : "Update Latest Exchange Rates.",
+          "operationId" : "updateExchangeRates_1",
+          "requestBody" : {
+            "description" : "Update Latest Exchange Rates.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIExchangeRatePUTData"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "409" : {
+              "description" : "Conflict, Name Already Exists"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/options/currencies" : {
+        "post" : {
+          "tags" : [ "/options" ],
+          "summary" : "Fetches all Currency Options.",
+          "operationId" : "getCurrencyOptions_1",
+          "requestBody" : {
+            "description" : "Fetches all Currency Options.",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrencyCriteria"
+                }
+              }
+            },
+            "required" : true
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "204" : {
+              "description" : "No Content"
+            },
+            "206" : {
+              "description" : "Partial Content"
+            },
+            "400" : {
+              "description" : "Invalid Id, No Data Updated or Invalid Data"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      },
+      "/currency/healthchecks/application" : {
+        "get" : {
+          "tags" : [ "/healthchecks" ],
+          "summary" : "Performs a Health Check on the Dependent Applications.",
+          "operationId" : "checkApplicationHealth",
+          "responses" : {
+            "200" : {
+              "description" : "Ok"
+            },
+            "500" : {
+              "description" : "System Error"
+            }
+          }
+        }
+      }
+    },
+    "components" : {
+      "schemas" : {
+        "ServiceManifest" : {
+          "type" : "object",
+          "properties" : {
+            "buildId" : {
+              "type" : "string"
+            },
+            "buildNumber" : {
+              "type" : "string"
+            },
+            "buildTime" : {
+              "type" : "string"
+            },
+            "buildJdk" : {
+              "type" : "string"
+            },
+            "buildUrl" : {
+              "type" : "string"
+            },
+            "gitUrl" : {
+              "type" : "string"
+            },
+            "gitBranch" : {
+              "type" : "string"
+            },
+            "gitCommit" : {
+              "type" : "string"
+            },
+            "builtBy" : {
+              "type" : "string"
+            },
+            "implementationVersion" : {
+              "type" : "string"
+            },
+            "implementationTitle" : {
+              "type" : "string"
+            },
+            "implementationVendorId" : {
+              "type" : "string"
+            },
+            "specificationVersion" : {
+              "type" : "string"
+            },
+            "specificationTitle" : {
+              "type" : "string"
+            },
+            "dockerImageName" : {
+              "type" : "string"
+            },
+            "dockerImageVersion" : {
+              "type" : "string"
+            },
+            "clusterName" : {
+              "type" : "string"
+            },
+            "clusterType" : {
+              "type" : "string"
+            }
+          }
+        },
+        "LoggerConfigurationData" : {
+          "required" : [ "loggerLevel", "loggerName" ],
+          "type" : "object",
+          "properties" : {
+            "loggerName" : {
+              "type" : "string"
+            },
+            "loggerLevel" : {
+              "pattern" : "OFF|FATAL|ERROR|WARN|INFO|DEBUG|TRACE|ALL",
+              "type" : "string"
+            }
+          }
+        },
+        "LoggerConfigurationPUTData" : {
+          "required" : [ "loggerConfigurationData" ],
+          "type" : "object",
+          "properties" : {
+            "loggerConfigurationData" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/LoggerConfigurationData"
+              }
+            }
+          }
+        },
+        "JobDefinitionPOSTData" : {
+          "required" : [ "cronSchedule", "name", "purgeEventLogDays", "purgeProcessLogDays" ],
+          "type" : "object",
+          "properties" : {
+            "name" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "description" : {
+              "maxLength" : 1024,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "status" : {
+              "type" : "boolean"
+            },
+            "cronSchedule" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "reserveBatchSize" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "purgeEventLogDays" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "purgeProcessLogDays" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        },
+        "JobDefinitionCriteria" : {
+          "type" : "object",
+          "properties" : {
+            "pageNumber" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "pageSize" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "isPaging" : {
+              "type" : "boolean"
+            },
+            "ids" : {
+              "uniqueItems" : true,
+              "type" : "array",
+              "items" : {
+                "type" : "string",
+                "format" : "uuid"
+              }
+            },
+            "name" : {
+              "type" : "string"
+            },
+            "status" : {
+              "type" : "boolean"
+            },
+            "omitJobDefinitionId" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }
+        },
+        "JobDefinitionPUTData" : {
+          "required" : [ "cronSchedule", "name", "purgeEventLogDays", "purgeProcessLogDays" ],
+          "type" : "object",
+          "properties" : {
+            "name" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "description" : {
+              "maxLength" : 1024,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "status" : {
+              "type" : "boolean"
+            },
+            "cronSchedule" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "reserveBatchSize" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "purgeEventLogDays" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "purgeProcessLogDays" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        },
+        "JobProcessLogPOSTData" : {
+          "required" : [ "name", "totalEntriesReserved" ],
+          "type" : "object",
+          "properties" : {
+            "name" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "totalEntriesReserved" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "totalEntries" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        },
+        "DateGETData" : {
+          "type" : "object",
+          "properties" : {
+            "date" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "dateMilliseconds" : {
+              "type" : "integer",
+              "format" : "int64"
+            },
+            "dateFormat" : {
+              "type" : "string"
+            },
+            "formattedDate" : {
+              "type" : "string"
+            },
+            "formattedDateTime" : {
+              "type" : "string"
+            },
+            "year" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "month" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "dayOfMonth" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "monthName" : {
+              "type" : "string"
+            },
+            "convertToLocalTimezone" : {
+              "type" : "boolean"
+            }
+          }
+        },
+        "JobProcessLogGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "createdByInfo" : {
+              "$ref" : "#/components/schemas/Reference"
+            },
+            "dateCreated" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "lastUpdatedByInfo" : {
+              "$ref" : "#/components/schemas/Reference"
+            },
+            "dateLastUpdated" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "jobDefinition" : {
+              "$ref" : "#/components/schemas/RelationshipGETData"
+            },
+            "name" : {
+              "type" : "string"
+            },
+            "totalEntriesReserved" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "totalEntries" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "dateCompleted" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "totalTimeInSeconds" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "status" : {
+              "type" : "string"
+            },
+            "errorMessage" : {
+              "type" : "string"
+            }
+          }
+        },
+        "Reference" : {
+          "type" : "object",
+          "properties" : {
+            "name" : {
+              "type" : "string"
+            },
+            "link" : {
+              "type" : "string",
+              "format" : "uri"
+            }
+          }
+        },
+        "RelationshipGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "type" : {
+              "type" : "string"
+            },
+            "name" : {
+              "type" : "string"
+            },
+            "icon" : {
+              "type" : "string"
+            },
+            "description" : {
+              "type" : "string"
+            },
+            "link" : {
+              "type" : "string",
+              "format" : "uri"
+            },
+            "aboutPath" : {
+              "type" : "string"
+            }
+          }
+        },
+        "JobProcessLogPUTData" : {
+          "required" : [ "name", "totalEntriesReserved" ],
+          "type" : "object",
+          "properties" : {
+            "name" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "totalEntriesReserved" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "totalEntries" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        },
+        "ServiceEventLogPOSTData" : {
+          "required" : [ "entityName", "eventName", "referenceId" ],
+          "type" : "object",
+          "properties" : {
+            "referenceId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "entityName" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "eventName" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "eventJson" : {
+              "type" : "string"
+            },
+            "nextEventName" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "displayName" : {
+              "maxLength" : 512,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "groupId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "dateDue" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "applicationCode" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "parentId" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }
+        },
+        "DocumentEventLogGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "createdByInfo" : {
+              "$ref" : "#/components/schemas/Reference"
+            },
+            "dateCreated" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "lastUpdatedByInfo" : {
+              "$ref" : "#/components/schemas/Reference"
+            },
+            "dateLastUpdated" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "serviceEventLog" : {
+              "$ref" : "#/components/schemas/RelationshipGETData"
+            },
+            "applicationId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "fileName" : {
+              "type" : "string"
+            },
+            "fileSize" : {
+              "type" : "integer",
+              "format" : "int64"
+            },
+            "mediaType" : {
+              "type" : "string"
+            },
+            "aboutPath" : {
+              "type" : "string"
+            },
+            "fileUuidReference" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "dateUploaded" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            }
+          }
+        },
+        "ServiceEventLogGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "createdByInfo" : {
+              "$ref" : "#/components/schemas/Reference"
+            },
+            "dateCreated" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "lastUpdatedByInfo" : {
+              "$ref" : "#/components/schemas/Reference"
+            },
+            "dateLastUpdated" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "referenceId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "entityName" : {
+              "type" : "string"
+            },
+            "eventName" : {
+              "type" : "string"
+            },
+            "eventJson" : {
+              "type" : "string"
+            },
+            "errorMessage" : {
+              "type" : "string"
+            },
+            "retries" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "status" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "statusValue" : {
+              "type" : "string"
+            },
+            "responseStatus" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "responseStatusFamily" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "successMessage" : {
+              "type" : "string"
+            },
+            "nextEventName" : {
+              "type" : "string"
+            },
+            "displayName" : {
+              "type" : "string"
+            },
+            "groupId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "dateDue" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "applicationCode" : {
+              "type" : "string"
+            },
+            "parentId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "documentEventLogs" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/DocumentEventLogGETData"
+              }
+            }
+          }
+        },
+        "ServiceEventLogCriteria" : {
+          "type" : "object",
+          "properties" : {
+            "pageNumber" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "pageSize" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "isPaging" : {
+              "type" : "boolean"
+            },
+            "ids" : {
+              "uniqueItems" : true,
+              "type" : "array",
+              "items" : {
+                "type" : "string",
+                "format" : "uuid"
+              }
+            },
+            "entityName" : {
+              "type" : "string"
+            },
+            "eventName" : {
+              "type" : "string"
+            },
+            "eventNames" : {
+              "uniqueItems" : true,
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            },
+            "statuses" : {
+              "uniqueItems" : true,
+              "type" : "array",
+              "items" : {
+                "type" : "integer",
+                "format" : "int32"
+              }
+            },
+            "groupId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "referenceId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "dateLogStarts" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "dateLogEnds" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "dateDue" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "applicationCode" : {
+              "type" : "string"
+            },
+            "parentId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "createdByName" : {
+              "type" : "string"
+            }
+          }
+        },
+        "ServiceEventLogPUTData" : {
+          "required" : [ "entityName", "eventName", "referenceId" ],
+          "type" : "object",
+          "properties" : {
+            "referenceId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "entityName" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "eventName" : {
+              "maxLength" : 255,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "eventJson" : {
+              "type" : "string"
+            },
+            "nextEventName" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "displayName" : {
+              "maxLength" : 512,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "groupId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "dateDue" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "applicationCode" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "parentId" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }
+        },
+        "CurrencyExchangeRatePeriodPOSTData" : {
+          "required" : [ "businessCode", "currentPeriod", "datePeriodEnds", "datePeriodStarts", "exchangeRates" ],
+          "type" : "object",
+          "properties" : {
+            "datePeriodStarts" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "datePeriodEnds" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "exchangeRates" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/ExchangeRateCurrencyData"
+              }
+            },
+            "currentPeriod" : {
+              "type" : "boolean"
+            },
+            "businessCode" : {
+              "type" : "string"
+            },
+            "ratePeriodCodeToCopy" : {
+              "type" : "string"
+            }
+          }
+        },
+        "ExchangeRateCurrencyData" : {
+          "required" : [ "currencyISONumericCodeOrId", "exchangeRate" ],
+          "type" : "object",
+          "properties" : {
+            "currencyISONumericCodeOrId" : {
+              "type" : "string"
+            },
+            "exchangeRate" : {
+              "type" : "number"
+            }
+          }
+        },
+        "CurrencyExchangeRateGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "ratePeriod" : {
+              "$ref" : "#/components/schemas/RelationshipGETData"
+            },
+            "currency" : {
+              "$ref" : "#/components/schemas/RelationshipGETData"
+            },
+            "exchangeRate" : {
+              "type" : "string"
+            },
+            "exchangeRateAmt" : {
+              "type" : "number"
+            },
+            "exchangeCurrency" : {
+              "$ref" : "#/components/schemas/RelationshipGETData"
+            }
+          }
+        },
+        "CurrencyExchangeRatePeriodGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "datePeriodStarts" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "datePeriodEnds" : {
+              "$ref" : "#/components/schemas/DateGETData"
+            },
+            "exchangeRates" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/CurrencyExchangeRateGETData"
+              }
+            },
+            "currentPeriod" : {
+              "type" : "boolean"
+            },
+            "businessCode" : {
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyExchangeRatePeriodPUTData" : {
+          "required" : [ "businessCode", "currentPeriod", "datePeriodEnds", "datePeriodStarts", "exchangeRates" ],
+          "type" : "object",
+          "properties" : {
+            "datePeriodStarts" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "datePeriodEnds" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "exchangeRates" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/ExchangeRateCurrencyData"
+              }
+            },
+            "currentPeriod" : {
+              "type" : "boolean"
+            },
+            "businessCode" : {
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyFormatPOSTData" : {
+          "required" : [ "alignment", "allowZeros", "decimalSign", "name", "precision", "thousandsDelimiter" ],
+          "type" : "object",
+          "properties" : {
+            "name" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "businessCode" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "description" : {
+              "maxLength" : 1024,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "alignment" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "allowNegativeNumbers" : {
+              "type" : "boolean"
+            },
+            "allowZeros" : {
+              "type" : "boolean"
+            },
+            "decimalSign" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "precision" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "prefix" : {
+              "maxLength" : 20,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "suffix" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "thousandsDelimiter" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "status" : {
+              "type" : "boolean"
+            },
+            "formatExpr" : {
+              "maxLength" : 50,
+              "minLength" : 0,
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyFormatGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "name" : {
+              "type" : "string"
+            },
+            "businessCode" : {
+              "type" : "string"
+            },
+            "description" : {
+              "type" : "string"
+            },
+            "alignment" : {
+              "type" : "string"
+            },
+            "allowNegativeNumbers" : {
+              "type" : "boolean"
+            },
+            "allowZeros" : {
+              "type" : "boolean"
+            },
+            "precision" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "prefix" : {
+              "type" : "string"
+            },
+            "suffix" : {
+              "type" : "string"
+            },
+            "decimalSign" : {
+              "type" : "string"
+            },
+            "thousandsDelimiter" : {
+              "type" : "string"
+            },
+            "status" : {
+              "type" : "boolean"
+            },
+            "formatExpr" : {
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyFormatPUTData" : {
+          "required" : [ "alignment", "allowZeros", "decimalSign", "name", "precision", "thousandsDelimiter" ],
+          "type" : "object",
+          "properties" : {
+            "name" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "businessCode" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "description" : {
+              "maxLength" : 1024,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "alignment" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "allowNegativeNumbers" : {
+              "type" : "boolean"
+            },
+            "allowZeros" : {
+              "type" : "boolean"
+            },
+            "decimalSign" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "precision" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "prefix" : {
+              "maxLength" : 20,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "suffix" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "thousandsDelimiter" : {
+              "maxLength" : 5,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "status" : {
+              "type" : "boolean"
+            },
+            "formatExpr" : {
+              "maxLength" : 50,
+              "minLength" : 0,
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyPOSTData" : {
+          "required" : [ "currencyISOCode", "currencyISONumericCode" ],
+          "type" : "object",
+          "properties" : {
+            "currencyISOCode" : {
+              "maxLength" : 3,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "currencyISONumericCode" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "description" : {
+              "maxLength" : 1024,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "currencyFormat" : {
+              "$ref" : "#/components/schemas/RelationshipPOSTData"
+            },
+            "statusName" : {
+              "pattern" : "Active|Inactive",
+              "type" : "string"
+            },
+            "currencyIcon" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            }
+          }
+        },
+        "RelationshipPOSTData" : {
+          "required" : [ "id" ],
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "type" : {
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyCriteria" : {
+          "type" : "object",
+          "properties" : {
+            "pageNumber" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "pageSize" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "isPaging" : {
+              "type" : "boolean"
+            },
+            "ids" : {
+              "uniqueItems" : true,
+              "type" : "array",
+              "items" : {
+                "type" : "string",
+                "format" : "uuid"
+              }
+            },
+            "currencyISOCode" : {
+              "type" : "string"
+            },
+            "status" : {
+              "type" : "boolean"
+            },
+            "fetchFormat" : {
+              "type" : "boolean"
+            }
+          }
+        },
+        "CurrencyGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "currencyISOCode" : {
+              "type" : "string"
+            },
+            "currencyISONumericCode" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "description" : {
+              "type" : "string"
+            },
+            "statusName" : {
+              "type" : "string"
+            },
+            "currencyFormatGETData" : {
+              "$ref" : "#/components/schemas/CurrencyFormatGETData"
+            },
+            "currencyIcon" : {
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyHelperViewGETData" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "tenantId" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "baseCurrencyISOCode" : {
+              "type" : "string"
+            },
+            "currencyISOCode" : {
+              "type" : "string"
+            },
+            "currencyActive" : {
+              "type" : "boolean"
+            },
+            "currentRatePeriod" : {
+              "type" : "boolean"
+            },
+            "ratePeriodCode" : {
+              "type" : "string"
+            },
+            "exchangeRate" : {
+              "type" : "number"
+            },
+            "formatExpr" : {
+              "type" : "string"
+            },
+            "formatPrecision" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "thouSep" : {
+              "type" : "string"
+            },
+            "decSep" : {
+              "type" : "string"
+            },
+            "symbol" : {
+              "type" : "string"
+            }
+          }
+        },
+        "CurrencyWidgetGETData" : {
+          "required" : [ "baseCurrency", "mapCurrencyRates" ],
+          "type" : "object",
+          "properties" : {
+            "baseCurrency" : {
+              "$ref" : "#/components/schemas/CurrencyGETData"
+            },
+            "mapCurrencyRates" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "$ref" : "#/components/schemas/CurrencyHelperViewGETData"
+              }
+            }
+          }
+        },
+        "CurrencyPUTData" : {
+          "required" : [ "currencyISOCode", "currencyISONumericCode" ],
+          "type" : "object",
+          "properties" : {
+            "currencyISOCode" : {
+              "maxLength" : 3,
+              "minLength" : 1,
+              "type" : "string"
+            },
+            "currencyISONumericCode" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "description" : {
+              "maxLength" : 1024,
+              "minLength" : 0,
+              "type" : "string"
+            },
+            "currencyFormat" : {
+              "$ref" : "#/components/schemas/RelationshipPOSTData"
+            },
+            "statusName" : {
+              "pattern" : "Active|Inactive",
+              "type" : "string"
+            },
+            "currencyIcon" : {
+              "maxLength" : 255,
+              "minLength" : 0,
+              "type" : "string"
+            }
+          }
+        },
+        "APIExchangeRatePUTData" : {
+          "required" : [ "base", "rates" ],
+          "type" : "object",
+          "properties" : {
+            "base" : {
+              "type" : "string"
+            },
+            "date" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "rates" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
