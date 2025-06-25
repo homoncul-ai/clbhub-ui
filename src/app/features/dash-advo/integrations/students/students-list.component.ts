@@ -13,9 +13,7 @@ declare const dhx: any;
 @Component({
   selector: 'app-clstudents-list',
   templateUrl: './students-list.component.html',
-  styleUrls: ['./students-list.component.css'],
-  standalone: true,
-  imports: [CommonModule]
+  styleUrls: ['./students-list.component.css']
 })
 export class CLStudentsListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
