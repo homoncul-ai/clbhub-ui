@@ -799,4 +799,110 @@ CommonRequestServiceCaller request methods
     };
     return this.request<QueryResponse<HcclOrganizationGETData>>(request);
   }
+
+  // Integration EDU - CLSchool operations
+  createCLSchool(clSchool: CLSchoolPOSTData): Observable<void> {
+    const request: CommonServiceRequest<CLSchoolPOSTData> = {
+      url: '/hccl/integration_edu/clschool',
+      method: 'POST',
+      body: clSchool
+    };
+    return this.request<void>(request);
+  }
+
+  getCLSchoolById(id: string): Observable<CLSchoolGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clschool/${id}`,
+      method: 'GET'
+    };
+    return this.request<CLSchoolGETData>(request);
+  }
+
+  updateCLSchool(id: string, clSchool: CLSchoolPUTData): Observable<void> {
+    const request: CommonServiceRequest<CLSchoolPUTData> = {
+      url: `/hccl/integration_edu/clschool/${id}`,
+      method: 'PUT',
+      body: clSchool
+    };
+    return this.request<void>(request);
+  }
+
+  deleteCLSchool(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clschool/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findCLSchoolOptions(criteria: CLSchoolCriteria): Observable<any> {
+    const request: CommonServiceRequest<CLSchoolCriteria> = {
+      url: '/hccl/integration_edu/clschool/options',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<any>(request);
+  }
+
+  findCLSchools(criteria: CLSchoolCriteria): Observable<CLSchoolGETDataSearchResults> {
+    const request: CommonServiceRequest<CLSchoolCriteria> = {
+      url: '/hccl/integration_edu/clschool/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<CLSchoolGETDataSearchResults>(request);
+  }
+
+  // Integration EDU - CLStudent operations
+  createCLStudent(clStudent: CLStudentPOSTData): Observable<void> {
+    const request: CommonServiceRequest<CLStudentPOSTData> = {
+      url: '/hccl/integration_edu/clstudent',
+      method: 'POST',
+      body: clStudent
+    };
+    return this.request<void>(request);
+  }
+
+  getCLStudentById(id: string): Observable<CLStudentGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clstudent/${id}`,
+      method: 'GET'
+    };
+    return this.request<CLStudentGETData>(request);
+  }
+
+  updateCLStudent(id: string, clStudent: CLStudentPUTData): Observable<void> {
+    const request: CommonServiceRequest<CLStudentPUTData> = {
+      url: `/hccl/integration_edu/clstudent/${id}`,
+      method: 'PUT',
+      body: clStudent
+    };
+    return this.request<void>(request);
+  }
+
+  deleteCLStudent(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clstudent/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findCLStudentOptions(criteria: CLStudentCriteria): Observable<any> {
+    const request: CommonServiceRequest<CLStudentCriteria> = {
+      url: '/hccl/integration_edu/clstudent/options',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<any>(request);
+  }
+
+  findCLStudents(criteria: CLStudentCriteria): Observable<CLStudentGETDataSearchResults> {
+    const request: CommonServiceRequest<CLStudentCriteria> = {
+      url: '/hccl/integration_edu/clstudent/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<CLStudentGETDataSearchResults>(request);
+  }
 }
