@@ -10,28 +10,99 @@ import {
   JobDefinitionPUTData,
   JobDefinitionCriteria,
   JobDefinitionGETData,
+  JobProcessLogPOSTData,
+  JobProcessLogPUTData,
+  JobProcessLogGETData,
+  ServiceEventLogPOSTData,
+  ServiceEventLogPUTData,
   ServiceEventLogCriteria,
   ServiceEventLogGETData,
+  CatalogPOSTData,
+  CatalogPUTData,
+  CatalogGETData,
+  CatalogCriteria,
   CatalogEntryPOSTData,
   CatalogEntryPUTData,
   CatalogEntryGETData,
   CatalogEntryCriteria,
+  CatalogEntryTagPOSTData,
+  CatalogEntryTagPUTData,
+  CatalogEntryTagGETData,
+  CatalogEntryTagCriteria,
+  CatalogSearchPOSTData,
+  CatalogSearchPUTData,
+  CatalogSearchGETData,
+  CatalogSearchCriteria,
+  CatalogSearchResultPOSTData,
+  CatalogSearchResultPUTData,
+  CatalogSearchResultGETData,
+  CatalogSearchResultCriteria,
+  CatalogSearchResultEntryPOSTData,
+  CatalogSearchResultEntryPUTData,
+  CatalogSearchResultEntryGETData,
+  CatalogSearchResultEntryCriteria,
+  CatalogTagRefPOSTData,
+  CatalogTagRefPUTData,
+  CatalogTagRefGETData,
+  CatalogTagRefCriteria,
   ExperiencePOSTData,
   ExperiencePUTData,
   ExperienceGETData,
   ExperienceCriteria,
+  ExperienceTypePOSTData,
+  ExperienceTypePUTData,
+  ExperienceTypeGETData,
+  ExperienceTypeCriteria,
+  ExperienceLocationPOSTData,
+  ExperienceLocationPUTData,
+  ExperienceLocationGETData,
+  ExperienceLocationCriteria,
+  ExperienceRegRulePOSTData,
+  ExperienceRegRulePUTData,
+  ExperienceRegRuleGETData,
+  ExperienceRegRuleCriteria,
+  CLSchoolPOSTData,
+  CLSchoolPUTData,
+  CLSchoolGETData,
+  CLSchoolCriteria,
+  CLSchoolGETDataSearchResults,
+  CLStudentPOSTData,
+  CLStudentPUTData,
+  CLStudentGETData,
+  CLStudentCriteria,
+  CLStudentGETDataSearchResults,
   ProviderPOSTData,
   ProviderPUTData,
   ProviderGETData,
   ProviderCriteria,
+  ProviderTypeRefPOSTData,
+  ProviderTypeRefPUTData,
+  ProviderTypeRefGETData,
+  ProviderTypeRefCriteria,
+  ProviderUserPOSTData,
+  ProviderUserPUTData,
+  ProviderUserGETData,
+  ProviderUserCriteria,
   ProviderRequestPOSTData,
   ProviderRequestPUTData,
   ProviderRequestGETData,
   ProviderRequestCriteria,
+  ProviderRequestTypeRefPOSTData,
+  ProviderRequestTypeRefPUTData,
+  ProviderRequestTypeRefGETData,
+  ProviderRequestTypeRefCriteria,
   StateTransitionLogPOSTData,
   StateTransitionLogPUTData,
   StateTransitionLogGETData,
   StateTransitionLogCriteria,
+  TaxonomyPOSTData,
+  TaxonomyPUTData,
+  TaxonomyGETData,
+  TaxonomyCriteria,
+  TaxonomyLevelPOSTData,
+  TaxonomyLevelPUTData,
+  TaxonomyLevelGETData,
+  TaxonomyLevelCriteria,
   TaxonomyEntryPOSTData,
   TaxonomyEntryPUTData,
   TaxonomyEntryGETData,
@@ -40,6 +111,26 @@ import {
   HcclOrganizationPUTData,
   HcclOrganizationGETData,
   HcclOrganizationCriteria,
+  HcclOrganizationTypeRefPOSTData,
+  HcclOrganizationTypeRefPUTData,
+  HcclOrganizationTypeRefGETData,
+  HcclOrganizationTypeRefCriteria,
+  HcclTeamPOSTData,
+  HcclTeamPUTData,
+  HcclTeamGETData,
+  HcclTeamCriteria,
+  HcclTeamMemberPOSTData,
+  HcclTeamMemberPUTData,
+  HcclTeamMemberGETData,
+  HcclTeamMemberCriteria,
+  HcclTeamMemberRolePOSTData,
+  HcclTeamMemberRolePUTData,
+  HcclTeamMemberRoleGETData,
+  HcclTeamMemberRoleCriteria,
+  HcclTeamLogPOSTData,
+  HcclTeamLogPUTData,
+  HcclTeamLogGETData,
+  HcclTeamLogCriteria,
   PagedResponse,
   QueryResponse
 } from './hccl.interfaces';
@@ -190,12 +281,22 @@ CommonRequestServiceCaller request methods
   }
 
   // Service Event Logs
-  getServiceEventLogs(): Observable<ServiceEventLogGETData[]> {
-    const request: CommonServiceRequest = {
+  createServiceEventLog(eventLog: ServiceEventLogPOSTData): Observable<void> {
+    const request: CommonServiceRequest<ServiceEventLogPOSTData> = {
       url: '/hccl/service-event-logs',
-      method: 'GET'
+      method: 'POST',
+      body: eventLog
     };
-    return this.request<ServiceEventLogGETData[]>(request);
+    return this.request<void>(request);
+  }
+
+  createServiceEventLogs(eventLogs: ServiceEventLogPOSTData[]): Observable<void> {
+    const request: CommonServiceRequest<ServiceEventLogPOSTData[]> = {
+      url: '/hccl/service-event-logs/events',
+      method: 'POST',
+      body: eventLogs
+    };
+    return this.request<void>(request);
   }
 
   getServiceEventLogById(id: string): Observable<ServiceEventLogGETData> {
@@ -206,12 +307,21 @@ CommonRequestServiceCaller request methods
     return this.request<ServiceEventLogGETData>(request);
   }
 
-  getServiceEventLogEvents(): Observable<any[]> {
-    const request: CommonServiceRequest = {
-      url: '/hccl/service-event-logs/events',
-      method: 'GET'
+  updateServiceEventLog(id: string, eventLog: ServiceEventLogPUTData): Observable<void> {
+    const request: CommonServiceRequest<ServiceEventLogPUTData> = {
+      url: `/hccl/service-event-logs/${id}`,
+      method: 'PUT',
+      body: eventLog
     };
-    return this.request<any[]>(request);
+    return this.request<void>(request);
+  }
+
+  deleteServiceEventLog(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/service-event-logs/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
   }
 
   cancelServiceEventLog(id: string): Observable<void> {
@@ -239,33 +349,87 @@ CommonRequestServiceCaller request methods
     return this.request<QueryResponse<ServiceEventLogGETData>>(request);
   }
 
-  queryEventSummaryByName(eventName: string): Observable<any> {
-    const request: CommonServiceRequest = {
+  queryEventSummaryByName(criteria: ServiceEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest<ServiceEventLogCriteria> = {
       url: '/hccl/service-event-logs/query-event-summary-by-name',
       method: 'POST',
-      body: { eventName }
+      body: criteria
     };
     return this.request<any>(request);
   }
 
-  queryEventSummary(): Observable<any> {
-    const request: CommonServiceRequest = {
+  queryEventSummary(criteria: ServiceEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest<ServiceEventLogCriteria> = {
       url: '/hccl/service-event-logs/query-event-summary',
-      method: 'POST'
+      method: 'POST',
+      body: criteria
     };
     return this.request<any>(request);
   }
 
-  queryEventSummaryByReference(eventReference: string): Observable<any> {
-    const request: CommonServiceRequest = {
+  queryEventSummaryByReference(criteria: ServiceEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest<ServiceEventLogCriteria> = {
       url: '/hccl/service-event-logs/query-event-summary-by-reference',
       method: 'POST',
-      body: { eventReference }
+      body: criteria
     };
     return this.request<any>(request);
   }
 
   // Catalog
+  createCatalog(catalog: CatalogPOSTData): Observable<void> {
+    const request: CommonServiceRequest<CatalogPOSTData> = {
+      url: '/hccl/catalog/catalog',
+      method: 'POST',
+      body: catalog
+    };
+    return this.request<void>(request);
+  }
+
+  getCatalogById(id: string): Observable<CatalogGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/catalog/catalog/${id}`,
+      method: 'GET'
+    };
+    return this.request<CatalogGETData>(request);
+  }
+
+  updateCatalog(id: string, catalog: CatalogPUTData): Observable<void> {
+    const request: CommonServiceRequest<CatalogPUTData> = {
+      url: `/hccl/catalog/catalog/${id}`,
+      method: 'PUT',
+      body: catalog
+    };
+    return this.request<void>(request);
+  }
+
+  deleteCatalog(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/catalog/catalog/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findCatalogOptions(criteria: CatalogCriteria): Observable<any> {
+    const request: CommonServiceRequest<CatalogCriteria> = {
+      url: '/hccl/catalog/catalog/options',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<any>(request);
+  }
+
+  findCatalogs(criteria: CatalogCriteria): Observable<QueryResponse<CatalogGETData>> {
+    const request: CommonServiceRequest<CatalogCriteria> = {
+      url: '/hccl/catalog/catalog/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<QueryResponse<CatalogGETData>>(request);
+  }
+
+  // Catalog Entry
   createCatalogEntry(catalogEntry: CatalogEntryPOSTData): Observable<void> {
     const request: CommonServiceRequest<CatalogEntryPOSTData> = {
       url: '/hccl/catalog/catalogentry',

@@ -1,0 +1,82 @@
+You are tasked with generating an Angular service for accessing REST services from an Angular app. You will be provided with two inputs:
+
+<swagger_json_url>
+{{SWAGGER_JSON_URL}}
+</swagger_json_url>
+
+<service_file_name>
+{{SERVICE_FILE_NAME}}
+</service_file_name>
+
+Follow these steps to generate the Angular service:
+
+1. Fetch and parse the Swagger JSON from the provided URL. Extract all the necessary information about endpoints, request/response models, and parameters.
+
+2. Create or update all the interfaces specified in the Swagger JSON. Each interface should be properly typed and include all properties defined in the Swagger specification.
+
+3. Generate service methods for all the endpoints specified in the Swagger JSON. Each method should:
+   - Have a descriptive name based on the endpoint's purpose
+   - Accept parameters as defined in the Swagger specification
+   - Return an Observable of the appropriate type
+   - Use the CommonRequestServiceCaller's request method
+
+4. At the top of the file, create a change log block formatted as follows:
+   ```
+   /**
+    * Change Log:
+    * [YYYY-MM-DD] - Initial creation or update of the service
+    * - Added X new endpoints
+    * - Updated Y existing endpoints
+    * - Created Z new interfaces
+    */
+   ```
+
+5.  Understand 
+ "CommonServiceRequest" object and calling using CommonRequestServiceCaller request method.
+
+5a. Use the following core structure for the service class:
+   ```typescript
+   export class HcclService extends CommonRequestServiceCaller {
+     constructor(http: HttpClient) {
+       super(http);
+
+       // calculate the "baseUrl" by removing the path to "swagger.json" from the swagger json URL
+       const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    this.setBaseUrl(baseUrl);
+     }
+
+     // Service methods will be added here
+   }
+   ```
+
+6. Implement each service method following this pattern:
+   ```typescript
+   methodName(parameters): Observable<ReturnType> {
+     const request: CommonServiceRequest<RequestBodyType> = {
+       url: '/endpoint/path',
+       method: 'HTTP_METHOD',
+       body: requestBody // if applicable
+     };
+     return this.request<ReturnType>(request);
+   }
+   ```
+
+7. For query methods that accept criteria, use the following pattern:
+   ```typescript
+   querySomething(criteria: SomeCriteria): Observable<QueryResponse<SomeType>> {
+     const request: CommonServiceRequest<SomeCriteria> = {
+       url: '/endpoint/path',
+       method: 'POST',
+       body: criteria
+     };
+     return this.request<QueryResponse<SomeType>>(request);
+   }
+   ```
+
+Your final output should be the complete content of the Angular service file, including:
+1. The change log at the top
+2. All necessary imports
+3. All interfaces derived from the Swagger JSON
+4. The service class with all implemented methods
+
+Ensure that the generated code follows Angular and TypeScript best practices, including proper typing and use of Observables.

@@ -393,4 +393,828 @@ export interface QueryResponse<T> {
   totalCount?: number;
   pageNumber?: number;
   pageSize?: number;
+}
+
+// Missing interfaces from Swagger
+export interface JobProcessLogPOSTData {
+  name: string;
+  status?: string;
+  startTime?: string;
+  endTime?: string;
+  errorMessage?: string;
+}
+
+export interface JobProcessLogPUTData {
+  name: string;
+  status?: string;
+  startTime?: string;
+  endTime?: string;
+  errorMessage?: string;
+}
+
+export interface JobProcessLogGETData {
+  id?: string;
+  name?: string;
+  status?: string;
+  startTime?: string;
+  endTime?: string;
+  errorMessage?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface ServiceEventLogPOSTData {
+  eventName: string;
+  eventReference?: string;
+  eventStatus?: string;
+  eventData?: string;
+  serviceName?: string;
+}
+
+export interface ServiceEventLogPUTData {
+  eventName: string;
+  eventReference?: string;
+  eventStatus?: string;
+  eventData?: string;
+  serviceName?: string;
+}
+
+// Catalog interfaces
+export interface CatalogPOSTData {
+  name: string;
+  description?: string;
+  status?: boolean;
+}
+
+export interface CatalogPUTData {
+  name: string;
+  description?: string;
+  status?: boolean;
+}
+
+export interface CatalogGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  status?: boolean;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CatalogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  omitCatalogId?: string;
+}
+
+export interface CatalogEntryTagPOSTData {
+  name: string;
+  description?: string;
+}
+
+export interface CatalogEntryTagPUTData {
+  name: string;
+  description?: string;
+}
+
+export interface CatalogEntryTagGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CatalogEntryTagCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  omitCatalogEntryTagId?: string;
+}
+
+export interface CatalogSearchPOSTData {
+  name: string;
+  description?: string;
+  catalogId?: string;
+  searchCriteria?: string;
+}
+
+export interface CatalogSearchPUTData {
+  name: string;
+  description?: string;
+  catalogId?: string;
+  searchCriteria?: string;
+}
+
+export interface CatalogSearchGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  catalogId?: string;
+  searchCriteria?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CatalogSearchCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  catalogId?: string;
+  omitCatalogSearchId?: string;
+}
+
+export interface CatalogSearchResultPOSTData {
+  name: string;
+  description?: string;
+  catalogSearchId?: string;
+  resultData?: string;
+}
+
+export interface CatalogSearchResultPUTData {
+  name: string;
+  description?: string;
+  catalogSearchId?: string;
+  resultData?: string;
+}
+
+export interface CatalogSearchResultGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  catalogSearchId?: string;
+  resultData?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CatalogSearchResultCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  catalogSearchId?: string;
+  omitCatalogSearchResultId?: string;
+}
+
+export interface CatalogSearchResultEntryPOSTData {
+  catalogSearchResultId: string;
+  catalogEntryId: string;
+  catalogId: string;
+  comments?: string;
+}
+
+export interface CatalogSearchResultEntryPUTData {
+  catalogSearchResultId: string;
+  catalogEntryId: string;
+  catalogId: string;
+  comments?: string;
+}
+
+export interface CatalogSearchResultEntryGETData {
+  id?: string;
+  catalogSearchResultId?: string;
+  catalogEntryId?: string;
+  catalogId?: string;
+  comments?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CatalogSearchResultEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  catalogSearchResultId?: string;
+  catalogEntryId?: string;
+  catalogId?: string;
+  comments?: string;
+}
+
+export interface CatalogTagRefPOSTData {
+  catalogId: string;
+  catalogEntryTagId: string;
+}
+
+export interface CatalogTagRefPUTData {
+  catalogId: string;
+  catalogEntryTagId: string;
+}
+
+export interface CatalogTagRefGETData {
+  id?: string;
+  catalogId?: string;
+  catalogEntryTagId?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CatalogTagRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  catalogId?: string;
+  catalogEntryTagId?: string;
+  omitCatalogTagRefId?: string;
+}
+
+// Experience interfaces
+export interface ExperienceTypePOSTData {
+  name: string;
+  description?: string;
+}
+
+export interface ExperienceTypePUTData {
+  name: string;
+  description?: string;
+}
+
+export interface ExperienceTypeGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface ExperienceTypeCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  omitExperienceTypeId?: string;
+}
+
+export interface ExperienceLocationPOSTData {
+  name: string;
+  description?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+}
+
+export interface ExperienceLocationPUTData {
+  name: string;
+  description?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+}
+
+export interface ExperienceLocationGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface ExperienceLocationCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  omitExperienceLocationId?: string;
+}
+
+export interface ExperienceRegRulePOSTData {
+  name: string;
+  description?: string;
+  ruleType?: string;
+  ruleValue?: string;
+}
+
+export interface ExperienceRegRulePUTData {
+  name: string;
+  description?: string;
+  ruleType?: string;
+  ruleValue?: string;
+}
+
+export interface ExperienceRegRuleGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  ruleType?: string;
+  ruleValue?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface ExperienceRegRuleCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  ruleType?: string;
+  omitExperienceRegRuleId?: string;
+}
+
+// Integration EDU interfaces
+export interface CLSchoolPOSTData {
+  name: string;
+  description?: string;
+  schoolCode?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+}
+
+export interface CLSchoolPUTData {
+  name: string;
+  description?: string;
+  schoolCode?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+}
+
+export interface CLSchoolGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  schoolCode?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CLSchoolCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  schoolCode?: string;
+  city?: string;
+  state?: string;
+  omitCLSchoolId?: string;
+}
+
+export interface CLSchoolGETDataSearchResults {
+  data?: CLSchoolGETData[];
+  totalCount?: number;
+  pageNumber?: number;
+  pageSize?: number;
+}
+
+export interface CLStudentPOSTData {
+  name: string;
+  description?: string;
+  studentId?: string;
+  schoolId?: string;
+  grade?: string;
+  email?: string;
+}
+
+export interface CLStudentPUTData {
+  name: string;
+  description?: string;
+  studentId?: string;
+  schoolId?: string;
+  grade?: string;
+  email?: string;
+}
+
+export interface CLStudentGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  studentId?: string;
+  schoolId?: string;
+  grade?: string;
+  email?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CLStudentCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  studentId?: string;
+  schoolId?: string;
+  grade?: string;
+  email?: string;
+  omitCLStudentId?: string;
+}
+
+export interface CLStudentGETDataSearchResults {
+  data?: CLStudentGETData[];
+  totalCount?: number;
+  pageNumber?: number;
+  pageSize?: number;
+}
+
+// Provider interfaces
+export interface ProviderTypeRefPOSTData {
+  name: string;
+  description?: string;
+}
+
+export interface ProviderTypeRefPUTData {
+  name: string;
+  description?: string;
+}
+
+export interface ProviderTypeRefGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface ProviderTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  omitProviderTypeRefId?: string;
+}
+
+export interface ProviderUserPOSTData {
+  name: string;
+  description?: string;
+  providerId?: string;
+  userId?: string;
+  role?: string;
+}
+
+export interface ProviderUserPUTData {
+  name: string;
+  description?: string;
+  providerId?: string;
+  userId?: string;
+  role?: string;
+}
+
+export interface ProviderUserGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  providerId?: string;
+  userId?: string;
+  role?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface ProviderUserCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  providerId?: string;
+  userId?: string;
+  role?: string;
+  omitProviderUserId?: string;
+}
+
+// Provider Request interfaces
+export interface ProviderRequestTypeRefPOSTData {
+  name: string;
+  description?: string;
+}
+
+export interface ProviderRequestTypeRefPUTData {
+  name: string;
+  description?: string;
+}
+
+export interface ProviderRequestTypeRefGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface ProviderRequestTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  omitProviderRequestTypeRefId?: string;
+}
+
+// Taxonomy interfaces
+export interface TaxonomyPOSTData {
+  name: string;
+  description?: string;
+}
+
+export interface TaxonomyPUTData {
+  name: string;
+  description?: string;
+}
+
+export interface TaxonomyGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface TaxonomyCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  omitTaxonomyId?: string;
+}
+
+export interface TaxonomyLevelPOSTData {
+  name: string;
+  description?: string;
+  taxonomyId?: string;
+  parentTaxonomyLevelId?: string;
+  levelOrder?: number;
+}
+
+export interface TaxonomyLevelPUTData {
+  name: string;
+  description?: string;
+  taxonomyId?: string;
+  parentTaxonomyLevelId?: string;
+  levelOrder?: number;
+}
+
+export interface TaxonomyLevelGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  taxonomyId?: string;
+  parentTaxonomyLevelId?: string;
+  levelOrder?: number;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface TaxonomyLevelCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  taxonomyId?: string;
+  parentTaxonomyLevelId?: string;
+  omitTaxonomyLevelId?: string;
+}
+
+// Teams interfaces
+export interface HcclOrganizationTypeRefPOSTData {
+  name: string;
+  description?: string;
+}
+
+export interface HcclOrganizationTypeRefPUTData {
+  name: string;
+  description?: string;
+}
+
+export interface HcclOrganizationTypeRefGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface HcclOrganizationTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  omitOrganizationTypeId?: string;
+}
+
+export interface HcclTeamPOSTData {
+  name: string;
+  description?: string;
+  organizationId?: string;
+  teamTypeId?: string;
+}
+
+export interface HcclTeamPUTData {
+  name: string;
+  description?: string;
+  organizationId?: string;
+  teamTypeId?: string;
+}
+
+export interface HcclTeamGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  organizationId?: string;
+  teamTypeId?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface HcclTeamCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  organizationId?: string;
+  teamTypeId?: string;
+  omitTeamId?: string;
+}
+
+export interface HcclTeamMemberPOSTData {
+  name: string;
+  description?: string;
+  teamId?: string;
+  userId?: string;
+  roleId?: string;
+}
+
+export interface HcclTeamMemberPUTData {
+  name: string;
+  description?: string;
+  teamId?: string;
+  userId?: string;
+  roleId?: string;
+}
+
+export interface HcclTeamMemberGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  teamId?: string;
+  userId?: string;
+  roleId?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface HcclTeamMemberCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  teamId?: string;
+  userId?: string;
+  roleId?: string;
+  omitTeamMemberId?: string;
+}
+
+export interface HcclTeamMemberRolePOSTData {
+  name: string;
+  description?: string;
+  permissions?: string[];
+}
+
+export interface HcclTeamMemberRolePUTData {
+  name: string;
+  description?: string;
+  permissions?: string[];
+}
+
+export interface HcclTeamMemberRoleGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  permissions?: string[];
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface HcclTeamMemberRoleCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  omitTeamMemberRoleId?: string;
+}
+
+export interface HcclTeamLogPOSTData {
+  name: string;
+  description?: string;
+  teamId?: string;
+  action?: string;
+  details?: string;
+}
+
+export interface HcclTeamLogPUTData {
+  name: string;
+  description?: string;
+  teamId?: string;
+  action?: string;
+  details?: string;
+}
+
+export interface HcclTeamLogGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  teamId?: string;
+  action?: string;
+  details?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface HcclTeamLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  teamId?: string;
+  action?: string;
+  omitTeamLogId?: string;
 } 

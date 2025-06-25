@@ -1,0 +1,5 @@
+Read the updated hccl.swagger.json 
+Update the 2 files 
+hccl.service.ts, and hccl.interfaces.ts
+with any changes or new methods required. 
+
