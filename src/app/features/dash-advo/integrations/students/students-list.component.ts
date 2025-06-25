@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { CommonModule } from '@angular/common';
 import { HcclService } from '../../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../../../restsvc/hccl.interfaces';
+import { forkJoin } from 'rxjs';
 
 declare const dhx: any;
 
@@ -66,7 +67,8 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       // Initialize DHTMLX grid with pagination and drag and drop
       this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
         columns: [
-          { id: 'select', header: [{ text: '' }], type: 'checkbox', width: 50 },
+          { id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 },
+          { id: 'schoolCode', header: [{ text: 'School', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'name', header: [{ text: 'Student Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
           { id: 'businessCode', header: [{ text: 'Student ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
@@ -74,8 +76,7 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
           { id: 'userEmail', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
           { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-          { id: 'schoolId', header: [{ text: 'School', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-          { id: 'available', header: [{ text: 'Sync Status', align: 'center' }, { content: 'selectFilter' }], minWidth: 100, adjust: true },
+          //{ id: 'available', header: [{ text: 'Sync Status', align: 'center' }, { content: 'selectFilter' }], minWidth: 100, adjust: true },
         ],
         css: "student-grid",
         height: 600,
@@ -137,20 +138,57 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       } else {
         // Search by name or businessCode
         criteria.name = searchCriteria;
-        criteria.businessCode = searchCriteria;
+        //        criteria.businessCode = searchCriteria;
       }
     }
 
     this.hcclService.findCLStudents(criteria).subscribe({
       next: (response: CLStudentGETDataSearchResults) => {
         if (response.searchResults) {
-          // Transform the data to include the select field for checkboxes
-          const gridData = response.searchResults.map(student => ({
-            ...student,
-            select: false // Add checkbox field
-          }));
-          this.grid.data.parse(gridData);
-          console.log("Loaded students:", gridData.length);
+          const students = response.searchResults;
+          const uniqueSchoolIds = Array.from(new Set(students.map(s => s.schoolId).filter(Boolean)));
+
+          if (uniqueSchoolIds.length === 0) {
+            // No school IDs, just parse students with blank schoolCode
+            const gridData = students.map(student => ({
+              ...student,
+              select: false,
+              schoolCode: ''
+            }));
+            this.grid.data.parse(gridData);
+            return;
+          }
+
+          // Fetch all schools in parallel
+          forkJoin(
+            uniqueSchoolIds.filter((id): id is string => !!id).map(id => this.hcclService.getCLSchoolById(id))
+          ).subscribe({
+            next: (schools) => {
+              const schoolMap: { [id: string]: string } = {};
+              schools.forEach(school => {
+                if (school && school.id) {
+                  schoolMap[school.id] = school.businessCode || '';
+                }
+              });
+              const gridData = students.map(student => ({
+                ...student,
+                select: false,
+                schoolCode: student.schoolId ? schoolMap[student.schoolId] || '' : ''
+              }));
+              this.grid.data.parse(gridData);
+              console.log("Loaded students:", gridData.length);
+            },
+            error: (error) => {
+              console.error('Error loading school data:', error);
+              // Fallback: load students with blank schoolCode
+              const gridData = students.map(student => ({
+                ...student,
+                select: false,
+                schoolCode: ''
+              }));
+              this.grid.data.parse(gridData);
+            }
+          });
         } else {
           this.grid.data.parse([]);
           console.log("No students found");
@@ -170,6 +208,27 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       const allData = this.grid.data.serialize();
       const checkedRows = allData.filter((row: any) => row.select === true);
       console.log('Checked rows:', checkedRows);
+    }
+  }
+
+  public onPromoteStudents() {
+    if (this.grid) {
+      // Get all data from the grid
+      const allData = this.grid.data.serialize();
+      // Filter to get only selected rows (where select is true)
+      const selectedStudents = allData.filter((row: any) => row.select === true);
+      
+      if (selectedStudents.length === 0) {
+        alert('Please select at least one student to promote.');
+        return;
+      }
+      
+      // Extract the IDs of selected students
+      const selectedIds = selectedStudents.map((student: any) => student.id);
+      
+      // Show alert with selected IDs
+      alert(`Selected Student IDs: ${selectedIds.join(', ')}`);
+      console.log('Selected student IDs for promotion:', selectedIds);
     }
   }
 
