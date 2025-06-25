@@ -31,6 +31,13 @@ export interface LoggerConfigurationPUTData {
   loggerConfigurationData: LoggerConfigurationData[];
 }
 
+// Base Criteria interface for SearchResults
+export interface BaseCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+}
+
 // Job Definitions
 export interface JobDefinitionPOSTData {
   name: string;
@@ -825,7 +832,7 @@ export interface CLSchoolCriteria {
 export interface CLSchoolGETDataSearchResults {
   searchResults?: CLSchoolGETData[];
   pagingInfo?: DCPageData;
-  filter?: any;
+  filter?: BaseCriteria;
 }
 
 export interface CLStudentPOSTData {
@@ -890,9 +897,157 @@ export interface CLStudentCriteria {
 }
 
 export interface CLStudentGETDataSearchResults {
-  searchResults?: CLStudentGETData[];
   pagingInfo?: DCPageData;
-  filter?: any;
+  searchResults?: CLStudentGETData[];
+  filter?: BaseCriteria;
+}
+
+// CLGuidance interfaces
+export interface CLGuidancePOSTData {
+  name: string;
+  businessCode: string;
+  available: number;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
+  dataOriginCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface CLGuidancePUTData {
+  name: string;
+  businessCode: string;
+  available: number;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
+  dataOriginCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface CLGuidanceGETData {
+  id?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  firstName?: string;
+  lastName?: string;
+  schoolId?: string;
+  dataOriginCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CLGuidanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  businessCode?: string;
+  firstName?: string;
+  lastName?: string;
+  schoolId?: string;
+  userEmail?: string;
+  available?: number;
+  omitCLGuidanceId?: string;
+}
+
+export interface CLGuidanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CLGuidanceGETData[];
+  filter?: BaseCriteria;
+}
+
+// CLCourse interfaces
+export interface CLCoursePOSTData {
+  name: string;
+  businessCode: string;
+  available: number;
+  courseCode: string;
+  courseName: string;
+  schoolId: string;
+  dataOriginCode?: string;
+  description?: string;
+  credits?: number;
+  externalCourseId?: string;
+  externalCourseEntityType?: string;
+  externalCourseName?: string;
+}
+
+export interface CLCoursePUTData {
+  name: string;
+  businessCode: string;
+  available: number;
+  courseCode: string;
+  courseName: string;
+  schoolId: string;
+  dataOriginCode?: string;
+  description?: string;
+  credits?: number;
+  externalCourseId?: string;
+  externalCourseEntityType?: string;
+  externalCourseName?: string;
+}
+
+export interface CLCourseGETData {
+  id?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  courseCode?: string;
+  courseName?: string;
+  schoolId?: string;
+  dataOriginCode?: string;
+  description?: string;
+  credits?: number;
+  externalCourseId?: string;
+  externalCourseEntityType?: string;
+  externalCourseName?: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface CLCourseCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  businessCode?: string;
+  courseCode?: string;
+  courseName?: string;
+  schoolId?: string;
+  description?: string;
+  credits?: number;
+  available?: number;
+  omitCLCourseId?: string;
+}
+
+export interface CLCourseGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CLCourseGETData[];
+  filter?: BaseCriteria;
 }
 
 // Provider interfaces
@@ -1273,4 +1428,44 @@ export interface DCPageData {
   totalPages?: number;
   endingOffset?: number;
   links?: string[];
+}
+
+// HcclUserProfile interfaces
+export interface HcclUserProfileGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userId?: string;
+  userCode?: string;
+  organizationId?: string;
+  profileTypeCode?: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  available?: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+// SearchResults interfaces
+export interface HcclUserProfileGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserProfileGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclOrganizationGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclOrganizationGETData[];
+  filter?: BaseCriteria;
 } 

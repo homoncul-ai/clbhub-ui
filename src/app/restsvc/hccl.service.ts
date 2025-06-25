@@ -71,6 +71,16 @@ import {
   CLStudentGETData,
   CLStudentCriteria,
   CLStudentGETDataSearchResults,
+  CLGuidancePOSTData,
+  CLGuidancePUTData,
+  CLGuidanceGETData,
+  CLGuidanceCriteria,
+  CLGuidanceGETDataSearchResults,
+  CLCoursePOSTData,
+  CLCoursePUTData,
+  CLCourseGETData,
+  CLCourseCriteria,
+  CLCourseGETDataSearchResults,
   ProviderPOSTData,
   ProviderPUTData,
   ProviderGETData,
@@ -905,5 +915,111 @@ CommonRequestServiceCaller request methods
       body: criteria
     };
     return this.request<CLStudentGETDataSearchResults>(request);
+  }
+
+  // Integration EDU - CLGuidance operations
+  createCLGuidance(clGuidance: CLGuidancePOSTData): Observable<void> {
+    const request: CommonServiceRequest<CLGuidancePOSTData> = {
+      url: '/hccl/integration_edu/clguidance',
+      method: 'POST',
+      body: clGuidance
+    };
+    return this.request<void>(request);
+  }
+
+  getCLGuidanceById(id: string): Observable<CLGuidanceGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clguidance/${id}`,
+      method: 'GET'
+    };
+    return this.request<CLGuidanceGETData>(request);
+  }
+
+  updateCLGuidance(id: string, clGuidance: CLGuidancePUTData): Observable<void> {
+    const request: CommonServiceRequest<CLGuidancePUTData> = {
+      url: `/hccl/integration_edu/clguidance/${id}`,
+      method: 'PUT',
+      body: clGuidance
+    };
+    return this.request<void>(request);
+  }
+
+  deleteCLGuidance(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clguidance/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findCLGuidanceOptions(criteria: CLGuidanceCriteria): Observable<any> {
+    const request: CommonServiceRequest<CLGuidanceCriteria> = {
+      url: '/hccl/integration_edu/clguidance/options',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<any>(request);
+  }
+
+  findCLGuidances(criteria: CLGuidanceCriteria): Observable<CLGuidanceGETDataSearchResults> {
+    const request: CommonServiceRequest<CLGuidanceCriteria> = {
+      url: '/hccl/integration_edu/clguidance/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<CLGuidanceGETDataSearchResults>(request);
+  }
+
+  // Integration EDU - CLCourse operations
+  createCLCourse(clCourse: CLCoursePOSTData): Observable<void> {
+    const request: CommonServiceRequest<CLCoursePOSTData> = {
+      url: '/hccl/integration_edu/clcourse',
+      method: 'POST',
+      body: clCourse
+    };
+    return this.request<void>(request);
+  }
+
+  getCLCourseById(id: string): Observable<CLCourseGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clcourse/${id}`,
+      method: 'GET'
+    };
+    return this.request<CLCourseGETData>(request);
+  }
+
+  updateCLCourse(id: string, clCourse: CLCoursePUTData): Observable<void> {
+    const request: CommonServiceRequest<CLCoursePUTData> = {
+      url: `/hccl/integration_edu/clcourse/${id}`,
+      method: 'PUT',
+      body: clCourse
+    };
+    return this.request<void>(request);
+  }
+
+  deleteCLCourse(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/integration_edu/clcourse/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findCLCourseOptions(criteria: CLCourseCriteria): Observable<any> {
+    const request: CommonServiceRequest<CLCourseCriteria> = {
+      url: '/hccl/integration_edu/clcourse/options',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<any>(request);
+  }
+
+  findCLCourses(criteria: CLCourseCriteria): Observable<CLCourseGETDataSearchResults> {
+    const request: CommonServiceRequest<CLCourseCriteria> = {
+      url: '/hccl/integration_edu/clcourse/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<CLCourseGETDataSearchResults>(request);
   }
 }

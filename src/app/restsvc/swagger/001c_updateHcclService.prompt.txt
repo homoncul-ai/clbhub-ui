@@ -1,0 +1,57 @@
+**Prompt for Updating HCCL Interfaces and Service from Swagger**
+
+Please analyze the `hccl.swagger.json` file and update both `hccl.interfaces.ts` and `hccl.service.ts` to match the swagger specification exactly.
+
+**Key Requirements:**
+
+1. **SearchResults Structure**: All SearchResults interfaces MUST follow the exact swagger structure:
+   ```typescript
+   export interface SomeGETDataSearchResults {
+     pagingInfo?: DCPageData;
+     searchResults?: SomeGETData[];  // NOT "data" - use "searchResults" as per swagger
+     filter?: BaseCriteria;
+   }
+   ```
+
+2. **Interface Naming**: Use the exact names from swagger (e.g., `HcclUserProfileGETData`, `CLSchoolGETDataSearchResults`)
+
+3. **Property Types**: Match swagger types exactly:
+   - `string` for string properties
+   - `string, format: uuid` for UUID strings
+   - `integer, format: int32/int64` for numbers
+   - `boolean` for boolean properties
+   - Arrays with proper item types
+   - References to other schemas (e.g., `Reference`, `DateGETData`, `DCPageData`)
+
+4. **Required vs Optional**: Mark properties as required (`:`) or optional (`?:`) based on swagger `required` arrays
+
+5. **Service Methods**: For each API endpoint in swagger:
+   - Create corresponding service methods
+   - Use proper TypeScript generics for responses
+   - Follow existing `CommonRequestServiceCaller` pattern
+   - Use correct HTTP methods (GET, POST, PUT, DELETE)
+   - Include proper parameter types
+
+6. **Missing Interfaces**: If swagger references interfaces that don't exist in the current files, add them (e.g., `BaseCriteria`, `HcclUserProfileGETData`)
+
+7. **Validation Steps**:
+   - Check that all SearchResults interfaces use `searchResults` property (not `data`)
+   - Verify all referenced interfaces exist
+   - Ensure service methods return proper types
+   - Confirm no TypeScript compilation errors
+
+**Process:**
+1. First, examine the swagger.json to understand all schemas and endpoints
+2. Identify which interfaces need to be added/updated
+3. Update `hccl.interfaces.ts` with correct interfaces
+4. Update `hccl.service.ts` with corresponding service methods
+5. Verify consistency between swagger, interfaces, and service
+
+**Common Mistakes to Avoid:**
+- Using `data` instead of `searchResults` in SearchResults interfaces
+- Missing required properties
+- Incorrect property types
+- Missing interfaces referenced in swagger
+- Inconsistent naming between swagger and TypeScript interfaces
+
+Please proceed step by step and verify each change against the swagger specification. 
