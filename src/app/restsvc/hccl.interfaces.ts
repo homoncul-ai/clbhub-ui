@@ -1468,4 +1468,109 @@ export interface HcclOrganizationGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclOrganizationGETData[];
   filter?: BaseCriteria;
+}
+
+// Missing interfaces from swagger
+export interface HcclUserProfileCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  userId?: string;
+  userCode?: string;
+  organizationId?: string;
+  profileTypeCode?: string;
+  userEmail?: string;
+  available?: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  omitHcclUserProfileId?: string;
+}
+
+export interface HcclUserProfilePOSTData {
+  userId: string;
+  userCode: string;
+  organizationId: string;
+  profileTypeCode: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  available: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface HcclUserProfilePUTData {
+  userId: string;
+  userCode: string;
+  organizationId: string;
+  profileTypeCode: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  available: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface HcclUserGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available?: number;
+}
+
+export interface HcclUserPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available: number;
+}
+
+export interface HcclUserCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  businessCode?: string;
+  description?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available?: number;
+  omitHcclUserId?: string;
+}
+
+export interface HcclUserGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclUserPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available: number;
 } 

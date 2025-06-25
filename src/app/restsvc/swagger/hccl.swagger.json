@@ -11071,13 +11071,52 @@
         }
       }
     },
+    "/hccl/intg/actions/promote-students": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Promotes students to HcclUserProfile.  Check the simpleMessageList for errors.",
+        "operationId": "promoteStudentsToUsers",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/CLStudentCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleRestActionResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/wireframe/encode": {
       "post": {
         "tags": [
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "encodeContent_2",
+        "operationId": "encodeContent_1",
         "requestBody": {
           "content": {
             "*/*": {
@@ -11109,7 +11148,7 @@
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "getGuidanceList_1",
+        "operationId": "getGuidanceList",
         "parameters": [
           {
             "name": "org-id",
@@ -11150,7 +11189,7 @@
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "getProviderCatalogList_1",
+        "operationId": "getProviderCatalogList",
         "parameters": [
           {
             "name": "org-id",
@@ -11190,7 +11229,7 @@
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "getProviderList_2",
+        "operationId": "getProviderList",
         "responses": {
           "200": {
             "description": "Ok",
@@ -11220,7 +11259,7 @@
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "getProviderList",
+        "operationId": "getProviderList_1",
         "parameters": [
           {
             "name": "org-id",
@@ -11255,7 +11294,7 @@
         }
       }
     },
-    "/hccl/intg/schools": {
+    "/hccl/tixui/schools": {
       "get": {
         "tags": [
           "/options"
@@ -11291,7 +11330,7 @@
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "getSchoolStudentsList_1",
+        "operationId": "getSchoolStudentsList",
         "parameters": [
           {
             "name": "school_code",
@@ -11331,7 +11370,7 @@
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "getStudentList_1",
+        "operationId": "getStudentList",
         "parameters": [
           {
             "name": "school-id",
@@ -11372,7 +11411,7 @@
           "/options"
         ],
         "summary": "Fetches based the id.",
-        "operationId": "onboardSp_1",
+        "operationId": "onboardSp",
         "requestBody": {
           "content": {
             "*/*": {
@@ -11385,36 +11424,6 @@
         "responses": {
           "200": {
             "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/tixui/schools": {
-      "get": {
-        "tags": [
-          "/options"
-        ],
-        "summary": "Fetches based the id.",
-        "operationId": "getSchoolList_1",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/HcclOrganizationGETDataSearchResults"
-                }
-              }
-            }
           },
           "204": {
             "description": "No Content"
@@ -21326,6 +21335,67 @@
           }
         }
       },
+      "SimpleMessage": {
+        "type": "object",
+        "properties": {
+          "messageCode": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "exceptionMessage": {
+            "type": "string"
+          },
+          "referenceCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SimpleMessageList": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleMessage"
+            }
+          }
+        }
+      },
+      "SimpleRestActionContext": {
+        "type": "object"
+      },
+      "SimpleRestActionResponse": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/SimpleRestActionContext"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "data": {
+            "type": "object"
+          },
+          "actionFormData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "mapFormElements": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
       "HcclUserProfileGETDataSearchResults": {
         "type": "object",
         "properties": {
@@ -21663,38 +21733,6 @@
           },
           "message": {
             "type": "string"
-          }
-        }
-      },
-      "SimpleMessage": {
-        "type": "object",
-        "properties": {
-          "messageCode": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "severity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "exceptionMessage": {
-            "type": "string"
-          },
-          "referenceCode": {
-            "type": "string"
-          }
-        }
-      },
-      "SimpleMessageList": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SimpleMessage"
-            }
           }
         }
       },

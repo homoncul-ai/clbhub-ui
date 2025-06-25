@@ -142,7 +142,17 @@ import {
   HcclTeamLogGETData,
   HcclTeamLogCriteria,
   PagedResponse,
-  QueryResponse
+  QueryResponse,
+  HcclUserProfileGETData,
+  HcclUserProfileGETDataSearchResults,
+  HcclUserProfileCriteria,
+  HcclUserProfilePOSTData,
+  HcclUserProfilePUTData,
+  HcclUserGETData,
+  HcclUserPUTData,
+  HcclUserCriteria,
+  HcclUserGETDataSearchResults,
+  HcclUserPOSTData
 } from './hccl.interfaces';
 
 @Injectable({
@@ -1021,5 +1031,77 @@ CommonRequestServiceCaller request methods
       body: criteria
     };
     return this.request<CLCourseGETDataSearchResults>(request);
+  }
+
+  // Teams - HcclUserProfile operations
+  findHcclUserProfileOptions(criteria: HcclUserProfileCriteria): Observable<any> {
+    const request: CommonServiceRequest<HcclUserProfileCriteria> = {
+      url: '/hccl/teams/hccluserprofile/options',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclUserProfiles(criteria: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults> {
+    const request: CommonServiceRequest<HcclUserProfileCriteria> = {
+      url: '/hccl/teams/hccluserprofile/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<HcclUserProfileGETDataSearchResults>(request);
+  }
+
+  // Teams - HcclUser operations
+  createHcclUser(hcclUser: HcclUserPOSTData): Observable<void> {
+    const request: CommonServiceRequest<HcclUserPOSTData> = {
+      url: '/hccl/teams/hccluser',
+      method: 'POST',
+      body: hcclUser
+    };
+    return this.request<void>(request);
+  }
+
+  getHcclUserById(id: string): Observable<HcclUserGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hccluser/${id}`,
+      method: 'GET'
+    };
+    return this.request<HcclUserGETData>(request);
+  }
+
+  updateHcclUser(id: string, hcclUser: HcclUserPUTData): Observable<void> {
+    const request: CommonServiceRequest<HcclUserPUTData> = {
+      url: `/hccl/teams/hccluser/${id}`,
+      method: 'PUT',
+      body: hcclUser
+    };
+    return this.request<void>(request);
+  }
+
+  deleteHcclUser(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hccluser/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findHcclUserOptions(criteria: HcclUserCriteria): Observable<any> {
+    const request: CommonServiceRequest<HcclUserCriteria> = {
+      url: '/hccl/teams/hccluser/options',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclUsers(criteria: HcclUserCriteria): Observable<HcclUserGETDataSearchResults> {
+    const request: CommonServiceRequest<HcclUserCriteria> = {
+      url: '/hccl/teams/hccluser/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<HcclUserGETDataSearchResults>(request);
   }
 }
