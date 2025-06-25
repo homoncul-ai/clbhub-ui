@@ -71,6 +71,38 @@ export class MenuService {
     },
     {
       level: 1,
+      label: 'Integrations',
+      route: '/advocate-dashboard/integrations',
+      componentPath: 'src/app/features/dash-advo/integrations',
+      componentName: 'integrations-home',
+      icon: 'fas fa-link',
+      children: [
+        {
+          level: 2,
+          label: 'CLSchools',
+          route: '/advocate-dashboard/integrations/schools',
+          componentPath: 'src/app/features/dash-advo/integrations/schools',
+          componentName: 'clschools-list',
+          icon: 'fas fa-school'
+        },{
+          level: 2,
+          label: 'CLStudents',
+          route: '/advocate-dashboard/integrations/students',
+          componentPath: 'src/app/features/dash-advo/integrations/students',
+          componentName: 'clstudents-list',
+          icon: 'fas fa-user-graduate'
+        },{
+          level: 2,
+          label: 'CLGuidance Counsellors',
+          route: '/advocate-dashboard/integrations/guidance',
+          componentPath: 'src/app/features/dash-advo/integrations/guidance',
+          componentName: 'clguidance-list',
+          icon: 'fas fa-user-tie'
+        }
+      ]
+    },
+    {
+      level: 1,
       label: 'Sample UI Junk',
       route: '/advocate-dashboard/uistarter',
       componentPath: 'src/app/views/uistarter',

@@ -12,6 +12,12 @@ import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.compon
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
 
+// Integration Components
+import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
+import { CLSchoolsListComponent } from './integrations/schools/schools-list.component';
+import { CLStudentsListComponent } from './integrations/students/students-list.component';
+import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -24,6 +30,16 @@ const routes: Routes = [
       { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
+      { 
+        path: 'integrations', 
+        component: IntegrationsHomeComponent,
+        children: [
+          { path: 'schools', component: CLSchoolsListComponent },
+          { path: 'students', component: CLStudentsListComponent },
+          { path: 'guidance', component: CLGuidanceListComponent },
+          { path: '', redirectTo: 'schools', pathMatch: 'full' }
+        ]
+      },
       { path: '', redirectTo: 'messages', pathMatch: 'full' },
     ]
   }
@@ -40,7 +56,11 @@ const routes: Routes = [
     AdvoTicketListComponent,
     AdvoTicketDetailsComponent,
     UistarterHomeComponent,
-    ListSearchStarterComponent
+    ListSearchStarterComponent,
+    IntegrationsHomeComponent,
+    CLSchoolsListComponent,
+    CLStudentsListComponent,
+    CLGuidanceListComponent
   ]
 })
 export class DashAdvoModule { 
