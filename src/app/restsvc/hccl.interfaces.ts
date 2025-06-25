@@ -761,40 +761,46 @@ export interface ExperienceRegRuleCriteria {
 // Integration EDU interfaces
 export interface CLSchoolPOSTData {
   name: string;
-  description?: string;
-  schoolCode?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-  country?: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
 }
 
 export interface CLSchoolPUTData {
   name: string;
-  description?: string;
-  schoolCode?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-  country?: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
 }
 
 export interface CLSchoolGETData {
   id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
   name?: string;
-  description?: string;
-  schoolCode?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-  country?: string;
-  createdDate?: string;
-  lastModifiedDate?: string;
-  createdBy?: string;
-  lastModifiedBy?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
 }
 
 export interface CLSchoolCriteria {
@@ -803,49 +809,67 @@ export interface CLSchoolCriteria {
   isPaging?: boolean;
   ids?: string[];
   name?: string;
-  schoolCode?: string;
-  city?: string;
-  state?: string;
-  omitCLSchoolId?: string;
+  status?: boolean;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
+  maxResults?: number;
 }
 
 export interface CLSchoolGETDataSearchResults {
-  data?: CLSchoolGETData[];
-  totalCount?: number;
-  pageNumber?: number;
-  pageSize?: number;
+  searchResults?: CLSchoolGETData[];
+  pagingInfo?: DCPageData;
+  filter?: any;
 }
 
 export interface CLStudentPOSTData {
   name: string;
-  description?: string;
-  studentId?: string;
-  schoolId?: string;
-  grade?: string;
-  email?: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
 }
 
 export interface CLStudentPUTData {
   name: string;
-  description?: string;
-  studentId?: string;
-  schoolId?: string;
-  grade?: string;
-  email?: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
 }
 
 export interface CLStudentGETData {
   id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
   name?: string;
-  description?: string;
-  studentId?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
   schoolId?: string;
-  grade?: string;
-  email?: string;
-  createdDate?: string;
-  lastModifiedDate?: string;
-  createdBy?: string;
-  lastModifiedBy?: string;
 }
 
 export interface CLStudentCriteria {
@@ -854,18 +878,21 @@ export interface CLStudentCriteria {
   isPaging?: boolean;
   ids?: string[];
   name?: string;
-  studentId?: string;
+  status?: boolean;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
   schoolId?: string;
-  grade?: string;
-  email?: string;
-  omitCLStudentId?: string;
+  maxResults?: number;
 }
 
 export interface CLStudentGETDataSearchResults {
-  data?: CLStudentGETData[];
-  totalCount?: number;
-  pageNumber?: number;
-  pageSize?: number;
+  searchResults?: CLStudentGETData[];
+  pagingInfo?: DCPageData;
+  filter?: any;
 }
 
 // Provider interfaces
@@ -1217,4 +1244,33 @@ export interface HcclTeamLogCriteria {
   teamId?: string;
   action?: string;
   omitTeamLogId?: string;
+}
+
+// Add missing interfaces that are referenced in swagger
+export interface Reference {
+  name?: string;
+  link?: string;
+}
+
+export interface DateGETData {
+  date?: string;
+  dateMilliseconds?: number;
+  dateFormat?: string;
+  formattedDate?: string;
+  formattedDateTime?: string;
+  year?: number;
+  month?: number;
+  dayOfMonth?: number;
+  monthName?: string;
+  convertToLocalTimezone?: boolean;
+}
+
+export interface DCPageData {
+  totalRows?: number;
+  pageNumber?: number;
+  pageSize?: number;
+  startingOffset?: number;
+  totalPages?: number;
+  endingOffset?: number;
+  links?: string[];
 } 

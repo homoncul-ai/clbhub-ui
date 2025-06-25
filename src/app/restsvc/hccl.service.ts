@@ -143,8 +143,9 @@ export class HcclService extends CommonRequestServiceCaller {
 
   constructor(http: HttpClient) {
     super(http);
-    const baseUrl = 'https://devops2.intigna.io/trutesta-hccl-services';
-    //  private readonly baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    // 'https://devops2.intigna.io/trutesta-hccl-services';
+    //  private readonly baseUrl = 
     this.setBaseUrl(baseUrl);
   }
   /*

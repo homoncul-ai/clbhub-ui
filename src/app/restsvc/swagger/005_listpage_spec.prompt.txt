@@ -1,0 +1,1 @@
+This is a prompt to create a specification to generate a component for the UI.

@@ -1,17 +1,13 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WireframeDataService } from '../../from_java/services/wireframe-data.service';
-import { DataSchoolSetupService } from '../../from_java/services/data-school-setup.service';
-import { UIStudentProfileList, UIStudentProfile } from '../../from_java/models/ui.models';
+import { HcclService } from '../../restsvc/hccl.service';
+import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../restsvc/hccl.interfaces';
 
 declare const dhx: any;
 
 /**
- * Find the object in the restlib called HcclOrganizationGETData.  Using that object definition, 
- * - create a list of objects in JSON format that can be used to populate the grid.
- * - replace the data in the grid with the data from the list of objects.
- * - get the labels from the object definition and use them for the grid columns.
- * - use the data in tooling/hccl-data Import_Biz.yaml
+ * Component for displaying and managing CLStudent data using HcclService
+ * Uses CLStudentGETData interface for proper field mapping and labels
  */
 
 @Component({
@@ -27,13 +23,10 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
   private isDhtmlxLoaded = false;
 
   constructor(
-    private dataSchoolSetupService: DataSchoolSetupService,
-    private wireframeDataService: WireframeDataService
+    private hcclService: HcclService
   ) {}
 
   async ngOnInit() {
-    // Wait for the data to be loaded
-    await this.dataSchoolSetupService.loadFromYaml();
     // Check if DHTMLX is loaded
     this.checkDhtmlxLoaded();
   }
@@ -76,12 +69,15 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
       this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
         columns: [
           { id: 'select', header: [{ text: '' }], type: 'checkbox', width: 50 },
-          { id: 'name', header: [{ text: 'Organization Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+          { id: 'name', header: [{ text: 'Student Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
           { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-          { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 250, adjust: true },
+          { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'lastName', header: [{ text: 'Last Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'userEmail', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+          { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'schoolId', header: [{ text: 'School ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-          { id: 'websiteUrl', header: [{ text: "Website URL", align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-          { id: 'jsonData', header: [{ text: 'JSON Data', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
         ],
         css: "student-grid",
         height: 600,
@@ -93,11 +89,14 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
         footer: [
             { text: '' }, // Empty footer for the checkbox column
             { text: '' }, // Empty footer for the name column
-            { text: '' }, // Empty footer for the business code column
-            { text: '' }, // Empty footer for the description column
+            { text: '' }, // Empty footer for the businessCode column
+            { text: '' }, // Empty footer for the firstName column
+            { text: '' }, // Empty footer for the lastName column
+            { text: '' }, // Empty footer for the userEmail column
+            { text: '' }, // Empty footer for the cellPhoneNumber column
+            { text: '' }, // Empty footer for the workPhoneNumber column
+            { text: '' }, // Empty footer for the schoolId column
             { text: '' }, // Empty footer for the available column
-            { text: '' }, // Empty footer for the websiteUrl column
-            { text: '' }, // Empty footer for the jsonData column
         ],
         pagination: {
             limit: 10,
@@ -117,24 +116,53 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
         // The grid's internal data is already updated by the drop action.
       });
 
-      // Example data from Import_Biz.yaml
-      const orgData = [
-        { name: "Monogram Foods", businessCode: "MF001", description: "Produces pre-assembled sandwiches and operates a large food manufacturing and warehouse facility.", available: 1, websiteUrl: "https://monogramfoods.com/locations/haverhill-massachusetts/", jsonData: '{"focus": "food manufacturing, warehouse, sandwiches"}' },
-        { name: "Magellan Aerospace Haverhill, Inc.", businessCode: "MAH001", description: "Manufactures aerospace components and assemblies.", available: 1, websiteUrl: "https://magellan.aero/", jsonData: '{"focus": "aerospace, components, assemblies"}' },
-        { name: "Joseph's Gourmet Pasta Company", businessCode: "JGP001", description: "Produces gourmet pasta and food products for foodservice and retail.", available: 1, websiteUrl: "https://josephsgourmetpasta.com/", jsonData: '{"focus": "pasta, food manufacturing, foodservice"}' },
-        { name: "Golden Fleece Manufacturing Group LLC", businessCode: "GF001", description: "Garment and textile manufacturing.", available: 1, websiteUrl: "https://southwick.com/", jsonData: '{"focus": "garments, textiles, manufacturing"}' },
-        { name: "SEICA, Inc.", businessCode: "SEI001", description: "Manufactures electronic test systems and automation solutions.", available: 1, websiteUrl: "https://www.seica.com/", jsonData: '{"focus": "electronics, test systems, automation"}' },
-        { name: "Häns Kissle Company", businessCode: "HK001", description: "Produces fresh prepared foods and salads for retail and foodservice.", available: 1, websiteUrl: "https://www.hanskissle.com/", jsonData: '{"focus": "prepared foods, salads, food manufacturing"}' },
-        { name: "AmesburyTruth (Haverhill Facility)", businessCode: "AT001", description: "Manufactures window and door hardware and weatherseals.", available: 1, websiteUrl: "https://www.amesburytruth.com/", jsonData: '{"focus": "window hardware, door hardware, weatherseals"}' },
-        { name: "Haverhill Paperboard Corp", businessCode: "HPC001", description: "Manufactures paperboard and packaging products.", available: 1, websiteUrl: "https://www.linkedin.com/company/haverhill-paperboard-corp", jsonData: '{"focus": "paperboard, packaging, manufacturing"}' },
-        { name: "Progression, Inc.", businessCode: "PRG001", description: "Manufactures industrial NMR and spectroscopy analyzers.", available: 1, websiteUrl: "https://www.zippia.com/company/best-biggest-companies-in-haverhill-ma/", jsonData: '{"focus": "industrial analyzers, NMR, spectroscopy"}' },
-        { name: "Haverhill Manufacturing Company", businessCode: "HM001", description: "Manufactures industrial equipment and machinery.", available: 1, websiteUrl: "https://www.haverhillmanufacturing.com/", jsonData: '{"focus": "industrial equipment, machinery"}' },
-      ];
-      this.grid.data.parse(orgData);
-      console.log("size of orgs", orgData.length);
+      // Load initial data
+      this.loadStudentData();
+
     } catch (error) {
       console.error('Error initializing DHTMLX grid:', error);
     }
+  }
+
+  private loadStudentData(searchCriteria?: string) {
+    const criteria: CLStudentCriteria = {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
+
+    // Add search criteria if provided
+    if (searchCriteria && searchCriteria.trim() !== '') {
+      if (searchCriteria.includes('*')) {
+        // Handle wildcard search - remove * and search by name
+        criteria.name = searchCriteria.replace(/\*/g, '%');
+      } else {
+        // Search by name or businessCode
+        criteria.name = searchCriteria;
+        criteria.businessCode = searchCriteria;
+      }
+    }
+
+    this.hcclService.findCLStudents(criteria).subscribe({
+      next: (response: CLStudentGETDataSearchResults) => {
+        if (response.searchResults) {
+          // Transform the data to include the select field for checkboxes
+          const gridData = response.searchResults.map(student => ({
+            ...student,
+            select: false // Add checkbox field
+          }));
+          this.grid.data.parse(gridData);
+          console.log("Loaded students:", gridData.length);
+        } else {
+          this.grid.data.parse([]);
+          console.log("No students found");
+        }
+      },
+      error: (error) => {
+        console.error('Error loading student data:', error);
+        this.grid.data.parse([]);
+      }
+    });
   }
 
   public onGoClick() {
@@ -148,8 +176,8 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
   }
 
   public onSearch(query: string) {
-    // TODO: Implement search logic
     console.log('Search submitted:', query);
+    this.loadStudentData(query);
   }
 
   public onAdvancedSearch() {

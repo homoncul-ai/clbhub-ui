@@ -1,0 +1,17 @@
+This is a prompt to create a a new menu in the file "menu.service.ts"
+a dashboard sitemap for a new context.
+
+We create a structure like this : 
+
+export interface MenuItem {
+  level: number;
+  label: string;
+  route: string;
+  componentPath: string;
+  componentName: string;
+  children?: MenuItem[];
+  icon?: string;
+}
+
+
+
