@@ -188,7 +188,11 @@ import {
   WorkQueueTypeRefCriteria,
   WorkQueueTypeRefGETDataSearchResults,
   MenuControlData,
-  MenuControlDataList
+  MenuControlDataList,
+  CreateTicketSetupUIData,
+  CreateTicketPOSTData,
+  WorkRequestGETData,
+  WorkRequestGETDataSearchResults
 } from './hccl.interfaces';
 
 @Injectable({
@@ -1504,6 +1508,24 @@ CommonRequestServiceCaller request methods
   }
 
   // TixUI operations
+  getCreateTicketSetupUi(createTicketData: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
+    const request: CommonServiceRequest<CreateTicketPOSTData> = {
+      url: '/hccl/tixui/create-ticket-setup-ui',
+      method: 'POST',
+      body: createTicketData
+    };
+    return this.request<CreateTicketSetupUIData>(request);
+  }
+
+  createTicket(createTicketData: CreateTicketPOSTData): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest<CreateTicketPOSTData> = {
+      url: '/hccl/tixui/create-ticket',
+      method: 'POST',
+      body: createTicketData
+    };
+    return this.request<WorkRequestGETData>(request);
+  }
+
   getDashQueuesForUserProfile(userProfileId: string): Observable<WorkQueueGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: `/hccl/tixui/dashboard/${userProfileId}/queues`,

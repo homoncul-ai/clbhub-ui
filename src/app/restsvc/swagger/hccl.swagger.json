@@ -9794,6 +9794,84 @@
         }
       }
     },
+    "/hccl/tixui/create-ticket": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches Create the ticket",
+        "operationId": "getCreateTicket",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tixui/create-ticket-setup-ui": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches queueMenu to create a ticket",
+        "operationId": "getCreateTicketSetupUi",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTicketSetupUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/tixui/dashboard/{user-profile-id}/queues": {
       "get": {
         "tags": [
@@ -9860,47 +9938,6 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkQueueGETDataSearchResults"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/tixui/queues-menu": {
-      "post": {
-        "tags": [
-          "/options"
-        ],
-        "summary": "Fetches queueMenu.",
-        "operationId": "getQueuesMenu",
-        "parameters": [
-          {
-            "name": "user-profile-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/MenuControlDataList"
                 }
               }
             }
@@ -20626,6 +20663,50 @@
             "additionalProperties": {
               "type": "object"
             }
+          }
+        }
+      },
+      "CreateTicketPOSTData": {
+        "type": "object",
+        "properties": {
+          "advocateUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "studentUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "queueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "rawText": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateTicketSetupUIData": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CreateTicketPOSTData"
+          },
+          "queuesMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "workRequestTypesMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "currentUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
           }
         }
       },

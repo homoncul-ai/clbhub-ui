@@ -1878,4 +1878,52 @@ export interface MenuControlDataList {
   label?: string;
   menuItems?: MenuControlData[];
   defaultAllowedByRule?: boolean;
+}
+
+// CreateTicketPOSTData interface for tixui endpoints
+export interface CreateTicketPOSTData {
+  advocateUserProfileId?: string;
+  studentUserProfileId?: string;
+  queueId?: string;
+  workRequestTypeId?: string;
+  title?: string;
+  rawText?: string;
+}
+
+// CreateTicketSetupUIData interface for tixui endpoints
+export interface CreateTicketSetupUIData {
+  data?: CreateTicketPOSTData;
+  queuesMenu?: MenuControlDataList;
+  workRequestTypesMenu?: MenuControlDataList;
+  currentUserProfile?: HcclUserProfileGETData;
+}
+
+// WorkRequest interfaces for tixui endpoints
+export interface WorkRequestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  workRequestTypeId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  workQueueId?: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface WorkRequestGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestGETData[];
+  filter?: BaseCriteria;
 } 
