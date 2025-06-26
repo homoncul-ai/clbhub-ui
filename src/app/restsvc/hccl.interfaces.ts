@@ -2067,5 +2067,8 @@ export interface MenuControlDataList {
 }
 
 export interface HcclUserContextGETData {
-  // Define according to swagger
+  currentUserProfileId?: string;
+  messages?: SimpleMessageList;
+  currentUserProfile?: HcclUserProfileGETData;
+  userProfileMenu?: MenuControlDataList;
 } 

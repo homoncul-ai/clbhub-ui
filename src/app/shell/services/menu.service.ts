@@ -61,11 +61,11 @@ export class MenuService {
       children: [
         {
           level: 2,
-          label: 'Ticket Details',
-          route: '/advocate-dashboard/tickets/:id',
+          label: 'Create Ticket',
+          route: '/advocate-dashboard/tickets/create',
           componentPath: 'src/app/features/dash-advo/tickets',
-          componentName: 'advo-ticket-details',
-          icon: 'fas fa-info-circle'
+          componentName: 'create-ticket',
+          icon: 'fas fa-plus-circle'
         }
       ]
     },

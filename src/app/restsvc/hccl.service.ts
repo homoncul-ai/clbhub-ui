@@ -1545,16 +1545,22 @@ CommonRequestServiceCaller request methods
 
   getQueuesMenu(userProfileId: string): Observable<MenuControlDataList> {
     const request: CommonServiceRequest = {
-      url: `/hccl/tixui/${userProfileId}/queues-menu`,
-      method: 'GET'
+      url: `/hccl/tixui/queues-menu?user-profile-id=${userProfileId}`,
+      method: 'POST'
     };
     return this.request<MenuControlDataList>(request);
   }
 
   resolveTicketContext(userProfileId?: string): Observable<HcclUserContextGETData> {
+    const params: { [key: string]: string } = {};
+    if (userProfileId) {
+      params['userProfileId'] = userProfileId;
+    }
+    
     const request: CommonServiceRequest = {
-      url: `/hccl/tixui/get-context${userProfileId ? `?userProfileId=${userProfileId}` : ''}`,
-      method: 'GET'
+      url: '/hccl/tixui/get-context',
+      method: 'GET',
+      params
     };
     return this.request<HcclUserContextGETData>(request);
   }

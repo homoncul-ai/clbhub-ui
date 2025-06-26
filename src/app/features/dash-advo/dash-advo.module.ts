@@ -9,6 +9,7 @@ import { AdvoStudentListComponent } from './students/advo-student-list.component
 import { AdvoStudentDetailsComponent } from './students/advo-student-details.component';
 import { AdvoTicketListComponent } from './tickets/advo-ticket-list.component';
 import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.component';
+import { CreateTicketComponent } from './tickets/create-ticket.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
 
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'students', component: AdvoStudentListComponent },
       { path: 'students/:id', component: AdvoStudentDetailsComponent },
       { path: 'tickets', component: AdvoTicketListComponent },
+      { path: 'tickets/create', component: CreateTicketComponent },
       { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
@@ -55,6 +57,7 @@ const routes: Routes = [
     AdvoStudentDetailsComponent,
     AdvoTicketListComponent,
     AdvoTicketDetailsComponent,
+    CreateTicketComponent,
     UistarterHomeComponent,
     ListSearchStarterComponent,
     IntegrationsHomeComponent,
