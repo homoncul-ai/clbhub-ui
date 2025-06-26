@@ -156,7 +156,39 @@ import {
   SimpleMessage,
   SimpleMessageList,
   SimpleRestActionContext,
-  SimpleRestActionResponse
+  SimpleRestActionResponse,
+  HcclTeamGETDataSearchResults,
+  HcclTeamMemberGETDataSearchResults,
+  HcclTeamMemberRoleGETDataSearchResults,
+  HcclTeamLogGETDataSearchResults,
+  HcclOrganizationTypeRefGETDataSearchResults,
+  TeamMemberRoleRefPOSTData,
+  TeamMemberRoleRefPUTData,
+  TeamMemberRoleRefGETData,
+  TeamMemberRoleRefCriteria,
+  TeamMemberRoleRefGETDataSearchResults,
+  TeamTypeMemberRoleRefPOSTData,
+  TeamTypeMemberRoleRefPUTData,
+  TeamTypeMemberRoleRefGETData,
+  TeamTypeMemberRoleRefCriteria,
+  TeamTypeMemberRoleRefGETDataSearchResults,
+  TeamTypeRefPOSTData,
+  TeamTypeRefPUTData,
+  TeamTypeRefGETData,
+  TeamTypeRefCriteria,
+  TeamTypeRefGETDataSearchResults,
+  WorkQueuePOSTData,
+  WorkQueuePUTData,
+  WorkQueueGETData,
+  WorkQueueCriteria,
+  WorkQueueGETDataSearchResults,
+  WorkQueueTypeRefPOSTData,
+  WorkQueueTypeRefPUTData,
+  WorkQueueTypeRefGETData,
+  WorkQueueTypeRefCriteria,
+  WorkQueueTypeRefGETDataSearchResults,
+  MenuControlData,
+  MenuControlDataList
 } from './hccl.interfaces';
 
 @Injectable({
@@ -1117,5 +1149,382 @@ CommonRequestServiceCaller request methods
       body: criteria
     };
     return this.request<HcclUserGETDataSearchResults>(request);
+  }
+
+  // Teams - HcclTeam operations
+  createHcclTeam(hcclTeam: HcclTeamPOSTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamPOSTData> = {
+      url: '/hccl/teams/hcclteam',
+      method: 'POST',
+      body: hcclTeam
+    };
+    return this.request<void>(request);
+  }
+
+  getHcclTeamById(id: string): Observable<HcclTeamGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteam/${id}`,
+      method: 'GET'
+    };
+    return this.request<HcclTeamGETData>(request);
+  }
+
+  updateHcclTeam(id: string, hcclTeam: HcclTeamPUTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamPUTData> = {
+      url: `/hccl/teams/hcclteam/${id}`,
+      method: 'PUT',
+      body: hcclTeam
+    };
+    return this.request<void>(request);
+  }
+
+  deleteHcclTeam(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteam/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findHcclTeams(criteria: HcclTeamCriteria): Observable<HcclTeamGETDataSearchResults> {
+    const request: CommonServiceRequest<HcclTeamCriteria> = {
+      url: '/hccl/teams/hcclteam/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<HcclTeamGETDataSearchResults>(request);
+  }
+
+  // Teams - HcclTeamMember operations
+  createHcclTeamMember(hcclTeamMember: HcclTeamMemberPOSTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamMemberPOSTData> = {
+      url: '/hccl/teams/hcclteammember',
+      method: 'POST',
+      body: hcclTeamMember
+    };
+    return this.request<void>(request);
+  }
+
+  getHcclTeamMemberById(id: string): Observable<HcclTeamMemberGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteammember/${id}`,
+      method: 'GET'
+    };
+    return this.request<HcclTeamMemberGETData>(request);
+  }
+
+  updateHcclTeamMember(id: string, hcclTeamMember: HcclTeamMemberPUTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamMemberPUTData> = {
+      url: `/hccl/teams/hcclteammember/${id}`,
+      method: 'PUT',
+      body: hcclTeamMember
+    };
+    return this.request<void>(request);
+  }
+
+  deleteHcclTeamMember(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteammember/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findHcclTeamMembers(criteria: HcclTeamMemberCriteria): Observable<HcclTeamMemberGETDataSearchResults> {
+    const request: CommonServiceRequest<HcclTeamMemberCriteria> = {
+      url: '/hccl/teams/hcclteammember/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<HcclTeamMemberGETDataSearchResults>(request);
+  }
+
+  // Teams - HcclTeamMemberRole operations
+  createHcclTeamMemberRole(hcclTeamMemberRole: HcclTeamMemberRolePOSTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamMemberRolePOSTData> = {
+      url: '/hccl/teams/hcclteammemberrole',
+      method: 'POST',
+      body: hcclTeamMemberRole
+    };
+    return this.request<void>(request);
+  }
+
+  getHcclTeamMemberRoleById(id: string): Observable<HcclTeamMemberRoleGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteammemberrole/${id}`,
+      method: 'GET'
+    };
+    return this.request<HcclTeamMemberRoleGETData>(request);
+  }
+
+  updateHcclTeamMemberRole(id: string, hcclTeamMemberRole: HcclTeamMemberRolePUTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamMemberRolePUTData> = {
+      url: `/hccl/teams/hcclteammemberrole/${id}`,
+      method: 'PUT',
+      body: hcclTeamMemberRole
+    };
+    return this.request<void>(request);
+  }
+
+  deleteHcclTeamMemberRole(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteammemberrole/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findHcclTeamMemberRoles(criteria: HcclTeamMemberRoleCriteria): Observable<HcclTeamMemberRoleGETDataSearchResults> {
+    const request: CommonServiceRequest<HcclTeamMemberRoleCriteria> = {
+      url: '/hccl/teams/hcclteammemberrole/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<HcclTeamMemberRoleGETDataSearchResults>(request);
+  }
+
+  // Teams - HcclTeamLog operations
+  createHcclTeamLog(hcclTeamLog: HcclTeamLogPOSTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamLogPOSTData> = {
+      url: '/hccl/teams/hcclteamlog',
+      method: 'POST',
+      body: hcclTeamLog
+    };
+    return this.request<void>(request);
+  }
+
+  getHcclTeamLogById(id: string): Observable<HcclTeamLogGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteamlog/${id}`,
+      method: 'GET'
+    };
+    return this.request<HcclTeamLogGETData>(request);
+  }
+
+  updateHcclTeamLog(id: string, hcclTeamLog: HcclTeamLogPUTData): Observable<void> {
+    const request: CommonServiceRequest<HcclTeamLogPUTData> = {
+      url: `/hccl/teams/hcclteamlog/${id}`,
+      method: 'PUT',
+      body: hcclTeamLog
+    };
+    return this.request<void>(request);
+  }
+
+  deleteHcclTeamLog(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclteamlog/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findHcclTeamLogs(criteria: HcclTeamLogCriteria): Observable<HcclTeamLogGETDataSearchResults> {
+    const request: CommonServiceRequest<HcclTeamLogCriteria> = {
+      url: '/hccl/teams/hcclteamlog/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<HcclTeamLogGETDataSearchResults>(request);
+  }
+
+  // Teams - HcclOrganizationTypeRef operations
+  createHcclOrganizationTypeRef(hcclOrganizationTypeRef: HcclOrganizationTypeRefPOSTData): Observable<void> {
+    const request: CommonServiceRequest<HcclOrganizationTypeRefPOSTData> = {
+      url: '/hccl/teams/hcclorganizationtyperef',
+      method: 'POST',
+      body: hcclOrganizationTypeRef
+    };
+    return this.request<void>(request);
+  }
+
+  getHcclOrganizationTypeRefById(id: string): Observable<HcclOrganizationTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclorganizationtyperef/${id}`,
+      method: 'GET'
+    };
+    return this.request<HcclOrganizationTypeRefGETData>(request);
+  }
+
+  updateHcclOrganizationTypeRef(id: string, hcclOrganizationTypeRef: HcclOrganizationTypeRefPUTData): Observable<void> {
+    const request: CommonServiceRequest<HcclOrganizationTypeRefPUTData> = {
+      url: `/hccl/teams/hcclorganizationtyperef/${id}`,
+      method: 'PUT',
+      body: hcclOrganizationTypeRef
+    };
+    return this.request<void>(request);
+  }
+
+  deleteHcclOrganizationTypeRef(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/hcclorganizationtyperef/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findHcclOrganizationTypeRefs(criteria: HcclOrganizationTypeRefCriteria): Observable<HcclOrganizationTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest<HcclOrganizationTypeRefCriteria> = {
+      url: '/hccl/teams/hcclorganizationtyperef/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<HcclOrganizationTypeRefGETDataSearchResults>(request);
+  }
+
+  // Teams - TeamMemberRoleRef operations
+  createTeamMemberRoleRef(teamMemberRoleRef: TeamMemberRoleRefPOSTData): Observable<void> {
+    const request: CommonServiceRequest<TeamMemberRoleRefPOSTData> = {
+      url: '/hccl/teams/teammemberroleref',
+      method: 'POST',
+      body: teamMemberRoleRef
+    };
+    return this.request<void>(request);
+  }
+
+  getTeamMemberRoleRefById(id: string): Observable<TeamMemberRoleRefGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/teammemberroleref/${id}`,
+      method: 'GET'
+    };
+    return this.request<TeamMemberRoleRefGETData>(request);
+  }
+
+  updateTeamMemberRoleRef(id: string, teamMemberRoleRef: TeamMemberRoleRefPUTData): Observable<void> {
+    const request: CommonServiceRequest<TeamMemberRoleRefPUTData> = {
+      url: `/hccl/teams/teammemberroleref/${id}`,
+      method: 'PUT',
+      body: teamMemberRoleRef
+    };
+    return this.request<void>(request);
+  }
+
+  deleteTeamMemberRoleRef(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/teammemberroleref/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findTeamMemberRoleRefs(criteria: TeamMemberRoleRefCriteria): Observable<TeamMemberRoleRefGETDataSearchResults> {
+    const request: CommonServiceRequest<TeamMemberRoleRefCriteria> = {
+      url: '/hccl/teams/teammemberroleref/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<TeamMemberRoleRefGETDataSearchResults>(request);
+  }
+
+  // Teams - TeamTypeMemberRoleRef operations
+  createTeamTypeMemberRoleRef(teamTypeMemberRoleRef: TeamTypeMemberRoleRefPOSTData): Observable<void> {
+    const request: CommonServiceRequest<TeamTypeMemberRoleRefPOSTData> = {
+      url: '/hccl/teams/teamtypememberroleref',
+      method: 'POST',
+      body: teamTypeMemberRoleRef
+    };
+    return this.request<void>(request);
+  }
+
+  getTeamTypeMemberRoleRefById(id: string): Observable<TeamTypeMemberRoleRefGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/teamtypememberroleref/${id}`,
+      method: 'GET'
+    };
+    return this.request<TeamTypeMemberRoleRefGETData>(request);
+  }
+
+  updateTeamTypeMemberRoleRef(id: string, teamTypeMemberRoleRef: TeamTypeMemberRoleRefPUTData): Observable<void> {
+    const request: CommonServiceRequest<TeamTypeMemberRoleRefPUTData> = {
+      url: `/hccl/teams/teamtypememberroleref/${id}`,
+      method: 'PUT',
+      body: teamTypeMemberRoleRef
+    };
+    return this.request<void>(request);
+  }
+
+  deleteTeamTypeMemberRoleRef(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/teamtypememberroleref/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findTeamTypeMemberRoleRefs(criteria: TeamTypeMemberRoleRefCriteria): Observable<TeamTypeMemberRoleRefGETDataSearchResults> {
+    const request: CommonServiceRequest<TeamTypeMemberRoleRefCriteria> = {
+      url: '/hccl/teams/teamtypememberroleref/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<TeamTypeMemberRoleRefGETDataSearchResults>(request);
+  }
+
+  // Teams - TeamTypeRef operations
+  createTeamTypeRef(teamTypeRef: TeamTypeRefPOSTData): Observable<void> {
+    const request: CommonServiceRequest<TeamTypeRefPOSTData> = {
+      url: '/hccl/teams/teamtyperef',
+      method: 'POST',
+      body: teamTypeRef
+    };
+    return this.request<void>(request);
+  }
+
+  getTeamTypeRefById(id: string): Observable<TeamTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/teamtyperef/${id}`,
+      method: 'GET'
+    };
+    return this.request<TeamTypeRefGETData>(request);
+  }
+
+  updateTeamTypeRef(id: string, teamTypeRef: TeamTypeRefPUTData): Observable<void> {
+    const request: CommonServiceRequest<TeamTypeRefPUTData> = {
+      url: `/hccl/teams/teamtyperef/${id}`,
+      method: 'PUT',
+      body: teamTypeRef
+    };
+    return this.request<void>(request);
+  }
+
+  deleteTeamTypeRef(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/teams/teamtyperef/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findTeamTypeRefs(criteria: TeamTypeRefCriteria): Observable<TeamTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest<TeamTypeRefCriteria> = {
+      url: '/hccl/teams/teamtyperef/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<TeamTypeRefGETDataSearchResults>(request);
+  }
+
+  // TixUI operations
+  getDashQueuesForUserProfile(userProfileId: string): Observable<WorkQueueGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tixui/dashboard/${userProfileId}/queues`,
+      method: 'GET'
+    };
+    return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  getProviderQueuesMenu(tixId: string): Observable<WorkQueueGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tixui/${tixId}/provider-queues-menu`,
+      method: 'GET'
+    };
+    return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  getQueuesMenu(userProfileId: string): Observable<MenuControlDataList> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tixui/queues-menu?user-profile-id=${userProfileId}`,
+      method: 'POST'
+    };
+    return this.request<MenuControlDataList>(request);
   }
 }

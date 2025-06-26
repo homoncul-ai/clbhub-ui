@@ -1598,4 +1598,284 @@ export interface SimpleRestActionResponse {
   data?: any;
   actionFormData?: { [key: string]: any };
   mapFormElements?: { [key: string]: any };
+}
+
+// Missing SearchResults interfaces
+export interface HcclTeamGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclTeamMemberGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamMemberGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclTeamMemberRoleGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamMemberRoleGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclTeamLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamLogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclOrganizationTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclOrganizationTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+// Missing interfaces for other entities
+export interface TeamMemberRoleRefPOSTData {
+  name: string;
+  description?: string;
+  available: number;
+}
+
+export interface TeamMemberRoleRefPUTData {
+  name: string;
+  description?: string;
+  available: number;
+}
+
+export interface TeamMemberRoleRefGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  available?: number;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface TeamMemberRoleRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  available?: number;
+  omitTeamMemberRoleRefId?: string;
+}
+
+export interface TeamMemberRoleRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamMemberRoleRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TeamTypeMemberRoleRefPOSTData {
+  name: string;
+  description?: string;
+  available: number;
+}
+
+export interface TeamTypeMemberRoleRefPUTData {
+  name: string;
+  description?: string;
+  available: number;
+}
+
+export interface TeamTypeMemberRoleRefGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  available?: number;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface TeamTypeMemberRoleRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  available?: number;
+  omitTeamTypeMemberRoleRefId?: string;
+}
+
+export interface TeamTypeMemberRoleRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamTypeMemberRoleRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TeamTypeRefPOSTData {
+  name: string;
+  description?: string;
+  available: number;
+}
+
+export interface TeamTypeRefPUTData {
+  name: string;
+  description?: string;
+  available: number;
+}
+
+export interface TeamTypeRefGETData {
+  id?: string;
+  name?: string;
+  description?: string;
+  available?: number;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
+}
+
+export interface TeamTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  available?: number;
+  omitTeamTypeRefId?: string;
+}
+
+export interface TeamTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+// WorkQueue interfaces for tixui endpoints
+export interface WorkQueuePOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  prefixCode: string;
+  workQueueTypeId: string;
+  workQueueTeamId: string;
+  available: number;
+  organizationId?: string;
+  externalQueue: number;
+}
+
+export interface WorkQueuePUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  prefixCode: string;
+  workQueueTypeId: string;
+  workQueueTeamId: string;
+  available: number;
+  organizationId?: string;
+  externalQueue: number;
+}
+
+export interface WorkQueueGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  prefixCode?: string;
+  workQueueTypeId?: string;
+  workQueueTeamId?: string;
+  available?: number;
+  organizationId?: string;
+  externalQueue?: number;
+}
+
+export interface WorkQueueCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  businessCode?: string;
+  description?: string;
+  prefixCode?: string;
+  workQueueTypeId?: string;
+  workQueueTeamId?: string;
+  available?: number;
+  organizationId?: string;
+  externalQueue?: number;
+  maxResults?: number;
+}
+
+export interface WorkQueueGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkQueueGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkQueueTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface WorkQueueTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface WorkQueueTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface WorkQueueTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  available?: number;
+  omitWorkQueueTypeRefId?: string;
+}
+
+export interface WorkQueueTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkQueueTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+// MenuControl interfaces for tixui endpoints
+export interface MenuControlData {
+  id?: string;
+  name?: string;
+  icon?: string;
+  active?: boolean;
+  groupId?: string;
+  roleRequired?: string;
+  helpText?: string;
+  allowedByRole?: boolean;
+  allowedByRule?: boolean;
+}
+
+export interface MenuControlDataList {
+  applicationName?: string;
+  clientId?: string;
+  menuId?: string;
+  menuName?: string;
+  label?: string;
+  menuItems?: MenuControlData[];
+  defaultAllowedByRule?: boolean;
 } 
