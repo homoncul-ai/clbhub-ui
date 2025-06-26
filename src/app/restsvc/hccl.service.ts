@@ -192,7 +192,8 @@ import {
   CreateTicketSetupUIData,
   CreateTicketPOSTData,
   WorkRequestGETData,
-  WorkRequestGETDataSearchResults
+  WorkRequestGETDataSearchResults,
+  HcclUserContextGETData
 } from './hccl.interfaces';
 
 @Injectable({
@@ -1508,20 +1509,20 @@ CommonRequestServiceCaller request methods
   }
 
   // TixUI operations
-  getCreateTicketSetupUi(createTicketData: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
+  getCreateTicketSetupUi(data: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
     const request: CommonServiceRequest<CreateTicketPOSTData> = {
       url: '/hccl/tixui/create-ticket-setup-ui',
       method: 'POST',
-      body: createTicketData
+      body: data
     };
     return this.request<CreateTicketSetupUIData>(request);
   }
 
-  createTicket(createTicketData: CreateTicketPOSTData): Observable<WorkRequestGETData> {
+  createTicket(data: CreateTicketPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest<CreateTicketPOSTData> = {
       url: '/hccl/tixui/create-ticket',
       method: 'POST',
-      body: createTicketData
+      body: data
     };
     return this.request<WorkRequestGETData>(request);
   }
@@ -1544,9 +1545,61 @@ CommonRequestServiceCaller request methods
 
   getQueuesMenu(userProfileId: string): Observable<MenuControlDataList> {
     const request: CommonServiceRequest = {
-      url: `/hccl/tixui/queues-menu?user-profile-id=${userProfileId}`,
-      method: 'POST'
+      url: `/hccl/tixui/${userProfileId}/queues-menu`,
+      method: 'GET'
     };
     return this.request<MenuControlDataList>(request);
+  }
+
+  resolveTicketContext(userProfileId?: string): Observable<HcclUserContextGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tixui/get-context${userProfileId ? `?userProfileId=${userProfileId}` : ''}`,
+      method: 'GET'
+    };
+    return this.request<HcclUserContextGETData>(request);
+  }
+
+  // WorkQueue
+  createWorkQueue(data: WorkQueuePOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkQueuePOSTData> = {
+      url: '/hccl/tix/workqueue',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkQueueById(id: string): Observable<WorkQueueGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workqueue/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkQueueGETData>(request);
+  }
+
+  updateWorkQueueById(id: string, data: WorkQueuePUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkQueuePUTData> = {
+      url: `/hccl/tix/workqueue/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkQueueById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workqueue/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkQueues(criteria: WorkQueueCriteria): Observable<WorkQueueGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkQueueCriteria> = {
+      url: '/hccl/tix/workqueue/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkQueueGETDataSearchResults>(request);
   }
 }

@@ -9954,6 +9954,46 @@
         }
       }
     },
+    "/hccl/tixui/get-context": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Reads ticket context for the current user. ",
+        "operationId": "resolveTicketContext",
+        "parameters": [
+          {
+            "name": "userProfileId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserContextGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/servicelib/entityaction/check": {
       "post": {
         "tags": [
@@ -11236,6 +11276,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -11528,6 +11571,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -11729,6 +11775,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -11895,6 +11944,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -12057,6 +12109,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -12238,6 +12293,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -12425,6 +12483,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -12605,6 +12666,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -12769,6 +12833,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -12990,6 +13057,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -13224,6 +13294,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -13425,6 +13498,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -13677,6 +13753,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -13931,6 +14010,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -14183,6 +14265,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -14416,6 +14501,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -14598,6 +14686,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -14744,6 +14835,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -14940,6 +15034,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -15160,6 +15257,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -15389,6 +15489,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -15641,6 +15744,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -15833,6 +15939,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -16013,6 +16122,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -16231,6 +16343,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -16426,6 +16541,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -16602,6 +16720,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -16780,6 +16901,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -16945,6 +17069,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -17163,6 +17290,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -17418,6 +17548,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -17656,6 +17789,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -17833,6 +17969,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -17973,6 +18112,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -18116,6 +18258,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -18313,6 +18458,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -18512,6 +18660,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -18734,6 +18885,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -19030,6 +19184,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -19258,6 +19415,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -19511,6 +19671,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -19796,6 +19959,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -19984,6 +20150,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -20155,6 +20324,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -20338,6 +20510,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -20508,6 +20683,9 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "empty": {
+            "type": "boolean"
           }
         }
       },
@@ -20725,6 +20903,9 @@
           "active": {
             "type": "boolean"
           },
+          "selected": {
+            "type": "boolean"
+          },
           "groupId": {
             "type": "string"
           },
@@ -20768,6 +20949,24 @@
           },
           "defaultAllowedByRule": {
             "type": "boolean"
+          }
+        }
+      },
+      "HcclUserContextGETData": {
+        "type": "object",
+        "properties": {
+          "currentUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "currentUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "userProfileMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
           }
         }
       },

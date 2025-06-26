@@ -1762,17 +1762,7 @@ export interface WorkQueuePOSTData {
   externalQueue: number;
 }
 
-export interface WorkQueuePUTData {
-  name: string;
-  businessCode: string;
-  description: string;
-  prefixCode: string;
-  workQueueTypeId: string;
-  workQueueTeamId: string;
-  available: number;
-  organizationId?: string;
-  externalQueue: number;
-}
+export interface WorkQueuePUTData extends WorkQueuePOSTData {}
 
 export interface WorkQueueGETData {
   id?: string;
@@ -1863,6 +1853,7 @@ export interface MenuControlData {
   name?: string;
   icon?: string;
   active?: boolean;
+  selected?: boolean;
   groupId?: string;
   roleRequired?: string;
   helpText?: string;
@@ -1926,4 +1917,155 @@ export interface WorkRequestGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestGETData[];
   filter?: BaseCriteria;
+}
+
+// --- TIX/TIXUI INTERFACES (additions/updates below) ---
+
+export interface WorkRequestItemPOSTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestItemPUTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestItemGETData {
+  // Define according to swagger
+}
+
+export interface WorkRequestItemCriteria {
+  // Define according to swagger
+}
+
+export interface WorkRequestItemGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestItemGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestLogPOSTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestLogPUTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestLogGETData {
+  // Define according to swagger
+}
+
+export interface WorkRequestLogCriteria {
+  // Define according to swagger
+}
+
+export interface WorkRequestLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestLogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestRoutingReasonPOSTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestRoutingReasonPUTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestRoutingReasonGETData {
+  // Define according to swagger
+}
+
+export interface WorkRequestRoutingReasonCriteria {
+  // Define according to swagger
+}
+
+export interface WorkRequestRoutingReasonGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestRoutingReasonGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestPOSTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestPUTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestCriteria {
+  // Define according to swagger
+}
+
+export interface WorkRequestTeamPOSTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestTeamPUTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestTeamGETData {
+  // Define according to swagger
+}
+
+export interface WorkRequestTeamCriteria {
+  // Define according to swagger
+}
+
+export interface WorkRequestTeamGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestTeamGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestTypeRefPOSTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestTypeRefPUTData {
+  // Define according to swagger
+}
+
+export interface WorkRequestTypeRefGETData {
+  // Define according to swagger
+}
+
+export interface WorkRequestTypeRefCriteria {
+  // Define according to swagger
+}
+
+export interface WorkRequestTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface MenuControlData {
+  id?: string;
+  name?: string;
+  icon?: string;
+  active?: boolean;
+  selected?: boolean;
+  groupId?: string;
+  roleRequired?: string;
+  helpText?: string;
+  allowedByRole?: boolean;
+  allowedByRule?: boolean;
+}
+
+export interface MenuControlDataList {
+  applicationName?: string;
+  clientId?: string;
+  menuId?: string;
+  menuName?: string;
+  label?: string;
+  menuItems?: MenuControlData[];
+  defaultAllowedByRule?: boolean;
+}
+
+export interface HcclUserContextGETData {
+  // Define according to swagger
 } 
