@@ -23,6 +23,68 @@
         {{ successMessage }}
       </div>
 
+      <!-- User Profile Details Section -->
+      <div *ngIf="advocateUserProfileId || clientUserProfileId" class="user-profiles-section mb-4">
+        <div class="row">
+          <!-- Advocate User Profile -->
+          <div class="col-md-6 mb-3" *ngIf="advocateUserProfileId">
+            <app-hccl-user-profile-details 
+              [userProfileId]="advocateUserProfileId" 
+              [title]="'Guidance Counsellor'">
+            </app-hccl-user-profile-details>
+          </div>
+          
+          <!-- Client User Profile -->
+          <div class="col-md-6 mb-3" *ngIf="clientUserProfileId">
+            <app-hccl-user-profile-details 
+              [userProfileId]="clientUserProfileId" 
+              [title]="'Student'">
+            </app-hccl-user-profile-details>
+          </div>
+        </div>
+      </div>
+
+      <!-- Debug Information Block -->
+      <div class="debug-section mb-4">
+        <div class="card">
+          <div class="card-header">
+            <h5>Debug Information</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h6>Input Parameters:</h6>
+                <ul class="list-unstyled">
+                  <li><strong>advocateUserProfileId:</strong> {{ advocateUserProfileId || 'undefined' }}</li>
+                  <li><strong>clientUserProfileId:</strong> {{ clientUserProfileId || 'undefined' }}</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <h6>Component State:</h6>
+                <ul class="list-unstyled">
+                  <li><strong>loading:</strong> {{ loading }}</li>
+                  <li><strong>setupData:</strong> {{ setupData ? 'loaded' : 'null' }}</li>
+                  <li><strong>userContext:</strong> {{ userContext ? 'loaded' : 'null' }}</li>
+                  <li><strong>errorMessage:</strong> {{ errorMessage || 'none' }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row mt-3" *ngIf="setupData">
+              <div class="col-12">
+                <h6>Setup Data:</h6>
+                <pre class="bg-light p-2 rounded">{{ setupData | json }}</pre>
+              </div>
+            </div>
+            <div class="row mt-3" *ngIf="userContext">
+              <div class="col-12">
+                <h6>User Context:</h6>
+                <pre class="bg-light p-2 rounded">{{ userContext | json }}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Form -->
       <form *ngIf="setupData" (ngSubmit)="onSubmit()" #workRequestForm="ngForm">
         <div class="row">

@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { 
   HcclUserProfileGETData, 
@@ -65,6 +66,18 @@ declare const dhx: any;
     .btn-primary:hover {
       background: #0056b3 !important;
     }
+    .create-ticket-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .create-ticket-btn:hover {
+      background: #218838;
+    }
   `],
   styleUrls: ['./advo-student-list.component.css'],
   standalone: true,
@@ -77,7 +90,8 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   private userContext: HcclUserContextGETData | null = null;
 
   constructor(
-    private hcclService: HcclService
+    private hcclService: HcclService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -142,6 +156,9 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
       this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
         columns: [
           { id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 },
+          { id: 'action', header: [{ text: 'Action', align: 'center' }], width: 120, htmlEnable: true, template: () => {
+            return `<button class=\"create-ticket-btn\">Create Ticket</button>`;
+          }},
           { id: 'userCode', header: [{ text: 'User Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
           { id: 'profileTypeCode', header: [{ text: 'Profile Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
           { id: 'userEmail', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
@@ -160,6 +177,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
         drag: true, // Enable drag and drop
         footer: [
             { text: '' }, // Empty footer for the checkbox column
+            { text: '' }, // Empty footer for the action column
             { text: '' }, // Empty footer for the userCode column
             { text: '' }, // Empty footer for the profileTypeCode column
             { text: '' }, // Empty footer for the userEmail column
@@ -184,12 +202,40 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
         console.log(`Row with ID ${from} was dropped before row with ID ${to}`);
       });
 
+      // Use grid's cellClick event for the Action column
+      this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
+        if (col && col.id === 'action') {
+          this.createTicketForUser(row.id);
+        }
+      });
+
       // Load initial data
       this.loadUserProfileData();
 
     } catch (error) {
       console.error('Error initializing DHTMLX grid:', error);
     }
+  }
+
+  private createTicketForUser(userProfileId: string) {
+    console.log('Creating ticket for user profile:', userProfileId);
+    
+    // Get the current user profile ID from context
+    const advocateUserProfileId = this.userContext?.currentUserProfileId;
+    
+    if (!advocateUserProfileId) {
+      console.error('No advocate user profile ID found in context');
+      alert('Unable to determine advocate user profile. Please try again.');
+      return;
+    }
+
+    // Navigate to create-ticket route with both advocate and client user profile IDs
+    this.router.navigate(['/advocate-dashboard/tickets/create'], {
+      queryParams: {
+        advocateUserProfileId: advocateUserProfileId,
+        clientUserProfileId: userProfileId
+      }
+    });
   }
 
   private loadUserProfileData(searchCriteria?: string) {
@@ -206,6 +252,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
       pageNumber: 1,
       pageSize: 50,
       isPaging: true,
+      profileTypeCode: 'Client',
       organizationId: organizationId // Use the organization ID from current user profile
     };
 

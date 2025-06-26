@@ -1,0 +1,136 @@
+<div class="user-profile-details">
+  <div class="header">
+    <h2>{{ displayTitle }}</h2>
+    <div class="profile-id" *ngIf="userProfile?.id">
+      <strong>Profile ID:</strong> {{ userProfile?.id }}
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading user profile...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="error && !loading">
+    <div class="error-message">
+      <span class="material-icons">error</span>
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <!-- User Profile Data -->
+  <div class="profile-content" *ngIf="userProfile && !loading">
+    <div class="profile-grid">
+      <!-- Basic Information -->
+      <div class="profile-section">
+        <h3>Basic Information</h3>
+        <div class="field-group">
+          <div class="field">
+            <label>User Code:</label>
+            <span>{{ userProfile.userCode || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>User ID:</label>
+            <span>{{ userProfile.userId || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>Profile Type:</label>
+            <span>{{ userProfile.profileTypeCode || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>Organization ID:</label>
+            <span>{{ userProfile.organizationId || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>Status:</label>
+            <span [class]="getAvailableStatusClass(userProfile.available)">
+              {{ getAvailableStatus(userProfile.available) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="profile-section">
+        <h3>Contact Information</h3>
+        <div class="field-group">
+          <div class="field">
+            <label>Email:</label>
+            <span>{{ userProfile.userEmail || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>Cell Phone:</label>
+            <span>{{ userProfile.cellPhoneNumber || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>Work Phone:</label>
+            <span>{{ userProfile.workPhoneNumber || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- External Information -->
+      <div class="profile-section">
+        <h3>External Information</h3>
+        <div class="field-group">
+          <div class="field">
+            <label>External User ID:</label>
+            <span>{{ userProfile.externalUserId || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>External User Entity Type:</label>
+            <span>{{ userProfile.externalUserEntityType || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>External User Name:</label>
+            <span>{{ userProfile.externalUserName || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Data 
+      <div class="profile-section" *ngIf="userProfile.jsonData">
+        <h3>Additional Data</h3>
+        <div class="field-group">
+          <div class="field full-width">
+            <label>JSON Data:</label>
+            <pre class="json-data">{{ userProfile.jsonData | json }}</pre>
+          </div>
+        </div>
+      </div>-->
+
+      <!-- Audit Information -->
+      <div class="profile-section">
+        <h3>Audit Information</h3>
+        <div class="field-group">
+          <div class="field">
+            <label>Created Date:</label>
+            <span>{{ formatDateTime(userProfile.dateCreated) }}</span>
+          </div>
+          <div class="field">
+            <label>Created By:</label>
+            <span>{{ userProfile.createdByInfo?.name || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>Last Updated:</label>
+            <span>{{ formatDateTime(userProfile.dateLastUpdated) }}</span>
+          </div>
+          <div class="field">
+            <label>Last Updated By:</label>
+            <span>{{ userProfile.lastUpdatedByInfo?.name || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data State -->
+  <div class="no-data-container" *ngIf="!userProfile && !loading && !error">
+    <div class="no-data-message">
+      <span class="material-icons">info</span>
+      <p>No user profile data available</p>
+    </div>
+  </div>
+</div>

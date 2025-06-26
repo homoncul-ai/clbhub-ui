@@ -10,6 +10,7 @@ import {
   HcclUserContextGETData
 } from '../../restsvc/hccl.interfaces';
 import { MenuControlDataListComponent } from '../menu-control-data-list/menu-control-data-list.component';
+import { HcclUserProfileDetailsComponent } from '../hccl-user-profile-details/hccl-user-profile-details.component';
 
 // //
 // This component is used to create a new work request.
@@ -24,7 +25,7 @@ import { MenuControlDataListComponent } from '../menu-control-data-list/menu-con
 //  
 @Component({
   selector: 'app-new-work-request',
-  imports: [CommonModule, FormsModule, MenuControlDataListComponent],
+  imports: [CommonModule, FormsModule, MenuControlDataListComponent, HcclUserProfileDetailsComponent],
   templateUrl: './new-work-request.component.html',
   styleUrl: './new-work-request.component.scss'
 })
