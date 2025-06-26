@@ -1,0 +1,25 @@
+<div class="menu-control-dropdown">
+  <select 
+    [disabled]="disabled"
+    (change)="onSelectionChange($event)"
+    class="form-select"
+    [class.disabled]="disabled">
+    
+    <option value="" [selected]="!selectedItem">
+      {{ placeholder }}
+    </option>
+    
+    <option 
+      *ngFor="let item of menuItems" 
+      [value]="item.id"
+      [selected]="selectedItem?.id === item.id">
+      {{ item.name || 'Unnamed Item' }}
+    </option>
+  </select>
+  
+  <div *ngIf="selectedItem" class="selected-item-info">
+    <small class="text-muted">
+      <span *ngIf="selectedItem.helpText">{{ selectedItem.helpText }}</span>
+    </small>
+  </div>
+</div>
