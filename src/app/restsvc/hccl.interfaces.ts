@@ -1573,4 +1573,29 @@ export interface HcclUserPOSTData {
   externalUserEntityType?: string;
   externalUserName?: string;
   available: number;
+}
+
+// Simple Message interfaces for promote students functionality
+export interface SimpleMessage {
+  messageCode?: string;
+  message?: string;
+  severity?: number;
+  exceptionMessage?: string;
+  referenceCode?: string;
+}
+
+export interface SimpleMessageList {
+  messages?: SimpleMessage[];
+}
+
+export interface SimpleRestActionContext {
+  // Empty object as per swagger
+}
+
+export interface SimpleRestActionResponse {
+  context?: SimpleRestActionContext;
+  messages?: SimpleMessageList;
+  data?: any;
+  actionFormData?: { [key: string]: any };
+  mapFormElements?: { [key: string]: any };
 } 

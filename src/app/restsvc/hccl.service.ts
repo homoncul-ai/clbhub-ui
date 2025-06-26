@@ -152,7 +152,11 @@ import {
   HcclUserPUTData,
   HcclUserCriteria,
   HcclUserGETDataSearchResults,
-  HcclUserPOSTData
+  HcclUserPOSTData,
+  SimpleMessage,
+  SimpleMessageList,
+  SimpleRestActionContext,
+  SimpleRestActionResponse
 } from './hccl.interfaces';
 
 @Injectable({
@@ -1031,6 +1035,16 @@ CommonRequestServiceCaller request methods
       body: criteria
     };
     return this.request<CLCourseGETDataSearchResults>(request);
+  }
+
+  // Integration Actions - Promote Students
+  promoteStudents(criteria: CLStudentCriteria): Observable<SimpleRestActionResponse> {
+    const request: CommonServiceRequest<CLStudentCriteria> = {
+      url: '/hccl/intg/actions/promote-students',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<SimpleRestActionResponse>(request);
   }
 
   // Teams - HcclUserProfile operations

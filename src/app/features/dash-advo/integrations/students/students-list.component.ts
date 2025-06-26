@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '../../../../restsvc/hccl.service';
-import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../../../restsvc/hccl.interfaces';
+import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.interfaces';
 import { forkJoin } from 'rxjs';
 
 declare const dhx: any;
@@ -229,6 +229,44 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       // Show alert with selected IDs
       alert(`Selected Student IDs: ${selectedIds.join(', ')}`);
       console.log('Selected student IDs for promotion:', selectedIds);
+      
+      // Create CLStudentCriteria with the selected IDs
+      const criteria: CLStudentCriteria = {
+        ids: selectedIds,
+        pageNumber: 1,
+        pageSize: selectedIds.length,
+        isPaging: false
+      };
+      
+      // Call the promoteStudents service method
+      this.hcclService.promoteStudents(criteria).subscribe({
+        next: (response: SimpleRestActionResponse) => {
+          console.log('Promote students response:', response);
+          
+          // Handle the response based on the SimpleRestActionResponse structure
+          if (response.messages && response.messages.messages) {
+            const messages = response.messages.messages;
+            if (messages.length > 0) {
+              // Show success/error messages to user
+              const messageText = messages.map((msg: any) => `${msg.messageCode}: ${msg.message}`).join('\n');
+              alert(`Promotion Results:\n${messageText}`);
+            } else {
+              alert('Students promoted successfully!');
+            }
+          } else if (response.data) {
+            alert(`Promotion completed. Data: ${JSON.stringify(response.data)}`);
+          } else {
+            alert('Students promoted successfully!');
+          }
+          
+          // Optionally refresh the grid data
+          this.loadStudentData();
+        },
+        error: (error) => {
+          console.error('Error promoting students:', error);
+          alert(`Error promoting students: ${error.message || 'Unknown error occurred'}`);
+        }
+      });
     }
   }
 
