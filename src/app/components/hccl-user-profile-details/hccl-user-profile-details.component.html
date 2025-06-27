@@ -1,7 +1,7 @@
 <div class="user-profile-details">
   <div class="header">
     <h2>{{ displayTitle }}</h2>
-    <div class="profile-id" *ngIf="userProfile?.id">
+    <div class="profile-id" *ngIf="userProfile?.id && brevity === 0">
       <strong>Profile ID:</strong> {{ userProfile?.id }}
     </div>
   </div>
@@ -20,8 +20,34 @@
     </div>
   </div>
 
-  <!-- User Profile Data -->
-  <div class="profile-content" *ngIf="userProfile && !loading">
+  <!-- Brief User Profile Data (when brevity > 0) -->
+  <div class="profile-content" *ngIf="userProfile && !loading && brevity > 0">
+    <div class="profile-grid">
+      <div class="profile-section">
+        <div class="field-group">
+          <div class="field">
+            <label>Organization:</label>
+            <span>{{ organizationName || userProfile.organizationId || 'N/A' }}</span>
+          </div>
+          <div class="field">
+            <label>Name:</label>
+            <span>{{ userProfile.userCode }}</span>
+          </div>
+          <div class="field">
+            <label>Email:</label>
+            <span>{{ userProfile.userEmail || 'N/A' }}</span>
+          </div>
+          <!-- <div class="field">
+            <label>Profile Type:</label>
+            <span>{{ userProfile.profileTypeCode || 'N/A' }}</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full User Profile Data (when brevity === 0) -->
+  <div class="profile-content" *ngIf="userProfile && !loading && brevity === 0">
     <div class="profile-grid">
       <!-- Basic Information -->
       <div class="profile-section">

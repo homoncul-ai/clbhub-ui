@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'students', component: AdvoStudentListComponent },
       { path: 'students/:id', component: AdvoStudentDetailsComponent },
       { path: 'tickets', component: AdvoTicketListComponent },
-      { path: 'tickets/create', component: CreateTicketComponent },
+      { path: 'tickets/create/:advocateId/:clientId', component: CreateTicketComponent },
       { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },

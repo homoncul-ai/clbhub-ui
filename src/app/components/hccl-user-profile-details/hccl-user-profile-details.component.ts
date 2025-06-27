@@ -14,8 +14,10 @@ import { Subject, takeUntil } from 'rxjs';
 export class HcclUserProfileDetailsComponent implements OnInit, OnDestroy {
   @Input() userProfileId!: string;
   @Input() title?: string;
+  @Input() brevity: number = 0;
   
   userProfile: HcclUserProfileGETData | null = null;
+  organizationName: string | null = null;
   loading = false;
   error: string | null = null;
   
@@ -56,6 +58,7 @@ export class HcclUserProfileDetailsComponent implements OnInit, OnDestroy {
           this.loading = false;
           if (response.searchResults && response.searchResults.length > 0) {
             this.userProfile = response.searchResults[0];
+            this.loadOrganizationName();
           } else {
             this.error = 'User profile not found';
           }
@@ -66,6 +69,24 @@ export class HcclUserProfileDetailsComponent implements OnInit, OnDestroy {
           console.error('Error loading user profile:', err);
         }
       });
+  }
+
+  private loadOrganizationName() {
+    this.organizationName = null;
+    const orgId = this.userProfile?.organizationId;
+    if (orgId) {
+      this.hcclService.getHcclOrganizationById(orgId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (org) => {
+            this.organizationName = org?.name || orgId;
+          },
+          error: (err) => {
+            this.organizationName = this.userProfile?.organizationId || 'N/A';
+            console.error('Error loading organization:', err);
+          }
+        });
+    }
   }
 
   getAvailableStatus(available?: number): string {

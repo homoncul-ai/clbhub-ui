@@ -181,9 +181,11 @@
             span {
               color: #212529;
               text-align: right;
-              word-break: break-word;
               flex: 1;
               margin-left: 16px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
 
               &.status-available {
                 color: #28a745;

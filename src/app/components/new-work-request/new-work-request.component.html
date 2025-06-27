@@ -24,28 +24,31 @@
       </div>
 
       <!-- User Profile Details Section -->
-      <div *ngIf="advocateUserProfileId || clientUserProfileId" class="user-profiles-section mb-4">
-        <div class="row">
+      <div *ngIf="advocateUserProfileId" class="user-profiles-section mb-4">
           <!-- Advocate User Profile -->
           <div class="col-md-6 mb-3" *ngIf="advocateUserProfileId">
             <app-hccl-user-profile-details 
               [userProfileId]="advocateUserProfileId" 
-              [title]="'Guidance Counsellor'">
+              [title]="'Guidance Counsellor'"
+              [brevity]="1">
             </app-hccl-user-profile-details>
           </div>
-          
+      </div>
+      <div *ngIf="clientUserProfileId" class="user-profiles-section mb-4">      
           <!-- Client User Profile -->
           <div class="col-md-6 mb-3" *ngIf="clientUserProfileId">
             <app-hccl-user-profile-details 
               [userProfileId]="clientUserProfileId" 
-              [title]="'Student'">
+              [title]="'Student'"
+              [brevity]="1">
             </app-hccl-user-profile-details>
           </div>
         </div>
       </div>
 
+
       <!-- Debug Information Block -->
-      <div class="debug-section mb-4">
+      <div *ngIf="false" class="debug-section mb-4">
         <div class="card">
           <div class="card-header">
             <h5>Debug Information</h5>
@@ -179,4 +182,4 @@
       </div>
     </div>
   </div>
-</div>
+ 

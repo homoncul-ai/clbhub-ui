@@ -218,7 +218,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   }
 
   private createTicketForUser(userProfileId: string) {
-    console.log('Creating ticket for user profile:', userProfileId);
+    alert('Creating ticket for user profile:' + userProfileId);
     
     // Get the current user profile ID from context
     const advocateUserProfileId = this.userContext?.currentUserProfileId;
@@ -230,12 +230,9 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
     }
 
     // Navigate to create-ticket route with both advocate and client user profile IDs
-    this.router.navigate(['/advocate-dashboard/tickets/create'], {
-      queryParams: {
-        advocateUserProfileId: advocateUserProfileId,
-        clientUserProfileId: userProfileId
-      }
-    });
+    this.router.navigate(['/advocate-dashboard/tickets/create',
+  advocateUserProfileId,
+  userProfileId]);
   }
 
   private loadUserProfileData(searchCriteria?: string) {
