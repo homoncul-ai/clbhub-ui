@@ -15,7 +15,7 @@ declare const dhx: any;
   selector: 'app-advo-student-list',
   template: `
     <div class="student-list-container">
-      <h2>HCCL User Profiles</h2>
+      <h2>Students</h2>
       <div class="button-bar" style="margin-bottom: 16px; display: flex; gap: 8px;">
         <button (click)="onGoClick()">Go</button>
         <button (click)="onRefresh()" class="btn btn-primary">Refresh</button>
@@ -164,7 +164,6 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
           { id: 'userEmail', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
           { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-          { id: 'organizationId', header: [{ text: 'Organization ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
           { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'selectFilter' }], minWidth: 100, adjust: true },
           { id: 'externalUserName', header: [{ text: 'External User Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
         ],
