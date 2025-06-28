@@ -67,6 +67,32 @@
   background-color: #e0e0e0;
 }
 
+/* Primary Button Style */
+.btn-primary {
+  background: #007bff !important;
+  color: white;
+  border-color: #007bff !important;
+}
+
+.btn-primary:hover {
+  background: #0056b3 !important;
+}
+
+/* Create Ticket Button Style */
+.create-ticket-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.create-ticket-btn:hover {
+  background: #218838;
+}
+
 /* Search Bar Styles */
 .search-list-search-bar {
   margin-bottom: 16px;

@@ -14,72 +14,25 @@ declare const dhx: any;
 @Component({
   selector: 'app-advo-student-list',
   template: `
-    <div class="student-list-container">
+    <div class="search-list-container">
       <h2>Students</h2>
-      <div class="button-bar" style="margin-bottom: 16px; display: flex; gap: 8px;">
-        <button (click)="onGoClick()">Go</button>
-        <button (click)="onRefresh()" class="btn btn-primary">Refresh</button>
+      <div class="search-list-button-bar">
+        <button class="search-list-button-bar-button" (click)="onGoClick()">Go</button>
+        <button class="search-list-button-bar-button btn-primary" (click)="onRefresh()">Refresh</button>
       </div>
-      <form class="search-bar" style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;" (submit)="onSearch(searchInput.value); $event.preventDefault();">
-        <input #searchInput type="text" placeholder="search by user code or email, * for wildcard" style="flex: 1; padding: 6px 8px; border-radius: 4px; border: 1px solid #ccc;" />
-        <button type="submit" style="background: none; border: none; cursor: pointer; padding: 4px;">
+      <form class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
+        <input #searchInput type="text" class="search-list-input" placeholder="search by user code or email, * for wildcard" />
+        <button type="submit" class="search-list-input-button">
           <span class="material-icons" aria-label="Search">search</span>
         </button>
-        <button type="button" style="background: none; border: none; cursor: pointer; padding: 4px;" (click)="onAdvancedSearch()">
+        <button type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
           <span class="material-icons" aria-label="Advanced Search">tune</span>
         </button>
       </form>
-      <div #gridContainer class="student-grid"></div>
+      <div #gridContainer class="search-list-grid"></div>
     </div>
   `,
-  styles: [`
-    .student-list-container {
-      margin: 16px;
-      padding: 16px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background: white;
-    }
-    h2 {
-      margin: 0 0 16px 0;
-      color: #333;
-    }
-    .student-grid {
-      height: 600px;
-      border-radius: 4px;
-    }
-    .button-bar button {
-      padding: 8px 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: #f8f9fa;
-      cursor: pointer;
-    }
-    .button-bar button:hover {
-      background: #e9ecef;
-    }
-    .btn-primary {
-      background: #007bff !important;
-      color: white;
-      border-color: #007bff !important;
-    }
-    .btn-primary:hover {
-      background: #0056b3 !important;
-    }
-    .create-ticket-btn {
-      background: #28a745;
-      color: white;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .create-ticket-btn:hover {
-      background: #218838;
-    }
-  `],
-  styleUrls: ['./advo-student-list.component.css'],
+  styleUrls: ['../../../views/uistarter/list-search-starter.component.css'],
   standalone: true,
   imports: [CommonModule]
 })
@@ -167,7 +120,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
           { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'selectFilter' }], minWidth: 100, adjust: true },
           { id: 'externalUserName', header: [{ text: 'External User Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
         ],
-        css: "student-grid",
+        css: "search-list-grid",
         height: 600,
         autoWidth: false,
         selection: 'row',
