@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '../../restsvc/hccl.service';
-import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../restsvc/hccl.interfaces';
+import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, HcclOrganizationGETData } from '../../restsvc/hccl.interfaces';
 
 declare const dhx: any;
 
@@ -19,14 +19,22 @@ declare const dhx: any;
 })
 export class ListSearchStarterComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
+  @Input() id?: string; // Input parameter for organization ID
+  
   private grid: any;
   private isDhtmlxLoaded = false;
+  private organization: HcclOrganizationGETData | null = null;
 
   constructor(
     private hcclService: HcclService
   ) {}
 
   async ngOnInit() {
+    // Load organization if ID is provided
+    if (this.id) {
+      this.loadParentEntity();
+    }
+    
     // Check if DHTMLX is loaded
     this.checkDhtmlxLoaded();
   }
@@ -79,7 +87,7 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
           { id: 'schoolId', header: [{ text: 'School ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
         ],
-        css: "student-grid",
+        css: "search-list-grid",
         height: 600,
         autoWidth: false,
         selection: 'row',
@@ -117,15 +125,16 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
       });
 
       // Load initial data
-      this.loadStudentData();
+      this.loadListData();
 
     } catch (error) {
       console.error('Error initializing DHTMLX grid:', error);
     }
   }
 
-  private loadStudentData(searchCriteria?: string) {
+  private loadListData(searchCriteria?: string) {
     const criteria: CLStudentCriteria = {
+      schoolId: this.id,
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
@@ -133,14 +142,7 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
 
     // Add search criteria if provided
     if (searchCriteria && searchCriteria.trim() !== '') {
-      if (searchCriteria.includes('*')) {
-        // Handle wildcard search - remove * and search by name
-        criteria.name = searchCriteria.replace(/\*/g, '%');
-      } else {
-        // Search by name or businessCode
-        criteria.name = searchCriteria;
-        criteria.businessCode = searchCriteria;
-      }
+      criteria.searchByText = searchCriteria;
     }
 
     this.hcclService.findCLStudents(criteria).subscribe({
@@ -177,11 +179,41 @@ export class ListSearchStarterComponent implements OnInit, AfterViewInit {
 
   public onSearch(query: string) {
     console.log('Search submitted:', query);
-    this.loadStudentData(query);
+    this.loadListData(query);
   }
 
   public onAdvancedSearch() {
     // TODO: Implement advanced search logic
     console.log('Advanced search clicked');
+  }
+
+  /**
+   * Loads the organization using the provided ID
+   */
+  private loadParentEntity() {
+    if (!this.id) {
+      console.warn('No organization ID provided');
+      return;
+    }
+
+    this.hcclService.getHcclOrganizationById(this.id).subscribe({
+      next: (organization: HcclOrganizationGETData) => {
+        this.organization = organization;
+        console.log('Organization loaded:', organization);
+        // You can add additional logic here to handle the loaded organization
+        // For example, update the UI or filter data based on the organization
+      },
+      error: (error) => {
+        console.error('Error loading organization:', error);
+        this.organization = null;
+      }
+    });
+  }
+
+  /**
+   * Getter method to access the loaded organization
+   */
+  public getParentEntity(): HcclOrganizationGETData | null {
+    return this.organization;
   }
 } 

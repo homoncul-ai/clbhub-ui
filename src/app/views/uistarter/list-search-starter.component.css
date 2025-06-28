@@ -1,34 +1,126 @@
-.student-item {
+.search-list-item {
   padding: 12px 16px;
   border-bottom: 1px solid #eee;
 }
 
-.student-item:last-child {
+.search-list-item:last-child {
   border-bottom: none;
 }
 
-.student-name {
+.search-list-name {
   font-weight: 500;
   color: #333;
 }
 
-.student-id {
+.search-list-id {
   font-size: 0.9em;
   color: #666;
   margin-top: 4px;
 }
 
-.student-grid {
+/* Parent Entity Information Styles */
+.search-list-parent-entity-info {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-list-parent-entity-info h3 {
+  margin: 0 0 8px 0;
+  color: #495057;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.search-list-parent-entity-info p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+/* Button Bar Styles */
+.search-list-button-bar {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.search-list-button-bar-button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.search-list-button-bar-button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-list-button-bar-button:active {
+  background-color: #e0e0e0;
+}
+
+/* Search Bar Styles */
+.search-list-search-bar {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-list-input {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-list-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.search-list-input-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-list-input-button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-list-input-button:active {
+  background-color: #e0e0e0;
+}
+
+.search-list-grid {
   /* Revert some previous styles to get standard table appearance */
   border: 1px solid #ddd; /* Outer border */
   border-radius: 4px;
 }
 
-.student-grid .dhx_grid-header {
+.search-list-grid .dhx_grid-header {
   border-bottom: 1px solid #ddd; /* Header bottom border */
 }
 
-.student-grid .dhx_grid-head-cell {
+.search-list-grid .dhx_grid-head-cell {
   border-right: 1px solid #eee; /* Header vertical borders */
   font-weight: bold; /* Standard header font weight */
   color: #333; /* Standard header text color */
@@ -36,42 +128,42 @@
   text-align: left; /* Align header text left */
 }
 
-.student-grid .dhx_grid-head-cell:last-child {
+.search-list-grid .dhx_grid-head-cell:last-child {
   border-right: none !important;
 }
 
-.student-grid .dhx_grid-cell {
+.search-list-grid .dhx_grid-cell {
   border-right: 1px solid #eee; /* Cell vertical borders */
   border-bottom: 1px solid #eee; /* Cell bottom borders */
   padding: 8px 10px; /* Adjust padding */
 }
 
-.student-grid .dhx_grid-cell:last-child {
+.search-list-grid .dhx_grid-cell:last-child {
     border-right: none !important;
 }
 
-.student-grid .dhx_grid-row {
+.search-list-grid .dhx_grid-row {
   border-bottom: none; /* Remove default row border, handled by cell borders */
 }
 
-.student-grid .dhx_grid-row:last-child .dhx_grid-cell {
+.search-list-grid .dhx_grid-row:last-child .dhx_grid-cell {
   border-bottom: none; /* No bottom border for the last row */
 }
 
-.student-grid .dhx_grid-row:hover {
+.search-list-grid .dhx_grid-row:hover {
   background-color: #f5f5f5; /* Light hover background */
 }
 
-.student-grid .dhx_grid-row--selected {
+.search-list-grid .dhx_grid-row--selected {
   background-color: #e3f2fd; /* Light selection blue */
 }
 
-.student-grid .dhx_cell--checkbox {
+.search-list-grid .dhx_cell--checkbox {
     padding-top: 8px; /* Adjust checkbox vertical alignment */
 }
 
 /* Style for pagination */
-.student-list-container .dhx_pagination {
+.search-list-container .dhx_pagination {
     margin-top: 10px;
     padding: 10px 0;
     border-top: 1px solid #eee;
@@ -81,27 +173,27 @@
     font-size: 0.9em;
 }
 
-.student-list-container .dhx_pagination__text {
+.search-list-container .dhx_pagination__text {
     margin-right: 10px;
 }
 
-.student-list-container .dhx_pagination__selector .dhx_combobox {
+.search-list-container .dhx_pagination__selector .dhx_combobox {
     width: 60px !important;
 }
 
-.student-list-container .dhx_pagination__selector .dhx_combobox__button svg {
+.search-list-container .dhx_pagination__selector .dhx_combobox__button svg {
     display: none; /* Hide dropdown arrow if desired */
 }
 
-.student-list-container .dhx_pagination__range {
+.search-list-container .dhx_pagination__range {
     margin: 0 10px;
 }
 
-.student-list-container .dhx_pagination__buttons {
+.search-list-container .dhx_pagination__buttons {
     /* Styles for navigation buttons */
 }
 
-.student-list-container .dhx_pagination__buttons button {
+.search-list-container .dhx_pagination__buttons button {
     border: 1px solid #ccc;
     background-color: #fff;
     padding: 5px 8px;
@@ -110,27 +202,27 @@
     border-radius: 3px;
 }
 
-.student-list-container .dhx_pagination__buttons button:disabled {
+.search-list-container .dhx_pagination__buttons button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.student-list-container .dhx_pagination__buttons button:hover:not(:disabled) {
+.search-list-container .dhx_pagination__buttons button:hover:not(:disabled) {
     background-color: #f0f0f0;
 }
 
 /* Existing styles for content within cells if needed, though grid columns handle structure now */
 /*
-.student-item {
+.search-list-item {
   padding: 0;
 }
 
-.student-name {
+.search-list-name {
   font-weight: 500;
   color: #333;
 }
 
-.student-id {
+.search-list-id {
   font-size: 0.9em;
   color: #666;
   margin-top: 4px;

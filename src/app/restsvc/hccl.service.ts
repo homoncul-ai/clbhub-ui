@@ -193,7 +193,35 @@ import {
   CreateTicketPOSTData,
   WorkRequestGETData,
   WorkRequestGETDataSearchResults,
-  HcclUserContextGETData
+  HcclUserContextGETData,
+  WorkRequestItemPOSTData,
+  WorkRequestItemGETData,
+  WorkRequestItemPUTData,
+  WorkRequestItemCriteria,
+  WorkRequestItemGETDataSearchResults,
+  WorkRequestLogPOSTData,
+  WorkRequestLogGETData,
+  WorkRequestLogPUTData,
+  WorkRequestLogCriteria,
+  WorkRequestLogGETDataSearchResults,
+  WorkRequestRoutingReasonPOSTData,
+  WorkRequestRoutingReasonGETData,
+  WorkRequestRoutingReasonPUTData,
+  WorkRequestRoutingReasonCriteria,
+  WorkRequestRoutingReasonGETDataSearchResults,
+  WorkRequestPOSTData,
+  WorkRequestPUTData,
+  WorkRequestCriteria,
+  WorkRequestTeamPOSTData,
+  WorkRequestTeamGETData,
+  WorkRequestTeamPUTData,
+  WorkRequestTeamCriteria,
+  WorkRequestTeamGETDataSearchResults,
+  WorkRequestTypeRefPOSTData,
+  WorkRequestTypeRefGETData,
+  WorkRequestTypeRefPUTData,
+  WorkRequestTypeRefCriteria,
+  WorkRequestTypeRefGETDataSearchResults
 } from './hccl.interfaces';
 
 @Injectable({
@@ -1607,5 +1635,313 @@ CommonRequestServiceCaller request methods
       body: criteria
     };
     return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  // WorkQueueTypeRef operations
+  createWorkQueueTypeRef(data: WorkQueueTypeRefPOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkQueueTypeRefPOSTData> = {
+      url: '/hccl/tix/workqueuetyperef',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkQueueTypeRefById(id: string): Observable<WorkQueueTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workqueuetyperef/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkQueueTypeRefGETData>(request);
+  }
+
+  updateWorkQueueTypeRefById(id: string, data: WorkQueueTypeRefPUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkQueueTypeRefPUTData> = {
+      url: `/hccl/tix/workqueuetyperef/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkQueueTypeRefById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workqueuetyperef/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkQueueTypeRefs(criteria: WorkQueueTypeRefCriteria): Observable<WorkQueueTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkQueueTypeRefCriteria> = {
+      url: '/hccl/tix/workqueuetyperef/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkQueueTypeRefGETDataSearchResults>(request);
+  }
+
+  // WorkRequestItem operations
+  createWorkRequestItem(data: WorkRequestItemPOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestItemPOSTData> = {
+      url: '/hccl/tix/workrequestitem',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkRequestItemById(id: string): Observable<WorkRequestItemGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestitem/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkRequestItemGETData>(request);
+  }
+
+  updateWorkRequestItemById(id: string, data: WorkRequestItemPUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestItemPUTData> = {
+      url: `/hccl/tix/workrequestitem/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkRequestItemById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestitem/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkRequestItems(criteria: WorkRequestItemCriteria): Observable<WorkRequestItemGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkRequestItemCriteria> = {
+      url: '/hccl/tix/workrequestitem/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkRequestItemGETDataSearchResults>(request);
+  }
+
+  // WorkRequestLog operations
+  createWorkRequestLog(data: WorkRequestLogPOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestLogPOSTData> = {
+      url: '/hccl/tix/workrequestlog',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkRequestLogById(id: string): Observable<WorkRequestLogGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestlog/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkRequestLogGETData>(request);
+  }
+
+  updateWorkRequestLogById(id: string, data: WorkRequestLogPUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestLogPUTData> = {
+      url: `/hccl/tix/workrequestlog/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkRequestLogById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestlog/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkRequestLogs(criteria: WorkRequestLogCriteria): Observable<WorkRequestLogGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkRequestLogCriteria> = {
+      url: '/hccl/tix/workrequestlog/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkRequestLogGETDataSearchResults>(request);
+  }
+
+  // WorkRequestRoutingReason operations
+  createWorkRequestRoutingReason(data: WorkRequestRoutingReasonPOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestRoutingReasonPOSTData> = {
+      url: '/hccl/tix/workrequestroutingreason',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkRequestRoutingReasonById(id: string): Observable<WorkRequestRoutingReasonGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestroutingreason/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkRequestRoutingReasonGETData>(request);
+  }
+
+  updateWorkRequestRoutingReasonById(id: string, data: WorkRequestRoutingReasonPUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestRoutingReasonPUTData> = {
+      url: `/hccl/tix/workrequestroutingreason/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkRequestRoutingReasonById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestroutingreason/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkRequestRoutingReasons(criteria: WorkRequestRoutingReasonCriteria): Observable<WorkRequestRoutingReasonGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkRequestRoutingReasonCriteria> = {
+      url: '/hccl/tix/workrequestroutingreason/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkRequestRoutingReasonGETDataSearchResults>(request);
+  }
+
+  // WorkRequest operations
+  createWorkRequest(data: WorkRequestPOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestPOSTData> = {
+      url: '/hccl/tix/workrequest',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkRequestById(id: string): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequest/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkRequestGETData>(request);
+  }
+
+  updateWorkRequestById(id: string, data: WorkRequestPUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestPUTData> = {
+      url: `/hccl/tix/workrequest/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkRequestById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequest/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkRequests(criteria: WorkRequestCriteria): Observable<WorkRequestGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkRequestCriteria> = {
+      url: '/hccl/tix/workrequest/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkRequestGETDataSearchResults>(request);
+  }
+
+  // WorkRequestTeam operations
+  createWorkRequestTeam(data: WorkRequestTeamPOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestTeamPOSTData> = {
+      url: '/hccl/tix/workrequestteam',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkRequestTeamById(id: string): Observable<WorkRequestTeamGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestteam/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkRequestTeamGETData>(request);
+  }
+
+  updateWorkRequestTeamById(id: string, data: WorkRequestTeamPUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestTeamPUTData> = {
+      url: `/hccl/tix/workrequestteam/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkRequestTeamById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequestteam/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkRequestTeams(criteria: WorkRequestTeamCriteria): Observable<WorkRequestTeamGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkRequestTeamCriteria> = {
+      url: '/hccl/tix/workrequestteam/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkRequestTeamGETDataSearchResults>(request);
+  }
+
+  // WorkRequestTypeRef operations
+  createWorkRequestTypeRef(data: WorkRequestTypeRefPOSTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestTypeRefPOSTData> = {
+      url: '/hccl/tix/workrequesttyperef',
+      method: 'POST',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  getWorkRequestTypeRefById(id: string): Observable<WorkRequestTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequesttyperef/${id}`,
+      method: 'GET'
+    };
+    return this.request<WorkRequestTypeRefGETData>(request);
+  }
+
+  updateWorkRequestTypeRefById(id: string, data: WorkRequestTypeRefPUTData): Observable<void> {
+    const request: CommonServiceRequest<WorkRequestTypeRefPUTData> = {
+      url: `/hccl/tix/workrequesttyperef/${id}`,
+      method: 'PUT',
+      body: data
+    };
+    return this.request<void>(request);
+  }
+
+  deleteWorkRequestTypeRefById(id: string): Observable<void> {
+    const request: CommonServiceRequest = {
+      url: `/hccl/tix/workrequesttyperef/${id}`,
+      method: 'DELETE'
+    };
+    return this.request<void>(request);
+  }
+
+  findWorkRequestTypeRefs(criteria: WorkRequestTypeRefCriteria): Observable<WorkRequestTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest<WorkRequestTypeRefCriteria> = {
+      url: '/hccl/tix/workrequesttyperef/query',
+      method: 'POST',
+      body: criteria
+    };
+    return this.request<WorkRequestTypeRefGETDataSearchResults>(request);
   }
 }

@@ -254,14 +254,14 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
 
     // Add search criteria if provided
     if (searchCriteria && searchCriteria.trim() !== '') {
-      if (searchCriteria.includes('*')) {
-        // Handle wildcard search - remove * and search by userCode
-        criteria.userCode = searchCriteria.replace(/\*/g, '%');
-      } else {
-        // Search by userCode or userEmail
-        criteria.userCode = searchCriteria;
-        criteria.userEmail = searchCriteria;
-      }
+      criteria.searchByText = searchCriteria;
+      // if (searchCriteria.includes('*')) {
+      //   // Handle wildcard search - remove * and search by userCode
+      //   criteria.userCode = searchCriteria.replace(/\*/g, '%');
+      // } else {
+      //   // Search by userCode or userEmail
+        
+      // }
     }
 
     this.hcclService.findHcclUserProfiles(criteria).subscribe({

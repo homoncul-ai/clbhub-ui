@@ -833,6 +833,7 @@ export interface CLSchoolGETDataSearchResults {
   searchResults?: CLSchoolGETData[];
   pagingInfo?: DCPageData;
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface CLStudentPOSTData {
@@ -884,22 +885,26 @@ export interface CLStudentCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  organizationId?: string;
   name?: string;
-  status?: boolean;
   businessCode?: string;
   available?: number;
   dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
   userEmail?: string;
   cellPhoneNumber?: string;
   workPhoneNumber?: string;
   schoolId?: string;
-  maxResults?: number;
 }
 
 export interface CLStudentGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CLStudentGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // CLGuidance interfaces
@@ -975,6 +980,7 @@ export interface CLGuidanceGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CLGuidanceGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // CLCourse interfaces
@@ -1048,6 +1054,7 @@ export interface CLCourseGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CLCourseGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // Provider interfaces
@@ -1456,18 +1463,21 @@ export interface HcclUserProfileGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclUserProfileGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface CatalogGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CatalogGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface HcclOrganizationGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclOrganizationGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // Missing interfaces from swagger
@@ -1476,11 +1486,15 @@ export interface HcclUserProfileCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
   userId?: string;
   userCode?: string;
   organizationId?: string;
   profileTypeCode?: string;
   userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
   available?: number;
   externalUserId?: string;
   externalUserEntityType?: string;
@@ -1563,6 +1577,7 @@ export interface HcclUserGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclUserGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface HcclUserPOSTData {
@@ -1605,30 +1620,35 @@ export interface HcclTeamGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclTeamGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface HcclTeamMemberGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclTeamMemberGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface HcclTeamMemberRoleGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclTeamMemberRoleGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface HcclTeamLogGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclTeamLogGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface HcclOrganizationTypeRefGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclOrganizationTypeRefGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // Missing interfaces for other entities
@@ -1669,6 +1689,7 @@ export interface TeamMemberRoleRefGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: TeamMemberRoleRefGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface TeamTypeMemberRoleRefPOSTData {
@@ -1708,6 +1729,7 @@ export interface TeamTypeMemberRoleRefGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: TeamTypeMemberRoleRefGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface TeamTypeRefPOSTData {
@@ -1747,6 +1769,7 @@ export interface TeamTypeRefGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: TeamTypeRefGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // WorkQueue interfaces for tixui endpoints
@@ -1803,6 +1826,7 @@ export interface WorkQueueGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkQueueGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface WorkQueueTypeRefPOSTData {
@@ -1845,6 +1869,7 @@ export interface WorkQueueTypeRefGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkQueueTypeRefGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // MenuControl interfaces for tixui endpoints
@@ -1917,130 +1942,332 @@ export interface WorkRequestGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 // --- TIX/TIXUI INTERFACES (additions/updates below) ---
 
 export interface WorkRequestItemPOSTData {
-  // Define according to swagger
+  workRequestId: string;
+  nameText: string;
+  businessCode: string;
+  sequenceOrder: number;
+  description: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode: string;
+  jsonData?: string;
+  commentText?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
 }
 
 export interface WorkRequestItemPUTData {
-  // Define according to swagger
+  workRequestId: string;
+  nameText: string;
+  businessCode: string;
+  sequenceOrder: number;
+  description: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode: string;
+  jsonData?: string;
+  commentText?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
 }
 
 export interface WorkRequestItemGETData {
-  // Define according to swagger
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestId?: string;
+  nameText?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  description?: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode?: string;
+  jsonData?: string;
+  commentText?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
 }
 
 export interface WorkRequestItemCriteria {
-  // Define according to swagger
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  workRequestId?: string;
+  nameText?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  description?: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  maxResults?: number;
 }
 
 export interface WorkRequestItemGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestItemGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface WorkRequestLogPOSTData {
-  // Define according to swagger
+  workRequestId: string;
+  workRequestItemId?: string;
+  logTypeCode: string;
+  logText: string;
+  jsonData?: string;
+  createdByUserId?: string;
+  createdByTeamId?: string;
 }
 
 export interface WorkRequestLogPUTData {
-  // Define according to swagger
+  workRequestId: string;
+  workRequestItemId?: string;
+  logTypeCode: string;
+  logText: string;
+  jsonData?: string;
+  createdByUserId?: string;
+  createdByTeamId?: string;
 }
 
 export interface WorkRequestLogGETData {
-  // Define according to swagger
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestId?: string;
+  workRequestItemId?: string;
+  logTypeCode?: string;
+  logText?: string;
+  jsonData?: string;
+  createdByUserId?: string;
+  createdByTeamId?: string;
 }
 
 export interface WorkRequestLogCriteria {
-  // Define according to swagger
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  workRequestId?: string;
+  workRequestItemId?: string;
+  logTypeCode?: string;
+  createdByUserId?: string;
+  createdByTeamId?: string;
+  maxResults?: number;
 }
 
 export interface WorkRequestLogGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestLogGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface WorkRequestRoutingReasonPOSTData {
-  // Define according to swagger
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
 }
 
 export interface WorkRequestRoutingReasonPUTData {
-  // Define according to swagger
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
 }
 
 export interface WorkRequestRoutingReasonGETData {
-  // Define according to swagger
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
 }
 
 export interface WorkRequestRoutingReasonCriteria {
-  // Define according to swagger
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  maxResults?: number;
 }
 
 export interface WorkRequestRoutingReasonGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestRoutingReasonGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface WorkRequestPOSTData {
-  // Define according to swagger
+  name: string;
+  businessCode: string;
+  description: string;
+  workRequestTypeId: string;
+  workQueueId: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
 }
 
 export interface WorkRequestPUTData {
-  // Define according to swagger
+  name: string;
+  businessCode: string;
+  description: string;
+  workRequestTypeId: string;
+  workQueueId: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
 }
 
 export interface WorkRequestCriteria {
-  // Define according to swagger
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  businessCode?: string;
+  description?: string;
+  workRequestTypeId?: string;
+  currentStateCode?: string;
+  workQueueId?: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+  maxResults?: number;
 }
 
 export interface WorkRequestTeamPOSTData {
-  // Define according to swagger
+  workRequestId: string;
+  teamId: string;
+  roleCode: string;
+  available: number;
 }
 
 export interface WorkRequestTeamPUTData {
-  // Define according to swagger
+  workRequestId: string;
+  teamId: string;
+  roleCode: string;
+  available: number;
 }
 
 export interface WorkRequestTeamGETData {
-  // Define according to swagger
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestId?: string;
+  teamId?: string;
+  roleCode?: string;
+  available?: number;
 }
 
 export interface WorkRequestTeamCriteria {
-  // Define according to swagger
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  workRequestId?: string;
+  teamId?: string;
+  roleCode?: string;
+  available?: number;
+  maxResults?: number;
 }
 
 export interface WorkRequestTeamGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestTeamGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface WorkRequestTypeRefPOSTData {
-  // Define according to swagger
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
 }
 
 export interface WorkRequestTypeRefPUTData {
-  // Define according to swagger
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
 }
 
 export interface WorkRequestTypeRefGETData {
-  // Define according to swagger
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
 }
 
 export interface WorkRequestTypeRefCriteria {
-  // Define according to swagger
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  maxResults?: number;
 }
 
 export interface WorkRequestTypeRefGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestTypeRefGETData[];
   filter?: BaseCriteria;
+  empty?: boolean;
 }
 
 export interface MenuControlData {

@@ -1,8 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HcclService } from '../../../../restsvc/hccl.service';
-import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.interfaces';
-import { forkJoin } from 'rxjs';
+import { HcclService } from '../../restsvc/hccl.service';
+import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../restsvc/hccl.interfaces';
 
 declare const dhx: any;
 
@@ -12,11 +11,13 @@ declare const dhx: any;
  */
 
 @Component({
-  selector: 'app-clstudents-list',
-  templateUrl: './students-list.component.html',
-  styleUrls: ['./students-list.component.css']
+  selector: 'app-ui-starter-component-0',
+  templateUrl: './ui-starter-component.0.component.html',
+  styleUrls: ['./ui-starter-component.0.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
-export class CLStudentsListComponent implements OnInit, AfterViewInit {
+export class UiStarterComponent0Component implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   private grid: any;
   private isDhtmlxLoaded = false;
@@ -67,16 +68,16 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       // Initialize DHTMLX grid with pagination and drag and drop
       this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
         columns: [
-          { id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 },
-          { id: 'schoolCode', header: [{ text: 'School', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'select', header: [{ text: '' }], type: 'checkbox', width: 50 },
           { id: 'name', header: [{ text: 'Student Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-          { id: 'businessCode', header: [{ text: 'Student ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'lastName', header: [{ text: 'Last Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'userEmail', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
           { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-          //{ id: 'available', header: [{ text: 'Sync Status', align: 'center' }, { content: 'selectFilter' }], minWidth: 100, adjust: true },
+          { id: 'schoolId', header: [{ text: 'School ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+          { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
         ],
         css: "student-grid",
         height: 600,
@@ -132,56 +133,26 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
 
     // Add search criteria if provided
     if (searchCriteria && searchCriteria.trim() !== '') {
-      criteria.searchByText = searchCriteria;
+      if (searchCriteria.includes('*')) {
+        // Handle wildcard search - remove * and search by name
+        criteria.name = searchCriteria.replace(/\*/g, '%');
+      } else {
+        // Search by name or businessCode
+        criteria.name = searchCriteria;
+        criteria.businessCode = searchCriteria;
+      }
     }
 
     this.hcclService.findCLStudents(criteria).subscribe({
       next: (response: CLStudentGETDataSearchResults) => {
         if (response.searchResults) {
-          const students = response.searchResults;
-          const uniqueSchoolIds = Array.from(new Set(students.map(s => s.schoolId).filter(Boolean)));
-
-          if (uniqueSchoolIds.length === 0) {
-            // No school IDs, just parse students with blank schoolCode
-            const gridData = students.map(student => ({
-              ...student,
-              select: false,
-              schoolCode: ''
-            }));
-            this.grid.data.parse(gridData);
-            return;
-          }
-
-          // Fetch all schools in parallel
-          forkJoin(
-            uniqueSchoolIds.filter((id): id is string => !!id).map(id => this.hcclService.getCLSchoolById(id))
-          ).subscribe({
-            next: (schools) => {
-              const schoolMap: { [id: string]: string } = {};
-              schools.forEach(school => {
-                if (school && school.id) {
-                  schoolMap[school.id] = school.businessCode || '';
-                }
-              });
-              const gridData = students.map(student => ({
-                ...student,
-                select: false,
-                schoolCode: student.schoolId ? schoolMap[student.schoolId] || '' : ''
-              }));
-              this.grid.data.parse(gridData);
-              console.log("Loaded students:", gridData.length);
-            },
-            error: (error) => {
-              console.error('Error loading school data:', error);
-              // Fallback: load students with blank schoolCode
-              const gridData = students.map(student => ({
-                ...student,
-                select: false,
-                schoolCode: ''
-              }));
-              this.grid.data.parse(gridData);
-            }
-          });
+          // Transform the data to include the select field for checkboxes
+          const gridData = response.searchResults.map(student => ({
+            ...student,
+            select: false // Add checkbox field
+          }));
+          this.grid.data.parse(gridData);
+          console.log("Loaded students:", gridData.length);
         } else {
           this.grid.data.parse([]);
           console.log("No students found");
@@ -204,65 +175,6 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onPromoteStudents() {
-    if (this.grid) {
-      // Get all data from the grid
-      const allData = this.grid.data.serialize();
-      // Filter to get only selected rows (where select is true)
-      const selectedStudents = allData.filter((row: any) => row.select === true);
-      
-      if (selectedStudents.length === 0) {
-        alert('Please select at least one student to promote.');
-        return;
-      }
-      
-      // Extract the IDs of selected students
-      const selectedIds = selectedStudents.map((student: any) => student.id);
-      
-      // Show alert with selected IDs
-      alert(`Selected Student IDs: ${selectedIds.join(', ')}`);
-      console.log('Selected student IDs for promotion:', selectedIds);
-      
-      // Create CLStudentCriteria with the selected IDs
-      const criteria: CLStudentCriteria = {
-        ids: selectedIds,
-        pageNumber: 1,
-        pageSize: selectedIds.length,
-        isPaging: false
-      };
-      
-      // Call the promoteStudents service method
-      this.hcclService.promoteStudents(criteria).subscribe({
-        next: (response: SimpleRestActionResponse) => {
-          console.log('Promote students response:', response);
-          
-          // Handle the response based on the SimpleRestActionResponse structure
-          if (response.messages && response.messages.messages) {
-            const messages = response.messages.messages;
-            if (messages.length > 0) {
-              // Show success/error messages to user
-              const messageText = messages.map((msg: any) => `${msg.messageCode}: ${msg.message}`).join('\n');
-              alert(`Promotion Results:\n${messageText}`);
-            } else {
-              alert('Students promoted successfully!');
-            }
-          } else if (response.data) {
-            alert(`Promotion completed. Data: ${JSON.stringify(response.data)}`);
-          } else {
-            alert('Students promoted successfully!');
-          }
-          
-          // Optionally refresh the grid data
-          this.loadStudentData();
-        },
-        error: (error) => {
-          console.error('Error promoting students:', error);
-          alert(`Error promoting students: ${error.message || 'Unknown error occurred'}`);
-        }
-      });
-    }
-  }
-
   public onSearch(query: string) {
     console.log('Search submitted:', query);
     this.loadStudentData(query);
@@ -271,20 +183,5 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
   public onAdvancedSearch() {
     // TODO: Implement advanced search logic
     console.log('Advanced search clicked');
-  }
-
-  public onImportStudents() {
-    // TODO: Implement import functionality
-    console.log('Import students clicked');
-  }
-
-  public onSyncStudents() {
-    // TODO: Implement sync functionality
-    console.log('Sync students clicked');
-  }
-
-  public onExportStudents() {
-    // TODO: Implement export functionality
-    console.log('Export students clicked');
   }
 } 
