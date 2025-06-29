@@ -25,6 +25,14 @@ export class MenuService {
       children: [
         {
           level: 2,
+          label: 'Queues',
+          route: '/advocate-dashboard/org-queue-list',
+          componentPath: 'src/app/components/org-queue-list',
+          componentName: 'org-queue-list',
+          icon: 'fas fa-envelope'
+        },
+        {
+          level: 2,
           label: 'Messages',
           route: '/advocate-dashboard/messages',
           componentPath: 'src/app/features/dash-advo/messages',

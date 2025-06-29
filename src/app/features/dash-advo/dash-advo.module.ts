@@ -12,6 +12,7 @@ import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.compon
 import { CreateTicketComponent } from './tickets/create-ticket.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
+import { OrgQueueListComponent } from '../../views/uistarter/org-queue-list.component';
 import { UiStarterComponent0Component } from '../../views/obs/ui-starter-component.0.component';
 
 // Integration Components
@@ -33,6 +34,7 @@ const routes: Routes = [
       { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
+      { path: 'org-queue-list', component: OrgQueueListComponent },
       { path: 'obs/ui-starter-component-0', component: UiStarterComponent0Component },
       { 
         path: 'integrations', 
@@ -62,6 +64,7 @@ const routes: Routes = [
     CreateTicketComponent,
     UistarterHomeComponent,
     ListSearchStarterComponent,
+    OrgQueueListComponent,
     UiStarterComponent0Component,
     IntegrationsHomeComponent,
     CLSchoolsListComponent,
