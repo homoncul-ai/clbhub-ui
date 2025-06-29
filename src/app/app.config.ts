@@ -24,9 +24,6 @@ import { environment } from '@env/environment';
 import { routes } from './app.routes';
 import { ShellModule } from './shell/shell.module';
 import { ErrorHandlerInterceptor } from '@core/interceptors';
-import { DataSchoolSetupService } from './from_java/services/data-school-setup.service';
-import { WireframeDataService } from './from_java/services/wireframe-data.service';
-import { initDataAndWireframeFactory } from './from_java/services/init-services.factory';
 import { keycloakInitializer } from './shell/services/config.service';
 import { AppConstants } from './shell/services/config.service';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEvent } from 'keycloak-angular';
@@ -45,15 +42,7 @@ export const appConfig: ApplicationConfig = {
       useValue: keycloakEvents
     },
     provideZoneChangeDetection({ eventCoalescing: true }),
-    DataSchoolSetupService,
-    WireframeDataService,
     
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: initDataAndWireframeFactory,
-    //   deps: [DataSchoolSetupService],
-    //   multi: true,
-    // },
     importProvidersFrom(
       TranslateModule.forRoot(),
       ShellModule
