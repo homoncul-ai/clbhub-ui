@@ -14,7 +14,7 @@ declare const dhx: any;
 @Component({
   selector: 'app-clstudents-list',
   templateUrl: './students-list.component.html',
-  styleUrls: ['./students-list.component.css']
+  styleUrls: ['../../../../views/uistarter/list-search-starter.component.css']
 })
 export class CLStudentsListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
@@ -78,7 +78,7 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
           { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           //{ id: 'available', header: [{ text: 'Sync Status', align: 'center' }, { content: 'selectFilter' }], minWidth: 100, adjust: true },
         ],
-        css: "student-grid",
+        css: "search-list-grid",
         height: 600,
         autoWidth: false,
         selection: 'row',

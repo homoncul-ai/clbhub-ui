@@ -1,20 +1,17 @@
-<div class="student-list-container">
+<div class="search-list-container">
   <h2>CL Students Integration</h2>
-  <div class="button-bar" style="margin-bottom: 16px; display: flex; gap: 8px;">
-    <button (click)="onGoClick()">Go</button>
-    <button (click)="onPromoteStudents()" class="btn btn-success">Promote</button>
-    <button (click)="onImportStudents()" class="btn btn-primary">Import Students</button>
-    <button (click)="onSyncStudents()" class="btn btn-secondary">Sync Students</button>
-    <button (click)="onExportStudents()" class="btn btn-info">Export Students</button>
+  <div class="search-list-button-bar">
+    <button class="search-list-button-bar-button" (click)="onGoClick()">Go</button>
+    <button class="search-list-button-bar-button btn-success" (click)="onPromoteStudents()">Promote</button>
   </div>
-  <form class="search-bar" style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;" (submit)="onSearch(searchInput.value); $event.preventDefault();">
-    <input #searchInput type="text" placeholder="search by name or student ID, * for wildcard" style="flex: 1; padding: 6px 8px; border-radius: 4px; border: 1px solid #ccc;" />
-    <button type="submit" style="background: none; border: none; cursor: pointer; padding: 4px;">
+  <form class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
+    <input #searchInput type="text" class="search-list-input" placeholder="search by name or student ID, * for wildcard" />
+    <button type="submit" class="search-list-input-button">
       <span class="material-icons" aria-label="Search">search</span>
     </button>
-    <button type="button" style="background: none; border: none; cursor: pointer; padding: 4px;" (click)="onAdvancedSearch()">
+    <button type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
       <span class="material-icons" aria-label="Advanced Search">tune</span>
     </button>
   </form>
-  <div #gridContainer class="student-grid"></div>
+  <div #gridContainer class="search-list-grid"></div>
 </div> 
