@@ -223,6 +223,7 @@ import {
   WorkRequestTypeRefCriteria,
   WorkRequestTypeRefGETDataSearchResults
 } from './hccl.interfaces';
+import { GlobalConstants } from '@app/global-constants';
 
 @Injectable({
   providedIn: 'root'
@@ -232,9 +233,9 @@ export class HcclService extends CommonRequestServiceCaller {
 
   constructor(http: HttpClient) {
     super(http);
+    //const baseUrl = GlobalConstants.apiServicesConstants.constants.hcclServicesEndPoint;
     const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
-    // 'https://devops2.intigna.io/trutesta-hccl-services';
-    //  private readonly baseUrl = 
+    // const baseUrl = 'https://devops2.intigna.io/trutesta-hccl-services';
     this.setBaseUrl(baseUrl);
   }
   /*

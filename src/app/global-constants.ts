@@ -5,6 +5,7 @@ export class GlobalConstants {
   public static apiServicesConstants = {
     constants: {
       tenantEndPoint: '${serviceUrlPrefix}/dc-tenant-service/tenants/',
+      hcclServicesEndPoint: '${serviceUrlPrefix}/trutesta-hccl-services',
     },
   };
 

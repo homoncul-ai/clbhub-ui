@@ -1,7 +1,8 @@
 {
   "note": "Whatever is 'constants' gets used",
   "constants": {
-    "serviceUrlPrefix": "https://devops2.intigna.io",
+    "serviceUrlPrefixOrig": "https://devops2.intigna.io",
+    "serviceUrlPrefix": "http://localhost:8099",
     "cdnUrlPrefix": "https://cdn-stage.trutesta.io",
     "keycloakUrlPrefix": "https://keycloak-gbs-dev.trutesta.io",
     "gbsUrlPrefix": "https://gbs-stage.intertek.com"
