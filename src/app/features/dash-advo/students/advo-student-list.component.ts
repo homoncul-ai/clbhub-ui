@@ -68,6 +68,10 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
         next: (context: HcclUserContextGETData) => {
           this.userContext = context;
           console.log('User context loaded:', context);
+          // Load data immediately after context is loaded
+          if (this.grid) {
+            this.loadUserProfileData();
+          }
         },
         error: (error) => {
           console.error('Error loading user context:', error);
@@ -161,7 +165,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
         }
       });
 
-      // Load initial data
+      // Load initial data immediately after grid is initialized
       this.loadUserProfileData();
 
     } catch (error) {
@@ -205,16 +209,11 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
       organizationId: organizationId // Use the organization ID from current user profile
     };
 
-    // Add search criteria if provided
+    // Add search criteria if provided, otherwise use '*' to load all records
     if (searchCriteria && searchCriteria.trim() !== '') {
       criteria.searchByText = searchCriteria;
-      // if (searchCriteria.includes('*')) {
-      //   // Handle wildcard search - remove * and search by userCode
-      //   criteria.userCode = searchCriteria.replace(/\*/g, '%');
-      // } else {
-      //   // Search by userCode or userEmail
-        
-      // }
+    } else {
+      criteria.searchByText = '*'; // Load all records by default
     }
 
     this.hcclService.findHcclUserProfiles(criteria).subscribe({
