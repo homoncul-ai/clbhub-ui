@@ -12,7 +12,7 @@ import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.compon
 import { CreateTicketComponent } from './tickets/create-ticket.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
-import { OrgQueueListComponent } from '../../views/uistarter/org-queue-list.component';
+import { OrgQueueListComponent } from '../../components/org-queue-list/org-queue-list.component';
 import { UiStarterComponent0Component } from '../../views/obs/ui-starter-component.0.component';
 
 // Integration Components
