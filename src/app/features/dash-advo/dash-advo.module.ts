@@ -12,6 +12,7 @@ import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.compon
 import { CreateTicketComponent } from './tickets/create-ticket.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
+import { UiStarterComponent0Component } from '../../views/obs/ui-starter-component.0.component';
 
 // Integration Components
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
+      { path: 'obs/ui-starter-component-0', component: UiStarterComponent0Component },
       { 
         path: 'integrations', 
         component: IntegrationsHomeComponent,
@@ -60,6 +62,7 @@ const routes: Routes = [
     CreateTicketComponent,
     UistarterHomeComponent,
     ListSearchStarterComponent,
+    UiStarterComponent0Component,
     IntegrationsHomeComponent,
     CLSchoolsListComponent,
     CLStudentsListComponent,

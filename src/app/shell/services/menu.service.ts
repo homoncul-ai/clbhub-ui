@@ -103,21 +103,11 @@ export class MenuService {
     },
     {
       level: 1,
-      label: 'Sample UI Junk',
+      label: 'Component Inventory',
       route: '/advocate-dashboard/uistarter',
       componentPath: 'src/app/views/uistarter',
       componentName: 'uistarter-home',
-      icon: 'fas fa-ticket-alt',
-      children: [
-        {
-          level: 2,
-          label: 'UIStarter List Search',
-          route: '/advocate-dashboard/uistarter/list-search-starter',
-          componentPath: 'src/app/views/uistarter',
-          componentName: 'list-search-starter',
-          icon: 'fas fa-info-circle'
-        }
-      ]
+      icon: 'fas fa-ticket-alt'
     }
   ];
 

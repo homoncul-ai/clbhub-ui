@@ -1,0 +1,5 @@
+All the components you create will be angular components. 
+None of them 
+
+Add CommonModule to your imports array in the @Component decorator for UistarterHomeComponent.
+This will resolve the error and your table will render as expected!
