@@ -57,6 +57,7 @@ export class OrgQueueTixListComponent implements OnInit, AfterViewInit {
       this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
         columns: [
           { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], width: 120, adjust: true },
+          { id: 'go', header: [{ text: 'Go', align: 'center' }], width: 80, htmlEnable: true, template: () => `<button class=\"go-btn\">Go</button>` },
           { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
           { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
           { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
@@ -81,6 +82,7 @@ export class OrgQueueTixListComponent implements OnInit, AfterViewInit {
           { text: '' },
           { text: '' },
           { text: '' },
+          { text: '' },
         ],
         pagination: {
           limit: 10,
@@ -89,6 +91,11 @@ export class OrgQueueTixListComponent implements OnInit, AfterViewInit {
           navs: true,
           pageSizes: [10, 20, 50],
           range: true,
+        }
+      });
+      this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
+        if (col && col.id === 'go') {
+          alert(`WorkRequest ID: ${row.id}`);
         }
       });
       this.loadListData();
