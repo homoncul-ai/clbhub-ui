@@ -14,6 +14,7 @@ import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.com
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
 import { OrgQueueListComponent } from '../../components/org-queue-list/org-queue-list.component';
 import { UiStarterComponent0Component } from '../../views/obs/ui-starter-component.0.component';
+import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/org-queue-tix-list.component';
 
 // Integration Components
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
+      { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },
       { path: 'obs/ui-starter-component-0', component: UiStarterComponent0Component },
       { 
         path: 'integrations', 
@@ -65,6 +67,7 @@ const routes: Routes = [
     UistarterHomeComponent,
     ListSearchStarterComponent,
     OrgQueueListComponent,
+    OrgQueueTixListComponent,
     UiStarterComponent0Component,
     IntegrationsHomeComponent,
     CLSchoolsListComponent,

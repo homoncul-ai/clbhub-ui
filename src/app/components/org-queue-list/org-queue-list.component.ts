@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { HcclService } from '../../restsvc/hccl.service';
 import { WorkQueueGETData, WorkQueueCriteria, WorkQueueGETDataSearchResults, HcclOrganizationGETData } from '../../restsvc/hccl.interfaces';
 
@@ -21,7 +22,8 @@ export class OrgQueueListComponent implements OnInit, AfterViewInit {
   private organization: HcclOrganizationGETData | null = null;
 
   constructor(
-    private hcclService: HcclService
+    private hcclService: HcclService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -105,7 +107,7 @@ export class OrgQueueListComponent implements OnInit, AfterViewInit {
       // Use cellClick event for the Go button
       this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
         if (col && col.id === 'go') {
-          alert(`Queue ID: ${row.id}`);
+          this.router.navigate(['/advocate-dashboard/org-queue-tix', row.id]);
         }
       });
 
