@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '../../../../restsvc/hccl.service';
-import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.interfaces';
+import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.service';
 import { forkJoin } from 'rxjs';
 
 declare const dhx: any;
@@ -232,7 +232,7 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       };
       
       // Call the promoteStudents service method
-      this.hcclService.promoteStudents(criteria).subscribe({
+      this.hcclService.promoteStudentsToUsers(criteria).subscribe({
         next: (response: SimpleRestActionResponse) => {
           console.log('Promote students response:', response);
           

@@ -114,7 +114,7 @@ export class OrgQueueTixListComponent implements OnInit, AfterViewInit {
     if (searchCriteria && searchCriteria.trim() !== '') {
       criteria.name = searchCriteria;
     }
-    this.hcclService.findworkrequests(criteria).subscribe({
+    this.hcclService.findWorkRequests(criteria).subscribe({
       next: (response: WorkRequestGETDataSearchResults) => {
         if (response.searchResults) {
           this.grid.data.parse(response.searchResults);

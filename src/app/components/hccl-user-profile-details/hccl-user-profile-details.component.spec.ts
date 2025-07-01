@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { HcclUserProfileDetailsComponent } from './hccl-user-profile-details.component';
 import { HcclService } from '../../restsvc/hccl.service';
-import { HcclUserProfileGETData } from '../../restsvc/hccl.interfaces';
+import { HcclUserProfileGETData } from '../../restsvc/hccl.service';
 
 describe('HcclUserProfileDetailsComponent', () => {
   let component: HcclUserProfileDetailsComponent;

@@ -9,12 +9,11 @@ import { HcclService, CLStudentGETData } from '../../restsvc/hccl.service';
   styleUrl: './clstudent.component.scss'
 })
 export class ClstudentComponent implements OnInit {
-/** Update the clstudent component to use the hccl.service.ts and hccl.interfaces.ts and load 
+/** Update the clstudent component to use the hccl.service.ts and hccl.service.ts and load 
  * CLStudenGETData from HcclService with the "id" paramater passed into the component
  * I want to display the data in the component.html file
- * I want to use the hccl.interfaces.ts to define the interface for the data
- * I want to use the hccl.service.ts to call the service
- * I want to use the hccl.interfaces.ts to define the interface for the data
+ * I want to use the hccl.service.ts to define the interface for the data
+ * I want to use the hccl.service.ts to define the interface for the data
  * 
  * Ignore tenantId, 
  */

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '../../restsvc/hccl.service';
-import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../restsvc/hccl.interfaces';
+import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../restsvc/hccl.service';
 
 declare const dhx: any;
 
