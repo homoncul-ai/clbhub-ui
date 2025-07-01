@@ -2326,11 +2326,11 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueGETDataSearchResults>(request);
   }
 
-  resolveTicketContext(userProfileId: string): Observable<HcclUserContextGETData> {
+  resolveTicketContext(userProfileId?: string): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/get-context",
-      method: "GET",
-      params: { userProfileId: this.convertToString(userProfileId) },
+      method: "GET"
+//      params: { userProfileId: this.convertToString(userProfileId) },
     };
     return this.request<HcclUserContextGETData>(request);
   }
