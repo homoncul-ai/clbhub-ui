@@ -8,7 +8,7 @@ import {
   WorkRequestGETData,
   MenuControlData,
   HcclUserContextGETData
-} from '../../restsvc/hccl.interfaces';
+} from '../../restsvc/hccl.service';
 import { MenuControlDataListComponent } from '../menu-control-data-list/menu-control-data-list.component';
 import { HcclUserProfileDetailsComponent } from '../hccl-user-profile-details/hccl-user-profile-details.component';
 
@@ -61,7 +61,7 @@ export class NewWorkRequestComponent implements OnInit {
     this.errorMessage = '';
     
     // Call resolveTicketContext to get the current user context
-    this.hcclService.resolveTicketContext(this.advocateUserProfileId).subscribe({
+    this.hcclService.resolveTicketContext(this.advocateUserProfileId || '').subscribe({
       next: (context: HcclUserContextGETData) => {
         this.userContext = context;
         
@@ -138,7 +138,7 @@ export class NewWorkRequestComponent implements OnInit {
       this.formData.studentUserProfileId = this.clientUserProfileId;
     }
 
-    this.hcclService.createTicket(this.formData).subscribe({
+    this.hcclService.getCreateTicket(this.formData).subscribe({
       next: (result: WorkRequestGETData) => {
         this.loading = false;
         this.successMessage = `Work request created successfully! ID: ${result.id}`;

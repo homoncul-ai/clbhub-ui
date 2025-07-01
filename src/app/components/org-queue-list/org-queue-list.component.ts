@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HcclService } from '../../restsvc/hccl.service';
-import { WorkQueueGETData, WorkQueueCriteria, WorkQueueGETDataSearchResults, HcclOrganizationGETData } from '../../restsvc/hccl.interfaces';
+import { WorkQueueGETData, WorkQueueCriteria, WorkQueueGETDataSearchResults, HcclOrganizationGETData } from '../../restsvc/hccl.service';
 
 declare const dhx: any;
 

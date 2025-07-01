@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '../../restsvc/hccl.service';
-import { HcclUserProfileGETData, HcclUserProfileCriteria } from '../../restsvc/hccl.interfaces';
+import { HcclUserProfileGETData, HcclUserProfileCriteria } from '../../restsvc/hccl.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
