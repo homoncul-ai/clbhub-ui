@@ -10,13 +10,23 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class CommonRequestServiceCaller {
   private baseUrl: string = "";
+  
   constructor(private http: HttpClient) {
   }
+  
   getBaseUrl() {
     return this.baseUrl;
   }
+  
   setBaseUrl(baseUrl: string) {
     this.baseUrl = baseUrl;
+  }
+
+  convertToString(value: any): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    return String(value);
   }
 
   request<T>(req: CommonServiceRequest): Observable<T> {
@@ -69,13 +79,12 @@ export class CommonRequestServiceCaller {
   }
 }
 
-
 export interface CommonServiceRequest<BodyType = any> {
-    baseUrl?: string;
-    url: string;                              // URL suffix, e.g. "/admin/students/query"
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';  // HTTP method
-    body?: BodyType;                         // Optional request payload, typed generically
-    params?: { [param: string]: string | string[] }; // Optional query params
-    headers?: { [header: string]: string | string[] }; // Optional HTTP headers
-  }
+  baseUrl?: string;
+  url: string;                              // URL suffix, e.g. "/admin/students/query"
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';  // HTTP method
+  body?: BodyType;                         // Optional request payload, typed generically
+  params?: { [param: string]: string | string[] }; // Optional query params
+  headers?: { [header: string]: any | any[] }; // Optional HTTP headers
+}
   

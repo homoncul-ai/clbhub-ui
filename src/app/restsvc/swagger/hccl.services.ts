@@ -13,7 +13,7 @@ export class HcclService extends CommonRequestServiceCaller {
     this.setBaseUrl(baseUrl);
   }
 
-  checkApplicationHealth(): Observable<any> {
+  checkapplicationhealth(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/application",
       method: "GET",
@@ -21,7 +21,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCurrentManifest(): Observable<any> {
+  getcurrentmanifest(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/servicemanifest",
       method: "GET",
@@ -29,7 +29,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getInternals(): Observable<any> {
+  getinternals(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/internals.json",
       method: "GET",
@@ -37,7 +37,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getSwagger(): Observable<any> {
+  getswagger(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/swagger.json",
       method: "GET",
@@ -53,7 +53,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  runHealthCheckOnDatabase(): Observable<any> {
+  runhealthcheckondatabase(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/database",
       method: "GET",
@@ -61,7 +61,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getAllLoggers(pageNumber: number, pageSize: number): Observable<any> {
+  getallloggers(pageNumber: number, pageSize: number): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/debug/loggers",
       method: "GET",
@@ -70,7 +70,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  updateLoggerLevel(body: LoggerConfigurationPUTData): Observable<any> {
+  updateloggerlevel(body: LoggerConfigurationPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/debug/loggers/changeloggerlevel",
       method: "PUT",
@@ -79,7 +79,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getJobDefinitions(status: boolean, name: string, pageNumber: number, pageSize: number, isPaging: boolean): Observable<any> {
+  getjobdefinitions(status: boolean, name: string, pageNumber: number, pageSize: number, isPaging: boolean): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions",
       method: "GET",
@@ -88,7 +88,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  createJobDefinition(body: JobDefinitionPOSTData): Observable<any> {
+  createjobdefinition(body: JobDefinitionPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions",
       method: "POST",
@@ -97,7 +97,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getJobDefinitionById(id: string, isError: boolean): Observable<any> {
+  getjobdefinitionbyid(id: string, isError: boolean): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + id + "",
       method: "GET",
@@ -106,7 +106,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  updateJobDefinition(id: string, body: JobDefinitionPUTData): Observable<any> {
+  updatejobdefinition(id: string, body: JobDefinitionPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + id + "",
       method: "PUT",
@@ -115,7 +115,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteJobDefinition(id: string): Observable<any> {
+  deletejobdefinition(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + id + "",
       method: "DELETE",
@@ -123,7 +123,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getJobDefinitionsPost(body: JobDefinitionCriteria): Observable<any> {
+  getjobdefinitionsPost(body: JobDefinitionCriteria): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/query-job-definitions",
       method: "POST",
@@ -132,7 +132,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  initializeJobDefinitions(enableJob: boolean): Observable<any> {
+  initializejobdefinitions(enableJob: boolean): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/initialize",
       method: "POST",
@@ -141,7 +141,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getJobProcessLogs(definition_id: string, name: string, dateCreated: string, isNotCompleted: boolean, pageNumber: number, pageSize: number, isPaging: boolean): Observable<any> {
+  getjobprocesslogs(definition_id: string, name: string, dateCreated: string, isNotCompleted: boolean, pageNumber: number, pageSize: number, isPaging: boolean): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + definition_id + "/process-logs",
       method: "GET",
@@ -150,7 +150,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  createJobProcessLog(definition_id: string, body: JobProcessLogPOSTData): Observable<any> {
+  createjobprocesslog(definition_id: string, body: JobProcessLogPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + definition_id + "/process-logs",
       method: "POST",
@@ -159,7 +159,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getJobProcessLogById(definition_id: string, id: string): Observable<any> {
+  getjobprocesslogbyid(definition_id: string, id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + definition_id + "/process-logs/{id}" + "/hccl/job-definitions//process-logs/" + id + "",
       method: "GET",
@@ -167,7 +167,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  updateJobProcessLog(definition_id: string, id: string, body: JobProcessLogPUTData): Observable<any> {
+  updatejobprocesslog(definition_id: string, id: string, body: JobProcessLogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + definition_id + "/process-logs/{id}" + "/hccl/job-definitions//process-logs/" + id + "",
       method: "PUT",
@@ -176,7 +176,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteJobProcessLog(definition_id: string, id: string): Observable<any> {
+  deletejobprocesslog(definition_id: string, id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + definition_id + "/process-logs/{id}" + "/hccl/job-definitions//process-logs/" + id + "",
       method: "DELETE",
@@ -184,7 +184,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  setJobProcessLogCompleted(definition_id: string, log_id: string): Observable<any> {
+  setjobprocesslogcompleted(definition_id: string, log_id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + definition_id + "/process-logs/{log-id}/completed" + "/hccl/job-definitions//process-logs/" + log_id + "/completed",
       method: "PUT",
@@ -192,7 +192,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  cancelServiceEventLog(id: string): Observable<any> {
+  cancelserviceeventlog(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/" + id + "/cancel",
       method: "PUT",
@@ -200,7 +200,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  createServiceEventLog(body: ServiceEventLogPOSTData): Observable<any> {
+  createserviceeventlog(body: ServiceEventLogPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs",
       method: "POST",
@@ -209,7 +209,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  createServiceEventLogs(body: ServiceEventLogPOSTData[]): Observable<any> {
+  createserviceeventlogs(body: ServiceEventLogPOSTData[]): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/events",
       method: "POST",
@@ -218,7 +218,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getServiceEventLogById(id: string): Observable<any> {
+  getserviceeventlogbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/" + id + "",
       method: "GET",
@@ -226,7 +226,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  updateServiceEventLog(id: string, body: ServiceEventLogPUTData): Observable<any> {
+  updateserviceeventlog(id: string, body: ServiceEventLogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/" + id + "",
       method: "PUT",
@@ -235,7 +235,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteServiceEventLog(id: string): Observable<any> {
+  deleteserviceeventlog(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/" + id + "",
       method: "DELETE",
@@ -243,7 +243,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  downloadFile(service_event_log_id: string): Observable<any> {
+  downloadfile(service_event_log_id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/" + service_event_log_id + "/download-file",
       method: "GET",
@@ -251,7 +251,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getServiceEventLogs(body: ServiceEventLogCriteria): Observable<any> {
+  getserviceeventlogs(body: ServiceEventLogCriteria): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/query-logs",
       method: "POST",
@@ -260,7 +260,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  queryEventSummaryByDisplayNameAndEventName(body: ServiceEventLogCriteria): Observable<any> {
+  queryeventsummarybydisplaynameandeventname(body: ServiceEventLogCriteria): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/query-event-summary-by-name",
       method: "POST",
@@ -269,7 +269,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  queryEventSummaryByEventName(body: ServiceEventLogCriteria): Observable<any> {
+  queryeventsummarybyeventname(body: ServiceEventLogCriteria): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/query-event-summary",
       method: "POST",
@@ -278,7 +278,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  queryEventSummaryByReferenceIdAndEventName(body: ServiceEventLogCriteria): Observable<any> {
+  queryeventsummarybyreferenceidandeventname(body: ServiceEventLogCriteria): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/query-event-summary-by-reference",
       method: "POST",
@@ -287,7 +287,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  createCatalogEntry(body: CatalogEntryPOSTData): Observable<any> {
+  createcatalogentry(body: CatalogEntryPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentry",
       method: "POST",
@@ -296,7 +296,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCatalogEntryById(id: string): Observable<CatalogEntryGETData> {
+  getcatalogentrybyid(id: string): Observable<CatalogEntryGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentry/" + id + "",
       method: "GET",
@@ -304,7 +304,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogEntryGETData>(request);
   }
 
-  updateCatalogEntryById(id: string, body: CatalogEntryPUTData): Observable<any> {
+  updatecatalogentrybyid(id: string, body: CatalogEntryPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentry/" + id + "",
       method: "PUT",
@@ -313,7 +313,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCatalogEntryById(id: string): Observable<any> {
+  deletecatalogentrybyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentry/" + id + "",
       method: "DELETE",
@@ -321,7 +321,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCatalogEntrys(body: CatalogEntryCriteria): Observable<CatalogEntryGETDataSearchResults> {
+  findcatalogentrys(body: CatalogEntryCriteria): Observable<CatalogEntryGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentry/query",
       method: "POST",
@@ -330,7 +330,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogEntryGETDataSearchResults>(request);
   }
 
-  createCatalogEntryTag(body: CatalogEntryTagPOSTData): Observable<any> {
+  createcatalogentrytag(body: CatalogEntryTagPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrytag",
       method: "POST",
@@ -339,7 +339,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCatalogEntryTagById(id: string): Observable<CatalogEntryTagGETData> {
+  getcatalogentrytagbyid(id: string): Observable<CatalogEntryTagGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrytag/" + id + "",
       method: "GET",
@@ -347,7 +347,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogEntryTagGETData>(request);
   }
 
-  updateCatalogEntryTagById(id: string, body: CatalogEntryTagPUTData): Observable<any> {
+  updatecatalogentrytagbyid(id: string, body: CatalogEntryTagPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrytag/" + id + "",
       method: "PUT",
@@ -356,7 +356,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCatalogEntryTagById(id: string): Observable<any> {
+  deletecatalogentrytagbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrytag/" + id + "",
       method: "DELETE",
@@ -364,7 +364,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCatalogEntryTags(body: CatalogEntryTagCriteria): Observable<CatalogEntryTagGETDataSearchResults> {
+  findcatalogentrytags(body: CatalogEntryTagCriteria): Observable<CatalogEntryTagGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrytag/query",
       method: "POST",
@@ -373,7 +373,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogEntryTagGETDataSearchResults>(request);
   }
 
-  createCatalogSearchResultEntry(body: CatalogSearchResultEntryPOSTData): Observable<any> {
+  createcatalogsearchresultentry(body: CatalogSearchResultEntryPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresultentry",
       method: "POST",
@@ -382,7 +382,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCatalogSearchResultEntryById(id: string): Observable<CatalogSearchResultEntryGETData> {
+  getcatalogsearchresultentrybyid(id: string): Observable<CatalogSearchResultEntryGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresultentry/" + id + "",
       method: "GET",
@@ -390,7 +390,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogSearchResultEntryGETData>(request);
   }
 
-  updateCatalogSearchResultEntryById(id: string, body: CatalogSearchResultEntryPUTData): Observable<any> {
+  updatecatalogsearchresultentrybyid(id: string, body: CatalogSearchResultEntryPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresultentry/" + id + "",
       method: "PUT",
@@ -399,7 +399,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCatalogSearchResultEntryById(id: string): Observable<any> {
+  deletecatalogsearchresultentrybyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresultentry/" + id + "",
       method: "DELETE",
@@ -407,7 +407,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCatalogSearchResultEntrys(body: CatalogSearchResultEntryCriteria): Observable<CatalogSearchResultEntryGETDataSearchResults> {
+  findcatalogsearchresultentrys(body: CatalogSearchResultEntryCriteria): Observable<CatalogSearchResultEntryGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresultentry/query",
       method: "POST",
@@ -416,7 +416,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogSearchResultEntryGETDataSearchResults>(request);
   }
 
-  createCatalogSearchResult(body: CatalogSearchResultPOSTData): Observable<any> {
+  createcatalogsearchresult(body: CatalogSearchResultPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresult",
       method: "POST",
@@ -425,7 +425,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCatalogSearchResultById(id: string): Observable<CatalogSearchResultGETData> {
+  getcatalogsearchresultbyid(id: string): Observable<CatalogSearchResultGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresult/" + id + "",
       method: "GET",
@@ -433,7 +433,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogSearchResultGETData>(request);
   }
 
-  updateCatalogSearchResultById(id: string, body: CatalogSearchResultPUTData): Observable<any> {
+  updatecatalogsearchresultbyid(id: string, body: CatalogSearchResultPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresult/" + id + "",
       method: "PUT",
@@ -442,7 +442,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCatalogSearchResultById(id: string): Observable<any> {
+  deletecatalogsearchresultbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresult/" + id + "",
       method: "DELETE",
@@ -450,7 +450,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCatalogSearchResults(body: CatalogSearchResultCriteria): Observable<CatalogSearchResultGETDataSearchResults> {
+  findcatalogsearchresults(body: CatalogSearchResultCriteria): Observable<CatalogSearchResultGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearchresult/query",
       method: "POST",
@@ -459,7 +459,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogSearchResultGETDataSearchResults>(request);
   }
 
-  createCatalogSearch(body: CatalogSearchPOSTData): Observable<any> {
+  createcatalogsearch(body: CatalogSearchPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearch",
       method: "POST",
@@ -468,7 +468,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCatalogSearchById(id: string): Observable<CatalogSearchGETData> {
+  getcatalogsearchbyid(id: string): Observable<CatalogSearchGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearch/" + id + "",
       method: "GET",
@@ -476,7 +476,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogSearchGETData>(request);
   }
 
-  updateCatalogSearchById(id: string, body: CatalogSearchPUTData): Observable<any> {
+  updatecatalogsearchbyid(id: string, body: CatalogSearchPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearch/" + id + "",
       method: "PUT",
@@ -485,7 +485,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCatalogSearchById(id: string): Observable<any> {
+  deletecatalogsearchbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearch/" + id + "",
       method: "DELETE",
@@ -493,7 +493,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCatalogSearchs(body: CatalogSearchCriteria): Observable<CatalogSearchGETDataSearchResults> {
+  findcatalogsearchs(body: CatalogSearchCriteria): Observable<CatalogSearchGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogsearch/query",
       method: "POST",
@@ -502,7 +502,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogSearchGETDataSearchResults>(request);
   }
 
-  createCatalog(body: CatalogPOSTData): Observable<any> {
+  createcatalog(body: CatalogPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalog",
       method: "POST",
@@ -511,7 +511,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCatalogById(id: string): Observable<CatalogGETData> {
+  getcatalogbyid(id: string): Observable<CatalogGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalog/" + id + "",
       method: "GET",
@@ -519,7 +519,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogGETData>(request);
   }
 
-  updateCatalogById(id: string, body: CatalogPUTData): Observable<any> {
+  updatecatalogbyid(id: string, body: CatalogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalog/" + id + "",
       method: "PUT",
@@ -528,7 +528,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCatalogById(id: string): Observable<any> {
+  deletecatalogbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalog/" + id + "",
       method: "DELETE",
@@ -536,7 +536,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCatalogs(body: CatalogCriteria): Observable<CatalogGETDataSearchResults> {
+  findcatalogs(body: CatalogCriteria): Observable<CatalogGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalog/query",
       method: "POST",
@@ -545,7 +545,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogGETDataSearchResults>(request);
   }
 
-  createCatalogTagRef(body: CatalogTagRefPOSTData): Observable<any> {
+  createcatalogtagref(body: CatalogTagRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogtagref",
       method: "POST",
@@ -554,7 +554,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCatalogTagRefById(id: string): Observable<CatalogTagRefGETData> {
+  getcatalogtagrefbyid(id: string): Observable<CatalogTagRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogtagref/" + id + "",
       method: "GET",
@@ -562,7 +562,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogTagRefGETData>(request);
   }
 
-  updateCatalogTagRefById(id: string, body: CatalogTagRefPUTData): Observable<any> {
+  updatecatalogtagrefbyid(id: string, body: CatalogTagRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogtagref/" + id + "",
       method: "PUT",
@@ -571,7 +571,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCatalogTagRefById(id: string): Observable<any> {
+  deletecatalogtagrefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogtagref/" + id + "",
       method: "DELETE",
@@ -579,7 +579,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCatalogTagRefs(body: CatalogTagRefCriteria): Observable<CatalogTagRefGETDataSearchResults> {
+  findcatalogtagrefs(body: CatalogTagRefCriteria): Observable<CatalogTagRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogtagref/query",
       method: "POST",
@@ -588,7 +588,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogTagRefGETDataSearchResults>(request);
   }
 
-  createExperienceLocation(body: ExperienceLocationPOSTData): Observable<any> {
+  createexperiencelocation(body: ExperienceLocationPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencelocation",
       method: "POST",
@@ -597,7 +597,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getExperienceLocationById(id: string): Observable<ExperienceLocationGETData> {
+  getexperiencelocationbyid(id: string): Observable<ExperienceLocationGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencelocation/" + id + "",
       method: "GET",
@@ -605,7 +605,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceLocationGETData>(request);
   }
 
-  updateExperienceLocationById(id: string, body: ExperienceLocationPUTData): Observable<any> {
+  updateexperiencelocationbyid(id: string, body: ExperienceLocationPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencelocation/" + id + "",
       method: "PUT",
@@ -614,7 +614,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteExperienceLocationById(id: string): Observable<any> {
+  deleteexperiencelocationbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencelocation/" + id + "",
       method: "DELETE",
@@ -622,7 +622,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findExperienceLocations(body: ExperienceLocationCriteria): Observable<ExperienceLocationGETDataSearchResults> {
+  findexperiencelocations(body: ExperienceLocationCriteria): Observable<ExperienceLocationGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencelocation/query",
       method: "POST",
@@ -631,7 +631,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceLocationGETDataSearchResults>(request);
   }
 
-  createExperienceRegRule(body: ExperienceRegRulePOSTData): Observable<any> {
+  createexperienceregrule(body: ExperienceRegRulePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experienceregrule",
       method: "POST",
@@ -640,7 +640,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getExperienceRegRuleById(id: string): Observable<ExperienceRegRuleGETData> {
+  getexperienceregrulebyid(id: string): Observable<ExperienceRegRuleGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experienceregrule/" + id + "",
       method: "GET",
@@ -648,7 +648,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceRegRuleGETData>(request);
   }
 
-  updateExperienceRegRuleById(id: string, body: ExperienceRegRulePUTData): Observable<any> {
+  updateexperienceregrulebyid(id: string, body: ExperienceRegRulePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experienceregrule/" + id + "",
       method: "PUT",
@@ -657,7 +657,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteExperienceRegRuleById(id: string): Observable<any> {
+  deleteexperienceregrulebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experienceregrule/" + id + "",
       method: "DELETE",
@@ -665,7 +665,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findExperienceRegRules(body: ExperienceRegRuleCriteria): Observable<ExperienceRegRuleGETDataSearchResults> {
+  findexperienceregrules(body: ExperienceRegRuleCriteria): Observable<ExperienceRegRuleGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experienceregrule/query",
       method: "POST",
@@ -674,7 +674,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceRegRuleGETDataSearchResults>(request);
   }
 
-  createExperience(body: ExperiencePOSTData): Observable<any> {
+  createexperience(body: ExperiencePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experience",
       method: "POST",
@@ -683,7 +683,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getExperienceById(id: string): Observable<ExperienceGETData> {
+  getexperiencebyid(id: string): Observable<ExperienceGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experience/" + id + "",
       method: "GET",
@@ -691,7 +691,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceGETData>(request);
   }
 
-  updateExperienceById(id: string, body: ExperiencePUTData): Observable<any> {
+  updateexperiencebyid(id: string, body: ExperiencePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experience/" + id + "",
       method: "PUT",
@@ -700,7 +700,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteExperienceById(id: string): Observable<any> {
+  deleteexperiencebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experience/" + id + "",
       method: "DELETE",
@@ -708,7 +708,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findExperiences(body: ExperienceCriteria): Observable<ExperienceGETDataSearchResults> {
+  findexperiences(body: ExperienceCriteria): Observable<ExperienceGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experience/query",
       method: "POST",
@@ -717,7 +717,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceGETDataSearchResults>(request);
   }
 
-  createExperienceType(body: ExperienceTypePOSTData): Observable<any> {
+  createexperiencetype(body: ExperienceTypePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencetype",
       method: "POST",
@@ -726,7 +726,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getExperienceTypeById(id: string): Observable<ExperienceTypeGETData> {
+  getexperiencetypebyid(id: string): Observable<ExperienceTypeGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencetype/" + id + "",
       method: "GET",
@@ -734,7 +734,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceTypeGETData>(request);
   }
 
-  updateExperienceTypeById(id: string, body: ExperienceTypePUTData): Observable<any> {
+  updateexperiencetypebyid(id: string, body: ExperienceTypePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencetype/" + id + "",
       method: "PUT",
@@ -743,7 +743,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteExperienceTypeById(id: string): Observable<any> {
+  deleteexperiencetypebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencetype/" + id + "",
       method: "DELETE",
@@ -751,7 +751,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findExperienceTypes(body: ExperienceTypeCriteria): Observable<ExperienceTypeGETDataSearchResults> {
+  findexperiencetypes(body: ExperienceTypeCriteria): Observable<ExperienceTypeGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencetype/query",
       method: "POST",
@@ -760,7 +760,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceTypeGETDataSearchResults>(request);
   }
 
-  createCLCourse(body: CLCoursePOSTData): Observable<any> {
+  createclcourse(body: CLCoursePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clcourse",
       method: "POST",
@@ -769,7 +769,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCLCourseById(id: string): Observable<CLCourseGETData> {
+  getclcoursebyid(id: string): Observable<CLCourseGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clcourse/" + id + "",
       method: "GET",
@@ -777,7 +777,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLCourseGETData>(request);
   }
 
-  updateCLCourseById(id: string, body: CLCoursePUTData): Observable<any> {
+  updateclcoursebyid(id: string, body: CLCoursePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clcourse/" + id + "",
       method: "PUT",
@@ -786,7 +786,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCLCourseById(id: string): Observable<any> {
+  deleteclcoursebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clcourse/" + id + "",
       method: "DELETE",
@@ -794,7 +794,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCLCourses(body: CLCourseCriteria): Observable<CLCourseGETDataSearchResults> {
+  findclcourses(body: CLCourseCriteria): Observable<CLCourseGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clcourse/query",
       method: "POST",
@@ -803,7 +803,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLCourseGETDataSearchResults>(request);
   }
 
-  createCLGuidance(body: CLGuidancePOSTData): Observable<any> {
+  createclguidance(body: CLGuidancePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clguidance",
       method: "POST",
@@ -812,7 +812,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCLGuidanceById(id: string): Observable<CLGuidanceGETData> {
+  getclguidancebyid(id: string): Observable<CLGuidanceGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clguidance/" + id + "",
       method: "GET",
@@ -820,7 +820,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLGuidanceGETData>(request);
   }
 
-  updateCLGuidanceById(id: string, body: CLGuidancePUTData): Observable<any> {
+  updateclguidancebyid(id: string, body: CLGuidancePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clguidance/" + id + "",
       method: "PUT",
@@ -829,7 +829,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCLGuidanceById(id: string): Observable<any> {
+  deleteclguidancebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clguidance/" + id + "",
       method: "DELETE",
@@ -837,7 +837,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCLGuidances(body: CLGuidanceCriteria): Observable<CLGuidanceGETDataSearchResults> {
+  findclguidances(body: CLGuidanceCriteria): Observable<CLGuidanceGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clguidance/query",
       method: "POST",
@@ -846,7 +846,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLGuidanceGETDataSearchResults>(request);
   }
 
-  createCLSchool(body: CLSchoolPOSTData): Observable<any> {
+  createclschool(body: CLSchoolPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clschool",
       method: "POST",
@@ -855,7 +855,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCLSchoolById(id: string): Observable<CLSchoolGETData> {
+  getclschoolbyid(id: string): Observable<CLSchoolGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clschool/" + id + "",
       method: "GET",
@@ -863,7 +863,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLSchoolGETData>(request);
   }
 
-  updateCLSchoolById(id: string, body: CLSchoolPUTData): Observable<any> {
+  updateclschoolbyid(id: string, body: CLSchoolPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clschool/" + id + "",
       method: "PUT",
@@ -872,7 +872,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCLSchoolById(id: string): Observable<any> {
+  deleteclschoolbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clschool/" + id + "",
       method: "DELETE",
@@ -880,7 +880,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCLSchools(body: CLSchoolCriteria): Observable<CLSchoolGETDataSearchResults> {
+  findclschools(body: CLSchoolCriteria): Observable<CLSchoolGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clschool/query",
       method: "POST",
@@ -889,7 +889,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLSchoolGETDataSearchResults>(request);
   }
 
-  createCLStudent(body: CLStudentPOSTData): Observable<any> {
+  createclstudent(body: CLStudentPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clstudent",
       method: "POST",
@@ -898,7 +898,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getCLStudentById(id: string): Observable<CLStudentGETData> {
+  getclstudentbyid(id: string): Observable<CLStudentGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clstudent/" + id + "",
       method: "GET",
@@ -906,7 +906,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLStudentGETData>(request);
   }
 
-  updateCLStudentById(id: string, body: CLStudentPUTData): Observable<any> {
+  updateclstudentbyid(id: string, body: CLStudentPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clstudent/" + id + "",
       method: "PUT",
@@ -915,7 +915,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteCLStudentById(id: string): Observable<any> {
+  deleteclstudentbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clstudent/" + id + "",
       method: "DELETE",
@@ -923,7 +923,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findCLStudents(body: CLStudentCriteria): Observable<CLStudentGETDataSearchResults> {
+  findclstudents(body: CLStudentCriteria): Observable<CLStudentGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clstudent/query",
       method: "POST",
@@ -932,7 +932,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLStudentGETDataSearchResults>(request);
   }
 
-  createProvider(body: ProviderPOSTData): Observable<any> {
+  createprovider(body: ProviderPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider",
       method: "POST",
@@ -941,7 +941,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getProviderById(id: string): Observable<ProviderGETData> {
+  getproviderbyid(id: string): Observable<ProviderGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider/" + id + "",
       method: "GET",
@@ -949,7 +949,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderGETData>(request);
   }
 
-  updateProviderById(id: string, body: ProviderPUTData): Observable<any> {
+  updateproviderbyid(id: string, body: ProviderPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider/" + id + "",
       method: "PUT",
@@ -958,7 +958,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteProviderById(id: string): Observable<any> {
+  deleteproviderbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider/" + id + "",
       method: "DELETE",
@@ -966,7 +966,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findProviders(body: ProviderCriteria): Observable<ProviderGETDataSearchResults> {
+  findproviders(body: ProviderCriteria): Observable<ProviderGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider/query",
       method: "POST",
@@ -975,7 +975,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderGETDataSearchResults>(request);
   }
 
-  createProviderTypeRef(body: ProviderTypeRefPOSTData): Observable<any> {
+  createprovidertyperef(body: ProviderTypeRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/providertyperef",
       method: "POST",
@@ -984,7 +984,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getProviderTypeRefById(id: string): Observable<ProviderTypeRefGETData> {
+  getprovidertyperefbyid(id: string): Observable<ProviderTypeRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/providertyperef/" + id + "",
       method: "GET",
@@ -992,7 +992,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderTypeRefGETData>(request);
   }
 
-  updateProviderTypeRefById(id: string, body: ProviderTypeRefPUTData): Observable<any> {
+  updateprovidertyperefbyid(id: string, body: ProviderTypeRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/providertyperef/" + id + "",
       method: "PUT",
@@ -1001,7 +1001,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteProviderTypeRefById(id: string): Observable<any> {
+  deleteprovidertyperefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/providertyperef/" + id + "",
       method: "DELETE",
@@ -1009,7 +1009,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findProviderTypeRefs(body: ProviderTypeRefCriteria): Observable<ProviderTypeRefGETDataSearchResults> {
+  findprovidertyperefs(body: ProviderTypeRefCriteria): Observable<ProviderTypeRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/providertyperef/query",
       method: "POST",
@@ -1018,7 +1018,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderTypeRefGETDataSearchResults>(request);
   }
 
-  createProviderUser(body: ProviderUserPOSTData): Observable<any> {
+  createprovideruser(body: ProviderUserPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provideruser",
       method: "POST",
@@ -1027,7 +1027,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getProviderUserById(id: string): Observable<ProviderUserGETData> {
+  getprovideruserbyid(id: string): Observable<ProviderUserGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provideruser/" + id + "",
       method: "GET",
@@ -1035,7 +1035,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderUserGETData>(request);
   }
 
-  updateProviderUserById(id: string, body: ProviderUserPUTData): Observable<any> {
+  updateprovideruserbyid(id: string, body: ProviderUserPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provideruser/" + id + "",
       method: "PUT",
@@ -1044,7 +1044,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteProviderUserById(id: string): Observable<any> {
+  deleteprovideruserbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provideruser/" + id + "",
       method: "DELETE",
@@ -1052,7 +1052,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findProviderUsers(body: ProviderUserCriteria): Observable<ProviderUserGETDataSearchResults> {
+  findproviderusers(body: ProviderUserCriteria): Observable<ProviderUserGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provideruser/query",
       method: "POST",
@@ -1061,7 +1061,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderUserGETDataSearchResults>(request);
   }
 
-  createProviderRequest(body: ProviderRequestPOSTData): Observable<any> {
+  createproviderrequest(body: ProviderRequestPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequest",
       method: "POST",
@@ -1070,7 +1070,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getProviderRequestById(id: string): Observable<ProviderRequestGETData> {
+  getproviderrequestbyid(id: string): Observable<ProviderRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequest/" + id + "",
       method: "GET",
@@ -1078,7 +1078,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderRequestGETData>(request);
   }
 
-  updateProviderRequestById(id: string, body: ProviderRequestPUTData): Observable<any> {
+  updateproviderrequestbyid(id: string, body: ProviderRequestPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequest/" + id + "",
       method: "PUT",
@@ -1087,7 +1087,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteProviderRequestById(id: string): Observable<any> {
+  deleteproviderrequestbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequest/" + id + "",
       method: "DELETE",
@@ -1095,7 +1095,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findProviderRequests(body: ProviderRequestCriteria): Observable<ProviderRequestGETDataSearchResults> {
+  findproviderrequests(body: ProviderRequestCriteria): Observable<ProviderRequestGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequest/query",
       method: "POST",
@@ -1104,7 +1104,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderRequestGETDataSearchResults>(request);
   }
 
-  createProviderRequestTypeRef(body: ProviderRequestTypeRefPOSTData): Observable<any> {
+  createproviderrequesttyperef(body: ProviderRequestTypeRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequesttyperef",
       method: "POST",
@@ -1113,7 +1113,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getProviderRequestTypeRefById(id: string): Observable<ProviderRequestTypeRefGETData> {
+  getproviderrequesttyperefbyid(id: string): Observable<ProviderRequestTypeRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequesttyperef/" + id + "",
       method: "GET",
@@ -1121,7 +1121,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderRequestTypeRefGETData>(request);
   }
 
-  updateProviderRequestTypeRefById(id: string, body: ProviderRequestTypeRefPUTData): Observable<any> {
+  updateproviderrequesttyperefbyid(id: string, body: ProviderRequestTypeRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequesttyperef/" + id + "",
       method: "PUT",
@@ -1130,7 +1130,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteProviderRequestTypeRefById(id: string): Observable<any> {
+  deleteproviderrequesttyperefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequesttyperef/" + id + "",
       method: "DELETE",
@@ -1138,7 +1138,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findProviderRequestTypeRefs(body: ProviderRequestTypeRefCriteria): Observable<ProviderRequestTypeRefGETDataSearchResults> {
+  findproviderrequesttyperefs(body: ProviderRequestTypeRefCriteria): Observable<ProviderRequestTypeRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/provreq/providerrequesttyperef/query",
       method: "POST",
@@ -1147,7 +1147,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ProviderRequestTypeRefGETDataSearchResults>(request);
   }
 
-  createStateTransitionLog(body: StateTransitionLogPOSTData): Observable<any> {
+  createstatetransitionlog(body: StateTransitionLogPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/statemachine/statetransitionlog",
       method: "POST",
@@ -1156,7 +1156,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getStateTransitionLogById(id: string): Observable<StateTransitionLogGETData> {
+  getstatetransitionlogbyid(id: string): Observable<StateTransitionLogGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/statemachine/statetransitionlog/" + id + "",
       method: "GET",
@@ -1164,7 +1164,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<StateTransitionLogGETData>(request);
   }
 
-  updateStateTransitionLogById(id: string, body: StateTransitionLogPUTData): Observable<any> {
+  updatestatetransitionlogbyid(id: string, body: StateTransitionLogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/statemachine/statetransitionlog/" + id + "",
       method: "PUT",
@@ -1173,7 +1173,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteStateTransitionLogById(id: string): Observable<any> {
+  deletestatetransitionlogbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/statemachine/statetransitionlog/" + id + "",
       method: "DELETE",
@@ -1181,7 +1181,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findStateTransitionLogs(body: StateTransitionLogCriteria): Observable<StateTransitionLogGETDataSearchResults> {
+  findstatetransitionlogs(body: StateTransitionLogCriteria): Observable<StateTransitionLogGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/statemachine/statetransitionlog/query",
       method: "POST",
@@ -1190,7 +1190,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<StateTransitionLogGETDataSearchResults>(request);
   }
 
-  createTaxonomyEntry(body: TaxonomyEntryPOSTData): Observable<any> {
+  createtaxonomyentry(body: TaxonomyEntryPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomyentry",
       method: "POST",
@@ -1199,7 +1199,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getTaxonomyEntryById(id: string): Observable<TaxonomyEntryGETData> {
+  gettaxonomyentrybyid(id: string): Observable<TaxonomyEntryGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomyentry/" + id + "",
       method: "GET",
@@ -1207,7 +1207,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TaxonomyEntryGETData>(request);
   }
 
-  updateTaxonomyEntryById(id: string, body: TaxonomyEntryPUTData): Observable<any> {
+  updatetaxonomyentrybyid(id: string, body: TaxonomyEntryPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomyentry/" + id + "",
       method: "PUT",
@@ -1216,7 +1216,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteTaxonomyEntryById(id: string): Observable<any> {
+  deletetaxonomyentrybyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomyentry/" + id + "",
       method: "DELETE",
@@ -1224,7 +1224,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findTaxonomyEntrys(body: TaxonomyEntryCriteria): Observable<TaxonomyEntryGETDataSearchResults> {
+  findtaxonomyentrys(body: TaxonomyEntryCriteria): Observable<TaxonomyEntryGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomyentry/query",
       method: "POST",
@@ -1233,7 +1233,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TaxonomyEntryGETDataSearchResults>(request);
   }
 
-  createTaxonomyLevel(body: TaxonomyLevelPOSTData): Observable<any> {
+  createtaxonomylevel(body: TaxonomyLevelPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomylevel",
       method: "POST",
@@ -1242,7 +1242,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getTaxonomyLevelById(id: string): Observable<TaxonomyLevelGETData> {
+  gettaxonomylevelbyid(id: string): Observable<TaxonomyLevelGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomylevel/" + id + "",
       method: "GET",
@@ -1250,7 +1250,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TaxonomyLevelGETData>(request);
   }
 
-  updateTaxonomyLevelById(id: string, body: TaxonomyLevelPUTData): Observable<any> {
+  updatetaxonomylevelbyid(id: string, body: TaxonomyLevelPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomylevel/" + id + "",
       method: "PUT",
@@ -1259,7 +1259,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteTaxonomyLevelById(id: string): Observable<any> {
+  deletetaxonomylevelbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomylevel/" + id + "",
       method: "DELETE",
@@ -1267,7 +1267,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findTaxonomyLevels(body: TaxonomyLevelCriteria): Observable<TaxonomyLevelGETDataSearchResults> {
+  findtaxonomylevels(body: TaxonomyLevelCriteria): Observable<TaxonomyLevelGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomylevel/query",
       method: "POST",
@@ -1276,7 +1276,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TaxonomyLevelGETDataSearchResults>(request);
   }
 
-  createTaxonomy(body: TaxonomyPOSTData): Observable<any> {
+  createtaxonomy(body: TaxonomyPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomy",
       method: "POST",
@@ -1285,7 +1285,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getTaxonomyById(id: string): Observable<TaxonomyGETData> {
+  gettaxonomybyid(id: string): Observable<TaxonomyGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomy/" + id + "",
       method: "GET",
@@ -1293,7 +1293,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TaxonomyGETData>(request);
   }
 
-  updateTaxonomyById(id: string, body: TaxonomyPUTData): Observable<any> {
+  updatetaxonomybyid(id: string, body: TaxonomyPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomy/" + id + "",
       method: "PUT",
@@ -1302,7 +1302,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteTaxonomyById(id: string): Observable<any> {
+  deletetaxonomybyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomy/" + id + "",
       method: "DELETE",
@@ -1310,7 +1310,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findTaxonomys(body: TaxonomyCriteria): Observable<TaxonomyGETDataSearchResults> {
+  findtaxonomys(body: TaxonomyCriteria): Observable<TaxonomyGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/taxonomy/taxonomy/query",
       method: "POST",
@@ -1319,7 +1319,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TaxonomyGETDataSearchResults>(request);
   }
 
-  createHcclOrganization(body: HcclOrganizationPOSTData): Observable<any> {
+  createhcclorganization(body: HcclOrganizationPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization",
       method: "POST",
@@ -1328,7 +1328,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclOrganizationById(id: string): Observable<HcclOrganizationGETData> {
+  gethcclorganizationbyid(id: string): Observable<HcclOrganizationGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization/" + id + "",
       method: "GET",
@@ -1336,7 +1336,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclOrganizationGETData>(request);
   }
 
-  updateHcclOrganizationById(id: string, body: HcclOrganizationPUTData): Observable<any> {
+  updatehcclorganizationbyid(id: string, body: HcclOrganizationPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization/" + id + "",
       method: "PUT",
@@ -1345,7 +1345,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclOrganizationById(id: string): Observable<any> {
+  deletehcclorganizationbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization/" + id + "",
       method: "DELETE",
@@ -1353,7 +1353,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclOrganizations(body: HcclOrganizationCriteria): Observable<HcclOrganizationGETDataSearchResults> {
+  findhcclorganizations(body: HcclOrganizationCriteria): Observable<HcclOrganizationGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization/query",
       method: "POST",
@@ -1362,7 +1362,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclOrganizationGETDataSearchResults>(request);
   }
 
-  createHcclOrganizationTypeRef(body: HcclOrganizationTypeRefPOSTData): Observable<any> {
+  createhcclorganizationtyperef(body: HcclOrganizationTypeRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganizationtyperef",
       method: "POST",
@@ -1371,7 +1371,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclOrganizationTypeRefById(id: string): Observable<HcclOrganizationTypeRefGETData> {
+  gethcclorganizationtyperefbyid(id: string): Observable<HcclOrganizationTypeRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganizationtyperef/" + id + "",
       method: "GET",
@@ -1379,7 +1379,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclOrganizationTypeRefGETData>(request);
   }
 
-  updateHcclOrganizationTypeRefById(id: string, body: HcclOrganizationTypeRefPUTData): Observable<any> {
+  updatehcclorganizationtyperefbyid(id: string, body: HcclOrganizationTypeRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganizationtyperef/" + id + "",
       method: "PUT",
@@ -1388,7 +1388,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclOrganizationTypeRefById(id: string): Observable<any> {
+  deletehcclorganizationtyperefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganizationtyperef/" + id + "",
       method: "DELETE",
@@ -1396,7 +1396,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclOrganizationTypeRefs(body: HcclOrganizationTypeRefCriteria): Observable<HcclOrganizationTypeRefGETDataSearchResults> {
+  findhcclorganizationtyperefs(body: HcclOrganizationTypeRefCriteria): Observable<HcclOrganizationTypeRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganizationtyperef/query",
       method: "POST",
@@ -1405,7 +1405,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclOrganizationTypeRefGETDataSearchResults>(request);
   }
 
-  createHcclTeamLog(body: HcclTeamLogPOSTData): Observable<any> {
+  createhcclteamlog(body: HcclTeamLogPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteamlog",
       method: "POST",
@@ -1414,7 +1414,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclTeamLogById(id: string): Observable<HcclTeamLogGETData> {
+  gethcclteamlogbyid(id: string): Observable<HcclTeamLogGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteamlog/" + id + "",
       method: "GET",
@@ -1422,7 +1422,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamLogGETData>(request);
   }
 
-  updateHcclTeamLogById(id: string, body: HcclTeamLogPUTData): Observable<any> {
+  updatehcclteamlogbyid(id: string, body: HcclTeamLogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteamlog/" + id + "",
       method: "PUT",
@@ -1431,7 +1431,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclTeamLogById(id: string): Observable<any> {
+  deletehcclteamlogbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteamlog/" + id + "",
       method: "DELETE",
@@ -1439,7 +1439,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclTeamLogs(body: HcclTeamLogCriteria): Observable<HcclTeamLogGETDataSearchResults> {
+  findhcclteamlogs(body: HcclTeamLogCriteria): Observable<HcclTeamLogGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteamlog/query",
       method: "POST",
@@ -1448,7 +1448,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamLogGETDataSearchResults>(request);
   }
 
-  createHcclTeamMemberRole(body: HcclTeamMemberRolePOSTData): Observable<any> {
+  createhcclteammemberrole(body: HcclTeamMemberRolePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammemberrole",
       method: "POST",
@@ -1457,7 +1457,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclTeamMemberRoleById(id: string): Observable<HcclTeamMemberRoleGETData> {
+  gethcclteammemberrolebyid(id: string): Observable<HcclTeamMemberRoleGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammemberrole/" + id + "",
       method: "GET",
@@ -1465,7 +1465,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamMemberRoleGETData>(request);
   }
 
-  updateHcclTeamMemberRoleById(id: string, body: HcclTeamMemberRolePUTData): Observable<any> {
+  updatehcclteammemberrolebyid(id: string, body: HcclTeamMemberRolePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammemberrole/" + id + "",
       method: "PUT",
@@ -1474,7 +1474,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclTeamMemberRoleById(id: string): Observable<any> {
+  deletehcclteammemberrolebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammemberrole/" + id + "",
       method: "DELETE",
@@ -1482,7 +1482,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclTeamMemberRoles(body: HcclTeamMemberRoleCriteria): Observable<HcclTeamMemberRoleGETDataSearchResults> {
+  findhcclteammemberroles(body: HcclTeamMemberRoleCriteria): Observable<HcclTeamMemberRoleGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammemberrole/query",
       method: "POST",
@@ -1491,7 +1491,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamMemberRoleGETDataSearchResults>(request);
   }
 
-  createHcclTeamMember(body: HcclTeamMemberPOSTData): Observable<any> {
+  createhcclteammember(body: HcclTeamMemberPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammember",
       method: "POST",
@@ -1500,7 +1500,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclTeamMemberById(id: string): Observable<HcclTeamMemberGETData> {
+  gethcclteammemberbyid(id: string): Observable<HcclTeamMemberGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammember/" + id + "",
       method: "GET",
@@ -1508,7 +1508,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamMemberGETData>(request);
   }
 
-  updateHcclTeamMemberById(id: string, body: HcclTeamMemberPUTData): Observable<any> {
+  updatehcclteammemberbyid(id: string, body: HcclTeamMemberPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammember/" + id + "",
       method: "PUT",
@@ -1517,7 +1517,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclTeamMemberById(id: string): Observable<any> {
+  deletehcclteammemberbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammember/" + id + "",
       method: "DELETE",
@@ -1525,7 +1525,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclTeamMembers(body: HcclTeamMemberCriteria): Observable<HcclTeamMemberGETDataSearchResults> {
+  findhcclteammembers(body: HcclTeamMemberCriteria): Observable<HcclTeamMemberGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteammember/query",
       method: "POST",
@@ -1534,7 +1534,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamMemberGETDataSearchResults>(request);
   }
 
-  createHcclTeam(body: HcclTeamPOSTData): Observable<any> {
+  createhcclteam(body: HcclTeamPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteam",
       method: "POST",
@@ -1543,7 +1543,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclTeamById(id: string): Observable<HcclTeamGETData> {
+  gethcclteambyid(id: string): Observable<HcclTeamGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteam/" + id + "",
       method: "GET",
@@ -1551,7 +1551,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamGETData>(request);
   }
 
-  updateHcclTeamById(id: string, body: HcclTeamPUTData): Observable<any> {
+  updatehcclteambyid(id: string, body: HcclTeamPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteam/" + id + "",
       method: "PUT",
@@ -1560,7 +1560,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclTeamById(id: string): Observable<any> {
+  deletehcclteambyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteam/" + id + "",
       method: "DELETE",
@@ -1568,7 +1568,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclTeams(body: HcclTeamCriteria): Observable<HcclTeamGETDataSearchResults> {
+  findhcclteams(body: HcclTeamCriteria): Observable<HcclTeamGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclteam/query",
       method: "POST",
@@ -1577,7 +1577,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamGETDataSearchResults>(request);
   }
 
-  createHcclUserProfile(body: HcclUserProfilePOSTData): Observable<any> {
+  createhccluserprofile(body: HcclUserProfilePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofile",
       method: "POST",
@@ -1586,7 +1586,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclUserProfileById(id: string): Observable<HcclUserProfileGETData> {
+  gethccluserprofilebyid(id: string): Observable<HcclUserProfileGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofile/" + id + "",
       method: "GET",
@@ -1594,7 +1594,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserProfileGETData>(request);
   }
 
-  updateHcclUserProfileById(id: string, body: HcclUserProfilePUTData): Observable<any> {
+  updatehccluserprofilebyid(id: string, body: HcclUserProfilePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofile/" + id + "",
       method: "PUT",
@@ -1603,7 +1603,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclUserProfileById(id: string): Observable<any> {
+  deletehccluserprofilebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofile/" + id + "",
       method: "DELETE",
@@ -1611,7 +1611,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclUserProfiles(body: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults> {
+  findhccluserprofiles(body: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofile/query",
       method: "POST",
@@ -1620,7 +1620,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserProfileGETDataSearchResults>(request);
   }
 
-  createHcclUser(body: HcclUserPOSTData): Observable<any> {
+  createhccluser(body: HcclUserPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluser",
       method: "POST",
@@ -1629,7 +1629,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getHcclUserById(id: string): Observable<HcclUserGETData> {
+  gethccluserbyid(id: string): Observable<HcclUserGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluser/" + id + "",
       method: "GET",
@@ -1637,7 +1637,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserGETData>(request);
   }
 
-  updateHcclUserById(id: string, body: HcclUserPUTData): Observable<any> {
+  updatehccluserbyid(id: string, body: HcclUserPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluser/" + id + "",
       method: "PUT",
@@ -1646,7 +1646,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteHcclUserById(id: string): Observable<any> {
+  deletehccluserbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluser/" + id + "",
       method: "DELETE",
@@ -1654,7 +1654,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findHcclUsers(body: HcclUserCriteria): Observable<HcclUserGETDataSearchResults> {
+  findhcclusers(body: HcclUserCriteria): Observable<HcclUserGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluser/query",
       method: "POST",
@@ -1663,7 +1663,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserGETDataSearchResults>(request);
   }
 
-  createTeamMemberRoleRef(body: TeamMemberRoleRefPOSTData): Observable<any> {
+  createteammemberroleref(body: TeamMemberRoleRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teammemberroleref",
       method: "POST",
@@ -1672,7 +1672,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getTeamMemberRoleRefById(id: string): Observable<TeamMemberRoleRefGETData> {
+  getteammemberrolerefbyid(id: string): Observable<TeamMemberRoleRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teammemberroleref/" + id + "",
       method: "GET",
@@ -1680,7 +1680,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TeamMemberRoleRefGETData>(request);
   }
 
-  updateTeamMemberRoleRefById(id: string, body: TeamMemberRoleRefPUTData): Observable<any> {
+  updateteammemberrolerefbyid(id: string, body: TeamMemberRoleRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teammemberroleref/" + id + "",
       method: "PUT",
@@ -1689,7 +1689,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteTeamMemberRoleRefById(id: string): Observable<any> {
+  deleteteammemberrolerefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teammemberroleref/" + id + "",
       method: "DELETE",
@@ -1697,7 +1697,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findTeamMemberRoleRefs(body: TeamMemberRoleRefCriteria): Observable<TeamMemberRoleRefGETDataSearchResults> {
+  findteammemberrolerefs(body: TeamMemberRoleRefCriteria): Observable<TeamMemberRoleRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teammemberroleref/query",
       method: "POST",
@@ -1706,7 +1706,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TeamMemberRoleRefGETDataSearchResults>(request);
   }
 
-  createTeamTypeMemberRoleRef(body: TeamTypeMemberRoleRefPOSTData): Observable<any> {
+  createteamtypememberroleref(body: TeamTypeMemberRoleRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtypememberroleref",
       method: "POST",
@@ -1715,7 +1715,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getTeamTypeMemberRoleRefById(id: string): Observable<TeamTypeMemberRoleRefGETData> {
+  getteamtypememberrolerefbyid(id: string): Observable<TeamTypeMemberRoleRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtypememberroleref/" + id + "",
       method: "GET",
@@ -1723,7 +1723,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TeamTypeMemberRoleRefGETData>(request);
   }
 
-  updateTeamTypeMemberRoleRefById(id: string, body: TeamTypeMemberRoleRefPUTData): Observable<any> {
+  updateteamtypememberrolerefbyid(id: string, body: TeamTypeMemberRoleRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtypememberroleref/" + id + "",
       method: "PUT",
@@ -1732,7 +1732,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteTeamTypeMemberRoleRefById(id: string): Observable<any> {
+  deleteteamtypememberrolerefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtypememberroleref/" + id + "",
       method: "DELETE",
@@ -1740,7 +1740,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findTeamTypeMemberRoleRefs(body: TeamTypeMemberRoleRefCriteria): Observable<TeamTypeMemberRoleRefGETDataSearchResults> {
+  findteamtypememberrolerefs(body: TeamTypeMemberRoleRefCriteria): Observable<TeamTypeMemberRoleRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtypememberroleref/query",
       method: "POST",
@@ -1749,7 +1749,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TeamTypeMemberRoleRefGETDataSearchResults>(request);
   }
 
-  createTeamTypeRef(body: TeamTypeRefPOSTData): Observable<any> {
+  createteamtyperef(body: TeamTypeRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtyperef",
       method: "POST",
@@ -1758,7 +1758,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getTeamTypeRefById(id: string): Observable<TeamTypeRefGETData> {
+  getteamtyperefbyid(id: string): Observable<TeamTypeRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtyperef/" + id + "",
       method: "GET",
@@ -1766,7 +1766,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TeamTypeRefGETData>(request);
   }
 
-  updateTeamTypeRefById(id: string, body: TeamTypeRefPUTData): Observable<any> {
+  updateteamtyperefbyid(id: string, body: TeamTypeRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtyperef/" + id + "",
       method: "PUT",
@@ -1775,7 +1775,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteTeamTypeRefById(id: string): Observable<any> {
+  deleteteamtyperefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtyperef/" + id + "",
       method: "DELETE",
@@ -1783,7 +1783,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findTeamTypeRefs(body: TeamTypeRefCriteria): Observable<TeamTypeRefGETDataSearchResults> {
+  findteamtyperefs(body: TeamTypeRefCriteria): Observable<TeamTypeRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/teamtyperef/query",
       method: "POST",
@@ -1792,7 +1792,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TeamTypeRefGETDataSearchResults>(request);
   }
 
-  createWorkQueue(body: WorkQueuePOSTData): Observable<any> {
+  createworkqueue(body: WorkQueuePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueue",
       method: "POST",
@@ -1801,7 +1801,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkQueueById(id: string): Observable<WorkQueueGETData> {
+  getworkqueuebyid(id: string): Observable<WorkQueueGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueue/" + id + "",
       method: "GET",
@@ -1809,7 +1809,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueGETData>(request);
   }
 
-  updateWorkQueueById(id: string, body: WorkQueuePUTData): Observable<any> {
+  updateworkqueuebyid(id: string, body: WorkQueuePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueue/" + id + "",
       method: "PUT",
@@ -1818,7 +1818,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkQueueById(id: string): Observable<any> {
+  deleteworkqueuebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueue/" + id + "",
       method: "DELETE",
@@ -1826,7 +1826,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkQueues(body: WorkQueueCriteria): Observable<WorkQueueGETDataSearchResults> {
+  findworkqueues(body: WorkQueueCriteria): Observable<WorkQueueGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueue/query",
       method: "POST",
@@ -1835,7 +1835,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueGETDataSearchResults>(request);
   }
 
-  createWorkQueueTypeRef(body: WorkQueueTypeRefPOSTData): Observable<any> {
+  createworkqueuetyperef(body: WorkQueueTypeRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueuetyperef",
       method: "POST",
@@ -1844,7 +1844,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkQueueTypeRefById(id: string): Observable<WorkQueueTypeRefGETData> {
+  getworkqueuetyperefbyid(id: string): Observable<WorkQueueTypeRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueuetyperef/" + id + "",
       method: "GET",
@@ -1852,7 +1852,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueTypeRefGETData>(request);
   }
 
-  updateWorkQueueTypeRefById(id: string, body: WorkQueueTypeRefPUTData): Observable<any> {
+  updateworkqueuetyperefbyid(id: string, body: WorkQueueTypeRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueuetyperef/" + id + "",
       method: "PUT",
@@ -1861,7 +1861,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkQueueTypeRefById(id: string): Observable<any> {
+  deleteworkqueuetyperefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueuetyperef/" + id + "",
       method: "DELETE",
@@ -1869,7 +1869,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkQueueTypeRefs(body: WorkQueueTypeRefCriteria): Observable<WorkQueueTypeRefGETDataSearchResults> {
+  findworkqueuetyperefs(body: WorkQueueTypeRefCriteria): Observable<WorkQueueTypeRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueuetyperef/query",
       method: "POST",
@@ -1878,7 +1878,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueTypeRefGETDataSearchResults>(request);
   }
 
-  createWorkRequestItem(body: WorkRequestItemPOSTData): Observable<any> {
+  createworkrequestitem(body: WorkRequestItemPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestitem",
       method: "POST",
@@ -1887,7 +1887,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkRequestItemById(id: string): Observable<WorkRequestItemGETData> {
+  getworkrequestitembyid(id: string): Observable<WorkRequestItemGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestitem/" + id + "",
       method: "GET",
@@ -1895,7 +1895,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestItemGETData>(request);
   }
 
-  updateWorkRequestItemById(id: string, body: WorkRequestItemPUTData): Observable<any> {
+  updateworkrequestitembyid(id: string, body: WorkRequestItemPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestitem/" + id + "",
       method: "PUT",
@@ -1904,7 +1904,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkRequestItemById(id: string): Observable<any> {
+  deleteworkrequestitembyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestitem/" + id + "",
       method: "DELETE",
@@ -1912,7 +1912,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkRequestItems(body: WorkRequestItemCriteria): Observable<WorkRequestItemGETDataSearchResults> {
+  findworkrequestitems(body: WorkRequestItemCriteria): Observable<WorkRequestItemGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestitem/query",
       method: "POST",
@@ -1921,7 +1921,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestItemGETDataSearchResults>(request);
   }
 
-  createWorkRequestLog(body: WorkRequestLogPOSTData): Observable<any> {
+  createworkrequestlog(body: WorkRequestLogPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestlog",
       method: "POST",
@@ -1930,7 +1930,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkRequestLogById(id: string): Observable<WorkRequestLogGETData> {
+  getworkrequestlogbyid(id: string): Observable<WorkRequestLogGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestlog/" + id + "",
       method: "GET",
@@ -1938,7 +1938,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestLogGETData>(request);
   }
 
-  updateWorkRequestLogById(id: string, body: WorkRequestLogPUTData): Observable<any> {
+  updateworkrequestlogbyid(id: string, body: WorkRequestLogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestlog/" + id + "",
       method: "PUT",
@@ -1947,7 +1947,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkRequestLogById(id: string): Observable<any> {
+  deleteworkrequestlogbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestlog/" + id + "",
       method: "DELETE",
@@ -1955,7 +1955,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkRequestLogs(body: WorkRequestLogCriteria): Observable<WorkRequestLogGETDataSearchResults> {
+  findworkrequestlogs(body: WorkRequestLogCriteria): Observable<WorkRequestLogGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestlog/query",
       method: "POST",
@@ -1964,7 +1964,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestLogGETDataSearchResults>(request);
   }
 
-  createWorkRequestRoutingReason(body: WorkRequestRoutingReasonPOSTData): Observable<any> {
+  createworkrequestroutingreason(body: WorkRequestRoutingReasonPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestroutingreason",
       method: "POST",
@@ -1973,7 +1973,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkRequestRoutingReasonById(id: string): Observable<WorkRequestRoutingReasonGETData> {
+  getworkrequestroutingreasonbyid(id: string): Observable<WorkRequestRoutingReasonGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestroutingreason/" + id + "",
       method: "GET",
@@ -1981,7 +1981,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestRoutingReasonGETData>(request);
   }
 
-  updateWorkRequestRoutingReasonById(id: string, body: WorkRequestRoutingReasonPUTData): Observable<any> {
+  updateworkrequestroutingreasonbyid(id: string, body: WorkRequestRoutingReasonPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestroutingreason/" + id + "",
       method: "PUT",
@@ -1990,7 +1990,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkRequestRoutingReasonById(id: string): Observable<any> {
+  deleteworkrequestroutingreasonbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestroutingreason/" + id + "",
       method: "DELETE",
@@ -1998,7 +1998,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkRequestRoutingReasons(body: WorkRequestRoutingReasonCriteria): Observable<WorkRequestRoutingReasonGETDataSearchResults> {
+  findworkrequestroutingreasons(body: WorkRequestRoutingReasonCriteria): Observable<WorkRequestRoutingReasonGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestroutingreason/query",
       method: "POST",
@@ -2007,7 +2007,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestRoutingReasonGETDataSearchResults>(request);
   }
 
-  createWorkRequest(body: WorkRequestPOSTData): Observable<any> {
+  createworkrequest(body: WorkRequestPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequest",
       method: "POST",
@@ -2016,7 +2016,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkRequestById(id: string): Observable<WorkRequestGETData> {
+  getworkrequestbyid(id: string): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequest/" + id + "",
       method: "GET",
@@ -2024,7 +2024,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestGETData>(request);
   }
 
-  updateWorkRequestById(id: string, body: WorkRequestPUTData): Observable<any> {
+  updateworkrequestbyid(id: string, body: WorkRequestPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequest/" + id + "",
       method: "PUT",
@@ -2033,7 +2033,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkRequestById(id: string): Observable<any> {
+  deleteworkrequestbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequest/" + id + "",
       method: "DELETE",
@@ -2041,7 +2041,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkRequests(body: WorkRequestCriteria): Observable<WorkRequestGETDataSearchResults> {
+  findworkrequests(body: WorkRequestCriteria): Observable<WorkRequestGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequest/query",
       method: "POST",
@@ -2050,7 +2050,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestGETDataSearchResults>(request);
   }
 
-  createWorkRequestTeam(body: WorkRequestTeamPOSTData): Observable<any> {
+  createworkrequestteam(body: WorkRequestTeamPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestteam",
       method: "POST",
@@ -2059,7 +2059,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkRequestTeamById(id: string): Observable<WorkRequestTeamGETData> {
+  getworkrequestteambyid(id: string): Observable<WorkRequestTeamGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestteam/" + id + "",
       method: "GET",
@@ -2067,7 +2067,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestTeamGETData>(request);
   }
 
-  updateWorkRequestTeamById(id: string, body: WorkRequestTeamPUTData): Observable<any> {
+  updateworkrequestteambyid(id: string, body: WorkRequestTeamPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestteam/" + id + "",
       method: "PUT",
@@ -2076,7 +2076,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkRequestTeamById(id: string): Observable<any> {
+  deleteworkrequestteambyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestteam/" + id + "",
       method: "DELETE",
@@ -2084,7 +2084,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkRequestTeams(body: WorkRequestTeamCriteria): Observable<WorkRequestTeamGETDataSearchResults> {
+  findworkrequestteams(body: WorkRequestTeamCriteria): Observable<WorkRequestTeamGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestteam/query",
       method: "POST",
@@ -2093,7 +2093,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestTeamGETDataSearchResults>(request);
   }
 
-  createWorkRequestTypeRef(body: WorkRequestTypeRefPOSTData): Observable<any> {
+  createworkrequesttyperef(body: WorkRequestTypeRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequesttyperef",
       method: "POST",
@@ -2102,7 +2102,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getWorkRequestTypeRefById(id: string): Observable<WorkRequestTypeRefGETData> {
+  getworkrequesttyperefbyid(id: string): Observable<WorkRequestTypeRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequesttyperef/" + id + "",
       method: "GET",
@@ -2110,7 +2110,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestTypeRefGETData>(request);
   }
 
-  updateWorkRequestTypeRefById(id: string, body: WorkRequestTypeRefPUTData): Observable<any> {
+  updateworkrequesttyperefbyid(id: string, body: WorkRequestTypeRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequesttyperef/" + id + "",
       method: "PUT",
@@ -2119,7 +2119,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteWorkRequestTypeRefById(id: string): Observable<any> {
+  deleteworkrequesttyperefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequesttyperef/" + id + "",
       method: "DELETE",
@@ -2127,7 +2127,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findWorkRequestTypeRefs(body: WorkRequestTypeRefCriteria): Observable<WorkRequestTypeRefGETDataSearchResults> {
+  findworkrequesttyperefs(body: WorkRequestTypeRefCriteria): Observable<WorkRequestTypeRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequesttyperef/query",
       method: "POST",
@@ -2136,7 +2136,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestTypeRefGETDataSearchResults>(request);
   }
 
-  createVocationEncodingInstance(body: VocationEncodingInstancePOSTData): Observable<any> {
+  createvocationencodinginstance(body: VocationEncodingInstancePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodinginstance",
       method: "POST",
@@ -2145,7 +2145,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getVocationEncodingInstanceById(id: string): Observable<VocationEncodingInstanceGETData> {
+  getvocationencodinginstancebyid(id: string): Observable<VocationEncodingInstanceGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodinginstance/" + id + "",
       method: "GET",
@@ -2153,7 +2153,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VocationEncodingInstanceGETData>(request);
   }
 
-  updateVocationEncodingInstanceById(id: string, body: VocationEncodingInstancePUTData): Observable<any> {
+  updatevocationencodinginstancebyid(id: string, body: VocationEncodingInstancePUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodinginstance/" + id + "",
       method: "PUT",
@@ -2162,7 +2162,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteVocationEncodingInstanceById(id: string): Observable<any> {
+  deletevocationencodinginstancebyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodinginstance/" + id + "",
       method: "DELETE",
@@ -2170,7 +2170,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findVocationEncodingInstances(body: VocationEncodingInstanceCriteria): Observable<VocationEncodingInstanceGETDataSearchResults> {
+  findvocationencodinginstances(body: VocationEncodingInstanceCriteria): Observable<VocationEncodingInstanceGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodinginstance/query",
       method: "POST",
@@ -2179,7 +2179,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VocationEncodingInstanceGETDataSearchResults>(request);
   }
 
-  createVocationEncodingRef(body: VocationEncodingRefPOSTData): Observable<any> {
+  createvocationencodingref(body: VocationEncodingRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodingref",
       method: "POST",
@@ -2188,7 +2188,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getVocationEncodingRefById(id: string): Observable<VocationEncodingRefGETData> {
+  getvocationencodingrefbyid(id: string): Observable<VocationEncodingRefGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodingref/" + id + "",
       method: "GET",
@@ -2196,7 +2196,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VocationEncodingRefGETData>(request);
   }
 
-  updateVocationEncodingRefById(id: string, body: VocationEncodingRefPUTData): Observable<any> {
+  updatevocationencodingrefbyid(id: string, body: VocationEncodingRefPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodingref/" + id + "",
       method: "PUT",
@@ -2205,7 +2205,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteVocationEncodingRefById(id: string): Observable<any> {
+  deletevocationencodingrefbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodingref/" + id + "",
       method: "DELETE",
@@ -2213,7 +2213,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findVocationEncodingRefs(body: VocationEncodingRefCriteria): Observable<VocationEncodingRefGETDataSearchResults> {
+  findvocationencodingrefs(body: VocationEncodingRefCriteria): Observable<VocationEncodingRefGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodingref/query",
       method: "POST",
@@ -2222,7 +2222,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VocationEncodingRefGETDataSearchResults>(request);
   }
 
-  createVocationEncoding(body: VocationEncodingPOSTData): Observable<any> {
+  createvocationencoding(body: VocationEncodingPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencoding",
       method: "POST",
@@ -2231,7 +2231,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getVocationEncodingById(id: string): Observable<VocationEncodingGETData> {
+  getvocationencodingbyid(id: string): Observable<VocationEncodingGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencoding/" + id + "",
       method: "GET",
@@ -2239,7 +2239,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VocationEncodingGETData>(request);
   }
 
-  updateVocationEncodingById(id: string, body: VocationEncodingPUTData): Observable<any> {
+  updatevocationencodingbyid(id: string, body: VocationEncodingPUTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencoding/" + id + "",
       method: "PUT",
@@ -2248,7 +2248,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  deleteVocationEncodingById(id: string): Observable<any> {
+  deletevocationencodingbyid(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencoding/" + id + "",
       method: "DELETE",
@@ -2256,7 +2256,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  findVocationEncodings(body: VocationEncodingCriteria): Observable<VocationEncodingGETDataSearchResults> {
+  findvocationencodings(body: VocationEncodingCriteria): Observable<VocationEncodingGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencoding/query",
       method: "POST",
@@ -2265,7 +2265,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VocationEncodingGETDataSearchResults>(request);
   }
 
-  encodeContent(body: EncodingPOSTData): Observable<any> {
+  encodecontent(body: EncodingPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/ai/encode",
       method: "POST",
@@ -2274,7 +2274,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  encodePrep(body: EncodingPOSTData): Observable<any> {
+  encodeprep(body: EncodingPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/ai/encodeprep",
       method: "POST",
@@ -2283,7 +2283,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  promoteStudentsToUsers(body: CLStudentCriteria): Observable<SimpleRestActionResponse> {
+  promotestudentstousers(body: CLStudentCriteria): Observable<SimpleRestActionResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/actions/promote-students",
       method: "POST",
@@ -2292,7 +2292,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
-  getCreateTicket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
+  getcreateticket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/create-ticket",
       method: "POST",
@@ -2301,7 +2301,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestGETData>(request);
   }
 
-  getCreateTicketSetupUi(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
+  getcreateticketsetupui(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/create-ticket-setup-ui",
       method: "POST",
@@ -2310,7 +2310,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CreateTicketSetupUIData>(request);
   }
 
-  getDashQueuesForUserProfile(user_profile_id: string): Observable<WorkQueueGETDataSearchResults> {
+  getdashqueuesforuserprofile(user_profile_id: string): Observable<WorkQueueGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/dashboard/" + user_profile_id + "/queues",
       method: "GET",
@@ -2318,7 +2318,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueGETDataSearchResults>(request);
   }
 
-  getProviderQueuesMenu(tix_id: string): Observable<WorkQueueGETDataSearchResults> {
+  getproviderqueuesmenu(tix_id: string): Observable<WorkQueueGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/" + tix_id + "/provider-queues-menu",
       method: "GET",
@@ -2326,7 +2326,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueGETDataSearchResults>(request);
   }
 
-  resolveTicketContext(userProfileId: string): Observable<HcclUserContextGETData> {
+  resolveticketcontext(userProfileId: string): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/get-context",
       method: "GET",
@@ -2335,7 +2335,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserContextGETData>(request);
   }
 
-  entityActionCheck(body: SLEntityActionUiDefnRequest): Observable<any> {
+  entityactioncheck(body: SLEntityActionUiDefnRequest): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/entityaction/check",
       method: "POST",
@@ -2344,7 +2344,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  entityActionDoc(body: SLEntityActionUiDefnRequest): Observable<any> {
+  entityactiondoc(body: SLEntityActionUiDefnRequest): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/entityaction/doc",
       method: "POST",
@@ -2353,7 +2353,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  entityActionRun(body: SLEntityActionUiDefnRequest): Observable<any> {
+  entityactionrun(body: SLEntityActionUiDefnRequest): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/entityaction/run",
       method: "POST",
@@ -2362,7 +2362,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  entityActionUi(body: SLEntityActionUiDefnRequest): Observable<any> {
+  entityactionui(body: SLEntityActionUiDefnRequest): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/entityaction/ui",
       method: "POST",
@@ -2371,7 +2371,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  fetchBubbleContents(entity_type: string, id: string): Observable<any> {
+  fetchbubblecontents(entity_type: string, id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/bubble/" + entity_type + "/{id}" + "/hccl/servicelib/bubble//" + id + "",
       method: "GET",
@@ -2379,7 +2379,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  fetchMenu(entity_type: string, id: string, menu_code: string): Observable<any> {
+  fetchmenu(entity_type: string, id: string, menu_code: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/menu/" + entity_type + "/{id}/{menu-code}" + "/hccl/servicelib/menu//" + id + "/{menu-code}" + "/hccl/servicelib/menu///" + menu_code + "",
       method: "GET",
@@ -2387,7 +2387,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  getFeatures(): Observable<any> {
+  getfeatures(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/features",
       method: "GET",
@@ -2395,7 +2395,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  loadMergePayload(body: MergePayloadRequest): Observable<any> {
+  loadmergepayload(body: MergePayloadRequest): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/payload",
       method: "POST",
@@ -2404,7 +2404,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  loadMergePayloadGet(entity_type: string, id: string, datasets: string): Observable<any> {
+  loadmergepayloadGet(entity_type: string, id: string, datasets: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/payload/" + entity_type + "/{id}" + "/hccl/servicelib/payload//" + id + "",
       method: "GET",
@@ -2413,7 +2413,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  loadServiceMetadata(): Observable<any> {
+  loadservicemetadata(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/metadata",
       method: "GET",
@@ -2430,7 +2430,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  readAndRemove(wait: number, job_id: string): Observable<any> {
+  readandremove(wait: number, job_id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/" + job_id + "",
       method: "POST",
