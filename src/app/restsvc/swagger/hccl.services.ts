@@ -1,0 +1,5537 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CommonRequestServiceCaller, CommonServiceRequest } from './common-request-service.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class HcclService extends CommonRequestServiceCaller {
+  constructor(http: HttpClient) {
+    super(http);
+    const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    this.setBaseUrl(baseUrl);
+  }
+
+  checkapplicationhealth(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/healthchecks/application",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getcurrentmanifest(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/healthchecks/servicemanifest",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getinternals(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/healthchecks/internals.json",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getswagger(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/healthchecks/swagger.json",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  ping(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/healthchecks/ping",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  runhealthcheckondatabase(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/healthchecks/database",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getallloggers(pageNumber: number, pageSize: number): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/debug/loggers",
+      method: "GET",
+      params: { pageNumber: this.convertToString(pageNumber), pageSize: this.convertToString(pageSize) },
+    };
+    return this.request<any>(request);
+  }
+
+  updateloggerlevel(body: LoggerConfigurationPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/debug/loggers/changeloggerlevel",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getjobdefinitions(status: boolean, name: string, pageNumber: number, pageSize: number, isPaging: boolean): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions",
+      method: "GET",
+      params: { status: this.convertToString(status), name: this.convertToString(name), pageNumber: this.convertToString(pageNumber), pageSize: this.convertToString(pageSize), isPaging: this.convertToString(isPaging) },
+    };
+    return this.request<any>(request);
+  }
+
+  createjobdefinition(body: JobDefinitionPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getjobdefinitionbyid(id: string, isError: boolean): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + id + "",
+      method: "GET",
+      params: { isError: this.convertToString(isError) },
+    };
+    return this.request<any>(request);
+  }
+
+  updatejobdefinition(id: string, body: JobDefinitionPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletejobdefinition(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  getjobdefinitionsPost(body: JobDefinitionCriteria): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/query-job-definitions",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  initializejobdefinitions(enableJob: boolean): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/initialize",
+      method: "POST",
+      params: { enableJob: this.convertToString(enableJob) },
+    };
+    return this.request<any>(request);
+  }
+
+  getjobprocesslogs(definition_id: string, name: string, dateCreated: string, isNotCompleted: boolean, pageNumber: number, pageSize: number, isPaging: boolean): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs",
+      method: "GET",
+      params: { name: this.convertToString(name), dateCreated: this.convertToString(dateCreated), isNotCompleted: this.convertToString(isNotCompleted), pageNumber: this.convertToString(pageNumber), pageSize: this.convertToString(pageSize), isPaging: this.convertToString(isPaging) },
+    };
+    return this.request<any>(request);
+  }
+
+  createjobprocesslog(definition_id: string, body: JobProcessLogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getjobprocesslogbyid(definition_id: string, id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs/{id}" + "/hccl/job-definitions//process-logs/" + id + "",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  updatejobprocesslog(definition_id: string, id: string, body: JobProcessLogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs/{id}" + "/hccl/job-definitions//process-logs/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletejobprocesslog(definition_id: string, id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs/{id}" + "/hccl/job-definitions//process-logs/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  setjobprocesslogcompleted(definition_id: string, log_id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs/{log-id}/completed" + "/hccl/job-definitions//process-logs/" + log_id + "/completed",
+      method: "PUT",
+    };
+    return this.request<any>(request);
+  }
+
+  cancelserviceeventlog(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/" + id + "/cancel",
+      method: "PUT",
+    };
+    return this.request<any>(request);
+  }
+
+  createserviceeventlog(body: ServiceEventLogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  createserviceeventlogs(body: ServiceEventLogPOSTData[]): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/events",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getserviceeventlogbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/" + id + "",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  updateserviceeventlog(id: string, body: ServiceEventLogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteserviceeventlog(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  downloadfile(service_event_log_id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/" + service_event_log_id + "/download-file",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getserviceeventlogs(body: ServiceEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/query-logs",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  queryeventsummarybydisplaynameandeventname(body: ServiceEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/query-event-summary-by-name",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  queryeventsummarybyeventname(body: ServiceEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/query-event-summary",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  queryeventsummarybyreferenceidandeventname(body: ServiceEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/query-event-summary-by-reference",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  createcatalogentry(body: CatalogEntryPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentry",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getcatalogentrybyid(id: string): Observable<CatalogEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentry/" + id + "",
+      method: "GET",
+    };
+    return this.request<CatalogEntryGETData>(request);
+  }
+
+  updatecatalogentrybyid(id: string, body: CatalogEntryPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentry/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletecatalogentrybyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentry/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findcatalogentrys(body: CatalogEntryCriteria): Observable<CatalogEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentry/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogEntryGETDataSearchResults>(request);
+  }
+
+  createcatalogentrytag(body: CatalogEntryTagPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrytag",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getcatalogentrytagbyid(id: string): Observable<CatalogEntryTagGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrytag/" + id + "",
+      method: "GET",
+    };
+    return this.request<CatalogEntryTagGETData>(request);
+  }
+
+  updatecatalogentrytagbyid(id: string, body: CatalogEntryTagPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrytag/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletecatalogentrytagbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrytag/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findcatalogentrytags(body: CatalogEntryTagCriteria): Observable<CatalogEntryTagGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrytag/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogEntryTagGETDataSearchResults>(request);
+  }
+
+  createcatalogsearchresultentry(body: CatalogSearchResultEntryPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresultentry",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getcatalogsearchresultentrybyid(id: string): Observable<CatalogSearchResultEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresultentry/" + id + "",
+      method: "GET",
+    };
+    return this.request<CatalogSearchResultEntryGETData>(request);
+  }
+
+  updatecatalogsearchresultentrybyid(id: string, body: CatalogSearchResultEntryPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresultentry/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletecatalogsearchresultentrybyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresultentry/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findcatalogsearchresultentrys(body: CatalogSearchResultEntryCriteria): Observable<CatalogSearchResultEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresultentry/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogSearchResultEntryGETDataSearchResults>(request);
+  }
+
+  createcatalogsearchresult(body: CatalogSearchResultPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresult",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getcatalogsearchresultbyid(id: string): Observable<CatalogSearchResultGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresult/" + id + "",
+      method: "GET",
+    };
+    return this.request<CatalogSearchResultGETData>(request);
+  }
+
+  updatecatalogsearchresultbyid(id: string, body: CatalogSearchResultPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresult/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletecatalogsearchresultbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresult/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findcatalogsearchresults(body: CatalogSearchResultCriteria): Observable<CatalogSearchResultGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearchresult/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogSearchResultGETDataSearchResults>(request);
+  }
+
+  createcatalogsearch(body: CatalogSearchPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearch",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getcatalogsearchbyid(id: string): Observable<CatalogSearchGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearch/" + id + "",
+      method: "GET",
+    };
+    return this.request<CatalogSearchGETData>(request);
+  }
+
+  updatecatalogsearchbyid(id: string, body: CatalogSearchPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearch/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletecatalogsearchbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearch/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findcatalogsearchs(body: CatalogSearchCriteria): Observable<CatalogSearchGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogsearch/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogSearchGETDataSearchResults>(request);
+  }
+
+  createcatalog(body: CatalogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalog",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getcatalogbyid(id: string): Observable<CatalogGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalog/" + id + "",
+      method: "GET",
+    };
+    return this.request<CatalogGETData>(request);
+  }
+
+  updatecatalogbyid(id: string, body: CatalogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalog/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletecatalogbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalog/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findcatalogs(body: CatalogCriteria): Observable<CatalogGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalog/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogGETDataSearchResults>(request);
+  }
+
+  createcatalogtagref(body: CatalogTagRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtagref",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getcatalogtagrefbyid(id: string): Observable<CatalogTagRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtagref/" + id + "",
+      method: "GET",
+    };
+    return this.request<CatalogTagRefGETData>(request);
+  }
+
+  updatecatalogtagrefbyid(id: string, body: CatalogTagRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtagref/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletecatalogtagrefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtagref/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findcatalogtagrefs(body: CatalogTagRefCriteria): Observable<CatalogTagRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtagref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogTagRefGETDataSearchResults>(request);
+  }
+
+  createexperiencelocation(body: ExperienceLocationPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencelocation",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getexperiencelocationbyid(id: string): Observable<ExperienceLocationGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencelocation/" + id + "",
+      method: "GET",
+    };
+    return this.request<ExperienceLocationGETData>(request);
+  }
+
+  updateexperiencelocationbyid(id: string, body: ExperienceLocationPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencelocation/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteexperiencelocationbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencelocation/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findexperiencelocations(body: ExperienceLocationCriteria): Observable<ExperienceLocationGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencelocation/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ExperienceLocationGETDataSearchResults>(request);
+  }
+
+  createexperienceregrule(body: ExperienceRegRulePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experienceregrule",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getexperienceregrulebyid(id: string): Observable<ExperienceRegRuleGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experienceregrule/" + id + "",
+      method: "GET",
+    };
+    return this.request<ExperienceRegRuleGETData>(request);
+  }
+
+  updateexperienceregrulebyid(id: string, body: ExperienceRegRulePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experienceregrule/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteexperienceregrulebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experienceregrule/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findexperienceregrules(body: ExperienceRegRuleCriteria): Observable<ExperienceRegRuleGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experienceregrule/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ExperienceRegRuleGETDataSearchResults>(request);
+  }
+
+  createexperience(body: ExperiencePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experience",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getexperiencebyid(id: string): Observable<ExperienceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experience/" + id + "",
+      method: "GET",
+    };
+    return this.request<ExperienceGETData>(request);
+  }
+
+  updateexperiencebyid(id: string, body: ExperiencePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experience/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteexperiencebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experience/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findexperiences(body: ExperienceCriteria): Observable<ExperienceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experience/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ExperienceGETDataSearchResults>(request);
+  }
+
+  createexperiencetype(body: ExperienceTypePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencetype",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getexperiencetypebyid(id: string): Observable<ExperienceTypeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencetype/" + id + "",
+      method: "GET",
+    };
+    return this.request<ExperienceTypeGETData>(request);
+  }
+
+  updateexperiencetypebyid(id: string, body: ExperienceTypePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencetype/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteexperiencetypebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencetype/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findexperiencetypes(body: ExperienceTypeCriteria): Observable<ExperienceTypeGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/experiencetype/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ExperienceTypeGETDataSearchResults>(request);
+  }
+
+  createclcourse(body: CLCoursePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clcourse",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getclcoursebyid(id: string): Observable<CLCourseGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clcourse/" + id + "",
+      method: "GET",
+    };
+    return this.request<CLCourseGETData>(request);
+  }
+
+  updateclcoursebyid(id: string, body: CLCoursePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clcourse/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteclcoursebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clcourse/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findclcourses(body: CLCourseCriteria): Observable<CLCourseGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clcourse/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CLCourseGETDataSearchResults>(request);
+  }
+
+  createclguidance(body: CLGuidancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clguidance",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getclguidancebyid(id: string): Observable<CLGuidanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clguidance/" + id + "",
+      method: "GET",
+    };
+    return this.request<CLGuidanceGETData>(request);
+  }
+
+  updateclguidancebyid(id: string, body: CLGuidancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clguidance/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteclguidancebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clguidance/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findclguidances(body: CLGuidanceCriteria): Observable<CLGuidanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clguidance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CLGuidanceGETDataSearchResults>(request);
+  }
+
+  createclschool(body: CLSchoolPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clschool",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getclschoolbyid(id: string): Observable<CLSchoolGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clschool/" + id + "",
+      method: "GET",
+    };
+    return this.request<CLSchoolGETData>(request);
+  }
+
+  updateclschoolbyid(id: string, body: CLSchoolPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clschool/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteclschoolbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clschool/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findclschools(body: CLSchoolCriteria): Observable<CLSchoolGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clschool/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CLSchoolGETDataSearchResults>(request);
+  }
+
+  createclstudent(body: CLStudentPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clstudent",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getclstudentbyid(id: string): Observable<CLStudentGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clstudent/" + id + "",
+      method: "GET",
+    };
+    return this.request<CLStudentGETData>(request);
+  }
+
+  updateclstudentbyid(id: string, body: CLStudentPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clstudent/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteclstudentbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clstudent/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findclstudents(body: CLStudentCriteria): Observable<CLStudentGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/integration_edu/clstudent/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CLStudentGETDataSearchResults>(request);
+  }
+
+  createprovider(body: ProviderPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provider",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getproviderbyid(id: string): Observable<ProviderGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provider/" + id + "",
+      method: "GET",
+    };
+    return this.request<ProviderGETData>(request);
+  }
+
+  updateproviderbyid(id: string, body: ProviderPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provider/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteproviderbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provider/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findproviders(body: ProviderCriteria): Observable<ProviderGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provider/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ProviderGETDataSearchResults>(request);
+  }
+
+  createprovidertyperef(body: ProviderTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/providertyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getprovidertyperefbyid(id: string): Observable<ProviderTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/providertyperef/" + id + "",
+      method: "GET",
+    };
+    return this.request<ProviderTypeRefGETData>(request);
+  }
+
+  updateprovidertyperefbyid(id: string, body: ProviderTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/providertyperef/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteprovidertyperefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/providertyperef/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findprovidertyperefs(body: ProviderTypeRefCriteria): Observable<ProviderTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/providertyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ProviderTypeRefGETDataSearchResults>(request);
+  }
+
+  createprovideruser(body: ProviderUserPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provideruser",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getprovideruserbyid(id: string): Observable<ProviderUserGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provideruser/" + id + "",
+      method: "GET",
+    };
+    return this.request<ProviderUserGETData>(request);
+  }
+
+  updateprovideruserbyid(id: string, body: ProviderUserPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provideruser/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteprovideruserbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provideruser/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findproviderusers(body: ProviderUserCriteria): Observable<ProviderUserGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/prov/provideruser/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ProviderUserGETDataSearchResults>(request);
+  }
+
+  createproviderrequest(body: ProviderRequestPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequest",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getproviderrequestbyid(id: string): Observable<ProviderRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequest/" + id + "",
+      method: "GET",
+    };
+    return this.request<ProviderRequestGETData>(request);
+  }
+
+  updateproviderrequestbyid(id: string, body: ProviderRequestPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequest/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteproviderrequestbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequest/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findproviderrequests(body: ProviderRequestCriteria): Observable<ProviderRequestGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequest/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ProviderRequestGETDataSearchResults>(request);
+  }
+
+  createproviderrequesttyperef(body: ProviderRequestTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequesttyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getproviderrequesttyperefbyid(id: string): Observable<ProviderRequestTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequesttyperef/" + id + "",
+      method: "GET",
+    };
+    return this.request<ProviderRequestTypeRefGETData>(request);
+  }
+
+  updateproviderrequesttyperefbyid(id: string, body: ProviderRequestTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequesttyperef/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteproviderrequesttyperefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequesttyperef/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findproviderrequesttyperefs(body: ProviderRequestTypeRefCriteria): Observable<ProviderRequestTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/provreq/providerrequesttyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ProviderRequestTypeRefGETDataSearchResults>(request);
+  }
+
+  createstatetransitionlog(body: StateTransitionLogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/statemachine/statetransitionlog",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getstatetransitionlogbyid(id: string): Observable<StateTransitionLogGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/statemachine/statetransitionlog/" + id + "",
+      method: "GET",
+    };
+    return this.request<StateTransitionLogGETData>(request);
+  }
+
+  updatestatetransitionlogbyid(id: string, body: StateTransitionLogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/statemachine/statetransitionlog/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletestatetransitionlogbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/statemachine/statetransitionlog/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findstatetransitionlogs(body: StateTransitionLogCriteria): Observable<StateTransitionLogGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/statemachine/statetransitionlog/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<StateTransitionLogGETDataSearchResults>(request);
+  }
+
+  createtaxonomyentry(body: TaxonomyEntryPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomyentry",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gettaxonomyentrybyid(id: string): Observable<TaxonomyEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomyentry/" + id + "",
+      method: "GET",
+    };
+    return this.request<TaxonomyEntryGETData>(request);
+  }
+
+  updatetaxonomyentrybyid(id: string, body: TaxonomyEntryPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomyentry/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletetaxonomyentrybyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomyentry/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findtaxonomyentrys(body: TaxonomyEntryCriteria): Observable<TaxonomyEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomyentry/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<TaxonomyEntryGETDataSearchResults>(request);
+  }
+
+  createtaxonomylevel(body: TaxonomyLevelPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomylevel",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gettaxonomylevelbyid(id: string): Observable<TaxonomyLevelGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomylevel/" + id + "",
+      method: "GET",
+    };
+    return this.request<TaxonomyLevelGETData>(request);
+  }
+
+  updatetaxonomylevelbyid(id: string, body: TaxonomyLevelPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomylevel/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletetaxonomylevelbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomylevel/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findtaxonomylevels(body: TaxonomyLevelCriteria): Observable<TaxonomyLevelGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomylevel/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<TaxonomyLevelGETDataSearchResults>(request);
+  }
+
+  createtaxonomy(body: TaxonomyPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomy",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gettaxonomybyid(id: string): Observable<TaxonomyGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomy/" + id + "",
+      method: "GET",
+    };
+    return this.request<TaxonomyGETData>(request);
+  }
+
+  updatetaxonomybyid(id: string, body: TaxonomyPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomy/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletetaxonomybyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomy/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findtaxonomys(body: TaxonomyCriteria): Observable<TaxonomyGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/taxonomy/taxonomy/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<TaxonomyGETDataSearchResults>(request);
+  }
+
+  createhcclorganization(body: HcclOrganizationPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganization",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethcclorganizationbyid(id: string): Observable<HcclOrganizationGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganization/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclOrganizationGETData>(request);
+  }
+
+  updatehcclorganizationbyid(id: string, body: HcclOrganizationPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganization/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehcclorganizationbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganization/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhcclorganizations(body: HcclOrganizationCriteria): Observable<HcclOrganizationGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganization/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclOrganizationGETDataSearchResults>(request);
+  }
+
+  createhcclorganizationtyperef(body: HcclOrganizationTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganizationtyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethcclorganizationtyperefbyid(id: string): Observable<HcclOrganizationTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganizationtyperef/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclOrganizationTypeRefGETData>(request);
+  }
+
+  updatehcclorganizationtyperefbyid(id: string, body: HcclOrganizationTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganizationtyperef/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehcclorganizationtyperefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganizationtyperef/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhcclorganizationtyperefs(body: HcclOrganizationTypeRefCriteria): Observable<HcclOrganizationTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclorganizationtyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclOrganizationTypeRefGETDataSearchResults>(request);
+  }
+
+  createhcclteamlog(body: HcclTeamLogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteamlog",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethcclteamlogbyid(id: string): Observable<HcclTeamLogGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteamlog/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclTeamLogGETData>(request);
+  }
+
+  updatehcclteamlogbyid(id: string, body: HcclTeamLogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteamlog/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehcclteamlogbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteamlog/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhcclteamlogs(body: HcclTeamLogCriteria): Observable<HcclTeamLogGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteamlog/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclTeamLogGETDataSearchResults>(request);
+  }
+
+  createhcclteammemberrole(body: HcclTeamMemberRolePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammemberrole",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethcclteammemberrolebyid(id: string): Observable<HcclTeamMemberRoleGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammemberrole/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclTeamMemberRoleGETData>(request);
+  }
+
+  updatehcclteammemberrolebyid(id: string, body: HcclTeamMemberRolePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammemberrole/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehcclteammemberrolebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammemberrole/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhcclteammemberroles(body: HcclTeamMemberRoleCriteria): Observable<HcclTeamMemberRoleGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammemberrole/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclTeamMemberRoleGETDataSearchResults>(request);
+  }
+
+  createhcclteammember(body: HcclTeamMemberPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammember",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethcclteammemberbyid(id: string): Observable<HcclTeamMemberGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammember/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclTeamMemberGETData>(request);
+  }
+
+  updatehcclteammemberbyid(id: string, body: HcclTeamMemberPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammember/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehcclteammemberbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammember/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhcclteammembers(body: HcclTeamMemberCriteria): Observable<HcclTeamMemberGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteammember/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclTeamMemberGETDataSearchResults>(request);
+  }
+
+  createhcclteam(body: HcclTeamPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteam",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethcclteambyid(id: string): Observable<HcclTeamGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteam/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclTeamGETData>(request);
+  }
+
+  updatehcclteambyid(id: string, body: HcclTeamPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteam/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehcclteambyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteam/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhcclteams(body: HcclTeamCriteria): Observable<HcclTeamGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclteam/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclTeamGETDataSearchResults>(request);
+  }
+
+  createhccluserprofile(body: HcclUserProfilePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofile",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethccluserprofilebyid(id: string): Observable<HcclUserProfileGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofile/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclUserProfileGETData>(request);
+  }
+
+  updatehccluserprofilebyid(id: string, body: HcclUserProfilePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofile/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehccluserprofilebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofile/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhccluserprofiles(body: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofile/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserProfileGETDataSearchResults>(request);
+  }
+
+  createhccluser(body: HcclUserPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluser",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  gethccluserbyid(id: string): Observable<HcclUserGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluser/" + id + "",
+      method: "GET",
+    };
+    return this.request<HcclUserGETData>(request);
+  }
+
+  updatehccluserbyid(id: string, body: HcclUserPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluser/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletehccluserbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluser/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findhcclusers(body: HcclUserCriteria): Observable<HcclUserGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluser/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserGETDataSearchResults>(request);
+  }
+
+  createteammemberroleref(body: TeamMemberRoleRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teammemberroleref",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getteammemberrolerefbyid(id: string): Observable<TeamMemberRoleRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teammemberroleref/" + id + "",
+      method: "GET",
+    };
+    return this.request<TeamMemberRoleRefGETData>(request);
+  }
+
+  updateteammemberrolerefbyid(id: string, body: TeamMemberRoleRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teammemberroleref/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteteammemberrolerefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teammemberroleref/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findteammemberrolerefs(body: TeamMemberRoleRefCriteria): Observable<TeamMemberRoleRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teammemberroleref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<TeamMemberRoleRefGETDataSearchResults>(request);
+  }
+
+  createteamtypememberroleref(body: TeamTypeMemberRoleRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtypememberroleref",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getteamtypememberrolerefbyid(id: string): Observable<TeamTypeMemberRoleRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtypememberroleref/" + id + "",
+      method: "GET",
+    };
+    return this.request<TeamTypeMemberRoleRefGETData>(request);
+  }
+
+  updateteamtypememberrolerefbyid(id: string, body: TeamTypeMemberRoleRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtypememberroleref/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteteamtypememberrolerefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtypememberroleref/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findteamtypememberrolerefs(body: TeamTypeMemberRoleRefCriteria): Observable<TeamTypeMemberRoleRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtypememberroleref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<TeamTypeMemberRoleRefGETDataSearchResults>(request);
+  }
+
+  createteamtyperef(body: TeamTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getteamtyperefbyid(id: string): Observable<TeamTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtyperef/" + id + "",
+      method: "GET",
+    };
+    return this.request<TeamTypeRefGETData>(request);
+  }
+
+  updateteamtyperefbyid(id: string, body: TeamTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtyperef/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteteamtyperefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtyperef/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findteamtyperefs(body: TeamTypeRefCriteria): Observable<TeamTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/teamtyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<TeamTypeRefGETDataSearchResults>(request);
+  }
+
+  createworkqueue(body: WorkQueuePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueue",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkqueuebyid(id: string): Observable<WorkQueueGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueue/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkQueueGETData>(request);
+  }
+
+  updateworkqueuebyid(id: string, body: WorkQueuePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueue/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkqueuebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueue/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkqueues(body: WorkQueueCriteria): Observable<WorkQueueGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueue/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  createworkqueuetyperef(body: WorkQueueTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueuetyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkqueuetyperefbyid(id: string): Observable<WorkQueueTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueuetyperef/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkQueueTypeRefGETData>(request);
+  }
+
+  updateworkqueuetyperefbyid(id: string, body: WorkQueueTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueuetyperef/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkqueuetyperefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueuetyperef/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkqueuetyperefs(body: WorkQueueTypeRefCriteria): Observable<WorkQueueTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workqueuetyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkQueueTypeRefGETDataSearchResults>(request);
+  }
+
+  createworkrequestitem(body: WorkRequestItemPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestitem",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkrequestitembyid(id: string): Observable<WorkRequestItemGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestitem/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkRequestItemGETData>(request);
+  }
+
+  updateworkrequestitembyid(id: string, body: WorkRequestItemPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestitem/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkrequestitembyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestitem/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkrequestitems(body: WorkRequestItemCriteria): Observable<WorkRequestItemGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestitem/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestItemGETDataSearchResults>(request);
+  }
+
+  createworkrequestlog(body: WorkRequestLogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestlog",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkrequestlogbyid(id: string): Observable<WorkRequestLogGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestlog/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkRequestLogGETData>(request);
+  }
+
+  updateworkrequestlogbyid(id: string, body: WorkRequestLogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestlog/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkrequestlogbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestlog/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkrequestlogs(body: WorkRequestLogCriteria): Observable<WorkRequestLogGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestlog/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestLogGETDataSearchResults>(request);
+  }
+
+  createworkrequestroutingreason(body: WorkRequestRoutingReasonPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestroutingreason",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkrequestroutingreasonbyid(id: string): Observable<WorkRequestRoutingReasonGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestroutingreason/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkRequestRoutingReasonGETData>(request);
+  }
+
+  updateworkrequestroutingreasonbyid(id: string, body: WorkRequestRoutingReasonPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestroutingreason/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkrequestroutingreasonbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestroutingreason/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkrequestroutingreasons(body: WorkRequestRoutingReasonCriteria): Observable<WorkRequestRoutingReasonGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestroutingreason/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestRoutingReasonGETDataSearchResults>(request);
+  }
+
+  createworkrequest(body: WorkRequestPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequest",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkrequestbyid(id: string): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequest/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkRequestGETData>(request);
+  }
+
+  updateworkrequestbyid(id: string, body: WorkRequestPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequest/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkrequestbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequest/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkrequests(body: WorkRequestCriteria): Observable<WorkRequestGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequest/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestGETDataSearchResults>(request);
+  }
+
+  createworkrequestteam(body: WorkRequestTeamPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestteam",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkrequestteambyid(id: string): Observable<WorkRequestTeamGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestteam/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkRequestTeamGETData>(request);
+  }
+
+  updateworkrequestteambyid(id: string, body: WorkRequestTeamPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestteam/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkrequestteambyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestteam/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkrequestteams(body: WorkRequestTeamCriteria): Observable<WorkRequestTeamGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestteam/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestTeamGETDataSearchResults>(request);
+  }
+
+  createworkrequesttyperef(body: WorkRequestTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequesttyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getworkrequesttyperefbyid(id: string): Observable<WorkRequestTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequesttyperef/" + id + "",
+      method: "GET",
+    };
+    return this.request<WorkRequestTypeRefGETData>(request);
+  }
+
+  updateworkrequesttyperefbyid(id: string, body: WorkRequestTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequesttyperef/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteworkrequesttyperefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequesttyperef/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findworkrequesttyperefs(body: WorkRequestTypeRefCriteria): Observable<WorkRequestTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequesttyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestTypeRefGETDataSearchResults>(request);
+  }
+
+  createvocationencodinginstance(body: VocationEncodingInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodinginstance",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getvocationencodinginstancebyid(id: string): Observable<VocationEncodingInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodinginstance/" + id + "",
+      method: "GET",
+    };
+    return this.request<VocationEncodingInstanceGETData>(request);
+  }
+
+  updatevocationencodinginstancebyid(id: string, body: VocationEncodingInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodinginstance/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletevocationencodinginstancebyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodinginstance/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findvocationencodinginstances(body: VocationEncodingInstanceCriteria): Observable<VocationEncodingInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodinginstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<VocationEncodingInstanceGETDataSearchResults>(request);
+  }
+
+  createvocationencodingref(body: VocationEncodingRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodingref",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getvocationencodingrefbyid(id: string): Observable<VocationEncodingRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodingref/" + id + "",
+      method: "GET",
+    };
+    return this.request<VocationEncodingRefGETData>(request);
+  }
+
+  updatevocationencodingrefbyid(id: string, body: VocationEncodingRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodingref/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletevocationencodingrefbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodingref/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findvocationencodingrefs(body: VocationEncodingRefCriteria): Observable<VocationEncodingRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencodingref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<VocationEncodingRefGETDataSearchResults>(request);
+  }
+
+  createvocationencoding(body: VocationEncodingPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencoding",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getvocationencodingbyid(id: string): Observable<VocationEncodingGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencoding/" + id + "",
+      method: "GET",
+    };
+    return this.request<VocationEncodingGETData>(request);
+  }
+
+  updatevocationencodingbyid(id: string, body: VocationEncodingPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencoding/" + id + "",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletevocationencodingbyid(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencoding/" + id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findvocationencodings(body: VocationEncodingCriteria): Observable<VocationEncodingGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/vocationencoding/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<VocationEncodingGETDataSearchResults>(request);
+  }
+
+  encodecontent(body: EncodingPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ai/encode",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  encodeprep(body: EncodingPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ai/encodeprep",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  promotestudentstousers(body: CLStudentCriteria): Observable<SimpleRestActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/intg/actions/promote-students",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SimpleRestActionResponse>(request);
+  }
+
+  getcreateticket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/create-ticket",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestGETData>(request);
+  }
+
+  getcreateticketsetupui(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/create-ticket-setup-ui",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CreateTicketSetupUIData>(request);
+  }
+
+  getdashqueuesforuserprofile(user_profile_id: string): Observable<WorkQueueGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/dashboard/" + user_profile_id + "/queues",
+      method: "GET",
+    };
+    return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  getproviderqueuesmenu(tix_id: string): Observable<WorkQueueGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/" + tix_id + "/provider-queues-menu",
+      method: "GET",
+    };
+    return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  resolveticketcontext(userProfileId: string): Observable<HcclUserContextGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/get-context",
+      method: "GET",
+      params: { userProfileId: this.convertToString(userProfileId) },
+    };
+    return this.request<HcclUserContextGETData>(request);
+  }
+
+  entityactioncheck(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/check",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  entityactiondoc(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/doc",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  entityactionrun(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/run",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  entityactionui(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/ui",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  fetchbubblecontents(entity_type: string, id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/bubble/" + entity_type + "/{id}" + "/hccl/servicelib/bubble//" + id + "",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  fetchmenu(entity_type: string, id: string, menu_code: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/menu/" + entity_type + "/{id}/{menu-code}" + "/hccl/servicelib/menu//" + id + "/{menu-code}" + "/hccl/servicelib/menu///" + menu_code + "",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getfeatures(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/features",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  loadmergepayload(body: MergePayloadRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/payload",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  loadmergepayloadGet(entity_type: string, id: string, datasets: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/payload/" + entity_type + "/{id}" + "/hccl/servicelib/payload//" + id + "",
+      method: "GET",
+      params: { datasets: this.convertToString(datasets) },
+    };
+    return this.request<any>(request);
+  }
+
+  loadservicemetadata(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/metadata",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  get(wait: number, job_id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/" + job_id + "",
+      method: "GET",
+      params: { wait: this.convertToString(wait) },
+    };
+    return this.request<any>(request);
+  }
+
+  readandremove(wait: number, job_id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/" + job_id + "",
+      method: "POST",
+      params: { wait: this.convertToString(wait) },
+    };
+    return this.request<any>(request);
+  }
+
+  remove(job_id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/" + job_id + "",
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+}
+
+export interface ServiceManifest {
+  buildId?: string;
+  buildNumber?: string;
+  buildTime?: string;
+  buildJdk?: string;
+  buildUrl?: string;
+  gitUrl?: string;
+  gitBranch?: string;
+  gitCommit?: string;
+  builtBy?: string;
+  implementationVersion?: string;
+  implementationTitle?: string;
+  implementationVendorId?: string;
+  specificationVersion?: string;
+  specificationTitle?: string;
+  dockerImageName?: string;
+  dockerImageVersion?: string;
+  clusterName?: string;
+  clusterType?: string;
+}
+
+export interface LoggerConfigurationData {
+  loggerName: string;
+  loggerLevel: string;
+}
+
+export interface LoggerConfigurationPUTData {
+  loggerConfigurationData: LoggerConfigurationData[];
+}
+
+export interface JobDefinitionPOSTData {
+  name: string;
+  description?: string;
+  status?: boolean;
+  cronSchedule: string;
+  reserveBatchSize?: number;
+  purgeEventLogDays: number;
+  purgeProcessLogDays: number;
+}
+
+export interface JobDefinitionCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  omitJobDefinitionId?: string;
+}
+
+export interface JobDefinitionPUTData {
+  name: string;
+  description?: string;
+  status?: boolean;
+  cronSchedule: string;
+  reserveBatchSize?: number;
+  purgeEventLogDays: number;
+  purgeProcessLogDays: number;
+}
+
+export interface JobProcessLogPOSTData {
+  name: string;
+  totalEntriesReserved: number;
+  totalEntries?: number;
+}
+
+export interface DateGETData {
+  date?: string;
+  dateMilliseconds?: number;
+  dateFormat?: string;
+  formattedDate?: string;
+  formattedDateTime?: string;
+  year?: number;
+  month?: number;
+  dayOfMonth?: number;
+  monthName?: string;
+  convertToLocalTimezone?: boolean;
+}
+
+export interface JobProcessLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  jobDefinition?: RelationshipGETData;
+  name?: string;
+  totalEntriesReserved?: number;
+  totalEntries?: number;
+  dateCompleted?: DateGETData;
+  totalTimeInSeconds?: number;
+  status?: string;
+  errorMessage?: string;
+}
+
+export interface Reference {
+  name?: string;
+  link?: string;
+}
+
+export interface RelationshipGETData {
+  id?: string;
+  type?: string;
+  name?: string;
+  icon?: string;
+  description?: string;
+  link?: string;
+  aboutPath?: string;
+}
+
+export interface JobProcessLogPUTData {
+  name: string;
+  totalEntriesReserved: number;
+  totalEntries?: number;
+}
+
+export interface ServiceEventLogPOSTData {
+  referenceId: string;
+  entityName: string;
+  eventName: string;
+  eventJson?: string;
+  nextEventName?: string;
+  displayName?: string;
+  groupId?: string;
+  dateDue?: string;
+  applicationCode?: string;
+  parentId?: string;
+}
+
+export interface DocumentEventLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  serviceEventLog?: RelationshipGETData;
+  applicationId?: string;
+  fileName?: string;
+  fileSize?: number;
+  mediaType?: string;
+  aboutPath?: string;
+  fileUuidReference?: string;
+  dateUploaded?: DateGETData;
+}
+
+export interface ServiceEventLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  referenceId?: string;
+  entityName?: string;
+  eventName?: string;
+  eventJson?: string;
+  errorMessage?: string;
+  retries?: number;
+  status?: number;
+  statusValue?: string;
+  responseStatus?: number;
+  responseStatusFamily?: number;
+  successMessage?: string;
+  nextEventName?: string;
+  displayName?: string;
+  groupId?: string;
+  dateDue?: DateGETData;
+  applicationCode?: string;
+  parentId?: string;
+  documentEventLogs?: DocumentEventLogGETData[];
+}
+
+export interface ServiceEventLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  entityName?: string;
+  eventName?: string;
+  eventNames?: string[];
+  statuses?: number[];
+  groupId?: string;
+  referenceId?: string;
+  dateLogStarts?: string;
+  dateLogEnds?: string;
+  dateDue?: string;
+  applicationCode?: string;
+  parentId?: string;
+  createdByName?: string;
+}
+
+export interface ServiceEventLogPUTData {
+  referenceId: string;
+  entityName: string;
+  eventName: string;
+  eventJson?: string;
+  nextEventName?: string;
+  displayName?: string;
+  groupId?: string;
+  dateDue?: string;
+  applicationCode?: string;
+  parentId?: string;
+}
+
+export interface CatalogEntryPOSTData {
+  catalogId: string;
+  entryCode: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  notes?: string;
+  available: number;
+  url?: string;
+  vocodeInstanceId?: string;
+  integrationEntityId?: string;
+  integrationEntityType?: string;
+  integrationEntityName?: string;
+}
+
+export interface BaseCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+}
+
+export interface CatalogEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  catalogId?: string;
+  entryCode?: string;
+  title?: string;
+  shortDescription?: string;
+  description?: string;
+  notes?: string;
+  available?: number;
+  url?: string;
+  vocodeInstanceId?: string;
+  integrationEntityId?: string;
+  integrationEntityType?: string;
+  integrationEntityName?: string;
+}
+
+export interface CatalogEntryGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogEntryGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface DCPageData {
+  totalRows?: number;
+  pageNumber?: number;
+  pageSize?: number;
+  startingOffset?: number;
+  totalPages?: number;
+  endingOffset?: number;
+  links?: string[];
+}
+
+export interface CatalogEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  catalogId?: string;
+  entryCode?: string;
+  title?: string;
+  shortDescription?: string;
+  available?: number;
+  integrationEntityId?: string;
+  integrationEntityType?: string;
+  integrationEntityName?: string;
+  searchText?: string;
+}
+
+export interface CatalogEntryPUTData {
+  catalogId: string;
+  entryCode: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  notes?: string;
+  available: number;
+  url?: string;
+  vocodeInstanceId?: string;
+  integrationEntityId?: string;
+  integrationEntityType?: string;
+  integrationEntityName?: string;
+}
+
+export interface CatalogEntryTagPOSTData {
+  catalogId: string;
+  catalogEntryId: string;
+  tagId?: string;
+  tagCode: string;
+  tagStringValue?: string;
+  tagIntValue?: number;
+  tagDoubleValue?: number;
+  tagBooleanValue?: boolean;
+  tagMinValue?: number;
+  tagMaxValue?: number;
+  jsonValue?: string;
+}
+
+export interface CatalogEntryTagGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  catalogId?: string;
+  catalogEntryId?: string;
+  tagId?: string;
+  tagCode?: string;
+  tagStringValue?: string;
+  tagIntValue?: number;
+  tagDoubleValue?: number;
+  tagBooleanValue?: boolean;
+  tagMinValue?: number;
+  tagMaxValue?: number;
+  jsonValue?: string;
+}
+
+export interface CatalogEntryTagGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogEntryTagGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogEntryTagCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  catalogId?: string;
+  catalogEntryId?: string;
+  tagId?: string;
+  tagCode?: string;
+  tagStringValue?: string;
+  tagIntValue?: number;
+  tagDoubleValue?: number;
+  tagBooleanValue?: boolean;
+  tagMinValue?: number;
+  tagMaxValue?: number;
+}
+
+export interface CatalogEntryTagPUTData {
+  catalogId: string;
+  catalogEntryId: string;
+  tagId?: string;
+  tagCode: string;
+  tagStringValue?: string;
+  tagIntValue?: number;
+  tagDoubleValue?: number;
+  tagBooleanValue?: boolean;
+  tagMinValue?: number;
+  tagMaxValue?: number;
+  jsonValue?: string;
+}
+
+export interface CatalogSearchResultEntryPOSTData {
+  catalogSearchResultId: string;
+  catalogEntryId: string;
+  catalogId: string;
+  comments?: string;
+}
+
+export interface CatalogSearchResultEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  catalogSearchResultId?: string;
+  catalogEntryId?: string;
+  catalogId?: string;
+  comments?: string;
+}
+
+export interface CatalogSearchResultEntryGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogSearchResultEntryGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogSearchResultEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  catalogSearchResultId?: string;
+  catalogEntryId?: string;
+  catalogId?: string;
+  comments?: string;
+}
+
+export interface CatalogSearchResultEntryPUTData {
+  catalogSearchResultId: string;
+  catalogEntryId: string;
+  catalogId: string;
+  comments?: string;
+}
+
+export interface CatalogSearchResultPOSTData {
+  catalogId: string;
+  comments?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface CatalogSearchResultGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  catalogId?: string;
+  comments?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface CatalogSearchResultGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogSearchResultGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogSearchResultCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  catalogId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface CatalogSearchResultPUTData {
+  catalogId: string;
+  comments?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface CatalogSearchPOSTData {
+  searchName: string;
+  businessCode: string;
+  description: string;
+  searchMapJson: string;
+}
+
+export interface CatalogSearchGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  searchName?: string;
+  businessCode?: string;
+  description?: string;
+  searchMapJson?: string;
+}
+
+export interface CatalogSearchGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogSearchGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogSearchCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  searchName?: string;
+  businessCode?: string;
+  description?: string;
+  searchMapJson?: string;
+}
+
+export interface CatalogSearchPUTData {
+  searchName: string;
+  businessCode: string;
+  description: string;
+  searchMapJson: string;
+}
+
+export interface CatalogPOSTData {
+  organizationId: string;
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  taxonomyEntryId?: string;
+  urlPrefix?: string;
+  url?: string;
+}
+
+export interface CatalogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  taxonomyEntryId?: string;
+  urlPrefix?: string;
+  url?: string;
+}
+
+export interface CatalogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  taxonomyEntryId?: string;
+}
+
+export interface CatalogPUTData {
+  organizationId: string;
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  taxonomyEntryId?: string;
+  urlPrefix?: string;
+  url?: string;
+}
+
+export interface CatalogTagRefPOSTData {
+  tagCode: string;
+  nameText: string;
+  description: string;
+  tagValueType: string;
+  tagMaxValue?: number;
+  tagMinValue?: number;
+}
+
+export interface CatalogTagRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  tagCode?: string;
+  nameText?: string;
+  description?: string;
+  tagValueType?: string;
+  tagMaxValue?: number;
+  tagMinValue?: number;
+}
+
+export interface CatalogTagRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogTagRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogTagRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  tagCode?: string;
+  tagValueType?: string;
+  tagMaxValue?: number;
+  tagMinValue?: number;
+}
+
+export interface CatalogTagRefPUTData {
+  tagCode: string;
+  nameText: string;
+  description: string;
+  tagValueType: string;
+  tagMaxValue?: number;
+  tagMinValue?: number;
+}
+
+export interface ExperienceLocationPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface ExperienceLocationGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface ExperienceLocationGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ExperienceLocationGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ExperienceLocationCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface ExperienceLocationPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface ExperienceRegRulePOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface ExperienceRegRuleGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface ExperienceRegRuleGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ExperienceRegRuleGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ExperienceRegRuleCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+}
+
+export interface ExperienceRegRulePUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface ExperiencePOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  exprienceType: RelationshipGETData;
+  currentStateTransitionId?: string;
+  currentState?: string;
+  currentStateDateEntered?: string;
+  voctechTaxonomy: RelationshipGETData;
+  location: RelationshipGETData;
+  registrationRules?: RelationshipGETData;
+  dateRegistrationStart?: string;
+  dateRegistrationEnd?: string;
+  maxParticipants?: number;
+  minParticipants?: number;
+  dateRegistrationClosed?: string;
+}
+
+export interface ExperienceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  exprienceType?: RelationshipGETData;
+  currentStateTransitionId?: string;
+  currentState?: string;
+  voctechTaxonomy?: RelationshipGETData;
+  location?: RelationshipGETData;
+  registrationRules?: RelationshipGETData;
+  maxParticipants?: number;
+  minParticipants?: number;
+}
+
+export interface ExperienceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ExperienceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ExperienceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  currentStateTransitionId?: string;
+  currentState?: string;
+  currentStateDateEntered?: string;
+  dateRegistrationStart?: string;
+  dateRegistrationEnd?: string;
+  maxParticipants?: number;
+  minParticipants?: number;
+  dateRegistrationClosed?: string;
+}
+
+export interface ExperiencePUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  exprienceType: RelationshipGETData;
+  currentStateTransitionId?: string;
+  currentState?: string;
+  currentStateDateEntered?: string;
+  voctechTaxonomy: RelationshipGETData;
+  location: RelationshipGETData;
+  registrationRules?: RelationshipGETData;
+  dateRegistrationStart?: string;
+  dateRegistrationEnd?: string;
+  maxParticipants?: number;
+  minParticipants?: number;
+  dateRegistrationClosed?: string;
+}
+
+export interface ExperienceTypePOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  statePolicyCode: string;
+}
+
+export interface ExperienceTypeGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  statePolicyCode?: string;
+}
+
+export interface ExperienceTypeGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ExperienceTypeGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ExperienceTypeCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  statePolicyCode?: string;
+}
+
+export interface ExperienceTypePUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  statePolicyCode: string;
+}
+
+export interface CLCoursePOSTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  catalogCode: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  schoolId: string;
+}
+
+export interface CLCourseGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  catalogCode?: string;
+  title?: string;
+  shortDescription?: string;
+  description?: string;
+  schoolId?: string;
+}
+
+export interface CLCourseGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CLCourseGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CLCourseCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  catalogCode?: string;
+  title?: string;
+  shortDescription?: string;
+  schoolId?: string;
+}
+
+export interface CLCoursePUTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  catalogCode: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  schoolId: string;
+}
+
+export interface CLGuidancePOSTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
+  jobTitle?: string;
+}
+
+export interface CLGuidanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
+  schoolId?: string;
+  jobTitle?: string;
+}
+
+export interface CLGuidanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CLGuidanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CLGuidanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  schoolId?: string;
+  jobTitle?: string;
+}
+
+export interface CLGuidancePUTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
+  jobTitle?: string;
+}
+
+export interface CLSchoolPOSTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
+}
+
+export interface CLSchoolGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
+}
+
+export interface CLSchoolGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CLSchoolGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CLSchoolCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
+}
+
+export interface CLSchoolPUTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  districtCode?: string;
+}
+
+export interface CLStudentPOSTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
+}
+
+export interface CLStudentGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
+  schoolId?: string;
+}
+
+export interface CLStudentGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CLStudentGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CLStudentCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  schoolId?: string;
+}
+
+export interface CLStudentPUTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  schoolId: string;
+}
+
+export interface ProviderPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamParentId: string;
+  teamParentEntityType: string;
+  teamParentName: string;
+  modelJson: string;
+  providerTypeId: string;
+}
+
+export interface ProviderGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  modelJson?: string;
+  providerTypeId?: string;
+}
+
+export interface ProviderGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ProviderGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ProviderCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+}
+
+export interface ProviderPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamParentId: string;
+  teamParentEntityType: string;
+  teamParentName: string;
+  modelJson: string;
+  providerTypeId: string;
+}
+
+export interface ProviderTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface ProviderTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface ProviderTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ProviderTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ProviderTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface ProviderTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface ProviderUserPOSTData {
+  providerId: string;
+  userId: string;
+  userCode: string;
+}
+
+export interface ProviderUserGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  providerId?: string;
+  userId?: string;
+  userCode?: string;
+}
+
+export interface ProviderUserGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ProviderUserGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ProviderUserCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  userCode?: string;
+}
+
+export interface ProviderUserPUTData {
+  providerId: string;
+  userId: string;
+  userCode: string;
+}
+
+export interface ProviderRequestPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  currentStateTransitionId?: string;
+  currentStateCode: string;
+  currentStateDateEntered: string;
+  rawRequestText: string;
+  requesterUserId: string;
+  advocateUserId: string;
+  vocationEncodingInstanceId?: string;
+  requestTypeId: string;
+}
+
+export interface ProviderRequestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  currentStateTransitionId?: string;
+  currentStateCode?: string;
+  rawRequestText?: string;
+  requesterUserId?: string;
+  advocateUserId?: string;
+  vocationEncodingInstanceId?: string;
+  requestTypeId?: string;
+}
+
+export interface ProviderRequestGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ProviderRequestGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ProviderRequestCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  currentStateTransitionId?: string;
+  currentStateCode?: string;
+  currentStateDateEntered?: string;
+  requesterUserId?: string;
+  advocateUserId?: string;
+  vocationEncodingInstanceId?: string;
+  requestTypeId?: string;
+}
+
+export interface ProviderRequestPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  currentStateTransitionId?: string;
+  currentStateCode: string;
+  currentStateDateEntered: string;
+  rawRequestText: string;
+  requesterUserId: string;
+  advocateUserId: string;
+  vocationEncodingInstanceId?: string;
+  requestTypeId: string;
+}
+
+export interface ProviderRequestTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  policyBeanName: string;
+}
+
+export interface ProviderRequestTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  policyBeanName?: string;
+}
+
+export interface ProviderRequestTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ProviderRequestTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ProviderRequestTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  policyBeanName?: string;
+}
+
+export interface ProviderRequestTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  policyBeanName: string;
+}
+
+export interface StateTransitionLogPOSTData {
+  nameText: string;
+  transactionReferenceId: string;
+  parentId: string;
+  parentEntityType: string;
+  parentName: string;
+  stateMachineBeanName: string;
+  actionCode?: string;
+  fromState?: string;
+  toState: string;
+  userInRoleCode?: string;
+  extendedJson?: string;
+  actionDataId?: string;
+}
+
+export interface StateTransitionLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  transactionReferenceId?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
+  stateMachineBeanName?: string;
+  actionCode?: string;
+  fromState?: string;
+  toState?: string;
+  userInRoleCode?: string;
+  extendedJson?: string;
+  actionDataId?: string;
+}
+
+export interface StateTransitionLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: StateTransitionLogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface StateTransitionLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  transactionReferenceId?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
+  stateMachineBeanName?: string;
+  actionCode?: string;
+  fromState?: string;
+  toState?: string;
+  userInRoleCode?: string;
+  actionDataId?: string;
+}
+
+export interface StateTransitionLogPUTData {
+  nameText: string;
+  transactionReferenceId: string;
+  parentId: string;
+  parentEntityType: string;
+  parentName: string;
+  stateMachineBeanName: string;
+  actionCode?: string;
+  fromState?: string;
+  toState: string;
+  userInRoleCode?: string;
+  extendedJson?: string;
+  actionDataId?: string;
+}
+
+export interface TaxonomyEntryPOSTData {
+  nameText: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  taxonomy: RelationshipGETData;
+  taxonomyLevel: RelationshipGETData;
+  parentTaxonomyEntry?: RelationshipGETData;
+  taxonomyPath?: string;
+  entryLevel?: number;
+}
+
+export interface TaxonomyEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  taxonomy?: RelationshipGETData;
+  taxonomyLevel?: RelationshipGETData;
+  parentTaxonomyEntry?: RelationshipGETData;
+  taxonomyPath?: string;
+  entryLevel?: number;
+}
+
+export interface TaxonomyEntryGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TaxonomyEntryGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TaxonomyEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  businessCode?: string;
+  available?: number;
+  taxonomyPath?: string;
+  entryLevel?: number;
+}
+
+export interface TaxonomyEntryPUTData {
+  nameText: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  taxonomy: RelationshipGETData;
+  taxonomyLevel: RelationshipGETData;
+  parentTaxonomyEntry?: RelationshipGETData;
+  taxonomyPath?: string;
+  entryLevel?: number;
+}
+
+export interface TaxonomyLevelPOSTData {
+  nameText: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  taxonomy: RelationshipGETData;
+  level: number;
+}
+
+export interface TaxonomyLevelGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  taxonomy?: RelationshipGETData;
+  level?: number;
+}
+
+export interface TaxonomyLevelGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TaxonomyLevelGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TaxonomyLevelCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  businessCode?: string;
+  available?: number;
+  level?: number;
+}
+
+export interface TaxonomyLevelPUTData {
+  nameText: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  taxonomy: RelationshipGETData;
+  level: number;
+}
+
+export interface TaxonomyPOSTData {
+  nameText: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  maxLevels?: number;
+  defaultWeight?: number;
+}
+
+export interface TaxonomyGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  maxLevels?: number;
+  defaultWeight?: number;
+}
+
+export interface TaxonomyGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TaxonomyGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TaxonomyCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  businessCode?: string;
+  available?: number;
+  maxLevels?: number;
+  defaultWeight?: number;
+}
+
+export interface TaxonomyPUTData {
+  nameText: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  maxLevels?: number;
+  defaultWeight?: number;
+}
+
+export interface HcclOrganizationPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  jsonData?: string;
+  websiteUrl?: string;
+  organizationTypeId: string;
+  parentEntityId?: string;
+  parentEntityEntityType?: string;
+  parentEntityName?: string;
+  organizationTypeCode: string;
+}
+
+export interface HcclOrganizationGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  jsonData?: string;
+  websiteUrl?: string;
+  organizationTypeId?: string;
+  parentEntityId?: string;
+  parentEntityEntityType?: string;
+  parentEntityName?: string;
+}
+
+export interface HcclOrganizationGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclOrganizationGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclOrganizationCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  websiteUrl?: string;
+  organizationTypeId?: string;
+  parentEntityId?: string;
+  parentEntityEntityType?: string;
+  parentEntityName?: string;
+}
+
+export interface HcclOrganizationPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  jsonData?: string;
+  websiteUrl?: string;
+  organizationTypeId: string;
+  parentEntityId?: string;
+  parentEntityEntityType?: string;
+  parentEntityName?: string;
+}
+
+export interface HcclOrganizationTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface HcclOrganizationTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface HcclOrganizationTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclOrganizationTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclOrganizationTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface HcclOrganizationTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface HcclTeamLogPOSTData {
+  nameText: string;
+  description: string;
+  teamId: string;
+  teamMemberId?: string;
+  roleCode: string;
+  actionCode: string;
+  commentText?: string;
+}
+
+export interface HcclTeamLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  description?: string;
+  teamId?: string;
+  teamMemberId?: string;
+  roleCode?: string;
+  actionCode?: string;
+  commentText?: string;
+}
+
+export interface HcclTeamLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamLogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclTeamLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  description?: string;
+  teamId?: string;
+  teamMemberId?: string;
+  roleCode?: string;
+  actionCode?: string;
+}
+
+export interface HcclTeamLogPUTData {
+  nameText: string;
+  description: string;
+  teamId: string;
+  teamMemberId?: string;
+  roleCode: string;
+  actionCode: string;
+  commentText?: string;
+}
+
+export interface HcclTeamMemberRolePOSTData {
+  teamId: string;
+  teamMemberId: string;
+  teamMemberRoleId: string;
+  dateAdded: string;
+  dateRemoved?: string;
+}
+
+export interface HcclTeamMemberRoleGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  teamId?: string;
+  teamMemberId?: string;
+  teamMemberRoleId?: string;
+}
+
+export interface HcclTeamMemberRoleGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamMemberRoleGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclTeamMemberRoleCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  teamId?: string;
+  teamMemberId?: string;
+  teamMemberRoleId?: string;
+  dateAdded?: string;
+  dateRemoved?: string;
+}
+
+export interface HcclTeamMemberRolePUTData {
+  teamId: string;
+  teamMemberId: string;
+  teamMemberRoleId: string;
+  dateAdded: string;
+  dateRemoved?: string;
+}
+
+export interface HcclTeamMemberPOSTData {
+  teamId: string;
+  userId: string;
+  userProfileId?: string;
+  dateAdded: string;
+  dateRemoved?: string;
+}
+
+export interface HcclTeamMemberGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  teamId?: string;
+  userId?: string;
+  userProfileId?: string;
+}
+
+export interface HcclTeamMemberGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamMemberGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclTeamMemberCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  teamId?: string;
+  userId?: string;
+  userProfileId?: string;
+  dateAdded?: string;
+  dateRemoved?: string;
+}
+
+export interface HcclTeamMemberPUTData {
+  teamId: string;
+  userId: string;
+  userProfileId?: string;
+  dateAdded: string;
+  dateRemoved?: string;
+}
+
+export interface HcclTeamPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamTypeId: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available: number;
+}
+
+export interface HcclTeamGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamTypeId?: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available?: number;
+  teamMembers?: HcclTeamMemberGETData[];
+  teamMemberRoles?: HcclTeamMemberRoleGETData[];
+}
+
+export interface HcclTeamGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclTeamCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available?: number;
+}
+
+export interface HcclTeamPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamTypeId: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available: number;
+}
+
+export interface HcclUserProfilePOSTData {
+  userId: string;
+  userCode: string;
+  organizationId: string;
+  profileTypeCode: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  available: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface HcclUserProfileGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userId?: string;
+  userCode?: string;
+  organizationId?: string;
+  profileTypeCode?: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  available?: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface HcclUserProfileGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserProfileGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclUserProfileCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  userCode?: string;
+  organizationId?: string;
+  profileTypeCode?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  available?: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface HcclUserProfilePUTData {
+  userId: string;
+  userCode: string;
+  organizationId: string;
+  profileTypeCode: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  available: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+}
+
+export interface HcclUserPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available: number;
+}
+
+export interface HcclUserGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available?: number;
+}
+
+export interface HcclUserGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclUserCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available?: number;
+}
+
+export interface HcclUserPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available: number;
+}
+
+export interface TeamMemberRoleRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface TeamMemberRoleRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface TeamMemberRoleRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamMemberRoleRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TeamMemberRoleRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface TeamMemberRoleRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface TeamTypeMemberRoleRefPOSTData {
+  teamType: RelationshipGETData;
+  teamMemberRole: RelationshipGETData;
+  available: number;
+}
+
+export interface TeamTypeMemberRoleRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  teamType?: RelationshipGETData;
+  teamMemberRole?: RelationshipGETData;
+  available?: number;
+}
+
+export interface TeamTypeMemberRoleRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamTypeMemberRoleRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TeamTypeMemberRoleRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  teamType?: RelationshipGETData;
+  teamMemberRole?: RelationshipGETData;
+  available?: number;
+}
+
+export interface TeamTypeMemberRoleRefPUTData {
+  teamType: RelationshipGETData;
+  teamMemberRole: RelationshipGETData;
+  available: number;
+}
+
+export interface TeamTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface TeamTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface TeamTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface TeamTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface TeamTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface WorkQueuePOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  prefixCode: string;
+  workQueueTypeId: string;
+  workQueueTeamId: string;
+  available: number;
+  organizationId?: string;
+  externalQueue: number;
+}
+
+export interface WorkQueueGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  prefixCode?: string;
+  workQueueTypeId?: string;
+  workQueueTeamId?: string;
+  available?: number;
+  organizationId?: string;
+  externalQueue?: number;
+}
+
+export interface WorkQueueGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkQueueGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkQueueCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  prefixCode?: string;
+  workQueueTypeId?: string;
+  workQueueTeamId?: string;
+  available?: number;
+  organizationId?: string;
+  externalQueue?: number;
+}
+
+export interface WorkQueuePUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  prefixCode: string;
+  workQueueTypeId: string;
+  workQueueTeamId: string;
+  available: number;
+  organizationId?: string;
+  externalQueue: number;
+}
+
+export interface WorkQueueTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface WorkQueueTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface WorkQueueTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkQueueTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkQueueTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface WorkQueueTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface WorkRequestItemPOSTData {
+  workRequestId: string;
+  nameText: string;
+  businessCode: string;
+  sequenceOrder: number;
+  description: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode: string;
+  jsonData?: string;
+  commentText?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface WorkRequestItemGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestId?: string;
+  nameText?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  description?: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode?: string;
+  jsonData?: string;
+  commentText?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+}
+
+export interface WorkRequestItemGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestItemGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestItemCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  workRequestId?: string;
+  nameText?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  description?: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface WorkRequestItemPUTData {
+  workRequestId: string;
+  nameText: string;
+  businessCode: string;
+  sequenceOrder: number;
+  description: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode: string;
+  jsonData?: string;
+  commentText?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface WorkRequestLogPOSTData {
+  nameText: string;
+  description: string;
+  transactionReferenceId: string;
+  workRequestId: string;
+  workRequestItemId?: string;
+  workRequestReasonId?: string;
+  stateTransitionLogId?: string;
+  createdByUserId: string;
+  roleCode: string;
+  eventCode: string;
+  actionSubCode?: string;
+  statusCode?: string;
+  commentText?: string;
+}
+
+export interface WorkRequestLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  description?: string;
+  transactionReferenceId?: string;
+  workRequestId?: string;
+  workRequestItemId?: string;
+  workRequestReasonId?: string;
+  stateTransitionLogId?: string;
+  createdByUserId?: string;
+  roleCode?: string;
+  eventCode?: string;
+  actionSubCode?: string;
+  statusCode?: string;
+  commentText?: string;
+}
+
+export interface WorkRequestLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestLogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  description?: string;
+  transactionReferenceId?: string;
+  workRequestId?: string;
+  workRequestItemId?: string;
+  workRequestReasonId?: string;
+  stateTransitionLogId?: string;
+  createdByUserId?: string;
+  roleCode?: string;
+  eventCode?: string;
+  actionSubCode?: string;
+  statusCode?: string;
+}
+
+export interface WorkRequestLogPUTData {
+  nameText: string;
+  description: string;
+  transactionReferenceId: string;
+  workRequestId: string;
+  workRequestItemId?: string;
+  workRequestReasonId?: string;
+  stateTransitionLogId?: string;
+  createdByUserId: string;
+  roleCode: string;
+  eventCode: string;
+  actionSubCode?: string;
+  statusCode?: string;
+  commentText?: string;
+}
+
+export interface WorkRequestRoutingReasonPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface WorkRequestRoutingReasonGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface WorkRequestRoutingReasonGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestRoutingReasonGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestRoutingReasonCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface WorkRequestRoutingReasonPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+
+export interface WorkRequestPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  workRequestTypeId: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  workQueueId: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  dateAccepted?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface WorkRequestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  workRequestTypeId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  workQueueId?: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface WorkRequestGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  workRequestTypeId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  workQueueId?: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  dateAccepted?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface WorkRequestPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  workRequestTypeId: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  workQueueId: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  dateAccepted?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface WorkRequestTeamPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamId: string;
+  ownerEntityId?: string;
+  ownerEntityType?: string;
+  ownerEntityName?: string;
+}
+
+export interface WorkRequestTeamGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamId?: string;
+  ownerEntityId?: string;
+  ownerEntityType?: string;
+  ownerEntityName?: string;
+}
+
+export interface WorkRequestTeamGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestTeamGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestTeamCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamId?: string;
+  ownerEntityId?: string;
+  ownerEntityType?: string;
+  ownerEntityName?: string;
+}
+
+export interface WorkRequestTeamPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamId: string;
+  ownerEntityId?: string;
+  ownerEntityType?: string;
+  ownerEntityName?: string;
+}
+
+export interface WorkRequestTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  policyBeanName: string;
+  available: number;
+}
+
+export interface WorkRequestTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  policyBeanName?: string;
+  available?: number;
+}
+
+export interface WorkRequestTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  policyBeanName?: string;
+  available?: number;
+}
+
+export interface WorkRequestTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  policyBeanName: string;
+  available: number;
+}
+
+export interface VocationEncodingInstancePOSTData {
+  vocationEncodingId?: string;
+  encodingName: string;
+  vocationEncodingRefId: string;
+  sequenceOrder?: number;
+  encodingDistance: number;
+}
+
+export interface VocationEncodingInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  vocationEncodingId?: string;
+  encodingName?: string;
+  vocationEncodingRefId?: string;
+  sequenceOrder?: number;
+  encodingDistance?: number;
+}
+
+export interface VocationEncodingInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: VocationEncodingInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface VocationEncodingInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  vocationEncodingId?: string;
+  encodingName?: string;
+  vocationEncodingRefId?: string;
+  sequenceOrder?: number;
+  encodingDistance?: number;
+}
+
+export interface VocationEncodingInstancePUTData {
+  vocationEncodingId?: string;
+  encodingName: string;
+  vocationEncodingRefId: string;
+  sequenceOrder?: number;
+  encodingDistance: number;
+}
+
+export interface VocationEncodingRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  primaryCode: string;
+  secondaryCode: string;
+}
+
+export interface VocationEncodingRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  primaryCode?: string;
+  secondaryCode?: string;
+}
+
+export interface VocationEncodingRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: VocationEncodingRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface VocationEncodingRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  primaryCode?: string;
+  secondaryCode?: string;
+}
+
+export interface VocationEncodingRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  primaryCode: string;
+  secondaryCode: string;
+}
+
+export interface VocationEncodingPOSTData {
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  encodingText: string;
+}
+
+export interface VocationEncodingGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  encodingText?: string;
+}
+
+export interface VocationEncodingGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: VocationEncodingGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface VocationEncodingCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  encodingText?: string;
+}
+
+export interface VocationEncodingPUTData {
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  encodingText: string;
+}
+
+export interface EncodingPOSTData {
+  textToEncode: string;
+  sourceOfText: string;
+}
+
+export interface SimpleMessage {
+  messageCode?: string;
+  message?: string;
+  severity?: number;
+  exceptionMessage?: string;
+  referenceCode?: string;
+}
+
+export interface SimpleMessageList {
+  messages?: SimpleMessage[];
+}
+
+export interface SimpleRestActionContext {
+  userName?: string;
+}
+
+export interface SimpleRestActionResponse {
+  context?: SimpleRestActionContext;
+  messages?: SimpleMessageList;
+  data?: any;
+  actionFormData?: any;
+  mapFormElements?: any;
+}
+
+export interface CreateTicketPOSTData {
+  advocateUserProfileId?: string;
+  studentUserProfileId?: string;
+  queueId?: string;
+  workRequestTypeId?: string;
+  title?: string;
+  rawText?: string;
+}
+
+export interface CreateTicketSetupUIData {
+  data?: CreateTicketPOSTData;
+  queuesMenu?: MenuControlDataList;
+  workRequestTypesMenu?: MenuControlDataList;
+  currentUserProfile?: HcclUserProfileGETData;
+}
+
+export interface MenuControlData {
+  id?: string;
+  name?: string;
+  icon?: string;
+  active?: boolean;
+  selected?: boolean;
+  groupId?: string;
+  roleRequired?: string;
+  helpText?: string;
+  allowedByRole?: boolean;
+  allowedByRule?: boolean;
+}
+
+export interface MenuControlDataList {
+  applicationName?: string;
+  clientId?: string;
+  menuId?: string;
+  menuName?: string;
+  label?: string;
+  menuItems?: MenuControlData[];
+  defaultAllowedByRule?: boolean;
+}
+
+export interface HcclUserContextGETData {
+  currentUserProfileId?: string;
+  messages?: SimpleMessageList;
+  currentUserProfile?: HcclUserProfileGETData;
+  userProfileMenu?: MenuControlDataList;
+}
+
+export interface GenericFormUI {
+  formUiType?: string;
+  title?: string;
+  description?: string;
+  schema?: any;
+  ui?: any;
+  data?: any;
+}
+
+export interface SLEntityActionUiDefnResponse {
+  ui?: GenericFormUI;
+  checkMessages?: SimpleMessageList;
+  actionMessages?: SimpleMessageList;
+  responseData?: any;
+  status?: number;
+  message?: string;
+}
+
+export interface SLEntityActionUiDefnRequest {
+  id?: string;
+  entityActionCode?: string;
+  formData?: any;
+}
+
+export interface SLControlProperty {
+  name?: string;
+  value?: any;
+  comment?: string;
+}
+
+export interface SLFeature {
+  property?: string;
+  name?: string;
+  enabled?: boolean;
+  status?: string;
+  statusInfo?: string;
+  ctrlProps?: any;
+  messages?: SimpleMessageList;
+}
+
+export interface SLFeatures {
+  features?: SLFeature[];
+}
+
+export interface EntityTuple {
+  tenantId?: string;
+  entityName?: string;
+  entityOrgId?: string;
+  entityId?: string;
+  entityIdStr?: string;
+  serviceCode?: string;
+  entityDisplayText?: string;
+}
+
+export interface MergeFieldInsertImage {
+  classUrl?: string;
+  webUrl?: string;
+  imageFileName?: string;
+  barcodeType?: string;
+  barcodeText?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageUnit?: number;
+  byteArray?: string;
+}
+
+export interface MergePayloadData {
+  datasets?: any;
+  images?: any;
+  watermarks?: any;
+}
+
+export interface MergePayloadRequest {
+  payloadName?: string;
+  entityTuples?: EntityTuple[];
+  datasets?: string[];
+  languageCode?: string;
+  usingJsonData?: boolean;
+  aspect?: string;
+}
+
+export interface MergePayloadResponse {
+  messages?: SimpleMessageList;
+  request?: MergePayloadRequest;
+  payloads?: MergePayloadData[];
+}
+
+export interface MergeWatermark {
+  watermarkText?: string;
+}
+
+export interface SLEntityDataset {
+  name?: string;
+  descrip?: string;
+  status?: number;
+}
+
+export interface SLEntityDefnGETData {
+  entityName?: string;
+  supportingMergeData?: boolean;
+  datasets?: SLEntityDataset[];
+}
+
+export interface SLServiceMetaData {
+  serviceCode?: string;
+  descrip?: string;
+  entities?: SLEntityDefnGETData[];
+}

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HcclService } from '../../restsvc/hccl.service';
-import { CLStudentGETData } from '../../restsvc/hccl.interfaces';
+import { HcclService, CLStudentGETData } from '../../restsvc/hccl.service';
 
 @Component({
   selector: 'app-clstudent',

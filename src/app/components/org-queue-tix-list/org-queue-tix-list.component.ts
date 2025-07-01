@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HcclService } from '../../restsvc/hccl.service';
-import { WorkRequestGETData, WorkRequestCriteria, WorkRequestGETDataSearchResults } from '../../restsvc/hccl.interfaces';
+import { HcclService, WorkRequestGETData, WorkRequestCriteria, WorkRequestGETDataSearchResults } from '../../restsvc/hccl.service';
+
 
 declare const dhx: any;
 
@@ -114,7 +114,7 @@ export class OrgQueueTixListComponent implements OnInit, AfterViewInit {
     if (searchCriteria && searchCriteria.trim() !== '') {
       criteria.name = searchCriteria;
     }
-    this.hcclService.findWorkRequests(criteria).subscribe({
+    this.hcclService.findworkrequests(criteria).subscribe({
       next: (response: WorkRequestGETDataSearchResults) => {
         if (response.searchResults) {
           this.grid.data.parse(response.searchResults);
