@@ -6,7 +6,7 @@ import { CommonRequestServiceCaller, CommonServiceRequest } from './common-reque
 @Injectable({
   providedIn: 'root'
 })
-export class HcclService extends CommonRequestServiceCaller {
+export class Hccl.swagger.jsonService extends CommonRequestServiceCaller {
   constructor(http: HttpClient) {
     super(http);
     const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
@@ -2292,7 +2292,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
-  getCreateTicket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
+  createTicket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/create-ticket",
       method: "POST",
@@ -3576,6 +3576,8 @@ export interface CLStudentCriteria {
   userEmail?: string;
   cellPhoneNumber?: string;
   workPhoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
   schoolId?: string;
 }
 
