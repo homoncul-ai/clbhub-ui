@@ -1,1 +1,13 @@
-<p>org-queue-tix-list works!</p>
+<div class="search-list-container">
+  <h2>Work Requests in Queue</h2>
+  <form class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
+    <input #searchInput type="text" class="search-list-input" placeholder="search by name, * for wildcard" />
+    <button type="submit" class="search-list-input-button">
+      <span class="material-icons" aria-label="Search">search</span>
+    </button>
+    <button type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
+      <span class="material-icons" aria-label="Advanced Search">tune</span>
+    </button>
+  </form>
+  <div #gridContainer class="search-list-grid"></div>
+</div>

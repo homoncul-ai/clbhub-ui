@@ -6,7 +6,7 @@ import { CommonRequestServiceCaller, CommonServiceRequest } from './common-reque
 @Injectable({
   providedIn: 'root'
 })
-export class Hccl.swagger.jsonService extends CommonRequestServiceCaller {
+export class HcclService extends CommonRequestServiceCaller {
   constructor(http: HttpClient) {
     super(http);
     const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
