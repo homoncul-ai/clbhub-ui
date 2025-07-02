@@ -20,7 +20,7 @@ RUN npm install --force
 EXPOSE 8080
 
 ##Build the angular app in production mode and store the artifacts in dist folder
-RUN ng build --configuration production --base-href=/trutesta-hccl-mdb5-ui/
+RUN ng build --configuration production --base-href=/hccl/
 
 #Run the application.
 CMD npm start

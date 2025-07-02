@@ -9,7 +9,8 @@ import { CommonRequestServiceCaller, CommonServiceRequest } from './common-reque
 export class HcclService extends CommonRequestServiceCaller {
   constructor(http: HttpClient) {
     super(http);
-    const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    const baseUrl = 'https://devops2.trutesta.com/trutesta-hccl-services';
     this.setBaseUrl(baseUrl);
   }
 
@@ -2292,7 +2293,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
-  getCreateTicket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
+  createTicket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/create-ticket",
       method: "POST",
@@ -2326,11 +2327,11 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueGETDataSearchResults>(request);
   }
 
-  resolveTicketContext(userProfileId?: string): Observable<HcclUserContextGETData> {
+  resolveTicketContext(userProfileId: string): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/get-context",
-      method: "GET"
-//      params: { userProfileId: this.convertToString(userProfileId) },
+      method: "GET",
+      params: { userProfileId: this.convertToString(userProfileId) },
     };
     return this.request<HcclUserContextGETData>(request);
   }
@@ -3576,6 +3577,8 @@ export interface CLStudentCriteria {
   userEmail?: string;
   cellPhoneNumber?: string;
   workPhoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
   schoolId?: string;
 }
 
@@ -5535,3 +5538,4 @@ export interface SLServiceMetaData {
   descrip?: string;
   entities?: SLEntityDefnGETData[];
 }
+
