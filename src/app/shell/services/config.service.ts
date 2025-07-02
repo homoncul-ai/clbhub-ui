@@ -59,6 +59,7 @@ export class AppConstants {
 
   __loadConfig = async () => {
     try {
+      debugger;
       if (this.endPointsLoaded()) return;
 
       const results = await Promise.all([

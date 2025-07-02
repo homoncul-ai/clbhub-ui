@@ -9,8 +9,8 @@ import { CommonRequestServiceCaller, CommonServiceRequest } from './common-reque
 export class HcclService extends CommonRequestServiceCaller {
   constructor(http: HttpClient) {
     super(http);
-    // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
-    const baseUrl = 'https://devops2.trutesta.com/trutesta-hccl-services';
+     const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    //    const baseUrl = 'https://devops2.trutesta.com/trutesta-hccl-services';
     this.setBaseUrl(baseUrl);
   }
 
