@@ -2,11 +2,11 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const kcName = 'trutesta-hccl-mdb5-ui';
-const kcApplicationPath = '/hccl';
+const kcApplicationPath = '/hccl/';
 
 // Run the app by serving the static files
 // in the dist directory
-app.use(kcApplicationPath, express.static(__dirname + '/dist/browser' + kcName));
+app.use(kcApplicationPath, express.static(__dirname + '/dist/' + kcName));
 
 // For all GET requests, send back index.html
 // so that PathLocationStrategy can be used
