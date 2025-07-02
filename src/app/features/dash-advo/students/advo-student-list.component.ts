@@ -64,7 +64,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   private async loadUserContext(): Promise<void> {
     try {
       // Call resolveTicketContext to get the current user context
-      this.hcclService.resolveTicketContext().subscribe({
+      this.hcclService.resolveTicketContext(this.userContext?.currentUserProfileId || '').subscribe({
         next: (context: HcclUserContextGETData) => {
           this.userContext = context;
           console.log('User context loaded:', context);
