@@ -6,7 +6,7 @@ import {
   provideAppInitializer,
   inject,
   signal,
-  APP_INITIALIZER
+
 } from '@angular/core';
 import {
   PreloadAllModules,
@@ -28,11 +28,13 @@ import { keycloakInitializer } from './shell/services/config.service';
 import { AppConstants } from './shell/services/config.service';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEvent } from 'keycloak-angular';
 import { HttpTokenInterceptor } from './@core/interceptors/http.token.interceptor';
+import { KeycloakInterceptor } from './@core/interceptors/keycloak.interceptor';
 
 if (environment.production) {
   enableProdMode();
 }
 const keycloakEvents = signal<KeycloakEvent[]>([]);
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -44,7 +46,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     
     importProvidersFrom(
-      TranslateModule.forRoot(),
+      TranslateModule.forRoot({
+        defaultLanguage: 'en',
+        useDefaultLang: true,
+      }),
       ShellModule
     ),
     provideRouter(
@@ -62,6 +67,11 @@ export const appConfig: ApplicationConfig = {
     ),
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true },
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: KeycloakInterceptor, // Use your fixed Keycloak interceptor
+      multi: true 
+    },
     provideHttpClient(withInterceptorsFromDi()),
    
   ],
