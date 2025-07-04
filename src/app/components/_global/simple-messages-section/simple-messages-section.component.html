@@ -1,0 +1,49 @@
+<div class="simple-messages-section" *ngIf="messagesList?.messages && messagesList.messages.length > 0">
+  <h3 class="messages-title">{{ title }}</h3>
+  
+  <div class="messages-container">
+    <!-- Errors (Severity 1) -->
+    <div class="severity-group error-group" *ngIf="severityGroups[1]?.length > 0">
+      <h4 class="severity-title error">Errors</h4>
+      <ul class="messages-list">
+        <li *ngFor="let message of severityGroups[1]" class="message-item error">
+          <span class="message-code" *ngIf="message.messageCode">[{{ message.messageCode }}]</span>
+          <span class="message-text">- {{ message.message }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Warnings (Severity 2) -->
+    <div class="severity-group warning-group" *ngIf="severityGroups[2]?.length > 0">
+      <h4 class="severity-title warning">Warnings</h4>
+      <ul class="messages-list">
+        <li *ngFor="let message of severityGroups[2]" class="message-item warning">
+          <span class="message-code" *ngIf="message.messageCode">[{{ message.messageCode }}]</span>
+          <span class="message-text">- {{ message.message }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Info (Severity 3) -->
+    <div class="severity-group info-group" *ngIf="severityGroups[3]?.length > 0">
+      <h4 class="severity-title info">Information</h4>
+      <ul class="messages-list">
+        <li *ngFor="let message of severityGroups[3]" class="message-item info">
+          <span class="message-code" *ngIf="message.messageCode">[{{ message.messageCode }}]</span>
+          <span class="message-text">- {{ message.message }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Success (Severity 4) -->
+    <div class="severity-group success-group" *ngIf="severityGroups[4]?.length > 0">
+      <h4 class="severity-title success">Success Messages</h4>
+      <ul class="messages-list">
+        <li *ngFor="let message of severityGroups[4]" class="message-item success">
+          <span class="message-code" *ngIf="message.messageCode">[{{ message.messageCode }}]</span>
+          <span class="message-text">- {{ message.message }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
