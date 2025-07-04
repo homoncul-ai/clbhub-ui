@@ -105,25 +105,36 @@ export class HcclContextService {
    * @param userProfileId - Optional user profile ID
    * @returns Observable of the refreshed context data
    */
-  public refreshContext(userProfileId: string = ''): Observable<HcclUserContextGETData> {
+  public refreshContext(): Observable<HcclUserContextGETData> {
     this.logger.info('Refreshing HCCL context');
+    var userProfileId: string | null = this.getCurrentUserProfileId();
+    if(userProfileId == null) {
+      userProfileId = '';
+    }
     return this.initializeContext(userProfileId);
   }
 
   /**
    * Get the current context data
-   * @returns Current context data or null if not initialized
+   * @returns Current context data or empty object if not initialized
    */
-  public getContext(): HcclUserContextGETData | null {
-    return this.context();
+  public getContext(): HcclUserContextGETData {
+    var x : HcclUserContextGETData = this.context() || {
+      currentUserProfileId: '',
+      currentUserProfile: undefined,
+      messages: undefined,
+      userProfileMenu: undefined
+    };
+
+    return x;
   }
 
   /**
    * Get the current user profile ID
    * @returns Current user profile ID or null if not available
    */
-  public getCurrentUserProfileId(): string | null {
-    return this.context()?.currentUserProfileId || null;
+  public getCurrentUserProfileId(): string {
+    return this.context()?.currentUserProfileId || '';
   }
 
   /**

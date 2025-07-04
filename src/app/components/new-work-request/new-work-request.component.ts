@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HcclService } from '../../restsvc/hccl.service';
+import { HcclContextService } from '../../shell/services/hccl-context.service';
 import { 
   CreateTicketPOSTData, 
   CreateTicketSetupUIData, 
@@ -33,8 +34,7 @@ export class NewWorkRequestComponent implements OnInit {
   @Input() advocateUserProfileId?: string;
   @Input() clientUserProfileId?: string;
 
-  setupData: CreateTicketSetupUIData | null = null;
-  userContext: HcclUserContextGETData | null = null;
+  setupData: CreateTicketSetupUIData | null = null; 
   formData: CreateTicketPOSTData = {
     title: '',
     rawText: '',
@@ -50,38 +50,16 @@ export class NewWorkRequestComponent implements OnInit {
   selectedWorkRequestType: MenuControlData | null = null;
   selectedWorkQueue: MenuControlData | null = null;
 
-  constructor(private hcclService: HcclService) {}
+  constructor(
+    private hcclService: HcclService,
+    private hcclContextService: HcclContextService
+  ) {}
 
   ngOnInit(): void {
-    this.loadUserContext();
+   
   }
 
-  private loadUserContext(): void {
-    this.loading = true;
-    this.errorMessage = '';
-    
-    // Call resolveTicketContext to get the current user context
-    this.hcclService.resolveTicketContext(this.advocateUserProfileId || '').subscribe({
-      next: (context: HcclUserContextGETData) => {
-        this.userContext = context;
-        
-        // Use the currentUserProfileId from context if available, otherwise use the input
-        const effectiveAdvocateId = context.currentUserProfileId || this.advocateUserProfileId;
-        
-        if (effectiveAdvocateId) {
-          this.loadSetupData(effectiveAdvocateId);
-        } else {
-          this.errorMessage = 'Unable to determine advocate user profile ID.';
-          this.loading = false;
-        }
-      },
-      error: (error) => {
-        console.error('Error loading user context:', error);
-        this.errorMessage = 'Failed to load user context. Please try again.';
-        this.loading = false;
-      }
-    });
-  }
+   
 
   private loadSetupData(advocateUserProfileId: string): void {
     // Create initial data with the resolved advocateUserProfileId
@@ -128,12 +106,7 @@ export class NewWorkRequestComponent implements OnInit {
     this.successMessage = '';
 
     // Use the context data if available, otherwise use the inputs
-    if (this.userContext?.currentUserProfileId) {
-      this.formData.advocateUserProfileId = this.userContext.currentUserProfileId;
-    } else if (this.advocateUserProfileId) {
-      this.formData.advocateUserProfileId = this.advocateUserProfileId;
-    }
-
+   
     if (this.clientUserProfileId) {
       this.formData.studentUserProfileId = this.clientUserProfileId;
     }
@@ -151,7 +124,9 @@ export class NewWorkRequestComponent implements OnInit {
       }
     });
   }
-
+  public getUserContext(): HcclUserContextGETData  {
+    return this.hcclContextService.getContext();
+  }
   private isFormValid(): boolean {
     return !!(
       this.formData.title?.trim() &&
@@ -180,8 +155,5 @@ export class NewWorkRequestComponent implements OnInit {
       return v.toString(16);
     });
   }
-
-  retryLoad(): void {
-    this.loadUserContext();
-  }
+ 
 }

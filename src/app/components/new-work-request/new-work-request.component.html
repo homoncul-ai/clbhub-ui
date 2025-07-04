@@ -62,15 +62,7 @@
                   <li><strong>clientUserProfileId:</strong> {{ clientUserProfileId || 'undefined' }}</li>
                 </ul>
               </div>
-              <div class="col-md-6">
-                <h6>Component State:</h6>
-                <ul class="list-unstyled">
-                  <li><strong>loading:</strong> {{ loading }}</li>
-                  <li><strong>setupData:</strong> {{ setupData ? 'loaded' : 'null' }}</li>
-                  <li><strong>userContext:</strong> {{ userContext ? 'loaded' : 'null' }}</li>
-                  <li><strong>errorMessage:</strong> {{ errorMessage || 'none' }}</li>
-                </ul>
-              </div>
+          
             </div>
             <div class="row mt-3" *ngIf="setupData">
               <div class="col-12">
@@ -78,10 +70,10 @@
                 <pre class="bg-light p-2 rounded">{{ setupData | json }}</pre>
               </div>
             </div>
-            <div class="row mt-3" *ngIf="userContext">
+            <div class="row mt-3" *ngIf="getUserContext()">
               <div class="col-12">
                 <h6>User Context:</h6>
-                <pre class="bg-light p-2 rounded">{{ userContext | json }}</pre>
+                <pre class="bg-light p-2 rounded">{{ getUserContext() | json }}</pre>
               </div>
             </div>
           </div>
@@ -173,13 +165,7 @@
         </div>
       </form>
 
-      <!-- No Setup Data Available -->
-      <div *ngIf="!loading && !setupData" class="text-center">
-        <p class="text-muted">Unable to load form setup data. Please try refreshing the page.</p>
-        <button type="button" class="btn btn-primary" (click)="retryLoad()">
-          Retry
-        </button>
-      </div>
+        
     </div>
   </div>
  

@@ -53,18 +53,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private ngZone: NgZone,
     private appConstants: AppConstants,
   ) {
-    // Keycloak Event
-    effect(() => {
-      const keycloakEvent = this.keycloakSignal();
-
-      if (keycloakEvent.type === KeycloakEventType.Ready) {
-        // Initialize HCCL context after Keycloak is ready
-        this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
-          this._router.navigate(['/advocate-dashboard/messages']);
-          console.log('Ticket Context:', ticketContext);
-        });
-      }
-    });
+    // Check if Keycloak is already ready
+    this.checkKeycloakAndInitialize();
    
     // Listen to Route Changes
     this._router.events
@@ -98,6 +88,33 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   userDetails: any = null;
   loggedInUserInitials:any='';
   user: string = '';
+  private checkKeycloakAndInitialize(): void {
+    // Check if Keycloak is already logged in
+    if (this.appConstants.isLoggedIn()) {
+      // Initialize HCCL context immediately
+      this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
+        console.log('Ticket Context:', ticketContext);
+        this._router.navigate(['/advocate-dashboard/messages']);
+      });
+    } else {
+      // Wait for Keycloak to be ready by checking periodically
+      const checkInterval = setInterval(() => {
+        if (this.appConstants.isLoggedIn()) {
+          clearInterval(checkInterval);
+          this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
+            console.log('Ticket Context:', ticketContext);
+            this._router.navigate(['/advocate-dashboard/messages']);
+          });
+        }
+      }, 100);
+
+      // Clear interval after 10 seconds to prevent infinite checking
+      setTimeout(() => {
+        clearInterval(checkInterval);
+      }, 10000);
+    }
+  }
+
   ngOnInit() {
     this.currentRoute = this._router.url;
 
