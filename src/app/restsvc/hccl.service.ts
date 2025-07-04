@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommonRequestServiceCaller, CommonServiceRequest } from './common-request-service.model';
+import { AppConstants } from '@app/shell/services/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HcclService extends CommonRequestServiceCaller {
-  constructor(http: HttpClient) {
+   ;
+  constructor(http: HttpClient,appConstants :AppConstants) {
+
+
     super(http);
-     const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
-    //    const baseUrl = 'https://devops2.trutesta.com/trutesta-hccl-services';
+    // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    const baseUrl:string = appConstants.endPoints()?.hcclServicesEndPoint;
+    console.log(baseUrl);
     this.setBaseUrl(baseUrl);
   }
 

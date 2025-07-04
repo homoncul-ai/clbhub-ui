@@ -6,25 +6,23 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { KeycloakService } from 'keycloak-angular';
+
+import { AppConstants } from '@app/shell/services/config.service';
 
 @Injectable()
 export class KeycloakInterceptor implements HttpInterceptor {
-  constructor(private keycloak: KeycloakService) {}
+  constructor(private appConstants: AppConstants) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (this.keycloak.isLoggedIn()) {
-      debugger;
-      this.keycloak.getToken().then(token => {
-        if (token) {
-          request = request.clone({
-            setHeaders: {
-              Authorization: `Bearer ${token}`
-            }
-          });
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = this.appConstants.getToken(); // Synchronous access
+    if (token) {
+      const cloned = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
         }
       });
+      return next.handle(cloned);
     }
-    return next.handle(request);
+    return next.handle(req);
   }
-} 
+}

@@ -8,6 +8,7 @@ import { GlobalConstants } from '@app/global-constants';
 
 export const initialState: EndPoints = {
   tenantEndPoint: '',
+  hcclServicesEndPoint          : ''
 };
 
 @Injectable({

@@ -1,0 +1,104 @@
+.simple-messages-section {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+
+  .messages-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .messages-container {
+    .severity-group {
+      margin-bottom: 1.5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .severity-title {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        display: inline-block;
+
+        &.error {
+          background-color: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+        }
+
+        &.warning {
+          background-color: #fff3cd;
+          color: #856404;
+          border: 1px solid #ffeaa7;
+        }
+
+        &.info {
+          background-color: #d1ecf1;
+          color: #0c5460;
+          border: 1px solid #bee5eb;
+        }
+
+        &.success {
+          background-color: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+        }
+      }
+
+      .messages-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .message-item {
+          padding: 0.5rem 0.75rem;
+          margin: 0.25rem 0;
+          border-radius: 3px;
+          border-left: 4px solid;
+          background-color: white;
+
+          &.error {
+            border-left-color: #dc3545;
+            background-color: #f8d7da;
+            color: #721c24;
+          }
+
+          &.warning {
+            border-left-color: #ffc107;
+            background-color: #fff3cd;
+            color: #856404;
+          }
+
+          &.info {
+            border-left-color: #17a2b8;
+            background-color: #d1ecf1;
+            color: #0c5460;
+          }
+
+          &.success {
+            border-left-color: #28a745;
+            background-color: #d4edda;
+            color: #155724;
+          }
+
+          .message-code {
+            font-weight: 600;
+            margin-right: 0.5rem;
+          }
+
+          .message-text {
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+}

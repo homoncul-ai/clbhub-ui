@@ -21,6 +21,8 @@ import { MenuService, MenuItem } from './services/menu.service';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import { effect } from '@angular/core';
 import { AppConstants } from './services/config.service';
+import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { HcclContextService } from './services/hccl-context.service';
 
 declare const dhx: any; // DHTMLX global
 
@@ -38,7 +40,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   currentRoute: string = '';
   mode: 'side' | 'over' = window.innerWidth >= 1400 ? 'side' : 'over';
   hidden: boolean = window.innerWidth >= 1400 ? false : true;
-
+  private hcclContextService = inject(HcclContextService);
   private tree: any;
   private resizeSubscription!: Subscription;
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
@@ -51,14 +53,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private ngZone: NgZone,
     private appConstants: AppConstants,
   ) {
-    // Keycloak Event
-    effect(() => {
-      const keycloakEvent = this.keycloakSignal();
-      if (keycloakEvent.type === KeycloakEventType.Ready) {
-        this._router.navigate(['/advocate-dashboard/messages']);
-      }
-    });
-
+    // Check if Keycloak is already ready
+    this.checkKeycloakAndInitialize();
+   
     // Listen to Route Changes
     this._router.events
       .pipe(filter(event => event instanceof NavigationEnd), untilDestroyed(this))
@@ -91,6 +88,33 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   userDetails: any = null;
   loggedInUserInitials:any='';
   user: string = '';
+  private checkKeycloakAndInitialize(): void {
+    // Check if Keycloak is already logged in
+    if (this.appConstants.isLoggedIn()) {
+      // Initialize HCCL context immediately
+      this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
+        console.log('Ticket Context:', ticketContext);
+        this._router.navigate(['/advocate-dashboard/messages']);
+      });
+    } else {
+      // Wait for Keycloak to be ready by checking periodically
+      const checkInterval = setInterval(() => {
+        if (this.appConstants.isLoggedIn()) {
+          clearInterval(checkInterval);
+          this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
+            console.log('Ticket Context:', ticketContext);
+            this._router.navigate(['/advocate-dashboard/messages']);
+          });
+        }
+      }, 100);
+
+      // Clear interval after 10 seconds to prevent infinite checking
+      setTimeout(() => {
+        clearInterval(checkInterval);
+      }, 10000);
+    }
+  }
+
   ngOnInit() {
     this.currentRoute = this._router.url;
 
@@ -214,5 +238,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
 
    
     this.appConstants.logout();
+  }
+
+  public getTicketContext(): HcclUserContextGETData | null {
+    return this.hcclContextService.getContext();
   }
 }

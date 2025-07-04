@@ -1,3 +1,4 @@
 export interface EndPoints {
-    tenantEndPoint                : string;
+    tenantEndPoint                : string,
+    hcclServicesEndPoint          : string;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
+import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { 
   HcclUserProfileGETData, 
   HcclUserProfileCriteria, 
@@ -39,17 +40,15 @@ declare const dhx: any;
 export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   private grid: any;
-  private isDhtmlxLoaded = false;
-  private userContext: HcclUserContextGETData | null = null;
+  private isDhtmlxLoaded = false; 
 
   constructor(
     private hcclService: HcclService,
-    private router: Router
+    private router: Router,
+    private hcclContextService: HcclContextService
   ) {}
 
   async ngOnInit() {
-    // Load user context first to get the current user profile
-    await this.loadUserContext();
     // Check if DHTMLX is loaded
     this.checkDhtmlxLoaded();
   }
@@ -61,26 +60,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private async loadUserContext(): Promise<void> {
-    try {
-      // Call resolveTicketContext to get the current user context
-      this.hcclService.resolveTicketContext(this.userContext?.currentUserProfileId || '').subscribe({
-        next: (context: HcclUserContextGETData) => {
-          this.userContext = context;
-          console.log('User context loaded:', context);
-          // Load data immediately after context is loaded
-          if (this.grid) {
-            this.loadUserProfileData();
-          }
-        },
-        error: (error) => {
-          console.error('Error loading user context:', error);
-        }
-      });
-    } catch (error) {
-      console.error('Error in loadUserContext:', error);
-    }
-  }
+ 
 
   private checkDhtmlxLoaded() {
     if (typeof dhx !== 'undefined' && typeof dhx.Grid !== 'undefined') {
@@ -177,7 +157,8 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
     alert('Creating ticket for user profile:' + userProfileId);
     
     // Get the current user profile ID from context
-    const advocateUserProfileId = this.userContext?.currentUserProfileId;
+    const userContext = this.getUserContext();
+    const advocateUserProfileId = userContext?.currentUserProfileId;
     
     if (!advocateUserProfileId) {
       console.error('No advocate user profile ID found in context');
@@ -191,9 +172,14 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   userProfileId]);
   }
 
+  private getUserContext(): HcclUserContextGETData {
+    return this.hcclContextService.getContext();
+  }
+
   private loadUserProfileData(searchCriteria?: string) {
     // Get organization ID from current user profile
-    const organizationId = this.userContext?.currentUserProfile?.organizationId;
+    const userContext = this.getUserContext();
+    const organizationId = userContext.currentUserProfile?.organizationId;
     
     if (!organizationId) {
       console.error('No organization ID found in user context');
