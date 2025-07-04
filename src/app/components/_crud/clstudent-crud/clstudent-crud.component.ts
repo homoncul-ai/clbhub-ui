@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AbstractCrudComponentComponent } from '@app/components/_global/abstract-crud-component/abstract-crud-component.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclService } from '@app/restsvc/hccl.service';
@@ -6,7 +8,7 @@ import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-clstudent-crud',
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
@@ -197,6 +199,70 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   public deleteStudent(student: ClStudentCrudWrapper): void {
     this.entity = student;
     this.switchToDeleteMode();
+  }
+
+  /**
+   * Get current entity with guaranteed result
+   * @returns ClStudentCrudWrapper instance, creates empty one if none exists
+   */
+  public getCurrentEntity(): ClStudentCrudWrapper {
+    if (this.currentEntity) {
+      return this.currentEntity;
+    }
+    
+    // Create an empty student if no current entity exists
+    const emptyStudent: CLStudentGETData = {
+      organizationId: '',
+      name: '',
+      businessCode: '',
+      available: 1,
+      firstName: '',
+      lastName: '',
+      schoolId: ''
+    };
+    
+    return new ClStudentCrudWrapper(emptyStudent);
+  }
+
+  // Getter methods for form binding
+  public get firstName(): string {
+    return this.getCurrentEntity().getData().firstName || '';
+  }
+
+  public set firstName(value: string) {
+    const entity = this.getCurrentEntity();
+    const data = entity.getData();
+    data.firstName = value;
+  }
+
+  public get lastName(): string {
+    return this.getCurrentEntity().getData().lastName || '';
+  }
+
+  public set lastName(value: string) {
+    const entity = this.getCurrentEntity();
+    const data = entity.getData();
+    data.lastName = value;
+  }
+
+  public get userEmail(): string {
+    return this.getCurrentEntity().getData().userEmail || '';
+  }
+
+  public set userEmail(value: string) {
+    const entity = this.getCurrentEntity();
+    const data = entity.getData();
+    data.userEmail = value;
+  }
+
+  public get schoolId(): string {
+    return this.getCurrentEntity().getData().schoolId || '';
+  }
+
+  public set schoolId(value: string) {
+    const entity = this.getCurrentEntity();
+    const data = entity.getData();
+    data.schoolId = value;
   }
 
   /**

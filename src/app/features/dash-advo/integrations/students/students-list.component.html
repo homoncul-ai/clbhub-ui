@@ -1,8 +1,10 @@
-<div class="search-list-container">
+<!-- List View -->
+<div class="search-list-container" *ngIf="showList">
   <h2>CL Students Integration</h2>
   <div class="search-list-button-bar">
     <button class="search-list-button-bar-button" (click)="onGoClick()">Go</button>
     <button class="search-list-button-bar-button btn-success" (click)="onPromoteStudents()">Promote</button>
+    <button class="search-list-button-bar-button btn-primary" (click)="onRefresh()">Refresh</button>
   </div>
   <form class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
     <input #searchInput type="text" class="search-list-input" placeholder="search by name or student ID, * for wildcard" />
@@ -14,4 +16,16 @@
     </button>
   </form>
   <div #gridContainer class="search-list-grid"></div>
+</div>
+
+<!-- CRUD Component View -->
+<div class="crud-container" *ngIf="!showList && selectedStudentId">
+  <div class="crud-header">
+    <button class="back-button" (click)="onBackToList()">
+      <span class="material-icons">arrow_back</span>
+      Back to List
+    </button>
+    <h2>Student Details</h2>
+  </div>
+  <app-clstudent-crud [id]="selectedStudentId"></app-clstudent-crud>
 </div> 

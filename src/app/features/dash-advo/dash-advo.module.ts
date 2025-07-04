@@ -21,6 +21,9 @@ import { CLSchoolsListComponent } from './integrations/schools/schools-list.comp
 import { CLStudentsListComponent } from './integrations/students/students-list.component';
 import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.component';
 
+// CRUD Components
+import { ClstudentCrudComponent } from '../../components/_crud/clstudent-crud/clstudent-crud.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -69,7 +72,8 @@ const routes: Routes = [
     IntegrationsHomeComponent,
     CLSchoolsListComponent,
     CLStudentsListComponent,
-    CLGuidanceListComponent
+    CLGuidanceListComponent,
+    ClstudentCrudComponent
   ],
   declarations: [
     // Non-standalone components would go here
