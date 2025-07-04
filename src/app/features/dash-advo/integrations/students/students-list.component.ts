@@ -5,6 +5,7 @@ import { HcclService } from '../../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.service';
 import { forkJoin } from 'rxjs';
 import { ClstudentCrudComponent } from '../../../../components/_crud/clstudent-crud/clstudent-crud.component';
+import { SimpleTabsetComponent, SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
 
 declare const dhx: any;
 
@@ -17,7 +18,7 @@ declare const dhx: any;
   selector: 'app-clstudents-list',
   templateUrl: './students-list.component.html',
   styleUrls: ['../../../../views/uistarter/list-search-starter.component.css'],
-  imports: [CommonModule, ClstudentCrudComponent]
+  imports: [CommonModule, ClstudentCrudComponent, SimpleTabsetComponent]
 })
 export class CLStudentsListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
@@ -28,24 +29,40 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
   public showList = true;
   public selectedStudentId: string | null = null;
 
+    // Tabset properties
+    public tabs: SimpleTab[] = [
+      new SimpleTab('list', 'List', '', () => this.activateTab('list'), () => true),
+      new SimpleTab('details', 'Details', '', () => this.activateTab('details'), () => this.selectedStudentId !== null)
+    ];
+  public currentTabId: string = 'list';
+
   constructor(
     private hcclService: HcclService,
     private route: ActivatedRoute
   ) {}
 
+  activateTab(tabId: string) {
+    this.currentTabId = tabId;
+    this.showList = (tabId === 'list');
+    if (tabId === 'list') {
+      this.selectedStudentId = null;
+      // Refresh the grid when switching back to list view
+      this.onListTabActivated();
+    }
+  }
+
   ngOnInit() {
     // Check for ID parameter in route
     this.route.params.subscribe(params => {
       const studentId = params['id'];
-      console.log('Route params:', params);
       if (studentId) {
         this.selectedStudentId = studentId;
+        this.currentTabId = 'details';
         this.showList = false;
-        console.log('Student ID from route:', studentId, 'showList:', this.showList);
       } else {
         this.showList = true;
         this.selectedStudentId = null;
-        console.log('No student ID, showing list');
+        this.currentTabId = 'list';
       }
     });
 
@@ -83,6 +100,16 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
 
   private initializeGrid() {
     if (!this.gridContainer?.nativeElement || !this.isDhtmlxLoaded) {
+      console.log('Grid initialization skipped - container or DHTMLX not ready');
+      return;
+    }
+
+    // Check if the grid container is visible
+    const container = this.gridContainer.nativeElement;
+    const rect = container.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+      console.log('Grid container not visible, retrying in 100ms');
+      setTimeout(() => this.initializeGrid(), 100);
       return;
     }
 
@@ -140,8 +167,10 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
 
       // Add row click event listener
       this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
+        console.log('Cell clicked:', row, col);
         // Don't trigger on checkbox column or if no row data
         if (col && col.id !== 'select' && row && row.id) {
+          console.log('Calling onRowClick with studentId:', row.id);
           this.onRowClick(row.id);
         }
       });
@@ -159,8 +188,11 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
    * @param studentId The ID of the clicked student
    */
   public onRowClick(studentId: string): void {
+    console.log('onRowClick called with studentId:', studentId);
     this.selectedStudentId = studentId;
     this.showList = false;
+    this.currentTabId = 'details';
+    console.log('State updated - selectedStudentId:', this.selectedStudentId, 'showList:', this.showList, 'currentTabId:', this.currentTabId);
   }
 
   /**
@@ -169,6 +201,35 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
   public onBackToList(): void {
     this.showList = true;
     this.selectedStudentId = null;
+    this.currentTabId = 'list';
+    // Refresh the grid when returning to list view
+    setTimeout(() => {
+      this.refreshGrid();
+    }, 100);
+  }
+
+  /**
+   * Refresh the grid by reinitializing it
+   */
+  private refreshGrid(): void {
+    console.log('Refreshing grid...');
+    if (this.grid) {
+      // Destroy the existing grid
+      this.grid.destructor();
+      this.grid = null;
+    }
+    // Reinitialize the grid
+    this.initializeGrid();
+  }
+
+  /**
+   * Force grid refresh when the list view becomes visible
+   */
+  public onListTabActivated(): void {
+    console.log('List tab activated, refreshing grid...');
+    setTimeout(() => {
+      this.refreshGrid();
+    }, 200);
   }
 
   private loadStudentData(searchCriteria?: string) {

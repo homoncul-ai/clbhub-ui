@@ -1,1 +1,22 @@
-<p>simple-tabset works!</p>
+<div class="tabset">
+  <div class="tab-headers">
+    <button
+      *ngFor="let tab of tabs"
+      [class.active]="tab.id === currentTabId"
+      (click)="selectTab(tab.id)">
+      <ng-container *ngIf="tab.showingTabFunction()">
+        {{ tab.label }}
+      </ng-container>
+    </button>
+  </div>
+  <div class="tab-content" *ngIf="currentTab">
+    <ng-container *ngIf="currentTab">
+      <p>Tab URL: {{ currentTab.url }}</p>
+      <p>Tab Data: {{ currentTab.data | json }}</p>
+      <button (click)="currentTab.activate()">Activate Tab</button>
+    </ng-container>
+  </div>
+  <div class="current-tab-id">
+    <strong>Current Tab ID:</strong> {{ currentTabId || 'None selected' }}
+  </div>
+</div>
