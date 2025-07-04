@@ -31,22 +31,22 @@
       <!-- Form fields would go here -->
       <div class="form-group">
         <label>First Name:</label>
-        <input type="text" [(ngModel)]="currentEntity?.data.firstName" class="form-control">
+        <input type="text" [(ngModel)]="firstName" class="form-control">
       </div>
       <div class="form-group">
         <label>Last Name:</label>
-        <input type="text" [(ngModel)]="currentEntity?.data.lastName" class="form-control">
+        <input type="text" [(ngModel)]="lastName" class="form-control">
       </div>
       <div class="form-group">
         <label>Email:</label>
-        <input type="email" [(ngModel)]="currentEntity?.data.userEmail" class="form-control">
+        <input type="email" [(ngModel)]="userEmail" class="form-control">
       </div>
       <div class="form-group">
         <label>School ID:</label>
-        <input type="text" [(ngModel)]="currentEntity?.data.schoolId" class="form-control">
+        <input type="text" [(ngModel)]="schoolId" class="form-control">
       </div>
       <div class="form-actions">
-        <button (click)="createEntity(currentEntity!)" class="btn btn-success">Create</button>
+        <button (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
@@ -59,22 +59,22 @@
       <!-- Form fields would go here -->
       <div class="form-group">
         <label>First Name:</label>
-        <input type="text" [(ngModel)]="currentEntity?.data.firstName" class="form-control">
+        <input type="text" [(ngModel)]="firstName" class="form-control">
       </div>
       <div class="form-group">
         <label>Last Name:</label>
-        <input type="text" [(ngModel)]="currentEntity?.data.lastName" class="form-control">
+        <input type="text" [(ngModel)]="lastName" class="form-control">
       </div>
       <div class="form-group">
         <label>Email:</label>
-        <input type="email" [(ngModel)]="currentEntity?.data.userEmail" class="form-control">
+        <input type="email" [(ngModel)]="userEmail" class="form-control">
       </div>
       <div class="form-group">
         <label>School ID:</label>
-        <input type="text" [(ngModel)]="currentEntity?.data.schoolId" class="form-control">
+        <input type="text" [(ngModel)]="schoolId" class="form-control">
       </div>
       <div class="form-actions">
-        <button (click)="updateEntity(currentEntity!)" class="btn btn-success">Update</button>
+        <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
@@ -104,33 +104,33 @@
   <!-- Detail Mode -->
   <div *ngIf="isDetailMode" class="detail-mode">
     <h3>Student Details</h3>
-    <div *ngIf="currentEntity" class="student-details">
+    <div class="student-details">
       <div class="detail-group">
         <label>Full Name:</label>
-        <span>{{ currentEntity.getFullName() }}</span>
+        <span>{{ getCurrentEntity().getFullName() }}</span>
       </div>
       <div class="detail-group">
         <label>Email:</label>
-        <span>{{ currentEntity.getEmail() }}</span>
+        <span>{{ getCurrentEntity().getEmail() }}</span>
       </div>
       <div class="detail-group">
         <label>Phone:</label>
-        <span>{{ currentEntity.getPhone() }}</span>
+        <span>{{ getCurrentEntity().getPhone() }}</span>
       </div>
       <div class="detail-group">
         <label>School ID:</label>
-        <span>{{ currentEntity.getSchoolId() }}</span>
+        <span>{{ getCurrentEntity().getSchoolId() }}</span>
       </div>
       <div class="detail-group">
         <label>Organization ID:</label>
-        <span>{{ currentEntity.getOrganizationId() }}</span>
+        <span>{{ getCurrentEntity().getOrganizationId() }}</span>
       </div>
       <div class="detail-group">
         <label>Status:</label>
-        <span>{{ currentEntity.isActive() ? 'Active' : 'Inactive' }}</span>
+        <span>{{ getCurrentEntity().isActive() ? 'Active' : 'Inactive' }}</span>
       </div>
       <div class="detail-actions">
-        <button (click)="editStudent(currentEntity)" class="btn btn-primary">Edit</button>
+        <button (click)="editStudent(getCurrentEntity())" class="btn btn-primary">Edit</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Back to List</button>
       </div>
     </div>
@@ -139,12 +139,12 @@
   <!-- Delete Mode -->
   <div *ngIf="isDeleteMode" class="delete-mode">
     <h3>Delete Student</h3>
-    <div *ngIf="currentEntity" class="delete-confirmation">
+    <div class="delete-confirmation">
       <p>Are you sure you want to delete the student:</p>
-      <h4>{{ currentEntity.getDisplayText() }}</h4>
+      <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
       <p>This action cannot be undone.</p>
       <div class="delete-actions">
-        <button (click)="deleteEntity(currentEntity.getId()!)" class="btn btn-danger">Delete</button>
+        <button (click)="deleteEntity(getCurrentEntity().getId() || '')" class="btn btn-danger">Delete</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
