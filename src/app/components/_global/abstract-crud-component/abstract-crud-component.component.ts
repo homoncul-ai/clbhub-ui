@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { HcclContextService } from '../../../shell/services/hccl-context.service';
 
 @Component({
   selector: 'app-abstract-crud-component',
@@ -27,8 +30,13 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
    * this will handle all the events of the subclass (after load, create, update, delete)
    */
 
+  // Inject services using inject() function for standalone components
+  protected hcclService = inject(HcclService);
+  protected router = inject(Router);
+  protected hcclContextService = inject(HcclContextService);
+
+
   // Properties
-  protected entityList: R[] = [];
   protected entity: R | null = null;
   protected loading: boolean = false;
   protected error: string = '';
@@ -42,6 +50,35 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
   protected deleteMode: boolean = false;
   protected sectionMode: boolean = false;
   protected headingMode: boolean = false;
+
+  protected supportingDelete: boolean = false;
+  protected supportingCreate: boolean = false;
+  protected supportingUpdate: boolean = false;
+
+  // Getter/setter properties for CRUD operations
+  public get canCreate(): boolean {
+    return this.supportingCreate;
+  }
+
+  public set canCreate(value: boolean) {
+    this.supportingCreate = value;
+  }
+
+  public get canUpdate(): boolean {
+    return this.supportingUpdate;
+  }
+
+  public set canUpdate(value: boolean) {
+    this.supportingUpdate = value;
+  }
+
+  public get canDelete(): boolean {
+    return this.supportingDelete;
+  }
+
+  public set canDelete(value: boolean) {
+    this.supportingDelete = value;
+  }
 
   // Abstract methods that subclasses must implement
   protected abstract loadEntityById(id: string): Promise<R>;
@@ -252,10 +289,6 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
 
   public get currentEntity(): R | null {
     return this.entity;
-  }
-
-  public get entities(): R[] {
-    return this.entityList;
   }
 
   // Mode getters for template access

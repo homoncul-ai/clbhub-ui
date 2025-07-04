@@ -18,7 +18,7 @@
   <div class="crud-header">
     <h2>CL Students Management</h2>
     <div class="action-buttons">
-      <button (click)="createNewStudent()" class="btn btn-primary">Create New Student</button>
+      <button *ngIf="canCreate" (click)="createNewStudent()" class="btn btn-primary">Create New Student</button>
       <button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>
       <button (click)="switchToSectionMode()" class="btn btn-info">Section Mode</button>
     </div>
@@ -46,7 +46,7 @@
         <input type="text" [(ngModel)]="schoolId" class="form-control">
       </div>
       <div class="form-actions">
-        <button (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
+        <button *ngIf="canCreate" (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
@@ -74,32 +74,12 @@
         <input type="text" [(ngModel)]="schoolId" class="form-control">
       </div>
       <div class="form-actions">
-        <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
+        <button *ngIf="canUpdate" (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- View Mode -->
-  <div *ngIf="isViewMode" class="view-mode">
-    <h3>CL Students List</h3>
-    <div class="students-list">
-      <div *ngFor="let student of entities" class="student-item">
-        <div class="student-info">
-          <h4>{{ student.getDisplayText() }}</h4>
-          <p>Email: {{ student.getEmail() }}</p>
-          <p>Phone: {{ student.getPhone() }}</p>
-          <p>School ID: {{ student.getSchoolId() }}</p>
-          <p>Status: {{ student.isActive() ? 'Active' : 'Inactive' }}</p>
-        </div>
-        <div class="student-actions">
-          <button (click)="editStudent(student)" class="btn btn-sm btn-primary">Edit</button>
-          <button (click)="viewStudent(student)" class="btn btn-sm btn-info">View</button>
-          <button (click)="deleteStudent(student)" class="btn btn-sm btn-danger">Delete</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Detail Mode -->
   <div *ngIf="isDetailMode" class="detail-mode">
@@ -130,7 +110,7 @@
         <span>{{ getCurrentEntity().isActive() ? 'Active' : 'Inactive' }}</span>
       </div>
       <div class="detail-actions">
-        <button (click)="editStudent(getCurrentEntity())" class="btn btn-primary">Edit</button>
+        <button *ngIf="canUpdate" (click)="editStudent(getCurrentEntity())" class="btn btn-primary">Edit</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Back to List</button>
       </div>
     </div>
@@ -144,25 +124,15 @@
       <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
       <p>This action cannot be undone.</p>
       <div class="delete-actions">
-        <button (click)="deleteEntity(getCurrentEntity().getId() || '')" class="btn btn-danger">Delete</button>
+        <button *ngIf="canDelete" (click)="deleteEntity(getCurrentEntity().getId() || '')" class="btn btn-danger">Delete</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- Section Mode -->
-  <div *ngIf="isSectionMode" class="section-mode">
-    <h3>Students Section</h3>
-    <div class="section-content">
-      <div *ngFor="let student of entities" class="section-item">
-        <span>{{ student.getDisplayText() }}</span>
-      </div>
-    </div>
-  </div>
 
   <!-- Heading Mode -->
   <div *ngIf="isHeadingMode" class="heading-mode">
-    <h3>CL Students</h3>
-    <p>Total Students: {{ entities.length }}</p>
+    <h3>{{ getCurrentEntity().getFullName() }}</h3>
   </div>
 </div>

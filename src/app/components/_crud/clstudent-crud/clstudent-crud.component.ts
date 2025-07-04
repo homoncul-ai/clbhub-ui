@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AbstractCrudComponentComponent } from '@app/components/_global/abstract-crud-component/abstract-crud-component.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclService } from '@app/restsvc/hccl.service';
+import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
 import { Observable, map } from 'rxjs';
 
 @Component({
@@ -28,42 +28,30 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
  * Create a wrapper class that extends EntityWrapper<CLStudentGETData>
  * and implement the abstract methods of the AbstractCrudComponentComponent
  */
-  @Input() id?: string;
+  @Input() id!: string;
 
-  constructor(private hcclService: HcclService) {
+  constructor() {
     super();
   }
 
   ngOnInit(): void {
+    // Enable CRUD operations
+    this.canCreate = false;
+    this.canUpdate = false;
+    this.canDelete = false;
+    this.detailMode = true;
+
     // Load student data if ID is provided
-    if (this.id) {
       this.loadEntityById(this.id).then(entity => {
         this.entity = entity;
         this.switchToDetailMode(); // Show details of the loaded student
       }).catch(error => {
         console.error('Error loading student by ID:', error);
-        // Fallback to loading entity list if student not found
-        this.loadEntityList();
+        // Fallback is rerouting to route /advocate-dashboard/students
+        this.router.navigate(['/advocate-dashboard/students']);
       });
-    } else {
-      // Initialize component - load entity list by default
-      this.loadEntityList();
-    }
   }
 
-  protected async loadEntityList(): Promise<ClStudentCrudWrapper[]> {
-    try {
-      const criteria = {}; // Empty criteria to get all students
-      const response = await this.hcclService.findCLStudents(criteria).toPromise();
-      if (response?.searchResults) {
-        return response.searchResults.map(student => new ClStudentCrudWrapper(student));
-      }
-      return [];
-    } catch (error) {
-      console.error('Error loading CL students:', error);
-      throw error;
-    }
-  }
 
   protected async loadEntityById(id: string): Promise<ClStudentCrudWrapper> {
     try {
@@ -155,20 +143,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   // Override post operation handlers for custom behavior
   protected override postSave(): void {
     console.log('CL Student saved successfully');
-    // Refresh the entity list after save
-    this.loadEntityList();
   }
 
   protected override postDelete(): void {
     console.log('CL Student deleted successfully');
-    // Refresh the entity list after delete
-    this.loadEntityList();
   }
 
   protected override postCreate(): void {
     console.log('CL Student created successfully');
-    // Refresh the entity list after create
-    this.loadEntityList();
   }
 
   // Helper methods for component usage
@@ -263,6 +245,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
     const entity = this.getCurrentEntity();
     const data = entity.getData();
     data.schoolId = value;
+  }
+
+  /**
+   * Get user context from the service
+   * @returns HcclUserContextGETData
+   */
+  public getUserContext(): HcclUserContextGETData {
+    return this.hcclContextService.getContext();
   }
 
   /**
