@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
@@ -42,11 +42,10 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   private grid: any;
   private isDhtmlxLoaded = false; 
 
-  constructor(
-    private hcclService: HcclService,
-    private router: Router,
-    private hcclContextService: HcclContextService
-  ) {}
+  // Inject services using inject() function for standalone components
+  private hcclService = inject(HcclService);
+  private router = inject(Router);
+  private hcclContextService = inject(HcclContextService);
 
   async ngOnInit() {
     // Check if DHTMLX is loaded
@@ -240,17 +239,15 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   }
 
   public onRefresh() {
-    console.log('Refreshing user profile data...');
     this.loadUserProfileData();
   }
 
   public onSearch(query: string) {
-    console.log('Search submitted:', query);
     this.loadUserProfileData(query);
   }
 
   public onAdvancedSearch() {
-    // TODO: Implement advanced search logic
-    console.log('Advanced search clicked');
+    // TODO: Implement advanced search functionality
+    alert('Advanced search functionality not yet implemented');
   }
 } 

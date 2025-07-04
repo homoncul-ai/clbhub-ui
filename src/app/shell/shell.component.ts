@@ -40,10 +40,10 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   currentRoute: string = '';
   mode: 'side' | 'over' = window.innerWidth >= 1400 ? 'side' : 'over';
   hidden: boolean = window.innerWidth >= 1400 ? false : true;
-  private hcclContextService = inject(HcclContextService);
   private tree: any;
   private resizeSubscription!: Subscription;
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
+  
   constructor(
     private _router: Router,
     private _titleService: Title,
@@ -52,6 +52,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private _menuService: MenuService,
     private ngZone: NgZone,
     private appConstants: AppConstants,
+    private hcclContextService: HcclContextService
   ) {
     // Check if Keycloak is already ready
     this.checkKeycloakAndInitialize();

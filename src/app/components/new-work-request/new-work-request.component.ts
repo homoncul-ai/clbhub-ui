@@ -111,7 +111,7 @@ export class NewWorkRequestComponent implements OnInit {
       this.formData.studentUserProfileId = this.clientUserProfileId;
     }
 
-    this.hcclService.getCreateTicket(this.formData).subscribe({
+    this.hcclService.createTicket(this.formData).subscribe({
       next: (result: WorkRequestGETData) => {
         this.loading = false;
         this.successMessage = `Work request created successfully! ID: ${result.id}`;

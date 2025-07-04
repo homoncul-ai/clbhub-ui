@@ -54,6 +54,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    // Standalone components
     DashAdvoComponent,
     AdvoMessagesComponent,
     AdvoStudentListComponent,
@@ -69,6 +70,9 @@ const routes: Routes = [
     CLSchoolsListComponent,
     CLStudentsListComponent,
     CLGuidanceListComponent
+  ],
+  declarations: [
+    // Non-standalone components would go here
   ]
 })
 export class DashAdvoModule { 
