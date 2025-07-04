@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { HcclService } from '../../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.service';
 import { forkJoin } from 'rxjs';
@@ -28,10 +29,26 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
   public selectedStudentId: string | null = null;
 
   constructor(
-    private hcclService: HcclService
+    private hcclService: HcclService,
+    private route: ActivatedRoute
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    // Check for ID parameter in route
+    this.route.params.subscribe(params => {
+      const studentId = params['id'];
+      console.log('Route params:', params);
+      if (studentId) {
+        this.selectedStudentId = studentId;
+        this.showList = false;
+        console.log('Student ID from route:', studentId, 'showList:', this.showList);
+      } else {
+        this.showList = true;
+        this.selectedStudentId = null;
+        console.log('No student ID, showing list');
+      }
+    });
+
     // Check if DHTMLX is loaded
     this.checkDhtmlxLoaded();
   }
@@ -164,6 +181,9 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
     // Add search criteria if provided
     if (searchCriteria && searchCriteria.trim() !== '') {
       criteria.searchByText = searchCriteria;
+    }
+    if (this.selectedStudentId) {
+      criteria.ids = [this.selectedStudentId];
     }
 
     this.hcclService.findCLStudents(criteria).subscribe({

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AbstractCrudComponentComponent } from '@app/components/_global/abstract-crud-component/abstract-crud-component.component';
@@ -12,7 +12,7 @@ import { Observable, map } from 'rxjs';
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
-export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStudentCrudWrapper, ClStudentCrudWrapper> implements OnInit {
+export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStudentCrudWrapper, ClStudentCrudWrapper> implements OnInit, OnChanges {
 /**
  * This is a component that will be used to create, read, update and delete CL Students
  * It will use the AbstractCrudComponentComponent to handle the CRUD operations
@@ -28,7 +28,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
  * Create a wrapper class that extends EntityWrapper<CLStudentGETData>
  * and implement the abstract methods of the AbstractCrudComponentComponent
  */
-  @Input() id!: string;
+  @Input() id?: string;
 
   constructor() {
     super();
@@ -37,11 +37,15 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   ngOnInit(): void {
     // Enable CRUD operations
     this.canCreate = false;
-    this.canUpdate = false;
+    this.canUpdate = true;
     this.canDelete = false;
     this.detailMode = true;
+  }
 
-    // Load student data if ID is provided
+  ngOnChanges(changes: SimpleChanges): void {
+    // Handle ID changes
+    if (changes['id'] && this.id) {
+      console.log('Loading student with ID:', this.id);
       this.loadEntityById(this.id).then(entity => {
         this.entity = entity;
         this.switchToDetailMode(); // Show details of the loaded student
@@ -50,6 +54,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
         // Fallback is rerouting to route /advocate-dashboard/students
         this.router.navigate(['/advocate-dashboard/students']);
       });
+    }
   }
 
 

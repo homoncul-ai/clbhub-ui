@@ -19,8 +19,9 @@
     <h2>CL Students Management</h2>
     <div class="action-buttons">
       <button *ngIf="canCreate" (click)="createNewStudent()" class="btn btn-primary">Create New Student</button>
-      <button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>
-      <button (click)="switchToSectionMode()" class="btn btn-info">Section Mode</button>
+      <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
+      <button *ngIf="canUpdate" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
+      <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
     </div>
   </div>
 
@@ -74,7 +75,7 @@
         <input type="text" [(ngModel)]="schoolId" class="form-control">
       </div>
       <div class="form-actions">
-        <button *ngIf="canUpdate" (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
+        <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
         <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
@@ -85,6 +86,10 @@
   <div *ngIf="isDetailMode" class="detail-mode">
     <h3>Student Details</h3>
     <div class="student-details">
+      <div class="detail-group">
+        <label>Student ID:</label>
+        <span>{{ getCurrentEntity().getId() }}</span>
+      </div>
       <div class="detail-group">
         <label>Full Name:</label>
         <span>{{ getCurrentEntity().getFullName() }}</span>

@@ -44,6 +44,7 @@ const routes: Routes = [
         children: [
           { path: 'schools', component: CLSchoolsListComponent },
           { path: 'students', component: CLStudentsListComponent },
+          { path: 'students/:id', component: CLStudentsListComponent },
           { path: 'guidance', component: CLGuidanceListComponent },
           { path: '', redirectTo: 'schools', pathMatch: 'full' }
         ]
