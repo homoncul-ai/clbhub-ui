@@ -15,31 +15,34 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
  * This is a component that will be used to create, read, update and delete CL Students
  * It will use the AbstractCrudComponentComponent to handle the CRUD operations
  * It will use the CLStudentGETData and CLStudentPOSTData interfaces to handle the data
- * It will use the CLStudentService to handle the data
- * It will use the CLStudentComponent to display the data
- * It will use the CLStudentFormComponent to create the form
- * It will use the CLStudentListComponent to display the list
+ * It will use the HcclService to handle the data
  * 
- * instantiate component with input parameter of type CLStudentGETData (or create an empty one).
+ * Input parameter:
+ * - id?: string - Optional student ID to load a specific student for viewing/editing
+ * 
+ * If no ID is provided, the component will load the full list of students.
+ * If an ID is provided, the component will load that specific student and show it in detail mode.
+ * 
  * Create a wrapper class that extends EntityWrapper<CLStudentGETData>
  * and implement the abstract methods of the AbstractCrudComponentComponent
- * 
- * AbstractCrudComponentComponent needs handle 
- * 
- * 
  */
-
-  @Input() initialStudentData?: CLStudentGETData;
+  @Input() id?: string;
 
   constructor(private hcclService: HcclService) {
     super();
   }
 
   ngOnInit(): void {
-    // Initialize with input data if provided
-    if (this.initialStudentData) {
-      this.entity = new ClStudentCrudWrapper(this.initialStudentData);
-      this.switchToDetailMode(); // Show details of the provided student
+    // Load student data if ID is provided
+    if (this.id) {
+      this.loadEntityById(this.id).then(entity => {
+        this.entity = entity;
+        this.switchToDetailMode(); // Show details of the loaded student
+      }).catch(error => {
+        console.error('Error loading student by ID:', error);
+        // Fallback to loading entity list if student not found
+        this.loadEntityList();
+      });
     } else {
       // Initialize component - load entity list by default
       this.loadEntityList();
@@ -194,15 +197,6 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   public deleteStudent(student: ClStudentCrudWrapper): void {
     this.entity = student;
     this.switchToDeleteMode();
-  }
-
-  /**
-   * Set initial student data and create wrapper
-   * @param studentData The CLStudentGETData to initialize with
-   */
-  public setInitialStudentData(studentData: CLStudentGETData): void {
-    this.entity = new ClStudentCrudWrapper(studentData);
-    this.switchToDetailMode();
   }
 
   /**

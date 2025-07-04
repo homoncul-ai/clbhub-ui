@@ -149,27 +149,7 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
     } finally {
       this.loading = false;
     }
-  }
-
-  /**
-   * Gets the entity list
-   * @returns Array of entities
-   */
-  public async getEntityList(): Promise<R[]> {
-    try {
-      this.loading = true;
-      this.error = '';
-      this.entityList = await this.loadEntityList();
-      this.onAfterLoad();
-      return this.entityList;
-    } catch (error) {
-      this.error = error instanceof Error ? error.message : 'Unknown error occurred';
-      this.onError(this.error);
-      return [];
-    } finally {
-      this.loading = false;
-    }
-  }
+  } 
 
   /**
    * Creates a new entity

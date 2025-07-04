@@ -48,4 +48,8 @@ export class ClstudentComponent implements OnInit {
       }
     });
   }
+
+  public getStudentData(): CLStudentGETData | null {
+    return this.studentData || null;
+  }
 }
