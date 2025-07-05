@@ -73,7 +73,9 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
 
   protected async createEntityData(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
     try {
-      const studentData = entity.getData();
+      // Use entityNew if in create mode, otherwise use the passed entity
+      const studentData = this.isCreateMode && this.entityNew ? this.entityNew.getData() : entity.getData();
+      
       const postData: CLStudentPOSTData = {
         organizationId: studentData.organizationId || '',
         name: studentData.name || '',
@@ -169,7 +171,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
       lastName: '',
       schoolId: ''
     };
-    this.entity = new ClStudentCrudWrapper(emptyStudent);
+    this.entityNew = new ClStudentCrudWrapper(emptyStudent);
     this.switchToCreateMode();
   }
 
@@ -193,6 +195,12 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
    * @returns ClStudentCrudWrapper instance, creates empty one if none exists
    */
   public getCurrentEntity(): ClStudentCrudWrapper {
+    // If in create mode, use entityNew
+    if (this.isCreateMode && this.entityNew) {
+      return this.entityNew;
+    }
+    
+    // Otherwise use the current entity
     if (this.currentEntity) {
       return this.currentEntity;
     }
@@ -217,9 +225,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   }
 
   public set firstName(value: string) {
-    const entity = this.getCurrentEntity();
-    const data = entity.getData();
-    data.firstName = value;
+    if (this.isCreateMode && this.entityNew) {
+      const data = this.entityNew.getData();
+      data.firstName = value;
+    } else {
+      const entity = this.getCurrentEntity();
+      const data = entity.getData();
+      data.firstName = value;
+    }
   }
 
   public get lastName(): string {
@@ -227,9 +240,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   }
 
   public set lastName(value: string) {
-    const entity = this.getCurrentEntity();
-    const data = entity.getData();
-    data.lastName = value;
+    if (this.isCreateMode && this.entityNew) {
+      const data = this.entityNew.getData();
+      data.lastName = value;
+    } else {
+      const entity = this.getCurrentEntity();
+      const data = entity.getData();
+      data.lastName = value;
+    }
   }
 
   public get userEmail(): string {
@@ -237,9 +255,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   }
 
   public set userEmail(value: string) {
-    const entity = this.getCurrentEntity();
-    const data = entity.getData();
-    data.userEmail = value;
+    if (this.isCreateMode && this.entityNew) {
+      const data = this.entityNew.getData();
+      data.userEmail = value;
+    } else {
+      const entity = this.getCurrentEntity();
+      const data = entity.getData();
+      data.userEmail = value;
+    }
   }
 
   public get schoolId(): string {
@@ -247,9 +270,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
   }
 
   public set schoolId(value: string) {
-    const entity = this.getCurrentEntity();
-    const data = entity.getData();
-    data.schoolId = value;
+    if (this.isCreateMode && this.entityNew) {
+      const data = this.entityNew.getData();
+      data.schoolId = value;
+    } else {
+      const entity = this.getCurrentEntity();
+      const data = entity.getData();
+      data.schoolId = value;
+    }
   }
 
   /**

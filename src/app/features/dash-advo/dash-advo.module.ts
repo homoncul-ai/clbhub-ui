@@ -23,6 +23,7 @@ import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.c
 
 // CRUD Components
 import { ClstudentCrudComponent } from '../../components/_crud/clstudent-crud/clstudent-crud.component';
+import { CLStudentGroupComponent } from './integrations/clstudent-group/clstudent-group.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
         children: [
           { path: 'schools', component: CLSchoolsListComponent },
           { path: 'students', component: CLStudentsListComponent },
-          { path: 'students/:id', component: CLStudentsListComponent },
+          { path: 'students/:id/:tabId', component: CLStudentGroupComponent },
+          { path: 'students/:id', redirectTo: 'students/:id/details', pathMatch: 'full' },
           { path: 'guidance', component: CLGuidanceListComponent },
           { path: '', redirectTo: 'schools', pathMatch: 'full' }
         ]
@@ -74,7 +76,8 @@ const routes: Routes = [
     CLSchoolsListComponent,
     CLStudentsListComponent,
     CLGuidanceListComponent,
-    ClstudentCrudComponent
+    ClstudentCrudComponent,
+    CLStudentGroupComponent
   ],
   declarations: [
     // Non-standalone components would go here

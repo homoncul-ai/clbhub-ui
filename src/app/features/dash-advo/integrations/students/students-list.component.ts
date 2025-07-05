@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.service';
 import { forkJoin } from 'rxjs';
@@ -38,7 +38,8 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private hcclService: HcclService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   activateTab(tabId: string) {
@@ -315,7 +316,10 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       console.log('Checked rows:', checkedRows);
       
       if (checkedRows.length > 0) {
-        alert(`Selected ${checkedRows.length} student(s)`);
+        // Route to the first selected student's details
+        const firstStudent = checkedRows[0];
+        const studentId = firstStudent.businessCode || firstStudent.id;
+        this.router.navigate(['/advocate-dashboard/integrations/students', studentId, 'details']);
       } else {
         alert('No students selected');
       }

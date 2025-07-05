@@ -38,6 +38,7 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
 
   // Properties
   protected entity: R | null = null;
+  protected entityNew: R | null = null;
   protected loading: boolean = false;
   protected error: string = '';
   protected success: boolean = false;
