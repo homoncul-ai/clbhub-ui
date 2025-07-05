@@ -29,6 +29,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
  * and implement the abstract methods of the AbstractCrudComponentComponent
  */
   @Input() id?: string;
+  @Input() modeName: string = 'detail' ;
 
   constructor() {
     super();
@@ -39,7 +40,9 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
     this.canCreate = false;
     this.canUpdate = true;
     this.canDelete = false;
-    this.detailMode = true;
+
+    this.setModeFromName(this.modeName);
+ 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,7 +51,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
       console.log('Loading student with ID:', this.id);
       this.loadEntityById(this.id).then(entity => {
         this.entity = entity;
-        this.switchToDetailMode(); // Show details of the loaded student
+//        this.switchToDetailMode(); // Show details of the loaded student
       }).catch(error => {
         console.error('Error loading student by ID:', error);
         // Fallback is rerouting to route /advocate-dashboard/students
