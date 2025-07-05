@@ -32,14 +32,14 @@ const routes: Routes = [
     children: [
       { path: 'messages', component: AdvoMessagesComponent },
       { path: 'students', component: AdvoStudentListComponent },
-      { path: 'students/:id', component: AdvoStudentDetailsComponent },
       { path: 'tickets', component: AdvoTicketListComponent },
       { path: 'tickets/create/:advocateId/:clientId', component: CreateTicketComponent },
       { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
-      { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },      { 
+      { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },
+      { 
         path: 'integrations', 
         component: IntegrationsHomeComponent,
         children: [
