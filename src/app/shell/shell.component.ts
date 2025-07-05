@@ -95,7 +95,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       // Initialize HCCL context immediately
       this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
         console.log('Ticket Context:', ticketContext);
-        this._router.navigate(['/advocate-dashboard/messages']);
+        // Don't redirect - let the user stay on their current route
       });
     } else {
       // Wait for Keycloak to be ready by checking periodically
@@ -104,7 +104,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           clearInterval(checkInterval);
           this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
             console.log('Ticket Context:', ticketContext);
-            this._router.navigate(['/advocate-dashboard/messages']);
+            // Don't redirect - let the user stay on their current route
           });
         }
       }, 100);

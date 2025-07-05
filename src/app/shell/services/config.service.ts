@@ -50,7 +50,11 @@ export class AppConstants {
         });
 
         await this.loadUser();
-        this.router.navigate(['/advocate-dashboard']);
+        // Only redirect if not already on a valid route
+        const currentUrl = this.router.url;
+        if (currentUrl === '/' || currentUrl === '/login' || currentUrl.includes('state=') || currentUrl.includes('code=')) {
+          //this.router.navigate(['/advocate-dashboard']);
+        }
         resolve(true);
       } catch (err) {
         reject(err);
