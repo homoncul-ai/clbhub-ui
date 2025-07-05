@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
+import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 
 @Component({
   selector: 'app-abstract-crud-component',
@@ -51,6 +52,7 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
   protected deleteMode: boolean = false;
   protected sectionMode: boolean = false;
   protected headingMode: boolean = false;
+  protected fkMode: boolean = false;
 
   protected supportingDelete: boolean = false;
   protected supportingCreate: boolean = false;
@@ -166,6 +168,7 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
     this.deleteMode = false;
     this.sectionMode = false;
     this.headingMode = false;
+    this.fkMode = false;
   }
 
   /**
@@ -317,7 +320,79 @@ export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any
     return this.sectionMode;
   }
 
+  public get isFkMode(): boolean {
+    return this.fkMode;
+  }
+
   public get isHeadingMode(): boolean {
     return this.headingMode;
+  }
+
+  /**
+   * Translates a mode name string to the corresponding mode boolean
+   * @param modName The mode name string
+   * @returns The corresponding mode boolean
+   * @throws Error if the mode name is invalid
+   */
+  public getModeFromName(modName: string): boolean;
+  public getModeFromName(modName: CrudModeType): boolean;
+  public getModeFromName(modName: string | CrudModeType): boolean {
+    const modeMap: { [key: string]: boolean } = {
+      [CRUD_MODES.EDIT]: this.editMode,
+      [CRUD_MODES.CREATE]: this.createMode,
+      [CRUD_MODES.VIEW]: this.viewMode,
+      [CRUD_MODES.DETAIL]: this.detailMode,
+      [CRUD_MODES.DELETE]: this.deleteMode,
+      [CRUD_MODES.SECTION]: this.sectionMode,
+      [CRUD_MODES.HEADING]: this.headingMode,
+      [CRUD_MODES.FK]: this.fkMode
+    };
+
+    if (modName in modeMap) {
+      return modeMap[modName];
+    }
+
+    throw new Error(`Invalid mode name: ${modName}. Valid modes are: ${Object.keys(modeMap).join(', ')}`);
+  }
+
+  /**
+   * Sets the mode based on the mode name string
+   * @param modName The mode name string
+   * @throws Error if the mode name is invalid
+   */
+  public setModeFromName(modName: string): void;
+  public setModeFromName(modName: CrudModeType): void;
+  public setModeFromName(modName: string | CrudModeType): void {
+    this.resetModes();
+    //alert('setModeFromName: ' + modName);
+    switch (modName) {
+      case CRUD_MODES.EDIT:
+        this.editMode = true;
+        break;
+      case CRUD_MODES.CREATE:
+        this.createMode = true;
+        break;
+      case CRUD_MODES.VIEW:
+        this.viewMode = true;
+        break;
+      case CRUD_MODES.DETAIL:
+        this.detailMode = true;
+        break;
+      case CRUD_MODES.DELETE:
+        this.deleteMode = true;
+        break;
+      case CRUD_MODES.SECTION:
+        this.sectionMode = true;
+        break;
+      case CRUD_MODES.HEADING:
+        this.headingMode = true;
+        break;
+      case CRUD_MODES.FK:
+        this.fkMode = true;
+        break;
+      default:
+        throw new Error(`Invalid mode name: ${modName}. Valid modes are: ${Object.values(CRUD_MODES).join(', ')}`);
+    }
+    //alert('setModeFromName: ' + modName + ' isFkMode: ' + this.fkMode);
   }
 }
