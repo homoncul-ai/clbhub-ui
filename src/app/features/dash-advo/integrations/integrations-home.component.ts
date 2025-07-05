@@ -5,12 +5,12 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-integrations-home',
   template: `
-    <div class="integrations-container">
+    <!-- <div class="integrations-container">
       <h2>Integrations</h2>
-      <p>Manage your integrations with external systems.</p>
       <router-outlet></router-outlet>
-    </div>
-  `,
+    </div> -->
+    <router-outlet></router-outlet>
+    `,
   styles: [`
     .integrations-container {
       margin: 16px;

@@ -1,10 +1,5 @@
-<app-simple-tabset
-  [tabs]="tabs"
-  [currentTabId]="currentTabId"
-  (tabSelected)="activateTab($event)">
-</app-simple-tabset>
 
-<div *ngIf="currentTabId === 'list'">
+ 
   <div class="search-list-container">
     <h2>CL Students Integration</h2>
     <div class="search-list-button-bar">
@@ -23,26 +18,3 @@
     </form>
     <div #gridContainer class="search-list-grid"></div>
   </div>
-</div>
-
-<div *ngIf="currentTabId === 'details' && selectedStudentId">
-  <div class="crud-container">
-    <div class="crud-header">
-      <button class="back-button" (click)="onBackToList()">
-        <span class="material-icons">arrow_back</span>
-        Back to List
-      </button>
-      <h2>Student Details</h2>
-    </div>
-    <app-clstudent-crud [id]="selectedStudentId"></app-clstudent-crud>
-  </div>
-</div>
-
-<!-- Debug info -->
-<div style="background: #f0f0f0; padding: 10px; margin: 10px; border: 1px solid #ccc;">
-  <p><strong>Debug Info:</strong></p>
-  <p>currentTabId: {{ currentTabId }}</p>
-  <p>selectedStudentId: {{ selectedStudentId }}</p>
-  <p>showList: {{ showList }}</p>
-  <p>Should show details: {{ currentTabId === 'details' && selectedStudentId }}</p>
-</div> 

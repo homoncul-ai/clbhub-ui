@@ -18,7 +18,7 @@ export class CLStudentGroupComponent extends AbstractEntityGroupComponent<ClStud
   constructor(
     private route: ActivatedRoute
   ) {
-    super();
+    super();    
   }
 
   ngOnInit(): void {
@@ -29,8 +29,8 @@ export class CLStudentGroupComponent extends AbstractEntityGroupComponent<ClStud
       
       if (studentId) {
         this.id = studentId;
+        this.tabs = this.setupTabs();
         this.currentTabId = tabId;
-        
         // Load the student data
         this.loadEntityById(studentId).then(entity => {
           this.entity = entity;
@@ -52,13 +52,21 @@ export class CLStudentGroupComponent extends AbstractEntityGroupComponent<ClStud
   
   protected setupTabs(): SimpleTab[] {
     return [
-      new SimpleTab('details', 'Details', '', () => this.activateTab('details'), () => this.entity !== null)
+      new SimpleTab('details', 'Details', '', 
+        () => {
+          this.currentTabId = 'details';
+          this.router.navigate(['/advocate-dashboard/integrations/students', this.id, 'details']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      )
     ];
   }
 
   public override activateTab(tabId: string): void {
     this.currentTabId = tabId;
     // Update the URL to reflect the current tab
-    this.router.navigate(['/advocate-dashboard/integrations/students', this.id, tabId]);
+   // this.router.navigate(['/advocate-dashboard/integrations/students', this.id, tabId]);
   }
 }

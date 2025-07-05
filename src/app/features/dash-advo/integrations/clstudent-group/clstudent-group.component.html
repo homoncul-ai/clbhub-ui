@@ -1,11 +1,8 @@
-<p>clstudent-group works!</p>
-
 <app-simple-tabset
   [tabs]="tabs"
-  [currentTabId]="currentTabId"
-  (tabSelected)="activateTab($event)">
+  [currentTabId]="currentTabId">
 </app-simple-tabset>
 
 <div *ngIf="currentTabId === 'details' && id">   
       <app-clstudent-crud [id]="id"></app-clstudent-crud>
-  </div>
+</div>

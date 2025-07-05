@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,7 +7,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './simple-tabset.component.html',
   styleUrl: './simple-tabset.component.scss'
 })
-export class SimpleTabsetComponent {
+export class SimpleTabsetComponent implements OnInit {
+  ngOnInit(): void {
+  //    alert('SimpleTabsetComponent ngOnInit ' + this.currentTabId + ' ' + this.tabs.length);
+  }
 
   @Input() tabs: SimpleTab[] = [];
   @Input() currentTabId: string | null = null;
@@ -25,7 +28,10 @@ export class SimpleTabsetComponent {
     return this.tabs.find(t => t.id === id);
   }
 
-  public newTab(id: string, label: string, url: string, activateFunction: () => void, showingTabFunction: () => void): SimpleTab {
+  public newTab(id: string, label: string, url: string, 
+    activateFunction: () => void, 
+    showingTabFunction: () => void,
+    data: any = null): SimpleTab {
     var t : SimpleTab = new SimpleTab(id, label, url, activateFunction, showingTabFunction);
     //this.tabs.push(t);
     return t;
