@@ -44,15 +44,64 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   protected error: string = '';
   protected success: boolean = false;
 
-  // Mode management properties
-  protected editMode: boolean = false;
-  protected createMode: boolean = false;
-  protected viewMode: boolean = false;
-  protected detailMode: boolean = false;
-  protected deleteMode: boolean = false;
-  protected sectionMode: boolean = false;
-  protected headingMode: boolean = false;
-  protected fkMode: boolean = false;
+  protected CRUD_MODES = CRUD_MODES;
+
+  protected isCrudModeCUD(): boolean {
+    return this.currentMode === CRUD_MODES.EDIT || this.currentMode === CRUD_MODES.CREATE || this.currentMode === CRUD_MODES.DELETE;
+  }
+
+  // Improved mode management system
+  protected supportedModes: CrudModeType[] = [
+    CRUD_MODES.EDIT,
+    CRUD_MODES.CREATE,
+    CRUD_MODES.VIEW,
+    CRUD_MODES.DETAIL,
+    CRUD_MODES.DELETE,
+    CRUD_MODES.SECTION,
+    CRUD_MODES.HEADING,
+    CRUD_MODES.FK
+  ];
+  protected currentMode: CrudModeType | null = null;
+
+  public get isCreateMode(): boolean {
+    return this.currentMode === CRUD_MODES.CREATE;
+  }
+  public get isEditMode(): boolean {
+    return this.currentMode === CRUD_MODES.EDIT;
+  }
+  public get isViewMode(): boolean {
+    return this.currentMode === CRUD_MODES.VIEW;
+  }
+  public get isDetailMode(): boolean {
+    return this.currentMode === CRUD_MODES.DETAIL;
+  }
+  public get isDeleteMode(): boolean {
+    return this.currentMode === CRUD_MODES.DELETE;
+  }
+  public get isSectionMode(): boolean {
+    return this.currentMode === CRUD_MODES.SECTION;
+  }
+  public get isHeadingMode(): boolean {
+    return this.currentMode === CRUD_MODES.HEADING;
+  }
+  public get isFkMode(): boolean {
+    return this.currentMode === CRUD_MODES.FK;
+  }
+  protected switchToEditMode(): void {
+    this.setMode(this.CRUD_MODES.EDIT);
+  }
+  protected switchToCreateMode(): void {
+    this.setMode(this.CRUD_MODES.CREATE);
+  }
+  protected switchToViewMode(): void {  
+    this.setMode(this.CRUD_MODES.VIEW);
+  }
+  protected switchToDeleteMode(): void {
+    this.setMode(this.CRUD_MODES.DELETE);
+  }
+  protected switchToDetailMode(): void {  
+    this.setMode(this.CRUD_MODES.DETAIL);
+  }
 
   protected supportingDelete: boolean = false;
   protected supportingCreate: boolean = false;
@@ -101,74 +150,63 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   protected postDelete(): void {}
   protected postCreate(): void {}
 
+  // New mode management methods
   /**
-   * Switch to edit mode
+   * Get the list of supported modes for this component
+   * @returns Array of supported mode names
    */
-  public switchToEditMode(): void {
-    this.resetModes();
-    this.editMode = true;
+  public getSupportedModes(): CrudModeType[] {
+    return [...this.supportedModes];
   }
 
   /**
-   * Switch to create mode
+   * Check if a mode is supported by this component
+   * @param modeName The mode name to check
+   * @returns True if the mode is supported
    */
-  public switchToCreateMode(): void {
-    this.resetModes();
-    this.createMode = true;
+  public isModeSupported(modeName: string | CrudModeType): boolean {
+    return this.supportedModes.includes(modeName as CrudModeType);
   }
 
   /**
-   * Switch to view mode
+   * Get the current mode
+   * @returns The current mode or null if no mode is set
    */
-  public switchToViewMode(): void {
-    this.resetModes();
-    this.viewMode = true;
+  public getMode(): CrudModeType | null {
+    return this.currentMode;
   }
 
   /**
-   * Switch to detail mode
+   * Set the current mode
+   * @param mode The mode to set
+   * @throws Error if the mode is not supported
    */
-  public switchToDetailMode(): void {
-    this.resetModes();
-    this.detailMode = true;
+  public setMode(mode: CrudModeType): void {
+    if (!this.isModeSupported(mode)) {
+      throw new Error(`Mode '${mode}' is not supported. Supported modes are: ${this.supportedModes.join(', ')}`);
+    }
+    this.currentMode = mode;
   }
 
   /**
-   * Switch to delete mode
+   * Set the mode from a mode name string
+   * @param modeName The mode name string
+   * @throws Error if the mode name is invalid or not supported
    */
-  public switchToDeleteMode(): void {
-    this.resetModes();
-    this.deleteMode = true;
+  public setModeFromName(modeName: string | CrudModeType): void {
+    if (!this.isModeSupported(modeName)) {
+      throw new Error(`Mode '${modeName}' is not supported. Supported modes are: ${this.supportedModes.join(', ')}`);
+    }
+    this.setMode(modeName as CrudModeType);
   }
 
   /**
-   * Switch to section mode
+   * Get the current mode as a boolean (for backward compatibility)
+   * @param modeName The mode name to check
+   * @returns True if the current mode matches the given mode name
    */
-  public switchToSectionMode(): void {
-    this.resetModes();
-    this.sectionMode = true;
-  }
-
-  /**
-   * Switch to heading mode
-   */
-  public switchToHeadingMode(): void {
-    this.resetModes();
-    this.headingMode = true;
-  }
-
-  /**
-   * Reset all modes to false
-   */
-  private resetModes(): void {
-    this.editMode = false;
-    this.createMode = false;
-    this.viewMode = false;
-    this.detailMode = false;
-    this.deleteMode = false;
-    this.sectionMode = false;
-    this.headingMode = false;
-    this.fkMode = false;
+  public getModeFromName(modeName: string | CrudModeType): boolean {
+    return this.currentMode === modeName;
   }
 
   /**
@@ -295,104 +333,4 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
     return this.entity;
   }
 
-  // Mode getters for template access
-  public get isEditMode(): boolean {
-    return this.editMode;
-  }
-
-  public get isCreateMode(): boolean {
-    return this.createMode;
-  }
-
-  public get isViewMode(): boolean {
-    return this.viewMode;
-  }
-
-  public get isDetailMode(): boolean {
-    return this.detailMode;
-  }
-
-  public get isDeleteMode(): boolean {
-    return this.deleteMode;
-  }
-
-  public get isSectionMode(): boolean {
-    return this.sectionMode;
-  }
-
-  public get isFkMode(): boolean {
-    return this.fkMode;
-  }
-
-  public get isHeadingMode(): boolean {
-    return this.headingMode;
-  }
-
-  /**
-   * Translates a mode name string to the corresponding mode boolean
-   * @param modName The mode name string
-   * @returns The corresponding mode boolean
-   * @throws Error if the mode name is invalid
-   */
-  public getModeFromName(modName: string): boolean;
-  public getModeFromName(modName: CrudModeType): boolean;
-  public getModeFromName(modName: string | CrudModeType): boolean {
-    const modeMap: { [key: string]: boolean } = {
-      [CRUD_MODES.EDIT]: this.editMode,
-      [CRUD_MODES.CREATE]: this.createMode,
-      [CRUD_MODES.VIEW]: this.viewMode,
-      [CRUD_MODES.DETAIL]: this.detailMode,
-      [CRUD_MODES.DELETE]: this.deleteMode,
-      [CRUD_MODES.SECTION]: this.sectionMode,
-      [CRUD_MODES.HEADING]: this.headingMode,
-      [CRUD_MODES.FK]: this.fkMode
-    };
-
-    if (modName in modeMap) {
-      return modeMap[modName];
-    }
-
-    throw new Error(`Invalid mode name: ${modName}. Valid modes are: ${Object.keys(modeMap).join(', ')}`);
-  }
-
-  /**
-   * Sets the mode based on the mode name string
-   * @param modName The mode name string
-   * @throws Error if the mode name is invalid
-   */
-  public setModeFromName(modName: string): void;
-  public setModeFromName(modName: CrudModeType): void;
-  public setModeFromName(modName: string | CrudModeType): void {
-    this.resetModes();
-    //alert('setModeFromName: ' + modName);
-    switch (modName) {
-      case CRUD_MODES.EDIT:
-        this.editMode = true;
-        break;
-      case CRUD_MODES.CREATE:
-        this.createMode = true;
-        break;
-      case CRUD_MODES.VIEW:
-        this.viewMode = true;
-        break;
-      case CRUD_MODES.DETAIL:
-        this.detailMode = true;
-        break;
-      case CRUD_MODES.DELETE:
-        this.deleteMode = true;
-        break;
-      case CRUD_MODES.SECTION:
-        this.sectionMode = true;
-        break;
-      case CRUD_MODES.HEADING:
-        this.headingMode = true;
-        break;
-      case CRUD_MODES.FK:
-        this.fkMode = true;
-        break;
-      default:
-        throw new Error(`Invalid mode name: ${modName}. Valid modes are: ${Object.values(CRUD_MODES).join(', ')}`);
-    }
-    //alert('setModeFromName: ' + modName + ' isFkMode: ' + this.fkMode);
-  }
 }

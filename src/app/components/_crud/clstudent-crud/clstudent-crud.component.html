@@ -1,9 +1,17 @@
-<span *ngIf="isFkMode">{{ getCurrentEntity().getFullName() }}</span>
-<div *ngIf="!isFkMode" class="clstudent-crud-container">
+<span *ngIf="getMode() === CRUD_MODES.FK">{{ getCurrentEntity().getFullName() }}</span>
+
+<!-- Heading Mode -->
+<div *ngIf="getMode() === CRUD_MODES.HEADING" class="heading-mode">
+  <h3>{{ getCurrentEntity().getFullName() }}</h3>
+</div>
+
+
+<div *ngIf="isCrudModeCUD()" class="clstudent-crud-container">
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-spinner">Loading...</div>
   </div>
+
 
   <!-- Error State -->
   <div *ngIf="hasError" class="error-message">
@@ -27,7 +35,7 @@
   </div>
 
   <!-- Create Mode -->
-  <div *ngIf="isCreateMode" class="create-mode">
+  <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
     <h3>Create New CL Student</h3>
     <div class="form-container">
       <!-- Form fields would go here -->
@@ -55,7 +63,7 @@
   </div>
 
   <!-- Edit Mode -->
-  <div *ngIf="isEditMode" class="edit-mode">
+  <div *ngIf="getMode() === CRUD_MODES.EDIT" class="edit-mode">
     <h3>Edit CL Student</h3>
     <div class="form-container">
       <!-- Form fields would go here -->
@@ -84,7 +92,7 @@
 
 
   <!-- Detail Mode -->
-  <div *ngIf="isDetailMode" class="detail-mode">
+  <div *ngIf="getMode() === CRUD_MODES.DETAIL" class="detail-mode">
     <h3>Student Details</h3>
     <div class="student-details">
       <div class="detail-group">
@@ -123,7 +131,7 @@
   </div>
 
   <!-- Delete Mode -->
-  <div *ngIf="isDeleteMode" class="delete-mode">
+  <div *ngIf="getMode() === CRUD_MODES.DELETE" class="delete-mode">
     <h3>Delete Student</h3>
     <div class="delete-confirmation">
       <p>Are you sure you want to delete the student:</p>
@@ -137,11 +145,9 @@
   </div>
 
 
-  <!-- Heading Mode -->
-  <div *ngIf="isHeadingMode" class="heading-mode">
-    <h3>{{ getCurrentEntity().getFullName() }}</h3>
-  </div>
-
   
 
 </div>
+
+
+
