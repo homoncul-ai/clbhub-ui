@@ -6,12 +6,12 @@ import { HcclContextService } from '../../../shell/services/hccl-context.service
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 
 @Component({
-  selector: 'app-abstract-crud-component',
+  selector: 'app-abstract-crud',
   imports: [],
-  templateUrl: './abstract-crud-component.component.html',
-  styleUrl: './abstract-crud-component.component.scss'
+  templateUrl: './abstract-crud.component.html',
+  styleUrl: './abstract-crud.component.scss'
 })
-export abstract class AbstractCrudComponentComponent<T extends EntityWrapper<any>, R extends EntityWrapper<any>> {
+export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R extends EntityWrapper<any>> {
   /**
    * This component takes a generic type T that  extends EntityWrapper<T>
    * and a generic type R that extends EntityWrapper<T>
