@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AbstractCrudComponentComponent } from '@app/components/_global/abstract-crud-component/abstract-crud-component.component';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclOrganizationGETData, HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
 import { Observable, map } from 'rxjs';
@@ -12,10 +12,10 @@ import { Observable, map } from 'rxjs';
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
-export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStudentCrudWrapper, ClStudentCrudWrapper> implements OnInit, OnChanges {
+export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudWrapper, ClStudentCrudWrapper> implements OnInit, OnChanges {
 /**
  * This is a component that will be used to create, read, update and delete CL Students
- * It will use the AbstractCrudComponentComponent to handle the CRUD operations
+ * It will use the AbstractCrudComponent to handle the CRUD operations
  * It will use the CLStudentGETData and CLStudentPOSTData interfaces to handle the data
  * It will use the HcclService to handle the data
  * 
@@ -26,7 +26,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
  * If an ID is provided, the component will load that specific student and show it in detail mode.
  * 
  * Create a wrapper class that extends EntityWrapper<CLStudentGETData>
- * and implement the abstract methods of the AbstractCrudComponentComponent
+ * and implement the abstract methods of the AbstractCrudComponent
  */
   @Input() id?: string;
   @Input() modeName: string = 'detail' ;

@@ -6,23 +6,30 @@ import { HcclContextService } from '../../../shell/services/hccl-context.service
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { CRUD_MODES } from '../../../@core/constants';
 
-import { AbstractCrudComponentComponent } from './abstract-crud-component.component';
+import { AbstractCrudComponent } from './abstract-crud.component';
+
+// Concrete EntityWrapper for testing
+class TestEntityWrapper extends EntityWrapper<any> {
+  getDisplayText(): string {
+    return this.data.id || 'Test Entity';
+  }
+}
 
 // Concrete implementation for testing
 @Component({
   template: '<div>Test Component</div>'
 })
-class TestCrudComponent extends AbstractCrudComponentComponent<EntityWrapper<any>, EntityWrapper<any>> {
+class TestCrudComponent extends AbstractCrudComponent<EntityWrapper<any>, EntityWrapper<any>> {
   protected async loadEntityById(id: string): Promise<EntityWrapper<any>> {
-    return new EntityWrapper<any>({ id });
+    return new TestEntityWrapper({ id });
   }
 
   protected async createEntityData(entity: EntityWrapper<any>): Promise<EntityWrapper<any>> {
-    return entity;
+    return new TestEntityWrapper(entity.getData());
   }
 
   protected async updateEntityData(entity: EntityWrapper<any>): Promise<EntityWrapper<any>> {
-    return entity;
+    return new TestEntityWrapper(entity.getData());
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
@@ -30,7 +37,7 @@ class TestCrudComponent extends AbstractCrudComponentComponent<EntityWrapper<any
   }
 }
 
-describe('AbstractCrudComponentComponent', () => {
+describe('AbstractCrudComponent', () => {
   let component: TestCrudComponent;
   let fixture: ComponentFixture<TestCrudComponent>;
 
