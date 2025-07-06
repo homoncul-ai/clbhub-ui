@@ -61,60 +61,65 @@ describe('AbstractCrudComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getModeFromName', () => {
-    it('should return true for active modes', () => {
-      // Test each mode
-      component.switchToEditMode();
+  describe('Mode Management', () => {
+    it('should get supported modes', () => {
+      const supportedModes = component.getSupportedModes();
+      expect(supportedModes).toContain(CRUD_MODES.EDIT);
+      expect(supportedModes).toContain(CRUD_MODES.CREATE);
+      expect(supportedModes).toContain(CRUD_MODES.VIEW);
+      expect(supportedModes).toContain(CRUD_MODES.DETAIL);
+      expect(supportedModes).toContain(CRUD_MODES.DELETE);
+      expect(supportedModes).toContain(CRUD_MODES.SECTION);
+      expect(supportedModes).toContain(CRUD_MODES.HEADING);
+      expect(supportedModes).toContain(CRUD_MODES.FK);
+    });
+
+    it('should check if mode is supported', () => {
+      expect(component.isModeSupported(CRUD_MODES.EDIT)).toBe(true);
+      expect(component.isModeSupported(CRUD_MODES.CREATE)).toBe(true);
+      expect(component.isModeSupported(CRUD_MODES.VIEW)).toBe(true);
+      expect(component.isModeSupported(CRUD_MODES.DETAIL)).toBe(true);
+      expect(component.isModeSupported(CRUD_MODES.DELETE)).toBe(true);
+      expect(component.isModeSupported(CRUD_MODES.SECTION)).toBe(true);
+      expect(component.isModeSupported(CRUD_MODES.HEADING)).toBe(true);
+      expect(component.isModeSupported(CRUD_MODES.FK)).toBe(true);
+      expect(component.isModeSupported('invalid')).toBe(false);
+    });
+
+    it('should get and set current mode', () => {
+      expect(component.getMode()).toBeNull();
+      
+      component.setMode(CRUD_MODES.EDIT);
+      expect(component.getMode()).toBe(CRUD_MODES.EDIT);
+      
+      component.setMode(CRUD_MODES.CREATE);
+      expect(component.getMode()).toBe(CRUD_MODES.CREATE);
+    });
+
+    it('should set mode from name', () => {
+      component.setModeFromName(CRUD_MODES.EDIT);
+      expect(component.getMode()).toBe(CRUD_MODES.EDIT);
+      
+      component.setModeFromName('create');
+      expect(component.getMode()).toBe(CRUD_MODES.CREATE);
+    });
+
+    it('should throw error for unsupported modes', () => {
+      expect(() => component.setModeFromName('invalid')).toThrowError('Mode \'invalid\' is not supported. Supported modes are: edit, create, view, detail, delete, section, heading, fk');
+      expect(() => component.setMode('invalid' as any)).toThrowError('Mode \'invalid\' is not supported. Supported modes are: edit, create, view, detail, delete, section, heading, fk');
+    });
+
+    it('should get mode from name (backward compatibility)', () => {
+      component.setMode(CRUD_MODES.EDIT);
       expect(component.getModeFromName(CRUD_MODES.EDIT)).toBe(true);
       expect(component.getModeFromName('edit')).toBe(true);
-
-      component.switchToCreateMode();
+      expect(component.getModeFromName(CRUD_MODES.CREATE)).toBe(false);
+      
+      component.setMode(CRUD_MODES.CREATE);
       expect(component.getModeFromName(CRUD_MODES.CREATE)).toBe(true);
       expect(component.getModeFromName('create')).toBe(true);
-
-      component.switchToViewMode();
-      expect(component.getModeFromName(CRUD_MODES.VIEW)).toBe(true);
-      expect(component.getModeFromName('view')).toBe(true);
-
-      component.switchToDetailMode();
-      expect(component.getModeFromName(CRUD_MODES.DETAIL)).toBe(true);
-      expect(component.getModeFromName('detail')).toBe(true);
-
-      component.switchToDeleteMode();
-      expect(component.getModeFromName(CRUD_MODES.DELETE)).toBe(true);
-      expect(component.getModeFromName('delete')).toBe(true);
-
-      component.switchToSectionMode();
-      expect(component.getModeFromName(CRUD_MODES.SECTION)).toBe(true);
-      expect(component.getModeFromName('section')).toBe(true);
-
-      component.switchToHeadingMode();
-      expect(component.getModeFromName(CRUD_MODES.HEADING)).toBe(true);
-      expect(component.getModeFromName('heading')).toBe(true);
-    });
-
-    it('should return false for inactive modes', () => {
-      component.switchToEditMode();
-      expect(component.getModeFromName(CRUD_MODES.CREATE)).toBe(false);
-      expect(component.getModeFromName(CRUD_MODES.VIEW)).toBe(false);
-      expect(component.getModeFromName(CRUD_MODES.DETAIL)).toBe(false);
-      expect(component.getModeFromName(CRUD_MODES.DELETE)).toBe(false);
-      expect(component.getModeFromName(CRUD_MODES.SECTION)).toBe(false);
-      expect(component.getModeFromName(CRUD_MODES.HEADING)).toBe(false);
-      expect(component.getModeFromName(CRUD_MODES.FK)).toBe(false);
-    });
-
-    it('should throw error for invalid mode names', () => {
-      expect(() => component.getModeFromName('invalid')).toThrowError('Invalid mode name: invalid. Valid modes are: edit, create, view, detail, delete, section, heading, fk');
-      expect(() => component.getModeFromName('')).toThrowError('Invalid mode name: . Valid modes are: edit, create, view, detail, delete, section, heading, fk');
-    });
-
-    it('should work with type-safe constants', () => {
-      component.switchToEditMode();
-      expect(component.getModeFromName(CRUD_MODES.EDIT)).toBe(true);
-      
-      component.switchToCreateMode();
-      expect(component.getModeFromName(CRUD_MODES.CREATE)).toBe(true);
+      expect(component.getModeFromName(CRUD_MODES.EDIT)).toBe(false);
     });
   });
+
 });

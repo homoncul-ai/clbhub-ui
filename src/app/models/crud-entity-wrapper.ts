@@ -1,5 +1,4 @@
-
-
+import { inject } from '@angular/core';
 import { HcclService } from '@app/restsvc/hccl.service';
 
 /**
@@ -16,11 +15,10 @@ import { HcclService } from '@app/restsvc/hccl.service';
 */
 export abstract class EntityWrapper<T extends { id?: string }> {
     protected data: T;
-    protected hcclService?: HcclService;
+    protected hcclService = inject(HcclService);
 
-    constructor(data: T, hcclService?: HcclService) {
+    constructor(data: T) {
         this.data = data;
-        this.hcclService = hcclService;
     }
 
     /**

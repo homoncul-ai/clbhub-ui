@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclOrganizationGETData, HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 
 @Component({
@@ -65,7 +66,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     try {
       const student = await this.hcclService.getCLStudentById(id).toPromise();
       if (student) {
-        return new ClStudentCrudWrapper(student, this.hcclService);
+        return new ClStudentCrudWrapper(student);
       }
       throw new Error('Student not found');
     } catch (error) {
@@ -77,7 +78,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
   protected async createEntityData(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
     try {
       // Use entityNew if in create mode, otherwise use the passed entity
-      const studentData = this.isCreateMode && this.entityNew ? this.entityNew.getData() : entity.getData();
+      const studentData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
       
       const postData: CLStudentPOSTData = {
         organizationId: studentData.organizationId || '',
@@ -97,7 +98,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
       const createdStudent = await this.hcclService.createCLStudent(postData).toPromise();
       if (createdStudent) {
-        return new ClStudentCrudWrapper(createdStudent, this.hcclService);
+        return new ClStudentCrudWrapper(createdStudent);
       }
       throw new Error('Failed to create student');
     } catch (error) {
@@ -131,7 +132,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
       const updatedStudent = await this.hcclService.updateCLStudentById(studentData.id, putData).toPromise();
       if (updatedStudent) {
-        return new ClStudentCrudWrapper(updatedStudent, this.hcclService);
+        return new ClStudentCrudWrapper(updatedStudent);
       }
       throw new Error('Failed to update student');
     } catch (error) {
@@ -174,8 +175,8 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       lastName: '',
       schoolId: ''
     };
-    this.entityNew = new ClStudentCrudWrapper(emptyStudent, this.hcclService);
-    this.switchToCreateMode();
+    this.entityNew = new ClStudentCrudWrapper(emptyStudent);
+    this.setMode(this.CRUD_MODES.CREATE);
   }
 
   public editStudent(student: ClStudentCrudWrapper): void {
@@ -219,7 +220,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       schoolId: ''
     };
     
-    return new ClStudentCrudWrapper(emptyStudent, this.hcclService);
+    return new ClStudentCrudWrapper(emptyStudent);
   }
 
   // Getter methods for form binding
@@ -297,15 +298,15 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
    * @returns ClStudentCrudWrapper instance
    */
   public createWrapper(studentData: CLStudentGETData): ClStudentCrudWrapper {
-    return new ClStudentCrudWrapper(studentData, this.hcclService);
+    return new ClStudentCrudWrapper(studentData);
   }
 
 
 }
 
 export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
-  constructor(data: CLStudentGETData, hcclService?: HcclService) {
-    super(data, hcclService);
+  constructor(data: CLStudentGETData) {
+    super(data);
   }
 
   getDisplayText(): string {
