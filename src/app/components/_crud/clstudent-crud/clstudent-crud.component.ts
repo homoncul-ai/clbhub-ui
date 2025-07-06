@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AbstractCrudComponentComponent } from '@app/components/_global/abstract-crud-component/abstract-crud-component.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclOrganizationGETData, HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
 import { Observable, map } from 'rxjs';
 
 @Component({
@@ -65,7 +65,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
     try {
       const student = await this.hcclService.getCLStudentById(id).toPromise();
       if (student) {
-        return new ClStudentCrudWrapper(student);
+        return new ClStudentCrudWrapper(student, this.hcclService);
       }
       throw new Error('Student not found');
     } catch (error) {
@@ -97,7 +97,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
 
       const createdStudent = await this.hcclService.createCLStudent(postData).toPromise();
       if (createdStudent) {
-        return new ClStudentCrudWrapper(createdStudent);
+        return new ClStudentCrudWrapper(createdStudent, this.hcclService);
       }
       throw new Error('Failed to create student');
     } catch (error) {
@@ -131,7 +131,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
 
       const updatedStudent = await this.hcclService.updateCLStudentById(studentData.id, putData).toPromise();
       if (updatedStudent) {
-        return new ClStudentCrudWrapper(updatedStudent);
+        return new ClStudentCrudWrapper(updatedStudent, this.hcclService);
       }
       throw new Error('Failed to update student');
     } catch (error) {
@@ -174,7 +174,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
       lastName: '',
       schoolId: ''
     };
-    this.entityNew = new ClStudentCrudWrapper(emptyStudent);
+    this.entityNew = new ClStudentCrudWrapper(emptyStudent, this.hcclService);
     this.switchToCreateMode();
   }
 
@@ -219,7 +219,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
       schoolId: ''
     };
     
-    return new ClStudentCrudWrapper(emptyStudent);
+    return new ClStudentCrudWrapper(emptyStudent, this.hcclService);
   }
 
   // Getter methods for form binding
@@ -297,13 +297,15 @@ export class ClstudentCrudComponent extends AbstractCrudComponentComponent<ClStu
    * @returns ClStudentCrudWrapper instance
    */
   public createWrapper(studentData: CLStudentGETData): ClStudentCrudWrapper {
-    return new ClStudentCrudWrapper(studentData);
+    return new ClStudentCrudWrapper(studentData, this.hcclService);
   }
+
+
 }
 
 export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
-  constructor(data: CLStudentGETData) {
-    super(data);
+  constructor(data: CLStudentGETData, hcclService?: HcclService) {
+    super(data, hcclService);
   }
 
   getDisplayText(): string {
@@ -341,8 +343,24 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
   getOrganizationId(): string {
     return this.data.organizationId || '';
   }
-
   isActive(): boolean {
     return this.data.available === 1;
+  }
+
+  /**
+   * Get organization name using the HcclService
+   * @returns Promise<string> The organization name
+   */
+  async getOrganizationName(): Promise<string> {
+    if (!this.hcclService) {
+      return '';
+    }
+    try {
+      const organization = await this.hcclService.getHcclOrganizationById(this.data.organizationId || '').toPromise();
+      return organization?.name || '';
+    } catch (error) {
+      console.error('Error fetching organization name:', error);
+      return '';
+    }
   }
 }

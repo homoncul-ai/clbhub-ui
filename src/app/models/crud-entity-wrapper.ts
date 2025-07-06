@@ -1,5 +1,7 @@
 
 
+import { HcclService } from '@app/restsvc/hccl.service';
+
 /**
  * Take an interface and wrap it, so we have 2 properties, 
  * getId() - gets the id from the interface (which is the id property)
@@ -14,9 +16,11 @@
 */
 export abstract class EntityWrapper<T extends { id?: string }> {
     protected data: T;
+    protected hcclService?: HcclService;
 
-    constructor(data: T) {
+    constructor(data: T, hcclService?: HcclService) {
         this.data = data;
+        this.hcclService = hcclService;
     }
 
     /**

@@ -1,4 +1,4 @@
-<span *ngIf="isFkMode">{{ getCurrentEntity()?.getFullName() }}</span>
+<span *ngIf="isFkMode">{{ getCurrentEntity().getFullName() }}</span>
 <div *ngIf="!isFkMode" class="clstudent-crud-container">
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-overlay">
