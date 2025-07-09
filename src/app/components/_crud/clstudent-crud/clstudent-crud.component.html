@@ -74,7 +74,10 @@
       </div>
       <div class="form-group">
         <label>School ID:</label>
-        <input type="text" [(ngModel)]="schoolId" class="form-control">
+        <app-menu-control-data-list 
+           [menuControlDataList]="getOrganizationFkMenu()" 
+           placeholder="Select school..." 
+           (selectionChange)="onSchoolChange($event)"></app-menu-control-data-list>
       </div>
       <div class="form-actions">
         <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
