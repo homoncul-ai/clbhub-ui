@@ -18,7 +18,7 @@ declare const dhx: any;
   selector: 'app-clstudents-list',
   templateUrl: './students-list.component.html',
   styleUrls: ['../../../../views/uistarter/list-search-starter.component.css'],
-  imports: [CommonModule, ClstudentCrudComponent, SimpleTabsetComponent]
+  imports: [CommonModule]
 })
 export class CLStudentsListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
@@ -150,9 +150,11 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       // Add row click event listener
       this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
         console.log('Cell clicked:', row, col);
+        alert('Cell clicked:' + row.id);
         // Don't trigger on checkbox column or if no row data
         if (col && col.id !== 'select' && row && row.id) {
           console.log('Calling onRowClick with studentId:', row.id);
+          alert('Calling onRowClick with studentId:' + row.id);
           this.onRowClick(row.id);
         }
       });
@@ -170,7 +172,7 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
    * @param studentId The ID of the clicked student
    */
   public onRowClick(studentId: string): void {
-    console.log('onRowClick called with studentId:', studentId);
+    console.log('onRowClick called with studentId:', studentId); 
     this.router.navigate(['/advocate-dashboard/integrations/students', studentId, 'details']);
   }
  

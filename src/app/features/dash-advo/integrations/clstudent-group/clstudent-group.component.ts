@@ -46,7 +46,7 @@ export class CLStudentGroupComponent extends AbstractEntityGroupComponent<ClStud
     if (!student) {
       throw new Error('Student not found');
     }
-    this.entity = new ClStudentCrudWrapper(student);
+    this.entity = new ClStudentCrudWrapper(student, this.hcclService);
     return this.entity;
   }
   
