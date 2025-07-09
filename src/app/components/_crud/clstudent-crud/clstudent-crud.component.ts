@@ -15,7 +15,7 @@ import { MenuControlDataListComponent } from '@app/components/menu-control-data-
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
-export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudWrapper, ClStudentCrudWrapper> implements OnInit, OnChanges {
+export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudWrapper> implements OnInit, OnChanges {
 /**
  * This is a component that will be used to create, read, update and delete CL Students
  * It will use the AbstractCrudComponent to handle the CRUD operations
@@ -41,15 +41,19 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     super();
   }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
+    //  super.ngOnInit();
     // Enable CRUD operations
     this.canCreate = false;
-    this.canUpdate = true;
+    this.canEdit = true;
     this.canDelete = false;
 
     this.setModeFromName(this.modeName);
  
   }
+
+  protected organizationMenu: MenuControlDataList | null = null;
+
 
   ngOnChanges(changes: SimpleChanges): void {
     // Handle ID changes
@@ -57,7 +61,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       console.log('Loading student with ID:', this.id);
       this.loadEntityById(this.id).then(entity => {
         this.entity = entity;
-//        this.switchToDetailMode(); // Show details of the loaded student
+        this.switchToDetailMode(); // Show details of the loaded student
       }).catch(error => {
         console.error('Error loading student by ID:', error);
         // Fallback is rerouting to route /advocate-dashboard/students
@@ -66,6 +70,9 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     }
   }
 
+  public getEntityType(): string {
+    return 'CL Student';
+  }
 
   protected async loadEntityById(id: string): Promise<ClStudentCrudWrapper> {
     try {
@@ -156,18 +163,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     }
   }
 
-  // Override post operation handlers for custom behavior
-  protected override postSave(): void {
-    console.log('CL Student saved successfully');
-  }
-
-  protected override postDelete(): void {
-    console.log('CL Student deleted successfully');
-  }
-
-  protected override postCreate(): void {
-    console.log('CL Student created successfully');
-  }
+ 
 
   // Helper methods for component usage
   public createNewStudent(): void {
@@ -184,20 +180,31 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     this.setMode(this.CRUD_MODES.CREATE);
   }
 
-  public editStudent(student: ClStudentCrudWrapper): void {
-    this.entity = student;
+  public editStudent(student?: ClStudentCrudWrapper): void {
+    if (student) {
+      this.entity = student;
+    }
+   
     this.switchToEditMode();
   }
 
-  public viewStudent(student: ClStudentCrudWrapper): void {
-    this.entity = student;
-    this.switchToViewMode();
+  /** Set up all the menus for edit mode. */
+  protected override async prepareCreateMode(): Promise<void> {
+    const fkMenu = await this.entity?.getFkMenu();
+    // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
+    this.organizationMenu = fkMenu || null;
+
+    return Promise.resolve();
   }
 
-  public deleteStudent(student: ClStudentCrudWrapper): void {
-    this.entity = student;
-    this.switchToDeleteMode();
+  protected override async prepareEditMode(): Promise<void> {
+    const fkMenu = await this.entity?.getFkMenu();
+    // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
+    this.organizationMenu = fkMenu || null;
+
+    return Promise.resolve();
   }
+
 
   /**
    * Get current entity with guaranteed result
@@ -335,11 +342,12 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
   constructor(data: CLStudentGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }
-
-  getDisplayText(): string {
-    const firstName = this.data.firstName || '';
-    const lastName = this.data.lastName || '';
-    const name = this.data.name || '';
+  
+  getDisplayText(entity?: CLStudentGETData): string {
+    const data = entity || this.data;
+    const firstName = data.firstName || '';
+    const lastName = data.lastName || '';
+    const name = data.name || '';
     
     if (firstName && lastName) {
       return `${firstName} ${lastName}`;
@@ -381,5 +389,16 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
       available: 1
     };
   }
+  async getStudents(criteria?: CLStudentCriteria): Promise<CLStudentGETData[]> {
+    if (!criteria) {
+      criteria = this.getFkMenuCriteria();
+    }
+    const students = await this.hcclService?.findCLStudents(criteria).toPromise();
+    return students?.searchResults || [];
+  }
 
+  async getFkMenu(): Promise<MenuControlDataList> {
+    const students = await this.getStudents();
+    return this.getMenuControlDataList('students', 'Students', students);
+  }
 }

@@ -8,7 +8,6 @@ export const appSetting = {
 export const CRUD_MODES = {
   EDIT: 'edit',
   CREATE: 'create',
-  VIEW: 'view',
   DETAIL: 'detail',
   DELETE: 'delete',
   SECTION: 'section',
