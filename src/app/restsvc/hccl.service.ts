@@ -5363,15 +5363,15 @@ export interface EncodingPOSTData {
 }
 
 export interface SimpleMessage {
-  messageCode?: string;
-  message?: string;
-  severity?: number;
+  messageCode: string;
+  message: string;
+  severity: number;
   exceptionMessage?: string;
   referenceCode?: string;
 }
 
 export interface SimpleMessageList {
-  messages?: SimpleMessage[];
+  messages: SimpleMessage[];
 }
 
 export interface SimpleRestActionContext {

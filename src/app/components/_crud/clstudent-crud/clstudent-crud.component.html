@@ -14,14 +14,7 @@
 
 
   <!-- Error State -->
-  <div *ngIf="hasError" class="error-message">
-    {{ errorMessage }}
-  </div>
-
-  <!-- Success State -->
-  <div *ngIf="isSuccess" class="success-message">
-    Operation completed successfully!
-  </div>
+  <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
 
   <!-- Header with Action Buttons -->
   <div class="crud-header">

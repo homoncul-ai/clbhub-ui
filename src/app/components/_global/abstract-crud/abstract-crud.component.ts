@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { HcclService } from '../../../restsvc/hccl.service';
+import { HcclService, SimpleMessageList } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 
@@ -41,13 +41,14 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   protected entity: R | null = null;
   protected entityNew: R | null = null;
   protected loading: boolean = false;
-  protected error: string = '';
+  protected messages: SimpleMessageList = { messages: [] };
   protected success: boolean = false;
 
   protected CRUD_MODES = CRUD_MODES;
 
   protected isCrudModeCUD(): boolean {
-    return this.currentMode === CRUD_MODES.EDIT || this.currentMode === CRUD_MODES.CREATE || this.currentMode === CRUD_MODES.DELETE;
+    return this.currentMode === CRUD_MODES.EDIT || this.currentMode === CRUD_MODES.CREATE 
+    || this.currentMode === CRUD_MODES.DELETE || this.currentMode === CRUD_MODES.DETAIL;
   }
 
   // Improved mode management system
@@ -138,6 +139,22 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   protected abstract updateEntityData(entity: T): Promise<R>;
   protected abstract deleteEntityData(id: string): Promise<boolean>;
 
+  // Pre-operation handlers for validation and preparation
+  // These are called before the respective operation starts
+  // Use these for validation, data preparation, or pre-operation setup
+  protected preCreate(): void {
+    this.validateCreateFormData();
+  }
+  protected preUpdate(): void {
+    this.validateUpdateFormData();
+  }
+  protected preDelete(): void {}
+
+  // Form validation methods that subclasses can override
+  // These provide default validation behavior for create and update operations
+  protected validateCreateFormData(): void {}
+  protected validateUpdateFormData(): void {}
+
   // Event handlers that subclasses can override
   // These are called immediately after the respective operation completes
   // Use these for custom business logic, UI updates, or other custom actions
@@ -221,13 +238,20 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   public async getEntityById(id: string): Promise<R | null> {
     try {
       this.loading = true;
-      this.error = '';
+      this.messages = { messages: [] };
       this.entity = await this.loadEntityById(id);
       this.onAfterLoad();
       return this.entity;
     } catch (error) {
-      this.error = error instanceof Error ? error.message : 'Unknown error occurred';
-      this.onError(this.error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      this.messages = { 
+        messages: [{ 
+          messageCode: 'UnknownError', 
+          message: errorMessage, 
+          severity: 1 
+        }] 
+      };
+      this.onError(errorMessage);
       return null;
     } finally {
       this.loading = false;
@@ -242,8 +266,11 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   public async createEntity(entity: T): Promise<R | null> {
     try {
       this.loading = true;
-      this.error = '';
+      this.messages = { messages: [] };
       this.success = false;
+      
+      // Call pre-create handler for validation and preparation
+      this.preCreate();
       
       const createdEntity = await this.createEntityData(entity);
       this.entity = createdEntity;
@@ -253,8 +280,15 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
       
       return createdEntity;
     } catch (error) {
-      this.error = error instanceof Error ? error.message : 'Unknown error occurred';
-      this.onError(this.error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      this.messages = { 
+        messages: [{ 
+          messageCode: 'UnknownError', 
+          message: errorMessage, 
+          severity: 1 
+        }] 
+      };
+      this.onError(errorMessage);
       return null;
     } finally {
       this.loading = false;
@@ -269,8 +303,11 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   public async updateEntity(entity: T): Promise<R | null> {
     try {
       this.loading = true;
-      this.error = '';
+      this.messages = { messages: [] };
       this.success = false;
+      
+      // Call pre-update handler for validation and preparation
+      this.preUpdate();
       
       const updatedEntity = await this.updateEntityData(entity);
       this.entity = updatedEntity;
@@ -280,8 +317,15 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
       
       return updatedEntity;
     } catch (error) {
-      this.error = error instanceof Error ? error.message : 'Unknown error occurred';
-      this.onError(this.error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      this.messages = { 
+        messages: [{ 
+          messageCode: 'UnknownError', 
+          message: errorMessage, 
+          severity: 1 
+        }] 
+      };
+      this.onError(errorMessage);
       return null;
     } finally {
       this.loading = false;
@@ -296,8 +340,11 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   public async deleteEntity(id: string): Promise<boolean> {
     try {
       this.loading = true;
-      this.error = '';
+      this.messages = { messages: [] };
       this.success = false;
+      
+      // Call pre-delete handler for validation and preparation
+      this.preDelete();
       
       const deleted = await this.deleteEntityData(id);
       if (deleted) {
@@ -308,8 +355,15 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
       
       return deleted;
     } catch (error) {
-      this.error = error instanceof Error ? error.message : 'Unknown error occurred';
-      this.onError(this.error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      this.messages = { 
+        messages: [{ 
+          message: errorMessage, 
+          messageCode: 'UnknownError',
+          severity: 1 
+        }] 
+      };
+      this.onError(errorMessage);
       return false;
     } finally {
       this.loading = false;
@@ -322,11 +376,12 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   }
 
   public get hasError(): boolean {
-    return this.error !== '';
+    return this.messages.messages?.some(msg => msg.severity === 1) || false;
   }
 
   public get errorMessage(): string {
-    return this.error;
+    const errorMessages = this.messages.messages?.filter(msg => msg.severity === 1) || [];
+    return errorMessages.map(msg => msg.message).join('; ');
   }
 
   public get isSuccess(): boolean {

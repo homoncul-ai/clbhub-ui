@@ -68,4 +68,12 @@ export class SimpleMessagesSectionComponent {
       default: return 'info';
     }
   }
+
+  isEmpty(): boolean {
+    return !this.messagesList?.messages || this.messagesList.messages.length === 0;
+  }
+
+  hasMessageWithSeverity(severity: number): boolean {
+    return this.messagesList?.messages?.some(msg => msg.severity === severity) || false;
+  }
 }
