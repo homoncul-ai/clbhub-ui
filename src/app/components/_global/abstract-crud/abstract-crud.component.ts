@@ -11,7 +11,7 @@ import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
   templateUrl: './abstract-crud.component.html',
   styleUrl: './abstract-crud.component.scss'
 })
-export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R extends EntityWrapper<any>> {
+export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   /**
    * This component takes a generic type T that  extends EntityWrapper<T>
    * and a generic type R that extends EntityWrapper<T>
@@ -55,7 +55,6 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   protected supportedModes: CrudModeType[] = [
     CRUD_MODES.EDIT,
     CRUD_MODES.CREATE,
-    CRUD_MODES.VIEW,
     CRUD_MODES.DETAIL,
     CRUD_MODES.DELETE,
     CRUD_MODES.SECTION,
@@ -70,9 +69,6 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   }
   public get isEditMode(): boolean {
     return this.currentMode === CRUD_MODES.EDIT;
-  }
-  public get isViewMode(): boolean {
-    return this.currentMode === CRUD_MODES.VIEW;
   }
   public get isDetailMode(): boolean {
     return this.currentMode === CRUD_MODES.DETAIL;
@@ -89,14 +85,21 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   public get isFkMode(): boolean {
     return this.currentMode === CRUD_MODES.FK;
   }
-  protected switchToEditMode(): void {
-    this.setMode(this.CRUD_MODES.EDIT);
-  }
   protected switchToCreateMode(): void {
-    this.setMode(this.CRUD_MODES.CREATE);
+    this.prepareCreateMode().then(() => {
+      this.setMode(this.CRUD_MODES.CREATE);
+    });
   }
-  protected switchToViewMode(): void {  
-    this.setMode(this.CRUD_MODES.VIEW);
+  protected async prepareCreateMode(): Promise<void> {
+    return Promise.resolve();
+  }
+  protected switchToEditMode(): void {
+    this.prepareEditMode().then(() => {
+      this.setMode(this.CRUD_MODES.EDIT);
+    });
+  }
+  protected async prepareEditMode(): Promise<void> {
+    return Promise.resolve();
   }
   protected switchToDeleteMode(): void {
     this.setMode(this.CRUD_MODES.DELETE);
@@ -107,7 +110,7 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
 
   protected supportingDelete: boolean = false;
   protected supportingCreate: boolean = false;
-  protected supportingUpdate: boolean = false;
+  protected supportingEdit: boolean = false;
 
   // Getter/setter properties for CRUD operations
   public get canCreate(): boolean {
@@ -118,12 +121,12 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
     this.supportingCreate = value;
   }
 
-  public get canUpdate(): boolean {
-    return this.supportingUpdate;
+  public get canEdit(): boolean {
+    return this.supportingEdit;
   }
 
-  public set canUpdate(value: boolean) {
-    this.supportingUpdate = value;
+  public set canEdit(value: boolean) {
+    this.supportingEdit = value;
   }
 
   public get canDelete(): boolean {
@@ -136,25 +139,31 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
 
   // Abstract methods that subclasses must implement
   protected abstract loadEntityById(id: string): Promise<R>;
-  protected abstract createEntityData(entity: T): Promise<R>;
-  protected abstract updateEntityData(entity: T): Promise<R>;
+  protected abstract createEntityData(entity: R): Promise<R>;
+  protected abstract updateEntityData(entity: R): Promise<R>;
   protected abstract deleteEntityData(id: string): Promise<boolean>;
 
   // Pre-operation handlers for validation and preparation
   // These are called before the respective operation starts
   // Use these for validation, data preparation, or pre-operation setup
-  protected preCreate(): void {
-    this.validateCreateFormData();
+  protected async preCreate(): Promise<void> {
+    await this.validateCreateFormData();
   }
-  protected preUpdate(): void {
-    this.validateUpdateFormData();
+  protected async preUpdate(): Promise<void> {
+    await this.validateUpdateFormData();
   }
-  protected preDelete(): void {}
+  protected async preDelete(): Promise<void> {
+    return Promise.resolve();
+  }
 
   // Form validation methods that subclasses can override
   // These provide default validation behavior for create and update operations
-  protected validateCreateFormData(): void {}
-  protected validateUpdateFormData(): void {}
+  protected async validateCreateFormData(): Promise<void> {
+    return Promise.resolve();
+  }
+  protected async validateUpdateFormData(): Promise<void> {
+    return Promise.resolve();
+  }
 
   // Event handlers that subclasses can override
   // These are called immediately after the respective operation completes
@@ -164,14 +173,24 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   protected onAfterUpdate(): void {}
   protected onAfterDelete(): void {}
   protected onError(error: string): void {}
+  
 
   // Post operation handlers for cleanup and finalization
   // These are called after the event handlers as part of the final workflow
   // Use these for cleanup tasks, state resets, or finalization logic
-  protected postSave(): void {}
-  protected postDelete(): void {}
-  protected postCreate(): void {}
+   // Override post operation handlers for custom behavior
+   abstract getEntityType(): string;
+   protected  postSave(): void {
+    console.log(this.getEntityType() + ' saved successfully');
+  }
 
+  protected  postDelete(): void {
+    console.log(this.getEntityType() + ' deleted successfully');
+  }
+
+  protected  postCreate(): void {
+    console.log(this.getEntityType() + ' created successfully');
+  }
   // New mode management methods
   /**
    * Get the list of supported modes for this component
@@ -264,7 +283,7 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
    * @param entity The entity to create
    * @returns The created entity
    */
-  public async createEntity(entity: T): Promise<R | null> {
+  public async createEntity(entity: R): Promise<R | null> {
     try {
       this.loading = true;
       this.messages = { messages: [] };
@@ -301,7 +320,7 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
    * @param entity The entity to update
    * @returns The updated entity
    */
-  public async updateEntity(entity: T): Promise<R | null> {
+  public async updateEntity(entity: R): Promise<R | null> {
     try {
       this.loading = true;
       this.messages = { messages: [] };
@@ -345,7 +364,7 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
       this.success = false;
       
       // Call pre-delete handler for validation and preparation
-      this.preDelete();
+      await this.preDelete();
       
       const deleted = await this.deleteEntityData(id);
       if (deleted) {

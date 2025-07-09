@@ -22,7 +22,7 @@
     <div class="action-buttons">
       <button *ngIf="canCreate" (click)="createNewStudent()" class="btn btn-primary">Create New Student</button>
       <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
-      <button *ngIf="canUpdate" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
+      <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
       <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
     </div>
   </div>
@@ -50,7 +50,7 @@
       </div>
       <div class="form-actions">
         <button *ngIf="canCreate" (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
-        <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
+        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
@@ -75,13 +75,13 @@
       <div class="form-group">
         <label>School ID:</label>
         <app-menu-control-data-list 
-           [menuControlDataList]="getOrganizationFkMenu()" 
+           [menuControlDataList]="this.organizationMenu" 
            placeholder="Select school..." 
            (selectionChange)="onSchoolChange($event)"></app-menu-control-data-list>
       </div>
       <div class="form-actions">
         <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
-        <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
+        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
@@ -120,8 +120,8 @@
         <span>{{ getCurrentEntity().isActive() ? 'Active' : 'Inactive' }}</span>
       </div>
       <div class="detail-actions">
-        <button *ngIf="canUpdate" (click)="editStudent(getCurrentEntity())" class="btn btn-primary">Edit</button>
-        <button (click)="switchToViewMode()" class="btn btn-secondary">Back to List</button>
+        <button *ngIf="canEdit" (click)="editStudent(getCurrentEntity())" class="btn btn-primary">Edit</button>
+        <button (click)="switchToDetailMode()" class="btn btn-secondary">Back to List</button>
       </div>
     </div>
   </div>
@@ -135,7 +135,7 @@
       <p>This action cannot be undone.</p>
       <div class="delete-actions">
         <button *ngIf="canDelete" (click)="deleteEntity(getCurrentEntity().getId() || '')" class="btn btn-danger">Delete</button>
-        <button (click)="switchToViewMode()" class="btn btn-secondary">Cancel</button>
+        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>

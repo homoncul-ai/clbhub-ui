@@ -1,4 +1,5 @@
-import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclService, MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { MenuItem } from '@app/shell/services/menu.service';
 
 /**
  * Take an interface and wrap it, so we have 2 properties, 
@@ -42,7 +43,7 @@ export abstract class EntityWrapper<T extends { id?: string }> {
      * to provide display text for the entity
      * @returns The display text for the entity
      */
-    abstract getDisplayText(): string;
+    abstract getDisplayText(entity?: T): string;
 
     /**
      * Gets the wrapped data
@@ -50,5 +51,25 @@ export abstract class EntityWrapper<T extends { id?: string }> {
      */
     getData(): T {
         return this.data;
+    }
+
+    getMenuControlData(entity?: T, idSelected?: string): MenuControlData {
+        return {
+            id: this.getId(),
+            name: this.getDisplayText(entity),
+            active: true,
+            selected: this.getId() === idSelected,
+            allowedByRole: true,
+            allowedByRule: true,
+        };
+    }
+
+    getMenuControlDataList(menuId: string, menuName: string, entity: T[], idSelected?: string): MenuControlDataList {
+        const menuItems: MenuControlData[] = entity.map(e => this.getMenuControlData(e, idSelected));
+        return {
+            menuId: menuId,
+            menuName: menuName,
+            menuItems: menuItems,
+        };
     }
 }
