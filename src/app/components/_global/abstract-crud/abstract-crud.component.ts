@@ -139,13 +139,17 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
   protected abstract deleteEntityData(id: string): Promise<boolean>;
 
   // Event handlers that subclasses can override
+  // These are called immediately after the respective operation completes
+  // Use these for custom business logic, UI updates, or other custom actions
   protected onAfterLoad(): void {}
   protected onAfterCreate(): void {}
   protected onAfterUpdate(): void {}
   protected onAfterDelete(): void {}
   protected onError(error: string): void {}
 
-  // Post operation handlers
+  // Post operation handlers for cleanup and finalization
+  // These are called after the event handlers as part of the final workflow
+  // Use these for cleanup tasks, state resets, or finalization logic
   protected postSave(): void {}
   protected postDelete(): void {}
   protected postCreate(): void {}

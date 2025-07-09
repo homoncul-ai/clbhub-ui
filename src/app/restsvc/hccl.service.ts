@@ -8,13 +8,10 @@ import { AppConstants } from '@app/shell/services/config.service';
   providedIn: 'root'
 })
 export class HcclService extends CommonRequestServiceCaller {
-   ;
-  constructor(http: HttpClient,appConstants :AppConstants) {
-
-
+  constructor(http: HttpClient, appConstants: AppConstants) {
     super(http);
     // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
-    const baseUrl:string = appConstants.endPoints()?.hcclServicesEndPoint;
+    const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
     console.log(baseUrl);
     this.setBaseUrl(baseUrl);
   }

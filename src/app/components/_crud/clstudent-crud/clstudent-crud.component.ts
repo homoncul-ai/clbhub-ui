@@ -66,7 +66,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     try {
       const student = await this.hcclService.getCLStudentById(id).toPromise();
       if (student) {
-        return new ClStudentCrudWrapper(student);
+        return new ClStudentCrudWrapper(student, this.hcclService);
       }
       throw new Error('Student not found');
     } catch (error) {
@@ -98,7 +98,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
       const createdStudent = await this.hcclService.createCLStudent(postData).toPromise();
       if (createdStudent) {
-        return new ClStudentCrudWrapper(createdStudent);
+        return new ClStudentCrudWrapper(createdStudent, this.hcclService);
       }
       throw new Error('Failed to create student');
     } catch (error) {
@@ -132,7 +132,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
       const updatedStudent = await this.hcclService.updateCLStudentById(studentData.id, putData).toPromise();
       if (updatedStudent) {
-        return new ClStudentCrudWrapper(updatedStudent);
+        return new ClStudentCrudWrapper(updatedStudent, this.hcclService);
       }
       throw new Error('Failed to update student');
     } catch (error) {
@@ -175,7 +175,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       lastName: '',
       schoolId: ''
     };
-    this.entityNew = new ClStudentCrudWrapper(emptyStudent);
+    this.entityNew = new ClStudentCrudWrapper(emptyStudent, this.hcclService);
     this.setMode(this.CRUD_MODES.CREATE);
   }
 
@@ -220,7 +220,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       schoolId: ''
     };
     
-    return new ClStudentCrudWrapper(emptyStudent);
+    return new ClStudentCrudWrapper(emptyStudent, this.hcclService);
   }
 
   // Getter methods for form binding
@@ -298,15 +298,15 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
    * @returns ClStudentCrudWrapper instance
    */
   public createWrapper(studentData: CLStudentGETData): ClStudentCrudWrapper {
-    return new ClStudentCrudWrapper(studentData);
+    return new ClStudentCrudWrapper(studentData, this.hcclService);
   }
 
 
 }
 
 export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
-  constructor(data: CLStudentGETData) {
-    super(data);
+  constructor(data: CLStudentGETData, hcclService?: HcclService) {
+    super(data, hcclService);
   }
 
   getDisplayText(): string {
@@ -353,11 +353,12 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
    * @returns Promise<string> The organization name
    */
   async getOrganizationName(): Promise<string> {
-    if (!this.hcclService) {
+    const service = this.getHcclService();
+    if (!service) {
       return '';
     }
     try {
-      const organization = await this.hcclService.getHcclOrganizationById(this.data.organizationId || '').toPromise();
+      const organization = await service.getHcclOrganizationById(this.data.organizationId || '').toPromise();
       return organization?.name || '';
     } catch (error) {
       console.error('Error fetching organization name:', error);
