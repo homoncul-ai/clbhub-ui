@@ -6,10 +6,11 @@ import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclOrganizationGETData, HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 
 @Component({
   selector: 'app-clstudent-crud',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent],
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
