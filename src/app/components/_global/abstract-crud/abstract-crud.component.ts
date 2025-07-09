@@ -60,8 +60,9 @@ export abstract class AbstractCrudComponent<T extends EntityWrapper<any>, R exte
     CRUD_MODES.DELETE,
     CRUD_MODES.SECTION,
     CRUD_MODES.HEADING,
-    CRUD_MODES.FK
-  ];
+    CRUD_MODES.FK,
+    CRUD_MODES.FK_MENU
+    ];
   protected currentMode: CrudModeType | null = null;
 
   public get isCreateMode(): boolean {

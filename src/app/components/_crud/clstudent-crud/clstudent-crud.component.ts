@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclOrganizationGETData, HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { CLStudentCriteria, CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclOrganizationCriteria, HcclOrganizationGETData, HcclService, HcclUserContextGETData, MenuControlDataList } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/menu-control-data-list/menu-control-data-list.component';
 
 @Component({
   selector: 'app-clstudent-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent],
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
@@ -32,6 +33,9 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
  */
   @Input() id?: string;
   @Input() modeName: string = 'detail' ;
+  @Input() criteria?: CLStudentCriteria = {
+    available: 1
+  };
 
   constructor() {
     super();
@@ -302,6 +306,28 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     return new ClStudentCrudWrapper(studentData, this.hcclService);
   }
 
+  getOrganizationFkMenuCriteria(): HcclOrganizationCriteria {
+    // School organization.
+    return {
+      available: 1
+    };
+  }
+
+  getOrganizationFkMenu(): MenuControlDataList | null {
+    // This method should return the organization menu data
+    // For now, return null - implement based on your business logic
+    return null;
+  }
+
+  onSchoolChange(selectedSchool: any): void {
+    // Handle school selection change
+    console.log('School selected:', selectedSchool);
+    // Implement your school change logic here
+    // For example, update the current entity's schoolId
+    if (selectedSchool && this.getCurrentEntity()) {
+      this.schoolId = selectedSchool.id || '';
+    }
+  }
 
 }
 
@@ -349,21 +375,11 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     return this.data.available === 1;
   }
 
-  /**
-   * Get organization name using the HcclService
-   * @returns Promise<string> The organization name
-   */
-  async getOrganizationName(): Promise<string> {
-    const service = this.getHcclService();
-    if (!service) {
-      return '';
-    }
-    try {
-      const organization = await service.getHcclOrganizationById(this.data.organizationId || '').toPromise();
-      return organization?.name || '';
-    } catch (error) {
-      console.error('Error fetching organization name:', error);
-      return '';
-    }
+  getFkMenuCriteria(): CLStudentCriteria {
+    return {
+      organizationId: this.data.organizationId || '',
+      available: 1
+    };
   }
+
 }
