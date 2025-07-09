@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { HcclService, SimpleMessageList } from '../../../restsvc/hccl.service';
@@ -30,6 +30,44 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
    * 
    * this will handle all the events of the subclass (after load, create, update, delete)
    */
+  
+  // Common input parameters for CRUD components
+  @Input() id?: string;
+  @Input() modeName: string = 'detail';
+
+  ngOnInit(): void {
+    // Enable CRUD operations
+    this.canCreate = false;
+    this.canEdit = true;
+    this.canDelete = false;
+
+    // Set the initial mode
+    this.setModeFromName(this.modeName);
+ 
+    // Load the entity if an ID is provided
+    if (this.id) {
+      this.loadEntityById(this.id).then(entity => {
+        this.entity = entity;
+        this.setModeFromName(this.modeName); // Show details of the loaded student
+      });
+    }
+  }
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Handle ID changes
+    if (changes['id'] && this.id) {
+      console.log('Loading student with ID:', this.id);
+      this.loadEntityById(this.id).then(entity => {
+        this.entity = entity;
+        this.switchToDetailMode(); // Show details of the loaded student
+      }).catch(error => {
+        console.error('Error loading student by ID:', error);
+        // Fallback is rerouting to route /advocate-dashboard/students
+        this.router.navigate(['/advocate-dashboard/students']);
+      });
+    }
+  }
 
   // Inject services using inject() function for standalone components
   protected hcclService = inject(HcclService);

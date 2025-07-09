@@ -31,44 +31,16 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
  * Create a wrapper class that extends EntityWrapper<CLStudentGETData>
  * and implement the abstract methods of the AbstractCrudComponent
  */
-  @Input() id?: string;
-  @Input() modeName: string = 'detail' ;
-  @Input() criteria?: CLStudentCriteria = {
-    available: 1
-  };
 
+  
   constructor() {
     super();
   }
-
-   ngOnInit(): void {
-    //  super.ngOnInit();
-    // Enable CRUD operations
-    this.canCreate = false;
-    this.canEdit = true;
-    this.canDelete = false;
-
-    this.setModeFromName(this.modeName);
- 
+     /** Standard boiler plate for ngOnInit */
+  override ngOnInit(): void {
+    super.ngOnInit();
   }
 
-  protected organizationMenu: MenuControlDataList | null = null;
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // Handle ID changes
-    if (changes['id'] && this.id) {
-      console.log('Loading student with ID:', this.id);
-      this.loadEntityById(this.id).then(entity => {
-        this.entity = entity;
-        this.switchToDetailMode(); // Show details of the loaded student
-      }).catch(error => {
-        console.error('Error loading student by ID:', error);
-        // Fallback is rerouting to route /advocate-dashboard/students
-        this.router.navigate(['/advocate-dashboard/students']);
-      });
-    }
-  }
 
   public getEntityType(): string {
     return 'CL Student';
@@ -188,8 +160,9 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     this.switchToEditMode();
   }
 
-  /** Set up all the menus for edit mode. */
-  protected override async prepareCreateMode(): Promise<void> {
+   /** Define the menu objects for this crud component */
+   protected organizationMenu: MenuControlDataList | null = null;
+   protected override async prepareCreateMode(): Promise<void> {
     const fkMenu = await this.entity?.getFkMenu();
     // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
     this.organizationMenu = fkMenu || null;
