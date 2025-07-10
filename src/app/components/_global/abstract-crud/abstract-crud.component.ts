@@ -225,7 +225,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     try {
       return await this.loadEntityByIdCall(id);
     } catch (error) {
-      console.error('Error loading CL student by ID:', error);
+      console.error('Error loading ' + this.getEntityType() + ' by ID:', error);
       throw error;
     }
   }
@@ -236,7 +236,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       const createdStudent = this.createEntityDataCall(entity)
       return createdStudent;
     } catch (error) {
-      console.error('Error creating CL student:', error);
+      console.error('Error creating  ' + this.getEntityType() + ' ', error);
       throw error;
     }
   }
@@ -247,7 +247,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       const updatedStudent = this.updateEntityDataCall(entity)
       return updatedStudent;
     } catch (error) {
-      console.error('Error updating CL student:', error);
+      console.error('Error updating  ' + this.getEntityType() + ' ', error);
       throw error;
     }
   }
