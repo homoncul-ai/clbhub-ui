@@ -46,21 +46,17 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     return 'CL Student';
   }
 
-  protected async loadEntityById(id: string): Promise<ClStudentCrudWrapper> {
-    try {
-      const student = await this.hcclService.getCLStudentById(id).toPromise();
+  protected async loadEntityByIdCall(id: string): Promise<ClStudentCrudWrapper> {
+    const student = await this.hcclService.getCLStudentById(id).toPromise();
       if (student) {
         return new ClStudentCrudWrapper(student, this.hcclService);
       }
       throw new Error('Student not found');
-    } catch (error) {
-      console.error('Error loading CL student by ID:', error);
-      throw error;
-    }
   }
+  
 
-  protected async createEntityData(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
-    try {
+
+  protected async createEntityDataCall(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
       // Use entityNew if in create mode, otherwise use the passed entity
       const studentData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
       
@@ -85,14 +81,10 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
         return new ClStudentCrudWrapper(createdStudent, this.hcclService);
       }
       throw new Error('Failed to create student');
-    } catch (error) {
-      console.error('Error creating CL student:', error);
-      throw error;
-    }
+     
   }
 
-  protected async updateEntityData(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
-    try {
+  protected async updateEntityDataCall(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
       const studentData = entity.getData();
       if (!studentData.id) {
         throw new Error('Student ID is required for update');
@@ -119,10 +111,6 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
         return new ClStudentCrudWrapper(updatedStudent, this.hcclService);
       }
       throw new Error('Failed to update student');
-    } catch (error) {
-      console.error('Error updating CL student:', error);
-      throw error;
-    }
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
@@ -135,65 +123,20 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     }
   }
 
- 
-
-  // Helper methods for component usage
-  public createNewStudent(): void {
-    const emptyStudent: CLStudentGETData = {
-      organizationId: '',
-      name: '',
-      businessCode: '',
-      available: 1,
-      firstName: '',
-      lastName: '',
-      schoolId: ''
-    };
-    this.entityNew = new ClStudentCrudWrapper(emptyStudent, this.hcclService);
-    this.setMode(this.CRUD_MODES.CREATE);
-  }
-
-  public editStudent(student?: ClStudentCrudWrapper): void {
-    if (student) {
-      this.entity = student;
-    }
-   
-    this.switchToEditMode();
-  }
 
    /** Define the menu objects for this crud component */
    protected organizationMenu: MenuControlDataList | null = null;
-   protected override async prepareCreateMode(): Promise<void> {
-    const fkMenu = await this.entity?.getFkMenu();
+   protected override async prepareMenus(entity: ClStudentCrudWrapper): Promise<void> {
+    
+    const fkMenu = await entity.getFkMenu();
     // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
     this.organizationMenu = fkMenu || null;
 
     return Promise.resolve();
   }
 
-  protected override async prepareEditMode(): Promise<void> {
-    const fkMenu = await this.entity?.getFkMenu();
-    // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
-    this.organizationMenu = fkMenu || null;
-
-    return Promise.resolve();
-  }
-
-
-  /**
-   * Get current entity with guaranteed result
-   * @returns ClStudentCrudWrapper instance, creates empty one if none exists
-   */
-  public getCurrentEntity(): ClStudentCrudWrapper {
-    // If in create mode, use entityNew
-    if (this.isCreateMode && this.entityNew) {
-      return this.entityNew;
-    }
-    
-    // Otherwise use the current entity
-    if (this.currentEntity) {
-      return this.currentEntity;
-    }
-    
+  
+  public override newEmptyWrapper(): ClStudentCrudWrapper {
     // Create an empty student if no current entity exists
     const emptyStudent: CLStudentGETData = {
       organizationId: '',
@@ -207,21 +150,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     
     return new ClStudentCrudWrapper(emptyStudent, this.hcclService);
   }
-
   // Getter methods for form binding
   public get firstName(): string {
     return this.getCurrentEntity().getData().firstName || '';
   }
 
   public set firstName(value: string) {
-    if (this.isCreateMode && this.entityNew) {
-      const data = this.entityNew.getData();
-      data.firstName = value;
-    } else {
-      const entity = this.getCurrentEntity();
-      const data = entity.getData();
-      data.firstName = value;
-    }
+    var data = super.getEntityForSet();
+    data.getData().firstName = value;
   }
 
   public get lastName(): string {
@@ -229,14 +165,8 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
   }
 
   public set lastName(value: string) {
-    if (this.isCreateMode && this.entityNew) {
-      const data = this.entityNew.getData();
-      data.lastName = value;
-    } else {
-      const entity = this.getCurrentEntity();
-      const data = entity.getData();
-      data.lastName = value;
-    }
+    var data = super.getEntityForSet();
+    data.getData().lastName = value;
   }
 
   public get userEmail(): string {
@@ -244,14 +174,8 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
   }
 
   public set userEmail(value: string) {
-    if (this.isCreateMode && this.entityNew) {
-      const data = this.entityNew.getData();
-      data.userEmail = value;
-    } else {
-      const entity = this.getCurrentEntity();
-      const data = entity.getData();
-      data.userEmail = value;
-    }
+    var data = super.getEntityForSet();
+    data.getData().userEmail = value;
   }
 
   public get schoolId(): string {
@@ -259,14 +183,8 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
   }
 
   public set schoolId(value: string) {
-    if (this.isCreateMode && this.entityNew) {
-      const data = this.entityNew.getData();
-      data.schoolId = value;
-    } else {
-      const entity = this.getCurrentEntity();
-      const data = entity.getData();
-      data.schoolId = value;
-    }
+    var data = super.getEntityForSet();
+    data.getData().schoolId = value;
   }
 
   /**

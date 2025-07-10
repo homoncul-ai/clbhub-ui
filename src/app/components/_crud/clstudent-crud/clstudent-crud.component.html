@@ -20,7 +20,7 @@
   <div class="crud-header">
     <h2>CL Students Management</h2>
     <div class="action-buttons">
-      <button *ngIf="canCreate" (click)="createNewStudent()" class="btn btn-primary">Create New Student</button>
+      <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New Student</button>
       <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
       <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
       <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
@@ -120,8 +120,6 @@
         <span>{{ getCurrentEntity().isActive() ? 'Active' : 'Inactive' }}</span>
       </div>
       <div class="detail-actions">
-        <button *ngIf="canEdit" (click)="editStudent(getCurrentEntity())" class="btn btn-primary">Edit</button>
-        <button (click)="switchToDetailMode()" class="btn btn-secondary">Back to List</button>
       </div>
     </div>
   </div>
