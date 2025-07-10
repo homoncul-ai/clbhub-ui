@@ -1,7 +1,7 @@
 import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { HcclService, SimpleMessageList } from '../../../restsvc/hccl.service';
+import { CLStudentPOSTData, HcclService, SimpleMessageList } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 
@@ -78,6 +78,26 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   // Properties
   protected entity: R | null = null;
   protected entityNew: R | null = null;
+  public abstract  newEmptyWrapper(): R ;
+  /**
+   * Get current entity with guaranteed result
+   * @returns ClStudentCrudWrapper instance, creates empty one if none exists
+   */
+  public getCurrentEntity(): R {
+    // If in create mode, use entityNew
+    if (this.isCreateMode && this.entityNew) {
+      return this.entityNew;
+    }
+    
+    // Otherwise use the current entity
+    if (this.currentEntity) {
+      return this.currentEntity;
+    }
+    
+    return this.newEmptyWrapper();
+  }
+  
+  
   protected loading: boolean = false;
   protected messages: SimpleMessageList = { messages: [] };
   protected success: boolean = false;
@@ -124,11 +144,20 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     return this.currentMode === CRUD_MODES.FK;
   }
   protected switchToCreateMode(): void {
+    if (!this.entityNew) {
+      this.entityNew = this.newEmptyWrapper();
+    }
     this.prepareCreateMode().then(() => {
       this.setMode(this.CRUD_MODES.CREATE);
     });
   }
+  protected  async prepareMenus(entity: R): Promise<void> {
+    return Promise.resolve();
+  }
+
   protected async prepareCreateMode(): Promise<void> {
+    var entity: R = this.entityNew || this.newEmptyWrapper();
+    await this.prepareMenus(entity);
     return Promise.resolve();
   }
   protected switchToEditMode(): void {
@@ -136,7 +165,22 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       this.setMode(this.CRUD_MODES.EDIT);
     });
   }
+
+
+  public getEntityForSet(): R {
+    var data: R;
+    if (this.isCreateMode && this.entityNew) {
+       data = this.entityNew;
+    } else {
+      const entity = this.getCurrentEntity();
+       data = entity;
+    }
+    return data;
+  }
+
   protected async prepareEditMode(): Promise<void> {
+    var entity: R = this.entity || this.newEmptyWrapper();
+    await this.prepareMenus(entity);
     return Promise.resolve();
   }
   protected switchToDeleteMode(): void {
@@ -176,9 +220,39 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   }
 
   // Abstract methods that subclasses must implement
-  protected abstract loadEntityById(id: string): Promise<R>;
-  protected abstract createEntityData(entity: R): Promise<R>;
-  protected abstract updateEntityData(entity: R): Promise<R>;
+ 
+  protected async loadEntityById(id: string): Promise<R> {
+    try {
+      return await this.loadEntityByIdCall(id);
+    } catch (error) {
+      console.error('Error loading CL student by ID:', error);
+      throw error;
+    }
+  }
+  protected abstract loadEntityByIdCall(id: string): Promise<R>;
+
+  protected  createEntityData(entity: R): Promise<R> {
+    try {
+      const createdStudent = this.createEntityDataCall(entity)
+      return createdStudent;
+    } catch (error) {
+      console.error('Error creating CL student:', error);
+      throw error;
+    }
+  }
+  protected abstract createEntityDataCall(entity: R): Promise<R>;
+  
+  protected  updateEntityData(entity: R): Promise<R> {
+    try {
+      const updatedStudent = this.updateEntityDataCall(entity)
+      return updatedStudent;
+    } catch (error) {
+      console.error('Error updating CL student:', error);
+      throw error;
+    }
+  }
+  protected abstract updateEntityDataCall(entity: R): Promise<R>;
+
   protected abstract deleteEntityData(id: string): Promise<boolean>;
 
   // Pre-operation handlers for validation and preparation
@@ -207,8 +281,14 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   // These are called immediately after the respective operation completes
   // Use these for custom business logic, UI updates, or other custom actions
   protected onAfterLoad(): void {}
-  protected onAfterCreate(): void {}
-  protected onAfterUpdate(): void {}
+  protected onAfterCreate(): void {
+    this.entityNew = null;
+
+  }
+  protected onAfterUpdate(): void {
+    this.entity = null;
+    this.switchToDetailMode
+  }
   protected onAfterDelete(): void {}
   protected onError(error: string): void {}
   
