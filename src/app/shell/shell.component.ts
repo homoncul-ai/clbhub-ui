@@ -21,8 +21,9 @@ import { MenuService, MenuItem } from './services/menu.service';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import { effect } from '@angular/core';
 import { AppConstants } from './services/config.service';
-import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { HcclUserContextGETData, MenuControlData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from './services/hccl-context.service';
+import { MenuControlDataListComponent } from '../components/menu-control-data-list/menu-control-data-list.component';
 
 declare const dhx: any; // DHTMLX global
 
@@ -86,6 +87,10 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   userDetails: any = null;
   loggedInUserInitials:any='';
   user: string = '';
+  
+  // User profile menu properties
+  userProfileMenu: any = null;
+  selectedUserProfile: MenuControlData | null = null;
 
   ngOnInit() {
     this.currentRoute = this._router.url;
@@ -103,6 +108,17 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userDetails = this.appConstants.userDetails();
     this.user = `${this.userDetails?.firstName} ${this.userDetails?.lastName}`;
     this.loggedInUserInitials = this.user.match(/\b(\w)/g)?.join('');
+
+    // Subscribe to HCCL context changes to update user profile menu
+    this.hcclContextService.initializeContext();
+    this.hcclContextService.waitForReady().then(() => { 
+    const context = this.hcclContextService.getContext();
+    //alert('User profile menu updated:' + JSON.stringify(context));
+    if (context) {
+      this.userProfileMenu = context.userProfileMenu;
+      console.log('User profile menu updated:', this.userProfileMenu + ' ' + context.currentUserProfileId);
+    }
+  });
 
     const onNavigationEnd = this._router.events.pipe(filter(event => event instanceof NavigationEnd));
     merge(this._translateService.onLangChange, onNavigationEnd)
@@ -214,5 +230,27 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public getTicketContext(): HcclUserContextGETData | null {
     return this.hcclContextService.getContext();
+  }
+
+  /**
+   * Handle user profile menu selection
+   */
+  onUserProfileChange(selectedProfile: MenuControlData | null): void {
+    this.selectedUserProfile = selectedProfile;
+    console.log('User profile changed to:', selectedProfile);
+    
+    if (selectedProfile) {
+      // Here you can add logic to handle the profile change
+      // For example, refresh the context with the new profile ID
+      this.hcclContextService.initializeContext(selectedProfile.id || '').subscribe({
+        next: (context) => {
+          console.log('Context refreshed with new profile:', context);
+          // Optionally refresh the current page or redirect
+        },
+        error: (error) => {
+          console.error('Failed to refresh context with new profile:', error);
+        }
+      });
+    }
   }
 }

@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
 import { ShellComponent } from './shell.component';
 
 import { FormsModule } from '@angular/forms';
-import { SidebarComponent } from '@app/shell/components/sidebar/sidebar.component';
-import { HeaderComponent } from '@app/shell/components/header/header.component';
 import { PagesModule } from '@pages/pages.module';
 import { LanguageSelectorComponent } from '@app/i18n';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,6 +26,7 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { MdbTreeviewModule } from 'mdb-angular-treeview';
 import { GravatarModule } from 'ngx-gravatar';
+import { MenuControlDataListComponent } from '../components/menu-control-data-list/menu-control-data-list.component';
 
 @NgModule({
   imports: [
@@ -35,8 +34,6 @@ import { GravatarModule } from 'ngx-gravatar';
     RouterModule,
     TranslateModule,
     FormsModule,
-    PagesModule,
-    LanguageSelectorComponent,
     BrowserAnimationsModule,
     MdbSmoothScrollModule,
     MdbRippleModule,
@@ -54,10 +51,11 @@ import { GravatarModule } from 'ngx-gravatar';
     MdbCollapseModule,
     MdbAccordionModule,
     MdbTreeviewModule,
-    GravatarModule
+    GravatarModule,
+    MenuControlDataListComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [ShellComponent, HeaderComponent, SidebarComponent],
+  declarations: [ShellComponent],
   exports: [ShellComponent]
 })
 export class ShellModule {}

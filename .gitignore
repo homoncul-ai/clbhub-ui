@@ -54,3 +54,7 @@ Thumbs.db
 *~
 *#
 .#*
+.mtj.tmp/
+.classpath
+.settings/
+.project
