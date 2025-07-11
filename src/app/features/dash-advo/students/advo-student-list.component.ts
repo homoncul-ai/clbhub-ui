@@ -153,7 +153,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   }
 
   private createTicketForUser(userProfileId: string) {
-    alert('Creating ticket for user profile:' + userProfileId);
+    //alert('Creating ticket for user profile:' + userProfileId);
     
     // Get the current user profile ID from context
     const userContext = this.getUserContext();

@@ -57,6 +57,7 @@ export class NewWorkRequestComponent implements OnInit {
   ngOnInit(): void {
     this.hcclContextService.waitForReady() .then(() => {  
       var hcclContext: HcclUserContextGETData = this.hcclContextService.getContext();
+      //alert('NewWorkRequestComponent hcclContext:' + hcclContext.currentUserProfileId);
       if (hcclContext && hcclContext.currentUserProfileId) {
       this.loadSetupData(hcclContext.currentUserProfileId);
     } else {
@@ -69,6 +70,7 @@ export class NewWorkRequestComponent implements OnInit {
 
   private loadSetupData(advocateUserProfileId: string): void {
     // Create initial data with the resolved advocateUserProfileId
+     
     const initialData: CreateTicketPOSTData = {
       advocateUserProfileId: advocateUserProfileId,
       studentUserProfileId: this.clientUserProfileId,
@@ -117,7 +119,8 @@ export class NewWorkRequestComponent implements OnInit {
     if (this.clientUserProfileId) {
       this.formData.studentUserProfileId = this.clientUserProfileId;
     }
-
+    this.formData.advocateUserProfileId = this.hcclContextService.getContext().currentUserProfileId;
+    console.log('creatTicket formData:' + this.formData);
     this.hcclService.createTicket(this.formData).subscribe({
       next: (result: WorkRequestGETData) => {
         this.loading = false;
