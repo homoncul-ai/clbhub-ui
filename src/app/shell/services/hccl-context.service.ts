@@ -44,7 +44,7 @@ export class HcclContextService {
 
   constructor() {
     // Log service initialization
-    this.logger.info('HcclContextService initialized');
+    this.initializeContext();
   }
 
   /**
