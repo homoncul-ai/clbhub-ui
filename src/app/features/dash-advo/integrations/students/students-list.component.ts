@@ -150,7 +150,7 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       // Add row click event listener
       this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
         console.log('Cell clicked:', row, col);
-        alert('Cell clicked:' + row.id);
+       // alert('Cell clicked:' + row.id + ' ' + col.id);
         // Don't trigger on checkbox column or if no row data
         if (col && col.id !== 'select' && row && row.id) {
           console.log('Calling onRowClick with studentId:', row.id);
@@ -172,7 +172,7 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
    * @param studentId The ID of the clicked student
    */
   public onRowClick(studentId: string): void {
-    console.log('onRowClick called with studentId:', studentId); 
+    console.log('onRowClick1 called with studentId:', studentId); 
     this.router.navigate(['/advocate-dashboard/integrations/students', studentId, 'details']);
   }
  
@@ -266,22 +266,23 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
   }
 
   public onGoClick() {
-    if (this.grid) {
-      // DHTMLX Suite 8: get checked rows by 'select' column (checkbox)
-      // The checked state is stored in the 'select' property of each row
-      const allData = this.grid.data.serialize();
-      const checkedRows = allData.filter((row: any) => row.select === true);
-      console.log('Checked rows:', checkedRows);
+    alert('onGoClick called');
+    // if (this.grid) {
+    //   // DHTMLX Suite 8: get checked rows by 'select' column (checkbox)
+    //   // The checked state is stored in the 'select' property of each row
+    //   const allData = this.grid.data.serialize();
+    //   const checkedRows = allData.filter((row: any) => row.select === true);
+    //   console.log('Checked rows:', checkedRows);
       
-      if (checkedRows.length > 0) {
-        // Route to the first selected student's details
-        const firstStudent = checkedRows[0];
-        const studentId = firstStudent.businessCode || firstStudent.id;
-        this.router.navigate(['/advocate-dashboard/integrations/students', studentId, 'details']);
-      } else {
-        alert('No students selected');
-      }
-    }
+    //   if (checkedRows.length > 0) {
+    //     // Route to the first selected student's details
+    //     const firstStudent = checkedRows[0];
+    //     const studentId = firstStudent.businessCode || firstStudent.id;
+    //     this.router.navigate(['/advocate-dashboard/integrations/students', studentId, 'details']);
+    //   } else {
+    //     alert('No students selected');
+    //   }
+    // }
   }
 
   public onPromoteStudents() {
@@ -297,8 +298,23 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
       const studentIds = checkedRows.map((row: any) => row.id);
       console.log('Promoting students:', studentIds);
 
+
       // TODO: Implement promotion logic
-      alert(`Promoting ${checkedRows.length} student(s)`);
+      //alert(`Promoting ${checkedRows.length} student(s)` + ' ' + studentIds.join(', '));
+      var criteria: CLStudentCriteria = {
+        ids: studentIds,
+        pageNumber: 1,
+        pageSize: 50,
+        isPaging: true
+      };
+      this.hcclService.promoteStudentsToUsers(criteria).subscribe({
+        next: (response: SimpleRestActionResponse) => {
+          alert('Promotion successful');
+        },
+        error: (error: any) => {
+          alert('Promotion failed');
+        }
+      });
     }
   }
 
