@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HcclService } from '../../restsvc/hccl.service';
@@ -50,13 +50,19 @@ export class NewWorkRequestComponent implements OnInit {
   selectedWorkRequestType: MenuControlData | null = null;
   selectedWorkQueue: MenuControlData | null = null;
 
-  constructor(
-    private hcclService: HcclService,
-    private hcclContextService: HcclContextService
-  ) {}
+  private hcclService = inject(HcclService);
+  private hcclContextService = inject(HcclContextService);
+  constructor() {}
 
   ngOnInit(): void {
-   
+    this.hcclContextService.waitForReady() .then(() => {  
+      var hcclContext: HcclUserContextGETData = this.hcclContextService.getContext();
+      if (hcclContext && hcclContext.currentUserProfileId) {
+      this.loadSetupData(hcclContext.currentUserProfileId);
+    } else {
+      alert('NewWorkRequestComponent No user context found');
+    }
+  });
   }
 
    
@@ -79,6 +85,7 @@ export class NewWorkRequestComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading setup data:', error);
+        alert('Error loading setup data:' + error.message);
         this.errorMessage = 'Failed to load form setup data. Please try again.';
         this.loading = false;
       }
