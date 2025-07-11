@@ -54,9 +54,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private appConstants: AppConstants,
     private hcclContextService: HcclContextService
   ) {
-    // Check if Keycloak is already ready
-    this.checkKeycloakAndInitialize();
-   
     // Listen to Route Changes
     this._router.events
       .pipe(filter(event => event instanceof NavigationEnd), untilDestroyed(this))
@@ -89,32 +86,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   userDetails: any = null;
   loggedInUserInitials:any='';
   user: string = '';
-  private checkKeycloakAndInitialize(): void {
-    // Check if Keycloak is already logged in
-    if (this.appConstants.isLoggedIn()) {
-      // Initialize HCCL context immediately
-      this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
-        console.log('Ticket Context:', ticketContext);
-        // Don't redirect - let the user stay on their current route
-      });
-    } else {
-      // Wait for Keycloak to be ready by checking periodically
-      const checkInterval = setInterval(() => {
-        if (this.appConstants.isLoggedIn()) {
-          clearInterval(checkInterval);
-          this.hcclContextService.initializeContext('').subscribe((ticketContext: HcclUserContextGETData) => {
-            console.log('Ticket Context:', ticketContext);
-            // Don't redirect - let the user stay on their current route
-          });
-        }
-      }, 100);
-
-      // Clear interval after 10 seconds to prevent infinite checking
-      setTimeout(() => {
-        clearInterval(checkInterval);
-      }, 10000);
-    }
-  }
 
   ngOnInit() {
     this.currentRoute = this._router.url;
