@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Setup Keycloak event listener
     effect(() => {
       const keycloakEvent = this.keycloakSignal();
-      if (keycloakEvent.type === KeycloakEventType.Ready) {
+      if (true || keycloakEvent.type === KeycloakEventType.Ready ) {
         console.log('Keycloak is ready - initializing HCCL context');
         this.initializeHcclContextAndRedirect();
       }
@@ -50,8 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Initialize HCCL context after Keycloak authentication and redirect to first menu item
    */
   private initializeHcclContextAndRedirect(): void {
-    console.log('Starting HCCL context initialization and redirect process');
-    
+    console.log('Starting HCCL context initialization and redirect process ');
     this._hcclContextService.initializeContext('').subscribe({
       next: (context) => {
         console.log('HCCL context loaded successfully:', context);
