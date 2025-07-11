@@ -85,18 +85,18 @@ export class MenuService {
     // Add Dashboard with children
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_DASHBOARD);
     this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_QUEUES));
-    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_MESSAGES));
+//    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_MESSAGES));
     this.addMenuItem(menu, dashboard);
     
     // Add Students with children
     const students = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_STUDENTS);
-    this.addChildMenuItem(students, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_STUDENT_DETAILS));
+//    this.addChildMenuItem(students, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_STUDENT_DETAILS));
     this.addMenuItem(menu, students);
     
     // Add Tickets with children
-    const tickets = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_TICKETS);
-    this.addChildMenuItem(tickets, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_CREATE_TICKET));
-    this.addMenuItem(menu, tickets);
+    // const tickets = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_TICKETS);
+    // this.addChildMenuItem(tickets, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_CREATE_TICKET));
+    // this.addMenuItem(menu, tickets);
     
     // Add Integrations with children
     const integrations = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_INTEGRATIONS);
