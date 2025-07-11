@@ -187,14 +187,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     data.getData().schoolId = value;
   }
 
-  /**
-   * Get user context from the service
-   * @returns HcclUserContextGETData
-   */
-  public getUserContext(): HcclUserContextGETData {
-    return this.hcclContextService.getContext();
-  }
-
+ 
   /**
    * Create a wrapper from CLStudentGETData
    * @param studentData The CLStudentGETData to wrap
@@ -230,6 +223,14 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 }
 
 export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
+
+  public static async newInstance(id: string, hcclService: HcclService): Promise<ClStudentCrudWrapper> {
+    const student = await hcclService.getCLStudentById(id).toPromise();
+    if (student) {
+      return new ClStudentCrudWrapper(student, hcclService);
+    }
+    throw new Error('Student not found');
+  }
   constructor(data: CLStudentGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }

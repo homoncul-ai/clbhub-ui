@@ -1,7 +1,7 @@
 import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { CLStudentPOSTData, HcclService, SimpleMessageList } from '../../../restsvc/hccl.service';
+import { CLStudentPOSTData, HcclService, HcclUserContextGETData, SimpleMessageList } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 
@@ -529,5 +529,5 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   public get currentEntity(): R | null {
     return this.entity;
   }
-
+ 
 }
