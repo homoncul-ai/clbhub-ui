@@ -1,0 +1,27 @@
+.available-selector {
+  .form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    
+    .form-check-input {
+      margin-right: 0.5rem;
+      cursor: pointer;
+      
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+    
+    .form-check-label {
+      cursor: pointer;
+      user-select: none;
+      
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+  }
+}

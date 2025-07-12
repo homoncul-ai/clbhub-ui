@@ -1,0 +1,16 @@
+<div class="available-selector">
+  <div class="form-check">
+    <input 
+      type="checkbox" 
+      class="form-check-input" 
+      [id]="uniqueId"
+      [checked]="isChecked"
+      [disabled]="disabled"
+      (change)="onCheckboxChange($event)">
+    <label 
+      class="form-check-label" 
+      [for]="uniqueId">
+      {{ label }}
+    </label>
+  </div>
+</div>
