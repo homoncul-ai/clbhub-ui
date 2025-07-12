@@ -110,8 +110,8 @@
       <div class="detail-group">
         <label>School ID:</label>
         <span>{{ getCurrentEntity().getSchoolId() }}
-          <app-hccl-organization-crud [id]="getCurrentEntity().getSchoolId()" 
-          [modeName]="CRUD_MODES.FK"></app-hccl-organization-crud>
+          <app-clschool-crud [id]="this.getCurrentEntity().getSchoolId()" 
+          [modeName]="CRUD_MODES.FK"></app-clschool-crud>
 
         </span>
       </div>

@@ -80,7 +80,8 @@ const routes: Routes = [
     CLStudentsListComponent,
     CLGuidanceListComponent,
     ClstudentCrudComponent,
-    CLStudentGroupComponent
+    CLStudentGroupComponent,
+    ClschoolGroupComponent
   ],
   declarations: [
     // Non-standalone components would go here

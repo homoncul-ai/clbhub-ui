@@ -18,7 +18,9 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hccl-organi
 export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWrapper> implements OnInit, OnChanges {
   constructor() { super(); }
 
-  override ngOnInit(): void { super.ngOnInit(); }
+  override ngOnInit(): void { 
+    super.ngOnInit(); 
+  }
 
   public getEntityType(): string { return 'CL School'; }
 

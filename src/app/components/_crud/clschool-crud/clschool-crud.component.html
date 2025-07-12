@@ -42,7 +42,9 @@
       </div>
       <div class="form-group">
         <label>Organization:</label>
+        <div> {{ getCurrentEntity().getOrganizationId() }}
         <app-hccl-organization-crud [modeName]="CRUD_MODES.FK" id="getCurrentEntity().getOrganizationId()"></app-hccl-organization-crud>
+      </div>
       </div>
       <div class="form-group">
         <label>District Code:</label>
@@ -70,7 +72,7 @@
       </div>
       <div class="form-group">
         <label>Organization:</label>
-        <app-hccl-organization-crud [modeName]="CRUD_MODES.FK"></app-hccl-organization-crud>
+        <app-hccl-organization-crud [modeName]="CRUD_MODES.FK" [id]="getCurrentEntity().getOrganizationId()"></app-hccl-organization-crud>
       </div>
       <div class="form-group">
         <label>District Code:</label>

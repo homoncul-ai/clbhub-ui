@@ -154,7 +154,7 @@ export class CLStudentsListComponent implements OnInit, AfterViewInit {
         // Don't trigger on checkbox column or if no row data
         if (col && col.id !== 'select' && row && row.id) {
           console.log('Calling onRowClick with studentId:', row.id);
-          alert('Calling onRowClick with studentId:' + row.id);
+          //alert('Calling onRowClick with studentId:' + row.id);
           this.onRowClick(row.id);
         }
       });

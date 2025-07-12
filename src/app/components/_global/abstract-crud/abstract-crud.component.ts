@@ -46,7 +46,8 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     this.setModeFromName(this.modeName);
  
     // Load the entity if an ID is provided
-    //debugger
+    if (!this.id){alert(this.getEntityType() + ' CrudComponent :  No ID provided');}
+
     if (this.id) {
       this.loadEntityById(this.id).then(entity => {
         this.entity = entity;
