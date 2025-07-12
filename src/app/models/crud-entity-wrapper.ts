@@ -72,4 +72,8 @@ export abstract class EntityWrapper<T extends { id?: string }> {
             menuItems: menuItems,
         };
     }
+
+    public dump(): string {
+        return JSON.stringify(this.data, null, 2);
+    }
 }

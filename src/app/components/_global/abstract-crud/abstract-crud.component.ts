@@ -107,7 +107,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       return this.newEmptyWrapper();
     }
     
-    // alert(this.getEntityType() + " No entity found " + this.id);
+    //alert(this.getEntityType() + " No entity found id=" + this.id);
     return this.newEmptyWrapper();
   }
   
@@ -550,5 +550,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   public get currentEntity(): R | null {
     return this.entity;
   }
-
+  public dump(): string {
+    return JSON.stringify(this.entity, null, 2);
+  }
 }

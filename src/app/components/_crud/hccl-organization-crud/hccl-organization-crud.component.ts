@@ -74,13 +74,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
   }
 
   public override newEmptyWrapper(): HcclOrganizationCrudWrapper {
-    const empty: HcclOrganizationGETData = {
-      name: '',
-      businessCode: '',
-      description: '',
-      available: 1
-    };
-    return new HcclOrganizationCrudWrapper(empty, this.hcclService);
+    return this.createWrapper(HcclOrganizationCrudWrapper.newEmpty());
   }
 
   public createWrapper(data: HcclOrganizationGETData): HcclOrganizationCrudWrapper {
@@ -122,8 +116,46 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
   constructor(data: HcclOrganizationGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }
+
+  public static async newInstance(id: string, hcclService: HcclService): Promise<HcclOrganizationCrudWrapper> {
+    const organization: HcclOrganizationGETData | undefined = id && id.length > 0 ? await hcclService.getHcclOrganizationById(id).toPromise() : undefined;
+    if (!organization) {
+      return new HcclOrganizationCrudWrapper(HcclOrganizationCrudWrapper.newEmpty(), hcclService);
+    }
+    return new HcclOrganizationCrudWrapper(organization, hcclService);
+  }
+
+  public static newEmpty() : HcclOrganizationGETData {
+      return {
+      name: '',
+      businessCode: '',
+      description: '',
+      available: 1
+    };
+  }
+
   getDisplayText(entity?: HcclOrganizationGETData): string {
     const d = entity || this.data;
     return d.name || d.businessCode || 'Unnamed Organization';
   }
+
+  getFkMenuCriteria(): HcclOrganizationCriteria {
+    return {
+      available: 1
+    };
+  }
+  async getOrganizations(criteria?: HcclOrganizationCriteria): Promise<HcclOrganizationGETData[]> {
+    if (!criteria) {
+      criteria = this.getFkMenuCriteria();
+    }
+    const organizations = await this.hcclService?.findHcclOrganizations(criteria).toPromise();
+    return organizations?.searchResults || [];
+  }
+
+  async getFkMenu(): Promise<MenuControlDataList> {
+    const organizations = await this.getOrganizations();
+    const id = this.getId();
+    return this.getMenuControlDataList('organizations', 'Organizations', organizations, id);
+  }
+
 }

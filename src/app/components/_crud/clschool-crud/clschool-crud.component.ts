@@ -7,7 +7,7 @@ import { CLSchoolGETData, CLSchoolPOSTData, CLSchoolPUTData, CLSchoolCriteria, H
 import { CRUD_MODES } from '@app/@core/constants';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
-import { HcclOrganizationCrudComponent } from '@app/components/_crud/hccl-organization-crud/hccl-organization-crud.component';
+import { HcclOrganizationCrudComponent, HcclOrganizationCrudWrapper } from '@app/components/_crud/hccl-organization-crud/hccl-organization-crud.component';
 
 @Component({
   selector: 'app-clschool-crud',
@@ -89,12 +89,6 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
     return new CLSchoolCrudWrapper(data, this.hcclService);
   }
 
-  protected organizationMenu: MenuControlDataList | null = null;
-  protected override async prepareMenus(entity: CLSchoolCrudWrapper): Promise<void> {
-    this.organizationMenu = null;
-    return Promise.resolve();
-  }
-
   public get name(): string { return this.getCurrentEntity().getData().name || ''; }
   public set name(value: string) { this.getEntityForSet().getData().name = value; }
 
@@ -131,9 +125,33 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
       this.organizationId = selectedOrganization.id || '';
     }
   }
+
+
+   /** Define the menu objects for this crud component */
+   protected organizationMenu: MenuControlDataList | null = null;
+   protected override async prepareMenus(entity: CLSchoolCrudWrapper): Promise<void> {
+    debugger
+    var organizationWrapper = await HcclOrganizationCrudWrapper.newInstance(entity.getOrganizationId(), this.hcclService);
+    const fkMenu = await organizationWrapper.getFkMenu();
+    // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
+    this.organizationMenu = fkMenu || null;
+
+ 
+    return Promise.resolve();
+  }
+
 }
 
 export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
+
+  public static async newInstance(id: string, hcclService: HcclService): Promise<CLSchoolCrudWrapper> {
+    const school = await hcclService.getCLSchoolById(id).toPromise();
+    if (school) {
+      return new CLSchoolCrudWrapper(school, hcclService);
+    }
+    throw new Error('Student not found');
+  }
+
   constructor(data: CLSchoolGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }
@@ -188,7 +206,8 @@ export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
     return searchResults?.searchResults || [];
   }
 
-  async getFkMenu(): Promise<MenuControlDataList | null> {
-    return null;
+  async getFkMenu(): Promise<MenuControlDataList> {
+    const schools = await this.getSchools();
+    return this.getMenuControlDataList('schools', 'Schools', schools);
   }
 }

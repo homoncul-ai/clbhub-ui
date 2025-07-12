@@ -9,7 +9,7 @@ import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { HcclOrganizationCrudComponent } from '@app/components/_crud/hccl-organization-crud/hccl-organization-crud.component';
-import { ClschoolCrudComponent } from '@app/components/_crud/clschool-crud/clschool-crud.component';
+import { ClschoolCrudComponent, CLSchoolCrudWrapper } from '@app/components/_crud/clschool-crud/clschool-crud.component';
 @Component({
   selector: 'app-clstudent-crud',
   imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, HcclOrganizationCrudComponent, ClschoolCrudComponent],
@@ -125,17 +125,6 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
   }
 
 
-   /** Define the menu objects for this crud component */
-   protected organizationMenu: MenuControlDataList | null = null;
-   protected override async prepareMenus(entity: ClStudentCrudWrapper): Promise<void> {
-    
-    const fkMenu = await entity.getFkMenu();
-    // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
-    this.organizationMenu = fkMenu || null;
-
-    return Promise.resolve();
-  }
-
   
   public override newEmptyWrapper(): ClStudentCrudWrapper {
     // Create an empty student if no current entity exists
@@ -221,6 +210,24 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
     }
   }
 
+
+
+   /** Define the menu objects for this crud component */
+   protected organizationMenu: MenuControlDataList | null = null;
+   protected schoolMenu: MenuControlDataList | null = null;
+   protected override async prepareMenus(entity: ClStudentCrudWrapper): Promise<void> {
+    
+    const fkMenu = await entity.getFkMenu();
+    // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
+    this.organizationMenu = fkMenu || null;
+
+
+    var schoolWrapper = await CLSchoolCrudWrapper.newInstance(entity.getSchoolId(), this.hcclService);
+    this.schoolMenu = await schoolWrapper.getFkMenu();
+    return Promise.resolve();
+  }
+
+
 }
 
 export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
@@ -294,4 +301,5 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     const students = await this.getStudents();
     return this.getMenuControlDataList('students', 'Students', students);
   }
+
 }
