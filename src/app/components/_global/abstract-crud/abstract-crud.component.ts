@@ -46,7 +46,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     this.setModeFromName(this.modeName);
  
     // Load the entity if an ID is provided
-    if (!this.id){alert("mode name: " + this.modeName + " " + this.getEntityType() + ' CrudComponent :  No ID provided');}
+    //if (!this.id){alert("mode name: " + this.modeName + " " + this.getEntityType() + ' CrudComponent :  No ID provided');}
 
     if (this.id) {
       this.loadEntityById(this.id).then(entity => {
@@ -107,7 +107,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       return this.newEmptyWrapper();
     }
     
-    alert(this.getEntityType() + " No entity found " + this.id);
+    // alert(this.getEntityType() + " No entity found " + this.id);
     return this.newEmptyWrapper();
   }
   
