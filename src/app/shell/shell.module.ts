@@ -26,7 +26,7 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { MdbTreeviewModule } from 'mdb-angular-treeview';
 import { GravatarModule } from 'ngx-gravatar';
-import { MenuControlDataListComponent } from '../components/menu-control-data-list/menu-control-data-list.component';
+import { MenuControlDataListComponent } from '../components/_global/menu-control-data-list/menu-control-data-list.component';
 
 @NgModule({
   imports: [

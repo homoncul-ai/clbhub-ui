@@ -7,7 +7,7 @@ import { CLStudentCriteria, CLStudentGETData, CLStudentPOSTData, CLStudentPUTDat
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
-import { MenuControlDataListComponent } from '@app/components/menu-control-data-list/menu-control-data-list.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 
 @Component({
   selector: 'app-clstudent-crud',

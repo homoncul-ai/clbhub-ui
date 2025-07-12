@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuControlDataList, MenuControlData } from '../../restsvc/hccl.service';
+import { MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-menu-control-data-list',

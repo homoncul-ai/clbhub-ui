@@ -10,7 +10,7 @@ import {
   MenuControlData,
   HcclUserContextGETData
 } from '../../restsvc/hccl.service';
-import { MenuControlDataListComponent } from '../menu-control-data-list/menu-control-data-list.component';
+import { MenuControlDataListComponent } from '../_global/menu-control-data-list/menu-control-data-list.component';
 import { HcclUserProfileDetailsComponent } from '../hccl-user-profile-details/hccl-user-profile-details.component';
 
 // //

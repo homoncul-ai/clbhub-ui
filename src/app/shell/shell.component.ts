@@ -23,7 +23,7 @@ import { effect } from '@angular/core';
 import { AppConstants } from './services/config.service';
 import { HcclUserContextGETData, MenuControlData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from './services/hccl-context.service';
-import { MenuControlDataListComponent } from '../components/menu-control-data-list/menu-control-data-list.component';
+import { MenuControlDataListComponent } from '../components/_global/menu-control-data-list/menu-control-data-list.component';
 
 declare const dhx: any; // DHTMLX global
 
