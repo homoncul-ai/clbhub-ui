@@ -1,0 +1,8 @@
+
+- any time we have a property named 'available' - use the 'available-selector' for input
+- any time we have a property with a form '[entityName]id' (not the property 'id') this is a 
+  foreign key property.  Look for a component of type "app-[entityName]-crud" and use that for
+   - 'details' - <app-[entityName]-crud mode='fk' id='[entityName]id' >
+   - 'create','edit'  - <app-[entityName]-crud mode='menu' id='[entityName]id' parentEntity='caller-entityName' callback=setProperty(>
+   -  
+  

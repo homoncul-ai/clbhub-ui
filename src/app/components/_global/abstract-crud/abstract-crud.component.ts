@@ -34,6 +34,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   // Common input parameters for CRUD components
   @Input() id?: string;
   @Input() modeName: string = 'detail';
+  @Input() menuCreationHint?: string = '';
 
   ngOnInit(): void {
     // Enable CRUD operations
@@ -45,6 +46,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     this.setModeFromName(this.modeName);
  
     // Load the entity if an ID is provided
+    //debugger
     if (this.id) {
       this.loadEntityById(this.id).then(entity => {
         this.entity = entity;
@@ -166,6 +168,13 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     });
   }
 
+  // create a method that 
+  protected setEntityProperty(property: string, value: any): void {
+    var entity: R = this.getEntityForSet();
+    if (entity) {
+      entity[property] = value;
+    }
+  }
 
   public getEntityForSet(): R {
     var data: R;
@@ -529,5 +538,5 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   public get currentEntity(): R | null {
     return this.entity;
   }
- 
+
 }

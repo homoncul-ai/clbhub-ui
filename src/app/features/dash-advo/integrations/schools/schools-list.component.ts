@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { HcclService } from '../../../../restsvc/hccl.service';
 import { CLSchoolGETData, CLSchoolCriteria, CLSchoolGETDataSearchResults } from '../../../../restsvc/hccl.service';
 
@@ -21,7 +22,8 @@ export class CLSchoolsListComponent implements OnInit, AfterViewInit {
   private isDhtmlxLoaded = false;
 
   constructor(
-    private hcclService: HcclService
+    private hcclService: HcclService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -110,6 +112,18 @@ export class CLSchoolsListComponent implements OnInit, AfterViewInit {
         // The grid's internal data is already updated by the drop action.
       });
 
+      // Add row click event listener
+      this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
+        console.log('Cell clicked:', row, col);
+       // alert('Cell clicked:' + row.id + ' ' + col.id);
+        // Don't trigger on checkbox column or if no row data
+        if (col && col.id !== 'select' && row && row.id) {
+          console.log('Calling onRowClick with schoolId:', row.id);
+          alert('Calling onRowClick with schoolId:' + row.id);
+          this.onRowClick(row.id);
+        }
+      });
+
       // Load initial data
       this.loadSchoolData();
 
@@ -187,5 +201,14 @@ export class CLSchoolsListComponent implements OnInit, AfterViewInit {
   public onSyncSchools() {
     // TODO: Implement sync functionality
     console.log('Sync schools clicked');
+  }
+
+  /**
+   * Handle row click to show school details
+   * @param schoolId The ID of the clicked school
+   */
+  public onRowClick(schoolId: string): void {
+    console.log('onRowClick1 called with schoolId:', schoolId); 
+    this.router.navigate(['/advocate-dashboard/integrations/schools', schoolId, 'details']);
   }
 } 

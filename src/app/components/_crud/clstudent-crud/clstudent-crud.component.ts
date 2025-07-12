@@ -8,10 +8,11 @@ import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { HcclOrganizationCrudComponent } from '@app/components/_crud/hccl-organization-crud/hccl-organization-crud.component';
 
 @Component({
   selector: 'app-clstudent-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, HcclOrganizationCrudComponent],
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })

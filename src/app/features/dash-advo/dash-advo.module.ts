@@ -24,6 +24,7 @@ import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.c
 // CRUD Components
 import { ClstudentCrudComponent } from '../../components/_crud/clstudent-crud/clstudent-crud.component';
 import { CLStudentGroupComponent } from './integrations/clstudent-group/clstudent-group.component';
+import { ClschoolGroupComponent } from './integrations/clschool-group/clschool-group.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,8 @@ const routes: Routes = [
         path: 'integrations', 
         component: IntegrationsHomeComponent,
         children: [
+          { path: 'schools/:id/:tabId', component: ClschoolGroupComponent },
+          { path: 'schools/:id', redirectTo: 'schools/:id/details', pathMatch: 'full' },
           { path: 'schools', component: CLSchoolsListComponent },
           { path: 'students/:id/:tabId', component: CLStudentGroupComponent },
           { path: 'students/:id', redirectTo: 'students/:id/details', pathMatch: 'full' },

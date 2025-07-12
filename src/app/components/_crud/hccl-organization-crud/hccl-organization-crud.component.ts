@@ -1,30 +1,129 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { HcclOrganizationGETData, HcclOrganizationPOSTData, HcclOrganizationPUTData, HcclService, HcclOrganizationCriteria, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 
 @Component({
   selector: 'app-hccl-organization-crud',
-  imports: [],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent],
   templateUrl: './hccl-organization-crud.component.html',
   styleUrl: './hccl-organization-crud.component.scss'
 })
-export class HcclOrganizationCrudComponent {
-/**
- * This is a component that will be used to create, read, update and delete HccpOrganization
- * It will use the AbstractCrudComponent to handle the CRUD operations
- * It will use the HccpOrganizationGETData and HccpOrganizationPOSTData interfaces to handle the data
- * It will use the HcclService to handle the data
- * 
- * Input parameter:
- * - id?: string - Optional organization ID to load a specific organization for viewing/editing
- * 
- * If no ID is provided, the component will load the full list of organizations.
- * If an ID is provided, the component will load that specific organization and show it in detail mode.
- * 
- * Create a wrapper class that extends EntityWrapper<HccpOrganizationGETData>
- * and implement the abstract methods of the AbstractCrudComponent
- * 
- * Create corresponding template sections for each mode that's in CRUD_MODES
- * 
- * for any UUID, in the data section, use the 'crud' component using the 'fk' mode.
- * editing any UUID, use the 'crud' component using the 'fk-menu' mode.
- */
+export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrganizationCrudWrapper> implements OnInit, OnChanges {
+  constructor() { super(); }
+
+  override ngOnInit(): void { super.ngOnInit(); }
+
+  public getEntityType(): string { return 'HCCL Organization'; }
+
+  protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
+    debugger
+    const org = await this.hcclService.getHcclOrganizationById(id).toPromise();
+    if (org) return new HcclOrganizationCrudWrapper(org, this.hcclService);
+    throw new Error('Organization not found');
+  }
+
+  protected async createEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<HcclOrganizationCrudWrapper> {
+    const data = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
+    const postData: HcclOrganizationPOSTData = {
+      name: data.name || '',
+      businessCode: data.businessCode || '',
+      description: data.description || '',
+      available: data.available || 1,
+      jsonData: data.jsonData,
+      websiteUrl: data.websiteUrl,
+      organizationTypeId: data.organizationTypeId || '',
+      parentEntityId: data.parentEntityId,
+      parentEntityEntityType: data.parentEntityEntityType,
+      parentEntityName: data.parentEntityName,
+      organizationTypeCode: data.organizationTypeId || ''
+    };
+    const created = await this.hcclService.createHcclOrganization(postData).toPromise();
+    if (created) return new HcclOrganizationCrudWrapper(created, this.hcclService);
+    throw new Error('Failed to create organization');
+  }
+
+  protected async updateEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<HcclOrganizationCrudWrapper> {
+    const data = entity.getData();
+    if (!data.id) throw new Error('Organization ID is required for update');
+    const putData: HcclOrganizationPUTData = {
+      name: data.name || '',
+      businessCode: data.businessCode || '',
+      description: data.description || '',
+      available: data.available || 1,
+      jsonData: data.jsonData,
+      websiteUrl: data.websiteUrl,
+      organizationTypeId: data.organizationTypeId || '',
+      parentEntityId: data.parentEntityId,
+      parentEntityEntityType: data.parentEntityEntityType,
+      parentEntityName: data.parentEntityName
+    };
+    const updated = await this.hcclService.updateHcclOrganizationById(data.id, putData).toPromise();
+    if (updated) return new HcclOrganizationCrudWrapper(updated, this.hcclService);
+    throw new Error('Failed to update organization');
+  }
+
+  protected async deleteEntityData(id: string): Promise<boolean> {
+    await this.hcclService.deleteHcclOrganizationById(id).toPromise();
+    return true;
+  }
+
+  public override newEmptyWrapper(): HcclOrganizationCrudWrapper {
+    const empty: HcclOrganizationGETData = {
+      name: '',
+      businessCode: '',
+      description: '',
+      available: 1
+    };
+    return new HcclOrganizationCrudWrapper(empty, this.hcclService);
+  }
+
+  public createWrapper(data: HcclOrganizationGETData): HcclOrganizationCrudWrapper {
+    return new HcclOrganizationCrudWrapper(data, this.hcclService);
+  }
+
+  protected organizationTypeMenu: MenuControlDataList | null = null;
+  protected override async prepareMenus(entity: HcclOrganizationCrudWrapper): Promise<void> {
+    this.organizationTypeMenu = null;
+    return Promise.resolve();
+  }
+
+  public get name(): string { return this.getCurrentEntity().getData().name || ''; }
+  public set name(value: string) { this.getEntityForSet().getData().name = value; }
+
+  public get businessCode(): string { return this.getCurrentEntity().getData().businessCode || ''; }
+  public set businessCode(value: string) { this.getEntityForSet().getData().businessCode = value; }
+
+  public get description(): string { return this.getCurrentEntity().getData().description || ''; }
+  public set description(value: string) { this.getEntityForSet().getData().description = value; }
+
+  public get websiteUrl(): string { return this.getCurrentEntity().getData().websiteUrl || ''; }
+  public set websiteUrl(value: string) { this.getEntityForSet().getData().websiteUrl = value; }
+
+  public get organizationTypeId(): string { return this.getCurrentEntity().getData().organizationTypeId || ''; }
+  public set organizationTypeId(value: string) { this.getEntityForSet().getData().organizationTypeId = value; }
+
+  public get parentEntityId(): string { return this.getCurrentEntity().getData().parentEntityId || ''; }
+  public set parentEntityId(value: string) { this.getEntityForSet().getData().parentEntityId = value; }
+
+  public get parentEntityName(): string { return this.getCurrentEntity().getData().parentEntityName || ''; }
+  public set parentEntityName(value: string) { this.getEntityForSet().getData().parentEntityName = value; }
+
+  public get available(): number { return this.getCurrentEntity().getData().available || 1; }
+  public set available(value: number) { this.getEntityForSet().getData().available = value; }
+}
+
+export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationGETData> {
+  constructor(data: HcclOrganizationGETData, hcclService?: HcclService) {
+    super(data, hcclService);
+  }
+  getDisplayText(entity?: HcclOrganizationGETData): string {
+    const d = entity || this.data;
+    return d.name || d.businessCode || 'Unnamed Organization';
+  }
 }
