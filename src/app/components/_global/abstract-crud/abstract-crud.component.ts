@@ -46,7 +46,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     this.setModeFromName(this.modeName);
  
     // Load the entity if an ID is provided
-    if (!this.id){alert(this.getEntityType() + ' CrudComponent :  No ID provided');}
+    if (!this.id){alert("mode name: " + this.modeName + " " + this.getEntityType() + ' CrudComponent :  No ID provided');}
 
     if (this.id) {
       this.loadEntityById(this.id).then(entity => {
@@ -92,11 +92,22 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       return this.entityNew;
     }
     
+    // If still loading, return empty wrapper
+    if (this.loading) {
+      return this.newEmptyWrapper();
+    }
+    
     // Otherwise use the current entity
     if (this.currentEntity) {
       return this.currentEntity;
     }
     
+    // If we have an ID but no entity, we might still be loading
+    if (this.id && !this.currentEntity) {
+      return this.newEmptyWrapper();
+    }
+    
+    alert(this.getEntityType() + " No entity found " + this.id);
     return this.newEmptyWrapper();
   }
   

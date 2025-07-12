@@ -109,15 +109,16 @@
       </div>
       <div class="detail-group">
         <label>School ID:</label>
-        <span>{{ getCurrentEntity().getSchoolId() }}
-          <app-clschool-crud [id]="this.getCurrentEntity().getSchoolId()" 
+        <span>
+          <app-clschool-crud *ngIf="!isLoading && this.schoolId" 
+          [id]="this.schoolId" 
           [modeName]="CRUD_MODES.FK"></app-clschool-crud>
-
+          <span *ngIf="isLoading">Loading school...</span>
         </span>
       </div>
       <div class="detail-group">
         <label>Organization ID:</label>
-        <span>{{ getCurrentEntity().getOrganizationId() }} Boomer
+        <span>{{ getCurrentEntity().getOrganizationId() }} 
         </span>
       </div>
       <div class="detail-group">

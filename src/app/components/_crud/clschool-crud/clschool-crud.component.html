@@ -43,7 +43,9 @@
       <div class="form-group">
         <label>Organization:</label>
         <div> {{ getCurrentEntity().getOrganizationId() }}
-        <app-hccl-organization-crud [modeName]="CRUD_MODES.FK" id="getCurrentEntity().getOrganizationId()"></app-hccl-organization-crud>
+        <app-hccl-organization-crud *ngIf="!isLoading" 
+        [modeName]="CRUD_MODES.FK" [id]="getCurrentEntity().getOrganizationId()"></app-hccl-organization-crud>
+        <span *ngIf="isLoading">Loading organization...</span>
       </div>
       </div>
       <div class="form-group">
@@ -72,7 +74,9 @@
       </div>
       <div class="form-group">
         <label>Organization:</label>
-        <app-hccl-organization-crud [modeName]="CRUD_MODES.FK" [id]="getCurrentEntity().getOrganizationId()"></app-hccl-organization-crud>
+        <app-hccl-organization-crud *ngIf="!isLoading" 
+        [modeName]="CRUD_MODES.FK" [id]="getCurrentEntity().getOrganizationId()"></app-hccl-organization-crud>
+        <span *ngIf="isLoading">Loading organization...</span>
       </div>
       <div class="form-group">
         <label>District Code:</label>
@@ -105,9 +109,10 @@
       <div class="detail-group">
         <label>Organization:</label>
         <span>{{ getCurrentEntity().getOrganizationName() }}
-          <app-hccl-organization-crud [id]="getCurrentEntity().getOrganizationId()" 
+          <app-hccl-organization-crud *ngIf="!isLoading && getCurrentEntity().getOrganizationId()" 
+          [id]="getCurrentEntity().getOrganizationId()" 
           [modeName]="CRUD_MODES.FK"></app-hccl-organization-crud>
-
+          <span *ngIf="isLoading">Loading organization...</span>
         </span>
       </div>
       <div class="detail-group">
