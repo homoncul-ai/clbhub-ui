@@ -55,23 +55,14 @@ export class AppComponent implements OnInit, OnDestroy {
       next: (context) => {
         console.log('HCCL context loaded successfully:', context);
         
-        // Get the first menu item based on user context or default to advocate
-        const dashboardType = this.getDashboardTypeFromContext(context);
-        console.log('Determined dashboard type:', dashboardType);
+        // Get the first navigable menu item using the menu service
+        const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
         
-        const menuItems = this._menuService.getMenuItems(dashboardType);
-        console.log('Retrieved menu items for dashboard type:', dashboardType, 'count:', menuItems.length);
-        
-        if (menuItems.length > 0) {
-          const firstMenuItem = this.findFirstNavigableMenuItem(menuItems);
-          if (firstMenuItem) {
-            console.log('Redirecting to first menu item:', firstMenuItem.route);
-            this._router.navigate([firstMenuItem.route]);
-          } else {
-            console.log('No navigable menu items found, staying on current route');
-          }
+        if (firstMenuItem) {
+          console.log('Redirecting to first menu item:', firstMenuItem.route);
+          this._router.navigate([firstMenuItem.route]);
         } else {
-          console.log('No menu items found for dashboard type:', dashboardType);
+          console.log('No navigable menu items found, redirecting to default dashboard');
           // Fallback to default dashboard
           this._router.navigate(['/advocate-dashboard']);
         }
@@ -82,64 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this._router.navigate(['/advocate-dashboard']);
       }
     });
-  }
-
-  /**
-   * Determine dashboard type from HCCL context
-   */
-  private getDashboardTypeFromContext(context: any): 'advocate' | 'broker' | 'service-provider' {
-    if (!context || !context.currentUserProfile) {
-      console.log('No user profile in context, defaulting to advocate');
-      return 'advocate';
-    }
-
-    const profileTypeCode = context.currentUserProfile.profileTypeCode;
-    console.log('User profile type code:', profileTypeCode);
-
-    // Map profile type codes to dashboard types
-    switch (profileTypeCode?.toUpperCase()) {
-      case 'ADVOCATE':
-      case 'EDU_ADVOCATE':
-        return 'advocate';
-      case 'BROKER':
-      case 'EDU_BROKER':
-        return 'broker';
-      case 'SERVICE_PROVIDER':
-      case 'EDU_SERVICE_PROVIDER':
-        return 'service-provider';
-      default:
-        console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
-        return 'advocate';
-    }
-  }
-
-  /**
-   * Find the first menu item that has a route (navigable)
-   */
-  private findFirstNavigableMenuItem(menuItems: any[]): any | null {
-    console.log('Searching for first navigable menu item in:', menuItems);
-    
-    for (const item of menuItems) {
-      console.log('Checking menu item:', item.label, 'route:', item.route);
-      
-      // If this item has a route, return it
-      if (item.route) {
-        console.log('Found navigable menu item:', item.label, 'route:', item.route);
-        return item;
-      }
-      
-      // If this item has children, search them
-      if (item.children && item.children.length > 0) {
-        console.log('Checking children of:', item.label);
-        const childItem = this.findFirstNavigableMenuItem(item.children);
-        if (childItem) {
-          return childItem;
-        }
-      }
-    }
-    
-    console.log('No navigable menu items found');
-    return null;
   }
 
   async ngOnInit() {

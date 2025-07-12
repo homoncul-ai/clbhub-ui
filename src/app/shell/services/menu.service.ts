@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface MenuItem {
   level: number;
@@ -385,7 +386,7 @@ export class MenuService {
   getMenuItems(dashboardType: 'advocate' | 'broker' | 'service-provider'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
-        return this.buildAdvocateMenu();
+          return this.buildAdvocateMenu();
       case 'broker':
         return this.buildBrokerMenu();
       case 'service-provider':
@@ -405,6 +406,101 @@ export class MenuService {
     }
     return null;
   }
+
+  /**
+   * Get the first navigable menu item based on user context and redirect to it
+   * @param context - The HCCL context containing user profile information
+   * @param router - The Angular router service for navigation
+   * @returns The first navigable menu item or null if none found
+   */
+  getFirstNavigableMenuItem(context: any, router: Router): MenuItem | null {
+    console.log('Starting menu navigation process');
+    
+    // Get the first menu item based on user context or default to advocate
+    const dashboardType = this.getDashboardTypeFromContext(context);
+    console.log('Determined dashboard type:', dashboardType);
+    const menuItems = this.getMenuItems(dashboardType);
+    console.log('Retrieved menu items for dashboard type:', dashboardType, 'count:', menuItems.length);
+    
+    if (menuItems.length > 0) {
+      const firstMenuItem = this.findFirstNavigableMenuItem(menuItems);
+      if (firstMenuItem) {
+        console.log('Found first navigable menu item:', firstMenuItem.label, 'route:', firstMenuItem.route);
+        return firstMenuItem;
+      } else {
+        console.log('No navigable menu items found, staying on current route');
+      }
+    } else {
+      console.log('No menu items found for dashboard type:', dashboardType);
+    }
+    
+    return null;
+  }
+
+  /**
+   * Determine dashboard type from HCCL context
+   * @param context - The HCCL context containing user profile information
+   * @returns The dashboard type based on user profile
+   */
+  private getDashboardTypeFromContext(context: any): 'advocate' | 'broker' | 'service-provider' {
+    if (!context || !context.currentUserProfile) {
+      console.log('No user profile in context, defaulting to advocate');
+      return 'advocate';
+    }
+
+    const profileTypeCode = context.currentUserProfile.profileTypeCode;
+    console.log('User profile type code:', profileTypeCode);
+
+    // Map profile type codes to dashboard types
+    switch (profileTypeCode?.toUpperCase()) {
+      case 'ADVOCATE':
+      case 'EDU_ADVOCATE':
+        return 'advocate';
+      case 'BROKER':
+      case 'EDU_BROKER':
+        return 'broker';
+    
+      case 'PROVIDER':
+      case 'SERVICE_PROVIDER':
+      case 'EDU_SERVICE_PROVIDER':
+        return 'service-provider';
+      default:
+        console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
+        return 'advocate';
+    }
+  }
+
+  /**
+   * Find the first menu item that has a route (navigable)
+   * @param menuItems - Array of menu items to search through
+   * @returns The first navigable menu item or null if none found
+   */
+  private findFirstNavigableMenuItem(menuItems: MenuItem[]): MenuItem | null {
+    console.log('Searching for first navigable menu item in:', menuItems);
+    
+    for (const item of menuItems) {
+      console.log('Checking menu item:', item.label, 'route:', item.route);
+      
+      // If this item has a route, return it
+      if (item.route) {
+        console.log('Found navigable menu item:', item.label, 'route:', item.route);
+        return item;
+      }
+      
+      // If this item has children, search them
+      if (item.children && item.children.length > 0) {
+        console.log('Checking children of:', item.label);
+        const childItem = this.findFirstNavigableMenuItem(item.children);
+        if (childItem) {
+          return childItem;
+        }
+      }
+    }
+    
+    console.log('No navigable menu items found');
+    return null;
+  }
+
 } 
 
 

@@ -245,7 +245,16 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       this.hcclContextService.initializeContext(selectedProfile.id || '').subscribe({
         next: (context) => {
           console.log('Context refreshed with new profile:', context);
-          // Optionally refresh the current page or redirect
+          
+          // Get the first navigable menu item using the menu service
+          const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          
+          if (firstMenuItem) {
+            console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
+            this._router.navigate([firstMenuItem.route]);
+          } else {
+            console.log('No navigable menu items found after profile change, staying on current route');
+          }
         },
         error: (error) => {
           console.error('Failed to refresh context with new profile:', error);
