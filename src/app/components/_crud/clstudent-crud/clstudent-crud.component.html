@@ -19,17 +19,16 @@
   <!-- Header with Action Buttons -->
   <div class="crud-header">
     <h2>CL Students Management</h2>
-    <div class="action-buttons">
-      <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New Student</button>
-      <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
-      <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
-      <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
-    </div>
   </div>
 
   <!-- Create Mode -->
   <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
     <h3>Create New CL Student</h3>
+    <div class="action-buttons">
+      <button *ngIf="canCreate" (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
+      <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+    </div>
+
     <div class="form-container">
       <!-- Form fields would go here -->
       <div class="form-group">
@@ -48,17 +47,17 @@
         <label>School ID:</label>
         <input type="text" [(ngModel)]="schoolId" class="form-control">
       </div>
-      <div class="form-actions">
-        <button *ngIf="canCreate" (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
-        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
-      </div>
     </div>
   </div>
 
   <!-- Edit Mode -->
   <div *ngIf="getMode() === CRUD_MODES.EDIT" class="edit-mode">
     <h3>Edit CL Student</h3>
-    <div class="form-container">
+    <div class="action-buttons">
+      <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
+      <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+    </div>
+  <div class="form-container">
       <!-- Form fields would go here -->
       <div class="form-group">
         <label>First Name:</label>
@@ -79,10 +78,6 @@
            placeholder="Select school..." 
            (selectionChange)="onSchoolChange($event)"></app-menu-control-data-list>
       </div>
-      <div class="form-actions">
-        <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
-        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
-      </div>
     </div>
   </div>
 
@@ -90,6 +85,11 @@
   <!-- Detail Mode -->
   <div *ngIf="getMode() === CRUD_MODES.DETAIL" class="detail-mode">
     <h3>Student Details</h3>
+    <div class="action-buttons">
+      <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New Student</button>
+      <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
+      <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
+    </div>
     <div class="student-details">
       <div class="detail-group">
         <label>Student ID:</label>
@@ -124,8 +124,6 @@
       <div class="detail-group">
         <label>Status:</label>
         <span>{{ getCurrentEntity().isActive() ? 'Active' : 'Inactive' }}</span>
-      </div>
-      <div class="detail-actions">
       </div>
     </div>
   </div>
