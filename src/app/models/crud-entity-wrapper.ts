@@ -78,4 +78,6 @@ export abstract class EntityWrapper<T extends { id?: string }> {
     }
 
     abstract getEntityType(): string;
+
+
 }
