@@ -6,7 +6,7 @@
 </div>
 
 
-<div *ngIf="isCrudModeCUD()" class="clstudent-crud-container">
+<div *ngIf="isCrudModeCUD()" class="crud-container">
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-spinner">Loading...</div>
@@ -16,11 +16,11 @@
   <!-- Error State -->
   <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
 
-  <!-- Header with Action Buttons -->
+  <!-- Header with Action Buttons 
   <div class="crud-header">
     <h2>CL Students Management</h2>
   </div>
-
+-->
   <!-- Create Mode -->
   <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
     <h3>Create New CL Student</h3>
