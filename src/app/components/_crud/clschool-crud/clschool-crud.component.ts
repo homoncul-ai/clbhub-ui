@@ -20,9 +20,8 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
 
   override ngOnInit(): void { 
     super.ngOnInit(); 
+    this.entityType = CLSchoolCrudWrapper.ENTITY_TYPE;
   }
-
-  public getEntityType(): string { return 'CL School'; }
 
   protected async loadEntityByIdCall(id: string): Promise<CLSchoolCrudWrapper> {
     const school = await this.hcclService.getCLSchoolById(id).toPromise();
@@ -143,6 +142,7 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
 
 export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
 
+  public static ENTITY_TYPE = 'CLSchool';
   public static async newInstance(id: string, hcclService: HcclService): Promise<CLSchoolCrudWrapper> {
     const school = await hcclService.getCLSchoolById(id).toPromise();
     if (school) {
@@ -153,6 +153,7 @@ export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
 
   constructor(data: CLSchoolGETData, hcclService?: HcclService) {
     super(data, hcclService);
+    this.entityType = CLSchoolCrudWrapper.ENTITY_TYPE;
   }
   
   getDisplayText(entity?: CLSchoolGETData): string {
@@ -205,12 +206,9 @@ export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
     return searchResults?.searchResults || [];
   }
 
-  async getFkMenu(): Promise<MenuControlDataList> {
+  public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
     const schools = await this.getSchools();
     return this.getMenuControlDataList('schools', 'Schools', schools);
   }
 
-  getEntityType(): string {
-    return 'CLSchool';
-  }
 }

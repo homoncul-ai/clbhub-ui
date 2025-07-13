@@ -40,12 +40,10 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
      /** Standard boiler plate for ngOnInit */
   override ngOnInit(): void {
     super.ngOnInit();
+    this.entityType = 'CLStudent';
   }
 
 
-  public getEntityType(): string {
-    return 'CL Student';
-  }
 
   protected async loadEntityByIdCall(id: string): Promise<ClStudentCrudWrapper> {
     const student = await this.hcclService.getCLStudentById(id).toPromise();
@@ -297,12 +295,9 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     return students?.searchResults || [];
   }
 
-  async getFkMenu(): Promise<MenuControlDataList> {
+  public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
     const students = await this.getStudents();
     return this.getMenuControlDataList('students', 'Students', students);
   }
 
-  getEntityType(): string {
-    return 'CLStudent';
-  }
 }

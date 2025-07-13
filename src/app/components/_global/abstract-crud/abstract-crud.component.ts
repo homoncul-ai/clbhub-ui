@@ -1,7 +1,7 @@
 import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { CLStudentPOSTData, HcclService, HcclUserContextGETData, SimpleMessageList } from '../../../restsvc/hccl.service';
+import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 
@@ -318,7 +318,6 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   // These are called after the event handlers as part of the final workflow
   // Use these for cleanup tasks, state resets, or finalization logic
    // Override post operation handlers for custom behavior
-   abstract getEntityType(): string;
    protected  postSave(): void {
     console.log(this.getEntityType() + ' saved successfully');
   }
@@ -552,5 +551,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   }
   public dump(): string {
     return JSON.stringify(this.entity, null, 2);
+  }
+
+  protected entityType: string = '';
+  public  getEntityType(): string {
+    return this.entityType;
   }
 }

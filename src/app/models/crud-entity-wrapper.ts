@@ -77,7 +77,21 @@ export abstract class EntityWrapper<T extends { id?: string }> {
         return JSON.stringify(this.data, null, 2);
     }
 
-    abstract getEntityType(): string;
 
+    public async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
+      return new Promise<MenuControlDataList>((resolve, reject) => {
+        resolve({
+          menuId: this.getEntityType(),
+          menuName: this.getEntityType(),
+          menuItems: [],
+        });
+      });
+    }
+
+   
+  protected entityType: string = '';
+  public  getEntityType(): string {
+    return this.entityType;
+  }
 
 }

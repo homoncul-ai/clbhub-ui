@@ -15,11 +15,11 @@ import { MenuControlDataListComponent } from '@app/components/_global/menu-contr
   styleUrl: './hccl-organization-crud.component.scss'
 })
 export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrganizationCrudWrapper> implements OnInit, OnChanges {
-  constructor() { super(); }
+  constructor() { super();
+    this.entityType = HcclOrganizationCrudWrapper.ENTITY_TYPE;
+   }
 
   override ngOnInit(): void { super.ngOnInit(); }
-
-  public getEntityType(): string { return 'HCCL Organization'; }
 
   protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
     const org = await this.hcclService.getHcclOrganizationById(id).toPromise();
@@ -114,8 +114,10 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
 export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationGETData> {
   constructor(data: HcclOrganizationGETData, hcclService?: HcclService) {
     super(data, hcclService);
+    this.entityType = HcclOrganizationCrudWrapper.ENTITY_TYPE;
   }
 
+  public static ENTITY_TYPE = 'HcclOrganization';
   public static async newInstance(id: string, hcclService: HcclService): Promise<HcclOrganizationCrudWrapper> {
     const organization: HcclOrganizationGETData | undefined = id && id.length > 0 ? await hcclService.getHcclOrganizationById(id).toPromise() : undefined;
     if (!organization) {
@@ -151,14 +153,11 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
     return organizations?.searchResults || [];
   }
 
-  async getFkMenu(): Promise<MenuControlDataList> {
+  public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
     const organizations = await this.getOrganizations();
     const id = this.getId();
     return this.getMenuControlDataList('organizations', 'Organizations', organizations, id);
   }
-
-  getEntityType(): string {
-    return 'HcclOrganization';
-  }
+ 
 
 }

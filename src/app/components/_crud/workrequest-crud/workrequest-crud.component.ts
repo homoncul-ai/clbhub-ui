@@ -41,11 +41,7 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
      /** Standard boiler plate for ngOnInit */
   override ngOnInit(): void {
     super.ngOnInit();
-  }
-
-
-  public getEntityType(): string {
-    return 'Work Request';
+    this.entityType = WorkRequestCrudWrapper.ENTITY_TYPE;
   }
 
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
@@ -267,7 +263,7 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
 }
 
 export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
-
+  public static ENTITY_TYPE = 'WorkRequest';
   public static async newInstance(id: string, hcclService: HcclService): Promise<WorkRequestCrudWrapper> {
     const workRequest = await hcclService.getWorkRequestById(id).toPromise();
     if (workRequest) {
@@ -277,6 +273,7 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
   }
   constructor(data: WorkRequestGETData, hcclService?: HcclService) {
     super(data, hcclService);
+    this.entityType = WorkRequestCrudWrapper.ENTITY_TYPE;
   }
   
   getDisplayText(entity?: WorkRequestGETData): string {
@@ -336,12 +333,9 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
     return result?.searchResults || [];
   }
 
-  async getFkMenu(): Promise<MenuControlDataList> {
+  public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
     const workRequests = await this.getWorkRequests();
     return this.getMenuControlDataList('workRequests', 'Work Requests', workRequests);
   }
 
-  getEntityType(): string {
-    return 'WorkRequest';
-  }
 }

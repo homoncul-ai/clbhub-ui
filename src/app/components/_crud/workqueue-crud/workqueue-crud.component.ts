@@ -43,10 +43,6 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
   }
 
 
-  public getEntityType(): string {
-    return 'Work Queue';
-  }
-
   protected async loadEntityByIdCall(id: string): Promise<WorkQueueCrudWrapper> {
     const workQueue = await this.hcclService.getWorkQueueById(id).toPromise();
       if (workQueue) {
@@ -333,13 +329,10 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
     return searchResults?.searchResults || [];
   }
 
-  async getFkMenu(): Promise<MenuControlDataList | null> {
+   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
     // TODO: Implement FK menu logic
     // This would return a menu of work queues for selection
-    return null;
+    return super.getFkMenu(menuHint, data);
   }
 
-  getEntityType(): string {
-    return 'WorkQueue';
-  }
 }
