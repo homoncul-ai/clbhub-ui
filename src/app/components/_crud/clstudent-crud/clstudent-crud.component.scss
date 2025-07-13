@@ -74,30 +74,6 @@
     }
   }
 
-  .student-details {
-    background-color: white;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 2rem;
-
-    .detail-group {
-      display: flex;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #e9ecef;
-
-      label {
-        font-weight: 600;
-        color: #495057;
-        min-width: 150px;
-      }
-
-      span {
-        color: #6c757d;
-      }
-    }
-  }
-
   .delete-confirmation {
     background-color: #fff3cd;
     border: 1px solid #ffeaa7;

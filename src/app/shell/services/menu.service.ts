@@ -85,10 +85,10 @@ export class MenuService {
     
     // Add Dashboard with children
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_DASHBOARD);
-    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_QUEUES));
 //    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_MESSAGES));
     this.addMenuItem(menu, dashboard);
     
+    this.addMenuItem(menu, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_QUEUES));
     // Add Students with children
     const students = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_STUDENTS);
 //    this.addChildMenuItem(students, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_STUDENT_DETAILS));
@@ -516,7 +516,7 @@ export const MENU_CONSTANTS = {
     icon: 'fas fa-tachometer-alt'
   },
   ADVOCATE_QUEUES: {
-    level: 2,
+    level: 1,
     label: 'Queues',
     route: '/advocate-dashboard/org-queue-list',
     componentPath: 'src/app/components/org-queue-list',
