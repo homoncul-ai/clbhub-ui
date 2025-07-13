@@ -209,4 +209,8 @@ export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
     const schools = await this.getSchools();
     return this.getMenuControlDataList('schools', 'Schools', schools);
   }
+
+  getEntityType(): string {
+    return 'CLSchool';
+  }
 }

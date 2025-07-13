@@ -6,6 +6,7 @@
   foreign key property.  Look for a component of type "app-[entityName]-crud" and use that for
    - 'details' - <app-[entityName]-crud mode='fk' id='[entityName]id' >
    - 'create','edit'  - <app-[entityName]-crud mode='menu' id='[entityName]id' parentEntity='caller-entityName' callback=setProperty(>
+   - Remove the "ID" from the label.
 
    
 - We're going to use the clstudent-crud.component.ts and clstudent-crud.component.html 

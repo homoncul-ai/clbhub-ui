@@ -157,4 +157,8 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
     return this.getMenuControlDataList('organizations', 'Organizations', organizations, id);
   }
 
+  getEntityType(): string {
+    return 'HcclOrganization';
+  }
+
 }

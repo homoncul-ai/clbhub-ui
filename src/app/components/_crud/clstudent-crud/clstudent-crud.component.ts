@@ -302,4 +302,7 @@ export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     return this.getMenuControlDataList('students', 'Students', students);
   }
 
+  getEntityType(): string {
+    return 'CLStudent';
+  }
 }

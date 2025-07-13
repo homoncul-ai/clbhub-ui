@@ -338,4 +338,8 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
     // This would return a menu of work queues for selection
     return null;
   }
+
+  getEntityType(): string {
+    return 'WorkQueue';
+  }
 }

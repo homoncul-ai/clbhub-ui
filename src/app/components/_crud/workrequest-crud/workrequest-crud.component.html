@@ -1,13 +1,13 @@
 <span *ngIf="getMode() === CRUD_MODES.FK">{{ getCurrentEntity().getFullName() }}</span>
 
 <!-- Heading Mode -->
-<div *ngIf="getMode() === CRUD_MODES.HEADING" class="heading-mode">
+<div *ngIf="getMode() === CRUD_MODES.HEADING" >
   <h3>{{ getCurrentEntity().getFullName() }}</h3>
 </div>
 
 
-<div *ngIf="getMode() === CRUD_MODES.SECTION" class="heading-mode">
-  <div class="workrequest-details">
+<div *ngIf="getMode() === CRUD_MODES.SECTION" >
+  <div class="detail-section">
     <div class="detail-group">
       <label>Name:</label>
       <span>{{ getCurrentEntity().getFullName() }}</span>
@@ -21,8 +21,9 @@
       <span>{{ getCurrentEntity().getDescription() }}</span>
     </div>
     <div class="detail-group">
-      <label>Work Request Type ID:</label>
-      <span>{{ getCurrentEntity().getWorkRequestTypeId() }}
+      <label>Work Request Type:</label>
+      <span>
+        <!-- {{ getCurrentEntity().getWorkRequestTypeId() }} -->
         <app-workrequesttype-crud *ngIf="!isLoading && this.workRequestTypeId" 
         [id]="this.workRequestTypeId" 
         [modeName]="CRUD_MODES.FK">></app-workrequesttype-crud>
@@ -33,7 +34,7 @@
       <span>{{ getCurrentEntity().getCurrentStateCode() }}</span>
     </div>
     <div class="detail-group">
-      <label>Work Queue ID:</label>
+      <label>Work Queue:</label>
       <span>{{ getCurrentEntity().getWorkQueueId() }}</span>
     </div>
   </div>
@@ -41,7 +42,7 @@
 
 
 
-<div *ngIf="isCrudModeCUD()" class="workrequest-crud-container">
+<div *ngIf="isCrudModeCUD()" >
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-spinner">Loading...</div>
@@ -80,7 +81,7 @@
         <textarea [(ngModel)]="description" class="form-control"></textarea>
       </div>
       <div class="form-group">
-        <label>Work Request Type ID:</label>
+        <label>Work Request Type:</label>
         <input type="text" [(ngModel)]="workRequestTypeId" class="form-control">
       </div>
       <div class="form-group">
@@ -88,7 +89,7 @@
         <input type="text" [(ngModel)]="currentStateCode" class="form-control">
       </div>
       <div class="form-group">
-        <label>Work Queue ID:</label>
+        <label>Work Queue:</label>
         <input type="text" [(ngModel)]="workQueueId" class="form-control">
       </div>
       <div class="form-actions">
@@ -116,7 +117,7 @@
         <textarea [(ngModel)]="description" class="form-control"></textarea>
       </div>
       <div class="form-group">
-        <label>Work Request Type ID:</label>
+        <label>Work Request Type:</label>
         <app-menu-control-data-list 
            [menuControlDataList]="this.workRequestTypeMenu" 
            placeholder="Select work request type..." 
@@ -127,7 +128,7 @@
         <input type="text" [(ngModel)]="currentStateCode" class="form-control">
       </div>
       <div class="form-group">
-        <label>Work Queue ID:</label>
+        <label>Work Queue:</label>
         <app-menu-control-data-list 
            [menuControlDataList]="this.workQueueMenu" 
            placeholder="Select work queue..." 
@@ -144,7 +145,7 @@
   <!-- Detail Mode -->
   <div *ngIf="getMode() === CRUD_MODES.DETAIL" class="detail-mode">
     <h3>Work Request Details</h3>
-    <div class="workrequest-details">
+    <div class="detail-section">
       <div class="detail-group">
         <label>Work Request ID:</label>
         <span>{{ getCurrentEntity().getId() }}</span>
@@ -162,8 +163,9 @@
         <span>{{ getCurrentEntity().getDescription() }}</span>
       </div>
       <div class="detail-group">
-        <label>Work Request Type ID:</label>
-        <span>{{ getCurrentEntity().getWorkRequestTypeId() }}
+        <label>Work Request Type:</label>
+        <span>
+          <!-- {{ getCurrentEntity().getWorkRequestTypeId() }} -->
           <app-workrequesttype-crud *ngIf="!isLoading && this.workRequestTypeId" 
           [id]="this.workRequestTypeId" 
           [modeName]="CRUD_MODES.FK">></app-workrequesttype-crud>
@@ -174,10 +176,10 @@
         <span>{{ getCurrentEntity().getCurrentStateCode() }}</span>
       </div>
       <div class="detail-group">
-        <label>Work Queue ID:</label>
+        <label>Work Queue:</label>
         <span>{{ getCurrentEntity().getWorkQueueId() }}</span>
       </div>
-      <div class="detail-group">
+      <!-- <div class="detail-group">
         <label>Subject Entity ID:</label>
         <span>{{ getCurrentEntity().getSubjectEntityId() }}</span>
       </div>
@@ -189,8 +191,7 @@
         <label>Subject Entity Name:</label>
         <span>{{ getCurrentEntity().getSubjectEntityName() }}</span>
       </div>
-      <div class="detail-actions">
-      </div>
+      -->
     </div>
   </div>
 

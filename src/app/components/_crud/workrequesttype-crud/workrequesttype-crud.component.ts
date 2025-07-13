@@ -252,4 +252,8 @@ export class WorkRequestTypeCrudWrapper extends EntityWrapper<WorkRequestTypeRef
     return this.getMenuControlDataList('workRequestTypes', 'Work Request Types', workRequestTypes, id);
   }
 
+  getEntityType(): string {
+    return 'WorkRequestType';
+  }
+
 }

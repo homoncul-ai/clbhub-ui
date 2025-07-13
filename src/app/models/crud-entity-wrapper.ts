@@ -76,4 +76,6 @@ export abstract class EntityWrapper<T extends { id?: string }> {
     public dump(): string {
         return JSON.stringify(this.data, null, 2);
     }
+
+    abstract getEntityType(): string;
 }

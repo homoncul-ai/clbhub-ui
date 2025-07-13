@@ -1,10 +1,11 @@
 <p>workrequest-update works!</p>
 
-
+<div class="action-buttons">
+    <button *ngIf="this.canEnterMode('accept')" (click)="enterMode('accept')" class="btn btn-primary">Accept Ticket</button>
+    <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
+    <button *ngIf="this.canEnterMode('reroute')" (click)="enterMode('reroute')" class="btn btn-primary">Reroute Ticket</button>
+  </div>
 <app-workrequest-crud [id]="id" [modeName]="CRUD_MODES.SECTION"></app-workrequest-crud> 
-
-
-
 
 
 <pre>{{ entity?.dump() }}</pre> 
