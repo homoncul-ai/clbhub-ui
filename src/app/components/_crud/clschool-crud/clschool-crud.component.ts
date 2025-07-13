@@ -130,7 +130,6 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
    /** Define the menu objects for this crud component */
    protected organizationMenu: MenuControlDataList | null = null;
    protected override async prepareMenus(entity: CLSchoolCrudWrapper): Promise<void> {
-    debugger
     var organizationWrapper = await HcclOrganizationCrudWrapper.newInstance(entity.getOrganizationId(), this.hcclService);
     const fkMenu = await organizationWrapper.getFkMenu();
     // Actually, we're going to load the organization wrapper, then call getSchoolsMenu

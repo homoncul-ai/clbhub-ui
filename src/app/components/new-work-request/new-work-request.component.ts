@@ -105,7 +105,6 @@ export class NewWorkRequestComponent implements OnInit {
   }
 
   onSubmit(): void {
-    debugger
     if (!this.isFormValid()) {
       return;
     }
