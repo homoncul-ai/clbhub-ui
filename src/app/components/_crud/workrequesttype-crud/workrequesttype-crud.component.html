@@ -6,7 +6,7 @@
 </div>
 
 
-<div *ngIf="isCrudModeCUD()" class="workrequest-crud-container">
+<div *ngIf="isCrudModeCUD()" class="workrequesttype-crud-container">
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-spinner">Loading...</div>
@@ -18,9 +18,9 @@
 
   <!-- Header with Action Buttons -->
   <div class="crud-header">
-    <h2>Work Request Management</h2>
+    <h2>Work Request Types Management</h2>
     <div class="action-buttons">
-      <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New Work Request</button>
+      <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New Work Request Type</button>
       <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
       <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
       <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
@@ -29,7 +29,7 @@
 
   <!-- Create Mode -->
   <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
-    <h3>Create New Work Request</h3>
+    <h3>Create New Work Request Type</h3>
     <div class="form-container">
       <!-- Form fields would go here -->
       <div class="form-group">
@@ -45,16 +45,12 @@
         <textarea [(ngModel)]="description" class="form-control"></textarea>
       </div>
       <div class="form-group">
-        <label>Work Request Type ID:</label>
-        <input type="text" [(ngModel)]="workRequestTypeId" class="form-control">
+        <label>Policy Bean Name:</label>
+        <input type="text" [(ngModel)]="policyBeanName" class="form-control">
       </div>
       <div class="form-group">
-        <label>Current State Code:</label>
-        <input type="text" [(ngModel)]="currentStateCode" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Work Queue ID:</label>
-        <input type="text" [(ngModel)]="workQueueId" class="form-control">
+        <label>Available:</label>
+        <app-available-selector [(ngModel)]="available"></app-available-selector>
       </div>
       <div class="form-actions">
         <button *ngIf="canCreate" (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
@@ -65,7 +61,7 @@
 
   <!-- Edit Mode -->
   <div *ngIf="getMode() === CRUD_MODES.EDIT" class="edit-mode">
-    <h3>Edit Work Request</h3>
+    <h3>Edit Work Request Type</h3>
     <div class="form-container">
       <!-- Form fields would go here -->
       <div class="form-group">
@@ -81,22 +77,12 @@
         <textarea [(ngModel)]="description" class="form-control"></textarea>
       </div>
       <div class="form-group">
-        <label>Work Request Type ID:</label>
-        <app-menu-control-data-list 
-           [menuControlDataList]="this.workRequestTypeMenu" 
-           placeholder="Select work request type..." 
-           (selectionChange)="onWorkRequestTypeChange($event)"></app-menu-control-data-list>
+        <label>Policy Bean Name:</label>
+        <input type="text" [(ngModel)]="policyBeanName" class="form-control">
       </div>
       <div class="form-group">
-        <label>Current State Code:</label>
-        <input type="text" [(ngModel)]="currentStateCode" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Work Queue ID:</label>
-        <app-menu-control-data-list 
-           [menuControlDataList]="this.workQueueMenu" 
-           placeholder="Select work queue..." 
-           (selectionChange)="onWorkQueueChange($event)"></app-menu-control-data-list>
+        <label>Available:</label>
+        <app-available-selector [(ngModel)]="available"></app-available-selector>
       </div>
       <div class="form-actions">
         <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
@@ -108,10 +94,10 @@
 
   <!-- Detail Mode -->
   <div *ngIf="getMode() === CRUD_MODES.DETAIL" class="detail-mode">
-    <h3>Work Request Details</h3>
-    <div class="workrequest-details">
+    <h3>Work Request Type Details</h3>
+    <div class="workrequesttype-details">
       <div class="detail-group">
-        <label>Work Request ID:</label>
+        <label>Work Request Type ID:</label>
         <span>{{ getCurrentEntity().getId() }}</span>
       </div>
       <div class="detail-group">
@@ -127,32 +113,12 @@
         <span>{{ getCurrentEntity().getDescription() }}</span>
       </div>
       <div class="detail-group">
-        <label>Work Request Type ID:</label>
-        <span>{{ getCurrentEntity().getWorkRequestTypeId() }}
-          <app-workrequesttype-crud *ngIf="!isLoading && this.workRequestTypeId" 
-          [id]="this.workRequestTypeId" 
-          [modeName]="CRUD_MODES.FK">></app-workrequesttype-crud>
-        </span>
+        <label>Policy Bean Name:</label>
+        <span>{{ getCurrentEntity().getPolicyBeanName() }}</span>
       </div>
       <div class="detail-group">
-        <label>Current State Code:</label>
-        <span>{{ getCurrentEntity().getCurrentStateCode() }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Work Queue ID:</label>
-        <span>{{ getCurrentEntity().getWorkQueueId() }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity ID:</label>
-        <span>{{ getCurrentEntity().getSubjectEntityId() }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Type:</label>
-        <span>{{ getCurrentEntity().getSubjectEntityType() }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Name:</label>
-        <span>{{ getCurrentEntity().getSubjectEntityName() }}</span>
+        <label>Status:</label>
+        <span>{{ getCurrentEntity().isActive() ? 'Active' : 'Inactive' }}</span>
       </div>
       <div class="detail-actions">
       </div>
@@ -161,9 +127,9 @@
 
   <!-- Delete Mode -->
   <div *ngIf="getMode() === CRUD_MODES.DELETE" class="delete-mode">
-    <h3>Delete Work Request</h3>
+    <h3>Delete Work Request Type</h3>
     <div class="delete-confirmation">
-      <p>Are you sure you want to delete the work request:</p>
+      <p>Are you sure you want to delete the work request type:</p>
       <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
       <p>This action cannot be undone.</p>
       <div class="delete-actions">

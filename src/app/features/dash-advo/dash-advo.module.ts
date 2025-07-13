@@ -24,6 +24,7 @@ import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.c
 // CRUD Components
 import { ClstudentCrudComponent } from '../../components/_crud/clstudent-crud/clstudent-crud.component';
 import { WorkrequestCrudComponent } from '../../components/_crud/workrequest-crud/workrequest-crud.component';
+import { WorkrequesttypeCrudComponent } from '../../components/_crud/workrequesttype-crud/workrequesttype-crud.component';
 import { CLStudentGroupComponent } from './integrations/clstudent-group/clstudent-group.component';
 import { ClschoolGroupComponent } from './integrations/clschool-group/clschool-group.component';
 import { WorkrequestGroupComponent } from './tickets/workrequest-group/workrequest-group.component';
@@ -56,6 +57,9 @@ const routes: Routes = [
           { path: 'workrequests/:id/:tabId', component: WorkrequestGroupComponent },
           { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
           { path: 'workrequests', component: AdvoTicketListComponent },
+          { path: 'workrequesttypes/:id/:tabId', component: WorkrequesttypeCrudComponent },
+          { path: 'workrequesttypes/:id', redirectTo: 'workrequesttypes/:id/details', pathMatch: 'full' },
+          { path: 'workrequesttypes', component: WorkrequesttypeCrudComponent },
           { path: 'guidance', component: CLGuidanceListComponent },
           { path: '', redirectTo: 'schools', pathMatch: 'full' }
         ]
@@ -87,6 +91,7 @@ const routes: Routes = [
     CLGuidanceListComponent,
     ClstudentCrudComponent,
     WorkrequestCrudComponent,
+    WorkrequesttypeCrudComponent,
     CLStudentGroupComponent,
     ClschoolGroupComponent,
     WorkrequestGroupComponent

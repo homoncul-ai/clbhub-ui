@@ -9,10 +9,11 @@ import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { WorkrequesttypeCrudComponent } from "@app/components/_crud/workrequesttype-crud/workrequesttype-crud.component";
 
 @Component({
   selector: 'app-workrequest-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent, WorkrequesttypeCrudComponent],
   templateUrl: './workrequest-crud.component.html',
   styleUrl: './workrequest-crud.component.scss'
 })
