@@ -5,10 +5,11 @@ import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-e
 import { WorkRequestCrudWrapper, WorkrequestCrudComponent } from '@app/components/_crud/workrequest-crud/workrequest-crud.component';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { WorkrequestUpdateComponent } from '../workrequest-update/workrequest-update.component';
 
 @Component({
   selector: 'app-workrequest-group',
-  imports: [CommonModule, SimpleTabsetComponent, WorkrequestCrudComponent],
+  imports: [CommonModule, SimpleTabsetComponent, WorkrequestCrudComponent, WorkrequestUpdateComponent],
   templateUrl: './workrequest-group.component.html',
   styleUrl: './workrequest-group.component.scss'
 })
@@ -56,6 +57,15 @@ export class WorkrequestGroupComponent extends AbstractEntityGroupComponent<Work
         () => {
           this.currentTabId = 'details';
           this.router.navigate(['/advocate-dashboard/integrations/workrequests', this.id, 'details']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      ),
+      new SimpleTab('update', 'Update', '', 
+        () => {
+          this.currentTabId = 'update';
+          this.router.navigate(['/advocate-dashboard/integrations/workrequests', this.id, 'update']);
         },
         () => {
           return this.entity !== null;

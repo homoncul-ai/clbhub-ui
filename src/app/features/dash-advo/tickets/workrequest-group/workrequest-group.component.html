@@ -5,5 +5,10 @@
 
 <div *ngIf="currentTabId === 'details' && id">   
   <!-- <li>Name :       <app-workrequest-crud [id]="id" [modeName]="'fk'"></app-workrequest-crud></li> -->
-   <app-workrequest-crud [id]="id" [modeName]="'detail'"></app-workrequest-crud> 
+  <app-workrequest-crud [id]="id" [modeName]="'detail'"></app-workrequest-crud> 
+</div>
+
+<div *ngIf="currentTabId === 'update' && id">   
+  <!-- <li>Name :       <app-workrequest-crud [id]="id" [modeName]="'fk'"></app-workrequest-crud></li> -->
+  <app-workrequest-update [id]="id"></app-workrequest-update> 
 </div>
