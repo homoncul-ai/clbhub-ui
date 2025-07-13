@@ -23,8 +23,10 @@ import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.c
 
 // CRUD Components
 import { ClstudentCrudComponent } from '../../components/_crud/clstudent-crud/clstudent-crud.component';
+import { WorkrequestCrudComponent } from '../../components/_crud/workrequest-crud/workrequest-crud.component';
 import { CLStudentGroupComponent } from './integrations/clstudent-group/clstudent-group.component';
 import { ClschoolGroupComponent } from './integrations/clschool-group/clschool-group.component';
+import { WorkrequestGroupComponent } from './tickets/workrequest-group/workrequest-group.component';
 
 const routes: Routes = [
   {
@@ -35,7 +37,8 @@ const routes: Routes = [
       { path: 'students', component: AdvoStudentListComponent },
       { path: 'tickets', component: AdvoTicketListComponent },
       { path: 'tickets/create/:advocateId/:clientId', component: CreateTicketComponent },
-      { path: 'tickets/:id', component: AdvoTicketDetailsComponent },
+      { path: 'tickets/:id', component: WorkrequestGroupComponent },
+      { path: 'tickets/:id/:tabId', component: WorkrequestGroupComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
@@ -50,6 +53,9 @@ const routes: Routes = [
           { path: 'students/:id/:tabId', component: CLStudentGroupComponent },
           { path: 'students/:id', redirectTo: 'students/:id/details', pathMatch: 'full' },
           { path: 'students', component: CLStudentsListComponent },
+          { path: 'workrequests/:id/:tabId', component: WorkrequestGroupComponent },
+          { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
+          { path: 'workrequests', component: AdvoTicketListComponent },
           { path: 'guidance', component: CLGuidanceListComponent },
           { path: '', redirectTo: 'schools', pathMatch: 'full' }
         ]
@@ -80,8 +86,10 @@ const routes: Routes = [
     CLStudentsListComponent,
     CLGuidanceListComponent,
     ClstudentCrudComponent,
+    WorkrequestCrudComponent,
     CLStudentGroupComponent,
-    ClschoolGroupComponent
+    ClschoolGroupComponent,
+    WorkrequestGroupComponent
   ],
   declarations: [
     // Non-standalone components would go here

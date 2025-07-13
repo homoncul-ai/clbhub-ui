@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { HcclService, WorkRequestGETData, WorkRequestCriteria, WorkRequestGETDataSearchResults } from '../../restsvc/hccl.service';
 
 
@@ -19,7 +20,10 @@ export class OrgQueueTixListComponent implements OnInit, AfterViewInit {
   private grid: any;
   private isDhtmlxLoaded = false;
 
-  constructor(private hcclService: HcclService) {}
+  constructor(
+    private hcclService: HcclService,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
     this.checkDhtmlxLoaded();
@@ -95,7 +99,8 @@ export class OrgQueueTixListComponent implements OnInit, AfterViewInit {
       });
       this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
         if (col && col.id === 'go') {
-          alert(`WorkRequest ID: ${row.id}`);
+          console.log('onRowClick1 called with workRequestId:', row.id); 
+          this.router.navigate(['/advocate-dashboard/tickets', row.id, 'details']);
         }
       });
       this.loadListData();
