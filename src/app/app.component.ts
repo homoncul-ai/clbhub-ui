@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Initialize HCCL context after Keycloak authentication and redirect to first menu item
+   * Initialize HCCL context after Keycloak authentication and redirect to the route (if the path is empty) or the first menu item
    */
   private initializeHcclContextAndRedirect(): void {
     console.log('Starting HCCL context initialization and redirect process ');
@@ -55,16 +55,33 @@ export class AppComponent implements OnInit, OnDestroy {
       next: (context) => {
         console.log('HCCL context loaded successfully:', context);
         
-        // Get the first navigable menu item using the menu service
-        const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+        // Check if we're already on a valid route
+        const currentUrl = this._router.url;
+        console.log('Current URL :', currentUrl);
+        // Check if the current URL is empty, root, or contains auth-related parameters
+        const shouldRedirect = !currentUrl || 
+                              currentUrl === '/' || 
+                              currentUrl === '/login' || 
+                              currentUrl === '/advocate-dashboard' ||
+                              currentUrl === '/broker-dashboard' ||
+                              currentUrl === '/service-provider-dashboard';
         
-        if (firstMenuItem) {
-          console.log('Redirecting to first menu item:', firstMenuItem.route);
-          this._router.navigate([firstMenuItem.route]);
+        if (shouldRedirect) {
+          console.log('Current URL requires redirect, getting first menu item');
+          // Get the first navigable menu item using the menu service
+          const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          
+          if (firstMenuItem) {
+            console.log('Redirecting to first menu item:', firstMenuItem.route);
+            this._router.navigate([firstMenuItem.route]);
+          } else {
+            console.log('No navigable menu items found, redirecting to default dashboard');
+            // Fallback to default dashboard
+            this._router.navigate(['/advocate-dashboard']);
+          }
         } else {
-          console.log('No navigable menu items found, redirecting to default dashboard');
-          // Fallback to default dashboard
-          this._router.navigate(['/advocate-dashboard']);
+          console.log('Current URL is valid, staying on route:', currentUrl);
+          // Stay on the current route - no navigation needed
         }
       },
       error: (error) => {

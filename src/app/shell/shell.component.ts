@@ -246,14 +246,34 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
         next: (context) => {
           console.log('Context refreshed with new profile:', context);
           
-          // Get the first navigable menu item using the menu service
-          const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          // Check if we're already on a valid route
+          const currentUrl = this._router.url;
+          console.log('Current URL after profile change:', currentUrl);
           
-          if (firstMenuItem) {
-            console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
-            this._router.navigate([firstMenuItem.route]);
+          // Check if the current URL is empty, root, or contains auth-related parameters
+          const shouldRedirect = !currentUrl || 
+                                currentUrl === '/' || 
+                                currentUrl === '/login' || 
+                                currentUrl.includes('state=') || 
+                                currentUrl.includes('code=') ||
+                                currentUrl === '/advocate-dashboard' ||
+                                currentUrl === '/broker-dashboard' ||
+                                currentUrl === '/service-provider-dashboard';
+          
+          if (shouldRedirect) {
+            console.log('Current URL requires redirect after profile change, getting first menu item');
+            // Get the first navigable menu item using the menu service
+            const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+            
+            if (firstMenuItem) {
+              console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
+              this._router.navigate([firstMenuItem.route]);
+            } else {
+              console.log('No navigable menu items found after profile change, staying on current route');
+            }
           } else {
-            console.log('No navigable menu items found after profile change, staying on current route');
+            console.log('Current URL is valid after profile change, staying on route:', currentUrl);
+            // Stay on the current route - no navigation needed
           }
         },
         error: (error) => {
