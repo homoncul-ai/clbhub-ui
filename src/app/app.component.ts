@@ -64,7 +64,8 @@ export class AppComponent implements OnInit, OnDestroy {
                               currentUrl === '/login' || 
                               currentUrl === '/advocate-dashboard' ||
                               currentUrl === '/broker-dashboard' ||
-                              currentUrl === '/service-provider-dashboard';
+                              currentUrl === '/service-provider-dashboard' ||
+                              currentUrl === '/ecoadmin-dashboard';
         
         if (shouldRedirect) {
           console.log('Current URL requires redirect, getting first menu item');

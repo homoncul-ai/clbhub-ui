@@ -258,7 +258,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
                                 currentUrl.includes('code=') ||
                                 currentUrl === '/advocate-dashboard' ||
                                 currentUrl === '/broker-dashboard' ||
-                                currentUrl === '/service-provider-dashboard';
+                                currentUrl === '/service-provider-dashboard' ||
+                                currentUrl === '/ecoadmin-dashboard';
           
           if (shouldRedirect) {
             console.log('Current URL requires redirect after profile change, getting first menu item');

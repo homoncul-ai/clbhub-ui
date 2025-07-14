@@ -20,6 +20,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/dash-service/dash-service.module').then(m => m.DashServiceModule)
       },
       {
+        path: 'ecoadmin-dashboard',
+        loadChildren: () => import('./features/dash-ecoadmin/dash-ecoadmin.module').then(m => m.DashEcoAdminModule)
+      },
+      {
         path: '',
         redirectTo: 'advocate-dashboard',
         pathMatch: 'full'

@@ -164,13 +164,14 @@ export class MenuService {
 
   /**
    * Builds the ecoadmin menu dynamically using the constants and helper methods
-   * @returns Array of MenuItem objects for the ecoadmin dashboard (currently empty)
+   * @returns Array of MenuItem objects for the ecoadmin dashboard
    */
   buildEcoAdminMenu(): MenuItem[] {
     const menu: MenuItem[] = [];
     
-    // Currently returning empty menu as requested
-    // Future menu items can be added here following the same pattern as other menus
+    // Add Dashboard
+    const dashboard = this.copyMenuItem(MENU_CONSTANTS.ECOADMIN_DASHBOARD);
+    this.addMenuItem(menu, dashboard);
     
     return menu;
   }
@@ -723,5 +724,15 @@ export const MENU_CONSTANTS = {
     componentPath: 'src/app/features/dash-service/requests',
     componentName: 'service-request-details',
     icon: 'fas fa-clipboard-check'
+  },
+
+  // EcoAdmin Dashboard Menu Items
+  ECOADMIN_DASHBOARD: {
+    level: 1,
+    label: 'Dashboard',
+    route: '/ecoadmin-dashboard',
+    componentPath: 'src/app/features/dash-ecoadmin',
+    componentName: 'ecoadmin-dashboard',
+    icon: 'fas fa-tachometer-alt'
   }
 };
