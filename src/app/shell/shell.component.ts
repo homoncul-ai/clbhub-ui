@@ -249,6 +249,26 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           // Check if we're already on a valid route
           const currentUrl = this._router.url;
           console.log('Current URL after profile change:', currentUrl);
+
+          // Now, load the menu items for the new profile
+          const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
+          const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
+          const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
+
+          this.menuItems = newMenuItems;
+
+          do {
+          // Get the first menu item, then compare it to the current URL, 
+          // if they are the same, then stay on the current route, otherwise, navigate to the first menu item
+          const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          if (firstMenuItem) {
+            console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
+            this._router.navigate([firstMenuItem.route]);
+            continue;
+          } else {
+            console.log('No navigable menu items found after profile change, staying on current route');
+          }
+
           
           // Check if the current URL is empty, root, or contains auth-related parameters
           const shouldRedirect = !currentUrl || 
@@ -276,6 +296,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
             console.log('Current URL is valid after profile change, staying on route:', currentUrl);
             // Stay on the current route - no navigation needed
           }
+        } while (false);
         },
         error: (error) => {
           console.error('Failed to refresh context with new profile:', error);
