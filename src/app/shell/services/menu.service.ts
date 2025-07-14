@@ -161,6 +161,20 @@ export class MenuService {
     
     return menu;
   }
+
+  /**
+   * Builds the ecoadmin menu dynamically using the constants and helper methods
+   * @returns Array of MenuItem objects for the ecoadmin dashboard (currently empty)
+   */
+  buildEcoAdminMenu(): MenuItem[] {
+    const menu: MenuItem[] = [];
+    
+    // Currently returning empty menu as requested
+    // Future menu items can be added here following the same pattern as other menus
+    
+    return menu;
+  }
+
 /*
   private advocateMenuItems: MenuItem[] = [
     {
@@ -383,7 +397,7 @@ export class MenuService {
     }
   ];
 */
-  getMenuItems(dashboardType: 'advocate' | 'broker' | 'service-provider'): MenuItem[] {
+  getMenuItems(dashboardType: 'advocate' | 'broker' | 'service-provider' | 'ecoadmin'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
           return this.buildAdvocateMenu();
@@ -391,18 +405,22 @@ export class MenuService {
         return this.buildBrokerMenu();
       case 'service-provider':
         return this.buildServiceProviderMenu();
+      case 'ecoadmin':
+        return this.buildEcoAdminMenu();
       default:
         return [];
     }
   }
 
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'broker' | 'service-provider' | null {
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'broker' | 'service-provider' | 'ecoadmin' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
     } else if (route.startsWith('/broker-dashboard')) {
       return 'broker';
     } else if (route.startsWith('/service-provider-dashboard')) {
       return 'service-provider';
+    } else if (route.startsWith('/ecoadmin-dashboard')) {
+      return 'ecoadmin';
     }
     return null;
   }
@@ -442,7 +460,7 @@ export class MenuService {
    * @param context - The HCCL context containing user profile information
    * @returns The dashboard type based on user profile
    */
-  private getDashboardTypeFromContext(context: any): 'advocate' | 'broker' | 'service-provider' {
+  private getDashboardTypeFromContext(context: any): 'advocate' | 'broker' | 'service-provider' | 'ecoadmin' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
       return 'advocate';
@@ -464,6 +482,9 @@ export class MenuService {
       case 'SERVICE_PROVIDER':
       case 'EDU_SERVICE_PROVIDER':
         return 'service-provider';
+      case 'ECOADMIN':
+      case 'EDU_ECOADMIN':
+        return 'ecoadmin';
       default:
         console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
         return 'advocate';
