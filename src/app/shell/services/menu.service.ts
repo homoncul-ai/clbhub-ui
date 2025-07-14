@@ -170,7 +170,7 @@ export class MenuService {
     const menu: MenuItem[] = [];
     
     // Add Dashboard
-    const dashboard = this.copyMenuItem(MENU_CONSTANTS.ECOADMIN_DASHBOARD);
+    const dashboard = this.copyMenuItem(MENU_CONSTANTS.EA_DASHBOARD);
     this.addMenuItem(menu, dashboard);
     
     return menu;
@@ -727,12 +727,468 @@ export const MENU_CONSTANTS = {
   },
 
   // EcoAdmin Dashboard Menu Items
-  ECOADMIN_DASHBOARD: {
+  EA_DASHBOARD: {
     level: 1,
     label: 'Dashboard',
     route: '/ecoadmin-dashboard',
     componentPath: 'src/app/features/dash-ecoadmin',
     componentName: 'ecoadmin-dashboard',
     icon: 'fas fa-tachometer-alt'
-  }
+  },
+
+ //  /ecoadmin-dashboard/experience menu items 
+EA_EXPERIENCETYPE_LIST: {
+  "level" : 2,
+  "label" : "Experience Type",
+  "route" : "/ecoadmin-dashboard/experience/experiencetype-list",
+  "componentPath" : "/src/app/components/_crud/experience/experiencetype-list",
+  "componentName" : "experiencetype-list",
+  "icon" : ""
+},
+
+EA_EXPERIENCELOCATION_LIST: {
+  "level" : 2,
+  "label" : "Experience Location",
+  "route" : "/ecoadmin-dashboard/experience/experiencelocation-list",
+  "componentPath" : "/src/app/components/_crud/experience/experiencelocation-list",
+  "componentName" : "experiencelocation-list",
+  "icon" : ""
+},
+
+EA_EXPERIENCE_LIST: {
+  "level" : 2,
+  "label" : "Experience",
+  "route" : "/ecoadmin-dashboard/experience/experience-list",
+  "componentPath" : "/src/app/components/_crud/experience/experience-list",
+  "componentName" : "experience-list",
+  "icon" : ""
+},
+
+EA_EXPERIENCEREGRULE_LIST: {
+  "level" : 2,
+  "label" : "Experience Reg Rule",
+  "route" : "/ecoadmin-dashboard/experience/experienceregrule-list",
+  "componentPath" : "/src/app/components/_crud/experience/experienceregrule-list",
+  "componentName" : "experienceregrule-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/integration_edu menu items 
+EA_CLGUIDANCE_LIST: {
+  "level" : 2,
+  "label" : "C L Guidance",
+  "route" : "/ecoadmin-dashboard/integration_edu/clguidance-list",
+  "componentPath" : "/src/app/components/_crud/integration_edu/clguidance-list",
+  "componentName" : "clguidance-list",
+  "icon" : ""
+},
+
+EA_CLSCHOOL_LIST: {
+  "level" : 2,
+  "label" : "C L School",
+  "route" : "/ecoadmin-dashboard/integration_edu/clschool-list",
+  "componentPath" : "/src/app/components/_crud/integration_edu/clschool-list",
+  "componentName" : "clschool-list",
+  "icon" : ""
+},
+
+EA_CLSTUDENT_LIST: {
+  "level" : 2,
+  "label" : "C L Student",
+  "route" : "/ecoadmin-dashboard/integration_edu/clstudent-list",
+  "componentPath" : "/src/app/components/_crud/integration_edu/clstudent-list",
+  "componentName" : "clstudent-list",
+  "icon" : ""
+},
+
+EA_CLCOURSE_LIST: {
+  "level" : 2,
+  "label" : "C L Course",
+  "route" : "/ecoadmin-dashboard/integration_edu/clcourse-list",
+  "componentPath" : "/src/app/components/_crud/integration_edu/clcourse-list",
+  "componentName" : "clcourse-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/teams menu items 
+EA_HCCLUSER_LIST: {
+  "level" : 2,
+  "label" : "Hccl User",
+  "route" : "/ecoadmin-dashboard/teams/hccluser-list",
+  "componentPath" : "/src/app/components/_crud/teams/hccluser-list",
+  "componentName" : "hccluser-list",
+  "icon" : ""
+},
+
+EA_TEAMTYPEMEMBERROLEREF_LIST: {
+  "level" : 2,
+  "label" : "Team Type Member Role Ref",
+  "route" : "/ecoadmin-dashboard/teams/teamtypememberroleref-list",
+  "componentPath" : "/src/app/components/_crud/teams/teamtypememberroleref-list",
+  "componentName" : "teamtypememberroleref-list",
+  "icon" : ""
+},
+
+EA_HCCLTEAM_LIST: {
+  "level" : 2,
+  "label" : "Hccl Team",
+  "route" : "/ecoadmin-dashboard/teams/hcclteam-list",
+  "componentPath" : "/src/app/components/_crud/teams/hcclteam-list",
+  "componentName" : "hcclteam-list",
+  "icon" : ""
+},
+
+EA_HCCLTEAMLOG_LIST: {
+  "level" : 2,
+  "label" : "Hccl Team Log",
+  "route" : "/ecoadmin-dashboard/teams/hcclteamlog-list",
+  "componentPath" : "/src/app/components/_crud/teams/hcclteamlog-list",
+  "componentName" : "hcclteamlog-list",
+  "icon" : ""
+},
+
+EA_HCCLTEAMMEMBER_LIST: {
+  "level" : 2,
+  "label" : "Hccl Team Member",
+  "route" : "/ecoadmin-dashboard/teams/hcclteammember-list",
+  "componentPath" : "/src/app/components/_crud/teams/hcclteammember-list",
+  "componentName" : "hcclteammember-list",
+  "icon" : ""
+},
+
+EA_TEAMMEMBERROLEREF_LIST: {
+  "level" : 2,
+  "label" : "Team Member Role Ref",
+  "route" : "/ecoadmin-dashboard/teams/teammemberroleref-list",
+  "componentPath" : "/src/app/components/_crud/teams/teammemberroleref-list",
+  "componentName" : "teammemberroleref-list",
+  "icon" : ""
+},
+
+EA_HCCLTEAMMEMBERROLE_LIST: {
+  "level" : 2,
+  "label" : "Hccl Team Member Role",
+  "route" : "/ecoadmin-dashboard/teams/hcclteammemberrole-list",
+  "componentPath" : "/src/app/components/_crud/teams/hcclteammemberrole-list",
+  "componentName" : "hcclteammemberrole-list",
+  "icon" : ""
+},
+
+EA_HCCLUSERPROFILE_LIST: {
+  "level" : 2,
+  "label" : "Hccl User Profile",
+  "route" : "/ecoadmin-dashboard/teams/hccluserprofile-list",
+  "componentPath" : "/src/app/components/_crud/teams/hccluserprofile-list",
+  "componentName" : "hccluserprofile-list",
+  "icon" : ""
+},
+
+EA_HCCLORGANIZATION_LIST: {
+  "level" : 2,
+  "label" : "Hccl Organization",
+  "route" : "/ecoadmin-dashboard/teams/hcclorganization-list",
+  "componentPath" : "/src/app/components/_crud/teams/hcclorganization-list",
+  "componentName" : "hcclorganization-list",
+  "icon" : ""
+},
+
+EA_TEAMTYPEREF_LIST: {
+  "level" : 2,
+  "label" : "Team Type Ref",
+  "route" : "/ecoadmin-dashboard/teams/teamtyperef-list",
+  "componentPath" : "/src/app/components/_crud/teams/teamtyperef-list",
+  "componentName" : "teamtyperef-list",
+  "icon" : ""
+},
+
+EA_HCCLORGANIZATIONTYPEREF_LIST: {
+  "level" : 2,
+  "label" : "Hccl Organization Type Ref",
+  "route" : "/ecoadmin-dashboard/teams/hcclorganizationtyperef-list",
+  "componentPath" : "/src/app/components/_crud/teams/hcclorganizationtyperef-list",
+  "componentName" : "hcclorganizationtyperef-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/prov menu items 
+EA_PROVIDER_LIST: {
+  "level" : 2,
+  "label" : "Provider",
+  "route" : "/ecoadmin-dashboard/prov/provider-list",
+  "componentPath" : "/src/app/components/_crud/prov/provider-list",
+  "componentName" : "provider-list",
+  "icon" : ""
+},
+
+EA_PROVIDERUSER_LIST: {
+  "level" : 2,
+  "label" : "Provider User",
+  "route" : "/ecoadmin-dashboard/prov/provideruser-list",
+  "componentPath" : "/src/app/components/_crud/prov/provideruser-list",
+  "componentName" : "provideruser-list",
+  "icon" : ""
+},
+
+EA_PROVIDERTYPEREF_LIST: {
+  "level" : 2,
+  "label" : "Provider Type Ref",
+  "route" : "/ecoadmin-dashboard/prov/providertyperef-list",
+  "componentPath" : "/src/app/components/_crud/prov/providertyperef-list",
+  "componentName" : "providertyperef-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/integration_emp menu items 
+EA_CLJOB_LIST: {
+  "level" : 2,
+  "label" : "C L Job",
+  "route" : "/ecoadmin-dashboard/integration_emp/cljob-list",
+  "componentPath" : "/src/app/components/_crud/integration_emp/cljob-list",
+  "componentName" : "cljob-list",
+  "icon" : ""
+},
+
+EA_CLEMPLOYEE_LIST: {
+  "level" : 2,
+  "label" : "C L Employee",
+  "route" : "/ecoadmin-dashboard/integration_emp/clemployee-list",
+  "componentPath" : "/src/app/components/_crud/integration_emp/clemployee-list",
+  "componentName" : "clemployee-list",
+  "icon" : ""
+},
+
+EA_CLCOMPANY_LIST: {
+  "level" : 2,
+  "label" : "C L Company",
+  "route" : "/ecoadmin-dashboard/integration_emp/clcompany-list",
+  "componentPath" : "/src/app/components/_crud/integration_emp/clcompany-list",
+  "componentName" : "clcompany-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/statemachine menu items 
+EA_STATETRANSITIONLOG_LIST: {
+  "level" : 2,
+  "label" : "State Transition Log",
+  "route" : "/ecoadmin-dashboard/statemachine/statetransitionlog-list",
+  "componentPath" : "/src/app/components/_crud/statemachine/statetransitionlog-list",
+  "componentName" : "statetransitionlog-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/tix menu items 
+EA_WORKREQUESTTYPEREF_LIST: {
+  "level" : 2,
+  "label" : "Work Request Type Ref",
+  "route" : "/ecoadmin-dashboard/tix/workrequesttyperef-list",
+  "componentPath" : "/src/app/components/_crud/tix/workrequesttyperef-list",
+  "componentName" : "workrequesttyperef-list",
+  "icon" : ""
+},
+
+EA_WORKREQUESTITEM_LIST: {
+  "level" : 2,
+  "label" : "Work Request Item",
+  "route" : "/ecoadmin-dashboard/tix/workrequestitem-list",
+  "componentPath" : "/src/app/components/_crud/tix/workrequestitem-list",
+  "componentName" : "workrequestitem-list",
+  "icon" : ""
+},
+
+EA_WORKQUEUETYPEREF_LIST: {
+  "level" : 2,
+  "label" : "Work Queue Type Ref",
+  "route" : "/ecoadmin-dashboard/tix/workqueuetyperef-list",
+  "componentPath" : "/src/app/components/_crud/tix/workqueuetyperef-list",
+  "componentName" : "workqueuetyperef-list",
+  "icon" : ""
+},
+
+EA_WORKREQUESTLOG_LIST: {
+  "level" : 2,
+  "label" : "Work Request Log",
+  "route" : "/ecoadmin-dashboard/tix/workrequestlog-list",
+  "componentPath" : "/src/app/components/_crud/tix/workrequestlog-list",
+  "componentName" : "workrequestlog-list",
+  "icon" : ""
+},
+
+EA_WORKQUEUE_LIST: {
+  "level" : 2,
+  "label" : "Work Queue",
+  "route" : "/ecoadmin-dashboard/tix/workqueue-list",
+  "componentPath" : "/src/app/components/_crud/tix/workqueue-list",
+  "componentName" : "workqueue-list",
+  "icon" : ""
+},
+
+EA_WORKREQUEST_LIST: {
+  "level" : 2,
+  "label" : "Work Request",
+  "route" : "/ecoadmin-dashboard/tix/workrequest-list",
+  "componentPath" : "/src/app/components/_crud/tix/workrequest-list",
+  "componentName" : "workrequest-list",
+  "icon" : ""
+},
+
+EA_WORKREQUESTTEAM_LIST: {
+  "level" : 2,
+  "label" : "Work Request Team",
+  "route" : "/ecoadmin-dashboard/tix/workrequestteam-list",
+  "componentPath" : "/src/app/components/_crud/tix/workrequestteam-list",
+  "componentName" : "workrequestteam-list",
+  "icon" : ""
+},
+
+EA_WORKREQUESTROUTINGREASON_LIST: {
+  "level" : 2,
+  "label" : "Work Request Routing Reason",
+  "route" : "/ecoadmin-dashboard/tix/workrequestroutingreason-list",
+  "componentPath" : "/src/app/components/_crud/tix/workrequestroutingreason-list",
+  "componentName" : "workrequestroutingreason-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/taxonomy menu items 
+EA_TAXONOMY_LIST: {
+  "level" : 2,
+  "label" : "Taxonomy",
+  "route" : "/ecoadmin-dashboard/taxonomy/taxonomy-list",
+  "componentPath" : "/src/app/components/_crud/taxonomy/taxonomy-list",
+  "componentName" : "taxonomy-list",
+  "icon" : ""
+},
+
+EA_TAXONOMYLEVEL_LIST: {
+  "level" : 2,
+  "label" : "Taxonomy Level",
+  "route" : "/ecoadmin-dashboard/taxonomy/taxonomylevel-list",
+  "componentPath" : "/src/app/components/_crud/taxonomy/taxonomylevel-list",
+  "componentName" : "taxonomylevel-list",
+  "icon" : ""
+},
+
+EA_TAXONOMYENTRY_LIST: {
+  "level" : 2,
+  "label" : "Taxonomy Entry",
+  "route" : "/ecoadmin-dashboard/taxonomy/taxonomyentry-list",
+  "componentPath" : "/src/app/components/_crud/taxonomy/taxonomyentry-list",
+  "componentName" : "taxonomyentry-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/catalog menu items 
+EA_CATALOG_LIST: {
+  "level" : 2,
+  "label" : "Catalog",
+  "route" : "/ecoadmin-dashboard/catalog/catalog-list",
+  "componentPath" : "/src/app/components/_crud/catalog/catalog-list",
+  "componentName" : "catalog-list",
+  "icon" : ""
+},
+
+EA_CATALOGENTRYTAG_LIST: {
+  "level" : 2,
+  "label" : "Catalog Entry Tag",
+  "route" : "/ecoadmin-dashboard/catalog/catalogentrytag-list",
+  "componentPath" : "/src/app/components/_crud/catalog/catalogentrytag-list",
+  "componentName" : "catalogentrytag-list",
+  "icon" : ""
+},
+
+EA_CATALOGTAGREF_LIST: {
+  "level" : 2,
+  "label" : "Catalog Tag Ref",
+  "route" : "/ecoadmin-dashboard/catalog/catalogtagref-list",
+  "componentPath" : "/src/app/components/_crud/catalog/catalogtagref-list",
+  "componentName" : "catalogtagref-list",
+  "icon" : ""
+},
+
+EA_CATALOGSEARCHRESULT_LIST: {
+  "level" : 2,
+  "label" : "Catalog Search Result",
+  "route" : "/ecoadmin-dashboard/catalog/catalogsearchresult-list",
+  "componentPath" : "/src/app/components/_crud/catalog/catalogsearchresult-list",
+  "componentName" : "catalogsearchresult-list",
+  "icon" : ""
+},
+
+EA_CATALOGSEARCH_LIST: {
+  "level" : 2,
+  "label" : "Catalog Search",
+  "route" : "/ecoadmin-dashboard/catalog/catalogsearch-list",
+  "componentPath" : "/src/app/components/_crud/catalog/catalogsearch-list",
+  "componentName" : "catalogsearch-list",
+  "icon" : ""
+},
+
+EA_CATALOGENTRY_LIST: {
+  "level" : 2,
+  "label" : "Catalog Entry",
+  "route" : "/ecoadmin-dashboard/catalog/catalogentry-list",
+  "componentPath" : "/src/app/components/_crud/catalog/catalogentry-list",
+  "componentName" : "catalogentry-list",
+  "icon" : ""
+},
+
+EA_CATALOGSEARCHRESULTENTRY_LIST: {
+  "level" : 2,
+  "label" : "Catalog Search Result Entry",
+  "route" : "/ecoadmin-dashboard/catalog/catalogsearchresultentry-list",
+  "componentPath" : "/src/app/components/_crud/catalog/catalogsearchresultentry-list",
+  "componentName" : "catalogsearchresultentry-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/vocode menu items 
+EA_VOCATIONENCODINGINSTANCE_LIST: {
+  "level" : 2,
+  "label" : "Vocation Encoding Instance",
+  "route" : "/ecoadmin-dashboard/vocode/vocationencodinginstance-list",
+  "componentPath" : "/src/app/components/_crud/vocode/vocationencodinginstance-list",
+  "componentName" : "vocationencodinginstance-list",
+  "icon" : ""
+},
+
+EA_VOCATIONENCODINGREF_LIST: {
+  "level" : 2,
+  "label" : "Vocation Encoding Ref",
+  "route" : "/ecoadmin-dashboard/vocode/vocationencodingref-list",
+  "componentPath" : "/src/app/components/_crud/vocode/vocationencodingref-list",
+  "componentName" : "vocationencodingref-list",
+  "icon" : ""
+},
+
+EA_VOCATIONENCODING_LIST: {
+  "level" : 2,
+  "label" : "Vocation Encoding",
+  "route" : "/ecoadmin-dashboard/vocode/vocationencoding-list",
+  "componentPath" : "/src/app/components/_crud/vocode/vocationencoding-list",
+  "componentName" : "vocationencoding-list",
+  "icon" : ""
+},
+
+//  /ecoadmin-dashboard/provreq menu items 
+EA_PROVIDERREQUEST_LIST: {
+  "level" : 2,
+  "label" : "Provider Request",
+  "route" : "/ecoadmin-dashboard/provreq/providerrequest-list",
+  "componentPath" : "/src/app/components/_crud/provreq/providerrequest-list",
+  "componentName" : "providerrequest-list",
+  "icon" : ""
+},
+
+EA_PROVIDERREQUESTTYPEREF_LIST: {
+  "level" : 2,
+  "label" : "Provider Request Type Ref",
+  "route" : "/ecoadmin-dashboard/provreq/providerrequesttyperef-list",
+  "componentPath" : "/src/app/components/_crud/provreq/providerrequesttyperef-list",
+  "componentName" : "providerrequesttyperef-list",
+  "icon" : ""
+}
+
+  
+    
+
 };
