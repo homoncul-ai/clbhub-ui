@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { HcclService } from '../../../../restsvc/hccl.service';
-import { CLSchoolGETData, CLSchoolCriteria, CLSchoolGETDataSearchResults } from '../../../../restsvc/hccl.service';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { CLSchoolGETData, CLSchoolCriteria, CLSchoolGETDataSearchResults } from '../../../restsvc/hccl.service';
 
 declare const dhx: any;
 
@@ -13,10 +13,10 @@ declare const dhx: any;
 
 @Component({
   selector: 'app-clschools-list',
-  templateUrl: './schools-list.component.html',
-  styleUrls: ['./schools-list.component.css']
+  templateUrl: './clschools-list.component.html',
+  styleUrls: ['./clschools-list.component.css']
 })
-export class CLSchoolsListComponent implements OnInit, AfterViewInit {
+export class CLSchoolListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   private grid: any;
   private isDhtmlxLoaded = false;

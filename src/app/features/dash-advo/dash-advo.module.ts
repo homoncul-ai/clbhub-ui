@@ -17,7 +17,7 @@ import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/or
 
 // Integration Components
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
-import { CLSchoolsListComponent } from './integrations/schools/schools-list.component';
+import { CLSchoolListComponent } from '../../components/_crud/clschool/clschools-list.component';
 import { CLStudentListComponent } from '../../components/_crud/clstudent/clstudent-list.component';
 import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.component';
 
@@ -51,7 +51,7 @@ const routes: Routes = [
         children: [
           { path: 'schools/:id/:tabId', component: ClschoolGroupComponent },
           { path: 'schools/:id', redirectTo: 'schools/:id/details', pathMatch: 'full' },
-          { path: 'schools', component: CLSchoolsListComponent },
+          { path: 'schools', component: CLSchoolListComponent },
           { path: 'students/:id/:tabId', component: CLStudentGroupComponent },
           { path: 'students/:id', redirectTo: 'students/:id/details', pathMatch: 'full' },
           { path: 'students', component: CLStudentListComponent },
@@ -90,7 +90,7 @@ const routes: Routes = [
     OrgQueueListComponent,
     OrgQueueTixListComponent, 
     IntegrationsHomeComponent,
-    CLSchoolsListComponent,
+    CLSchoolListComponent,
     CLStudentListComponent,
     CLGuidanceListComponent,
     ClstudentCrudComponent,
