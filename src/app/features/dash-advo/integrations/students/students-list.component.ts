@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.service';
 import { forkJoin } from 'rxjs';
-import { ClstudentCrudComponent } from '../../../../components/_crud/clstudent-crud/clstudent-crud.component';
+import { ClstudentCrudComponent } from '../../../../components/_crud/clstudent/clstudent-crud.component';
 import { SimpleTabsetComponent, SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
 
 declare const dhx: any;

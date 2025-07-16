@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
-import { ClStudentCrudWrapper, ClstudentCrudComponent } from '@app/components/_crud/clstudent-crud/clstudent-crud.component';
+import { ClStudentCrudWrapper, ClstudentCrudComponent } from '@app/components/_crud/clstudent/clstudent-crud.component';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 

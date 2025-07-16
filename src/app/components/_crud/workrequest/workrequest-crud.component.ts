@@ -9,7 +9,7 @@ import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
-import { WorkrequesttypeCrudComponent } from "@app/components/_crud/workrequesttype-crud/workrequesttype-crud.component";
+import { WorkrequesttypeCrudComponent } from "@app/components/_crud/workrequesttype/workrequesttype-crud.component";
 
 @Component({
   selector: 'app-workrequest-crud',

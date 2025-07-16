@@ -22,10 +22,10 @@ import { CLStudentsListComponent } from './integrations/students/students-list.c
 import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.component';
 
 // CRUD Components
-import { ClstudentCrudComponent } from '../../components/_crud/clstudent-crud/clstudent-crud.component';
-import { WorkrequestCrudComponent } from '../../components/_crud/workrequest-crud/workrequest-crud.component';
-import { WorkrequesttypeCrudComponent } from '../../components/_crud/workrequesttype-crud/workrequesttype-crud.component';
-import { WorkqueueCrudComponent } from '../../components/_crud/workqueue-crud/workqueue-crud.component';
+import { ClstudentCrudComponent } from '../../components/_crud/clstudent/clstudent-crud.component';
+import { WorkrequestCrudComponent } from '../../components/_crud/workrequest/workrequest-crud.component';
+import { WorkrequesttypeCrudComponent } from '../../components/_crud/workrequesttype/workrequesttype-crud.component';
+import { WorkqueueCrudComponent } from '../../components/_crud/workqueue/workqueue-crud.component';
 import { CLStudentGroupComponent } from './integrations/clstudent-group/clstudent-group.component';
 import { ClschoolGroupComponent } from './integrations/clschool-group/clschool-group.component';
 import { WorkrequestGroupComponent } from './tickets/workrequest-group/workrequest-group.component';

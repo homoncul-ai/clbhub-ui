@@ -2,7 +2,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HcclService, SimpleMessage } from '@app/restsvc/hccl.service';
-import { WorkRequestCrudWrapper, WorkrequestCrudComponent } from '@app/components/_crud/workrequest-crud/workrequest-crud.component';
+import { WorkRequestCrudWrapper, WorkrequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';

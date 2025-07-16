@@ -7,7 +7,7 @@ import { CLSchoolGETData, CLSchoolPOSTData, CLSchoolPUTData, CLSchoolCriteria, H
 import { CRUD_MODES } from '@app/@core/constants';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
-import { HcclOrganizationCrudComponent, HcclOrganizationCrudWrapper } from '@app/components/_crud/hccl-organization-crud/hccl-organization-crud.component';
+import { HcclOrganizationCrudComponent, HcclOrganizationCrudWrapper } from '@app/components/_crud/hccl-organization/hccl-organization-crud.component';
 
 @Component({
   selector: 'app-clschool-crud',
