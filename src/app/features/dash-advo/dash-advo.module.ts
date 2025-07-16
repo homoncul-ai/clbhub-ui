@@ -26,7 +26,7 @@ import { ClstudentCrudComponent } from '../../components/_crud/clstudent/clstude
 import { WorkrequestCrudComponent } from '../../components/_crud/workrequest/workrequest-crud.component';
 import { WorkrequesttypeCrudComponent } from '../../components/_crud/workrequesttype/workrequesttype-crud.component';
 import { WorkqueueCrudComponent } from '../../components/_crud/workqueue/workqueue-crud.component';
-import { CLStudentGroupComponent } from './integrations/clstudent-group/clstudent-group.component';
+import { CLStudentGroupComponent } from '../../components/_crud/clstudent/clstudent-group.component';
 import { ClschoolGroupComponent } from './integrations/clschool-group/clschool-group.component';
 import { WorkrequestGroupComponent } from './tickets/workrequest-group/workrequest-group.component';
 

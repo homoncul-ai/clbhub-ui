@@ -1,0 +1,72 @@
+- This prompt will be used to generate a spec for Cursor to generate a set of 3 angular components.  
+- The spec will be markdown. 
+    - After creation of the spec, someone will be editing and massaging spec before the actual generation. 
+
+- Each component set will be based on an "entityName" that will be passed in as an argument.
+- The components generated will be based on some working examples in the project.
+- The components will call into the appropriate  methods in HcclServices. 
+- All component files will reside in the folder src/app/components/_crud/[entityName]
+- each component will have all its files in  the folder src/app/components/_crud/[entityName].
+- Do not create a new folder for each crud component.
+- All the components generated need to rely on the global scss file, and will have empty .scss file.
+
+
+
+# Generating the components 
+
+ Here is the list of components to specify for the [entityName]
+
+## CRUD Component - 
+  - this component controls the display and edit of [entityName] data/
+  - component files - src/app/components/_crud/[entityName]/[entityName]-crud.component.html, src/app/components/_crud/[entityName]/[entityName]-crud.component.ts
+  - Don't bother copying the .scss file - create empty.
+  - Section - Details - based on HcclService interface [entityName]GETData
+
+Example : 
+
+export interface CatalogSearchResultGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  catalogId?: string;
+  comments?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+
+    - Specify the list of attributes to display for Details in tabular format.
+    - id should always be the first
+    - createdByInfo, dateCreated, lastUpdatedByInfo, dateLastUpdated should always be last.
+    - for each field show the attrName, type, the label, and any special hit about displaying it.
+    - dates should be displayed using the app-dategetdata-display component
+    - If there are 3 attributes of the form [prefix]EntityId, [prefix]EntityType, [prefix]EnityName, display using  component app-efk .
+     Example : 
+            subjectEntityId?: string;
+            subjectEntityType?: string;
+            subjectEntityName?: string;
+
+	"<app-efk-display id="this.subjectEntityId" name="this.subjectEntityName" type="this.subjectEntityType" >"
+     - Any other attributes of the form [prefix]Id are foreign key element. They should be displayed like "<app-[fkEntityName]-crud id="this.[fkEntityName]Id" mode="CrudModes.FK".  Resolve the best guess for the fkEntityName referring to HcclService for the list of Interfaces. 
+      - DOn't worry if the crud-component doesn't exist in the project yet.  We'll be generating them all. 
+       From Above example.
+	  parentWorkRequestItemId?: string;
+          The fkEntityName is "WorkRequestItem" 
+
+
+## Group Component - 
+ 
+- The group component provides target for the router to group all the tabs for an [entitytName]
+- Then group component to be generated will be based on CLStudentGroup component.
+- component files - src/app/components/_crud/[entityName]/[entityName]-group.component.html, src/app/components/_crud/[entityName]/[entityName]-group.component.ts
+
+# List component 
+- The group component provides target for the router to search and list of [entitytName]GETData 
+- Then group component to be generated will be based on CLStudentGroup component.
+- component files - src/app/components/_crud/[entityName]/[entityName]-list.component.html, src/app/components/_crud/[entityName]/[entityName]-list.component.ts
+
+      
