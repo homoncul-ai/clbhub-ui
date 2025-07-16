@@ -18,7 +18,7 @@ import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/or
 // Integration Components
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
 import { CLSchoolsListComponent } from './integrations/schools/schools-list.component';
-import { CLStudentsListComponent } from './integrations/students/students-list.component';
+import { CLStudentListComponent } from '../../components/_crud/clstudent/clstudent-list.component';
 import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.component';
 
 // CRUD Components
@@ -54,7 +54,7 @@ const routes: Routes = [
           { path: 'schools', component: CLSchoolsListComponent },
           { path: 'students/:id/:tabId', component: CLStudentGroupComponent },
           { path: 'students/:id', redirectTo: 'students/:id/details', pathMatch: 'full' },
-          { path: 'students', component: CLStudentsListComponent },
+          { path: 'students', component: CLStudentListComponent },
           { path: 'workrequests/:id/:tabId', component: WorkrequestGroupComponent },
           { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
           { path: 'workrequests', component: AdvoTicketListComponent },
@@ -91,7 +91,7 @@ const routes: Routes = [
     OrgQueueTixListComponent, 
     IntegrationsHomeComponent,
     CLSchoolsListComponent,
-    CLStudentsListComponent,
+    CLStudentListComponent,
     CLGuidanceListComponent,
     ClstudentCrudComponent,
     WorkrequestCrudComponent,

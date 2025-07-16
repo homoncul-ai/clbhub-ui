@@ -15,12 +15,12 @@ declare const dhx: any;
  */
 
 @Component({
-  selector: 'app-clstudents-list',
-  templateUrl: './students-list.component.html',
+  selector: 'app-clstudent-list',
+  templateUrl: './clstudent-list.component.html',
   styleUrls: ['../../../../views/uistarter/list-search-starter.component.css'],
   imports: [CommonModule]
 })
-export class CLStudentsListComponent implements OnInit, AfterViewInit {
+export class CLStudentListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   private grid: any;
   private isDhtmlxLoaded = false;

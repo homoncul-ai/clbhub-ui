@@ -606,7 +606,7 @@ export const MENU_CONSTANTS = {
     label: 'CLStudents',
     route: '/advocate-dashboard/integrations/students',
     componentPath: 'src/app/features/dash-advo/integrations/students',
-    componentName: 'clstudents-list',
+    componentName: 'clstudent-list',
     icon: 'fas fa-user-graduate'
   },
   ADVOCATE_CLGUIDANCE: {
