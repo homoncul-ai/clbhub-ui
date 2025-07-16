@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HcclService } from '../../../../restsvc/hccl.service';
-import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../../restsvc/hccl.service';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../restsvc/hccl.service';
 import { forkJoin } from 'rxjs';
-import { ClstudentCrudComponent } from '../../../../components/_crud/clstudent/clstudent-crud.component';
+import { ClstudentCrudComponent } from './clstudent-crud.component';
 import { SimpleTabsetComponent, SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
 
 declare const dhx: any;
@@ -17,7 +17,7 @@ declare const dhx: any;
 @Component({
   selector: 'app-clstudent-list',
   templateUrl: './clstudent-list.component.html',
-  styleUrls: ['../../../../views/uistarter/list-search-starter.component.css'],
+  styleUrls: ['../../../views/uistarter/list-search-starter.component.css'],
   imports: [CommonModule]
 })
 export class CLStudentListComponent implements OnInit, AfterViewInit {
