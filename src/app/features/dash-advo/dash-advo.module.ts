@@ -17,7 +17,7 @@ import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/or
 
 // Integration Components
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
-import { CLSchoolListComponent } from '../../components/_crud/clschool/clschools-list.component';
+import { CLSchoolListComponent } from '../../components/_crud/clschool/clschool-list.component';
 import { CLStudentListComponent } from '../../components/_crud/clstudent/clstudent-list.component';
 import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.component';
 

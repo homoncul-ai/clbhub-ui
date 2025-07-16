@@ -12,9 +12,9 @@ declare const dhx: any;
  */
 
 @Component({
-  selector: 'app-clschools-list',
-  templateUrl: './clschools-list.component.html',
-  styleUrls: ['./clschools-list.component.css']
+  selector: 'app-clschool-list',
+  templateUrl: './clschool-list.component.html',
+  styleUrls: ['./clschool-list.component.css']
 })
 export class CLSchoolListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
