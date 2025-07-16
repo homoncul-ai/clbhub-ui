@@ -27,7 +27,7 @@ import { WorkrequestCrudComponent } from '../../components/_crud/workrequest/wor
 import { WorkrequesttypeCrudComponent } from '../../components/_crud/workrequesttype/workrequesttype-crud.component';
 import { WorkqueueCrudComponent } from '../../components/_crud/workqueue/workqueue-crud.component';
 import { CLStudentGroupComponent } from '../../components/_crud/clstudent/clstudent-group.component';
-import { ClschoolGroupComponent } from './integrations/clschool-group/clschool-group.component';
+import { ClschoolGroupComponent } from '../../components/_crud/clschool/clschool-group.component';
 import { WorkrequestGroupComponent } from './tickets/workrequest-group/workrequest-group.component';
 
 const routes: Routes = [
