@@ -55,6 +55,7 @@ export class NewWorkRequestComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+
     this.hcclContextService.waitForReady() .then(() => {  
       var hcclContext: HcclUserContextGETData = this.hcclContextService.getContext();
       //alert('NewWorkRequestComponent hcclContext:' + hcclContext.currentUserProfileId);

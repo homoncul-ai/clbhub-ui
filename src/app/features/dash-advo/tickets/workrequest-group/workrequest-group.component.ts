@@ -70,6 +70,15 @@ export class WorkrequestGroupComponent extends AbstractEntityGroupComponent<Work
         () => {
           return this.entity !== null;
         }
+      ),
+      new SimpleTab('logs', 'Logs', '', 
+        () => {
+          this.currentTabId = 'logs';
+          this.router.navigate(['/advocate-dashboard/integrations/workrequests', this.id, 'logs']);
+        },
+        () => {
+          return this.entity !== null;
+        }
       )
     ];
   }
