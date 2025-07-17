@@ -23,7 +23,7 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   private isDhtmlxLoaded = false;
 
   public selectedProviderTypeRefId: string | null = null;
-  public showTuneButton: boolean = true; // Variable to control tune button visibility
+  public showTuneButton: boolean = false; // Variable to control tune button visibility
 
   constructor(
     private hcclService: HcclService,

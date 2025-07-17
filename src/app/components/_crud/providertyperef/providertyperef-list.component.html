@@ -1,7 +1,7 @@
 
 
 <div class="search-list-container">
-    <span class="search-list-title">Provider bytes:precision</span>
+    <span class="search-list-title">Provider Types</span>
     <div class="search-list-button-bar">
         &nbsp;
       <!-- <button class="search-list-button-bar-button btn-primary" (click)="onRefresh()">Refresh</button> -->
@@ -11,7 +11,7 @@
       <button type="submit" class="search-list-input-button">
         <span class="material-icons" aria-label="Search">search</span>
       </button>
-      <button type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
+      <button *ngIf="showTuneButton" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
         <span class="material-icons" aria-label="Advanced Search">tune</span>
       </button>
     </form>
