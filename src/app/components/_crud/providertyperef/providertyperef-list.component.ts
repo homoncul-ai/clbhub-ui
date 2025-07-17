@@ -20,11 +20,9 @@ import { Observable } from 'rxjs';
 export class ProviderTypeRefListComponent extends AbstractListComponent<ProviderTypeRefGETData, ProviderTypeRefCriteria, ProviderTypeRefGETDataSearchResults> {
   
   constructor(
-    hcclService: HcclService,
-    route: ActivatedRoute,
-    router: Router
+   
   ) {
-    super(hcclService, route, router);
+    super();
     
     // Set entity-specific properties
     this.searchHeading = 'Provider Types';
@@ -78,16 +76,16 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
     return '/ecoadmin-dashboard/providertyperefs';
   }
 
-  protected onAdvancedSearchAction(checkedRows: any[], entityIds: string[]): void {
-    // TODO: Implement tuning logic
-    alert(`Tuning ${checkedRows.length} provider type ref(s): ` + entityIds.join(', '));
-  }
-
   /**
    * Override onGoClick for entity-specific behavior
    */
   public override onGoClick() {
     alert('onGoClick called');
     // Default implementation - can be customized for ProviderTypeRef specific behavior
+  }
+
+  protected override onRowClick(entityId: string): void {
+    console.log('onRowClick called with entityId:', entityId);
+    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', entityId, 'details']);
   }
 } 

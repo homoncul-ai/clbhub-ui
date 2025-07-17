@@ -1,5 +1,5 @@
 import { BaseCriteria } from '../../../restsvc/hccl.service';
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
@@ -32,11 +32,9 @@ export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, T
   protected showingIdCheckbox: boolean = false;
   protected showingAddButton: boolean = false;
 
-  constructor(
-    protected hcclService: HcclService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  protected hcclService = inject(HcclService);
+  protected route = inject(ActivatedRoute);
+  protected router = inject(Router);
 
   ngOnInit() {
     // Check for ID parameter in route
@@ -160,15 +158,6 @@ export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, T
         range: true,
       }
     });
-  }
-
-  /**
-   * Handle row click to show entity details
-   * @param entityId The ID of the clicked entity
-   */
-  public onRowClick(entityId: string): void {
-    console.log('onRowClick called with entityId:', entityId);
-    this.router.navigate([this.getDetailsRoute(), entityId, 'details']);
   }
 
   /**
@@ -342,12 +331,22 @@ export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, T
   protected abstract formatEntityData(entity: T): any;
 
   /**
-   * Get the details route for this entity
-   */
-  protected abstract getDetailsRoute(): string;
-
-  /**
    * Handle advanced search action
    */
-  protected abstract onAdvancedSearchAction(checkedRows: any[], entityIds: string[]): void;
+  protected  onAdvancedSearchAction(checkedRows: any[], entityIds: string[]): void {
+
+  }
+
+  /**
+   * Handle row click event
+   */
+  protected onRowClick(entityId: string): void {
+    // Default implementation - subclasses can override
+    console.log('onRowClick called with entityId:', entityId);
+  }
+
+  protected onAdd(): void {
+    // TODO: Implement add functionality
+    alert('Add functionality not yet implemented');
+  }
 } 
