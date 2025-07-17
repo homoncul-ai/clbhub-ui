@@ -200,6 +200,7 @@ export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, T
 
   protected loadGridDataCall(criteria: TCriteria) {
     console.log('Loading entities with criteria:', criteria);
+
     this.findEntities(criteria).subscribe({
       next: (response: TSearchResults) => {
         if (this.hasSearchResults(response)) {
