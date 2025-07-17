@@ -1,0 +1,140 @@
+# ProviderTypeRef Component Generation Spec
+
+This spec describes the requirements for generating the CRUD, List, and Group Angular components for the entity **ProviderTypeRef**. The components will be generated in `src/app/components/_crud/providertyperef/` and will use the global SCSS file (empty local .scss files).
+
+## CRUD Component
+
+- **Files:**
+  - `src/app/components/_crud/providertyperef/providertyperef-crud.component.html`
+  - `src/app/components/_crud/providertyperef/providertyperef-crud.component.ts`
+  - `src/app/components/_crud/providertyperef/providertyperef-crud.component.scss` (empty)
+
+### Section: Details
+
+Based on `ProviderTypeRefGETData` interface:
+
+```typescript
+export interface ProviderTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+```
+
+#### Attributes Table (Details)
+| Attribute         | Type         | Label           | Display Hint |
+|-------------------|--------------|-----------------|--------------|
+| id                | string       | ID              | Always first |
+| name              | string       | Name            |              |
+| businessCode      | string       | Business Code   |              |
+| description       | string       | Description     |              |
+| available         | number       | Available       |              |
+| createdByInfo     | Reference    | Created By      | Always last  |
+| dateCreated       | DateGETData  | Date Created    | Use `<app-dategetdata-display>` |
+| lastUpdatedByInfo | Reference    | Last Updated By | Always last  |
+| dateLastUpdated   | DateGETData  | Date Last Updated | Use `<app-dategetdata-display>` |
+
+- **Order:**
+  - `id` first
+  - `createdByInfo`, `dateCreated`, `lastUpdatedByInfo`, `dateLastUpdated` last
+  - All others in between
+- **Display:**
+  - Dates: Use `<app-dategetdata-display>`
+  - No foreign key or EFK patterns in this entity
+
+### Section: Edit
+
+Based on `ProviderTypeRefPUTData` interface:
+
+```typescript
+export interface ProviderTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+```
+
+#### Attributes Table (Edit)
+| Attribute     | Type    | Label         |
+|---------------|---------|--------------|
+| name          | string  | Name         |
+| businessCode  | string  | Business Code|
+| description   | string  | Description  |
+| available     | number  | Available    |
+
+### Section: Add
+
+Based on `ProviderTypeRefPOSTData` interface:
+
+```typescript
+export interface ProviderTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+```
+
+#### Attributes Table (Add)
+| Attribute     | Type    | Label         |
+|---------------|---------|--------------|
+| name          | string  | Name         |
+| businessCode  | string  | Business Code|
+| description   | string  | Description  |
+| available     | number  | Available    |
+
+
+## Group Component
+
+- **Files:**
+  - `src/app/components/_crud/providertyperef/providertyperef-group.component.html`
+  - `src/app/components/_crud/providertyperef/providertyperef-group.component.ts`
+  - `src/app/components/_crud/providertyperef/providertyperef-group.component.scss` (empty)
+
+- **Purpose:**
+  - Provides a router target to group all the tabs for ProviderTypeRef
+  - Based on the CLStudentGroup component
+  - Uses a tabset with at least 'list' and 'details' tabs
+  - Loads entity by id and passes to CRUD component
+
+
+## List Component
+
+- **Files:**
+  - `src/app/components/_crud/providertyperef/providertyperef-list.component.html`
+  - `src/app/components/_crud/providertyperef/providertyperef-list.component.ts`
+  - `src/app/components/_crud/providertyperef/providertyperef-list.component.scss` (empty)
+
+- **Purpose:**
+  - Provides a router target to search and list ProviderTypeRefGETData
+  - Based on the CLStudentList component
+  - Uses a grid/table to display the attributes
+
+#### Attributes Table (List)
+| Attribute         | Type         | Label           | Display Hint |
+|-------------------|--------------|-----------------|--------------|
+| id                | string       | ID              | Always first |
+| name              | string       | Name            |              |
+| businessCode      | string       | Business Code   |              |
+| description       | string       | Description     |              |
+| available         | number       | Available       |              |
+| createdByInfo     | Reference    | Created By      | Always last  |
+| dateCreated       | DateGETData  | Date Created    | Use `<app-dategetdata-display>` |
+| lastUpdatedByInfo | Reference    | Last Updated By | Always last  |
+| dateLastUpdated   | DateGETData  | Date Last Updated | Use `<app-dategetdata-display>` |
+
+
+---
+
+**Notes:**
+- All generated components should use the global SCSS file and have empty local .scss files.
+- All files reside in `src/app/components/_crud/providertyperef/`.
+- The CRUD component should call the appropriate methods in HcclService for ProviderTypeRef.
+- The Group and List components should be based on the structure and logic of the CLStudentGroup and CLStudentList components, respectively. 

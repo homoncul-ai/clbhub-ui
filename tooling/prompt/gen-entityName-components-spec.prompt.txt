@@ -43,11 +43,12 @@ export interface CatalogSearchResultGETData {
   parentWorkRequestItemId?: string;
 }
 
+- **Method call for Details:** `this.hcclService.get[entityName]ById(id)`
 
     - Specify the list of attributes to display for Details in tabular format.
     - id should always be the first
     - createdByInfo, dateCreated, lastUpdatedByInfo, dateLastUpdated should always be last.
-    - for each field show the attrName, type, the label, and any special hit about displaying it.
+    - for each field show the attrName, type, the label, and any special hint about displaying it.
     - dates should be displayed using the app-dategetdata-display component
     - If there are 3 attributes of the form [prefix]EntityId, [prefix]EntityType, [prefix]EnityName, display using  component app-efk .
      Example : 
@@ -55,8 +56,8 @@ export interface CatalogSearchResultGETData {
             subjectEntityType?: string;
             subjectEntityName?: string;
 
-	"<app-efk-display id="this.subjectEntityId" name="this.subjectEntityName" type="this.subjectEntityType" >"
-     - Any other attributes of the form [prefix]Id are foreign key element. They should be displayed like "<app-[fkEntityName]-crud id="this.[fkEntityName]Id" mode="CrudModes.FK".  Resolve the best guess for the fkEntityName referring to HcclService for the list of Interfaces. 
+	"<app-efk-display id=\"this.subjectEntityId\" name=\"this.subjectEntityName\" type=\"this.subjectEntityType\" >"
+     - Any other attributes of the form [prefix]Id are foreign key element. They should be displayed like "<app-[fkEntityName]-crud id=\"this.[fkEntityName]Id\" mode=\"CrudModes.FK\"".  Resolve the best guess for the fkEntityName referring to HcclService for the list of Interfaces. 
       - DOn't worry if the crud-component doesn't exist in the project yet.  We'll be generating them all. 
        From Above example.
 	  parentWorkRequestItemId?: string;
@@ -78,9 +79,10 @@ export interface CatalogSearchResultPUTData {
   parentWorkRequestItemId?: string;
 }
 
- - Specify the list of attributes to display for Edit in tabular format.
+- **Method call for Edit:** `this.hcclService.update[entityName]ById(id, body)`
+- **Display hint:** For each field, specify any special display hint about the input field (e.g., dropdown, date picker, textarea, etc.)
+- Specify the list of attributes to display for Edit in tabular format. For each field show the attrName, type, the label, and any special display hint about the input field.
     
-
 ### Section - Add 
 
 based on HcclService interface [entityName]POSTData
@@ -95,7 +97,9 @@ export interface CatalogSearchResultPOSTData {
   parentWorkRequestItemId?: string;
 }
 
-
+- **Method call for Add:** `this.hcclService.create[entityName](body)`
+- **Display hint:** For each field, specify any special display hint about the input field (e.g., dropdown, date picker, textarea, etc.)
+- Specify the list of attributes to display for Add in tabular format. For each field show the attrName, type, the label, and any special display hint about the input field.
 
 ## Group Component - 
  
@@ -108,6 +112,8 @@ export interface CatalogSearchResultPOSTData {
 - Then List component to be generated will be based on CLStudentList component.
 - component files - src/app/components/_crud/[entityName]/[entityName]-list.component.html, 
                     src/app/components/_crud/[entityName]/[entityName]-list.component.ts
+
+- **Method call for Search/List:** `this.hcclService.find[entityName]s(criteria)`
 
 The spec you create for the list component should also show a table of the GETData attributes just like for the details.
  
