@@ -1,7 +1,9 @@
-
-<app-simple-tabset [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 <div *ngIf="currentTabId === 'details'">
   <app-providertyperef-crud [id]="id"></app-providertyperef-crud>
 </div>
 
-<app-providertyperef-crud [id]="id" modeName="create"></app-providertyperef-crud>
+<div *ngIf="currentTabId === 'create'">
+  <h1>Create</h1>
+  <app-providertyperef-crud [id]="id" modeName="create"></app-providertyperef-crud>
+</div>

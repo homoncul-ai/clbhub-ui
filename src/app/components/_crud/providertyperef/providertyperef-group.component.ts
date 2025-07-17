@@ -25,7 +25,9 @@ export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<
     this.route.params.subscribe(params => {
       const id = params['id'];
       const tabId = params['tabId'] || 'details';
-      if (tabId === 'create') {
+      if (!id) {
+        this.currentTabId = tabId;
+        this.showingTabset = false;
         this.entity = ProviderTypeRefCrudWrapper.newInstanceForCreate(this.hcclService);
       } else {
       if (id) {
@@ -55,7 +57,7 @@ export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<
     return [
       new SimpleTab('list', 'List', '', 
         () => {
-          this.router.navigate(['/advocate-dashboard/integrations/providertyperefs']);
+          this.router.navigate(['/ecoadmin-dashboard/providertyperefs']);
         },
         () => {
           return true;
@@ -64,18 +66,13 @@ export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<
       new SimpleTab('details', 'Details', '', 
         () => {
           this.currentTabId = 'details';
-          this.router.navigate(['/advocate-dashboard/integrations/providertyperefs', this.id, 'details']);
+          this.router.navigate(['/ecoadmin-dashboard/providertyperefs', this.id, 'details']);
         },
         () => {
           return this.entity !== null;
         }
       )
     ];
-  }
-
-  public onListTabClick(): void {
-    this.currentTabId = 'list';
-    this.router.navigate(['/advocate-dashboard/integrations/providertyperefs']);
   }
 
   public override activateTab(tabId: string): void {

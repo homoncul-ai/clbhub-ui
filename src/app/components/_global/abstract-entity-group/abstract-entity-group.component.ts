@@ -18,6 +18,8 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   protected loading: boolean = false;
   protected error: string = '';
   protected success: boolean = false;
+  protected showingTabset: boolean = true;
+  
   
   protected hcclService = inject(HcclService);
   protected router = inject(Router);
