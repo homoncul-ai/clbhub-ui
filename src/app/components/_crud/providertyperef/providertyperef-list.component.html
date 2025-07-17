@@ -1,1 +1,21 @@
-<div #gridContainer class="search-list-grid-container" style="width: 100%; height: 600px;"></div> 
+
+
+<div class="search-list-container">
+    <span class="search-list-title">Provider bytes:precision</span>
+    <div class="search-list-button-bar">
+        &nbsp;
+      <!-- <button class="search-list-button-bar-button btn-primary" (click)="onRefresh()">Refresh</button> -->
+    </div>
+    <form class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
+      <input #searchInput type="text" class="search-list-input" placeholder="search by name or student ID, * for wildcard" />
+      <button type="submit" class="search-list-input-button">
+        <span class="material-icons" aria-label="Search">search</span>
+      </button>
+      <button type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
+        <span class="material-icons" aria-label="Advanced Search">tune</span>
+      </button>
+    </form>
+    <div #gridContainer class="search-list-grid"></div>
+  </div>
+
+<!-- <div #gridContainer class="search-list-grid-container" style="width: 100%; height: 600px;"></div>  -->

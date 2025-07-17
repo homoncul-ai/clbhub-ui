@@ -936,7 +936,7 @@ EA_PROVIDERUSER_LIST: {
 EA_PROVIDERTYPEREF_LIST: {
   level: 1,
   label: 'Provider Type Refs',
-  route: '/ecoadmin/providertyperefs',
+  route: '/ecoadmin-dashboard/providertyperefs',
   componentPath: 'src/app/components/_crud/providertyperef/providertyperef-list.component',
   componentName: 'ProviderTypeRefListComponent',
   icon: 'fas fa-list'

@@ -86,6 +86,16 @@ You are an expert Angular developer and code generator. Your task is to generate
 - Include getter/setter methods for form binding
 - Implement required abstract methods: `loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`
 
+### Template Structure
+- Copy structure from `clstudent-crud.component.html`
+- Replace all references to "clstudent" with `[entityName]`
+- Replace all references to "Clstudent" with `[EntityName]`
+- Keep all mode structures (CREATE, EDIT, DETAIL, DELETE)
+- Ensure proper binding for form fields
+- Include `<app-dategetdata-display>` for date fields
+- Include `<app-available-selector>` for available fields
+- **CRITICAL:** For date display components, ensure `@Input() dateData: DateGETData` is declared in the component class
+
 ---
 
 ## Group Component
@@ -111,12 +121,16 @@ You are an expert Angular developer and code generator. Your task is to generate
 - Implement required abstract methods: `loadEntityById`, `setupTabs`
 - Setup tabs for 'list' and 'details' with proper routing
 - **Constructor:** Only inject `ActivatedRoute` - do NOT inject `Router` or `HcclService` in constructor
+- **CRITICAL:** Use correct route paths - for eco-admin use `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]`
 
 ### Template Structure
-- Use `<app-simple-tabset [tabs]=tabs [currentTabId]="currentTabId" (tabClick)="activateTab($event)></app-simple-tabset>`
+- Copy structure from `clstudent-group.component.html`
+- Replace component references with generated component names
+- Use `<app-simple-tabset [tabs]=tabs [currentTabId]="currentTabId" (tabClick)="activateTab($event)"></app-simple-tabset>`
 - Include conditional divs for details and list tabs
 - **Do NOT** include `(click)=onClick($event)` handlers in the template
 - Keep template simple and focused on tab display
+- Use `*ngIf` for tab content display
 
 ---
 
@@ -143,10 +157,13 @@ You are an expert Angular developer and code generator. Your task is to generate
 - Handle row click navigation to details
 - Implement data loading with proper error handling
 - **MUST include:** `declare const dhx: any;` at the top of the file after imports
+- **Constructor:** Inject `HcclService`, `ActivatedRoute`, `Router`
+- **CRITICAL:** Copy ALL methods from `clstudent-list.component.ts` including grid setup, event handlers, and data loading
 
 ### Template Structure
-- Use simple template: `<div #gridContainer class="search-list-grid-container" style="width:10height:600x;"></div>`
+- Use simple template: `<div #gridContainer class="search-list-grid-container" style="width:100%;height:600px;"></div>`
 - Keep template minimal - all logic should be in the TypeScript file
+- **Do NOT** include complex HTML structure
 
 ---
 
@@ -155,13 +172,13 @@ You are an expert Angular developer and code generator. Your task is to generate
 ### Routing Configuration
 Add the following routes to the appropriate module (e.g., `dash-ecoadmin.module.ts`):
 ```typescript
-{ path: [routePath]/:id/:tabId', component: [EntityName]GroupComponent },
-{ path: [routePath]/:id', redirectTo: '[routePath]/:id/details', pathMatch:full' },
+{ path: '[routePath]/:id/:tabId', component: [EntityName]GroupComponent },
+{ path: '[routePath]/:id', redirectTo: '[routePath]/:id/details', pathMatch: 'full' },
 { path: '[routePath]', component: [EntityName]ListComponent }
 ```
 
 ### Module Imports
-Add the generated components to the modulesimports array:
+Add the generated components to the module's imports array:
 ```typescript
 imports: [
   // ... existing imports
@@ -179,10 +196,11 @@ Add menu item constant to `src/app/shell/services/menu.service.ts`:
 ```typescript
 EA_[ENTITYNAME]_LIST: {
   level: 1,
-  label: [EntityName]s',
-  route:/ecoadmin/[routePath],
-  componentPath: 'src/app/components/_crud/[entityName]/[entityName]-list.component,
-  componentName:[EntityName]ListComponent,icon: 'fas fa-list'
+  label: '[EntityName]s',
+  route: '/ecoadmin-dashboard/[routePath]',
+  componentPath: 'src/app/components/_crud/[entityName]/[entityName]-list.component',
+  componentName: '[EntityName]ListComponent',
+  icon: 'fas fa-list'
 }
 ```
 
@@ -194,18 +212,21 @@ const [entityName] = this.copyMenuItem(MENU_CONSTANTS.EA_[ENTITYNAME]_LIST);
 this.addMenuItem(menu, [entityName]);
 ```
 
+**CRITICAL ROUTING FIX:** Ensure menu route uses `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]` to match the actual app routing structure.
+
 ---
 
 ## Template Copying Guidelines
 
 ### CRUD Component Template
 - Copy structure from `clstudent-crud.component.html`
-- Replace all references tostudent" with `[entityName]`
-- Replace all references toStudent" with `[EntityName]`
+- Replace all references to "clstudent" with `[entityName]`
+- Replace all references to "Clstudent" with `[EntityName]`
 - Keep all mode structures (CREATE, EDIT, DETAIL, DELETE)
 - Ensure proper binding for form fields
 - Include `<app-dategetdata-display>` for date fields
 - Include `<app-available-selector>` for available fields
+- **CRITICAL:** Ensure all imported components have proper `@Input()` declarations
 
 ### Group Component Template
 - Copy structure from `clstudent-group.component.html`
@@ -228,41 +249,73 @@ this.addMenuItem(menu, [entityName]);
 - For date display components, import `DategetdataDisplayComponent`
 - For available selector, import `AvailableSelectorComponent`
 - For menu controls, import `MenuControlDataListComponent`
+- **CRITICAL:** For date components, ensure `@Input() dateData: any` is declared in the component class
 
 ### Template Binding Errors
 - Ensure `@Input()` properties are declared in component classes
 - For date components, ensure `@Input() dateData: any` is declared
 - For available selector, ensure proper two-way binding with `[(ngModel)]`
+- Check that all form field bindings use correct property names
 
 ### Routing Issues
-- Ensure route paths match between module configuration and menu constants
-- Use consistent route naming: `/ecoadmin/[routePath]` for eco-admin
+- **CRITICAL:** Ensure route paths match between module configuration and menu constants
+- Use consistent route naming: `/ecoadmin-dashboard/[routePath]` for eco-admin (not `/ecoadmin/[routePath]`)
 - Include proper redirects for default tab navigation
+- Menu routes must match actual app routing structure
 
 ### Constructor Dependencies
 - **CRUD Components:** Only inject `super()` - no additional services needed
 - **Group Components:** Only inject `ActivatedRoute` in constructor
 - **List Components:** Inject `HcclService`, `ActivatedRoute`, `Router`
 - Always call `super()` in constructor for components extending abstract classes
+- **Do NOT** inject `Router` or `HcclService` in Group component constructor
 
 ### DHTMLX Integration
 - **MUST** include `declare const dhx: any;` in list components
 - Ensure proper grid initialization with error handling
-- Handle grid container visibility checks
-- Include proper cleanup in component destruction
+- Copy ALL grid setup methods from `clstudent-list.component.ts`
+- Include proper event handlers for row clicks and data loading
+
+### Menu Navigation Issues
+- **CRITICAL:** Menu route must match actual app routing structure
+- For eco-admin dashboard, use `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]`
+- Ensure menu constants use correct route paths
+- Test navigation after menu integration
+
+### Component Structure Issues
+- **CRITICAL:** Copy ALL methods from reference components (CLStudent)
+- Do not create new methods - use existing patterns
+- Ensure proper inheritance from abstract classes
+- Include all required abstract method implementations
 
 ---
 
-## Notes for Future Updates
-- This spec is designed to be **idempotent**: you can update and re-apply it to safely update the generated components.
-- When updating, ensure all new requirements are reflected in the attribute tables and method call instructions.
-- Keep the spec clear, concise, and easy to review for both humans and AI.
-- Always include module integration and menu configuration steps.
-- Test routing and navigation after component generation.
-- Verify all required imports are included in component decorators.
-- **Copy templates carefully** - avoid adding unnecessary event handlers or complex template logic.
-- **Include DHTMLX declaration** - always add `declare const dhx: any;` to list components.
-- **Minimize constructor dependencies** - only inject what's absolutely necessary.
+## Idempotent Generation Rules
+
+1. **Template Copying:** Always copy complete structure from reference components
+2. **Method Implementation:** Copy ALL methods from reference components, don't create new ones
+3. **Import Requirements:** Include all necessary imports for components and services
+4. **Constructor Rules:** Follow strict constructor injection rules for each component type
+5. **Routing Consistency:** Ensure menu routes match actual app routing structure
+6. **Component Dependencies:** Declare all required `@Input()` properties
+7. **Error Handling:** Include proper error handling in data loading methods
+8. **Grid Integration:** Copy complete DHTMLX grid setup from reference components
+
+---
+
+## Final Checklist
+
+Before generating components, ensure:
+- [ ] All required imports are specified
+- [ ] Constructor dependencies are correctly defined
+- [ ] Routing paths are consistent between module and menu
+- [ ] Template copying guidelines are followed
+- [ ] Common issues and solutions are addressed
+- [ ] Component structure matches reference components
+- [ ] All abstract methods are implemented
+- [ ] Error handling is included
+- [ ] DHTMLX integration is complete (for list components)
+- [ ] Menu integration uses correct route paths
 
 
 
