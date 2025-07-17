@@ -52,6 +52,14 @@ export class CLStudentGroupComponent extends AbstractEntityGroupComponent<ClStud
   
   protected setupTabs(): SimpleTab[] {
     return [
+      new SimpleTab('list', 'List', '', 
+        () => {
+          this.router.navigate(['/advocate-dashboard/integrations/students']);
+        },
+        () => {
+          return true; // Always show the list tab
+        }
+      ),
       new SimpleTab('details', 'Details', '', 
         () => {
           this.currentTabId = 'details';
@@ -62,6 +70,11 @@ export class CLStudentGroupComponent extends AbstractEntityGroupComponent<ClStud
         }
       )
     ];
+  }
+
+  public onListTabClick(): void {
+    this.currentTabId = 'list';
+    this.router.navigate(['/advocate-dashboard/integrations/students']);
   }
 
   public override activateTab(tabId: string): void {

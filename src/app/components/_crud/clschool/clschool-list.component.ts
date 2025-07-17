@@ -14,7 +14,7 @@ declare const dhx: any;
 @Component({
   selector: 'app-clschool-list',
   templateUrl: './clschool-list.component.html',
-  styleUrls: ['./clschool-list.component.css']
+  styleUrls: ['../list-search-starter.component.css']
 })
 export class CLSchoolListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
@@ -77,7 +77,7 @@ export class CLSchoolListComponent implements OnInit, AfterViewInit {
           { id: 'available', header: [{ text: 'Status', align: 'center' }, { content: 'selectFilter' }], minWidth: 100, adjust: true },
           { id: 'dataOriginCode', header: [{ text: 'Data Origin', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
         ],
-        css: "school-grid",
+        css: "search-list-grid",
         height: 600,
         autoWidth: false,
         selection: 'row',

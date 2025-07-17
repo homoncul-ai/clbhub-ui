@@ -1,0 +1,273 @@
+.search-list-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #333;
+}
+
+.search-list-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-list-item:last-child {
+  border-bottom: none;
+}
+
+.search-list-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.search-list-id {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Parent Entity Information Styles */
+.search-list-parent-entity-info {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-list-parent-entity-info h3 {
+  margin: 0 0 8px 0;
+  color: #495057;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.search-list-parent-entity-info p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+/* Button Bar Styles */
+.search-list-button-bar {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.search-list-button-bar-button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.search-list-button-bar-button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-list-button-bar-button:active {
+  background-color: #e0e0e0;
+}
+
+/* Primary Button Style */
+.btn-primary {
+  background: #007bff !important;
+  color: white;
+  border-color: #007bff !important;
+}
+
+.btn-primary:hover {
+  background: #0056b3 !important;
+}
+
+/* Success Button Style */
+.btn-success {
+  background: #28a745 !important;
+  color: white;
+  border-color: #28a745 !important;
+}
+
+.btn-success:hover {
+  background: #218838 !important;
+}
+
+/* Create Ticket Button Style */
+.create-ticket-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.create-ticket-btn:hover {
+  background: #218838;
+}
+
+/* Search Bar Styles */
+.search-list-search-bar {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-list-input {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-list-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.search-list-input-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-list-input-button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-list-input-button:active {
+  background-color: #e0e0e0;
+}
+
+.search-list-grid {
+  /* Revert some previous styles to get standard table appearance */
+  border: 1px solid #ddd; /* Outer border */
+  border-radius: 4px;
+}
+
+.search-list-grid .dhx_grid-header {
+  border-bottom: 1px solid #ddd; /* Header bottom border */
+}
+
+.search-list-grid .dhx_grid-head-cell {
+  border-right: 1px solid #eee; /* Header vertical borders */
+  font-weight: bold; /* Standard header font weight */
+  color: #333; /* Standard header text color */
+  padding: 8px 10px; /* Adjust padding */
+  text-align: left; /* Align header text left */
+}
+
+.search-list-grid .dhx_grid-head-cell:last-child {
+  border-right: none !important;
+}
+
+.search-list-grid .dhx_grid-cell {
+  border-right: 1px solid #eee; /* Cell vertical borders */
+  border-bottom: 1px solid #eee; /* Cell bottom borders */
+  padding: 8px 10px; /* Adjust padding */
+}
+
+.search-list-grid .dhx_grid-cell:last-child {
+    border-right: none !important;
+}
+
+.search-list-grid .dhx_grid-row {
+  border-bottom: none; /* Remove default row border, handled by cell borders */
+}
+
+.search-list-grid .dhx_grid-row:last-child .dhx_grid-cell {
+  border-bottom: none; /* No bottom border for the last row */
+}
+
+.search-list-grid .dhx_grid-row:hover {
+  background-color: #f5f5f5; /* Light hover background */
+}
+
+.search-list-grid .dhx_grid-row--selected {
+  background-color: #e3f2fd; /* Light selection blue */
+}
+
+.search-list-grid .dhx_cell--checkbox {
+    padding-top: 8px; /* Adjust checkbox vertical alignment */
+}
+
+/* Style for pagination */
+.search-list-container .dhx_pagination {
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end; /* Align pagination to the right */
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.search-list-container .dhx_pagination__text {
+    margin-right: 10px;
+}
+
+.search-list-container .dhx_pagination__selector .dhx_combobox {
+    width: 60px !important;
+}
+
+.search-list-container .dhx_pagination__selector .dhx_combobox__button svg {
+    display: none; /* Hide dropdown arrow if desired */
+}
+
+.search-list-container .dhx_pagination__range {
+    margin: 0 10px;
+}
+
+.search-list-container .dhx_pagination__buttons {
+    /* Styles for navigation buttons */
+}
+
+.search-list-container .dhx_pagination__buttons button {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 5px 8px;
+    margin: 0 2px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.search-list-container .dhx_pagination__buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.search-list-container .dhx_pagination__buttons button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+}
+
+/* Existing styles for content within cells if needed, though grid columns handle structure now */
+/*
+.search-list-item {
+  padding: 0;
+}
+
+.search-list-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.search-list-id {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 4px;
+}
+*/ 

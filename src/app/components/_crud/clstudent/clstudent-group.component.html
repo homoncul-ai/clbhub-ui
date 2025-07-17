@@ -3,6 +3,12 @@
   [currentTabId]="currentTabId">
 </app-simple-tabset>
 
+
+<div *ngIf="currentTabId === 'list' && id">   
+  <!-- <li>Name :       <app-clstudent-crud [id]="id" [modeName]="'fk'"></app-clstudent-crud></li> -->
+   <app-clstudent-crud [id]="id" [modeName]="'o'"></app-clstudent-crud> 
+</div>
+
 <div *ngIf="currentTabId === 'details' && id">   
   <!-- <li>Name :       <app-clstudent-crud [id]="id" [modeName]="'fk'"></app-clstudent-crud></li> -->
    <app-clstudent-crud [id]="id" [modeName]="'detail'"></app-clstudent-crud> 
