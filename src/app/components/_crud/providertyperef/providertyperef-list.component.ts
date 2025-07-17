@@ -19,8 +19,7 @@ import { Observable } from 'rxjs';
 })
 export class ProviderTypeRefListComponent extends AbstractListComponent<ProviderTypeRefGETData, ProviderTypeRefCriteria, ProviderTypeRefGETDataSearchResults> {
   
-  constructor(
-   
+  constructor(   
   ) {
     super();
     
@@ -79,7 +78,7 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
   /**
    * Override onGoClick for entity-specific behavior
    */
-  public override onGoClick() {
+  protected override onGoClick() {
     alert('onGoClick called');
     // Default implementation - can be customized for ProviderTypeRef specific behavior
   }

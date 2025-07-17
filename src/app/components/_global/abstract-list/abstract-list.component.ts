@@ -19,7 +19,7 @@ declare const dhx: any;
   imports: [CommonModule]
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> implements OnInit, AfterViewInit {
-  @Input() criteria: BaseCriteria | null = null;
+  @Input() criteria: TCriteria | null = null;
   
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   protected grid: any;
@@ -231,16 +231,16 @@ export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, T
     });
   }
 
-  public onGoClick() {
+  protected onGoClick() {
     alert('onGoClick called');
-    // Default implementation - subclasses can override
-  }
-
-  public onShowingAdvancedSearch() {
     if (!this.showingIdCheckbox) {
       alert('Please enable checkboxes first to select entities for tuning');
       return;
     }
+    // Default implementation - subclasses can override
+  }
+
+  protected onShowingAdvancedSearch() {
 
     if (this.grid) {
       const allData = this.grid.data.serialize();
