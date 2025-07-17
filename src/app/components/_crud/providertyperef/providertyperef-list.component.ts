@@ -25,6 +25,7 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
     
     // Set entity-specific properties
     this.searchHeading = 'Provider Types';
+    this.showingAddButton = true;
     //this.searchPlaceholder = ...
   }
 
@@ -86,5 +87,9 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
   protected override onRowClick(entityId: string): void {
     console.log('onRowClick called with entityId:', entityId);
     this.router.navigate(['/ecoadmin-dashboard/providertyperefs', entityId, 'details']);
+  }
+
+  protected override onAdd(): void {
+    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', '', 'add']);
   }
 } 
