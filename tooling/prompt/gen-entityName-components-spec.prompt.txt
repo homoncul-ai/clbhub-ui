@@ -1,6 +1,8 @@
 - This prompt will be used to generate a spec for Cursor to generate a set of 3 angular components.  
+- The output from this prompt will be another prompt be called src/app/components/_crud/[entityName]/[entityName]-gencomp.prompt.txt
 - The spec will be markdown. 
     - After creation of the spec, someone will be editing and massaging spec before the actual generation. 
+    - Ultimately, the file [entityName]-gencomp.prompt.txt will be used to generate the CRUD, List, and Group components
 
 - Each component set will be based on an "entityName" that will be passed in as an argument.
 - The components generated will be based on some working examples in the project.
