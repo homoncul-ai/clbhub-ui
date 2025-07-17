@@ -7,9 +7,9 @@
       <!-- <button class="search-list-button-bar-button btn-primary" (click)="onRefresh()">Refresh</button> -->
     </div>
     <form class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
-      <input #searchInput type="text" class="search-list-input" placeholder="search by name or student ID, * for wildcard" />
+      <input #searchInput type="text" class="search-list-input" [placeholder]="searchPlaceholder" />
       <button type="submit" class="search-list-input-button">
-        <span class="material-icons" aria-label="Search">search</span>
+        <span class="material-icons" aria-label="Search">Search</span>
       </button>
       <button *ngIf="showingAdvancedSearch" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
         <span class="material-icons" aria-label="Advanced Search">(AdvSrch)</span>

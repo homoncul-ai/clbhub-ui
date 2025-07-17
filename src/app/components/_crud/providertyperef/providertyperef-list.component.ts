@@ -1,15 +1,14 @@
-import { BaseCriteria } from './../../../restsvc/hccl.service';
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
-import { ProviderTypeRefGETData, ProviderTypeRefCriteria, ProviderTypeRefGETDataSearchResults, SimpleRestActionResponse } from '../../../restsvc/hccl.service';
-
-declare const dhx: any;
+import { ProviderTypeRefGETData, ProviderTypeRefCriteria, ProviderTypeRefGETDataSearchResults } from '../../../restsvc/hccl.service';
+import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Observable } from 'rxjs';
 
 /**
  * Component for displaying and managing ProviderTypeRef data using HcclService
- * Uses ProviderTypeRefGETData interface for proper field mapping and labels
+ * Extends AbstractListComponent for common grid functionality
  */
 
 @Component({
@@ -18,123 +17,22 @@ declare const dhx: any;
   styleUrls: ['../list-search-starter.component.css'],
   imports: [CommonModule]
 })
-export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
-  @Input() criteria: BaseCriteria | null = null;
+export class ProviderTypeRefListComponent extends AbstractListComponent<ProviderTypeRefGETData, ProviderTypeRefCriteria, ProviderTypeRefGETDataSearchResults> {
   
-  @ViewChild('gridContainer') gridContainer!: ElementRef;
-  protected grid: any;
-  protected isDhtmlxLoaded = false;
-
-  protected selectedId: string | null = null;
-  protected showingAdvancedSearch: boolean = false; // Variable to control tune button visibility
-  protected searchHeading: string = 'Provider Types';
-  protected searchPlaceholder: string = 'search by name or business code, * for wildcard';
-  protected showingIdCheckbox: boolean = false;
-  protected showingAddButton: boolean = false;
-
   constructor(
-    private hcclService: HcclService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  ngOnInit() {
-    // Check for ID parameter in route
-    this.route.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
-        this.selectedId = id;
-      } else {
-        this.selectedId = null;
-      }
-    });
-
-    // Check if DHTMLX is loaded
-    this.checkDhtmlxLoaded();
-  }
-
-  ngAfterViewInit() {
-    // If DHTMLX is already loaded, initialize the grid
-    if (this.isDhtmlxLoaded) {
-      this.initializeGrid();
-    }
-  }
-
-  private checkDhtmlxLoaded() {
-    if (typeof dhx !== 'undefined' && typeof dhx.Grid !== 'undefined') {
-      this.isDhtmlxLoaded = true;
-      this.initializeGrid();
-    } else {
-      // If not loaded, wait for it
-      const checkInterval = setInterval(() => {
-        if (typeof dhx !== 'undefined' && typeof dhx.Grid !== 'undefined') {
-          this.isDhtmlxLoaded = true;
-          this.initializeGrid();
-          clearInterval(checkInterval);
-        }
-      }, 100);
-
-      // Clear interval after 5 seconds to prevent infinite checking
-      setTimeout(() => {
-        clearInterval(checkInterval);
-      }, 5000);
-    }
-  }
-
-  private initializeGrid() {
-    if (!this.gridContainer?.nativeElement || !this.isDhtmlxLoaded) {
-      console.log('Grid initialization skipped - container or DHTMLX not ready');
-      return;
-    }
-
-    // Check if the grid container is visible
-    const container = this.gridContainer.nativeElement;
-    const rect = container.getBoundingClientRect();
-    if (rect.width === 0 || rect.height === 0) {
-      console.log('Grid container not visible, retrying in 100ms');
-      setTimeout(() => this.initializeGrid(), 100);
-      return;
-    }
-
-    try {
-      this.setupGrid();
-
-      // Attach afterRowDrop event listener
-      this.grid.events.on("afterRowDrop", (from: string, to: string, dragInfo: any) => {
-        console.log(`Row with ID ${from} was dropped before row with ID ${to}`);
-        // You would typically update your data source here to reflect the new order
-        // For example, if you have an array of provider type refs, you would reorder that array.
-        // The grid's internal data is already updated by the drop action.
-      });
-
-      // Add row click event listener
-      this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
-        console.log('Cell clicked:', row, col);
-        // Don't trigger on checkbox column or if no row data
-        if (col && col.id !== 'select' && row && row.id) {
-          console.log('Calling onRowClick with providerTypeRefId:', row.id);
-          this.onRowClick(row.id);
-        }
-      });
-
-      // Load initial data
-      this.loadGridData();
-
-    } catch (error) {
-      console.error('Error initializing DHTMLX grid:', error);
-    }
-  }
-  protected setupGrid() {
-    // Build columns array based on showingIdCheckbox state
-    const columns: any[] = [];
+    hcclService: HcclService,
+    route: ActivatedRoute,
+    router: Router
+  ) {
+    super(hcclService, route, router);
     
-    // Add checkbox column only if showingIdCheckbox is true
-    if (this.showingIdCheckbox) {
-      columns.push({ id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 });
-    }
-    
-    // Add all other columns
-    columns.push(
+    // Set entity-specific properties
+    this.searchHeading = 'Provider Types';
+    this.searchPlaceholder = 'search by name or business code, * for wildcard';
+  }
+
+  protected getGridColumns(): any[] {
+    return [
       { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
@@ -144,188 +42,52 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
       { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
       { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
       { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
-    );
-
-    // Build footer array based on column count
-    const footerCount = this.showingIdCheckbox ? 10 : 9;
-    const footer = Array(footerCount).fill({ text: '' });
-
-    // Initialize DHTMLX grid with pagination and drag and drop
-    this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
-      columns: columns,
-      css: "search-list-grid",
-      height: 600,
-      autoWidth: false,
-      selection: 'row',
-      editable: false,
-      resizable: true,
-      drag: true, // Enable drag and drop
-      footer: footer,
-      pagination: {
-        limit: 10,
-        enabled: true,
-        countable: true,
-        navs: true,
-        pageSizes: [10, 20, 50],
-        range: true,
-      }
-    });
+    ];
   }
 
-  /**
-   * Handle row click to show provider type ref details
-   * @param providerTypeRefId The ID of the clicked provider type ref
-   */
-  public onRowClick(providerTypeRefId: string): void {
-    console.log('onRowClick called with providerTypeRefId:', providerTypeRefId);
-    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', providerTypeRefId, 'details']);
-  }
-
-  /**
-   * Refresh the grid by reinitializing it
-   */
-  private refreshGrid(): void {
-    console.log('Refreshing grid...');
-    if (this.grid) {
-      // Destroy the existing grid
-      this.grid.destructor();
-      this.grid = null;
-    }
-    // Reinitialize the grid
-    this.initializeGrid();
-  }
-
-  private loadGridData(searchByText?: string) {
-    const criteria: ProviderTypeRefCriteria = {
+  protected createCriteria(): ProviderTypeRefCriteria {
+    return {
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
     };
-
-    // Add search criteria if provided
-    if (searchByText && searchByText.trim() !== '') {
-      criteria.searchByText = searchByText;
-    }
-    if (this.selectedId) {
-      criteria.ids = [this.selectedId];
-    }
-    this.loadGridDataCall(criteria);
-  }
-  protected loadGridDataCall(criteria: ProviderTypeRefCriteria) {
-    console.log('Loading provider type refs with criteria:', criteria);
-    this.hcclService.findProviderTypeRefs(criteria).subscribe({
-      next: (response: ProviderTypeRefGETDataSearchResults) => {
-        if (response.searchResults) {
-          const refs = response.searchResults;
-          const gridData = refs.map(ref => {
-            const data: any = {
-              ...ref,
-              createdByInfo: ref.createdByInfo?.name || '',
-              lastUpdatedByInfo: ref.lastUpdatedByInfo?.name || '',
-              dateCreated: ref.dateCreated?.formattedDate || '',
-              dateLastUpdated: ref.dateLastUpdated?.formattedDate || ''
-            };
-            
-            // Only add select property if checkbox is shown
-            if (this.showingIdCheckbox) {
-              data.select = false;
-            }
-            
-            return data;
-          });
-          this.grid.data.parse(gridData);
-          console.log("Loaded provider type refs:", gridData.length);
-        } else {
-          this.grid.data.parse([]);
-          console.log("No provider type refs found");
-        }
-      },
-      error: (error) => {
-        console.error('Error loading provider type ref data:', error);
-        this.grid.data.parse([]);
-      }
-    });
   }
 
-  public onGoClick() {
+  protected findEntities(criteria: ProviderTypeRefCriteria): Observable<ProviderTypeRefGETDataSearchResults> {
+    return this.hcclService.findProviderTypeRefs(criteria);
+  }
+
+  protected hasSearchResults(response: ProviderTypeRefGETDataSearchResults): boolean {
+    return !!response.searchResults;
+  }
+
+  protected getSearchResults(response: ProviderTypeRefGETDataSearchResults): ProviderTypeRefGETData[] {
+    return response.searchResults || [];
+  }
+
+  protected formatEntityData(entity: ProviderTypeRefGETData): any {
+    return {
+      createdByInfo: entity.createdByInfo?.name || '',
+      lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
+      dateCreated: entity.dateCreated?.formattedDate || '',
+      dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
+    };
+  }
+
+  protected getDetailsRoute(): string {
+    return '/ecoadmin-dashboard/providertyperefs';
+  }
+
+  protected onAdvancedSearchAction(checkedRows: any[], entityIds: string[]): void {
+    // TODO: Implement tuning logic
+    alert(`Tuning ${checkedRows.length} provider type ref(s): ` + entityIds.join(', '));
+  }
+
+  /**
+   * Override onGoClick for entity-specific behavior
+   */
+  public override onGoClick() {
     alert('onGoClick called');
-    // if (this.grid) {
-    //   // DHTMLX Suite 8: get checked rows by 'select' column (checkbox)
-    //   // The checked state is stored in the 'select' property of each row
-    //   const allData = this.grid.data.serialize();
-    //   const checkedRows = allData.filter((row: any) => row.select === true);
-    //   console.log('Checked rows:', checkedRows);
-      
-    //   if (checkedRows.length > 0) {
-    //     // Route to the first selected provider type ref's details
-    //     const firstRef = checkedRows[0];
-    //     const refId = firstRef.businessCode || firstRef.id;
-    //     this.router.navigate(['/ecoadmin-dashboard/providertyperefs', refId, 'details']);
-    //   } else {
-    //     alert('No provider type refs selected');
-    //   }
-    // }
-  }
-
-  public onShowingAdvancedSearch() {
-    if (!this.showingIdCheckbox) {
-      alert('Please enable checkboxes first to select provider type refs for tuning');
-      return;
-    }
-
-    if (this.grid) {
-      const allData = this.grid.data.serialize();
-      const checkedRows = allData.filter((row: any) => row.select === true);
-      
-      if (checkedRows.length === 0) {
-        alert('Please select at least one provider type ref to tune');
-        return;
-      }
-
-      const refIds = checkedRows.map((row: any) => row.id);
-      console.log('Tuning provider type refs:', refIds);
-
-      // TODO: Implement tuning logic
-      alert(`Tuning ${checkedRows.length} provider type ref(s): ` + refIds.join(', '));
-    }
-  }
-
-  public onRefresh() {
-    this.loadGridData();
-  }
-
-  public onSearch(query: string) {
-    this.loadGridData(query);
-  }
-  protected onAdvancedSearch() { 
-    // TODO: Implement advanced search functionality
-    alert('Advanced search functionality not yet implemented');
-  }
-
-  protected onAddEntity() {
-    // TODO: Implement add functionality
-    alert('Add functionality not yet implemented');
-  }
-
-  /**
-   * Toggle the checkbox column visibility
-   */
-  public toggleIdCheckbox(): void {
-    this.showingIdCheckbox = !this.showingIdCheckbox;
-    console.log('Checkbox visibility toggled:', this.showingIdCheckbox);
-    
-    // Reinitialize the grid to reflect the checkbox state
-    if (this.grid) {
-      this.grid.destructor();
-      this.grid = null;
-    }
-    this.initializeGrid();
-  }
-
-  /**
-   * Get the current state of the checkbox visibility
-   */
-  public getShowingIdCheckbox(): boolean {
-    return this.showingIdCheckbox;
+    // Default implementation - can be customized for ProviderTypeRef specific behavior
   }
 } 
