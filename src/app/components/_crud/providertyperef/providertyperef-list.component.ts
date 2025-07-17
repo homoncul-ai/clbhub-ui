@@ -19,11 +19,15 @@ declare const dhx: any;
 })
 export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   @ViewChild('gridContainer') gridContainer!: ElementRef;
-  private grid: any;
-  private isDhtmlxLoaded = false;
+  protected grid: any;
+  protected isDhtmlxLoaded = false;
 
-  public selectedProviderTypeRefId: string | null = null;
-  public showTuneButton: boolean = false; // Variable to control tune button visibility
+  protected selectedProviderTypeRefId: string | null = null;
+  protected showingAdvancedSearch: boolean = false; // Variable to control tune button visibility
+  protected searchHeading: string = 'Provider Types';
+  protected searchPlaceholder: string = 'search by name or business code, * for wildcard';
+  protected showingIdCheckbox: boolean = false;
+  protected showingAddButton: boolean = false;
 
   constructor(
     private hcclService: HcclService,
@@ -90,37 +94,7 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
     }
 
     try {
-      // Initialize DHTMLX grid with pagination and drag and drop
-      this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
-        columns: [
-          { id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 },
-          { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-          { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-          { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-          { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-          { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-          { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
-          { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
-          { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
-          { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
-        ],
-        css: "search-list-grid",
-        height: 600,
-        autoWidth: false,
-        selection: 'row',
-        editable: false,
-        resizable: true,
-        drag: true, // Enable drag and drop
-        footer: Array(10).fill({ text: '' }),
-        pagination: {
-          limit: 10,
-          enabled: true,
-          countable: true,
-          navs: true,
-          pageSizes: [10, 20, 50],
-          range: true,
-        }
-      });
+      this.setupGrid();
 
       // Attach afterRowDrop event listener
       this.grid.events.on("afterRowDrop", (from: string, to: string, dragInfo: any) => {
@@ -141,11 +115,58 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
       });
 
       // Load initial data
-      this.loadProviderTypeRefData();
+      this.loadGridData();
 
     } catch (error) {
       console.error('Error initializing DHTMLX grid:', error);
     }
+  }
+  protected setupGrid() {
+    // Build columns array based on showingIdCheckbox state
+    const columns: any[] = [];
+    
+    // Add checkbox column only if showingIdCheckbox is true
+    if (this.showingIdCheckbox) {
+      columns.push({ id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 });
+    }
+    
+    // Add all other columns
+    columns.push(
+      { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
+      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
+      { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
+      { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
+      { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+    );
+
+    // Build footer array based on column count
+    const footerCount = this.showingIdCheckbox ? 10 : 9;
+    const footer = Array(footerCount).fill({ text: '' });
+
+    // Initialize DHTMLX grid with pagination and drag and drop
+    this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
+      columns: columns,
+      css: "search-list-grid",
+      height: 600,
+      autoWidth: false,
+      selection: 'row',
+      editable: false,
+      resizable: true,
+      drag: true, // Enable drag and drop
+      footer: footer,
+      pagination: {
+        limit: 10,
+        enabled: true,
+        countable: true,
+        navs: true,
+        pageSizes: [10, 20, 50],
+        range: true,
+      }
+    });
   }
 
   /**
@@ -171,7 +192,7 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
     this.initializeGrid();
   }
 
-  private loadProviderTypeRefData(searchCriteria?: string) {
+  private loadGridData(searchByText?: string) {
     const criteria: ProviderTypeRefCriteria = {
       pageNumber: 1,
       pageSize: 50,
@@ -179,25 +200,36 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
     };
 
     // Add search criteria if provided
-    if (searchCriteria && searchCriteria.trim() !== '') {
-      criteria.searchByText = searchCriteria;
+    if (searchByText && searchByText.trim() !== '') {
+      criteria.searchByText = searchByText;
     }
     if (this.selectedProviderTypeRefId) {
       criteria.ids = [this.selectedProviderTypeRefId];
     }
-
+    this.loadGridDataCall(criteria);
+  }
+  protected loadGridDataCall(criteria: ProviderTypeRefCriteria) {
+    console.log('Loading provider type refs with criteria:', criteria);
     this.hcclService.findProviderTypeRefs(criteria).subscribe({
       next: (response: ProviderTypeRefGETDataSearchResults) => {
         if (response.searchResults) {
           const refs = response.searchResults;
-          const gridData = refs.map(ref => ({
-            ...ref,
-            select: false,
-            createdByInfo: ref.createdByInfo?.name || '',
-            lastUpdatedByInfo: ref.lastUpdatedByInfo?.name || '',
-            dateCreated: ref.dateCreated?.formattedDate || '',
-            dateLastUpdated: ref.dateLastUpdated?.formattedDate || ''
-          }));
+          const gridData = refs.map(ref => {
+            const data: any = {
+              ...ref,
+              createdByInfo: ref.createdByInfo?.name || '',
+              lastUpdatedByInfo: ref.lastUpdatedByInfo?.name || '',
+              dateCreated: ref.dateCreated?.formattedDate || '',
+              dateLastUpdated: ref.dateLastUpdated?.formattedDate || ''
+            };
+            
+            // Only add select property if checkbox is shown
+            if (this.showingIdCheckbox) {
+              data.select = false;
+            }
+            
+            return data;
+          });
           this.grid.data.parse(gridData);
           console.log("Loaded provider type refs:", gridData.length);
         } else {
@@ -232,7 +264,12 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
     // }
   }
 
-  public onTuneProviderTypeRefs() {
+  public onShowingAdvancedSearch() {
+    if (!this.showingIdCheckbox) {
+      alert('Please enable checkboxes first to select provider type refs for tuning');
+      return;
+    }
+
     if (this.grid) {
       const allData = this.grid.data.serialize();
       const checkedRows = allData.filter((row: any) => row.select === true);
@@ -251,30 +288,41 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   }
 
   public onRefresh() {
-    this.loadProviderTypeRefData();
+    this.loadGridData();
   }
 
   public onSearch(query: string) {
-    this.loadProviderTypeRefData(query);
+    this.loadGridData(query);
   }
-
-  public onAdvancedSearch() {
+  protected onAdvancedSearch() { 
     // TODO: Implement advanced search functionality
     alert('Advanced search functionality not yet implemented');
   }
 
-  public onImportProviderTypeRefs() {
-    // TODO: Implement import functionality
-    alert('Import functionality not yet implemented');
+  protected onAddEntity() {
+    // TODO: Implement add functionality
+    alert('Add functionality not yet implemented');
   }
 
-  public onSyncProviderTypeRefs() {
-    // TODO: Implement sync functionality
-    alert('Sync functionality not yet implemented');
+  /**
+   * Toggle the checkbox column visibility
+   */
+  public toggleIdCheckbox(): void {
+    this.showingIdCheckbox = !this.showingIdCheckbox;
+    console.log('Checkbox visibility toggled:', this.showingIdCheckbox);
+    
+    // Reinitialize the grid to reflect the checkbox state
+    if (this.grid) {
+      this.grid.destructor();
+      this.grid = null;
+    }
+    this.initializeGrid();
   }
 
-  public onExportProviderTypeRefs() {
-    // TODO: Implement export functionality
-    alert('Export functionality not yet implemented');
+  /**
+   * Get the current state of the checkbox visibility
+   */
+  public getShowingIdCheckbox(): boolean {
+    return this.showingIdCheckbox;
   }
 } 

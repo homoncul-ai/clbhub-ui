@@ -11,8 +11,8 @@
       <button type="submit" class="search-list-input-button">
         <span class="material-icons" aria-label="Search">search</span>
       </button>
-      <button *ngIf="showTuneButton" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
-        <span class="material-icons" aria-label="Advanced Search">tune</span>
+      <button *ngIf="showingAdvancedSearch" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
+        <span class="material-icons" aria-label="Advanced Search">(AdvSrch)</span>
       </button>
     </form>
     <div #gridContainer class="search-list-grid"></div>
