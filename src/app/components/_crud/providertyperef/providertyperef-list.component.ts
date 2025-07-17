@@ -26,7 +26,7 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
     
     // Set entity-specific properties
     this.searchHeading = 'Provider Types';
-    this.searchPlaceholder = 'search by name or business code, * for wildcard';
+    //this.searchPlaceholder = ...
   }
 
   protected getGridColumns(): any[] {
