@@ -51,8 +51,8 @@ You are an expert Angular developer and code generator. Your task is to generate
   - List all attributes in tabular format.
   - `id` always first; audit fields (`createdByInfo`, `dateCreated`, `lastUpdatedByInfo`, `dateLastUpdated`) always last.
   - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., use `<app-dategetdata-display>` for dates).
-  - For EFK triplets (`[prefix]EntityId`, `[prefix]EntityType`, `[prefix]EntityName`), use `<app-efk-display ...>`.
-  - For foreign keys (`[prefix]Id`), use `<app-[fkEntityName]-crud ... mode="CrudModes.FK">`.
+  - For EFK triplets (`[prefix]EntityId`, `[prefix]EntityType`, `prefix]EntityName`), use `<app-efk-display ...>`.
+  - For foreign keys (`[prefix]Id`), use `<app-[fkEntityName]-crud ... mode=CrudModes.FK>`.
 
 ### Section: Edit
 - **Based on:** `HcclService` interface `[entityName]PUTData`
@@ -68,6 +68,24 @@ You are an expert Angular developer and code generator. Your task is to generate
   - List all addable attributes in tabular format.
   - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., dropdown, date picker, textarea).
 
+### Required Imports
+- **CommonModule, FormsModule** for basic Angular functionality
+- **AbstractCrudComponent** from `@app/components/_global/abstract-crud/abstract-crud.component`
+- **EntityWrapper** from `@app/models/crud-entity-wrapper`
+- **HcclService** and related interfaces from `@app/restsvc/hccl.service`
+- **CRUD_MODES** from `@app/@core/constants`
+- **SimpleMessagesSectionComponent** from `@app/components/_global/simple-messages-section/simple-messages-section.component`
+- **MenuControlDataListComponent** from `@app/components/_global/menu-control-data-list/menu-control-data-list.component`
+- **AvailableSelectorComponent** from `@app/components/_global/available-selector/available-selector.component`
+- **DategetdataDisplayComponent** from `@app/components/_global/dategetdata-display/dategetdata-display.component`
+
+### Component Structure
+- Extend `AbstractCrudComponent<[EntityName]CrudWrapper>`
+- Implement `OnInit, OnChanges`
+- Create a wrapper class that extends `EntityWrapper<[EntityName]GETData>`
+- Include getter/setter methods for form binding
+- Implement required abstract methods: `loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`
+
 ---
 
 ## Group Component
@@ -77,6 +95,28 @@ You are an expert Angular developer and code generator. Your task is to generate
   - `[entityName]-group.component.ts`
   - `[entityName]-group.component.scss` (empty)
 - **Reference:** Base on the `CLStudentGroup` component.
+
+### Required Imports
+- **CommonModule** for basic Angular functionality
+- **ActivatedRoute, Router** from `@angular/router`
+- **AbstractEntityGroupComponent** from `@app/components/_global/abstract-entity-group/abstract-entity-group.component`
+- **SimpleTab, SimpleTabsetComponent** from `@app/components/_global/simple-tabset/simple-tabset.component`
+- **HcclService** from `@app/restsvc/hccl.service`
+- **CrudWrapper and CrudComponent** from the generated CRUD component
+
+### Component Structure
+- Extend `AbstractEntityGroupComponent<[EntityName]CrudWrapper>`
+- Implement `OnInit`
+- Include `@Input() id!: string`
+- Implement required abstract methods: `loadEntityById`, `setupTabs`
+- Setup tabs for 'list' and 'details' with proper routing
+- **Constructor:** Only inject `ActivatedRoute` - do NOT inject `Router` or `HcclService` in constructor
+
+### Template Structure
+- Use `<app-simple-tabset [tabs]=tabs [currentTabId]="currentTabId" (tabClick)="activateTab($event)></app-simple-tabset>`
+- Include conditional divs for details and list tabs
+- **Do NOT** include `(click)=onClick($event)` handlers in the template
+- Keep template simple and focused on tab display
 
 ---
 
@@ -91,12 +131,138 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **Attributes Table:**
   - Show a table of the GETData attributes, just like for Details.
 
+### Required Imports
+- **CommonModule** for basic Angular functionality
+- **ActivatedRoute, Router** from `@angular/router`
+- **HcclService** and related interfaces from `@app/restsvc/hccl.service`
+- **ElementRef, ViewChild** for DHTMLX grid integration
+
+### Component Structure
+- Implement `OnInit, AfterViewInit`
+- Include DHTMLX grid initialization and configuration
+- Handle row click navigation to details
+- Implement data loading with proper error handling
+- **MUST include:** `declare const dhx: any;` at the top of the file after imports
+
+### Template Structure
+- Use simple template: `<div #gridContainer class="search-list-grid-container" style="width:10height:600x;"></div>`
+- Keep template minimal - all logic should be in the TypeScript file
+
+---
+
+## Module Integration
+
+### Routing Configuration
+Add the following routes to the appropriate module (e.g., `dash-ecoadmin.module.ts`):
+```typescript
+{ path: [routePath]/:id/:tabId', component: [EntityName]GroupComponent },
+{ path: [routePath]/:id', redirectTo: '[routePath]/:id/details', pathMatch:full' },
+{ path: '[routePath]', component: [EntityName]ListComponent }
+```
+
+### Module Imports
+Add the generated components to the modulesimports array:
+```typescript
+imports: [
+  // ... existing imports
+  [EntityName]ListComponent,
+  [EntityName]GroupComponent
+]
+```
+
+---
+
+## Menu Integration
+
+### Menu Constants
+Add menu item constant to `src/app/shell/services/menu.service.ts`:
+```typescript
+EA_[ENTITYNAME]_LIST: {
+  level: 1,
+  label: [EntityName]s',
+  route:/ecoadmin/[routePath],
+  componentPath: 'src/app/components/_crud/[entityName]/[entityName]-list.component,
+  componentName:[EntityName]ListComponent,icon: 'fas fa-list'
+}
+```
+
+### Menu Builder
+Update the `buildEcoAdminMenu()` method to include the new menu item:
+```typescript
+// Add [EntityName]
+const [entityName] = this.copyMenuItem(MENU_CONSTANTS.EA_[ENTITYNAME]_LIST);
+this.addMenuItem(menu, [entityName]);
+```
+
+---
+
+## Template Copying Guidelines
+
+### CRUD Component Template
+- Copy structure from `clstudent-crud.component.html`
+- Replace all references tostudent" with `[entityName]`
+- Replace all references toStudent" with `[EntityName]`
+- Keep all mode structures (CREATE, EDIT, DETAIL, DELETE)
+- Ensure proper binding for form fields
+- Include `<app-dategetdata-display>` for date fields
+- Include `<app-available-selector>` for available fields
+
+### Group Component Template
+- Copy structure from `clstudent-group.component.html`
+- Replace component references with generated component names
+- **Do NOT** include click handlers or complex event bindings
+- Keep template simple: tabset + conditional divs for content
+- Use `*ngIf` for tab content display
+
+### List Component Template
+- Use minimal template: single div with grid container
+- **Do NOT** include complex HTML structure
+- All grid logic should be in TypeScript file
+
+---
+
+## Common Issues and Solutions
+
+### Component Import Errors
+- Ensure all required components are imported in the `@Component.imports` array
+- For date display components, import `DategetdataDisplayComponent`
+- For available selector, import `AvailableSelectorComponent`
+- For menu controls, import `MenuControlDataListComponent`
+
+### Template Binding Errors
+- Ensure `@Input()` properties are declared in component classes
+- For date components, ensure `@Input() dateData: any` is declared
+- For available selector, ensure proper two-way binding with `[(ngModel)]`
+
+### Routing Issues
+- Ensure route paths match between module configuration and menu constants
+- Use consistent route naming: `/ecoadmin/[routePath]` for eco-admin
+- Include proper redirects for default tab navigation
+
+### Constructor Dependencies
+- **CRUD Components:** Only inject `super()` - no additional services needed
+- **Group Components:** Only inject `ActivatedRoute` in constructor
+- **List Components:** Inject `HcclService`, `ActivatedRoute`, `Router`
+- Always call `super()` in constructor for components extending abstract classes
+
+### DHTMLX Integration
+- **MUST** include `declare const dhx: any;` in list components
+- Ensure proper grid initialization with error handling
+- Handle grid container visibility checks
+- Include proper cleanup in component destruction
+
 ---
 
 ## Notes for Future Updates
 - This spec is designed to be **idempotent**: you can update and re-apply it to safely update the generated components.
 - When updating, ensure all new requirements are reflected in the attribute tables and method call instructions.
 - Keep the spec clear, concise, and easy to review for both humans and AI.
+- Always include module integration and menu configuration steps.
+- Test routing and navigation after component generation.
+- Verify all required imports are included in component decorators.
+- **Copy templates carefully** - avoid adding unnecessary event handlers or complex template logic.
+- **Include DHTMLX declaration** - always add `declare const dhx: any;` to list components.
+- **Minimize constructor dependencies** - only inject what's absolutely necessary.
 
 
 
