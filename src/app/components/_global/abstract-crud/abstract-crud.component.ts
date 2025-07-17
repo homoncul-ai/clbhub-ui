@@ -429,7 +429,6 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       this.loading = true;
       this.messages = { messages: [] };
       this.success = false;
-      debugger;
 
       const entity = entityIn || this.entityNew || this.newEmptyWrapper();
       
