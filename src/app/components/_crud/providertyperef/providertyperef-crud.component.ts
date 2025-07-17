@@ -85,10 +85,7 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
         available: providerTypeRefData.available ||1   };
 
       const updatedProviderTypeRef = await this.hcclService.updateProviderTypeRefById(providerTypeRefData.id, putData).toPromise();
-      if (updatedProviderTypeRef) {
-        return new ProviderTypeRefCrudWrapper(updatedProviderTypeRef, this.hcclService);
-      }
-      throw new Error('Failed to update provider type ref');
+      return entity;
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
@@ -199,20 +196,6 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
     return Promise.resolve();
   }
 
-
-  protected   createEntityX(): void {
-    console.log("Booger", this.entityNew);
-    debugger;
-    const gd = this.entity?.getData() || {
-      name: '',
-      businessCode: '',
-      description: '',
-      available: 1
-    } as ProviderTypeRefGETData;
-
-    const ew = new ProviderTypeRefCrudWrapper(gd, this.hcclService);
-    super.createEntity(ew);
-  }
 }
 
 export class ProviderTypeRefCrudWrapper extends EntityWrapper<ProviderTypeRefGETData> {

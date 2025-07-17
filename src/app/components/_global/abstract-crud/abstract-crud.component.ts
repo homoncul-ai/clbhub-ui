@@ -211,7 +211,19 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     this.setMode(this.CRUD_MODES.DELETE);
   }
   protected switchToDetailMode(): void {  
+    this.prepareDetailMode().then(() => {
     this.setMode(this.CRUD_MODES.DETAIL);
+  });
+  }
+  
+  protected async prepareDetailMode(): Promise<void> {
+    if (this.id) {
+      this.loadEntityById(this.id).then(entity => {
+        this.entity = entity;
+        this.prepareMenus(entity);
+      });
+    }
+    return Promise.resolve();
   }
 
   protected supportingDelete: boolean = false;
@@ -323,6 +335,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
    // Override post operation handlers for custom behavior
    protected  postSave(): void {
     console.log(this.getEntityType() + ' saved successfully');
+    this.switchToDetailMode();
   }
 
   protected  postDelete(): void {
