@@ -1,0 +1,8 @@
+
+<app-simple-tabset [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+<div *ngIf="currentTabId === 'list'">
+  <h1> OOPS</h1>
+</div> 
+<div *ngIf="currentTabId === 'details'">
+  <app-providertyperef-crud [id]="id"></app-providertyperef-crud>
+</div>

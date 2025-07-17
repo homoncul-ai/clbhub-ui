@@ -4,14 +4,16 @@ This spec describes the requirements for generating the CRUD, List, and Group An
 
 ## CRUD Component
 
+- **Purpose:** Display, edit, and add ProviderTypeRef data.
 - **Files:**
-  - `src/app/components/_crud/providertyperef/providertyperef-crud.component.html`
-  - `src/app/components/_crud/providertyperef/providertyperef-crud.component.ts`
-  - `src/app/components/_crud/providertyperef/providertyperef-crud.component.scss` (empty)
+  - `providertyperef-crud.component.html`
+  - `providertyperef-crud.component.ts`
+  - `providertyperef-crud.component.scss` (empty)
 
 ### Section: Details
 
-Based on `ProviderTypeRefGETData` interface:
+- **Based on:** `HcclService` interface `ProviderTypeRefGETData`
+- **Method call:** `this.hcclService.getProviderTypeRefById(id)`
 
 ```typescript
 export interface ProviderTypeRefGETData {
@@ -50,7 +52,8 @@ export interface ProviderTypeRefGETData {
 
 ### Section: Edit
 
-Based on `ProviderTypeRefPUTData` interface:
+- **Based on:** `HcclService` interface `ProviderTypeRefPUTData`
+- **Method call:** `this.hcclService.updateProviderTypeRefById(id, body)`
 
 ```typescript
 export interface ProviderTypeRefPUTData {
@@ -62,16 +65,17 @@ export interface ProviderTypeRefPUTData {
 ```
 
 #### Attributes Table (Edit)
-| Attribute     | Type    | Label         |
-|---------------|---------|--------------|
-| name          | string  | Name         |
-| businessCode  | string  | Business Code|
-| description   | string  | Description  |
-| available     | number  | Available    |
+| Attribute     | Type    | Label         | Display Hint |
+|---------------|---------|--------------|--------------|
+| name          | string  | Name         | Text input   |
+| businessCode  | string  | Business Code| Text input   |
+| description   | string  | Description  | Textarea     |
+| available     | number  | Available    | Number input |
 
 ### Section: Add
 
-Based on `ProviderTypeRefPOSTData` interface:
+- **Based on:** `HcclService` interface `ProviderTypeRefPOSTData`
+- **Method call:** `this.hcclService.createProviderTypeRef(body)`
 
 ```typescript
 export interface ProviderTypeRefPOSTData {
@@ -83,39 +87,35 @@ export interface ProviderTypeRefPOSTData {
 ```
 
 #### Attributes Table (Add)
-| Attribute     | Type    | Label         |
-|---------------|---------|--------------|
-| name          | string  | Name         |
-| businessCode  | string  | Business Code|
-| description   | string  | Description  |
-| available     | number  | Available    |
+| Attribute     | Type    | Label         | Display Hint |
+|---------------|---------|--------------|--------------|
+| name          | string  | Name         | Text input   |
+| businessCode  | string  | Business Code| Text input   |
+| description   | string  | Description  | Textarea     |
+| available     | number  | Available    | Number input |
 
+---
 
 ## Group Component
 
+- **Purpose:** Router target to group all tabs for ProviderTypeRef (e.g., details, list).
 - **Files:**
-  - `src/app/components/_crud/providertyperef/providertyperef-group.component.html`
-  - `src/app/components/_crud/providertyperef/providertyperef-group.component.ts`
-  - `src/app/components/_crud/providertyperef/providertyperef-group.component.scss` (empty)
+  - `providertyperef-group.component.html`
+  - `providertyperef-group.component.ts`
+  - `providertyperef-group.component.scss` (empty)
+- **Reference:** Base on the `CLStudentGroup` component.
 
-- **Purpose:**
-  - Provides a router target to group all the tabs for ProviderTypeRef
-  - Based on the CLStudentGroup component
-  - Uses a tabset with at least 'list' and 'details' tabs
-  - Loads entity by id and passes to CRUD component
-
+---
 
 ## List Component
 
+- **Purpose:** Router target to search and list ProviderTypeRefGETData.
 - **Files:**
-  - `src/app/components/_crud/providertyperef/providertyperef-list.component.html`
-  - `src/app/components/_crud/providertyperef/providertyperef-list.component.ts`
-  - `src/app/components/_crud/providertyperef/providertyperef-list.component.scss` (empty)
-
-- **Purpose:**
-  - Provides a router target to search and list ProviderTypeRefGETData
-  - Based on the CLStudentList component
-  - Uses a grid/table to display the attributes
+  - `providertyperef-list.component.html`
+  - `providertyperef-list.component.ts`
+  - `providertyperef-list.component.scss` (empty)
+- **Reference:** Base on the `CLStudentList` component.
+- **Method call:** `this.hcclService.findProviderTypeRefs(criteria)`
 
 #### Attributes Table (List)
 | Attribute         | Type         | Label           | Display Hint |
@@ -130,10 +130,13 @@ export interface ProviderTypeRefPOSTData {
 | lastUpdatedByInfo | Reference    | Last Updated By | Always last  |
 | dateLastUpdated   | DateGETData  | Date Last Updated | Use `<app-dategetdata-display>` |
 
-
 ---
 
-**Notes:**
+## Notes for Future Updates
+
+- This spec is designed to be **idempotent**: you can update and re-apply it to safely update the generated components.
+- When updating, ensure all new requirements are reflected in the attribute tables and method call instructions.
+- Keep the spec clear, concise, and easy to review for both humans and AI.
 - All generated components should use the global SCSS file and have empty local .scss files.
 - All files reside in `src/app/components/_crud/providertyperef/`.
 - The CRUD component should call the appropriate methods in HcclService for ProviderTypeRef.

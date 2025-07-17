@@ -172,6 +172,10 @@ export class MenuService {
     // Add Dashboard
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.EA_DASHBOARD);
     this.addMenuItem(menu, dashboard);
+
+    // Add Provider Type Ref
+    const providerTypeRef = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERTYPEREF_LIST);
+    this.addMenuItem(menu, providerTypeRef);
     
     return menu;
   }
@@ -930,12 +934,12 @@ EA_PROVIDERUSER_LIST: {
 },
 
 EA_PROVIDERTYPEREF_LIST: {
-  "level" : 2,
-  "label" : "Provider Type Ref",
-  "route" : "/ecoadmin-dashboard/prov/providertyperef-list",
-  "componentPath" : "/src/app/components/_crud/prov/providertyperef-list",
-  "componentName" : "providertyperef-list",
-  "icon" : ""
+  level: 1,
+  label: 'Provider Type Refs',
+  route: '/ecoadmin/providertyperefs',
+  componentPath: 'src/app/components/_crud/providertyperef/providertyperef-list.component',
+  componentName: 'ProviderTypeRefListComponent',
+  icon: 'fas fa-list'
 },
 
 //  /ecoadmin-dashboard/integration_emp menu items 
