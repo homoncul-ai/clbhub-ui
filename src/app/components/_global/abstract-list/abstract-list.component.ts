@@ -1,24 +1,24 @@
-import { BaseCriteria } from './../../../restsvc/hccl.service';
+import { BaseCriteria } from '../../../restsvc/hccl.service';
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
-import { ProviderTypeRefGETData, ProviderTypeRefCriteria, ProviderTypeRefGETDataSearchResults, SimpleRestActionResponse } from '../../../restsvc/hccl.service';
+import { Observable } from 'rxjs';
 
 declare const dhx: any;
 
 /**
- * Component for displaying and managing ProviderTypeRef data using HcclService
- * Uses ProviderTypeRefGETData interface for proper field mapping and labels
+ * Abstract base component for displaying and managing entity data using HcclService
+ * Provides common grid functionality and requires subclasses to implement entity-specific methods
  */
 
 @Component({
-  selector: 'app-providertyperef-list',
-  templateUrl: './providertyperef-list.component.html',
-  styleUrls: ['../list-search-starter.component.css'],
+  selector: 'app-abstract-list',
+  template: '<div #gridContainer class="search-list-grid-container" style="width:100%;height:600px;"></div>',
+  styleUrls: ['../../_crud/list-search-starter.component.css'],
   imports: [CommonModule]
 })
-export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
+export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> implements OnInit, AfterViewInit {
   @Input() criteria: BaseCriteria | null = null;
   
   @ViewChild('gridContainer') gridContainer!: ElementRef;
@@ -26,14 +26,14 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   protected isDhtmlxLoaded = false;
 
   protected selectedId: string | null = null;
-  protected showingAdvancedSearch: boolean = false; // Variable to control tune button visibility
-  protected searchHeading: string = 'Provider Types';
+  protected showingAdvancedSearch: boolean = false;
+  protected searchHeading: string = 'Entities';
   protected searchPlaceholder: string = 'search by name or business code, * for wildcard';
   protected showingIdCheckbox: boolean = false;
   protected showingAddButton: boolean = false;
 
   constructor(
-    private hcclService: HcclService,
+    protected hcclService: HcclService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -102,9 +102,7 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
       // Attach afterRowDrop event listener
       this.grid.events.on("afterRowDrop", (from: string, to: string, dragInfo: any) => {
         console.log(`Row with ID ${from} was dropped before row with ID ${to}`);
-        // You would typically update your data source here to reflect the new order
-        // For example, if you have an array of provider type refs, you would reorder that array.
-        // The grid's internal data is already updated by the drop action.
+        this.onRowDrop(from, to, dragInfo);
       });
 
       // Add row click event listener
@@ -112,7 +110,7 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
         console.log('Cell clicked:', row, col);
         // Don't trigger on checkbox column or if no row data
         if (col && col.id !== 'select' && row && row.id) {
-          console.log('Calling onRowClick with providerTypeRefId:', row.id);
+          console.log('Calling onRowClick with entityId:', row.id);
           this.onRowClick(row.id);
         }
       });
@@ -124,6 +122,7 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
       console.error('Error initializing DHTMLX grid:', error);
     }
   }
+
   protected setupGrid() {
     // Build columns array based on showingIdCheckbox state
     const columns: any[] = [];
@@ -133,21 +132,12 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
       columns.push({ id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 });
     }
     
-    // Add all other columns
-    columns.push(
-      { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
-      { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
-      { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
-      { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
-    );
+    // Add entity-specific columns
+    const entityColumns = this.getGridColumns();
+    columns.push(...entityColumns);
 
     // Build footer array based on column count
-    const footerCount = this.showingIdCheckbox ? 10 : 9;
+    const footerCount = this.showingIdCheckbox ? entityColumns.length + 1 : entityColumns.length;
     const footer = Array(footerCount).fill({ text: '' });
 
     // Initialize DHTMLX grid with pagination and drag and drop
@@ -173,12 +163,23 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Handle row click to show provider type ref details
-   * @param providerTypeRefId The ID of the clicked provider type ref
+   * Handle row click to show entity details
+   * @param entityId The ID of the clicked entity
    */
-  public onRowClick(providerTypeRefId: string): void {
-    console.log('onRowClick called with providerTypeRefId:', providerTypeRefId);
-    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', providerTypeRefId, 'details']);
+  public onRowClick(entityId: string): void {
+    console.log('onRowClick called with entityId:', entityId);
+    this.router.navigate([this.getDetailsRoute(), entityId, 'details']);
+  }
+
+  /**
+   * Handle row drop event
+   * @param from The ID of the row being moved
+   * @param to The ID of the row being moved to
+   * @param dragInfo Additional drag information
+   */
+  protected onRowDrop(from: string, to: string, dragInfo: any): void {
+    // Default implementation - subclasses can override
+    console.log(`Row with ID ${from} was dropped before row with ID ${to}`);
   }
 
   /**
@@ -196,34 +197,28 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   }
 
   private loadGridData(searchByText?: string) {
-    const criteria: ProviderTypeRefCriteria = {
-      pageNumber: 1,
-      pageSize: 50,
-      isPaging: true
-    };
+    const criteria = this.createCriteria();
 
     // Add search criteria if provided
     if (searchByText && searchByText.trim() !== '') {
-      criteria.searchByText = searchByText;
+      (criteria as any).searchByText = searchByText;
     }
     if (this.selectedId) {
-      criteria.ids = [this.selectedId];
+      (criteria as any).ids = [this.selectedId];
     }
     this.loadGridDataCall(criteria);
   }
-  protected loadGridDataCall(criteria: ProviderTypeRefCriteria) {
-    console.log('Loading provider type refs with criteria:', criteria);
-    this.hcclService.findProviderTypeRefs(criteria).subscribe({
-      next: (response: ProviderTypeRefGETDataSearchResults) => {
-        if (response.searchResults) {
-          const refs = response.searchResults;
-          const gridData = refs.map(ref => {
+
+  protected loadGridDataCall(criteria: TCriteria) {
+    console.log('Loading entities with criteria:', criteria);
+    this.findEntities(criteria).subscribe({
+      next: (response: TSearchResults) => {
+        if (this.hasSearchResults(response)) {
+          const entities = this.getSearchResults(response);
+          const gridData = entities.map(entity => {
             const data: any = {
-              ...ref,
-              createdByInfo: ref.createdByInfo?.name || '',
-              lastUpdatedByInfo: ref.lastUpdatedByInfo?.name || '',
-              dateCreated: ref.dateCreated?.formattedDate || '',
-              dateLastUpdated: ref.dateLastUpdated?.formattedDate || ''
+              ...entity,
+              ...this.formatEntityData(entity)
             };
             
             // Only add select property if checkbox is shown
@@ -234,14 +229,14 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
             return data;
           });
           this.grid.data.parse(gridData);
-          console.log("Loaded provider type refs:", gridData.length);
+          console.log("Loaded entities:", gridData.length);
         } else {
           this.grid.data.parse([]);
-          console.log("No provider type refs found");
+          console.log("No entities found");
         }
       },
       error: (error) => {
-        console.error('Error loading provider type ref data:', error);
+        console.error('Error loading entity data:', error);
         this.grid.data.parse([]);
       }
     });
@@ -249,27 +244,12 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
 
   public onGoClick() {
     alert('onGoClick called');
-    // if (this.grid) {
-    //   // DHTMLX Suite 8: get checked rows by 'select' column (checkbox)
-    //   // The checked state is stored in the 'select' property of each row
-    //   const allData = this.grid.data.serialize();
-    //   const checkedRows = allData.filter((row: any) => row.select === true);
-    //   console.log('Checked rows:', checkedRows);
-      
-    //   if (checkedRows.length > 0) {
-    //     // Route to the first selected provider type ref's details
-    //     const firstRef = checkedRows[0];
-    //     const refId = firstRef.businessCode || firstRef.id;
-    //     this.router.navigate(['/ecoadmin-dashboard/providertyperefs', refId, 'details']);
-    //   } else {
-    //     alert('No provider type refs selected');
-    //   }
-    // }
+    // Default implementation - subclasses can override
   }
 
   public onShowingAdvancedSearch() {
     if (!this.showingIdCheckbox) {
-      alert('Please enable checkboxes first to select provider type refs for tuning');
+      alert('Please enable checkboxes first to select entities for tuning');
       return;
     }
 
@@ -278,15 +258,14 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
       const checkedRows = allData.filter((row: any) => row.select === true);
       
       if (checkedRows.length === 0) {
-        alert('Please select at least one provider type ref to tune');
+        alert('Please select at least one entity to tune');
         return;
       }
 
-      const refIds = checkedRows.map((row: any) => row.id);
-      console.log('Tuning provider type refs:', refIds);
+      const entityIds = checkedRows.map((row: any) => row.id);
+      console.log('Tuning entities:', entityIds);
 
-      // TODO: Implement tuning logic
-      alert(`Tuning ${checkedRows.length} provider type ref(s): ` + refIds.join(', '));
+      this.onAdvancedSearchAction(checkedRows, entityIds);
     }
   }
 
@@ -297,6 +276,7 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   public onSearch(query: string) {
     this.loadGridData(query);
   }
+
   protected onAdvancedSearch() { 
     // TODO: Implement advanced search functionality
     alert('Advanced search functionality not yet implemented');
@@ -328,4 +308,46 @@ export class ProviderTypeRefListComponent implements OnInit, AfterViewInit {
   public getShowingIdCheckbox(): boolean {
     return this.showingIdCheckbox;
   }
+
+  // Abstract methods that subclasses must implement
+
+  /**
+   * Get the grid columns configuration for this entity
+   */
+  protected abstract getGridColumns(): any[];
+
+  /**
+   * Create a new criteria object for this entity
+   */
+  protected abstract createCriteria(): TCriteria;
+
+  /**
+   * Find entities using the service
+   */
+  protected abstract findEntities(criteria: TCriteria): Observable<TSearchResults>;
+
+  /**
+   * Check if the search results contain data
+   */
+  protected abstract hasSearchResults(response: TSearchResults): boolean;
+
+  /**
+   * Get the search results array from the response
+   */
+  protected abstract getSearchResults(response: TSearchResults): T[];
+
+  /**
+   * Format entity data for grid display
+   */
+  protected abstract formatEntityData(entity: T): any;
+
+  /**
+   * Get the details route for this entity
+   */
+  protected abstract getDetailsRoute(): string;
+
+  /**
+   * Handle advanced search action
+   */
+  protected abstract onAdvancedSearchAction(checkedRows: any[], entityIds: string[]): void;
 } 
