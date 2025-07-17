@@ -90,6 +90,6 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
   }
 
   protected override onAdd(): void {
-    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', '', 'add']);
+    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', '1', 'create']);
   }
 } 

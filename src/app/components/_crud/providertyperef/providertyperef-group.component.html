@@ -1,6 +1,7 @@
+{{ currentTabId }}
 
 <app-simple-tabset [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
-<div *ngIf="currentTabId === 'list'">
+<div *ngIf="currentTabId === 'create'">
   <h1> OOPS</h1>
 </div> 
 <div *ngIf="currentTabId === 'details'">

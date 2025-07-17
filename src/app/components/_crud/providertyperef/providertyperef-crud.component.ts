@@ -202,6 +202,16 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
 
 export class ProviderTypeRefCrudWrapper extends EntityWrapper<ProviderTypeRefGETData> {
 
+  public static  newInstanceForCreate(hcclService: HcclService): ProviderTypeRefCrudWrapper {
+    const providerTypeRef = {
+      id: '0',
+      name: '',
+      businessCode: '',
+      description: '',
+      available: 1
+    } as ProviderTypeRefGETData;
+    return new ProviderTypeRefCrudWrapper(providerTypeRef, hcclService);
+  }
   public static async newInstance(id: string, hcclService: HcclService): Promise<ProviderTypeRefCrudWrapper> {
     const providerTypeRef = await hcclService.getProviderTypeRefById(id).toPromise();
     if (providerTypeRef) {

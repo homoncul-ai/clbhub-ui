@@ -25,6 +25,9 @@ export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<
     this.route.params.subscribe(params => {
       const id = params['id'];
       const tabId = params['tabId'] || 'details';
+      if (tabId === 'create') {
+        this.entity = ProviderTypeRefCrudWrapper.newInstanceForCreate(this.hcclService);
+      } else {
       if (id) {
         this.id = id;
         this.tabs = this.setupTabs();
@@ -34,6 +37,7 @@ export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<
         }).catch(error => {
           console.error('Error loading ProviderTypeRef:', error);
         });
+      }
       }
     });
   }
