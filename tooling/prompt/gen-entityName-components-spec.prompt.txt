@@ -1,122 +1,103 @@
-- This prompt will be used to generate a spec for Cursor to generate a set of 3 angular components.  
-- The output from this prompt will be another prompt be called src/app/components/_crud/[entityName]/[entityName]-gencomp.prompt.txt
-- The spec will be markdown. 
-    - After creation of the spec, someone will be editing and massaging spec before the actual generation. 
-    - Ultimately, the file [entityName]-gencomp.prompt.txt will be used to generate the CRUD, List, and Group components
+# AI Component Generation Spec Template
 
-- Each component set will be based on an "entityName" that will be passed in as an argument.
-- The components generated will be based on some working examples in the project.
-- The components will call into the appropriate  methods in HcclServices. 
-- All component files will reside in the folder src/app/components/_crud/[entityName]
-- each component will have all its files in  the folder src/app/components/_crud/[entityName].
-- Do not create a new folder for each crud component.
-- All the components generated need to rely on the global scss file, and will have empty .scss file.
+## Preamble: AI Mindset and Goals
 
+You are an expert Angular developer and code generator. Your task is to generate a clear, maintainable, and **idempotent** specification for a set of three Angular components (CRUD, List, Group) for a given `entityName`. This spec will be used as the source of truth for generating and **re-generating** these components, ensuring that updates to the spec can be safely and efficiently propagated to the codebase.
 
+- **Be precise and unambiguous.**
+- **Favor clarity and maintainability.**
+- **Assume the spec may be updated and re-applied multiple times.**
+- **Do not generate code directly; generate a markdown spec that describes the code to be generated.**
+- **Reference working examples and best practices from the project.**
+- **All generated files must be idempotent: re-running the generator with an updated spec should not break or duplicate code.**
 
-# Generating the components 
+---
 
- Here is the list of components to specify for the [entityName]
+## Output
 
-## CRUD Component - 
-  - this component controls the display and edit of [entityName] data/
-  - component files - src/app/components/_crud/[entityName]/[entityName]-crud.component.html, src/app/components/_crud/[entityName]/[entityName]-crud.component.ts
-  - Don't bother copying the .scss file - create empty.
+- The output is a markdown spec file: `src/app/components/_crud/[entityName]/[entityName]-gencomp.prompt.txt`.
+- This spec will be reviewed and possibly edited before actual code generation.
+- The spec will be used to generate or update the following components:
+  - CRUD Component
+  - List Component
+  - Group Component
 
-### Section - Details - 
+---
 
-based on HcclService interface [entityName]GETData
+## General Guidelines
 
-Example : 
+- All component files reside in `src/app/components/_crud/[entityName]`.
+- Do **not** create subfolders for each component.
+- All components use the global SCSS file; local `.scss` files should be empty.
+- Components must call the appropriate methods in `HcclService` for the given entity.
+- Use and reference working examples from the project (e.g., CLStudent components).
+- The spec should be easy to update and re-apply for future changes.
 
-export interface CatalogSearchResultGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  catalogId?: string;
-  comments?: string;
-  subjectEntityId?: string;
-  subjectEntityType?: string;
-  subjectEntityName?: string;
-  parentWorkRequestItemId?: string;
-}
+---
 
-- **Method call for Details:** `this.hcclService.get[entityName]ById(id)`
+# Component Specification Structure
 
-    - Specify the list of attributes to display for Details in tabular format.
-    - id should always be the first
-    - createdByInfo, dateCreated, lastUpdatedByInfo, dateLastUpdated should always be last.
-    - for each field show the attrName, type, the label, and any special hint about displaying it.
-    - dates should be displayed using the app-dategetdata-display component
-    - If there are 3 attributes of the form [prefix]EntityId, [prefix]EntityType, [prefix]EnityName, display using  component app-efk .
-     Example : 
-            subjectEntityId?: string;
-            subjectEntityType?: string;
-            subjectEntityName?: string;
+## CRUD Component
+- **Purpose:** Display, edit, and add `[entityName]` data.
+- **Files:**
+  - `[entityName]-crud.component.html`
+  - `[entityName]-crud.component.ts`
+  - `[entityName]-crud.component.scss` (empty)
 
-	"<app-efk-display id=\"this.subjectEntityId\" name=\"this.subjectEntityName\" type=\"this.subjectEntityType\" >"
-     - Any other attributes of the form [prefix]Id are foreign key element. They should be displayed like "<app-[fkEntityName]-crud id=\"this.[fkEntityName]Id\" mode=\"CrudModes.FK\"".  Resolve the best guess for the fkEntityName referring to HcclService for the list of Interfaces. 
-      - DOn't worry if the crud-component doesn't exist in the project yet.  We'll be generating them all. 
-       From Above example.
-	  parentWorkRequestItemId?: string;
-          The fkEntityName is "WorkRequestItem" 
+### Section: Details
+- **Based on:** `HcclService` interface `[entityName]GETData`
+- **Method call:** `this.hcclService.get[entityName]ById(id)`
+- **Attributes Table:**
+  - List all attributes in tabular format.
+  - `id` always first; audit fields (`createdByInfo`, `dateCreated`, `lastUpdatedByInfo`, `dateLastUpdated`) always last.
+  - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., use `<app-dategetdata-display>` for dates).
+  - For EFK triplets (`[prefix]EntityId`, `[prefix]EntityType`, `[prefix]EntityName`), use `<app-efk-display ...>`.
+  - For foreign keys (`[prefix]Id`), use `<app-[fkEntityName]-crud ... mode="CrudModes.FK">`.
 
- 
-### Section - Edit 
+### Section: Edit
+- **Based on:** `HcclService` interface `[entityName]PUTData`
+- **Method call:** `this.hcclService.update[entityName]ById(id, body)`
+- **Attributes Table:**
+  - List all editable attributes in tabular format.
+  - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., dropdown, date picker, textarea).
 
-based on HcclService interface [entityName]PUTData
+### Section: Add
+- **Based on:** `HcclService` interface `[entityName]POSTData`
+- **Method call:** `this.hcclService.create[entityName](body)`
+- **Attributes Table:**
+  - List all addable attributes in tabular format.
+  - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., dropdown, date picker, textarea).
 
-Example : 
+---
 
-export interface CatalogSearchResultPUTData {
-  catalogId: string;
-  comments?: string;
-  subjectEntityId?: string;
-  subjectEntityType?: string;
-  subjectEntityName?: string;
-  parentWorkRequestItemId?: string;
-}
+## Group Component
+- **Purpose:** Router target to group all tabs for `[entityName]` (e.g., details, list).
+- **Files:**
+  - `[entityName]-group.component.html`
+  - `[entityName]-group.component.ts`
+  - `[entityName]-group.component.scss` (empty)
+- **Reference:** Base on the `CLStudentGroup` component.
 
-- **Method call for Edit:** `this.hcclService.update[entityName]ById(id, body)`
-- **Display hint:** For each field, specify any special display hint about the input field (e.g., dropdown, date picker, textarea, etc.)
-- Specify the list of attributes to display for Edit in tabular format. For each field show the attrName, type, the label, and any special display hint about the input field.
-    
-### Section - Add 
+---
 
-based on HcclService interface [entityName]POSTData
+## List Component
+- **Purpose:** Router target to search and list `[entityName]GETData`.
+- **Files:**
+  - `[entityName]-list.component.html`
+  - `[entityName]-list.component.ts`
+  - `[entityName]-list.component.scss` (empty)
+- **Reference:** Base on the `CLStudentList` component.
+- **Method call:** `this.hcclService.find[entityName]s(criteria)`
+- **Attributes Table:**
+  - Show a table of the GETData attributes, just like for Details.
 
-Example : 
-export interface CatalogSearchResultPOSTData {
-  catalogId: string;
-  comments?: string;
-  subjectEntityId?: string;
-  subjectEntityType?: string;
-  subjectEntityName?: string;
-  parentWorkRequestItemId?: string;
-}
+---
 
-- **Method call for Add:** `this.hcclService.create[entityName](body)`
-- **Display hint:** For each field, specify any special display hint about the input field (e.g., dropdown, date picker, textarea, etc.)
-- Specify the list of attributes to display for Add in tabular format. For each field show the attrName, type, the label, and any special display hint about the input field.
+## Notes for Future Updates
+- This spec is designed to be **idempotent**: you can update and re-apply it to safely update the generated components.
+- When updating, ensure all new requirements are reflected in the attribute tables and method call instructions.
+- Keep the spec clear, concise, and easy to review for both humans and AI.
 
-## Group Component - 
- 
-- The group component provides target for the router to group all the tabs for an [entitytName]
-- Then group component to be generated will be based on CLStudentGroup component.
-- component files - src/app/components/_crud/[entityName]/[entityName]-group.component.html, src/app/components/_crud/[entityName]/[entityName]-group.component.ts
-
-## List component 
-- The List component provides target for the router to search and list of [entitytName]GETData 
-- Then List component to be generated will be based on CLStudentList component.
-- component files - src/app/components/_crud/[entityName]/[entityName]-list.component.html, 
-                    src/app/components/_crud/[entityName]/[entityName]-list.component.ts
-
-- **Method call for Search/List:** `this.hcclService.find[entityName]s(criteria)`
-
-The spec you create for the list component should also show a table of the GETData attributes just like for the details.
- 
 
 
       
