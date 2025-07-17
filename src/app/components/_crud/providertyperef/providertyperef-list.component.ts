@@ -13,9 +13,9 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-providertyperef-list',
-  templateUrl: './providertyperef-list.component.html',
-  styleUrls: ['../list-search-starter.component.css'],
-  imports: [CommonModule]
+  templateUrl: '../../_global/abstract-list/abstract-list.component.html',
+  styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
+    imports: [CommonModule]
 })
 export class ProviderTypeRefListComponent extends AbstractListComponent<ProviderTypeRefGETData, ProviderTypeRefCriteria, ProviderTypeRefGETDataSearchResults> {
   

@@ -14,8 +14,8 @@ declare const dhx: any;
 
 @Component({
   selector: 'app-abstract-list',
-  template: '<div #gridContainer class="search-list-grid-container" style="width:100%;height:600px;"></div>',
-  styleUrls: ['../../_crud/list-search-starter.component.css'],
+  templateUrl: './abstract-list.component.html',
+  styleUrls: ['./abstract-list.component.scss'],
   imports: [CommonModule]
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> implements OnInit, AfterViewInit {
