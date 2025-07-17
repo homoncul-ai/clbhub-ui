@@ -53,7 +53,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
         this.entity = entity;
         this.setModeFromName(this.modeName); // Show details of the loaded student
       });
+    } else {
+      this.switchToCreateMode();
     }
+
   }
 
 
@@ -279,8 +282,8 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   // Pre-operation handlers for validation and preparation
   // These are called before the respective operation starts
   // Use these for validation, data preparation, or pre-operation setup
-  protected async preCreate(): Promise<void> {
-    await this.validateCreateFormData();
+  protected async  preCreate(entity: R): Promise<void> {
+    await this.validateCreateFormData(entity);
   }
   protected async preUpdate(): Promise<void> {
     await this.validateUpdateFormData();
@@ -291,7 +294,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
 
   // Form validation methods that subclasses can override
   // These provide default validation behavior for create and update operations
-  protected async validateCreateFormData(): Promise<void> {
+  protected async validateCreateFormData(entity: R): Promise<void> {
     return Promise.resolve();
   }
   protected async validateUpdateFormData(): Promise<void> {
@@ -303,7 +306,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   // Use these for custom business logic, UI updates, or other custom actions
   protected onAfterLoad(): void {}
   protected onAfterCreate(): void {
-    this.entityNew = null;
+    this.entityNew = this.newEmptyWrapper();
 
   }
   protected onAfterUpdate(): void {
@@ -421,15 +424,18 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
    * @param entity The entity to create
    * @returns The created entity
    */
-  public async createEntity(entity: R): Promise<R | null> {
+  public async createEntity(entityIn?: R): Promise<R | null> {
     try {
       this.loading = true;
       this.messages = { messages: [] };
       this.success = false;
+      debugger;
+
+      const entity = entityIn || this.entityNew || this.newEmptyWrapper();
       
+
       // Call pre-create handler for validation and preparation
-      this.preCreate();
-      
+      this.preCreate(entity);
       const createdEntity = await this.createEntityData(entity);
       this.entity = createdEntity;
       this.success = true;

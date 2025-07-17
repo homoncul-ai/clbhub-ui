@@ -18,7 +18,7 @@
   <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
     <h3>Create New Provider Type Ref</h3>
     <div class="action-buttons">
-      <button *ngIf="canCreate" (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
+      <button (click)="this.createEntity()" class="btn btn-success">Create</button>
       <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
     </div>
     <div class="form-container">

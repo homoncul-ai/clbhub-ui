@@ -116,7 +116,9 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
   }
   // Getter methods for form binding
   public get name(): string {
-    return this.getCurrentEntity().getData().name || '';
+    const x = this.getCurrentEntity().getData().name || '';
+   
+    return x;
   }
 
   public set name(value: string) {
@@ -198,19 +200,32 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
   }
 
 
+  protected   createEntityX(): void {
+    console.log("Booger", this.entityNew);
+    debugger;
+    const gd = this.entity?.getData() || {
+      name: '',
+      businessCode: '',
+      description: '',
+      available: 1
+    } as ProviderTypeRefGETData;
+
+    const ew = new ProviderTypeRefCrudWrapper(gd, this.hcclService);
+    super.createEntity(ew);
+  }
 }
 
 export class ProviderTypeRefCrudWrapper extends EntityWrapper<ProviderTypeRefGETData> {
 
-  public static  newInstanceForCreate(hcclService: HcclService): ProviderTypeRefCrudWrapper {
-    const providerTypeRef = {
+  public static  newInstanceForCreate( hcclService: HcclService, entityIn?: ProviderTypeRefGETData | null): ProviderTypeRefCrudWrapper {
+    const entity = entityIn || {
       id: '0',
       name: '',
       businessCode: '',
       description: '',
       available: 1
     } as ProviderTypeRefGETData;
-    return new ProviderTypeRefCrudWrapper(providerTypeRef, hcclService);
+    return new ProviderTypeRefCrudWrapper(entity, hcclService);
   }
   public static async newInstance(id: string, hcclService: HcclService): Promise<ProviderTypeRefCrudWrapper> {
     const providerTypeRef = await hcclService.getProviderTypeRefById(id).toPromise();

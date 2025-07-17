@@ -26,6 +26,7 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
     // Set entity-specific properties
     this.searchHeading = 'Provider Types';
     this.showingAddButton = true;
+    this.showingIdCheckbox = true;
     //this.searchPlaceholder = ...
   }
 
@@ -71,11 +72,6 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
     };
   }
-
-  protected getDetailsRoute(): string {
-    return '/ecoadmin-dashboard/providertyperefs';
-  }
-
   /**
    * Override onGoClick for entity-specific behavior
    */
@@ -90,6 +86,6 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
   }
 
   protected override onAdd(): void {
-    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', '1', 'create']);
+    this.router.navigate(['/ecoadmin-dashboard/providertyperefs', 'create']);
   }
 } 
