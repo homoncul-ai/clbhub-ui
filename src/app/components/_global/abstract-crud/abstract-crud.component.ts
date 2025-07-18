@@ -259,7 +259,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   public fkMenu : MenuControlDataList | null = null;
   protected async prepareFkMenuMode(): Promise<void> {
     this.entity  = this.entity || this.newEmptyWrapper();
-    this.fkMenu = await this.entity.getFkMenu(this.menuCreationHint, this.id);
+    this.fkMenu = await this.entity.getFkMenu(this.menuCreationHint, null);
+    if (this.id) {
+      this.entity.setSelectedOption(this.fkMenu, this.id)
+    }
     return Promise.resolve();
   }
 

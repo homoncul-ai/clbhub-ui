@@ -94,4 +94,13 @@ export abstract class EntityWrapper<T extends { id?: string }> {
     return this.entityType;
   }
 
+  public setSelectedOption(menu: MenuControlDataList, id: string): void {
+    if (menu.menuItems) {
+      menu.menuItems.forEach(item => {
+        if (item.id === id) {
+          item.selected = true;
+        }
+      });
+    }
+  }
 }
