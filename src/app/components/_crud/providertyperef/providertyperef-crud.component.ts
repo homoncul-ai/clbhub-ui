@@ -172,19 +172,6 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
     // For now, return null - implement based on your business logic
     return null;
   }
-
-  onProviderTypeRefChange(selectedProviderTypeRef: any): void {
-    // Handle provider type ref selection change
-    console.log('Provider Type Ref selected:', selectedProviderTypeRef);
-    // Implement your provider type ref change logic here
-    // For example, update the current entitys providerTypeRefId
-    if (selectedProviderTypeRef && this.getCurrentEntity()) {
-      // Update relevant properties if needed
-    }
-  }
-
-
-
    /** Define the menu objects for this crud component */
    protected providerTypeRefMenu: MenuControlDataList | null = null;
    protected override async prepareMenus(entity: ProviderTypeRefCrudWrapper): Promise<void> {
