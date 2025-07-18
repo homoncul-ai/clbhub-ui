@@ -56,26 +56,7 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
   }
   
 
-
-  protected async createEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<ProviderTypeRefCrudWrapper> {
-      // Use entityNew if in create mode, otherwise use the passed entity
-      const providerTypeRefData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
-      
-      const postData: ProviderTypeRefPOSTData = {
-        name: providerTypeRefData.name || '',
-        businessCode: providerTypeRefData.businessCode || '',
-        description: providerTypeRefData.description || '',
-        available: providerTypeRefData.available ||1   };
-
-      const createdProviderTypeRefRsp = await this.hcclService.createProviderTypeRef(postData).toPromise();
-      if (createdProviderTypeRefRsp) {
-        const id = createdProviderTypeRefRsp.id; // this is wrong 
-        return id;
-      }
-      throw new Error('Failed to create provider type ref');
-     
-  }
-  protected override async createEntityDataCall2(entity: ProviderTypeRefCrudWrapper): Promise<any> {
+  protected override async createEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<any> {
      // Use entityNew if in create mode, otherwise use the passed entity
      const providerTypeRefData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
     
@@ -87,36 +68,9 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
      };
 
      // The requestCreate method now returns { id: string, status: 201 }
-     const response = await this.hcclService.createProviderTypeRef(postData).toPromise();     
+     const response = this.hcclService.createProviderTypeRef(postData).toPromise();     
      console.log('Create response:', response);
-     
-     // Extract the ID from the new requestCreate response format
-     let createdId: string | null = null;
-     
-     if (response && typeof response === 'object') {
-       // The requestCreate method returns { id: string, status: 201 }
-       if (response.id && response.status === 201) {
-         createdId = response.id;
-       }
-     }
-     
-     if (!createdId) {
-       throw new Error('Failed to extract ID from create response. Response: ' + JSON.stringify(response));
-     }
-     
-     console.log('Extracted ID:', createdId);
-     
-     // Now fetch the created entity using the ID
-     const createdEntity = await this.hcclService.getProviderTypeRefById(createdId).toPromise();
-     
-     if (!createdEntity) {
-       throw new Error('Failed to fetch created provider type ref');
-     }
-     
-     console.log('Fetched created entity:', createdEntity);
-     
-     // Return the created entity wrapped in a ProviderTypeRefCrudWrapper
-     return new ProviderTypeRefCrudWrapper(createdEntity, this.hcclService);
+     return response;
   }
 
 

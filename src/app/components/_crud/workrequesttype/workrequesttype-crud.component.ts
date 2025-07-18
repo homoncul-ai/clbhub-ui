@@ -54,7 +54,7 @@ export class WorkrequesttypeCrudComponent extends AbstractCrudComponent<WorkRequ
   
 
 
-  protected async createEntityDataCall(entity: WorkRequestTypeCrudWrapper): Promise<WorkRequestTypeCrudWrapper> {
+  protected override async createEntityDataCall(entity: WorkRequestTypeCrudWrapper): Promise<any> {
       // Use entityNew if in create mode, otherwise use the passed entity
       const workRequestTypeData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
       
@@ -66,12 +66,7 @@ export class WorkrequesttypeCrudComponent extends AbstractCrudComponent<WorkRequ
         available: workRequestTypeData.available || 1
       };
 
-      const createdWorkRequestType = await this.hcclService.createWorkRequestTypeRef(postData).toPromise();
-      if (createdWorkRequestType) {
-        return new WorkRequestTypeCrudWrapper(createdWorkRequestType, this.hcclService);
-      }
-      throw new Error('Failed to create work request type');
-     
+      return this.hcclService.createWorkRequestTypeRef(postData);
   }
 
   protected async updateEntityDataCall(entity: WorkRequestTypeCrudWrapper): Promise<WorkRequestTypeCrudWrapper> {

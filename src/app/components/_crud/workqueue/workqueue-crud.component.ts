@@ -53,7 +53,7 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
   
 
 
-  protected async createEntityDataCall(entity: WorkQueueCrudWrapper): Promise<WorkQueueCrudWrapper> {
+  protected override async createEntityDataCall(entity: WorkQueueCrudWrapper): Promise<any> {
       // Use entityNew if in create mode, otherwise use the passed entity
       const workQueueData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
       
@@ -69,12 +69,7 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
         externalQueue: workQueueData.externalQueue || 0
       };
 
-      const createdWorkQueue = await this.hcclService.createWorkQueue(postData).toPromise();
-      if (createdWorkQueue) {
-        return new WorkQueueCrudWrapper(createdWorkQueue, this.hcclService);
-      }
-      throw new Error('Failed to create work queue');
-     
+      return this.hcclService.createWorkQueue(postData);
   }
 
   protected async updateEntityDataCall(entity: WorkQueueCrudWrapper): Promise<WorkQueueCrudWrapper> {

@@ -55,7 +55,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
   
 
 
-  protected async createEntityDataCall(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
+  protected override async createEntityDataCall(entity: ClStudentCrudWrapper): Promise<any> {
       // Use entityNew if in create mode, otherwise use the passed entity
       const studentData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
       
@@ -75,12 +75,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
         schoolId: studentData.schoolId || ''
       };
 
-      const createdStudent = await this.hcclService.createCLStudent(postData).toPromise();
-      if (createdStudent) {
-        return new ClStudentCrudWrapper(createdStudent, this.hcclService);
-      }
-      throw new Error('Failed to create student');
-     
+      return this.hcclService.createCLStudent(postData);
   }
 
   protected async updateEntityDataCall(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {

@@ -29,7 +29,7 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
     throw new Error('School not found');
   }
 
-  protected async createEntityDataCall(entity: CLSchoolCrudWrapper): Promise<CLSchoolCrudWrapper> {
+  protected override async createEntityDataCall(entity: CLSchoolCrudWrapper): Promise<any> {
     const data = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
     const postData: CLSchoolPOSTData = {
       organizationId: data.organizationId || '',
@@ -44,9 +44,7 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
       addressLine4: data.addressLine4,
       districtCode: data.districtCode
     };
-    const created = await this.hcclService.createCLSchool(postData).toPromise();
-    if (created) return new CLSchoolCrudWrapper(created, this.hcclService);
-    throw new Error('Failed to create school');
+    return this.hcclService.createCLSchool(postData);
   }
 
   protected async updateEntityDataCall(entity: CLSchoolCrudWrapper): Promise<CLSchoolCrudWrapper> {

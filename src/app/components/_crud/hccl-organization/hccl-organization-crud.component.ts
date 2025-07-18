@@ -27,7 +27,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
     throw new Error('Organization not found');
   }
 
-  protected async createEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<HcclOrganizationCrudWrapper> {
+  protected override async createEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<any> {
     const data = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
     const postData: HcclOrganizationPOSTData = {
       name: data.name || '',
@@ -42,9 +42,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       parentEntityName: data.parentEntityName,
       organizationTypeCode: data.organizationTypeId || ''
     };
-    const created = await this.hcclService.createHcclOrganization(postData).toPromise();
-    if (created) return new HcclOrganizationCrudWrapper(created, this.hcclService);
-    throw new Error('Failed to create organization');
+    return this.hcclService.createHcclOrganization(postData);
   }
 
   protected async updateEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<HcclOrganizationCrudWrapper> {
