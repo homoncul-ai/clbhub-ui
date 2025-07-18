@@ -73,8 +73,17 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
      return response;
   }
 
+  protected override updateEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<ProviderTypeRefCrudWrapper> {
+    return new Promise<ProviderTypeRefCrudWrapper>((resolve, reject) => {
+      this.updateEntityDataCall2(entity).then(() => {
+        resolve(entity);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
 
-  protected async updateEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<ProviderTypeRefCrudWrapper> {
+  protected override async updateEntityDataCall2(entity: ProviderTypeRefCrudWrapper): Promise<void> {
       const providerTypeRefData = entity.getData();
       if (!providerTypeRefData.id) {
         throw new Error('Provider Type Ref ID is required for update');    }
@@ -85,8 +94,7 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
         description: providerTypeRefData.description || '',
         available: providerTypeRefData.available ||1   };
 
-      const updatedProviderTypeRef = await this.hcclService.updateProviderTypeRefById(providerTypeRefData.id, putData).toPromise();
-      return entity;
+      this.hcclService.updateProviderTypeRefById(providerTypeRefData.id, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {

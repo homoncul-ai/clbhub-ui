@@ -277,16 +277,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     }
   }
   
-  protected  updateEntityData(entity: R): Promise<R> {
-    try {
-      const updatedStudent = this.updateEntityDataCall(entity)
-      return updatedStudent;
-    } catch (error) {
-      console.error('Error updating  ' + this.getEntityType() + ' ', error);
-      throw error;
-    }
-  }
   protected abstract updateEntityDataCall(entity: R): Promise<R>;
+  protected async updateEntityDataCall2(entity: R): Promise<void> {
+    return Promise.resolve();
+  }
 
   protected abstract deleteEntityData(id: string): Promise<boolean>;
 
@@ -492,7 +486,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       // Call pre-update handler for validation and preparation
       this.preUpdate();
       
-      const updatedEntity = await this.updateEntityData(entity);
+      const updatedEntity = await this.updateEntityDataCall(entity);
       this.entity = updatedEntity;
       this.success = true;
       this.onAfterUpdate();
