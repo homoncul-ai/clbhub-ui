@@ -72,16 +72,7 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
       return this.hcclService.createWorkQueue(postData);
   }
 
-  protected async updateEntityDataCall(entity: WorkQueueCrudWrapper): Promise<WorkQueueCrudWrapper> {
-      const workQueueData = entity.getData();
-      if (!workQueueData.id) {
-        throw new Error('Work Queue ID is required for update');
-      }
-      this.updateEntityDataCall2(entity).then(() => {
-        // Update completed
-      });
-      return entity;
-  }
+
 
   protected override async updateEntityDataCall2(entity: WorkQueueCrudWrapper): Promise<void> {
       const workQueueData = entity.getData();

@@ -78,16 +78,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       return this.hcclService.createCLStudent(postData);
   }
 
-  protected async updateEntityDataCall(entity: ClStudentCrudWrapper): Promise<ClStudentCrudWrapper> {
-      const studentData = entity.getData();
-      if (!studentData.id) {
-        throw new Error('Student ID is required for update');
-      }
-      this.updateEntityDataCall2(entity).then(() => {
-        // Update completed
-      });
-      return entity;
-  }
+
 
   protected override async updateEntityDataCall2(entity: ClStudentCrudWrapper): Promise<void> {
       const studentData = entity.getData();

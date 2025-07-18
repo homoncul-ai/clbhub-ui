@@ -78,16 +78,7 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
       return this.hcclService.createWorkRequest(postData);
   }
 
-  protected async updateEntityDataCall(entity: WorkRequestCrudWrapper): Promise<WorkRequestCrudWrapper> {
-      const workRequestData = entity.getData();
-      if (!workRequestData.id) {
-        throw new Error('Work Request ID is required for update');
-      }
-      this.updateEntityDataCall2(entity).then(() => {
-        // Update completed
-      });
-      return entity;
-  }
+
 
   protected override async updateEntityDataCall2(entity: WorkRequestCrudWrapper): Promise<void> {
       const workRequestData = entity.getData();

@@ -280,11 +280,6 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     }
   }
   
-  protected abstract updateEntityDataCall(entity: R): Promise<R>;
-  protected async updateEntityDataCall2(entity: R): Promise<void> {
-    return Promise.resolve();
-  }
-
   protected abstract deleteEntityData(id: string): Promise<boolean>;
 
   // Pre-operation handlers for validation and preparation
@@ -468,6 +463,12 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       this.onError(errorMessage);
       return null;
     } 
+  }
+
+
+
+  protected async updateEntityDataCall2(entity: R): Promise<void> {
+    return Promise.resolve();
   }
 
   /**

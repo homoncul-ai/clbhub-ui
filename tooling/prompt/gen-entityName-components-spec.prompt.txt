@@ -84,7 +84,7 @@ You are an expert Angular developer and code generator. Your task is to generate
 - Implement `OnInit, OnChanges`
 - Create a wrapper class that extends `EntityWrapper<[EntityName]GETData>`
 - Include getter/setter methods for form binding
-- Implement required abstract methods: `loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`
+- Implement required abstract methods: `loadEntityByIdCall`, `createEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`
 
 ### Template Structure
 - Copy structure from `clstudent-crud.component.html`

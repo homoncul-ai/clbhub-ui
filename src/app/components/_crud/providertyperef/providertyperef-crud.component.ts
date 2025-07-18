@@ -73,15 +73,7 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
      return response;
   }
 
-  protected override updateEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<ProviderTypeRefCrudWrapper> {
-    return new Promise<ProviderTypeRefCrudWrapper>((resolve, reject) => {
-      this.updateEntityDataCall2(entity).then(() => {
-        resolve(entity);
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
+
 
   protected override async updateEntityDataCall2(entity: ProviderTypeRefCrudWrapper): Promise<void> {
       const providerTypeRefData = entity.getData();

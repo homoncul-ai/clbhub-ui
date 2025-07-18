@@ -45,14 +45,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
     return this.hcclService.createHcclOrganization(postData);
   }
 
-  protected async updateEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<HcclOrganizationCrudWrapper> {
-    const data = entity.getData();
-    if (!data.id) throw new Error('Organization ID is required for update');
-    this.updateEntityDataCall2(entity).then(() => {
-      // Update completed
-    });
-    return entity;
-  }
+
 
   protected override async updateEntityDataCall2(entity: HcclOrganizationCrudWrapper): Promise<void> {
     const data = entity.getData();

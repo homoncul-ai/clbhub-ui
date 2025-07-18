@@ -47,14 +47,7 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
     return this.hcclService.createCLSchool(postData);
   }
 
-  protected async updateEntityDataCall(entity: CLSchoolCrudWrapper): Promise<CLSchoolCrudWrapper> {
-    const data = entity.getData();
-    if (!data.id) throw new Error('School ID is required for update');
-    this.updateEntityDataCall2(entity).then(() => {
-      // Update completed
-    });
-    return entity;
-  }
+
 
   protected override async updateEntityDataCall2(entity: CLSchoolCrudWrapper): Promise<void> {
     const data = entity.getData();
