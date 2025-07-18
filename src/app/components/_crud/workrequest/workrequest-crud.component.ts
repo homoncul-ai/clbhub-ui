@@ -80,7 +80,7 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
 
 
 
-  protected override async updateEntityDataCall2(entity: WorkRequestCrudWrapper): Promise<void> {
+  protected override async updateEntityDataCall(entity: WorkRequestCrudWrapper): Promise<void> {
       const workRequestData = entity.getData();
       if (!workRequestData.id) {
         throw new Error('Work Request ID is required for update');

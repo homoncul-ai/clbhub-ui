@@ -80,7 +80,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
 
 
-  protected override async updateEntityDataCall2(entity: ClStudentCrudWrapper): Promise<void> {
+  protected override async updateEntityDataCall(entity: ClStudentCrudWrapper): Promise<void> {
       const studentData = entity.getData();
       if (!studentData.id) {
         throw new Error('Student ID is required for update');

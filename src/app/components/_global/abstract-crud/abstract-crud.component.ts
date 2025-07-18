@@ -467,7 +467,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
 
 
 
-  protected async updateEntityDataCall2(entity: R): Promise<void> {
+  protected async updateEntityDataCall(entity: R): Promise<void> {
     return Promise.resolve();
   }
 
@@ -484,7 +484,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       // Call pre-update handler for validation and preparation
       this.preUpdate();
       
-      await this.updateEntityDataCall2(entity);
+      await this.updateEntityDataCall(entity);
       this.success = true;
       this.onAfterUpdate();
       this.postSave();

@@ -75,7 +75,7 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
 
 
 
-  protected override async updateEntityDataCall2(entity: ProviderTypeRefCrudWrapper): Promise<void> {
+  protected override async updateEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<void> {
       const providerTypeRefData = entity.getData();
       if (!providerTypeRefData.id) {
         throw new Error('Provider Type Ref ID is required for update');    }

@@ -49,7 +49,7 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
 
 
 
-  protected override async updateEntityDataCall2(entity: CLSchoolCrudWrapper): Promise<void> {
+  protected override async updateEntityDataCall(entity: CLSchoolCrudWrapper): Promise<void> {
     const data = entity.getData();
     if (!data.id) throw new Error('School ID is required for update');
     const putData: CLSchoolPUTData = {

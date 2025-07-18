@@ -47,7 +47,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
 
 
 
-  protected override async updateEntityDataCall2(entity: HcclOrganizationCrudWrapper): Promise<void> {
+  protected override async updateEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<void> {
     const data = entity.getData();
     if (!data.id) throw new Error('Organization ID is required for update');
     const putData: HcclOrganizationPUTData = {

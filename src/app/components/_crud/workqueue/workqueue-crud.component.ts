@@ -74,7 +74,7 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
 
 
 
-  protected override async updateEntityDataCall2(entity: WorkQueueCrudWrapper): Promise<void> {
+  protected override async updateEntityDataCall(entity: WorkQueueCrudWrapper): Promise<void> {
       const workQueueData = entity.getData();
       if (!workQueueData.id) {
         throw new Error('Work Queue ID is required for update');
