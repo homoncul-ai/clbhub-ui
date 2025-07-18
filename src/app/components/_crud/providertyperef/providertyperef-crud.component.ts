@@ -15,8 +15,7 @@ import { R } from 'node_modules/@angular/cdk/overlay.d-BdoMy0hX';
 @Component({
   selector: 'app-providertyperef-crud',
   imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent, DategetdataDisplayComponent],
-  templateUrl: './providertyperef-crud.component.html', 
-  //styleUrl: './providertyperef-crud.component.scss'
+  templateUrl: './providertyperef-crud.component.html'
 })
 export class ProvidertyperefCrudComponent extends AbstractCrudComponent<ProviderTypeRefCrudWrapper> implements OnInit, OnChanges {
 /**
