@@ -259,11 +259,14 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
  
   protected async loadEntityById(id: string): Promise<R> {
     try {
+      this.loading = true;
       return await this.loadEntityByIdCall(id);
     } catch (error) {
       console.error('Error loading ' + this.getEntityType() + ' by ID:', error);
       throw error;
-    }
+    } finally {
+      this.loading = false; 
+    } 
   }
   protected abstract loadEntityByIdCall(id: string): Promise<R>;
 
@@ -316,7 +319,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   }
   protected onAfterUpdate(): void {
     this.entity = null;
-    this.switchToDetailMode
+    this.switchToDetailMode()
   }
   protected onAfterDelete(): void {}
   protected onError(error: string): void {}
@@ -404,7 +407,6 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
    */
   public async getEntityById(id: string): Promise<R | null> {
     try {
-      this.loading = true;
       this.messages = { messages: [] };
       this.entity = await this.loadEntityById(id);
       this.onAfterLoad();
@@ -421,7 +423,6 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       this.onError(errorMessage);
       return null;
     } finally {
-      this.loading = false;
     }
   } 
 
@@ -437,7 +438,6 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
    */
   public async createEntity(entityIn?: R): Promise<R | null> {
     try {
-      this.loading = true;
       this.messages = { messages: [] };
       this.success = false;
 
@@ -467,9 +467,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       };
       this.onError(errorMessage);
       return null;
-    } finally {
-      this.loading = false;
-    }
+    } 
   }
 
   /**
@@ -479,20 +477,17 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
    */
   public async updateEntity(entity: R): Promise<R | null> {
     try {
-      this.loading = true;
       this.messages = { messages: [] };
       this.success = false;
       
       // Call pre-update handler for validation and preparation
       this.preUpdate();
       
-      const updatedEntity = await this.updateEntityDataCall(entity);
-      this.entity = updatedEntity;
+      await this.updateEntityDataCall2(entity);
       this.success = true;
       this.onAfterUpdate();
       this.postSave();
-      
-      return updatedEntity;
+      return this.entity;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       this.messages = { 
@@ -504,8 +499,6 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       };
       this.onError(errorMessage);
       return null;
-    } finally {
-      this.loading = false;
     }
   }
 
@@ -516,21 +509,15 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
    */
   public async deleteEntity(id: string): Promise<boolean> {
     try {
-      this.loading = true;
       this.messages = { messages: [] };
       this.success = false;
       
       // Call pre-delete handler for validation and preparation
       await this.preDelete();
       
-      const deleted = await this.deleteEntityData(id);
-      if (deleted) {
-        this.success = true;
-        this.onAfterDelete();
-        this.postDelete();
-      }
+      await this.deleteEntityData(id);
       
-      return deleted;
+      return true;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       this.messages = { 
@@ -542,9 +529,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       };
       this.onError(errorMessage);
       return false;
-    } finally {
-      this.loading = false;
-    }
+    }  
   }
 
   // Getters for template access
