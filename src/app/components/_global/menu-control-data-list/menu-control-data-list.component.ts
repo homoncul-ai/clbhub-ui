@@ -34,7 +34,6 @@ export class MenuControlDataListComponent implements OnInit {
   
   get menuItems(): MenuControlData[] {
     var x :MenuControlData[] = this.menuControlDataList?.menuItems || [];
-    debugger
     return x;
   }
 }

@@ -75,8 +75,8 @@
     </div>
   </div>
 
-  <!-- Detail Mode -->
-  <div *ngIf="getMode() === CRUD_MODES.DETAIL" class="detail-mode">
+  <!-- Detail Mode  overlay? -->
+  <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading"  class="detail-mode">
     <h3>Provider Type Ref Details</h3>
     <div class="action-buttons">
       <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
@@ -106,7 +106,7 @@
       </div>
       <div class="detail-group">
         <label>Date Created:</label>
-        <app-dategetdata-display [dateData]="getCurrentEntity().getData().dateCreated"></app-dategetdata-display>
+        <app-dategetdata-display [data]="getCurrentEntity().getData().dateCreated"></app-dategetdata-display>
       </div>
       <div class="detail-group">
         <label>Created By:</label>
@@ -114,7 +114,7 @@
       </div>
       <div class="detail-group">
         <label>Date Last Updated:</label>
-        <app-dategetdata-display [dateData]="getCurrentEntity().getData().dateLastUpdated"></app-dategetdata-display>
+        <app-dategetdata-display [data]="getCurrentEntity().getData().dateLastUpdated"></app-dategetdata-display>
       </div>
       <div class="detail-group">
         <label>Last Updated By:</label>
@@ -164,3 +164,6 @@
   <hr>
   
 </div>
+
+<h3> Dump </h3>
+<pre>{{ getCurrentEntity().getData() | json }}</pre>

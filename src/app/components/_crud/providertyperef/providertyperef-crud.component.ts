@@ -167,11 +167,6 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
     };
   }
 
-  getProviderTypeRefFkMenu(): MenuControlDataList | null {
-    // This method should return the provider type ref menu data
-    // For now, return null - implement based on your business logic
-    return null;
-  }
    /** Define the menu objects for this crud component */
    protected providerTypeRefMenu: MenuControlDataList | null = null;
    protected override async prepareMenus(entity: ProviderTypeRefCrudWrapper): Promise<void> {
