@@ -42,20 +42,63 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     this.canEdit = true;
     this.canDelete = false;
 
-    // Set the initial mode
-    this.setModeFromName(this.modeName);
  
-    // Load the entity if an ID is provided
-    //if (!this.id){alert("mode name: " + this.modeName + " " + this.getEntityType() + ' CrudComponent :  No ID provided');}
-
-    if (this.id) {
-      this.loadEntityById(this.id).then(entity => {
-        this.entity = entity;
-        this.setModeFromName(this.modeName); // Show details of the loaded student
-      });
-    } else {
-      this.switchToCreateMode();
+    // Some modes required load, some don't 
+    // CREATE, FK_MENU, DEBUG, dont require load
+    // DETAIL, EDIT, DELETE, SECTION, HEADING, FK do
+    console.log("modeName: " + this.modeName);
+    if (!this.id && this.modeName == 'detail') {
+     //this.switchToCreateMode();
+     this.modeName = CRUD_MODES.CREATE;
     }
+
+    debugger
+    switch (this.modeName) {
+      case CRUD_MODES.CREATE:
+        this.switchToCreateMode();
+        break;
+      case CRUD_MODES.FK_MENU:
+        this.switchToFkMenuMode();
+        break;
+      case CRUD_MODES.DEBUG:
+        //this.switchToDebugMode();
+        break;
+      case CRUD_MODES.DETAIL:
+        this.switchToDetailMode();
+        break;
+      case CRUD_MODES.EDIT:
+        this.switchToEditMode();
+        break;
+      case CRUD_MODES.DELETE:
+        this.switchToDeleteMode();
+        break;  
+      case CRUD_MODES.SECTION:
+      case CRUD_MODES.HEADING:
+      case CRUD_MODES.FK:
+        if (this.id && this.modeName) {
+        this.loadEntityById(this.id).then(entity => {
+          this.entity = entity;
+          this.setModeFromName(this.modeName);
+        });
+      } else {
+        this.switchToDetailMode();
+      }
+        break;
+
+      default:
+        this.switchToDetailMode();
+        break;
+    }
+    // if (this.id) {
+    //   this.loadEntityById(this.id).then(entity => {
+    //     this.entity = entity;
+    //   });
+    // } else {
+    //   alert("setting createMode")
+    //   this.setMode(this.CRUD_MODES.CREATE);
+    // }
+    // // Set the initial mode
+    // this.setModeFromName(this.modeName);
 
   }
 
@@ -137,7 +180,8 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     CRUD_MODES.SECTION,
     CRUD_MODES.HEADING,
     CRUD_MODES.FK,
-    CRUD_MODES.FK_MENU
+    CRUD_MODES.FK_MENU,
+    CRUD_MODES.DEBUG
     ];
   protected currentMode: CrudModeType | null = null;
 
@@ -162,6 +206,9 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   public get isFkMode(): boolean {
     return this.currentMode === CRUD_MODES.FK;
   }
+  public get isFkMenuMode(): boolean {
+    return this.currentMode === CRUD_MODES.FK_MENU;
+  }
   protected switchToCreateMode(): void {
     if (!this.entityNew) {
       this.entityNew = this.newEmptyWrapper();
@@ -184,6 +231,11 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       this.setMode(this.CRUD_MODES.EDIT);
     });
   }
+  protected switchToFkMenuMode(): void {
+    this.prepareFkMenuMode().then(() => {
+      this.setMode(this.CRUD_MODES.FK_MENU);
+    });
+  } 
 
   // create a method that 
   protected setEntityProperty(property: string, value: any): void {
@@ -202,6 +254,13 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
        data = entity;
     }
     return data;
+  }
+
+  public fkMenu : MenuControlDataList | null = null;
+  protected async prepareFkMenuMode(): Promise<void> {
+    this.entity  = this.entity || this.newEmptyWrapper();
+    this.fkMenu = await this.entity.getFkMenu(this.menuCreationHint, this.id);
+    return Promise.resolve();
   }
 
   protected async prepareEditMode(): Promise<void> {
@@ -494,7 +553,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       return this.entity;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      debugger;
+    
       this.messages = { 
         messages: [{ 
           messageCode: 'UnknownError', 

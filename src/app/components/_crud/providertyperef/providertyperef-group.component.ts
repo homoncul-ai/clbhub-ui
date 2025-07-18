@@ -70,6 +70,24 @@ export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<
         () => {
           return this.entity !== null;
         }
+      ),
+      new SimpleTab('debug', 'Debug', '', 
+        () => {
+          this.currentTabId = 'debug';
+          this.router.navigate(['/ecoadmin-dashboard/providertyperefs', this.id, 'debug']);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('fk_menu', 'FK_MENU', '', 
+        () => {
+          this.currentTabId = 'fk_menu';
+          this.router.navigate(['/ecoadmin-dashboard/providertyperefs', this.id, 'fk_menu']);
+        },
+        () => {
+          return true;
+        }
       )
     ];
   }

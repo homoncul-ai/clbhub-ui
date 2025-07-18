@@ -7,3 +7,13 @@
   <h1>Create</h1>
   <app-providertyperef-crud [id]="id" modeName="create"></app-providertyperef-crud>
 </div>
+
+<div *ngIf="currentTabId === 'debug'">
+  <h1>Create</h1>
+  <app-providertyperef-crud [id]="id" modeName="debug"></app-providertyperef-crud>
+</div>
+
+<div *ngIf="currentTabId === 'fk_menu'">
+  <h1>FK_MENU</h1>
+  <app-providertyperef-crud [id]="id" modeName="fk_menu"></app-providertyperef-crud>
+</div>

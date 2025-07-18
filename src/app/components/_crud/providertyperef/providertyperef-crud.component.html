@@ -1,6 +1,13 @@
 <span *ngIf="getMode() === CRUD_MODES.FK">{{ getCurrentEntity().getDisplayText() }}</span>
 
 <!-- Heading Mode -->
+<div *ngIf="getMode() === CRUD_MODES.FK_MENU" class="heading-mode">
+  boingo
+  <app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+</div>
+
+
+<!-- Heading Mode -->
 <div *ngIf="getMode() === CRUD_MODES.HEADING" class="heading-mode">
   <h3>{{ getCurrentEntity().getDisplayText() }}</h3>
 </div>
@@ -130,3 +137,30 @@
     </div>
   </div>
 </div> 
+
+
+<div *ngIf="getMode() === CRUD_MODES.DEBUG" >
+  <!-- debug - show ALL the sections, clearly marked, by  re-creating the crud component -->
+  <h3>details Mode</h3>
+  <app-providertyperef-crud [modeName]="'details'" [id]="this.id"></app-providertyperef-crud>
+  <hr>
+  <h3>create Mode</h3>
+  <app-providertyperef-crud [modeName]="'create'"></app-providertyperef-crud>
+  <hr>
+  <h3>edit Mode</h3>
+  <app-providertyperef-crud [modeName]="'edit'" [id]="this.id"></app-providertyperef-crud>
+  <hr>
+  <h3>delete Mode</h3>
+  <app-providertyperef-crud [modeName]="'delete'" [id]="this.id"></app-providertyperef-crud>
+  <hr>
+  <h3>heading Mode</h3>
+  <app-providertyperef-crud [modeName]="'heading'" [id]="this.id"></app-providertyperef-crud>
+  <hr>
+  <h3>fk Mode</h3>
+  <app-providertyperef-crud [modeName]="'fk'" [id]="this.id"></app-providertyperef-crud>
+  <hr>
+  <h3>fk_menu Mode</h3>
+  <app-providertyperef-crud [modeName]="'fk_menu'" [id]="this.id"></app-providertyperef-crud>
+  <hr>
+  
+</div>

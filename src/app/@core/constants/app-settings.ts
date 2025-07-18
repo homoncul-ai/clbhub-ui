@@ -13,7 +13,8 @@ export const CRUD_MODES = {
   SECTION: 'section',
   HEADING: 'heading',
   FK: 'fk',
-  FK_MENU: 'fk-menu'
+  FK_MENU: 'fk_menu',
+  DEBUG: 'debug'
 } as const;
 
 export type CrudModeType = typeof CRUD_MODES[keyof typeof CRUD_MODES];

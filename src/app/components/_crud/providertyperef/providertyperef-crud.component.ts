@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { ProviderTypeRefCriteria, ProviderTypeRefGETData, ProviderTypeRefPOSTData, ProviderTypeRefPUTData, HcclService, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { ProviderTypeRefCriteria, ProviderTypeRefGETData, ProviderTypeRefPOSTData, ProviderTypeRefPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -176,9 +176,9 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
    protected providerTypeRefMenu: MenuControlDataList | null = null;
    protected override async prepareMenus(entity: ProviderTypeRefCrudWrapper): Promise<void> {
     
-    const fkMenu = await entity.getFkMenu();
-    // Actually, we're going to load the provider type ref wrapper, then call getProviderTypeRefMenu
-    this.providerTypeRefMenu = fkMenu || null;
+    // const fkMenu = await entity.getFkMenu();
+    // // Actually, we're going to load the provider type ref wrapper, then call getProviderTypeRefMenu
+    // this.providerTypeRefMenu = fkMenu || null;
 
     return Promise.resolve();
   }
@@ -259,12 +259,16 @@ export class ProviderTypeRefCrudWrapper extends EntityWrapper<ProviderTypeRefGET
   }
 
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
-    // TODO: Implement prepareMenu method
-    // This is a commented method guts for 'prepareMenu'. Make a best guess (based on what in "ClstudentCrudWrapper" methods) as to what 
-    // the implementation should be, but leave it commented out. Add any existing WrapperComponents that will 
-    // be required for the FK presentation in the modeName=details' template.
-    
-    // For now, return an empty MenuControlDataList - this would need to be implemented based on business logic
-    return { items: [] } as MenuControlDataList;
+    console.log('getFkMenu', menuHint, data);
+    var criteria = this.getFkMenuCriteria();
+    var providerTypeRefs = await this.getProviderTypeRefs(criteria);
+    debugger
+    var menuItems = providerTypeRefs.map(providerTypeRef => {
+      return {
+        id: providerTypeRef.id,
+        name: providerTypeRef.name
+      } as MenuControlData;
+    });
+    return { items: menuItems } as MenuControlDataList;
   }
 } 

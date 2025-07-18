@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
@@ -9,7 +9,7 @@ import { MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service'
   templateUrl: './menu-control-data-list.component.html',
   styleUrl: './menu-control-data-list.component.scss'
 })
-export class MenuControlDataListComponent {
+export class MenuControlDataListComponent implements OnInit {
   @Input() menuControlDataList: MenuControlDataList | null = null;
   @Input() placeholder: string = 'Select an option...';
   @Input() disabled: boolean = false;
@@ -17,6 +17,9 @@ export class MenuControlDataListComponent {
   @Output() selectionChange = new EventEmitter<MenuControlData | null>();
   
   selectedItem: MenuControlData | null = null;
+
+  ngOnInit(): void {
+  }
   
   onSelectionChange(event: any): void {
     const selectedId = event.target.value;
@@ -30,6 +33,8 @@ export class MenuControlDataListComponent {
   }
   
   get menuItems(): MenuControlData[] {
-    return this.menuControlDataList?.menuItems || [];
+    var x :MenuControlData[] = this.menuControlDataList?.menuItems || [];
+    debugger
+    return x;
   }
 }
