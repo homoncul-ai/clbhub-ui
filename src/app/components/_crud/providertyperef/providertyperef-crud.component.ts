@@ -196,8 +196,6 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
     return Promise.resolve();
   }
 
-
-
 }
 
 export class ProviderTypeRefCrudWrapper extends EntityWrapper<ProviderTypeRefGETData> {
