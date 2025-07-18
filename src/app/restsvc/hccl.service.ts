@@ -97,7 +97,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getJobDefinitionById(id: string, isError: boolean): Observable<any> {
@@ -159,7 +159,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getJobProcessLogById(definition_id: string, id: string): Observable<any> {
@@ -209,7 +209,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   createServiceEventLogs(body: ServiceEventLogPOSTData[]): Observable<any> {
@@ -218,7 +218,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getServiceEventLogById(id: string): Observable<any> {
@@ -296,7 +296,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCatalogEntryById(id: string): Observable<CatalogEntryGETData> {
@@ -339,7 +339,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCatalogEntryTagById(id: string): Observable<CatalogEntryTagGETData> {
@@ -382,7 +382,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCatalogSearchResultEntryById(id: string): Observable<CatalogSearchResultEntryGETData> {
@@ -425,7 +425,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCatalogSearchResultById(id: string): Observable<CatalogSearchResultGETData> {
@@ -468,7 +468,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCatalogSearchById(id: string): Observable<CatalogSearchGETData> {
@@ -511,7 +511,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCatalogById(id: string): Observable<CatalogGETData> {
@@ -554,7 +554,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCatalogTagRefById(id: string): Observable<CatalogTagRefGETData> {
@@ -597,7 +597,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getExperienceLocationById(id: string): Observable<ExperienceLocationGETData> {
@@ -640,7 +640,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getExperienceRegRuleById(id: string): Observable<ExperienceRegRuleGETData> {
@@ -683,7 +683,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getExperienceById(id: string): Observable<ExperienceGETData> {
@@ -726,7 +726,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getExperienceTypeById(id: string): Observable<ExperienceTypeGETData> {
@@ -769,7 +769,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCLCourseById(id: string): Observable<CLCourseGETData> {
@@ -812,7 +812,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCLGuidanceById(id: string): Observable<CLGuidanceGETData> {
@@ -855,7 +855,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCLSchoolById(id: string): Observable<CLSchoolGETData> {
@@ -898,7 +898,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getCLStudentById(id: string): Observable<CLStudentGETData> {
@@ -941,7 +941,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getProviderById(id: string): Observable<ProviderGETData> {
@@ -1027,7 +1027,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getProviderUserById(id: string): Observable<ProviderUserGETData> {
@@ -1070,7 +1070,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getProviderRequestById(id: string): Observable<ProviderRequestGETData> {
@@ -1113,7 +1113,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getProviderRequestTypeRefById(id: string): Observable<ProviderRequestTypeRefGETData> {
@@ -1156,7 +1156,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getStateTransitionLogById(id: string): Observable<StateTransitionLogGETData> {
@@ -1199,7 +1199,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getTaxonomyEntryById(id: string): Observable<TaxonomyEntryGETData> {
@@ -1242,7 +1242,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getTaxonomyLevelById(id: string): Observable<TaxonomyLevelGETData> {
@@ -1285,7 +1285,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getTaxonomyById(id: string): Observable<TaxonomyGETData> {
@@ -1328,7 +1328,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclOrganizationById(id: string): Observable<HcclOrganizationGETData> {
@@ -1371,7 +1371,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclOrganizationTypeRefById(id: string): Observable<HcclOrganizationTypeRefGETData> {
@@ -1414,7 +1414,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclTeamLogById(id: string): Observable<HcclTeamLogGETData> {
@@ -1457,7 +1457,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclTeamMemberRoleById(id: string): Observable<HcclTeamMemberRoleGETData> {
@@ -1500,7 +1500,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclTeamMemberById(id: string): Observable<HcclTeamMemberGETData> {
@@ -1543,7 +1543,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclTeamById(id: string): Observable<HcclTeamGETData> {
@@ -1586,7 +1586,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclUserProfileById(id: string): Observable<HcclUserProfileGETData> {
@@ -1629,7 +1629,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getHcclUserById(id: string): Observable<HcclUserGETData> {
@@ -1672,7 +1672,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getTeamMemberRoleRefById(id: string): Observable<TeamMemberRoleRefGETData> {
@@ -1715,7 +1715,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getTeamTypeMemberRoleRefById(id: string): Observable<TeamTypeMemberRoleRefGETData> {
@@ -1758,7 +1758,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getTeamTypeRefById(id: string): Observable<TeamTypeRefGETData> {
@@ -1801,7 +1801,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkQueueById(id: string): Observable<WorkQueueGETData> {
@@ -1844,7 +1844,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkQueueTypeRefById(id: string): Observable<WorkQueueTypeRefGETData> {
@@ -1887,7 +1887,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkRequestItemById(id: string): Observable<WorkRequestItemGETData> {
@@ -1930,7 +1930,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkRequestLogById(id: string): Observable<WorkRequestLogGETData> {
@@ -1973,7 +1973,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkRequestRoutingReasonById(id: string): Observable<WorkRequestRoutingReasonGETData> {
@@ -2016,7 +2016,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkRequestById(id: string): Observable<WorkRequestGETData> {
@@ -2059,7 +2059,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkRequestTeamById(id: string): Observable<WorkRequestTeamGETData> {
@@ -2102,7 +2102,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getWorkRequestTypeRefById(id: string): Observable<WorkRequestTypeRefGETData> {
@@ -2145,7 +2145,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getVocationEncodingInstanceById(id: string): Observable<VocationEncodingInstanceGETData> {
@@ -2188,7 +2188,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getVocationEncodingRefById(id: string): Observable<VocationEncodingRefGETData> {
@@ -2231,7 +2231,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getVocationEncodingById(id: string): Observable<VocationEncodingGETData> {

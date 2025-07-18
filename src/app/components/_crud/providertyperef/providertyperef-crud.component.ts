@@ -83,28 +83,25 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
        name: providerTypeRefData.name || '',
        businessCode: providerTypeRefData.businessCode || '',
        description: providerTypeRefData.description || '',
-       available: providerTypeRefData.available ||1   };
+       available: providerTypeRefData.available || 1
+     };
 
      // The requestCreate method now returns { id: string, status: 201 }
-     const response = await this.hcclService.createProviderTypeRef(postData).toPromise();
-     
-     debugger;
+     const response = await this.hcclService.createProviderTypeRef(postData).toPromise();     
      console.log('Create response:', response);
      
-     // Extract the ID from the response
+     // Extract the ID from the new requestCreate response format
      let createdId: string | null = null;
      
      if (response && typeof response === 'object') {
-       if (response.id) {
-         createdId = response.id;
-       } else if (response.status === 201 && response.id) {
-         // Handle the new requestCreate response format
+       // The requestCreate method returns { id: string, status: 201 }
+       if (response.id && response.status === 201) {
          createdId = response.id;
        }
      }
      
      if (!createdId) {
-       throw new Error('Failed to extract ID from create response');
+       throw new Error('Failed to extract ID from create response. Response: ' + JSON.stringify(response));
      }
      
      console.log('Extracted ID:', createdId);

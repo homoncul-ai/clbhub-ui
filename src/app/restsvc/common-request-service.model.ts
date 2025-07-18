@@ -57,7 +57,6 @@ export class CommonRequestServiceCaller {
       default:
         throw new Error(`Unsupported method: ${req.method}`);
     }
-    debugger;
     return httpRequest.pipe(
       retry(2), // Optionally retry failed requests up to 2 times
       catchError(this.handleError)
