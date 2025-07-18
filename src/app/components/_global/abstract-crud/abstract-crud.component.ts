@@ -269,14 +269,14 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
 
   protected  createEntityData(entity: R): Promise<R> {
     try {
-      const createdStudent = this.createEntityDataCall(entity)
+      const createdStudent = this.createEntityDataCall(entity);
       return createdStudent;
     } catch (error) {
       console.error('Error creating  ' + this.getEntityType() + ' ', error);
       throw error;
     }
   }
-  protected abstract createEntityDataCall(entity: R): Promise<R>;
+  protected  abstract createEntityDataCall(entity: R): Promise<R>;
   
   protected  updateEntityData(entity: R): Promise<R> {
     try {
@@ -432,6 +432,11 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     }
   } 
 
+
+  protected  async createEntityDataCall2(entity: R): Promise<any> {
+    return Promise.resolve(entity);
+  }
+
   /**
    * Creates a new entity
    * @param entity The entity to create
@@ -448,15 +453,34 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
 
       // Call pre-create handler for validation and preparation
       this.preCreate(entity);
-      const createdEntity = await this.createEntityData(entity);
+      const createdEntity = await this.createEntityDataCall2(entity);
+      debugger;
       this.entity = createdEntity;
       this.success = true;
       this.onAfterCreate();
       this.postCreate();
+      debugger;
+      // Extract the ID from the created entity and set it
+      const createdData = createdEntity.getData();
+    
+      if (createdData && createdData.id) {
+        // Set the ID in the route
+        this.id = createdData.id;
+        
+        // Switch to detail mode to show the created entity
+        this.switchToDetailMode();
+        
+        // Navigate to the detail view
+        const currentUrl = this.router.url;
+        const baseUrl = currentUrl.replace('/create', '');
+        const detailUrl = `${baseUrl}/${createdData.id}/details`;
+        this.router.navigate([detailUrl]);
+      }
       
       return createdEntity;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      debugger;
       this.messages = { 
         messages: [{ 
           messageCode: 'UnknownError', 

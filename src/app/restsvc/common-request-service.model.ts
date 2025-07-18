@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -57,10 +57,66 @@ export class CommonRequestServiceCaller {
       default:
         throw new Error(`Unsupported method: ${req.method}`);
     }
-
+    debugger;
     return httpRequest.pipe(
       retry(2), // Optionally retry failed requests up to 2 times
       catchError(this.handleError)
+    );
+  }
+
+  // Special method for create operations that return status 201 and the id in the response body
+  requestCreate<T>(req: CommonServiceRequest): Observable<T> {
+    const url = `${this.baseUrl}${req.url}`;
+    const options = {
+      headers: new HttpHeaders(req.headers || {}),
+      params: new HttpParams({ fromObject: req.params || {} }),
+      observe: 'response' as const // Get the full response including headers
+    };
+
+    let httpRequest: Observable<any>;
+
+    switch (req.method) {
+      case 'POST':
+        httpRequest = this.http.post(url, req.body, options);
+        break;
+      default:
+        throw new Error(`Unsupported method: ${req.method}`);
+    }
+
+    return httpRequest.pipe(
+      retry(2), // Optionally retry failed requests up to 2 times
+      catchError(this.handleError),
+      // Map the response to extract the ID from headers or body
+      map((response: any) => {
+        // Check if we got a 201 status (Created)
+        if (response.status === 201) {
+          // Try to extract ID from Location header first
+          const locationHeader = response.headers.get('Location');
+          if (locationHeader) {
+            const locationParts = locationHeader.split('/');
+            const id = locationParts[locationParts.length - 1];
+            return { id: id, status: 201 };
+          }
+          
+          // If no Location header, check if ID is in response body
+          if (response.body && response.body.id) {
+            return { id: response.body.id, status: 201 };
+          }
+          
+          // If response body is just the ID as a string
+          if (response.body && typeof response.body === 'string') {
+            return { id: response.body, status: 201 };
+          }
+          
+          // If response body is a number (ID)
+          if (response.body && typeof response.body === 'number') {
+            return { id: response.body.toString(), status: 201 };
+          }
+        }
+        
+        // Return the original response if we can't extract ID
+        return response.body || response;
+      })
     );
   }
 

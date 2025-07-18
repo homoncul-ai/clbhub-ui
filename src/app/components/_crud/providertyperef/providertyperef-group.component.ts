@@ -10,7 +10,6 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
   selector: 'app-providertyperef-group',
   imports: [CommonModule, SimpleTabsetComponent, ProvidertyperefCrudComponent],
   templateUrl: './providertyperef-group.component.html',
-  styleUrl: './providertyperef-group.component.scss'
 })
 export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<ProviderTypeRefCrudWrapper> implements OnInit {  
   @Input() id!: string;

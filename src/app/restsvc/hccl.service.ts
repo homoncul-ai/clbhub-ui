@@ -984,7 +984,7 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "POST",
       body: body,
     };
-    return this.request<any>(request);
+    return this.requestCreate<any>(request);
   }
 
   getProviderTypeRefById(id: string): Observable<ProviderTypeRefGETData> {

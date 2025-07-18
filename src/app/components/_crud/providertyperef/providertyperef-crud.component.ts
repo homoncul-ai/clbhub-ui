@@ -10,11 +10,13 @@ import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-m
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { R } from 'node_modules/@angular/cdk/overlay.d-BdoMy0hX';
 
 @Component({
   selector: 'app-providertyperef-crud',
   imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent, DategetdataDisplayComponent],
-  templateUrl: './providertyperef-crud.component.html', styleUrl: './providertyperef-crud.component.scss'
+  templateUrl: './providertyperef-crud.component.html', 
+  //styleUrl: './providertyperef-crud.component.scss'
 })
 export class ProvidertyperefCrudComponent extends AbstractCrudComponent<ProviderTypeRefCrudWrapper> implements OnInit, OnChanges {
 /**
@@ -65,13 +67,61 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
         description: providerTypeRefData.description || '',
         available: providerTypeRefData.available ||1   };
 
-      const createdProviderTypeRef = await this.hcclService.createProviderTypeRef(postData).toPromise();
-      if (createdProviderTypeRef) {
-        return new ProviderTypeRefCrudWrapper(createdProviderTypeRef, this.hcclService);
+      const createdProviderTypeRefRsp = await this.hcclService.createProviderTypeRef(postData).toPromise();
+      if (createdProviderTypeRefRsp) {
+        const id = createdProviderTypeRefRsp.id; // this is wrong 
+        return id;
       }
       throw new Error('Failed to create provider type ref');
      
   }
+  protected override async createEntityDataCall2(entity: ProviderTypeRefCrudWrapper): Promise<any> {
+     // Use entityNew if in create mode, otherwise use the passed entity
+     const providerTypeRefData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
+    
+     const postData: ProviderTypeRefPOSTData = {
+       name: providerTypeRefData.name || '',
+       businessCode: providerTypeRefData.businessCode || '',
+       description: providerTypeRefData.description || '',
+       available: providerTypeRefData.available ||1   };
+
+     // The requestCreate method now returns { id: string, status: 201 }
+     const response = await this.hcclService.createProviderTypeRef(postData).toPromise();
+     
+     debugger;
+     console.log('Create response:', response);
+     
+     // Extract the ID from the response
+     let createdId: string | null = null;
+     
+     if (response && typeof response === 'object') {
+       if (response.id) {
+         createdId = response.id;
+       } else if (response.status === 201 && response.id) {
+         // Handle the new requestCreate response format
+         createdId = response.id;
+       }
+     }
+     
+     if (!createdId) {
+       throw new Error('Failed to extract ID from create response');
+     }
+     
+     console.log('Extracted ID:', createdId);
+     
+     // Now fetch the created entity using the ID
+     const createdEntity = await this.hcclService.getProviderTypeRefById(createdId).toPromise();
+     
+     if (!createdEntity) {
+       throw new Error('Failed to fetch created provider type ref');
+     }
+     
+     console.log('Fetched created entity:', createdEntity);
+     
+     // Return the created entity wrapped in a ProviderTypeRefCrudWrapper
+     return new ProviderTypeRefCrudWrapper(createdEntity, this.hcclService);
+  }
+
 
   protected async updateEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<ProviderTypeRefCrudWrapper> {
       const providerTypeRefData = entity.getData();
