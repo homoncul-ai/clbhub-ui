@@ -1,6 +1,6 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 <div *ngIf="currentTabId === 'details'">
-  <app-providertyperef-crud [id]="id"></app-providertyperef-crud>
+  <app-providertyperef-crud [id]="id" modeName="detail"></app-providertyperef-crud>
 </div>
 
 <div *ngIf="currentTabId === 'create'">

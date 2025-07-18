@@ -1,15 +1,13 @@
 <span *ngIf="getMode() === CRUD_MODES.FK">{{ getCurrentEntity().getDisplayText() }}</span>
 
-<!-- Heading Mode -->
 <div *ngIf="getMode() === CRUD_MODES.FK_MENU" class="heading-mode">
-  boingo
-  <app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+<!-- Heading Mode -->
+<app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
 </div>
 
-
-<!-- Heading Mode -->
 <div *ngIf="getMode() === CRUD_MODES.HEADING" class="heading-mode">
-  <h3>{{ getCurrentEntity().getDisplayText() }}</h3>
+<!-- Heading Mode -->
+<h3>{{ getCurrentEntity().getDisplayText() }}</h3>
 </div>
 
 <div *ngIf="isCrudModeCUD()" class="crud-container">
@@ -18,7 +16,6 @@
     <div class="loading-spinner">Loading...</div>
   </div>
 
-  <!-- Error State -->
   <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
 
   <!-- Create Mode -->
@@ -160,6 +157,7 @@
   <app-providertyperef-crud [modeName]="'fk'" [id]="this.id"></app-providertyperef-crud>
   <hr>
   <h3>fk_menu Mode</h3>
+  <b>Note - this tempate is only to show the menu, it is not be used in a form without callback, etc</b>
   <app-providertyperef-crud [modeName]="'fk_menu'" [id]="this.id"></app-providertyperef-crud>
   <hr>
   

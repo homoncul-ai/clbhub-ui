@@ -177,6 +177,10 @@ export class MenuService {
     const providerTypeRef = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERTYPEREF_LIST);
     this.addMenuItem(menu, providerTypeRef);
     
+    // course list
+    const courseList = this.copyMenuItem(MENU_CONSTANTS.EA_CLCOURSE_LIST);
+    this.addMenuItem(menu, courseList);
+
     return menu;
   }
 
