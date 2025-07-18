@@ -1,5 +1,5 @@
 import { Component, inject, Input, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
@@ -68,9 +68,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
         this.entity = entity;
         this.switchToDetailMode(); // Show details of the loaded student
       }).catch(error => {
-        console.error('Error loading student by ID:', error);
-        // Fallback is rerouting to route /advocate-dashboard/students
-        this.router.navigate(['/advocate-dashboard/students']);
+        console.error('Error loading ' + this.getEntityType() + ' by ID:', error);
+        // Fallback is rerouting to the list route
+        const baseRoute = this.getBaseRoute();
+        this.router.navigate([baseRoute]);
       });
     }
   }
@@ -78,6 +79,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   // Inject services using inject() function for standalone components
   protected hcclService = inject(HcclService);
   protected router = inject(Router);
+  protected route = inject(ActivatedRoute);
   protected hcclContextService = inject(HcclContextService);
 
 
@@ -333,8 +335,48 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     console.log(this.getEntityType() + ' deleted successfully');
   }
 
+  /**
+   * Calculate the base route for the current entity type
+   * @returns The base route path for navigation
+   */
+  protected getBaseRoute(): string {
+    // Get the current URL segments
+    const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+    
+    // Find the dashboard type (advocate-dashboard, broker-dashboard, etc.)
+    const dashboardIndex = urlSegments.findIndex(segment => segment.includes('-dashboard'));
+    if (dashboardIndex === -1) {
+      // Fallback to ecoadmin-dashboard if no dashboard found
+      return '/ecoadmin-dashboard';
+    }
+    
+    const dashboardType = urlSegments[dashboardIndex];
+    
+    // Find the entity route (the segment after the dashboard)
+    const entityRouteIndex = dashboardIndex + 1;
+    if (entityRouteIndex >= urlSegments.length) {
+      // If no entity route found, return dashboard
+      return `/${dashboardType}`;
+    }
+    
+    // Get the entity route (e.g., 'providertyperefs', 'clstudents', etc.)
+    const entityRoute = urlSegments[entityRouteIndex];
+    
+    // Remove any trailing segments like 'create', 'details', etc. to get the base route
+    // This handles cases where we're on a route like /dashboard/entity/create
+    const baseRoute = `/${dashboardType}/${entityRoute}`;
+    
+    return baseRoute;
+  }
+
   protected  postCreate(): void {
     console.log(this.getEntityType() + ' created successfully');
+    // Calculate the route dynamically and navigate to the detail mode
+    const baseRoute = this.getBaseRoute();
+    console.log('Current URL:', this.router.url);
+    console.log('Calculated base route:', baseRoute);
+    console.log('Navigating to:', [baseRoute, this.id, 'details']);
+    this.router.navigate([baseRoute, this.id, 'details']);
   }
   // New mode management methods
   /**
