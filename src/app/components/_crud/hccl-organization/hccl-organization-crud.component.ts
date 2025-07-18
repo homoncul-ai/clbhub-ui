@@ -48,6 +48,15 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
   protected async updateEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<HcclOrganizationCrudWrapper> {
     const data = entity.getData();
     if (!data.id) throw new Error('Organization ID is required for update');
+    this.updateEntityDataCall2(entity).then(() => {
+      // Update completed
+    });
+    return entity;
+  }
+
+  protected override async updateEntityDataCall2(entity: HcclOrganizationCrudWrapper): Promise<void> {
+    const data = entity.getData();
+    if (!data.id) throw new Error('Organization ID is required for update');
     const putData: HcclOrganizationPUTData = {
       name: data.name || '',
       businessCode: data.businessCode || '',
@@ -60,9 +69,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       parentEntityEntityType: data.parentEntityEntityType,
       parentEntityName: data.parentEntityName
     };
-    const updated = await this.hcclService.updateHcclOrganizationById(data.id, putData).toPromise();
-    if (updated) return new HcclOrganizationCrudWrapper(updated, this.hcclService);
-    throw new Error('Failed to update organization');
+    await this.hcclService.updateHcclOrganizationById(data.id, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {

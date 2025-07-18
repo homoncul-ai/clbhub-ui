@@ -50,6 +50,15 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
   protected async updateEntityDataCall(entity: CLSchoolCrudWrapper): Promise<CLSchoolCrudWrapper> {
     const data = entity.getData();
     if (!data.id) throw new Error('School ID is required for update');
+    this.updateEntityDataCall2(entity).then(() => {
+      // Update completed
+    });
+    return entity;
+  }
+
+  protected override async updateEntityDataCall2(entity: CLSchoolCrudWrapper): Promise<void> {
+    const data = entity.getData();
+    if (!data.id) throw new Error('School ID is required for update');
     const putData: CLSchoolPUTData = {
       organizationId: data.organizationId || '',
       name: data.name || '',
@@ -63,9 +72,7 @@ export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
       addressLine4: data.addressLine4,
       districtCode: data.districtCode
     };
-    const updated = await this.hcclService.updateCLSchoolById(data.id, putData).toPromise();
-    if (updated) return new CLSchoolCrudWrapper(updated, this.hcclService);
-    throw new Error('Failed to update school');
+    await this.hcclService.updateCLSchoolById(data.id, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {

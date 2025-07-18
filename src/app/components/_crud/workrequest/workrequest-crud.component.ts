@@ -83,6 +83,17 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
       if (!workRequestData.id) {
         throw new Error('Work Request ID is required for update');
       }
+      this.updateEntityDataCall2(entity).then(() => {
+        // Update completed
+      });
+      return entity;
+  }
+
+  protected override async updateEntityDataCall2(entity: WorkRequestCrudWrapper): Promise<void> {
+      const workRequestData = entity.getData();
+      if (!workRequestData.id) {
+        throw new Error('Work Request ID is required for update');
+      }
 
       const putData: WorkRequestPUTData = {
         name: workRequestData.name || '',
@@ -101,11 +112,7 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
         parentWorkRequestItemId: workRequestData.parentWorkRequestItemId
       };
 
-      const updatedWorkRequest = await this.hcclService.updateWorkRequestById(workRequestData.id, putData).toPromise();
-      if (updatedWorkRequest) {
-        return new WorkRequestCrudWrapper(updatedWorkRequest, this.hcclService);
-      }
-      throw new Error('Failed to update work request');
+      await this.hcclService.updateWorkRequestById(workRequestData.id, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {

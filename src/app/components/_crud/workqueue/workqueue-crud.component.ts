@@ -77,6 +77,17 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
       if (!workQueueData.id) {
         throw new Error('Work Queue ID is required for update');
       }
+      this.updateEntityDataCall2(entity).then(() => {
+        // Update completed
+      });
+      return entity;
+  }
+
+  protected override async updateEntityDataCall2(entity: WorkQueueCrudWrapper): Promise<void> {
+      const workQueueData = entity.getData();
+      if (!workQueueData.id) {
+        throw new Error('Work Queue ID is required for update');
+      }
 
       const putData: WorkQueuePUTData = {
         name: workQueueData.name || '',
@@ -90,11 +101,7 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
         externalQueue: workQueueData.externalQueue || 0
       };
 
-      const updatedWorkQueue = await this.hcclService.updateWorkQueueById(workQueueData.id, putData).toPromise();
-      if (updatedWorkQueue) {
-        return new WorkQueueCrudWrapper(updatedWorkQueue, this.hcclService);
-      }
-      throw new Error('Failed to update work queue');
+      await this.hcclService.updateWorkQueueById(workQueueData.id, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {

@@ -83,6 +83,17 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       if (!studentData.id) {
         throw new Error('Student ID is required for update');
       }
+      this.updateEntityDataCall2(entity).then(() => {
+        // Update completed
+      });
+      return entity;
+  }
+
+  protected override async updateEntityDataCall2(entity: ClStudentCrudWrapper): Promise<void> {
+      const studentData = entity.getData();
+      if (!studentData.id) {
+        throw new Error('Student ID is required for update');
+      }
 
       const putData: CLStudentPUTData = {
         organizationId: studentData.organizationId,
@@ -100,11 +111,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
         schoolId: studentData.schoolId || ''
       };
 
-      const updatedStudent = await this.hcclService.updateCLStudentById(studentData.id, putData).toPromise();
-      if (updatedStudent) {
-        return new ClStudentCrudWrapper(updatedStudent, this.hcclService);
-      }
-      throw new Error('Failed to update student');
+      await this.hcclService.updateCLStudentById(studentData.id, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
