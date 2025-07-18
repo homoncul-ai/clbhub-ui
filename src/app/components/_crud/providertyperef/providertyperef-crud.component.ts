@@ -262,13 +262,12 @@ export class ProviderTypeRefCrudWrapper extends EntityWrapper<ProviderTypeRefGET
     console.log('getFkMenu', menuHint, data);
     var criteria = this.getFkMenuCriteria();
     var providerTypeRefs = await this.getProviderTypeRefs(criteria);
-    debugger
     var menuItems = providerTypeRefs.map(providerTypeRef => {
       return {
         id: providerTypeRef.id,
         name: providerTypeRef.name
       } as MenuControlData;
     });
-    return { items: menuItems } as MenuControlDataList;
+    return { menuItems: menuItems } as MenuControlDataList;
   }
 } 

@@ -46,13 +46,12 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
     // Some modes required load, some don't 
     // CREATE, FK_MENU, DEBUG, dont require load
     // DETAIL, EDIT, DELETE, SECTION, HEADING, FK do
-    console.log("modeName: " + this.modeName);
+    console.log("modeName: " + this.modeName + " id: " + this.id + " entityType: " + this.getEntityType());
     if (!this.id && this.modeName == 'detail') {
      //this.switchToCreateMode();
      this.modeName = CRUD_MODES.CREATE;
     }
 
-    debugger
     switch (this.modeName) {
       case CRUD_MODES.CREATE:
         this.switchToCreateMode();
@@ -61,6 +60,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
         this.switchToFkMenuMode();
         break;
       case CRUD_MODES.DEBUG:
+        this.setMode(this.CRUD_MODES.DEBUG);
         //this.switchToDebugMode();
         break;
       case CRUD_MODES.DETAIL:
@@ -76,14 +76,14 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
       case CRUD_MODES.HEADING:
       case CRUD_MODES.FK:
         if (this.id && this.modeName) {
-        this.loadEntityById(this.id).then(entity => {
-          this.entity = entity;
-          this.setModeFromName(this.modeName);
-        });
-      } else {
-        this.switchToDetailMode();
-      }
-        break;
+          this.loadEntityById(this.id).then(entity => {
+            this.entity = entity;
+            this.setModeFromName(this.modeName);
+          });
+        } else {
+          this.switchToDetailMode();
+        }
+      break;
 
       default:
         this.switchToDetailMode();
@@ -105,18 +105,18 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
 
   ngOnChanges(changes: SimpleChanges): void {
     // Handle ID changes
-    if (changes['id'] && this.id) {
-      console.log('Loading student with ID:', this.id);
-      this.loadEntityById(this.id).then(entity => {
-        this.entity = entity;
-        this.switchToDetailMode(); // Show details of the loaded student
-      }).catch(error => {
-        console.error('Error loading ' + this.getEntityType() + ' by ID:', error);
-        // Fallback is rerouting to the list route
-        const baseRoute = this.getBaseRoute();
-        this.router.navigate([baseRoute]);
-      });
-    }
+    // if (changes['id'] && this.id) {
+    //   console.log('Loading student with ID:', this.id);
+    //   this.loadEntityById(this.id).then(entity => {
+    //     this.entity = entity;
+    //     this.switchToDetailMode(); // Show details of the loaded student
+    //   }).catch(error => {
+    //     console.error('Error loading ' + this.getEntityType() + ' by ID:', error);
+    //     // Fallback is rerouting to the list route
+    //     const baseRoute = this.getBaseRoute();
+    //     this.router.navigate([baseRoute]);
+    //   });
+    // }
   }
 
   // Inject services using inject() function for standalone components
