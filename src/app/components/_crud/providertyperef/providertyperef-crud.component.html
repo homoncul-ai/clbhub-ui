@@ -10,7 +10,7 @@
 <h3>{{ getCurrentEntity().getDisplayText() }}</h3>
 </div>
 
-<div *ngIf="isCrudModeCUD()" class="providertyperef-crud-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+<div *ngIf="isCrudModeCUD()" class="crud-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-spinner">Loading...</div>
@@ -40,6 +40,7 @@
         name="businessCode"
         label="Business Code"
         [required]="true"
+        [helpText]="'dpa.'"
         [error]="error"
         [(ngModel)]="businessCode">
       </app-std-mdb-form-text>
@@ -47,12 +48,7 @@
         prefix="providerTypeRef" 
         name="description"
         label="administration_description_label"
-        [required]="true"
         [error]="error"
-        [rows]="4"
-        [maxlength]="1024"
-        [showCharCounter]="true"
-        [helpText]="'admin_descriptionHelp_label'"
         [(ngModel)]="description">
       </app-std-mdb-form-textarea>
       <div class="form-group">
@@ -99,7 +95,6 @@
           [rows]="4"
           [maxlength]="1024"
           [showCharCounter]="true"
-          [helpText]="'admin_descriptionHelp_label'"
           [(ngModel)]="description">
         </app-std-mdb-form-textarea>
         <div class="form-group">

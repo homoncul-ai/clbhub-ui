@@ -30,6 +30,7 @@ export class StdMdbFormTextComponent implements ControlValueAccessor {
   @Input() error: any = null;
   @Input() showRequiredIndicator: boolean = true;
   @Input() showErrorIndicator: boolean = true;
+  @Input() helpText: string = '';
   
   @Output() valueChange = new EventEmitter<string>();
 

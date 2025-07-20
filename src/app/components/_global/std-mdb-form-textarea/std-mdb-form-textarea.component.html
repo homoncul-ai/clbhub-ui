@@ -1,18 +1,5 @@
+<div class="mb-4">
 <mdb-form-control>
-  <textarea
-    *ngIf="!showCharCounter"
-    [name]="fieldName"
-    [id]="uniqueId"
-    class="form-control"
-    [rows]="rows"
-    [attr.maxlength]="maxlength"
-    [placeholder]="placeholder"
-    [disabled]="disabled"
-    [value]="value"
-    mdbInput
-    (input)="onInput($event)"
-    (blur)="onBlur()">
-  </textarea>
   <textarea
     *ngIf="showCharCounter"
     [name]="fieldName"
@@ -43,3 +30,4 @@
     {{ helpText | translate }}
   </div>
 </mdb-form-control> 
+</div>

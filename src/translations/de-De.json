@@ -7,5 +7,7 @@
   "Username": "Nutzername",
   "Password": "Passwort",
   "Angular Boiler Plate V18": "Eckige Kesselplatte V18",
-  "Dashboard": "Armaturenbrett"
+  "Dashboard": "Armaturenbrett",
+  "administration_name_label": "Name",
+  "administration_description_label": "Beschreibung"
 }

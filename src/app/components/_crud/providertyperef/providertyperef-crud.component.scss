@@ -1,4 +1,8 @@
-.providertyperef-crud-container {
+crud-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+  font-size: inherit;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;

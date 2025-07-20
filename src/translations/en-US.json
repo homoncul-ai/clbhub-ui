@@ -9,5 +9,7 @@
   "Angular Boiler Plate V18": "Angular Boiler Plate V18",
   "Dashboard": "Dashboard",
   "logout": "Logout",
-  "userPreferences": "User Preferences"
+  "userPreferences": "User Preferences",
+  "administration_name_label": "Name",
+  "administration_description_label": "Description"
 }
