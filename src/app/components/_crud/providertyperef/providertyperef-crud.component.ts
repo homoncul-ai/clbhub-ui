@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { ProviderTypeRefCriteria, ProviderTypeRefGETData, ProviderTypeRefPOSTData, ProviderTypeRefPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
@@ -10,11 +12,12 @@ import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-m
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { R } from 'node_modules/@angular/cdk/overlay.d-BdoMy0hX';
 
 @Component({
   selector: 'app-providertyperef-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent, DategetdataDisplayComponent],
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent, DategetdataDisplayComponent, StdMdbFormTextComponent],
   templateUrl: './providertyperef-crud.component.html'
 })
 export class ProvidertyperefCrudComponent extends AbstractCrudComponent<ProviderTypeRefCrudWrapper> implements OnInit, OnChanges {
@@ -38,6 +41,10 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
   constructor() {
     super();
   }
+
+  // Error property for form validation
+  public error: any = null;
+
      /** Standard boiler plate for ngOnInit */
   override ngOnInit(): void {
     super.ngOnInit();

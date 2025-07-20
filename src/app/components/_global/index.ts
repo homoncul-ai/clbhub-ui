@@ -11,4 +11,7 @@ export { AvailableSelectorComponent } from './available-selector/available-selec
 // Control components
 export { MenuControlDataListComponent } from './menu-control-data-list/menu-control-data-list.component';
 export { SimpleMessagesSectionComponent } from './simple-messages-section/simple-messages-section.component';
-export { SimpleTabsetComponent, SimpleTab } from './simple-tabset/simple-tabset.component'; 
+export { SimpleTabsetComponent, SimpleTab } from './simple-tabset/simple-tabset.component';
+
+// Form components
+export { StdMdbFormTextComponent } from './std-mdb-form-text/std-mdb-form-text.component'; 

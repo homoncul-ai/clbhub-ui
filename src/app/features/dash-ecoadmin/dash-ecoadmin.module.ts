@@ -15,6 +15,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: EcoAdminDashboardComponent },
+      
       { path: 'providertyperefs/create', component: ProviderTypeRefGroupComponent },
       { path: 'providertyperefs/:id/:tabId', component: ProviderTypeRefGroupComponent },
       { path: 'providertyperefs/:id', redirectTo: 'providertyperefs/:id/details', pathMatch: 'full' },

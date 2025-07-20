@@ -26,17 +26,40 @@
       <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
     </div>
     <div class="form-container">
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" [(ngModel)]="name" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Business Code:</label>
-        <input type="text" [(ngModel)]="businessCode" class="form-control">
-      </div>
+      <app-std-mdb-form-text 
+        prefix="providerTypeRef" 
+        name="name"
+        label="administration_name_label"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="name">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="providerTypeRef" 
+        name="businessCode"
+        label="Business Code"
+        [(ngModel)]="businessCode">
+      </app-std-mdb-form-text>
       <div class="form-group">
         <label>Description:</label>
-        <textarea [(ngModel)]="description" class="form-control"></textarea>
+        <div class="mb-2">
+          <mdb-form-control>
+            <textarea
+              mdbInput mdbCharCounter
+              class="form-control mb-3"
+              id="description"
+              name="description"
+              [(ngModel)]="description"
+              rows="4" maxlength="1024"
+            ></textarea>
+            <label mdbLabel class="form-label" for="description">{{
+              'administration_description_label' | translate
+            }}</label>
+          </mdb-form-control>
+          <div class="field-help mt-n3 field-help-position">
+            {{'admin_descriptionHelp_label' | translate}}.
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label>Available:</label>
@@ -53,14 +76,20 @@
       <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
     </div>
     <div class="form-container">
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" [(ngModel)]="name" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Business Code:</label>
-        <input type="text" [(ngModel)]="businessCode" class="form-control">
-      </div>
+      <app-std-mdb-form-text 
+        prefix="providerTypeRef" 
+        name="name"
+        label="administration_name_label"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="name">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="providerTypeRef" 
+        name="businessCode"
+        label="Business Code"
+        [(ngModel)]="businessCode">
+      </app-std-mdb-form-text>
       <div class="form-group">
         <label>Description:</label>
         <textarea [(ngModel)]="description" class="form-control"></textarea>

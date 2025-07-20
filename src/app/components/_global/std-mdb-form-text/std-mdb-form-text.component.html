@@ -1,0 +1,28 @@
+<mdb-form-control>
+  <input 
+    type="text" 
+    [name]="fieldName" 
+    [autocomplete]="autocomplete" 
+    [id]="uniqueId" 
+    class="form-control validate" 
+    [value]="value"
+    mdbInput
+    [disabled]="disabled"
+    [attr.maxlength]="maxlength"
+    [placeholder]="placeholder"
+    (input)="onInput($event)"
+    (blur)="onBlur()">
+  <label 
+    mdbLabel 
+    class="form-label" 
+    data-error="wrong" 
+    data-success="right" 
+    [for]="uniqueId">
+    <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
+    <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
+    {{ label | translate }}
+  </label>
+  <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
+    <div class="invalid-feedback">{{ errorMessage }}</div>
+  </div>
+</mdb-form-control> 

@@ -1,0 +1,19 @@
+// Standard MDB Form Text Component Styles
+.std-mdb-form-text {
+  .errorMessage {
+    .invalid-feedback {
+      display: block;
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .requiredField {
+    color: #dc3545;
+  }
+
+  .text-muted {
+    color: #6c757d !important;
+  }
+} 
