@@ -27,6 +27,10 @@
       <form
         (ngSubmit)="this.createEntity()"
       >
+      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+      </div>
       <app-std-mdb-form-text 
         prefix="providerTypeRef" 
         name="name"
@@ -55,10 +59,7 @@
         <label>Available:</label>
         <app-available-selector [(ngModel)]="available"></app-available-selector>
       </div>
-      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
-        <button type="submit" class="btn btn-success">Create</button>
-        <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
-      </div>
+     
       </form>
     </div>
   </div>
@@ -70,6 +71,10 @@
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <form (ngSubmit)="updateEntity(getCurrentEntity())">
+        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+        </div>
         <app-std-mdb-form-text 
           prefix="providerTypeRef" 
           name="name"
@@ -100,10 +105,6 @@
         <div class="form-group">
           <label>Available:</label>
           <app-available-selector [(ngModel)]="available"></app-available-selector>
-        </div>
-        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
-          <button type="submit" class="btn btn-success">Update</button>
-          <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
         </div>
       </form>
     </div>
