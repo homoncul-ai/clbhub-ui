@@ -283,6 +283,9 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     this.setMode(this.CRUD_MODES.DELETE);
   }
   protected switchToDetailMode(): void {  
+    if (this.id == null) {
+      this.router.navigate([this.getBaseRoute()]);
+    }
     this.prepareDetailMode().then(() => {
     this.setMode(this.CRUD_MODES.DETAIL);
   });
