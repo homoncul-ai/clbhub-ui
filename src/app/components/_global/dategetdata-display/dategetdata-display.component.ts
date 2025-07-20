@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { DateGETData } from './../../../restsvc/currency.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dategetdata-display',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './dategetdata-display.component.html',
   styleUrl: './dategetdata-display.component.scss'
 })

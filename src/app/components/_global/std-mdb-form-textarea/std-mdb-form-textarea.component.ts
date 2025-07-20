@@ -5,31 +5,33 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-std-mdb-form-text',
+  selector: 'app-std-mdb-form-textarea',
   standalone: true,
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule],
-  templateUrl: './std-mdb-form-text.component.html',
-  styleUrl: './std-mdb-form-text.component.scss',
+  templateUrl: './std-mdb-form-textarea.component.html',
+  styleUrl: './std-mdb-form-textarea.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => StdMdbFormTextComponent),
+      useExisting: forwardRef(() => StdMdbFormTextareaComponent),
       multi: true
     }
   ]
 })
-export class StdMdbFormTextComponent implements ControlValueAccessor {
+export class StdMdbFormTextareaComponent implements ControlValueAccessor {
   @Input() prefix: string = '';
   @Input() name: string = '';
   @Input() label: string = '';
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
-  @Input() autocomplete: string = 'off';
-  @Input() maxlength: number | null = null;
+  @Input() rows: number = 4;
+  @Input() maxlength: number = 1024;
   @Input() placeholder: string = '';
   @Input() error: any = null;
   @Input() showRequiredIndicator: boolean = true;
   @Input() showErrorIndicator: boolean = true;
+  @Input() showCharCounter: boolean = true;
+  @Input() helpText: string = '';
   
   @Output() valueChange = new EventEmitter<string>();
 

@@ -4,6 +4,7 @@ import { SimpleMessageList } from '../../../restsvc/hccl.service';
 
 @Component({
   selector: 'app-simple-messages-section',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './simple-messages-section.component.html',
   styleUrl: './simple-messages-section.component.scss'

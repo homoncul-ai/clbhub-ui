@@ -1,0 +1,162 @@
+<div id="detailsColumn">
+  <app-loader [isLoading]="isLoading"></app-loader>
+  <div class="row px-3">
+    <div class="col-md-12">
+      <mdb-tabs id="mainTabset">
+        <mdb-tab title="{{'administration_details_label' | translate}}">
+          <ng-template mdbTabContent>
+          @if (!isLoading) {
+            <form
+              [formGroup]="variancePrioritiesForm"
+              (ngSubmit)="submitVariancePrioritiesForm(variancePrioritiesForm.value)"
+            >
+            <div class="pb-2" role="toolbar" aria-label="Toolbar">
+            @if (editMode) {
+              <div class="float-right" style="margin-right: 30px">
+                <span class="small text-muted"><span class="requiredField">*
+                  </span>{{ 'administration_required_label' | translate }}</span>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span class="small text-muted"><span class="uniqueField">†
+                  </span>{{ 'administration_unique_label' | translate }}</span>
+              </div>
+
+              <div role="group" aria-label="Edit Mode">
+                <button mdbBtn type="submit" [disabled]="!variancePrioritiesForm.valid" size="sm"
+                  class="btn btn-sm btn-primary text-white me-2" mdbRipple>&nbsp;{{'BTN_save_label' |
+                  translate}}&nbsp;</button>
+                <button mdbBtn type="button" size="sm" class="btn btn-sm btn-dark text-white"
+                  (click)="cancel()" mdbRipple>{{'BTN_cancel_label' | translate}}</button>
+              </div>
+                  }
+                  @else {
+                <div role="group" aria-label="Display Mode">
+                  <button type="button" class="btn btn-sm btn-dark text-white me-2"
+                  (click)="modify()" mdbRipple>{{'BTN_modify_label' | translate}}</button>
+                  <button type="button" class="btn btn-sm btn-danger text-white"
+                    (click)="openDeleteItemModal()" mdbRipple>{{'BTN_delete_label' |
+                    translate}}</button>
+                </div>
+                  }
+            </div>
+              <div [@fadeInOut]="visiblityState">
+              @if (editMode) {
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <div class="mb-4">
+                      <mdb-form-control>
+                        <input type="text" name="variancePriority-name" autocomplete="off" id="variancePriority-name" class="form-control validate" formControlName="name" mdbInput>
+                      <label mdbLabel class="form-label"data-error="wrong" data-success="right" for="variancePriority-name">
+                        <sup class="text-muted">† </sup><span class="requiredField">* </span>{{ 'administration_name_label' | translate }}
+                      </label>
+                      @if (error?.name) {
+                        <div class="errorMessage"> <mdb-error>{{error?.name?.errorMessage}} </mdb-error> </div>
+                      }
+                      </mdb-form-control>
+                    </div>
+                    <div class="mb-4">
+                      <mdb-form-control>
+                        <textarea mdbCharCounter mdbInput maxlength="1024" required rows="6" name="description"
+                          formControlName="description" id="description" class="md-textarea  form-control"></textarea>
+                        <label mdbLabel class="form-label" data-error="wrong" data-success="right" for="description">
+                          <span class="requiredField">* </span>{{ 'administration_description_label' | translate }}
+                        </label>
+                      </mdb-form-control>
+                    </div>
+                    <div class="mb-4">
+                      <mdb-form-control>
+                        <input type="text" name="businessCode" autocomplete="off" id="businessCode" class="form-control validate" formControlName="businessCode" mdbInput>
+                        <label mdbLabel class="form-label"data-error="wrong" data-success="right" for="businessCode">
+                          <sup class="text-muted">† </sup><span class="requiredField">* </span>{{ 'administration_businessCode_label' | translate }}
+                        </label>
+                        @if (error?.businessCode) {
+                          <div class="errorMessage"><mdb-error>{{error?.businessCode?.errorMessage}} </mdb-error> </div>
+                        }
+                      </mdb-form-control>
+                    </div>
+                    <div >
+                      <icon-picker [initIconPicker]="initIconPicker" (selectedIcon)="selectIcon($event)"></icon-picker>
+                    </div>
+                    <div class="custom-form-outline">
+                      <div class="checkbox-wrapper">
+                        <!-- Default checkbox -->
+                        <div class="form-check">
+                          <input
+                            mdbCheckbox
+                            class="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id="action-status"
+                            formControlName="status"
+                          />
+                          <label class="form-check-label" for="action-status">
+                            <b>{{ 'administration_status_label' | translate }} : </b
+                            >{{
+                              (getFormControl.status.value
+                                ? 'administration_active_label'
+                                : 'administration_Inactive_label'
+                              ) | translate
+                            }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                } @else {
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="detail-items">
+                        <label class="display-label" for="display-label">{{ 'administration_name_label' | translate
+                          }}</label>
+                        <div class="md-form mt-0 mb-3">
+                          <p>{{variancePriority?.name}}&nbsp;</p>
+                        </div>
+                      </div>
+                     <div class="detail-items">
+                       <label class="display-label" for="display-label">{{ 'administration_description_label' |
+                          translate }}</label>
+                        <div class="md-form mt-0 mb-3">
+                          <p>{{variancePriority?.description}}&nbsp;</p>
+                        </div>
+                      </div>
+                      <div class="detail-items">
+                        <label class="display-label" for="display-label">{{ 'administration_businessCode_label' | translate
+                          }}</label>
+                        <div class="md-form mt-0 mb-3">
+                          <p>{{variancePriority?.businessCode}}&nbsp;</p>
+                        </div>
+                      </div>
+                      <div class="detail-items">
+                        <label for="taskTypeIcon" class="mr-2">{{ 'administration_icon_label' |translate }}</label>
+                        <div class="mr-2 mb-3">
+                          <span><span [ngClass]="variancePriority.fontName"></span> &nbsp; {{variancePriority.fontName}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="detail-items">
+                        <label class="display-label" for="display-label">{{ 'administration_status_label' | translate
+                          }}</label>
+                        <div class="md-form mt-0 mb-3">
+                          <p>{{(variancePriority.status ? 'administration_Active_label' : 'administration_Inactive_label') |
+                            translate }}&nbsp;</p>
+                        </div>
+                      </div>
+                      <div class="detail-items">
+                        <label class="display-label" for="display-label">{{ 'administration_dateCreated_label' |
+                          translate }}</label>
+                        <div class="md-form mt-0 mb-3">
+                          <p>{{variancePriority?.dateCreated?.dateMilliseconds | date}}&nbsp;</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    }
+              </div>
+            </form>
+          }
+          </ng-template>
+        </mdb-tab>
+      </mdb-tabs>
+    </div>
+  </div>
+</div>

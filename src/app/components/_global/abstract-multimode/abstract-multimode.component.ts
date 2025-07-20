@@ -1,48 +1,43 @@
-import { Component, inject, Input, SimpleChanges } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { HcclService, SimpleMessageList } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 
 @Component({
   selector: 'app-abstract-multimode',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule],
   templateUrl: './abstract-multimode.component.html',
   styleUrl: './abstract-multimode.component.scss'
 })
-export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>>  {
+export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> implements OnInit {
   
-  @Input() id!: string;
-  @Input() modeName!: string;
+  protected id!: string;
+  protected modeName!: string;
 
   protected entity!: R ;
 
   protected CRUD_MODES = CRUD_MODES;
-
-  ngOnInit(): void {
-    
-    this.enterMode(this.modeName);
-
-    // Load the entity if an ID is provided
-    //if (!this.id){alert("mode name: " + this.modeName + " " + this.getEntityType() + ' CrudComponent :  No ID provided');}
-
-    if (this.id) {
-      // this.loadEntityById(this.id).then(entity => {
-      //   this.entity = entity;
-      //   this.switchToMode(this.modeName);
-      // });
-    }
-  }
 
   protected localModes: string[] = [];
   protected hcclService = inject(HcclService);
   protected router = inject(Router);
   protected hcclContextService = inject(HcclContextService);
   protected messages: SimpleMessageList = { messages: [] };
-  protected currentMode: string = ''; 
+  protected currentMode: string = '';
 
+  ngOnInit(): void {
+    //throw new Error('Method not implemented.');
+  }
 
+  
+  
   public canEnterMode(mode: string): boolean {  
     if (this.isValidMode(mode)) {
       return true;

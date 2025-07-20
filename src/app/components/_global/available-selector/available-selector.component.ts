@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-available-selector',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './available-selector.component.html',
   styleUrl: './available-selector.component.scss'

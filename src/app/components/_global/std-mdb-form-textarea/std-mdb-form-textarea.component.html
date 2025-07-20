@@ -1,0 +1,45 @@
+<mdb-form-control>
+  <textarea
+    *ngIf="!showCharCounter"
+    [name]="fieldName"
+    [id]="uniqueId"
+    class="form-control"
+    [rows]="rows"
+    [attr.maxlength]="maxlength"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [value]="value"
+    mdbInput
+    (input)="onInput($event)"
+    (blur)="onBlur()">
+  </textarea>
+  <textarea
+    *ngIf="showCharCounter"
+    [name]="fieldName"
+    [id]="uniqueId"
+    class="form-control"
+    [rows]="rows"
+    [attr.maxlength]="maxlength"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [value]="value"
+    mdbInput
+    mdbCharCounter
+    (input)="onInput($event)"
+    (blur)="onBlur()">
+  </textarea>
+  <label 
+    mdbLabel 
+    class="form-label" 
+    [for]="uniqueId">
+    <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
+    <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
+    {{ label | translate }}
+  </label>
+  <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
+    <div class="invalid-feedback">{{ errorMessage }}</div>
+  </div>
+  <div *ngIf="helpText" class="field-help mt-n3 field-help-position">
+    {{ helpText | translate }}
+  </div>
+</mdb-form-control> 

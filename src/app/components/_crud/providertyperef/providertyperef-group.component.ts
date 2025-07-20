@@ -8,6 +8,7 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
 
 @Component({
   selector: 'app-providertyperef-group',
+  standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, ProvidertyperefCrudComponent],
   templateUrl: './providertyperef-group.component.html',
 })

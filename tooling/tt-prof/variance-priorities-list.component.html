@@ -1,0 +1,105 @@
+<table id="list-table-left-column">
+  <tr>
+    <td id="list-table-left-column-top">
+      <table>
+        <tr>
+          <!-- <td>
+          </td> -->
+          <td>
+            <button type="button" class="btn btn-dark btn-sm" (click)="openAddItemModal()"> {{ 'BTN_add_label' | translate }} </button>
+          </td>
+          <td>
+            <mdb-form-control>
+              <input mdbInput type="text" [(ngModel)]="searchValue.name" id="formControlSm" class="form-control form-control-sm" />
+              <label mdbLabel class="form-label" for="formControlSm">{{
+                'BTN_filter_label' | translate
+              }}</label>
+            </mdb-form-control>
+          </td>
+          <td class="position-relative">
+            <div mdbDropdown class="dropdown">
+              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" aria-expanded="false" mdbDropdownToggle> {{ 'BTN_show_label' | translate }} </button>
+              <ul mdbDropdownMenu class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton">
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="selectPageSize(10)">{{ 'administration_10perPage_label' | translate }}</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="selectPageSize(25)">{{ 'administration_25perPage_label' | translate }}</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="selectPageSize(50)">{{ 'administration_50perPage_label' | translate }}</a>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td id="list-table-left-column-middle">
+      <app-loader [isLoading]="variancePrioritiesLoading"></app-loader>
+      <div class="list-group-flush" id="mid-list">
+      @if (!(variancePriorities | search: searchValue.name:'name')?.length && !variancePrioritiesLoading) {
+        <div class="text-center"> {{ 'administration_noResults_label' | translate }} </div>
+      }
+      @for (
+        variancePriority of variancePriorities
+        | paginate: pageInfo
+        | search: searchValue.name:'name'
+        ; track
+        variancePriority) {
+        <a (click)="onSelect(variancePriority)" [class.itemSelected]="variancePriority.id == selectedItem.id" class="list-group-item list-group-item-action" mdbRipple>
+          <div class="list-name">
+            <span class="" [ngClass]="{
+                'fas fa-check-square': variancePriority.status,
+                'far fa-square': !variancePriority.status
+              }"></span> &nbsp; {{ variancePriority?.name }}
+          </div>
+          <div class="list-description"> {{ variancePriority?.description }} </div>
+          <div class="list-dates">
+            <span class="float-left">{{
+              variancePriority?.dateCreated?.dateMilliseconds | date
+            }}</span>
+            <span class="float-right">{{
+              variancePriority?.status ? 'Active' : 'Inactive'
+            }}</span>
+          </div>
+        </a>
+      }
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="list-table-left-column-bottom">
+    @if (!pageInfo.disablePagination && variancePriorities?.length) {
+      <div>
+        <pagination-template #p="paginationApi" [id]="pageInfo.id" (pageChange)="paginationChange($event)">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-sm justify-content-center">
+              <li class="page-item" [class.disabled]="p.isFirstPage()" [ngClass]=" p.isFirstPage() ? 'cursorNotAllowed' : 'cursorPointer' ">
+                <a (click)="p.previous()" class="page-link" tabindex="-1" mdbWavesEffect ><</a>
+              </li>
+              @for (page of p.pages; track page) {
+                <li class="page-item cursorPointer" [class.active]="p.getCurrent() === page.value">
+                  @if (p.getCurrent() !== page.value) {
+                    <a (click)="p.setCurrent(page.value)" class="page-link" mdbWavesEffect>{{ page.label }}</a>
+                  }
+                </li>
+                @if (p.getCurrent() === page.value) {
+                <li class="page-item" [class.active]="p.getCurrent() === page.value">
+                  <a class="page-link" mdbWavesEffect>{{ page.label }}</a>
+                </li>
+                }
+              }
+              <li class="page-item" [class.disabled]="p.isLastPage()"  [ngClass]=" p.isLastPage() ? 'cursorNotAllowed' : 'cursorPointer' " >
+                <a (click)="p.next()" class="page-link" mdbWavesEffect>></a>
+              </li>
+            </ul>
+          </nav>
+        </pagination-template>
+      </div>
+      }
+    </td>
+  </tr>
+</table>

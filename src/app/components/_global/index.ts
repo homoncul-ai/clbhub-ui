@@ -14,4 +14,5 @@ export { SimpleMessagesSectionComponent } from './simple-messages-section/simple
 export { SimpleTabsetComponent, SimpleTab } from './simple-tabset/simple-tabset.component';
 
 // Form components
-export { StdMdbFormTextComponent } from './std-mdb-form-text/std-mdb-form-text.component'; 
+export { StdMdbFormTextComponent } from './std-mdb-form-text/std-mdb-form-text.component';
+export { StdMdbFormTextareaComponent } from './std-mdb-form-textarea/std-mdb-form-textarea.component'; 

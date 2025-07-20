@@ -13,6 +13,7 @@ import { WorkrequesttypeCrudComponent } from "@app/components/_crud/workrequestt
 
 @Component({
   selector: 'app-workrequest-crud',
+  standalone: true,
   imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent, WorkrequesttypeCrudComponent],
   templateUrl: './workrequest-crud.component.html',
   styleUrl: './workrequest-crud.component.scss'

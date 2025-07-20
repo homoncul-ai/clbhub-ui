@@ -5,6 +5,7 @@ import { MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service'
 
 @Component({
   selector: 'app-menu-control-data-list',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './menu-control-data-list.component.html',
   styleUrl: './menu-control-data-list.component.scss'

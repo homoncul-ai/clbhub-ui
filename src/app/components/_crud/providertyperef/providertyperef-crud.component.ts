@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
@@ -13,12 +13,19 @@ import { MenuControlDataListComponent } from '@app/components/_global/menu-contr
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { R } from 'node_modules/@angular/cdk/overlay.d-BdoMy0hX';
+//import { CommonUiService } from '@app/models/common-ui.service';
 
 @Component({
   selector: 'app-providertyperef-crud',
-  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent, DategetdataDisplayComponent, StdMdbFormTextComponent],
-  templateUrl: './providertyperef-crud.component.html'
+  templateUrl: './providertyperef-crud.component.html',
+  styleUrl: './providertyperef-crud.component.scss',
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
+    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
+    SimpleMessagesSectionComponent, MenuControlDataListComponent,
+    AvailableSelectorComponent, DategetdataDisplayComponent],
+  standalone: true
 })
 export class ProvidertyperefCrudComponent extends AbstractCrudComponent<ProviderTypeRefCrudWrapper> implements OnInit, OnChanges {
 /**
@@ -45,6 +52,64 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
   // Error property for form validation
   public error: any = null;
 
+  // Validation methods
+  private validateName(name: string): string | null {
+    if (!name || name.trim() === '') {
+      return 'Name is required';
+    }
+    if (name.length > 255) {
+      return 'Name must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateBusinessCode(businessCode: string): string | null {
+    if (!businessCode || businessCode.trim() === '') {
+      return 'Business Code is required';
+    }
+    if (businessCode.length > 255) {
+      return 'Business Code must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateDescription(description: string): string | null {
+    if (!description || description.trim() === '') {
+      return 'Description is required';
+    }
+    if (description.length > 1024) {
+      return 'Description must be less than 1024 characters';
+    }
+    return null;
+  }
+
+  // Validate all fields and return error object
+  private validateForm(): any {
+    const errors: any = {};
+    
+    const nameError = this.validateName(this.name);
+    if (nameError) {
+      errors.name = { errorMessage: nameError };
+    }
+    
+    const businessCodeError = this.validateBusinessCode(this.businessCode);
+    if (businessCodeError) {
+      errors.businessCode = { errorMessage: businessCodeError };
+    }
+    
+    const descriptionError = this.validateDescription(this.description);
+    if (descriptionError) {
+      errors.description = { errorMessage: descriptionError };
+    }
+    
+    return Object.keys(errors).length > 0 ? errors : null;
+  }
+
+  // Clear validation errors
+  private clearValidationErrors(): void {
+    this.error = null;
+  }
+
      /** Standard boiler plate for ngOnInit */
   override ngOnInit(): void {
     super.ngOnInit();
@@ -63,6 +128,12 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
   
 
   protected override async createEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<any> {
+     // Validate form before creating
+     this.error = this.validateForm();
+     if (this.error) {
+       throw new Error('Validation failed');
+     }
+
      // Use entityNew if in create mode, otherwise use the passed entity
      const providerTypeRefData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
     
@@ -73,15 +144,27 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
        available: providerTypeRefData.available || 1
      };
 
-     // The requestCreate method now returns { id: string, status: 201 }
-     const response = this.hcclService.createProviderTypeRef(postData).toPromise();     
-     console.log('Create response:', response);
-     return response;
+     try {
+       // The requestCreate method now returns { id: string, status: 201 }
+       const response = await this.hcclService.createProviderTypeRef(postData).toPromise();
+       console.log('Create response:', response);
+       this.clearValidationErrors(); // Clear errors on success
+       return response;
+     } catch (error) {
+       console.error('Create error:', error);
+       throw error;
+     }
   }
 
 
 
   protected override async updateEntityDataCall(entity: ProviderTypeRefCrudWrapper): Promise<void> {
+      // Validate form before updating
+      this.error = this.validateForm();
+      if (this.error) {
+        throw new Error('Validation failed');
+      }
+
       const providerTypeRefData = entity.getData();
       if (!providerTypeRefData.id) {
         throw new Error('Provider Type Ref ID is required for update');    }
@@ -92,7 +175,13 @@ export class ProvidertyperefCrudComponent extends AbstractCrudComponent<Provider
         description: providerTypeRefData.description || '',
         available: providerTypeRefData.available ||1   };
 
-      this.hcclService.updateProviderTypeRefById(providerTypeRefData.id, putData).toPromise();
+      try {
+        await this.hcclService.updateProviderTypeRefById(providerTypeRefData.id, putData).toPromise();
+        this.clearValidationErrors(); // Clear errors on success
+      } catch (error) {
+        console.error('Update error:', error);
+        throw error;
+      }
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {

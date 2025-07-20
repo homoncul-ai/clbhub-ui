@@ -1,17 +1,22 @@
-import { Component, inject, Input, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-abstract-crud',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule],
   templateUrl: './abstract-crud.component.html',
   styleUrl: './abstract-crud.component.scss'
 })
-export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
+export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implements OnInit {
   /**
    * This component takes a generic type T that  extends EntityWrapper<T>
    * and a generic type R that extends EntityWrapper<T>
@@ -36,6 +41,9 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> {
   @Input() modeName: string = 'detail';
   @Input() menuCreationHint?: string = '';
 
+  protected ngOnInitInternal(): void {
+    this.ngOnInit()
+  }
   ngOnInit(): void {
     // Enable CRUD operations
     this.canCreate = false;

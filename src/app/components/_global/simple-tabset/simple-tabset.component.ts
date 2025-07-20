@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-simple-tabset',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './simple-tabset.component.html',
   styleUrl: './simple-tabset.component.scss'

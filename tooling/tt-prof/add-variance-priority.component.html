@@ -1,0 +1,144 @@
+<div class="modal-header text-white">
+  <h5 class="modal-title">{{ 'administration_add_inspectionVariancePriority_label' | translate }}</h5>
+  <span class="fa fa-times cursorPointer" (click)="checkIsModalDirty()"></span>
+</div>
+<div class="modal-body">
+  <form [formGroup]="addVariancePriorityForm">
+    <div class="form-symbols-text text-end">
+      <small class="text-muted"
+        ><span class="requiredField">* </span
+        >{{ 'administration_required_label' | translate }}</small
+      >
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <small class="text-muted"
+        ><span class="uniqueField">† </span
+        >{{ 'administration_unique_label' | translate }}</small
+      >
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-10 offset-md-1">
+          <div class="custom-form-outline mt-3">
+            <mdb-form-control>
+              <input
+                required
+                mdbValidate
+                mdbInput
+                formControlName="name"
+                type="text"
+                id="variance-priority-name"
+                name="variance-priority-name"
+                class="form-control mb-3"
+              />
+              <label mdbLabel class="form-label" for="variance-priority-name">
+                <sup>† </sup><span>* </span>
+                {{ 'administration_name_label' | translate }}
+              </label>
+              @if (error?.name) {
+                <mdb-error
+                  >{{ error?.name?.errorMessage }}
+                </mdb-error>
+              }
+            </mdb-form-control>
+                  @if (!error?.name) {
+              <div class="field-help mt-n3">
+                {{'admin_enterUniqueName_label' | translate }}.
+              </div>
+            }
+          </div>
+          <div class="mb-2">
+            <mdb-form-control>
+              <textarea
+                mdbInput mdbCharCounter
+                class="form-control mb-3"
+                id="variance-priority-description"
+                name="variance-priority-description"
+                formControlName="description"
+                rows="4" maxlength="1024"
+              ></textarea>
+              <label mdbLabel class="form-label" for="variance-priority-description">{{
+                'administration_description_label' | translate
+              }}</label>
+            </mdb-form-control>
+            @if (!error?.description) {
+              <div class="field-help mt-n3 field-help-position">
+                {{'admin_descriptionHelp_label' | translate}}.
+              </div>
+            }
+          </div>
+          <div class="custom-form-outline mt-3">
+            <mdb-form-control>
+              <input
+                required
+                mdbValidate
+                mdbInput
+                formControlName="businessCode"
+                type="text"
+                id="businessCode"
+                name="businessCode"
+                class="form-control mb-3"
+              />
+              <label mdbLabel class="form-label" for="businessCode">
+                <sup>† </sup><span class="requiredField">* </span>
+                {{ 'administration_businessCode_label' | translate }}
+              </label>
+              @if (error?.businessCode) {
+                <mdb-error
+                  >{{ error?.businessCode?.errorMessage }}
+                </mdb-error>
+              }
+            </mdb-form-control>
+              @if (!error?.businessCode) {
+              <div class="field-help mt-n3">
+                {{'admin_enterUniqueBusinessCode_label' | translate }}.
+              </div>
+            }
+            </div>
+          <div style="width:388px">
+            <icon-picker [initIconPicker]="initIconPicker" (selectedIcon)="selectIcon($event)"></icon-picker>
+          </div>
+          <div class="custom-form-outline mb-3">
+            <div class="checkbox-wrapper">
+              <!-- Default checkbox -->
+              <div class="form-check">
+                <input
+                  mdbCheckbox
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  formControlName="status"
+                  id="deliverable-item-status"
+                />
+                <label class="form-check-label" for="deliverable-item-status">
+                  <b>{{ 'administration_status_label' | translate }}: </b
+                  >{{
+                    (getFormControl.status.value
+                      ? 'administration_Active_label'
+                      : 'administration_Inactive_label'
+                    ) | translate
+                  }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    (click)="SubmitVariancePriority(addVariancePriorityForm.value)"
+    [disabled]="!addVariancePriorityForm.valid"
+  >
+    <span
+      [ngClass]="{ 'spinner-border spinner-border-sm': addVariancePriorityLoader }"
+      >{{ (!addVariancePriorityLoader? 'BTN_submit_label' : '') | translate }}</span
+    >
+  </button>
+  <button type="button" class="btn btn-sm btn-dark" (click)="checkIsModalDirty()">
+    {{'BTN_cancel_label' | translate}}
+  </button>
+</div>

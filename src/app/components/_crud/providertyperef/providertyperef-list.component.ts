@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-providertyperef-list',
+  standalone: true,
   templateUrl: '../../_global/abstract-list/abstract-list.component.html',
   styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
     imports: [CommonModule]
