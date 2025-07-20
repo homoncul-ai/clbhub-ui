@@ -1,31 +1,29 @@
-<div class="mb-4">
-  <div class="position-relative">
-    <label class="form-label" [for]="uniqueId">
-      <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
-      <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
-      {{ label | translate }}
-    </label>
-    <div class="input-group">
-      <input 
-        class="form-control" 
-        [placeholder]="placeholder"
-        type="text"   
-        [name]="fieldName"
-        [id]="uniqueId" 
-        [disabled]="disabled"
-        [value]="value"
-        (input)="onInput($event)"
-        (blur)="onBlur()"
-        (focus)="onFocus($event)" />
-      <div class="input-group-text" (click)="toggleCalendar()">
-        <i class="fa fa-calendar"></i>
-      </div>
+<div class="position-relative">
+  <label class="form-label" [for]="uniqueId">
+    <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
+    <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
+    {{ label | translate }}
+  </label>
+  <div class="input-group">
+    <input 
+      class="form-control" 
+      [placeholder]="placeholder"
+      type="text"   
+      [name]="fieldName"
+      [id]="uniqueId" 
+      [disabled]="disabled"
+      [value]="value"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus($event)" />
+    <div class="input-group-text" (click)="toggleCalendar()">
+      <i class="fa fa-calendar"></i>
     </div>
-    <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
-      <div class="invalid-feedback">{{ errorMessage }}</div>
-    </div>
-    <div *ngIf="helpText" class="field-help mt-n3 field-help-position">
-      {{ helpText | translate }}
-    </div>
+  </div>
+  <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
+    <div class="invalid-feedback">{{ errorMessage }}</div>
+  </div>
+  <div *ngIf="helpText" class="field-help mt-n3 field-help-position">
+    {{ helpText | translate }}
   </div>
 </div> 

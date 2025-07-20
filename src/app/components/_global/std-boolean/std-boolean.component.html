@@ -1,71 +1,69 @@
-<div class="mb-4">
-  <div class="position-relative">
-    <!-- Checkbox Mode -->
-    <div *ngIf="isCheckboxMode" class="form-check">
+<div class="position-relative">
+  <!-- Checkbox Mode -->
+  <div *ngIf="isCheckboxMode" class="form-check">
+    <input 
+      class="form-check-input" 
+      type="checkbox" 
+      [id]="uniqueId"
+      [name]="fieldName"
+      [checked]="value"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (blur)="onBlur()">
+    <label 
+      class="form-check-label" 
+      [for]="uniqueId">
+      <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
+      <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
+      {{ label | translate }}
+    </label>
+  </div>
+
+  <!-- Yes/No Mode -->
+  <div *ngIf="isYesNoMode" class="yes-no-container">
+    <label class="form-label" [for]="uniqueId">
+      <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
+      <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
+      {{ label | translate }}
+    </label>
+    <div class="btn-group" role="group" [attr.aria-label]="label">
       <input 
-        class="form-check-input" 
-        type="checkbox" 
-        [id]="uniqueId"
-        [name]="fieldName"
-        [checked]="value"
+        type="radio" 
+        class="btn-check" 
+        [id]="uniqueId + '-yes'"
+        name="' + fieldName + '"
+        [checked]="value === true"
         [disabled]="disabled"
-        (input)="onInput($event)"
-        (blur)="onBlur()">
+        (change)="onYesNoChange(true)">
       <label 
-        class="form-check-label" 
-        [for]="uniqueId">
-        <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
-        <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
-        {{ label | translate }}
+        class="btn btn-outline-primary" 
+        [for]="uniqueId + '-yes'">
+        {{ yesText | translate }}
+      </label>
+
+      <input 
+        type="radio" 
+        class="btn-check" 
+        [id]="uniqueId + '-no'"
+        name="' + fieldName + '"
+        [checked]="value === false"
+        [disabled]="disabled"
+        (change)="onYesNoChange(false)">
+      <label 
+        class="btn btn-outline-primary" 
+        [for]="uniqueId + '-no'">
+        {{ noText | translate }}
       </label>
     </div>
+  </div>
 
-    <!-- Yes/No Mode -->
-    <div *ngIf="isYesNoMode" class="yes-no-container">
-      <label class="form-label" [for]="uniqueId">
-        <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
-        <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
-        {{ label | translate }}
-      </label>
-      <div class="btn-group" role="group" [attr.aria-label]="label">
-        <input 
-          type="radio" 
-          class="btn-check" 
-          [id]="uniqueId + '-yes'"
-          name="' + fieldName + '"
-          [checked]="value === true"
-          [disabled]="disabled"
-          (change)="onYesNoChange(true)">
-        <label 
-          class="btn btn-outline-primary" 
-          [for]="uniqueId + '-yes'">
-          {{ yesText | translate }}
-        </label>
+  <!-- Error Message -->
+  <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
+    <div class="invalid-feedback">{{ errorMessage }}</div>
+  </div>
 
-        <input 
-          type="radio" 
-          class="btn-check" 
-          [id]="uniqueId + '-no'"
-          name="' + fieldName + '"
-          [checked]="value === false"
-          [disabled]="disabled"
-          (change)="onYesNoChange(false)">
-        <label 
-          class="btn btn-outline-primary" 
-          [for]="uniqueId + '-no'">
-          {{ noText | translate }}
-        </label>
-      </div>
-    </div>
-
-    <!-- Error Message -->
-    <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
-      <div class="invalid-feedback">{{ errorMessage }}</div>
-    </div>
-
-    <!-- Help Text -->
-    <div *ngIf="helpText" class="field-help mt-n3 field-help-position">
-      {{ helpText | translate }}
-    </div>
+  <!-- Help Text -->
+  <div *ngIf="helpText" class="field-help mt-n3 field-help-position">
+    {{ helpText | translate }}
   </div>
 </div> 

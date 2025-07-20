@@ -80,6 +80,14 @@ crud-container {
       margin-top: 20px; // Add top margin to separate from buttons
       margin-bottom: 20px;
   
+      .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #dee2e6;
+      }
+
       .form-group {
         margin-bottom: 15px;
   
@@ -97,6 +105,9 @@ crud-container {
           border-radius: 4px;
           font-size: 14px;
           transition: border-color 0.3s;
+          margin-bottom: 24px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #dee2e6;
   
           &:focus {
             outline: none;
@@ -107,11 +118,11 @@ crud-container {
           &.ng-invalid.ng-touched {
             border-color: #dc3545;
           }
-        }
   
-        textarea.form-control {
-          min-height: 100px;
-          resize: vertical;
+          &:last-child {
+            border-bottom: none;
+          }
+
         }
       }
     }
