@@ -15,4 +15,7 @@ export { SimpleTabsetComponent, SimpleTab } from './simple-tabset/simple-tabset.
 
 // Form components
 export { StdMdbFormTextComponent } from './std-mdb-form-text/std-mdb-form-text.component';
-export { StdMdbFormTextareaComponent } from './std-mdb-form-textarea/std-mdb-form-textarea.component'; 
+export { StdMdbFormTextareaComponent } from './std-mdb-form-textarea/std-mdb-form-textarea.component';
+export { StdMdbDatepickerComponent } from './std-mdb-datepicker/std-mdb-datepicker.component';
+export { StdBooleanComponent } from './std-boolean/std-boolean.component';
+export type { BooleanMode } from './std-boolean/std-boolean.component'; 

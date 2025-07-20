@@ -1,7 +1,22 @@
+Input :  
+[entityName] - refers to a Java bean.  The Java bean will have the following artifacts.
+
+ 
+- [entityName]GETData - interface of display data getMode() === CRUD_MODES.DETAIL && !isLoading
+- [entityName]PUTData - this interface will be used to update ... getMode() === CRUD_MODES.EDIT 
+- [entityName]POSTData - interface used to create  ... getMode() === CRUD_MODES.CREATE 
+
+- Each of these interfaces has a list of attributes. 
+- mode display : display all attribu
 
 
+General type to input 
+- String - use 
 
-- any time we have a property named 'available' - use the 'available-selector' for input
+
+- any time we have a property named 'available' - use the 'app-available-selector' for input
+- 
+
 - any time we have a property with a form '[entityName]id' (not the property 'id') this is a 
   foreign key property.  Look for a component of type "app-[entityName]-crud" and use that for
    - 'details' - <app-[entityName]-crud mode='fk' id='[entityName]id' >

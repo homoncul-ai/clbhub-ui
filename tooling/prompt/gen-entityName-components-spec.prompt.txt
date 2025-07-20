@@ -22,16 +22,32 @@ You are an expert Angular developer and code generator. Your task is to generate
   - List Component
   - Group Component
 
+
 ---
 
 ## General Guidelines
 
-- All component files reside in `src/app/components/_crud/[entityName]`.
-- Do **not** create subfolders for each component.
-- All components use the global SCSS file; local `.scss` files should be empty.
+- All component files will be contained in the folder `src/app/components/_crud/[entityName]`.  Do NOT create subfolders for each component.
+- See below for which files to generate.
 - Components must call the appropriate methods in `HcclService` for the given entity.
 - Use and reference working examples from the project (e.g., CLStudent components).
 - The spec should be easy to update and re-apply for future changes.
+- the [entityName] components will rely on the interfaces for the different modes (details, edit, create)
+ 
+-- [entityName]GETData - interface of display data getMode() === CRUD_MODES.DETAIL && !isLoading
+-- [entityName]PUTData - this interface will be used to update ... getMode() === CRUD_MODES.EDIT 
+-- [entityName]POSTData - interface used to create  ... getMode() === CRUD_MODES.CREATE 
+-- The methods to use for calling the rest service are
+  - Update - HcclService.update[entityName]ById 
+  - create - HcclService.create[entityName],
+  - search - HcclService.find[entityName]
+  - get    - HcclService.get[entityName]ById
+
+## Guidelines about displaying Data 
+* [attrName] = For foreign keys (`[fkEntityName]Id`), use `<app-[fkEntityName]-crud ... mode=CrudModes.FK>`. For example 
+   if attrName='providerTypeRefId', then 
+  ** For details  <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK">
+  ** for Edit/Create <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK_MENU">
 
 ---
 
@@ -42,7 +58,8 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **Files:**
   - `[entityName]-crud.component.html`
   - `[entityName]-crud.component.ts`
-  - `[entityName]-crud.component.scss` (empty)
+  - Use this in the component definition :  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
+  
 
 ### Section: Details
 - **Based on:** `HcclService` interface `[entityName]GETData`

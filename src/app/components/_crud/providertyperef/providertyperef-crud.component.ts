@@ -20,7 +20,7 @@ import { R } from 'node_modules/@angular/cdk/overlay.d-BdoMy0hX';
 @Component({
   selector: 'app-providertyperef-crud',
   templateUrl: './providertyperef-crud.component.html',
-  styleUrl: './providertyperef-crud.component.scss',
+  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,

@@ -1,0 +1,97 @@
+<!-- Example usage of the std-mdb-datepicker component -->
+
+<!-- Basic usage -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Basic Date Picker</h5>
+    <app-std-mdb-datepicker
+      name="basicDate"
+      label="Basic Date"
+      placeholder="MM/DD/YYYY">
+    </app-std-mdb-datepicker>
+  </div>
+</div>
+
+<!-- With reactive forms -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Date Picker with Reactive Form</h5>
+    <form [formGroup]="exampleForm">
+      <app-std-mdb-datepicker
+        name="formDate"
+        label="Form Date"
+        placeholder="MM/DD/YYYY">
+      </app-std-mdb-datepicker>
+    </form>
+  </div>
+</div>
+
+<!-- With required field -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Required Date Picker</h5>
+    <app-std-mdb-datepicker
+      name="requiredDate"
+      label="Required Date"
+      [required]="true"
+      [showRequiredIndicator]="true"
+      placeholder="MM/DD/YYYY">
+    </app-std-mdb-datepicker>
+  </div>
+</div>
+
+<!-- With help text -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Date Picker with Help Text</h5>
+    <app-std-mdb-datepicker
+      name="helpTextDate"
+      label="Date with Help"
+      helpText="Please select a date in MM/DD/YYYY format"
+      placeholder="MM/DD/YYYY">
+    </app-std-mdb-datepicker>
+  </div>
+</div>
+
+<!-- With value change event -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Date Picker with Value Change Event</h5>
+    <app-std-mdb-datepicker
+      name="eventDate"
+      label="Event Date"
+      (valueChange)="onDateChanged($event)"
+      placeholder="MM/DD/YYYY">
+    </app-std-mdb-datepicker>
+    <div *ngIf="selectedDate" class="mt-2">
+      <small class="text-muted">Selected date: {{ selectedDate }}</small>
+    </div>
+  </div>
+</div>
+
+<!-- With error handling -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Date Picker with Error</h5>
+    <app-std-mdb-datepicker
+      name="errorDate"
+      label="Error Date"
+      [error]="formErrors"
+      [showErrorIndicator]="true"
+      placeholder="MM/DD/YYYY">
+    </app-std-mdb-datepicker>
+  </div>
+</div>
+
+<!-- Disabled state -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Disabled Date Picker</h5>
+    <app-std-mdb-datepicker
+      name="disabledDate"
+      label="Disabled Date"
+      [disabled]="true"
+      placeholder="MM/DD/YYYY">
+    </app-std-mdb-datepicker>
+  </div>
+</div> 

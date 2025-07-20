@@ -1,0 +1,177 @@
+<!-- Example usage of the std-boolean component -->
+
+<!-- Checkbox Mode Examples -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Basic Checkbox</h5>
+    <app-std-boolean
+      name="basicCheckbox"
+      label="Basic Checkbox"
+      [value]="true"
+      mode="checkbox">
+    </app-std-boolean>
+  </div>
+  
+  <div class="col-md-6">
+    <h5>Required Checkbox</h5>
+    <app-std-boolean
+      name="requiredCheckbox"
+      label="Required Checkbox"
+      [required]="true"
+      [showRequiredIndicator]="true"
+      mode="checkbox">
+    </app-std-boolean>
+  </div>
+</div>
+
+<!-- Yes/No Mode Examples -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Basic Yes/No</h5>
+    <app-std-boolean
+      name="basicYesNo"
+      label="Basic Yes/No"
+      [value]="true"
+      mode="yesno">
+    </app-std-boolean>
+  </div>
+  
+  <div class="col-md-6">
+    <h5>Custom Yes/No Labels</h5>
+    <app-std-boolean
+      name="customYesNo"
+      label="Custom Labels"
+      [value]="false"
+      mode="yesno"
+      yesText="Active"
+      noText="Inactive">
+    </app-std-boolean>
+  </div>
+</div>
+
+<!-- With Reactive Forms -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Checkbox with Reactive Form</h5>
+    <form [formGroup]="exampleForm">
+      <app-std-boolean
+        name="formCheckbox"
+        label="Form Checkbox"
+        mode="checkbox">
+      </app-std-boolean>
+    </form>
+  </div>
+  
+  <div class="col-md-6">
+    <h5>Yes/No with Reactive Form</h5>
+    <form [formGroup]="exampleForm">
+      <app-std-boolean
+        name="formYesNo"
+        label="Form Yes/No"
+        mode="yesno">
+      </app-std-boolean>
+    </form>
+  </div>
+</div>
+
+<!-- With Value Change Events -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Checkbox with Value Change Event</h5>
+    <app-std-boolean
+      name="eventCheckbox"
+      label="Event Checkbox"
+      (valueChange)="onCheckboxChanged($event)"
+      mode="checkbox">
+    </app-std-boolean>
+    <div *ngIf="checkboxValue !== undefined" class="mt-2">
+      <small class="text-muted">Checkbox value: {{ checkboxValue }}</small>
+    </div>
+  </div>
+  
+  <div class="col-md-6">
+    <h5>Yes/No with Value Change Event</h5>
+    <app-std-boolean
+      name="eventYesNo"
+      label="Event Yes/No"
+      (valueChange)="onYesNoChanged($event)"
+      mode="yesno">
+    </app-std-boolean>
+    <div *ngIf="yesNoValue !== undefined" class="mt-2">
+      <small class="text-muted">Yes/No value: {{ yesNoValue }}</small>
+    </div>
+  </div>
+</div>
+
+<!-- With Error Handling -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Checkbox with Error</h5>
+    <app-std-boolean
+      name="errorCheckbox"
+      label="Error Checkbox"
+      [error]="formErrors"
+      [showErrorIndicator]="true"
+      mode="checkbox">
+    </app-std-boolean>
+  </div>
+  
+  <div class="col-md-6">
+    <h5>Yes/No with Error</h5>
+    <app-std-boolean
+      name="errorYesNo"
+      label="Error Yes/No"
+      [error]="formErrors"
+      [showErrorIndicator]="true"
+      mode="yesno">
+    </app-std-boolean>
+  </div>
+</div>
+
+<!-- With Help Text -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Checkbox with Help Text</h5>
+    <app-std-boolean
+      name="helpCheckbox"
+      label="Help Checkbox"
+      helpText="This checkbox controls whether the feature is enabled"
+      mode="checkbox">
+    </app-std-boolean>
+  </div>
+  
+  <div class="col-md-6">
+    <h5>Yes/No with Help Text</h5>
+    <app-std-boolean
+      name="helpYesNo"
+      label="Help Yes/No"
+      helpText="Select whether this item is active or inactive"
+      mode="yesno">
+    </app-std-boolean>
+  </div>
+</div>
+
+<!-- Disabled States -->
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>Disabled Checkbox</h5>
+    <app-std-boolean
+      name="disabledCheckbox"
+      label="Disabled Checkbox"
+      [disabled]="true"
+      [value]="true"
+      mode="checkbox">
+    </app-std-boolean>
+  </div>
+  
+  <div class="col-md-6">
+    <h5>Disabled Yes/No</h5>
+    <app-std-boolean
+      name="disabledYesNo"
+      label="Disabled Yes/No"
+      [disabled]="true"
+      [value]="false"
+      mode="yesno">
+    </app-std-boolean>
+  </div>
+</div> 
