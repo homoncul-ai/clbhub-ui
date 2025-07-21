@@ -1,0 +1,379 @@
+# CatalogEntry Component Generation Spec
+
+## Preamble: AI Mindset and Goals
+
+This spec defines the CRUD, List, and Group Angular components for the `CatalogEntry` entity, following the project's idempotent generation guidelines. Reference implementation: `providertyperef` components.
+
+- **Be precise and unambiguous.**
+- **Favor clarity and maintainability.**
+- **Assume the spec may be updated and re-applied multiple times.**
+- **Do not generate code directly; generate a markdown spec that describes the code to be generated.**
+- **Reference working examples and best practices from the project.**
+- **All generated files must be idempotent: re-running the generator with an updated spec should not break or duplicate code.**
+
+---
+
+## Entity Interfaces
+
+### CatalogEntryGETData
+- id?: string
+- createdByInfo?: Reference
+- dateCreated?: DateGETData
+- lastUpdatedByInfo?: Reference
+- dateLastUpdated?: DateGETData
+- catalogId?: string
+- entryCode?: string
+- title?: string
+- shortDescription?: string
+- description?: string
+- notes?: string
+- available?: number
+- url?: string
+- vocodeInstanceId?: string
+- integrationEntityId?: string
+- integrationEntityType?: string
+- integrationEntityName?: string
+
+### CatalogEntryPOSTData/PUTData
+- catalogId: string
+- entryCode: string
+- title: string
+- shortDescription: string
+- description: string
+- notes?: string
+- available: number
+- url?: string
+- vocodeInstanceId?: string
+- integrationEntityId?: string
+- integrationEntityType?: string
+- integrationEntityName?: string
+
+---
+
+## CRUD Component
+
+### Purpose
+Display, edit, and add `CatalogEntry` data.
+
+### Files
+- `catalogentry-crud.component.html`
+- `catalogentry-crud.component.ts`
+- Use this in the component definition: `styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'`
+
+### Section: Details
+- **Based on:** `HcclService` interface `CatalogEntryGETData`
+- **Method call:** `this.hcclService.getCatalogEntryById(id)`
+- **Attributes Table:**
+
+| attrName              | type    | label           | Display Hint |
+|-----------------------|---------|-----------------|--------------|
+| id                    | string  | ID              | hidden       |
+| catalogId             | string  | Catalog         | FK           |
+| entryCode             | string  | Entry Code      | text         |
+| title                 | string  | Title           | text         |
+| shortDescription      | string  | Short Desc      | textarea     |
+| description           | string  | Description     | textarea     |
+| notes                 | string  | Notes           | textarea     |
+| available             | number  | Available       | available-selector |
+| url                   | string  | URL             | text         |
+| vocodeInstanceId      | string  | Vocode Instance | FK           |
+| integrationEntityId   | string  | Integration ID  | FK           |
+| integrationEntityType | string  | Integration Type| text         |
+| integrationEntityName | string  | Integration Name| text         |
+| createdByInfo         | object  | Created By      | audit        |
+| dateCreated           | date    | Date Created    | audit        |
+| lastUpdatedByInfo     | object  | Last Updated By | audit        |
+| dateLastUpdated       | date    | Date Updated    | audit        |
+
+### Section: Edit
+- **Based on:** `HcclService` interface `CatalogEntryPUTData`
+- **Method call:** `this.hcclService.updateCatalogEntryById(id, body)`
+- **Attributes Table:**
+
+| attrName              | type    | label           | Display Hint |
+|-----------------------|---------|-----------------|--------------|
+| catalogId             | string  | Catalog         | FK_MENU      |
+| entryCode             | string  | Entry Code      | text         |
+| title                 | string  | Title           | text         |
+| shortDescription      | string  | Short Desc      | textarea     |
+| description           | string  | Description     | textarea     |
+| notes                 | string  | Notes           | textarea     |
+| available             | number  | Available       | available-selector |
+| url                   | string  | URL             | text         |
+| vocodeInstanceId      | string  | Vocode Instance | FK_MENU      |
+| integrationEntityId   | string  | Integration ID  | FK_MENU      |
+| integrationEntityType | string  | Integration Type| text         |
+| integrationEntityName | string  | Integration Name| text         |
+
+### Section: Create
+- **Based on:** `HcclService` interface `CatalogEntryPOSTData`
+- **Method call:** `this.hcclService.createCatalogEntry(body)`
+- **Attributes Table:**
+
+| attrName              | type    | label           | Display Hint |
+|-----------------------|---------|-----------------|--------------|
+| catalogId             | string  | Catalog         | FK_MENU      |
+| entryCode             | string  | Entry Code      | text         |
+| title                 | string  | Title           | text         |
+| shortDescription      | string  | Short Desc      | textarea     |
+| description           | string  | Description     | textarea     |
+| notes                 | string  | Notes           | textarea     |
+| available             | number  | Available       | available-selector |
+| url                   | string  | URL             | text         |
+| vocodeInstanceId      | string  | Vocode Instance | FK_MENU      |
+| integrationEntityId   | string  | Integration ID  | FK_MENU      |
+| integrationEntityType | string  | Integration Type| text         |
+| integrationEntityName | string  | Integration Name| text         |
+
+### Required Imports
+See `providertyperef` components and import similarly. These imports will include the following (and more):
+
+- **CommonModule, FormsModule** for basic Angular functionality
+- **AbstractCrudComponent** from `@app/components/_global/abstract-crud/abstract-crud.component`
+- **EntityWrapper** from `@app/models/crud-entity-wrapper`
+- **HcclService** and related interfaces from `@app/restsvc/hccl.service`
+- **CRUD_MODES** from `@app/@core/constants`
+- **SimpleMessagesSectionComponent** from `@app/components/_global/simple-messages-section/simple-messages-section.component`
+- **MenuControlDataListComponent** from `@app/components/_global/menu-control-data-list/menu-control-data-list.component`
+- **AvailableSelectorComponent** from `@app/components/_global/available-selector/available-selector.component`
+- **DategetdataDisplayComponent** from `@app/components/_global/dategetdata-display/dategetdata-display.component`
+
+### Component Structure
+- Extend `AbstractCrudComponent<CatalogEntryCrudWrapper>`
+- Implement `OnInit, OnChanges`
+- Create a wrapper class that extends `EntityWrapper<CatalogEntryGETData>`
+- Include getter/setter methods for form binding
+- Implement required abstract methods: `loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`
+
+---
+
+## Group Component
+
+### Purpose
+Router target to group all tabs for `CatalogEntry` (e.g., details, list).
+
+### Files
+- `catalogentry-group.component.html`
+- `catalogentry-group.component.ts`
+- `catalogentry-group.component.scss` - point to _global/abstract-entity-group/abstract-entity-group.component.scss
+
+### Required Imports
+- **CommonModule** for basic Angular functionality
+- **ActivatedRoute, Router** from `@angular/router`
+- **AbstractEntityGroupComponent** from `@app/components/_global/abstract-entity-group/abstract-entity-group.component`
+- **SimpleTab, SimpleTabsetComponent** from `@app/components/_global/simple-tabset/simple-tabset.component`
+- **HcclService** from `@app/restsvc/hccl.service`
+- **CrudWrapper and CrudComponent** from the generated CRUD component
+
+### Component Structure
+- Extend `AbstractEntityGroupComponent<CatalogEntryCrudWrapper>`
+- Implement `OnInit`
+- Include `@Input() id!: string`
+- Implement required abstract methods: `loadEntityById`, `setupTabs`
+- Setup tabs for 'list' and 'details' with proper routing
+- **Constructor:** Only inject `ActivatedRoute` - do NOT inject `Router` or `HcclService` in constructor
+- **CRITICAL:** Use correct route paths - for eco-admin use `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]`
+
+### Template Structure
+- Copy structure from `providertyperef-group.component.html`
+- Replace component references with generated component names
+- Use `<app-simple-tabset [tabs]=tabs [currentTabId]="currentTabId" (tabClick)="activateTab($event)"></app-simple-tabset>`
+- Include conditional divs for details and list tabs
+- **Do NOT** include `(click)=onClick($event)` handlers in the template
+- Keep template simple and focused on tab display
+- Use `*ngIf` for tab content display
+
+---
+
+## List Component
+
+### Purpose
+Router target to search and list `CatalogEntryGETData`.
+
+### Files
+- `catalogentry-list.component.html`
+- `catalogentry-list.component.ts`
+- `catalogentry-list.component.scss` (empty)
+- **Reference:** Base on the `providertyperefList` component.
+- **Method call:** `this.hcclService.findCatalogEntrys(criteria)`
+
+### Attributes Table
+Show a table of the GETData attributes, just like for Details:
+
+| attrName              | type    | label           | Display Hint |
+|-----------------------|---------|-----------------|--------------|
+| id                    | string  | ID              | hidden       |
+| catalogId             | string  | Catalog         | FK           |
+| entryCode             | string  | Entry Code      | text         |
+| title                 | string  | Title           | text         |
+| shortDescription      | string  | Short Desc      | textarea     |
+| description           | string  | Description     | textarea     |
+| notes                 | string  | Notes           | textarea     |
+| available             | number  | Available       | available-selector |
+| url                   | string  | URL             | text         |
+| vocodeInstanceId      | string  | Vocode Instance | FK           |
+| integrationEntityId   | string  | Integration ID  | FK           |
+| integrationEntityType | string  | Integration Type| text         |
+| integrationEntityName | string  | Integration Name| text         |
+
+### Required Imports
+- **CommonModule** for basic Angular functionality
+- **ActivatedRoute, Router** from `@angular/router`
+- **HcclService** and related interfaces from `@app/restsvc/hccl.service`
+- **ElementRef, ViewChild** for DHTMLX grid integration
+
+### Component Structure
+- Implement `OnInit, AfterViewInit`
+- Include DHTMLX grid initialization and configuration
+- Handle row click navigation to details
+- Implement data loading with proper error handling
+- **MUST include:** `declare const dhx: any;` at the top of the file after imports
+- **Constructor:** Inject `HcclService`, `ActivatedRoute`, `Router`
+- **CRITICAL:** Copy ALL methods from `providertyperef-list.component.ts` including grid setup, event handlers, and data loading
+
+### Template Structure
+- Use simple template: `<div #gridContainer class="search-list-grid-container" style="width:100%;height:600px;"></div>`
+- Keep template minimal - all logic should be in the TypeScript file
+- **Do NOT** include complex HTML structure
+
+---
+
+## Module Integration
+
+### Routing Configuration
+Add the following routes to the appropriate module (e.g., `dash-ecoadmin.module.ts`):
+```typescript
+{ path: 'catalog/catalogentry/:id/:tabId', component: CatalogEntryGroupComponent },
+{ path: 'catalog/catalogentry/:id', redirectTo: 'catalog/catalogentry/:id/details', pathMatch: 'full' },
+{ path: 'catalog/catalogentry', component: CatalogEntryListComponent }
+```
+
+### Module Imports
+Add the generated components to the module's imports array:
+```typescript
+imports: [
+  // ... existing imports
+  CatalogEntryListComponent,
+  CatalogEntryGroupComponent
+]
+```
+
+---
+
+## Menu Integration
+
+### Menu Constants
+Add menu item constant to `src/app/shell/services/menu.service.ts`:
+```typescript
+EA_CATALOGENTRY_LIST: {
+  level: 1,
+  label: 'Catalog Entries',
+  route: '/ecoadmin-dashboard/catalog/catalogentry-list',
+  componentPath: 'src/app/components/_crud/catalog/catalogentry-list.component',
+  componentName: 'catalogentry-list',
+  icon: 'fas fa-list'
+}
+```
+
+### Menu Builder
+Update the `buildEcoAdminMenu()` method to include the new menu item:
+```typescript
+// Add CatalogEntry
+const catalogEntryList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRY_LIST);
+this.addMenuItem(menu, catalogEntryList);
+```
+
+**CRITICAL ROUTING FIX:** Ensure menu route uses `/ecoadmin-dashboard/catalog/catalogentry-list` to match the actual app routing structure.
+
+---
+
+## Template Copying Guidelines
+
+### Group Component Template
+- Copy structure from `providertyperef-group.component.html`
+- Replace component references with generated component names
+- **Do NOT** include click handlers or complex event bindings
+- Keep template simple: tabset + conditional divs for content
+- Use `*ngIf` for tab content display
+
+### List Component Template
+- Use minimal template: single div with grid container
+- **Do NOT** include complex HTML structure
+- All grid logic should be in TypeScript file
+
+---
+
+## Common Issues and Solutions
+
+### Component Import Errors
+- Ensure all required components are imported in the `@Component.imports` array
+- For date display components, import `DategetdataDisplayComponent`
+- For available selector, import `AvailableSelectorComponent`
+- For menu controls, import `MenuControlDataListComponent`
+- **CRITICAL:** For date components, ensure `@Input() dateData: any` is declared in the component class
+
+### Template Binding Errors
+- Ensure `@Input()` properties are declared in component classes
+- For date components, ensure `@Input() dateData: any` is declared
+- For available selector, ensure proper two-way binding with `[(ngModel)]`
+- Check that all form field bindings use correct property names
+
+### Routing Issues
+- **CRITICAL:** Ensure route paths match between module configuration and menu constants
+- Use consistent route naming: `/ecoadmin-dashboard/catalog/catalogentry-list` for eco-admin
+- Include proper redirects for default tab navigation
+- Menu routes must match actual app routing structure
+
+### Constructor Dependencies
+- **CRUD Components:** Only inject `super()` - no additional services needed
+- **Group Components:** Only inject `ActivatedRoute` in constructor
+- **List Components:** Inject `HcclService`, `ActivatedRoute`, `Router`
+- Always call `super()` in constructor for components extending abstract classes
+- **Do NOT** inject `Router` or `HcclService` in Group component constructor
+
+### DHTMLX Integration
+- **MUST** include `declare const dhx: any;` in list components
+- Ensure proper grid initialization with error handling
+- Copy ALL grid setup methods from `providertyperef-list.component.ts`
+- Include proper event handlers for row clicks and data loading
+
+### Menu Navigation Issues
+- **CRITICAL:** Menu route must match actual app routing structure
+- For eco-admin dashboard, use `/ecoadmin-dashboard/catalog/catalogentry-list`
+- Ensure menu constants use correct route paths
+- Test navigation after menu integration
+
+### Component Structure Issues
+- **CRITICAL:** Copy ALL methods from reference components `providertyperef`
+- Do not create new methods - use existing patterns
+- Ensure proper inheritance from abstract classes
+- Include all required abstract method implementations
+
+---
+
+## Idempotent Generation Rules
+
+1. **Template Copying:** Always copy complete structure from reference components
+2. **Method Implementation:** Copy ALL methods from reference components, don't create new ones
+3. **Import Requirements:** Include all necessary imports for components and services
+4. **Constructor Rules:** Follow strict constructor injection rules for each component type
+5. **Routing Consistency:** Ensure menu routes match actual app routing structure
+6. **Component Dependencies:** Declare all required `@Input()` properties
+7. **Error Handling:** Include proper error handling in data loading methods
+8. **Grid Integration:** Copy complete DHTMLX grid setup from reference components
+
+---
+
+## Final Checklist
+
+Before generating components, ensure:
+- [ ] All required imports are specified
+- [ ] Constructor dependencies are correctly defined
+- [ ] Routing paths are consistent between module and menu
+- [ ] Template copying guidelines are followed
+- [ ] Common issues and solutions are addressed
+- [ ] Component structure matches reference components
+- [ ] All abstract methods are implemented
+- [ ] Error handling is included
+- [ ] DHTMLX integration is complete (for list components)
+- [ ] Menu integration uses correct route paths 

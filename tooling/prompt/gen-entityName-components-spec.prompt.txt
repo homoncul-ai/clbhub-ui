@@ -1,8 +1,15 @@
 # AI Component Generation Spec Template
 
+the example we're going to use is copyFromEntity="providertyperef" 
+
+
 ## Preamble: AI Mindset and Goals
 
-You are an expert Angular developer and code generator. Your task is to generate a clear, maintainable, and **idempotent** specification for a set of three Angular components (CRUD, List, Group) for a given `entityName`. This spec will be used as the source of truth for generating and **re-generating** these components, ensuring that updates to the spec can be safely and efficiently propagated to the codebase.
+You are an expert Angular developer and code generator. 
+Your task is to generate a clear, maintainable, and **idempotent** specification 
+for a set of three Angular components (CRUD, List, Group) for a given `entityName`. 
+This spec will be used as the source of truth for generating and **re-generating** these components, 
+ensuring that updates to the spec can be safely and efficiently propagated to the codebase.
 
 - **Be precise and unambiguous.**
 - **Favor clarity and maintainability.**
@@ -11,6 +18,9 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **Reference working examples and best practices from the project.**
 - **All generated files must be idempotent: re-running the generator with an updated spec should not break or duplicate code.**
 - **Regenerating files should update 
+- **These components will be created based on the example in "_crud/[copyFromEntity]/" - use the structure, imports, and superclasses.
+- ** Take some time and really understand this example.  We're going to create components similar in structure 
+- ** Make sure all modes found in [copyFromEntity].component.html are represented in the spec. 
 
 ---
 
@@ -31,7 +41,7 @@ You are an expert Angular developer and code generator. Your task is to generate
 - All component files will be contained in the folder `src/app/components/_crud/[entityName]`.  Do NOT create subfolders for each component.
 - See below for which files to generate.
 - Components must call the appropriate methods in `HcclService` for the given entity.
-- Use and reference working examples from the project (e.g., CLStudent components).
+- Use and reference working examples from the project (e.g., copyFromEntity components).
 - The spec should be easy to update and re-apply for future changes.
 - the [entityName] components will rely on the interfaces for the different modes (details, edit, create)
  
@@ -45,13 +55,13 @@ You are an expert Angular developer and code generator. Your task is to generate
   - get    - HcclService.get[entityName]ById
 
 ## Guidelines about displaying Data 
-*  read "hccl.json" and figure out the 'required' the min/max lengths for the [entityName]PUTData, [entityName]POSTData
+*  read "hccl.swagger.json" and figure out the 'required' the min/max lengths for the [entityName]PUTData, [entityName]POSTData
 
-* [attrName] is For foreign keys (`[fkEntityName]Id`), use `<app-[fkEntityName]-crud ... mode=CrudModes.FK>`. For example 
+* [attrName] is For foreign keys (`[fkentityName]Id`), use `<app-[fkentityName]-crud ... mode=CrudModes.FK>`. For example 
    if attrName='providerTypeRefId', then 
-  ** For details  <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK">
-  ** for Edit/Create <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK_MENU">
-  ** for list display Data in the grid.
+  ** Example for details  <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK">
+  ** Example for Edit/Create <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK_MENU">
+  ** Example for list display Data in the grid.
    ```  var fkWrep = ProviderTypeRefCrudWrapper.newInstance(this.providerTypeRefId, this.hcclService);
         var textToDisplayInGridCell = fkWrap.getDisplayText();
   ```
@@ -66,13 +76,11 @@ You are an expert Angular developer and code generator. Your task is to generate
   
 * [attrName] is a boolean - use <app-std-mdb-boolean >  - use default Checkbox.
 * [attrName] is 'available' - use <app-available-selector > 
-* id, dateLastUpdated,dateCreated,lastUpdatedBy,createdBy are all ignored on create/update.
+* id, dateLastUpdated,dateCreated,lastUpdatedBy,createdBy are all hidden on create/update.
 
 ## For the list page -
 *  List out all the fields in the grid definition section, but comment out "id,dateCreated,lastUpdatedBy"
 *  For foreign keys, use the code above and add the displayText of the foreign key wrapper to the grid.
-
-  
 
 ---
 
@@ -92,9 +100,17 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **Attributes Table:**
   - List all attributes in tabular format.
   - `id` always first; audit fields (`createdByInfo`, `dateCreated`, `lastUpdatedByInfo`, `dateLastUpdated`) always last.
-  - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., use `<app-dategetdata-display>` for dates).
-  - For EFK triplets (`[prefix]EntityId`, `[prefix]EntityType`, `prefix]EntityName`), use `<app-efk-display ...>`.
-  - For foreign keys (`[prefix]Id`), use `<app-[fkEntityName]-crud ... mode=CrudModes.FK>`.
+  - copy section template from [exampleName]
+
+### Section: "modeName='section'"
+- Similar to "Details"
+- **Based on:** `HcclService` interface `[entityName]GETData`
+- **Method call:** `this.hcclService.get[entityName]ById(id)`
+- **Attributes Table:**
+  - List all attributes in tabular format.
+  - hide the following fields (id, `createdByInfo`, `dateCreated`, `lastUpdatedByInfo`, `dateLastUpdated`) always last.
+  - For each field, specify: `attrName`, `type`, `label`, and any special display hint 
+
 
 ### Section: Edit
 - **Based on:** `HcclService` interface `[entityName]PUTData`
@@ -103,14 +119,18 @@ You are an expert Angular developer and code generator. Your task is to generate
   - List all editable attributes in tabular format.
   - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., dropdown, date picker, textarea).
 
-### Section: Add
+### Section: Create
 - **Based on:** `HcclService` interface `[entityName]POSTData`
 - **Method call:** `this.hcclService.create[entityName](body)`
 - **Attributes Table:**
   - List all addable attributes in tabular format.
   - For each field, specify: `attrName`, `type`, `label`, and any special display hint (e.g., dropdown, date picker, textarea).
 
+
 ### Required Imports
+
+See [copyFromEntity] components and import similarly.  These imports will include the following (and more) 
+ 
 - **CommonModule, FormsModule** for basic Angular functionality
 - **AbstractCrudComponent** from `@app/components/_global/abstract-crud/abstract-crud.component`
 - **EntityWrapper** from `@app/models/crud-entity-wrapper`
@@ -122,21 +142,11 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **DategetdataDisplayComponent** from `@app/components/_global/dategetdata-display/dategetdata-display.component`
 
 ### Component Structure
-- Extend `AbstractCrudComponent<[EntityName]CrudWrapper>`
+- Extend `AbstractCrudComponent<[entityName]CrudWrapper>`
 - Implement `OnInit, OnChanges`
-- Create a wrapper class that extends `EntityWrapper<[EntityName]GETData>`
+- Create a wrapper class that extends `EntityWrapper<[entityName]GETData>`
 - Include getter/setter methods for form binding
 - Implement required abstract methods: `loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`
-
-### Template Structure
-- Copy structure from `clstudent-crud.component.html`
-- Replace all references to "clstudent" with `[entityName]`
-- Replace all references to "Clstudent" with `[EntityName]`
-- Keep all mode structures (CREATE, EDIT, DETAIL, DELETE)
-- Ensure proper binding for form fields
-- Include `<app-dategetdata-display>` for date fields
-- Include `<app-available-selector>` for available fields
-- **CRITICAL:** For date display components, ensure `@Input() dateData: DateGETData` is declared in the component class
 
 ---
 
@@ -145,8 +155,8 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **Files:**
   - `[entityName]-group.component.html`
   - `[entityName]-group.component.ts`
-  - `[entityName]-group.component.scss` (empty)
-- **Reference:** Base on the `CLStudentGroup` component.
+  - `[entityName]-group.component.scss` - point to _global/abstract-entity-group/abstract-entity-group.component.scss
+  
 
 ### Required Imports
 - **CommonModule** for basic Angular functionality
@@ -156,8 +166,9 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **HcclService** from `@app/restsvc/hccl.service`
 - **CrudWrapper and CrudComponent** from the generated CRUD component
 
+
 ### Component Structure
-- Extend `AbstractEntityGroupComponent<[EntityName]CrudWrapper>`
+- Extend `AbstractEntityGroupComponent<[entityName]CrudWrapper>`
 - Implement `OnInit`
 - Include `@Input() id!: string`
 - Implement required abstract methods: `loadEntityById`, `setupTabs`
@@ -166,7 +177,7 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **CRITICAL:** Use correct route paths - for eco-admin use `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]`
 
 ### Template Structure
-- Copy structure from `clstudent-group.component.html`
+- Copy structure from `copyFromEntity-group.component.html`
 - Replace component references with generated component names
 - Use `<app-simple-tabset [tabs]=tabs [currentTabId]="currentTabId" (tabClick)="activateTab($event)"></app-simple-tabset>`
 - Include conditional divs for details and list tabs
@@ -182,7 +193,7 @@ You are an expert Angular developer and code generator. Your task is to generate
   - `[entityName]-list.component.html`
   - `[entityName]-list.component.ts`
   - `[entityName]-list.component.scss` (empty)
-- **Reference:** Base on the `CLStudentList` component.
+- **Reference:** Base on the `copyFromEntityList` component.
 - **Method call:** `this.hcclService.find[entityName]s(criteria)`
 - **Attributes Table:**
   - Show a table of the GETData attributes, just like for Details.
@@ -200,7 +211,7 @@ You are an expert Angular developer and code generator. Your task is to generate
 - Implement data loading with proper error handling
 - **MUST include:** `declare const dhx: any;` at the top of the file after imports
 - **Constructor:** Inject `HcclService`, `ActivatedRoute`, `Router`
-- **CRITICAL:** Copy ALL methods from `clstudent-list.component.ts` including grid setup, event handlers, and data loading
+- **CRITICAL:** Copy ALL methods from `copyFromEntity-list.component.ts` including grid setup, event handlers, and data loading
 
 ### Template Structure
 - Use simple template: `<div #gridContainer class="search-list-grid-container" style="width:100%;height:600px;"></div>`
@@ -214,9 +225,9 @@ You are an expert Angular developer and code generator. Your task is to generate
 ### Routing Configuration
 Add the following routes to the appropriate module (e.g., `dash-ecoadmin.module.ts`):
 ```typescript
-{ path: '[routePath]/:id/:tabId', component: [EntityName]GroupComponent },
+{ path: '[routePath]/:id/:tabId', component: [entityName]GroupComponent },
 { path: '[routePath]/:id', redirectTo: '[routePath]/:id/details', pathMatch: 'full' },
-{ path: '[routePath]', component: [EntityName]ListComponent }
+{ path: '[routePath]', component: [entityName]ListComponent }
 ```
 
 ### Module Imports
@@ -224,8 +235,8 @@ Add the generated components to the module's imports array:
 ```typescript
 imports: [
   // ... existing imports
-  [EntityName]ListComponent,
-  [EntityName]GroupComponent
+  [entityName]ListComponent,
+  [entityName]GroupComponent
 ]
 ```
 
@@ -236,12 +247,12 @@ imports: [
 ### Menu Constants
 Add menu item constant to `src/app/shell/services/menu.service.ts`:
 ```typescript
-EA_[ENTITYNAME]_LIST: {
+EA_[entityName]_LIST: {
   level: 1,
-  label: '[EntityName]s',
+  label: '[entityName]s',
   route: '/ecoadmin-dashboard/[routePath]',
   componentPath: 'src/app/components/_crud/[entityName]/[entityName]-list.component',
-  componentName: '[EntityName]ListComponent',
+  componentName: '[entityName]ListComponent',
   icon: 'fas fa-list'
 }
 ```
@@ -249,8 +260,8 @@ EA_[ENTITYNAME]_LIST: {
 ### Menu Builder
 Update the `buildEcoAdminMenu()` method to include the new menu item:
 ```typescript
-// Add [EntityName]
-const [entityName] = this.copyMenuItem(MENU_CONSTANTS.EA_[ENTITYNAME]_LIST);
+// Add [entityName]
+const [entityName] = this.copyMenuItem(MENU_CONSTANTS.EA_[entityName]_LIST);
 this.addMenuItem(menu, [entityName]);
 ```
 
@@ -260,18 +271,9 @@ this.addMenuItem(menu, [entityName]);
 
 ## Template Copying Guidelines
 
-### CRUD Component Template
-- Copy structure from `clstudent-crud.component.html`
-- Replace all references to "clstudent" with `[entityName]`
-- Replace all references to "Clstudent" with `[EntityName]`
-- Keep all mode structures (CREATE, EDIT, DETAIL, DELETE)
-- Ensure proper binding for form fields
-- Include `<app-dategetdata-display>` for date fields
-- Include `<app-available-selector>` for available fields
-- **CRITICAL:** Ensure all imported components have proper `@Input()` declarations
 
 ### Group Component Template
-- Copy structure from `clstudent-group.component.html`
+- Copy structure from `copyFromEntity-group.component.html`
 - Replace component references with generated component names
 - **Do NOT** include click handlers or complex event bindings
 - Keep template simple: tabset + conditional divs for content
@@ -315,7 +317,7 @@ this.addMenuItem(menu, [entityName]);
 ### DHTMLX Integration
 - **MUST** include `declare const dhx: any;` in list components
 - Ensure proper grid initialization with error handling
-- Copy ALL grid setup methods from `clstudent-list.component.ts`
+- Copy ALL grid setup methods from `copyFromEntity-list.component.ts`
 - Include proper event handlers for row clicks and data loading
 
 ### Menu Navigation Issues
@@ -325,7 +327,7 @@ this.addMenuItem(menu, [entityName]);
 - Test navigation after menu integration
 
 ### Component Structure Issues
-- **CRITICAL:** Copy ALL methods from reference components (CLStudent)
+- **CRITICAL:** Copy ALL methods from reference components [copyFromEntity]
 - Do not create new methods - use existing patterns
 - Ensure proper inheritance from abstract classes
 - Include all required abstract method implementations

@@ -1,0 +1,15 @@
+
+input: entityName = CLCourse
+
+Using [entityName] - find the spec in "../prompt-output/[entityName]-gencomp.prompt.txt.
+- Generate components in /_crud/[entityName] based on the prompt
+
+
+Updating Routes
+- Analyze and make sure all the pertinent routes into the "dash-ecosystem" module exist.
+
+- Update the file menu-service.ts - find the component names and update the menu items.  
+  Use the menu-service and update the "ecosystem" menu.
+ 
+ Good luck. 
+ 

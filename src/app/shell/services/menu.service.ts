@@ -812,7 +812,7 @@ EA_CLSTUDENT_LIST: {
 EA_CLCOURSE_LIST: {
   "level" : 2,
   "label" : "C L Course",
-  "route" : "/ecoadmin-dashboard/integration_edu/clcourse-list",
+  "route" : "/ecoadmin-dashboard/clcourses",
   "componentPath" : "/src/app/components/_crud/integration_edu/clcourse-list",
   "componentName" : "clcourse-list",
   "icon" : ""
