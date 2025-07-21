@@ -1,0 +1,436 @@
+# AI Component Generation Spec for HcclUserProfile
+
+## Preamble: AI Mindset and Goals
+You are an expert Angular developer tasked with generating comprehensive, production-ready Angular components for the HcclUserProfile entity. Your goal is to create a complete set of CRUD, List, and Group components that follow established patterns and integrate seamlessly with the existing codebase.
+
+## Output Format
+This specification will be used to generate Angular components that are:
+- Idempotent (safe to regenerate without breaking existing functionality)
+- Consistent with existing patterns (referencing providertyperef as the primary example)
+- Fully integrated with the application's routing, menu, and service layers
+- Production-ready with proper validation, error handling, and user experience
+
+## General Guidelines
+- Follow the exact structure and patterns established in providertyperef components
+- Ensure all components extend appropriate abstract base classes
+- Implement proper form validation based on swagger documentation
+- Use consistent naming conventions and file organization
+- Include comprehensive error handling and user feedback
+- Maintain type safety throughout all components
+- Follow Angular best practices for standalone components
+
+## Component Files to Generate
+
+### 1. HcclUserProfile CRUD Component
+**File**: `src/app/components/_crud/hccluserprofile/hccluserprofile-crud.component.ts`
+**File**: `src/app/components/_crud/hccluserprofile/hccluserprofile-crud.component.html`
+
+**Requirements**:
+- Extends `AbstractCrudComponent<HcclUserProfileCrudWrapper>`
+- Implements `OnInit` and `OnChanges`
+- Includes validation methods for all required fields
+- Implements abstract CRUD operations (`loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`)
+- Defines getter/setter methods for form binding
+- Handles foreign key relationships
+- Prepares FK menus for related entities
+
+**HTML Template Requirements**:
+- Supports all CRUD modes (FK, FK_MENU, SECTION, HEADING, CREATE, EDIT, DETAIL, DELETE, DEBUG)
+- Uses appropriate UI components for each field type
+- Includes proper form validation and error display
+- Implements responsive design patterns
+
+### 2. HcclUserProfile List Component
+**File**: `src/app/components/_crud/hccluserprofile/hccluserprofile-list.component.ts`
+
+**Requirements**:
+- Extends `AbstractListComponent`
+- Implements methods for grid column definition, criteria creation, entity finding
+- Handles search results and data formatting
+- Implements row click navigation and add button functionality
+- Uses DHTMLX Grid for data display
+
+### 3. HcclUserProfile Group Component
+**File**: `src/app/components/_crud/hccluserprofile/hccluserprofile-group.component.ts`
+**File**: `src/app/components/_crud/hccluserprofile/hccluserprofile-group.component.html`
+
+**Requirements**:
+- Extends `AbstractEntityGroupComponent`
+- Implements `OnInit` for entity loading
+- Sets up tabs with proper routing (List, Details, Debug, FK_MENU)
+- Handles entity loading by ID
+
+## Required Imports and Dependencies
+
+### TypeScript Imports
+```typescript
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { HcclUserProfileCriteria, HcclUserProfileGETData, HcclUserProfilePOSTData, HcclUserProfilePUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { Observable, map } from 'rxjs';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { HcclUserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
+import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+```
+
+### HTML Template Components
+- `app-std-mdb-form-text` for text inputs
+- `app-std-mdb-form-textarea` for textarea inputs
+- `app-available-selector` for available flag
+- `app-dategetdata-display` for date display
+- `app-simple-messages-section` for error messages
+- `app-menu-control-data-list` for FK menus
+- `app-hccluser-crud` for userId FK
+- `app-hcclorganization-crud` for organizationId FK
+
+## Methods to Implement
+
+### CRUD Component Methods
+- `validateUserCode(userCode: string): string | null`
+- `validateOrganizationId(organizationId: string): string | null`
+- `validateProfileTypeCode(profileTypeCode: string): string | null`
+- `validateUserEmail(userEmail: string): string | null`
+- `validateCellPhoneNumber(cellPhoneNumber: string): string | null`
+- `validateWorkPhoneNumber(workPhoneNumber: string): string | null`
+- `validateExternalUserId(externalUserId: string): string | null`
+- `validateExternalUserEntityType(externalUserEntityType: string): string | null`
+- `validateExternalUserName(externalUserName: string): string | null`
+- `validateForm(): any`
+- `clearValidationErrors(): void`
+- `loadEntityByIdCall(id: string): Promise<HcclUserProfileCrudWrapper>`
+- `createEntityDataCall(entity: HcclUserProfileCrudWrapper): Promise<any>`
+- `updateEntityDataCall(entity: HcclUserProfileCrudWrapper): Promise<void>`
+- `deleteEntityData(id: string): Promise<boolean>`
+- `newEmptyWrapper(): HcclUserProfileCrudWrapper`
+- Getter/setter methods for all form fields
+
+### List Component Methods
+- `getGridColumns(): any[]`
+- `createCriteria(): HcclUserProfileCriteria`
+- `findEntities(criteria: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults>`
+- `hasSearchResults(response: HcclUserProfileGETDataSearchResults): boolean`
+- `getSearchResults(response: HcclUserProfileGETDataSearchResults): HcclUserProfileGETData[]`
+- `formatEntityData(entity: HcclUserProfileGETData): any`
+
+### Group Component Methods
+- `loadEntityById(id: string): Promise<HcclUserProfileCrudWrapper>`
+- `setupTabs(): SimpleTab[]`
+- `activateTab(tabId: string): void`
+
+## Routing Configuration
+
+### Module Routes to Add
+```typescript
+{ path: 'hccluserprofiles/create', component: HcclUserProfileGroupComponent },
+{ path: 'hccluserprofiles/:id/:tabId', component: HcclUserProfileGroupComponent },
+{ path: 'hccluserprofiles/:id', redirectTo: 'hccluserprofiles/:id/details', pathMatch: 'full' },
+{ path: 'hccluserprofiles', component: HcclUserProfileListComponent }
+```
+
+### Module Imports to Add
+```typescript
+import { HcclUserProfileListComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-list.component';
+import { HcclUserProfileGroupComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-group.component';
+```
+
+### Module Declarations to Add
+```typescript
+HcclUserProfileListComponent,
+HcclUserProfileGroupComponent
+```
+
+## Menu Integration
+
+### Menu Service Constants to Add
+```typescript
+EA_HCCLUSERPROFILE_LIST: {
+  "level" : 2,
+  "label" : "HCCL User Profiles",
+  "route" : "/ecoadmin-dashboard/hccluserprofiles",
+  "componentPath" : "/src/app/components/_crud/hccluserprofile/hccluserprofile-list.component",
+  "componentName" : "HcclUserProfileListComponent",
+  "icon" : "fas fa-user-circle"
+}
+```
+
+### Menu Service Integration
+Add to `buildEcoAdminMenu()` method:
+```typescript
+// hccluserprofile list
+const hccluserprofileList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLUSERPROFILE_LIST);
+this.addMenuItem(menu, hccluserprofileList);
+```
+
+## Validation Rules
+
+### Form Validation
+Based on swagger documentation for `HcclUserProfilePOSTData` and `HcclUserProfilePUTData`:
+
+- **userId**: Required, string
+- **userCode**: Required, string
+- **organizationId**: Required, string
+- **profileTypeCode**: Required, string
+- **userEmail**: Optional, string
+- **cellPhoneNumber**: Optional, string
+- **workPhoneNumber**: Optional, string
+- **externalUserId**: Optional, string
+- **externalUserEntityType**: Optional, string
+- **externalUserName**: Optional, string
+- **available**: Required, integer
+
+### Error Messages
+- "User is required" (if empty)
+- "User Code is required" (if empty)
+- "Organization is required" (if empty)
+- "Profile Type Code is required" (if empty)
+- "User Email must be a valid email format" (if invalid format)
+- "Cell Phone Number must be a valid phone format" (if invalid format)
+- "Work Phone Number must be a valid phone format" (if invalid format)
+
+## Grid Configuration
+
+### List Component Grid Columns
+```typescript
+[
+  //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'userCode', header: [{ text: 'User Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'userId', header: [{ text: 'User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'profileTypeCode', header: [{ text: 'Profile Type Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'userEmail', header: [{ text: 'User Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+  { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'externalUserId', header: [{ text: 'External User ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'externalUserEntityType', header: [{ text: 'External User Entity Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
+  { id: 'externalUserName', header: [{ text: 'External User Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
+  { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
+//  { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
+  { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+]
+```
+
+## Component Integration
+
+### Foreign Key Relationships
+- **userId**: Foreign key to `HcclUser`
+- **organizationId**: Foreign key to `HcclOrganization`
+
+### Service Integration
+- **GET**: `HcclService.getHcclUserProfileById(id)`
+- **CREATE**: `HcclService.createHcclUserProfile(postData)`
+- **UPDATE**: `HcclService.updateHcclUserProfileById(id, putData)`
+- **DELETE**: `HcclService.deleteHcclUserProfileById(id)`
+- **SEARCH**: `HcclService.findHcclUserProfiles(criteria)`
+
+## Testing Considerations
+- Unit tests for validation methods
+- Integration tests for CRUD operations
+- Grid functionality testing
+- Form validation testing
+- Error handling testing
+
+## Performance Considerations
+- Lazy loading of components
+- Efficient grid rendering
+- Optimized form validation
+- Proper memory management
+
+## Security Considerations
+- Input validation and sanitization
+- Role-based access control
+- CSRF protection
+- XSS prevention
+
+# HcclUserProfile Field Specifications
+
+## HcclUserProfileGETData Interface
+Based on `HcclService` interface and swagger documentation:
+
+| Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
+|------------|------|----------|------------|------------|-------------|--------------|
+| id | string | No | - | - | Unique identifier | Hidden in forms |
+| userId | string | No | - | - | User ID | app-hccluser-crud |
+| userCode | string | No | - | - | User code | app-std-mdb-form-text |
+| organizationId | string | No | - | - | Organization ID | app-hcclorganization-crud |
+| profileTypeCode | string | No | - | - | Profile type code | app-std-mdb-form-text |
+| userEmail | string | No | - | - | User email | app-std-mdb-form-text |
+| cellPhoneNumber | string | No | - | - | Cell phone number | app-std-mdb-form-text |
+| workPhoneNumber | string | No | - | - | Work phone number | app-std-mdb-form-text |
+| externalUserId | string | No | - | - | External user ID | app-std-mdb-form-text |
+| externalUserEntityType | string | No | - | - | External user entity type | app-std-mdb-form-text |
+| externalUserName | string | No | - | - | External user name | app-std-mdb-form-text |
+| available | number | No | - | - | Available flag | app-available-selector |
+| createdByInfo | Reference | No | - | - | Created by information | Hidden in forms |
+| dateCreated | DateGETData | No | - | - | Date created | app-dategetdata-display |
+| lastUpdatedByInfo | Reference | No | - | - | Last updated by information | Hidden in forms |
+| dateLastUpdated | DateGETData | No | - | - | Date last updated | app-dategetdata-display |
+
+## HcclUserProfilePOSTData Interface
+Based on swagger documentation:
+
+| Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
+|------------|------|----------|------------|------------|-------------|--------------|
+| userId | string | Yes | - | - | User ID | app-hccluser-crud |
+| userCode | string | Yes | - | - | User code | app-std-mdb-form-text |
+| organizationId | string | Yes | - | - | Organization ID | app-hcclorganization-crud |
+| profileTypeCode | string | Yes | - | - | Profile type code | app-std-mdb-form-text |
+| userEmail | string | No | - | - | User email | app-std-mdb-form-text |
+| cellPhoneNumber | string | No | - | - | Cell phone number | app-std-mdb-form-text |
+| workPhoneNumber | string | No | - | - | Work phone number | app-std-mdb-form-text |
+| externalUserId | string | No | - | - | External user ID | app-std-mdb-form-text |
+| externalUserEntityType | string | No | - | - | External user entity type | app-std-mdb-form-text |
+| externalUserName | string | No | - | - | External user name | app-std-mdb-form-text |
+| available | number | Yes | - | - | Available flag | app-available-selector |
+
+## HcclUserProfilePUTData Interface
+Based on swagger documentation:
+
+| Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
+|------------|------|----------|------------|------------|-------------|--------------|
+| userId | string | Yes | - | - | User ID | app-hccluser-crud |
+| userCode | string | Yes | - | - | User code | app-std-mdb-form-text |
+| organizationId | string | Yes | - | - | Organization ID | app-hcclorganization-crud |
+| profileTypeCode | string | Yes | - | - | Profile type code | app-std-mdb-form-text |
+| userEmail | string | No | - | - | User email | app-std-mdb-form-text |
+| cellPhoneNumber | string | No | - | - | Cell phone number | app-std-mdb-form-text |
+| workPhoneNumber | string | No | - | - | Work phone number | app-std-mdb-form-text |
+| externalUserId | string | No | - | - | External user ID | app-std-mdb-form-text |
+| externalUserEntityType | string | No | - | - | External user entity type | app-std-mdb-form-text |
+| externalUserName | string | No | - | - | External user name | app-std-mdb-form-text |
+| available | number | Yes | - | - | Available flag | app-available-selector |
+
+## HcclUserProfileCriteria Interface
+Based on `HcclService` interface:
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| pageNumber | number | No | Page number for pagination |
+| pageSize | number | No | Page size for pagination |
+| isPaging | boolean | No | Whether to use paging |
+| ids | string[] | No | Array of IDs to filter by |
+| searchByText | string | No | Text to search by |
+| maxResults | number | No | Maximum number of results |
+| userCode | string | No | Filter by user code |
+| organizationId | string | No | Filter by organization ID |
+| profileTypeCode | string | No | Filter by profile type code |
+| userEmail | string | No | Filter by user email |
+| cellPhoneNumber | string | No | Filter by cell phone number |
+| workPhoneNumber | string | No | Filter by work phone number |
+| available | number | No | Filter by available flag |
+| externalUserId | string | No | Filter by external user ID |
+| externalUserEntityType | string | No | Filter by external user entity type |
+| externalUserName | string | No | Filter by external user name |
+
+## HcclUserProfileGETDataSearchResults Interface
+Based on `HcclService` interface:
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| pagingInfo | DCPageData | No | Paging information |
+| searchResults | HcclUserProfileGETData[] | No | Array of search results |
+| filter | BaseCriteria | No | Filter criteria used |
+
+# Foreign Key Relationships
+
+## Foreign Keys
+- **userId**: Foreign key to `HcclUser` entity
+- **organizationId**: Foreign key to `HcclOrganization` entity
+
+## FK Menu Integration
+- Use `app-hccluser-crud` component for `userId` FK display and selection
+- Use `app-hcclorganization-crud` component for `organizationId` FK display and selection
+
+# Grid Configuration
+
+## List Component Grid Columns
+```typescript
+[
+  //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'userCode', header: [{ text: 'User Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'userId', header: [{ text: 'User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'profileTypeCode', header: [{ text: 'Profile Type Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'userEmail', header: [{ text: 'User Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+  { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'externalUserId', header: [{ text: 'External User ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'externalUserEntityType', header: [{ text: 'External User Entity Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
+  { id: 'externalUserName', header: [{ text: 'External User Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
+  { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
+//  { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
+  { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+]
+```
+
+# Component Integration
+
+## Service Methods
+- `getHcclUserProfileById(id: string): Observable<HcclUserProfileGETData>`
+- `createHcclUserProfile(body: HcclUserProfilePOSTData): Observable<any>`
+- `updateHcclUserProfileById(id: string, body: HcclUserProfilePUTData): Observable<any>`
+- `deleteHcclUserProfileById(id: string): Observable<any>`
+- `findHcclUserProfiles(body: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults>`
+
+## Wrapper Class
+```typescript
+export class HcclUserProfileCrudWrapper extends EntityWrapper<HcclUserProfileGETData> {
+  // Implementation following providertyperef pattern
+}
+```
+
+## Form Fields
+- **userId**: FK selector to HcclUser (required)
+- **userCode**: Text input with validation (required)
+- **organizationId**: FK selector to HcclOrganization (required)
+- **profileTypeCode**: Text input with validation (required)
+- **userEmail**: Text input with email validation (optional)
+- **cellPhoneNumber**: Text input with phone validation (optional)
+- **workPhoneNumber**: Text input with phone validation (optional)
+- **externalUserId**: Text input (optional)
+- **externalUserEntityType**: Text input (optional)
+- **externalUserName**: Text input (optional)
+- **available**: Available selector component
+
+## CRUD Modes
+- **FK**: Display entity name
+- **FK_MENU**: Show menu for selection
+- **SECTION**: Display in section format
+- **HEADING**: Display as heading
+- **CREATE**: Form for creating new entity
+- **EDIT**: Form for editing existing entity
+- **DETAIL**: Display entity details
+- **DELETE**: Confirmation for deletion
+- **DEBUG**: Show all modes for debugging
+
+## Error Handling
+- Form validation errors displayed inline
+- Service errors handled gracefully
+- User-friendly error messages
+- Loading states for async operations
+
+## Performance Optimizations
+- Lazy loading of components
+- Efficient grid rendering
+- Optimized form validation
+- Proper memory management
+
+## Security Considerations
+- Input validation and sanitization
+- Role-based access control
+- CSRF protection
+- XSS prevention 

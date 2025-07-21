@@ -1,0 +1,473 @@
+# AI Component Generation Spec for WorkRequest
+
+## Preamble: AI Mindset and Goals
+You are an expert Angular developer tasked with generating comprehensive, production-ready Angular components for the WorkRequest entity. Your goal is to create a complete set of CRUD, List, and Group components that follow established patterns and integrate seamlessly with the existing codebase.
+
+## Output Format
+This specification will be used to generate Angular components that are:
+- Idempotent (safe to regenerate without breaking existing functionality)
+- Consistent with existing patterns (referencing providertyperef as the primary example)
+- Fully integrated with the application's routing, menu, and service layers
+- Production-ready with proper validation, error handling, and user experience
+
+## General Guidelines
+- Follow the exact structure and patterns established in providertyperef components
+- Ensure all components extend appropriate abstract base classes
+- Implement proper form validation based on swagger documentation
+- Use consistent naming conventions and file organization
+- Include comprehensive error handling and user feedback
+- Maintain type safety throughout all components
+- Follow Angular best practices for standalone components
+
+## Component Files to Generate
+
+### 1. WorkRequest CRUD Component
+**File**: `src/app/components/_crud/workrequest/workrequest-crud.component.ts`
+**File**: `src/app/components/_crud/workrequest/workrequest-crud.component.html`
+
+**Requirements**:
+- Extends `AbstractCrudComponent<WorkRequestCrudWrapper>`
+- Implements `OnInit` and `OnChanges`
+- Includes validation methods for all required fields
+- Implements abstract CRUD operations (`loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`)
+- Defines getter/setter methods for form binding
+- Handles foreign key relationships
+- Prepares FK menus for related entities
+
+**HTML Template Requirements**:
+- Supports all CRUD modes (FK, FK_MENU, SECTION, HEADING, CREATE, EDIT, DETAIL, DELETE, DEBUG)
+- Uses appropriate UI components for each field type
+- Includes proper form validation and error display
+- Implements responsive design patterns
+
+### 2. WorkRequest List Component
+**File**: `src/app/components/_crud/workrequest/workrequest-list.component.ts`
+
+**Requirements**:
+- Extends `AbstractListComponent`
+- Implements methods for grid column definition, criteria creation, entity finding
+- Handles search results and data formatting
+- Implements row click navigation and add button functionality
+- Uses DHTMLX Grid for data display
+
+### 3. WorkRequest Group Component
+**File**: `src/app/components/_crud/workrequest/workrequest-group.component.ts`
+**File**: `src/app/components/_crud/workrequest/workrequest-group.component.html`
+
+**Requirements**:
+- Extends `AbstractEntityGroupComponent`
+- Implements `OnInit` for entity loading
+- Sets up tabs with proper routing (List, Details, Debug, FK_MENU)
+- Handles entity loading by ID
+
+## Required Imports and Dependencies
+
+### TypeScript Imports
+```typescript
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { WorkRequestCriteria, WorkRequestGETData, WorkRequestPOSTData, WorkRequestPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { Observable, map } from 'rxjs';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { WorkRequestTypeRefCrudComponent } from '@app/components/_crud/workrequesttyperef/workrequesttyperef-crud.component';
+import { WorkQueueCrudComponent } from '@app/components/_crud/workqueue/workqueue-crud.component';
+import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
+import { HcclUserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
+```
+
+### HTML Template Components
+- `app-std-mdb-form-text` for text inputs
+- `app-std-mdb-form-textarea` for textarea inputs
+- `app-available-selector` for available flag
+- `app-dategetdata-display` for date display
+- `app-simple-messages-section` for error messages
+- `app-menu-control-data-list` for FK menus
+- `app-workrequesttyperef-crud` for workRequestTypeId FK
+- `app-workqueue-crud` for workQueueId FK
+- `app-hcclteam-crud` for createdByTeamId FK
+- `app-hccluser-crud` for createdByUserId FK
+
+## Methods to Implement
+
+### CRUD Component Methods
+- `validateName(name: string): string | null`
+- `validateBusinessCode(businessCode: string): string | null`
+- `validateDescription(description: string): string | null`
+- `validateCurrentStateCode(currentStateCode: string): string | null`
+- `validateForm(): any`
+- `clearValidationErrors(): void`
+- `loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper>`
+- `createEntityDataCall(entity: WorkRequestCrudWrapper): Promise<any>`
+- `updateEntityDataCall(entity: WorkRequestCrudWrapper): Promise<void>`
+- `deleteEntityData(id: string): Promise<boolean>`
+- `newEmptyWrapper(): WorkRequestCrudWrapper`
+- Getter/setter methods for all form fields
+
+### List Component Methods
+- `getGridColumns(): any[]`
+- `createCriteria(): WorkRequestCriteria`
+- `findEntities(criteria: WorkRequestCriteria): Observable<WorkRequestGETDataSearchResults>`
+- `hasSearchResults(response: WorkRequestGETDataSearchResults): boolean`
+- `getSearchResults(response: WorkRequestGETDataSearchResults): WorkRequestGETData[]`
+- `formatEntityData(entity: WorkRequestGETData): any`
+
+### Group Component Methods
+- `loadEntityById(id: string): Promise<WorkRequestCrudWrapper>`
+- `setupTabs(): SimpleTab[]`
+- `activateTab(tabId: string): void`
+
+## Routing Configuration
+
+### Module Routes to Add
+```typescript
+{ path: 'workrequests/create', component: WorkRequestGroupComponent },
+{ path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
+{ path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
+{ path: 'workrequests', component: WorkRequestListComponent }
+```
+
+### Module Imports to Add
+```typescript
+import { WorkRequestListComponent } from '../../components/_crud/workrequest/workrequest-list.component';
+import { WorkRequestGroupComponent } from '../../components/_crud/workrequest/workrequest-group.component';
+```
+
+### Module Declarations to Add
+```typescript
+WorkRequestListComponent,
+WorkRequestGroupComponent
+```
+
+## Menu Integration
+
+### Menu Service Constants to Add
+```typescript
+EA_WORKREQUEST_LIST: {
+  "level" : 2,
+  "label" : "Work Requests",
+  "route" : "/ecoadmin-dashboard/workrequests",
+  "componentPath" : "/src/app/components/_crud/workrequest/workrequest-list.component",
+  "componentName" : "WorkRequestListComponent",
+  "icon" : "fas fa-clipboard-list"
+}
+```
+
+### Menu Service Integration
+Add to `buildEcoAdminMenu()` method:
+```typescript
+// workrequest list
+const workrequestList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUEST_LIST);
+this.addMenuItem(menu, workrequestList);
+```
+
+## Validation Rules
+
+### Form Validation
+Based on swagger documentation for `WorkRequestPOSTData` and `WorkRequestPUTData`:
+
+- **name**: Required, 1-255 characters
+- **businessCode**: Required, 1-50 characters
+- **description**: Required, 1-1024 characters
+- **workRequestTypeId**: Required, string
+- **currentStateCode**: Required, string
+- **workQueueId**: Required, string
+- **createdByTeamId**: Optional, string
+- **createdByUserId**: Optional, string
+- **acceptedByTeamId**: Optional, string
+- **acceptedByUserId**: Optional, string
+- **dateAccepted**: Optional, string
+- **subjectEntityId**: Optional, string
+- **subjectEntityType**: Optional, string
+- **subjectEntityName**: Optional, string
+- **parentWorkRequestItemId**: Optional, string
+
+### Error Messages
+- "Name is required" (if empty)
+- "Name must be less than 255 characters" (if too long)
+- "Business Code is required" (if empty)
+- "Business Code must be less than 50 characters" (if too long)
+- "Description is required" (if empty)
+- "Description must be less than 1024 characters" (if too long)
+- "Work Request Type is required" (if empty)
+- "Current State Code is required" (if empty)
+- "Work Queue is required" (if empty)
+
+## Grid Configuration
+
+### List Component Grid Columns
+```typescript
+[
+  //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+  { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+  { id: 'workRequestTypeId', header: [{ text: 'Work Request Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'currentStateCode', header: [{ text: 'Current State', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'workQueueId', header: [{ text: 'Work Queue', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'createdByTeamId', header: [{ text: 'Created By Team', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'createdByUserId', header: [{ text: 'Created By User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'acceptedByTeamId', header: [{ text: 'Accepted By Team', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'acceptedByUserId', header: [{ text: 'Accepted By User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'subjectEntityName', header: [{ text: 'Subject Entity', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+//  { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
+  { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+]
+```
+
+## Component Integration
+
+### Foreign Key Relationships
+- **workRequestTypeId**: Foreign key to `WorkRequestTypeRef`
+- **workQueueId**: Foreign key to `WorkQueue`
+- **createdByTeamId**: Foreign key to `HcclTeam`
+- **createdByUserId**: Foreign key to `HcclUser`
+- **acceptedByTeamId**: Foreign key to `HcclTeam`
+- **acceptedByUserId**: Foreign key to `HcclUser`
+
+### Service Integration
+- **GET**: `HcclService.getWorkRequestById(id)`
+- **CREATE**: `HcclService.createWorkRequest(postData)`
+- **UPDATE**: `HcclService.updateWorkRequestById(id, putData)`
+- **DELETE**: `HcclService.deleteWorkRequestById(id)`
+- **SEARCH**: `HcclService.findWorkRequests(criteria)`
+
+## Testing Considerations
+- Unit tests for validation methods
+- Integration tests for CRUD operations
+- Grid functionality testing
+- Form validation testing
+- Error handling testing
+
+## Performance Considerations
+- Lazy loading of components
+- Efficient grid rendering
+- Optimized form validation
+- Proper memory management
+
+## Security Considerations
+- Input validation and sanitization
+- Role-based access control
+- CSRF protection
+- XSS prevention
+
+# WorkRequest Field Specifications
+
+## WorkRequestGETData Interface
+Based on `HcclService` interface and swagger documentation:
+
+| Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
+|------------|------|----------|------------|------------|-------------|--------------|
+| id | string | No | - | - | Unique identifier | Hidden in forms |
+| name | string | No | - | - | Work request name | app-std-mdb-form-text |
+| businessCode | string | No | - | - | Business code | app-std-mdb-form-text |
+| description | string | No | - | - | Description | app-std-mdb-form-textarea |
+| workRequestTypeId | string | No | - | - | Work request type ID | app-workrequesttyperef-crud |
+| currentStateCode | string | No | - | - | Current state code | app-std-mdb-form-text |
+| currentStateTransitionId | string | No | - | - | Current state transition ID | Hidden in forms |
+| workQueueId | string | No | - | - | Work queue ID | app-workqueue-crud |
+| createdByTeamId | string | No | - | - | Created by team ID | app-hcclteam-crud |
+| createdByUserId | string | No | - | - | Created by user ID | app-hccluser-crud |
+| acceptedByTeamId | string | No | - | - | Accepted by team ID | app-hcclteam-crud |
+| acceptedByUserId | string | No | - | - | Accepted by user ID | app-hccluser-crud |
+| subjectEntityId | string | No | - | - | Subject entity ID | app-std-mdb-form-text |
+| subjectEntityType | string | No | - | - | Subject entity type | app-std-mdb-form-text |
+| subjectEntityName | string | No | - | - | Subject entity name | app-std-mdb-form-text |
+| parentWorkRequestItemId | string | No | - | - | Parent work request item ID | Hidden in forms |
+| createdByInfo | Reference | No | - | - | Created by information | Hidden in forms |
+| dateCreated | DateGETData | No | - | - | Date created | app-dategetdata-display |
+| lastUpdatedByInfo | Reference | No | - | - | Last updated by information | Hidden in forms |
+| dateLastUpdated | DateGETData | No | - | - | Date last updated | app-dategetdata-display |
+
+## WorkRequestPOSTData Interface
+Based on swagger documentation:
+
+| Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
+|------------|------|----------|------------|------------|-------------|--------------|
+| name | string | Yes | 1 | 255 | Work request name | app-std-mdb-form-text |
+| businessCode | string | Yes | 1 | 50 | Business code | app-std-mdb-form-text |
+| description | string | Yes | 1 | 1024 | Description | app-std-mdb-form-textarea |
+| workRequestTypeId | string | Yes | - | - | Work request type ID | app-workrequesttyperef-crud |
+| currentStateCode | string | Yes | - | - | Current state code | app-std-mdb-form-text |
+| currentStateTransitionId | string | No | - | - | Current state transition ID | Hidden in forms |
+| workQueueId | string | Yes | - | - | Work queue ID | app-workqueue-crud |
+| createdByTeamId | string | No | - | - | Created by team ID | app-hcclteam-crud |
+| createdByUserId | string | No | - | - | Created by user ID | app-hccluser-crud |
+| acceptedByTeamId | string | No | - | - | Accepted by team ID | app-hcclteam-crud |
+| acceptedByUserId | string | No | - | - | Accepted by user ID | app-hccluser-crud |
+| dateAccepted | string | No | - | - | Date accepted | Hidden in forms |
+| subjectEntityId | string | No | - | - | Subject entity ID | app-std-mdb-form-text |
+| subjectEntityType | string | No | - | - | Subject entity type | app-std-mdb-form-text |
+| subjectEntityName | string | No | - | - | Subject entity name | app-std-mdb-form-text |
+| parentWorkRequestItemId | string | No | - | - | Parent work request item ID | Hidden in forms |
+
+## WorkRequestPUTData Interface
+Based on swagger documentation:
+
+| Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
+|------------|------|----------|------------|------------|-------------|--------------|
+| name | string | Yes | 1 | 255 | Work request name | app-std-mdb-form-text |
+| businessCode | string | Yes | 1 | 50 | Business code | app-std-mdb-form-text |
+| description | string | Yes | 1 | 1024 | Description | app-std-mdb-form-textarea |
+| workRequestTypeId | string | Yes | - | - | Work request type ID | app-workrequesttyperef-crud |
+| currentStateCode | string | Yes | - | - | Current state code | app-std-mdb-form-text |
+| currentStateTransitionId | string | No | - | - | Current state transition ID | Hidden in forms |
+| workQueueId | string | Yes | - | - | Work queue ID | app-workqueue-crud |
+| createdByTeamId | string | No | - | - | Created by team ID | app-hcclteam-crud |
+| createdByUserId | string | No | - | - | Created by user ID | app-hccluser-crud |
+| acceptedByTeamId | string | No | - | - | Accepted by team ID | app-hcclteam-crud |
+| acceptedByUserId | string | No | - | - | Accepted by user ID | app-hccluser-crud |
+| dateAccepted | string | No | - | - | Date accepted | Hidden in forms |
+| subjectEntityId | string | No | - | - | Subject entity ID | app-std-mdb-form-text |
+| subjectEntityType | string | No | - | - | Subject entity type | app-std-mdb-form-text |
+| subjectEntityName | string | No | - | - | Subject entity name | app-std-mdb-form-text |
+| parentWorkRequestItemId | string | No | - | - | Parent work request item ID | Hidden in forms |
+
+## WorkRequestCriteria Interface
+Based on `HcclService` interface:
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| pageNumber | number | No | Page number for pagination |
+| pageSize | number | No | Page size for pagination |
+| isPaging | boolean | No | Whether to use paging |
+| ids | string[] | No | Array of IDs to filter by |
+| searchByText | string | No | Text to search by |
+| maxResults | number | No | Maximum number of results |
+| name | string | No | Filter by name |
+| businessCode | string | No | Filter by business code |
+| description | string | No | Filter by description |
+| workRequestTypeId | string | No | Filter by work request type ID |
+| currentStateCode | string | No | Filter by current state code |
+| currentStateTransitionId | string | No | Filter by current state transition ID |
+| workQueueId | string | No | Filter by work queue ID |
+| createdByTeamId | string | No | Filter by created by team ID |
+| createdByUserId | string | No | Filter by created by user ID |
+| acceptedByTeamId | string | No | Filter by accepted by team ID |
+| acceptedByUserId | string | No | Filter by accepted by user ID |
+| dateAccepted | string | No | Filter by date accepted |
+| subjectEntityId | string | No | Filter by subject entity ID |
+| subjectEntityType | string | No | Filter by subject entity type |
+| subjectEntityName | string | No | Filter by subject entity name |
+| parentWorkRequestItemId | string | No | Filter by parent work request item ID |
+
+## WorkRequestGETDataSearchResults Interface
+Based on `HcclService` interface:
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| pagingInfo | DCPageData | No | Paging information |
+| searchResults | WorkRequestGETData[] | No | Array of search results |
+| filter | BaseCriteria | No | Filter criteria used |
+
+# Foreign Key Relationships
+
+## Foreign Keys
+- **workRequestTypeId**: Foreign key to `WorkRequestTypeRef` entity
+- **workQueueId**: Foreign key to `WorkQueue` entity
+- **createdByTeamId**: Foreign key to `HcclTeam` entity
+- **createdByUserId**: Foreign key to `HcclUser` entity
+- **acceptedByTeamId**: Foreign key to `HcclTeam` entity
+- **acceptedByUserId**: Foreign key to `HcclUser` entity
+
+## FK Menu Integration
+- Use `app-workrequesttyperef-crud` component for `workRequestTypeId` FK display and selection
+- Use `app-workqueue-crud` component for `workQueueId` FK display and selection
+- Use `app-hcclteam-crud` component for `createdByTeamId` and `acceptedByTeamId` FK display and selection
+- Use `app-hccluser-crud` component for `createdByUserId` and `acceptedByUserId` FK display and selection
+
+# Grid Configuration
+
+## List Component Grid Columns
+```typescript
+[
+  //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+  { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+  { id: 'workRequestTypeId', header: [{ text: 'Work Request Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'currentStateCode', header: [{ text: 'Current State', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+  { id: 'workQueueId', header: [{ text: 'Work Queue', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'createdByTeamId', header: [{ text: 'Created By Team', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'createdByUserId', header: [{ text: 'Created By User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'acceptedByTeamId', header: [{ text: 'Accepted By Team', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'acceptedByUserId', header: [{ text: 'Accepted By User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'subjectEntityName', header: [{ text: 'Subject Entity', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+//  { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
+//  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
+  { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+]
+```
+
+# Component Integration
+
+## Service Methods
+- `getWorkRequestById(id: string): Observable<WorkRequestGETData>`
+- `createWorkRequest(body: WorkRequestPOSTData): Observable<any>`
+- `updateWorkRequestById(id: string, body: WorkRequestPUTData): Observable<any>`
+- `deleteWorkRequestById(id: string): Observable<any>`
+- `findWorkRequests(body: WorkRequestCriteria): Observable<WorkRequestGETDataSearchResults>`
+
+## Wrapper Class
+```typescript
+export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
+  // Implementation following providertyperef pattern
+}
+```
+
+## Form Fields
+- **name**: Text input with validation (required, max 255 chars)
+- **businessCode**: Text input with validation (required, max 50 chars)
+- **description**: Textarea with validation (required, max 1024 chars)
+- **workRequestTypeId**: FK selector to WorkRequestTypeRef
+- **currentStateCode**: Text input with validation (required)
+- **workQueueId**: FK selector to WorkQueue
+- **createdByTeamId**: FK selector to HcclTeam (optional)
+- **createdByUserId**: FK selector to HcclUser (optional)
+- **acceptedByTeamId**: FK selector to HcclTeam (optional)
+- **acceptedByUserId**: FK selector to HcclUser (optional)
+- **subjectEntityId**: Text input (optional)
+- **subjectEntityType**: Text input (optional)
+- **subjectEntityName**: Text input (optional)
+
+## CRUD Modes
+- **FK**: Display entity name
+- **FK_MENU**: Show menu for selection
+- **SECTION**: Display in section format
+- **HEADING**: Display as heading
+- **CREATE**: Form for creating new entity
+- **EDIT**: Form for editing existing entity
+- **DETAIL**: Display entity details
+- **DELETE**: Confirmation for deletion
+- **DEBUG**: Show all modes for debugging
+
+## Error Handling
+- Form validation errors displayed inline
+- Service errors handled gracefully
+- User-friendly error messages
+- Loading states for async operations
+
+## Performance Optimizations
+- Lazy loading of components
+- Efficient grid rendering
+- Optimized form validation
+- Proper memory management
+
+## Security Considerations
+- Input validation and sanitization
+- Role-based access control
+- CSRF protection
+- XSS prevention 

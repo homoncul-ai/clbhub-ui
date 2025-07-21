@@ -57,10 +57,10 @@ ensuring that updates to the spec can be safely and efficiently propagated to th
 ## Guidelines about displaying Data 
 *  read "hccl.swagger.json" and figure out the 'required' the min/max lengths for the [entityName]PUTData, [entityName]POSTData
 
-* [attrName] is For foreign keys (`[fkentityName]Id`), use `<app-[fkentityName]-crud ... mode=CrudModes.FK>`. For example 
+* [attrName] is For foreign keys (`[fkentityName]Id`), use `<app-[fkentityName]-crud ... [modeName]="CRUD_MODES.FK">`. For example 
    if attrName='providerTypeRefId', then 
-  ** Example for details  <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK">
-  ** Example for Edit/Create <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK_MENU">
+  ** Example for details  <app-providerTypeRef-crud id='this.providerTypeRefId' [modeName]="CRUD_MODES.FK">
+  ** Example for Edit/Create <app-providerTypeRef-crud id='this.providerTypeRefId' [modeName]="CRUD_MODES.FK_MENU">
   ** Example for list display Data in the grid.
    ```  var fkWrep = ProviderTypeRefCrudWrapper.newInstance(this.providerTypeRefId, this.hcclService);
         var textToDisplayInGridCell = fkWrap.getDisplayText();
@@ -109,7 +109,7 @@ protected override async prepareMenus(entity: [EntityName]CrudWrapper): Promise<
 ```
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
     const [entityName]s = await this.get[EntityName]s();
-    return this.getMenuControlDataList("[entityName]s", getEntityType(), [entityName]s, data);
+    return this.getMenuControlDataList("[entityName]s", getEntityType() + " Menu", [entityName]s, data);
   }
 ```
   
@@ -245,8 +245,7 @@ See [copyFromEntity] components and import similarly.  These imports will includ
 - `hasSearchResults()`: Check if response has search results
 - `getSearchResults()`: Extract search results from response
 - `formatEntityData()`: Format entity data for display
-- `onRowClick()`: Navigate to detail view using plural route names
-- `onAdd()`: Navigate to create view using plural route names
+
 
 ### Grid Configuration
 - Include all [entityName] fields in grid columns
@@ -327,9 +326,23 @@ this.addMenuItem(menu, [entityName]);
 - Use `*ngIf` for tab content display
 
 ### List Component Template
-- Use minimal template: single div with grid container
-- **Do NOT** include complex HTML structure
 - All grid logic should be in TypeScript file
+- Only build the [entityName]-list.component.ts
+- Do not generate - [entityName]-list.component.html, [entityName]-list.component.scss 
+- Use the following in the component definition
+```
+@Component({
+  selector: 'app-[entityname]-list',
+  imports: [CommonModule],
+  standalone: true,
+  templateUrl: '../../_global/abstract-list/abstract-list.component.html',
+  styleUrls: ['../../_global/abstract-list/abstract-list.component.scss']
+})
+export class [EntityName]ListComponent extends AbstractListComponent<[EntityName]GETData, [EntityName]Criteria, [EntityName]GETDataSearchResults> {
+  constructor() { super(); }
+...
+```
+
 
 ---
 
@@ -339,7 +352,12 @@ this.addMenuItem(menu, [entityName]);
 - Ensure all required components are imported in the `@Component.imports` array
 - For date display components, import `DategetdataDisplayComponent`
 - For available selector, import `AvailableSelectorComponent`
-- For menu controls, import `MenuControlDataListComponent`
+- For menu controls, import `MenuControlDataListComponent`.
+  for example - in the "FK_MENU" template - use this : 
+```
+<app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+
+```
 - **CRITICAL:** For date components, ensure `@Input() data: any` is declared in the component class
 
 ### Template Binding Errors

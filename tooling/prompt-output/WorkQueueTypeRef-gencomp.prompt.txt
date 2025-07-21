@@ -1,0 +1,248 @@
+# WorkQueueTypeRef Component Generation Specification
+
+## Overview
+This specification defines the Angular components for the WorkQueueTypeRef entity, following the established patterns and idempotent generation guidelines. The WorkQueueTypeRef entity represents queue type references in the HCCL system.
+
+## Entity Information
+- **Entity Name**: WorkQueueTypeRef
+- **Plural Form**: WorkQueueTypeRefs
+- **Route Name**: workqueuetyperefs
+- **Foreign Key Relationships**: None (this is a reference entity)
+
+## Service Methods (from HcclService)
+- `createWorkQueueTypeRef(body: WorkQueueTypeRefPOSTData): Observable<any>`
+- `getWorkQueueTypeRefById(id: string): Observable<WorkQueueTypeRefGETData>`
+- `updateWorkQueueTypeRefById(id: string, body: WorkQueueTypeRefPUTData): Observable<any>`
+- `deleteWorkQueueTypeRefById(id: string): Observable<any>`
+- `findWorkQueueTypeRefs(body: WorkQueueTypeRefCriteria): Observable<WorkQueueTypeRefGETDataSearchResults>`
+
+## Data Interfaces
+- **POST Data**: `WorkQueueTypeRefPOSTData`
+- **GET Data**: `WorkQueueTypeRefGETData`
+- **PUT Data**: `WorkQueueTypeRefPUTData`
+- **Criteria**: `WorkQueueTypeRefCriteria`
+- **Search Results**: `WorkQueueTypeRefGETDataSearchResults`
+
+## WorkQueueTypeRef Field Specifications
+
+### Required Fields (from Swagger)
+- `name`: string, required, minLength: 1, maxLength: 255
+- `businessCode`: string, required, minLength: 1, maxLength: 50
+- `description`: string, required, minLength: 1, maxLength: 1024
+- `available`: number, required, integer
+
+### Optional Fields
+- `id`: string (UUID format)
+- `createdByInfo`: Reference
+- `dateCreated`: DateGETData
+- `lastUpdatedByInfo`: Reference
+- `dateLastUpdated`: DateGETData
+
+## Component Specifications
+
+### 1. WorkQueueTypeRef CRUD Component
+
+**File**: `src/app/components/_crud/workqueuetyperef/workqueuetyperef-crud.component.ts`
+
+**Requirements**:
+- Extends `AbstractCrudComponent<WorkQueueTypeRefCrudWrapper>`
+- Implements `OnInit` and `OnChanges`
+- Uses `EntityWrapper<WorkQueueTypeRefGETData>` for data management
+- Implements validation methods for all required fields
+- Implements abstract CRUD operations
+- Uses `ngModel` for two-way binding
+- Includes getter/setter methods for form binding
+
+**Key Methods**:
+- `validateName(name: string): string | null`
+- `validateBusinessCode(businessCode: string): string | null`
+- `validateDescription(description: string): string | null`
+- `validateForm(): any`
+- `clearValidationErrors(): void`
+- `loadEntityByIdCall(id: string): Promise<WorkQueueTypeRefCrudWrapper>`
+- `createEntityDataCall(entity: WorkQueueTypeRefCrudWrapper): Promise<any>`
+- `updateEntityDataCall(entity: WorkQueueTypeRefCrudWrapper): Promise<void>`
+- `deleteEntityData(id: string): Promise<boolean>`
+- `newEmptyWrapper(): WorkQueueTypeRefCrudWrapper`
+
+**Imports**:
+```typescript
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { WorkQueueTypeRefCriteria, WorkQueueTypeRefGETData, WorkQueueTypeRefPOSTData, WorkQueueTypeRefPUTData, HcclService } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+```
+
+**Component Decorator**:
+```typescript
+@Component({
+  selector: 'app-workqueuetyperef-crud',
+  templateUrl: './workqueuetyperef-crud.component.html',
+  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
+    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
+    SimpleMessagesSectionComponent, MenuControlDataListComponent,
+    AvailableSelectorComponent, DategetdataDisplayComponent],
+  standalone: true
+})
+```
+
+**Wrapper Class**:
+```typescript
+export class WorkQueueTypeRefCrudWrapper extends EntityWrapper<WorkQueueTypeRefGETData> {
+  constructor(data: WorkQueueTypeRefGETData) {
+    super(data);
+    this.entityType = 'WorkQueueTypeRef';
+  }
+  public getDisplayText(entity?: WorkQueueTypeRefGETData): string {
+    const data = entity || this.data;
+    return data?.name || data?.businessCode || data?.id || 'Unknown';
+  }
+}
+```
+
+### 2. WorkQueueTypeRef CRUD HTML Template
+
+**File**: `src/app/components/_crud/workqueuetyperef/workqueuetyperef-crud.component.html`
+
+**Requirements**:
+- Supports all CRUD modes (FK, FK_MENU, SECTION, HEADING, CREATE, EDIT, DETAIL, DELETE, DEBUG)
+- Uses `ngModel` for two-way binding
+- Includes form validation
+- Uses standard UI components
+- No foreign key relationships to display
+
+**Form Fields**:
+- `name`: app-std-mdb-form-text, required, maxLength: 255
+- `businessCode`: app-std-mdb-form-text, required, maxLength: 50
+- `description`: app-std-mdb-form-textarea, required, maxLength: 1024
+- `available`: app-available-selector, required
+
+### 3. WorkQueueTypeRef List Component
+
+**File**: `src/app/components/_crud/workqueuetyperef/workqueuetyperef-list.component.ts`
+
+**Requirements**:
+- Extends `AbstractListComponent`
+- Uses abstract list template
+- Implements grid column definition
+- Implements search and filtering
+
+**Grid Columns**:
+- `name`: Name, minWidth: 200
+- `businessCode`: Business Code, minWidth: 120
+- `description`: Description, minWidth: 200
+- `available`: Available, minWidth: 100
+- `dateLastUpdated`: Date Last Updated, minWidth: 120
+
+**Imports**:
+```typescript
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { WorkQueueTypeRefCriteria, WorkQueueTypeRefGETData, WorkQueueTypeRefGETDataSearchResults, HcclService } from '@app/restsvc/hccl.service';
+import { Observable } from 'rxjs';
+```
+
+**Component Decorator**:
+```typescript
+@Component({
+  selector: 'app-workqueuetyperef-list',
+  standalone: true,
+  templateUrl: '../../_global/abstract-list/abstract-list.component.html',
+  styleUrls: ['../../_global/abstract-list/abstract-list.component.scss']
+})
+```
+
+### 4. WorkQueueTypeRef Group Component
+
+**File**: `src/app/components/_crud/workqueuetyperef/workqueuetyperef-group.component.ts`
+
+**Requirements**:
+- Extends `AbstractEntityGroupComponent`
+- Implements `OnInit`
+- Loads entity by ID
+- Sets up tabs with proper routing
+
+**Imports**:
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
+import { WorkQueueTypeRefCrudWrapper } from './workqueuetyperef-crud.component';
+import { HcclService } from '@app/restsvc/hccl.service';
+```
+
+**Component Decorator**:
+```typescript
+@Component({
+  selector: 'app-workqueuetyperef-group',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './workqueuetyperef-group.component.html'
+})
+```
+
+### 5. WorkQueueTypeRef Group HTML Template
+
+**File**: `src/app/components/_crud/workqueuetyperef/workqueuetyperef-group.component.html`
+
+**Requirements**:
+- Uses `app-simple-tabset` for tab navigation
+- Includes Details and Debug tabs
+- Uses conditional rendering for different CRUD modes
+
+## Routing Configuration
+
+**Module**: `dash-ecoadmin` module
+**Routes**:
+- List: `/ecoadmin-dashboard/workqueuetyperefs` → `WorkQueueTypeRefListComponent`
+- Group: `/ecoadmin-dashboard/workqueuetyperefs/:id` → `WorkQueueTypeRefGroupComponent`
+
+## Menu Integration
+
+**Menu Service**: Add to `menu.service.ts`
+**Menu Constant**: `EA_WORKQUEUETYPEREF_LIST`
+**Menu Integration**: Add to `buildEcoAdminMenu()` method
+
+## Validation Rules
+
+Based on Swagger specifications:
+- `name`: Required, 1-255 characters
+- `businessCode`: Required, 1-50 characters
+- `description`: Required, 1-1024 characters
+- `available`: Required, integer
+
+## Error Handling
+
+- Implement proper error states
+- Show validation messages
+- Handle API errors gracefully
+- Provide user feedback for all operations
+
+## Testing Considerations
+
+- Test all CRUD operations
+- Test validation rules
+- Test form submission
+- Test error scenarios
+- Test navigation between components
+
+## Notes
+
+- This entity has no foreign key relationships
+- All fields are standard text/number inputs
+- Uses standard validation patterns
+- Follows the established component architecture
+- Implements idempotent generation patterns 

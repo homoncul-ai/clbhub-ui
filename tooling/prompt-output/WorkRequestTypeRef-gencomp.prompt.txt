@@ -1,7 +1,7 @@
-# AI Component Generation Spec for WorkQueue
+# AI Component Generation Spec for WorkRequestTypeRef
 
 ## Preamble: AI Mindset and Goals
-You are an expert Angular developer tasked with generating comprehensive, production-ready Angular components for the WorkQueue entity. Your goal is to create a complete set of CRUD, List, and Group components that follow established patterns and integrate seamlessly with the existing codebase.
+You are an expert Angular developer tasked with generating comprehensive, production-ready Angular components for the WorkRequestTypeRef entity. Your goal is to create a complete set of CRUD, List, and Group components that follow established patterns and integrate seamlessly with the existing codebase.
 
 ## Output Format
 This specification will be used to generate Angular components that are:
@@ -21,12 +21,12 @@ This specification will be used to generate Angular components that are:
 
 ## Component Files to Generate
 
-### 1. WorkQueue CRUD Component
-**File**: `src/app/components/_crud/workqueue/workqueue-crud.component.ts`
-**File**: `src/app/components/_crud/workqueue/workqueue-crud.component.html`
+### 1. WorkRequestTypeRef CRUD Component
+**File**: `src/app/components/_crud/workrequesttyperef/workrequesttyperef-crud.component.ts`
+**File**: `src/app/components/_crud/workrequesttyperef/workrequesttyperef-crud.component.html`
 
 **Requirements**:
-- Extends `AbstractCrudComponent<WorkQueueCrudWrapper>`
+- Extends `AbstractCrudComponent<WorkRequestTypeRefCrudWrapper>`
 - Implements `OnInit` and `OnChanges`
 - Includes validation methods for all required fields
 - Implements abstract CRUD operations (`loadEntityByIdCall`, `createEntityDataCall`, `updateEntityDataCall`, `deleteEntityData`, `newEmptyWrapper`)
@@ -40,8 +40,8 @@ This specification will be used to generate Angular components that are:
 - Includes proper form validation and error display
 - Implements responsive design patterns
 
-### 2. WorkQueue List Component
-**File**: `src/app/components/_crud/workqueue/workqueue-list.component.ts`
+### 2. WorkRequestTypeRef List Component
+**File**: `src/app/components/_crud/workrequesttyperef/workrequesttyperef-list.component.ts`
 
 **Requirements**:
 - Extends `AbstractListComponent`
@@ -50,9 +50,9 @@ This specification will be used to generate Angular components that are:
 - Implements row click navigation and add button functionality
 - Uses DHTMLX Grid for data display
 
-### 3. WorkQueue Group Component
-**File**: `src/app/components/_crud/workqueue/workqueue-group.component.ts`
-**File**: `src/app/components/_crud/workqueue/workqueue-group.component.html`
+### 3. WorkRequestTypeRef Group Component
+**File**: `src/app/components/_crud/workrequesttyperef/workrequesttyperef-group.component.ts`
+**File**: `src/app/components/_crud/workrequesttyperef/workrequesttyperef-group.component.html`
 
 **Requirements**:
 - Extends `AbstractEntityGroupComponent`
@@ -71,7 +71,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { WorkQueueCriteria, WorkQueueGETData, WorkQueuePOSTData, WorkQueuePUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { WorkRequestTypeRefCriteria, WorkRequestTypeRefGETData, WorkRequestTypeRefPOSTData, WorkRequestTypeRefPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -80,9 +80,6 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
-import { WorkQueueTypeRefCrudComponent } from '@app/components/_crud/workqueuetyperef/workqueuetyperef-crud.component';
-import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
-import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 ```
 
 ### HTML Template Components
@@ -92,9 +89,6 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganiz
 - `app-dategetdata-display` for date display
 - `app-simple-messages-section` for error messages
 - `app-menu-control-data-list` for FK menus
-- `app-workqueuetyperef-crud` for workQueueTypeId FK
-- `app-hcclteam-crud` for workQueueTeamId FK
-- `app-hcclorganization-crud` for organizationId FK
 
 ## Methods to Implement
 
@@ -102,26 +96,26 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganiz
 - `validateName(name: string): string | null`
 - `validateBusinessCode(businessCode: string): string | null`
 - `validateDescription(description: string): string | null`
-- `validatePrefixCode(prefixCode: string): string | null`
+- `validatePolicyBeanName(policyBeanName: string): string | null`
 - `validateForm(): any`
 - `clearValidationErrors(): void`
-- `loadEntityByIdCall(id: string): Promise<WorkQueueCrudWrapper>`
-- `createEntityDataCall(entity: WorkQueueCrudWrapper): Promise<any>`
-- `updateEntityDataCall(entity: WorkQueueCrudWrapper): Promise<void>`
+- `loadEntityByIdCall(id: string): Promise<WorkRequestTypeRefCrudWrapper>`
+- `createEntityDataCall(entity: WorkRequestTypeRefCrudWrapper): Promise<any>`
+- `updateEntityDataCall(entity: WorkRequestTypeRefCrudWrapper): Promise<void>`
 - `deleteEntityData(id: string): Promise<boolean>`
-- `newEmptyWrapper(): WorkQueueCrudWrapper`
+- `newEmptyWrapper(): WorkRequestTypeRefCrudWrapper`
 - Getter/setter methods for all form fields
 
 ### List Component Methods
 - `getGridColumns(): any[]`
-- `createCriteria(): WorkQueueCriteria`
-- `findEntities(criteria: WorkQueueCriteria): Observable<WorkQueueGETDataSearchResults>`
-- `hasSearchResults(response: WorkQueueGETDataSearchResults): boolean`
-- `getSearchResults(response: WorkQueueGETDataSearchResults): WorkQueueGETData[]`
-- `formatEntityData(entity: WorkQueueGETData): any`
+- `createCriteria(): WorkRequestTypeRefCriteria`
+- `findEntities(criteria: WorkRequestTypeRefCriteria): Observable<WorkRequestTypeRefGETDataSearchResults>`
+- `hasSearchResults(response: WorkRequestTypeRefGETDataSearchResults): boolean`
+- `getSearchResults(response: WorkRequestTypeRefGETDataSearchResults): WorkRequestTypeRefGETData[]`
+- `formatEntityData(entity: WorkRequestTypeRefGETData): any`
 
 ### Group Component Methods
-- `loadEntityById(id: string): Promise<WorkQueueCrudWrapper>`
+- `loadEntityById(id: string): Promise<WorkRequestTypeRefCrudWrapper>`
 - `setupTabs(): SimpleTab[]`
 - `activateTab(tabId: string): void`
 
@@ -129,60 +123,56 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganiz
 
 ### Module Routes to Add
 ```typescript
-{ path: 'workqueues/create', component: WorkQueueGroupComponent },
-{ path: 'workqueues/:id/:tabId', component: WorkQueueGroupComponent },
-{ path: 'workqueues/:id', redirectTo: 'workqueues/:id/details', pathMatch: 'full' },
-{ path: 'workqueues', component: WorkQueueListComponent }
+{ path: 'workrequesttyperefs/create', component: WorkRequestTypeRefGroupComponent },
+{ path: 'workrequesttyperefs/:id/:tabId', component: WorkRequestTypeRefGroupComponent },
+{ path: 'workrequesttyperefs/:id', redirectTo: 'workrequesttyperefs/:id/details', pathMatch: 'full' },
+{ path: 'workrequesttyperefs', component: WorkRequestTypeRefListComponent }
 ```
 
 ### Module Imports to Add
 ```typescript
-import { WorkQueueListComponent } from '../../components/_crud/workqueue/workqueue-list.component';
-import { WorkQueueGroupComponent } from '../../components/_crud/workqueue/workqueue-group.component';
+import { WorkRequestTypeRefListComponent } from '../../components/_crud/workrequesttyperef/workrequesttyperef-list.component';
+import { WorkRequestTypeRefGroupComponent } from '../../components/_crud/workrequesttyperef/workrequesttyperef-group.component';
 ```
 
 ### Module Declarations to Add
 ```typescript
-WorkQueueListComponent,
-WorkQueueGroupComponent
+WorkRequestTypeRefListComponent,
+WorkRequestTypeRefGroupComponent
 ```
 
 ## Menu Integration
 
 ### Menu Service Constants to Add
 ```typescript
-EA_WORKQUEUE_LIST: {
+EA_WORKREQUESTTYPEREF_LIST: {
   "level" : 2,
-  "label" : "Work Queues",
-  "route" : "/ecoadmin-dashboard/workqueues",
-  "componentPath" : "/src/app/components/_crud/workqueue/workqueue-list.component",
-  "componentName" : "WorkQueueListComponent",
-  "icon" : "fas fa-list-alt"
+  "label" : "Work Request Type Refs",
+  "route" : "/ecoadmin-dashboard/workrequesttyperefs",
+  "componentPath" : "/src/app/components/_crud/workrequesttyperef/workrequesttyperef-list.component",
+  "componentName" : "WorkRequestTypeRefListComponent",
+  "icon" : "fas fa-tasks"
 }
 ```
 
 ### Menu Service Integration
 Add to `buildEcoAdminMenu()` method:
 ```typescript
-// workqueue list
-const workqueueList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKQUEUE_LIST);
-this.addMenuItem(menu, workqueueList);
+// workrequesttyperef list
+const workrequesttyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUESTTYPEREF_LIST);
+this.addMenuItem(menu, workrequesttyperefList);
 ```
 
 ## Validation Rules
 
 ### Form Validation
-Based on swagger documentation for `WorkQueuePOSTData` and `WorkQueuePUTData`:
+Based on swagger documentation for `WorkRequestTypeRefPOSTData` and `WorkRequestTypeRefPUTData`:
 
 - **name**: Required, 1-255 characters
 - **businessCode**: Required, 1-50 characters
 - **description**: Required, 1-1024 characters
-- **prefixCode**: Required, 1-50 characters
-- **workQueueTypeId**: Required, string
-- **workQueueTeamId**: Required, string
+- **policyBeanName**: Required, 1-255 characters
 - **available**: Required, integer
-- **organizationId**: Optional, string
-- **externalQueue**: Required, integer
 
 ### Error Messages
 - "Name is required" (if empty)
@@ -191,10 +181,8 @@ Based on swagger documentation for `WorkQueuePOSTData` and `WorkQueuePUTData`:
 - "Business Code must be less than 50 characters" (if too long)
 - "Description is required" (if empty)
 - "Description must be less than 1024 characters" (if too long)
-- "Prefix Code is required" (if empty)
-- "Prefix Code must be less than 50 characters" (if too long)
-- "Work Queue Type is required" (if empty)
-- "Work Queue Team is required" (if empty)
+- "Policy Bean Name is required" (if empty)
+- "Policy Bean Name must be less than 255 characters" (if too long)
 
 ## Grid Configuration
 
@@ -205,12 +193,8 @@ Based on swagger documentation for `WorkQueuePOSTData` and `WorkQueuePUTData`:
   { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
   { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
   { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-  { id: 'prefixCode', header: [{ text: 'Prefix Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-  { id: 'workQueueTypeId', header: [{ text: 'Work Queue Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-  { id: 'workQueueTeamId', header: [{ text: 'Work Queue Team', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'policyBeanName', header: [{ text: 'Policy Bean Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
   { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-  { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-  { id: 'externalQueue', header: [{ text: 'External Queue', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
 //  { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
 //  { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
 //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
@@ -221,16 +205,14 @@ Based on swagger documentation for `WorkQueuePOSTData` and `WorkQueuePUTData`:
 ## Component Integration
 
 ### Foreign Key Relationships
-- **workQueueTypeId**: Foreign key to `WorkQueueTypeRef`
-- **workQueueTeamId**: Foreign key to `HcclTeam`
-- **organizationId**: Foreign key to `HcclOrganization`
+This entity has no foreign key relationships to other entities.
 
 ### Service Integration
-- **GET**: `HcclService.getWorkQueueById(id)`
-- **CREATE**: `HcclService.createWorkQueue(body: WorkQueuePOSTData)`
-- **UPDATE**: `HcclService.updateWorkQueueById(id: string, body: WorkQueuePUTData)`
-- **DELETE**: `HcclService.deleteWorkQueueById(id: string)`
-- **SEARCH**: `HcclService.findWorkQueues(criteria: WorkQueueCriteria)`
+- **GET**: `HcclService.getWorkRequestTypeRefById(id)`
+- **CREATE**: `HcclService.createWorkRequestTypeRef(postData)`
+- **UPDATE**: `HcclService.updateWorkRequestTypeRefById(id, putData)`
+- **DELETE**: `HcclService.deleteWorkRequestTypeRefById(id)`
+- **SEARCH**: `HcclService.findWorkRequestTypeRefs(criteria)`
 
 ## Testing Considerations
 - Unit tests for validation methods
@@ -251,59 +233,47 @@ Based on swagger documentation for `WorkQueuePOSTData` and `WorkQueuePUTData`:
 - CSRF protection
 - XSS prevention
 
-# WorkQueue Field Specifications
+# WorkRequestTypeRef Field Specifications
 
-## WorkQueueGETData Interface
+## WorkRequestTypeRefGETData Interface
 Based on `HcclService` interface and swagger documentation:
 
 | Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
 |------------|------|----------|------------|------------|-------------|--------------|
 | id | string | No | - | - | Unique identifier | Hidden in forms |
-| name | string | No | - | - | Work queue name | app-std-mdb-form-text |
+| name | string | No | - | - | Work request type name | app-std-mdb-form-text |
 | businessCode | string | No | - | - | Business code | app-std-mdb-form-text |
 | description | string | No | - | - | Description | app-std-mdb-form-textarea |
-| prefixCode | string | No | - | - | Prefix code | app-std-mdb-form-text |
-| workQueueTypeId | string | No | - | - | Work queue type ID | app-workqueuetyperef-crud |
-| workQueueTeamId | string | No | - | - | Work queue team ID | app-hcclteam-crud |
+| policyBeanName | string | No | - | - | Policy bean name | app-std-mdb-form-text |
 | available | number | No | - | - | Available flag | app-available-selector |
-| organizationId | string | No | - | - | Organization ID | app-hcclorganization-crud |
-| externalQueue | number | No | - | - | External queue flag | app-available-selector |
 | createdByInfo | Reference | No | - | - | Created by information | Hidden in forms |
 | dateCreated | DateGETData | No | - | - | Date created | app-dategetdata-display |
 | lastUpdatedByInfo | Reference | No | - | - | Last updated by information | Hidden in forms |
 | dateLastUpdated | DateGETData | No | - | - | Date last updated | app-dategetdata-display |
 
-## WorkQueuePOSTData Interface
+## WorkRequestTypeRefPOSTData Interface
 Based on swagger documentation:
 
 | Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
 |------------|------|----------|------------|------------|-------------|--------------|
-| name | string | Yes | 1 | 255 | Work queue name | app-std-mdb-form-text |
+| name | string | Yes | 1 | 255 | Work request type name | app-std-mdb-form-text |
 | businessCode | string | Yes | 1 | 50 | Business code | app-std-mdb-form-text |
 | description | string | Yes | 1 | 1024 | Description | app-std-mdb-form-textarea |
-| prefixCode | string | Yes | 1 | 50 | Prefix code | app-std-mdb-form-text |
-| workQueueTypeId | string | Yes | - | - | Work queue type ID | app-workqueuetyperef-crud |
-| workQueueTeamId | string | Yes | - | - | Work queue team ID | app-hcclteam-crud |
+| policyBeanName | string | Yes | 1 | 255 | Policy bean name | app-std-mdb-form-text |
 | available | number | Yes | - | - | Available flag | app-available-selector |
-| organizationId | string | No | - | - | Organization ID | app-hcclorganization-crud |
-| externalQueue | number | Yes | - | - | External queue flag | app-available-selector |
 
-## WorkQueuePUTData Interface
+## WorkRequestTypeRefPUTData Interface
 Based on swagger documentation:
 
 | Field Name | Type | Required | Min Length | Max Length | Description | UI Component |
 |------------|------|----------|------------|------------|-------------|--------------|
-| name | string | Yes | 1 | 255 | Work queue name | app-std-mdb-form-text |
+| name | string | Yes | 1 | 255 | Work request type name | app-std-mdb-form-text |
 | businessCode | string | Yes | 1 | 50 | Business code | app-std-mdb-form-text |
 | description | string | Yes | 1 | 1024 | Description | app-std-mdb-form-textarea |
-| prefixCode | string | Yes | 1 | 50 | Prefix code | app-std-mdb-form-text |
-| workQueueTypeId | string | Yes | - | - | Work queue type ID | app-workqueuetyperef-crud |
-| workQueueTeamId | string | Yes | - | - | Work queue team ID | app-hcclteam-crud |
+| policyBeanName | string | Yes | 1 | 255 | Policy bean name | app-std-mdb-form-text |
 | available | number | Yes | - | - | Available flag | app-available-selector |
-| organizationId | string | No | - | - | Organization ID | app-hcclorganization-crud |
-| externalQueue | number | Yes | - | - | External queue flag | app-available-selector |
 
-## WorkQueueCriteria Interface
+## WorkRequestTypeRefCriteria Interface
 Based on `HcclService` interface:
 
 | Field Name | Type | Required | Description |
@@ -317,33 +287,22 @@ Based on `HcclService` interface:
 | name | string | No | Filter by name |
 | businessCode | string | No | Filter by business code |
 | description | string | No | Filter by description |
-| prefixCode | string | No | Filter by prefix code |
-| workQueueTypeId | string | No | Filter by work queue type ID |
-| workQueueTeamId | string | No | Filter by work queue team ID |
+| policyBeanName | string | No | Filter by policy bean name |
 | available | number | No | Filter by available flag |
-| organizationId | string | No | Filter by organization ID |
-| externalQueue | number | No | Filter by external queue flag |
 
-## WorkQueueGETDataSearchResults Interface
+## WorkRequestTypeRefGETDataSearchResults Interface
 Based on `HcclService` interface:
 
 | Field Name | Type | Required | Description |
 |------------|------|----------|-------------|
 | pagingInfo | DCPageData | No | Paging information |
-| searchResults | WorkQueueGETData[] | No | Array of search results |
+| searchResults | WorkRequestTypeRefGETData[] | No | Array of search results |
 | filter | BaseCriteria | No | Filter criteria used |
 
 # Foreign Key Relationships
 
-## Foreign Keys
-- **workQueueTypeId**: Foreign key to `WorkQueueTypeRef` entity
-- **workQueueTeamId**: Foreign key to `HcclTeam` entity
-- **organizationId**: Foreign key to `HcclOrganization` entity
-
-## FK Menu Integration
-- Use `app-workqueuetyperef-crud` component for `workQueueTypeId` FK display and selection
-- Use `app-hcclteam-crud` component for `workQueueTeamId` FK display and selection
-- Use `app-hcclorganization-crud` component for `organizationId` FK display and selection
+## No Foreign Keys
+This entity has no foreign key relationships to other entities.
 
 # Grid Configuration
 
@@ -354,12 +313,8 @@ Based on `HcclService` interface:
   { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
   { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
   { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-  { id: 'prefixCode', header: [{ text: 'Prefix Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-  { id: 'workQueueTypeId', header: [{ text: 'Work Queue Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-  { id: 'workQueueTeamId', header: [{ text: 'Work Queue Team', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'policyBeanName', header: [{ text: 'Policy Bean Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
   { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-  { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-  { id: 'externalQueue', header: [{ text: 'External Queue', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
 //  { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
 //  { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
 //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
@@ -370,15 +325,15 @@ Based on `HcclService` interface:
 # Component Integration
 
 ## Service Methods
-- `getWorkQueueById(id: string): Observable<WorkQueueGETData>`
-- `createWorkQueue(body: WorkQueuePOSTData): Observable<any>`
-- `updateWorkQueueById(id: string, body: WorkQueuePUTData): Observable<any>`
-- `deleteWorkQueueById(id: string): Observable<any>`
-- `findWorkQueues(body: WorkQueueCriteria): Observable<WorkQueueGETDataSearchResults>`
+- `getWorkRequestTypeRefById(id: string): Observable<WorkRequestTypeRefGETData>`
+- `createWorkRequestTypeRef(body: WorkRequestTypeRefPOSTData): Observable<any>`
+- `updateWorkRequestTypeRefById(id: string, body: WorkRequestTypeRefPUTData): Observable<any>`
+- `deleteWorkRequestTypeRefById(id: string): Observable<any>`
+- `findWorkRequestTypeRefs(body: WorkRequestTypeRefCriteria): Observable<WorkRequestTypeRefGETDataSearchResults>`
 
 ## Wrapper Class
 ```typescript
-export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
+export class WorkRequestTypeRefCrudWrapper extends EntityWrapper<WorkRequestTypeRefGETData> {
   // Implementation following providertyperef pattern
 }
 ```
@@ -387,12 +342,8 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
 - **name**: Text input with validation (required, max 255 chars)
 - **businessCode**: Text input with validation (required, max 50 chars)
 - **description**: Textarea with validation (required, max 1024 chars)
-- **prefixCode**: Text input with validation (required, max 50 chars)
-- **workQueueTypeId**: FK selector to WorkQueueTypeRef
-- **workQueueTeamId**: FK selector to HcclTeam
+- **policyBeanName**: Text input with validation (required, max 255 chars)
 - **available**: Available selector component
-- **organizationId**: FK selector to HcclOrganization (optional)
-- **externalQueue**: Available selector component
 
 ## CRUD Modes
 - **FK**: Display entity name
