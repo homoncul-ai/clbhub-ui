@@ -1034,7 +1034,7 @@ EA_WORKREQUESTITEM_LIST: {
   "level" : 2,
   "label" : "Work Request Item",
   "route" : "/ecoadmin-dashboard/tix/workrequestitem-list",
-  "componentPath" : "/src/app/components/_crud/tix/workrequestitem-list",
+  "componentPath" : "/src/app/components/_crud/workrequestitem/workrequestitem-list",
   "componentName" : "workrequestitem-list",
   "icon" : ""
 },
@@ -1043,8 +1043,8 @@ EA_WORKQUEUETYPEREF_LIST: {
   "level" : 2,
   "label" : "Work Queue Type Ref",
   "route" : "/ecoadmin-dashboard/workqueuetyperefs",
-  "componentPath" : "/src/app/components/_crud/tix/workqueuetyperef-list",
-  "componentName" : "workqueuetyperef-list",
+  "componentPath" : "/src/app/components/_crud/workqueuetyperef/workqueuetyperef-list",
+  "componentName" : "WorkQueueTypeRefListComponent",
   "icon" : ""
 },
 
