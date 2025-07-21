@@ -21,12 +21,14 @@ export class AvailableSelectorComponent {
   @Input() available: number | boolean = 0;
   @Input() disabled: boolean = false;
   @Input() label: string = 'Available';
+  @Input() readonly: boolean = false;
   
   @Output() availableChange = new EventEmitter<number>();
   
   uniqueId = 'available-' + Math.random().toString(36).substr(2, 9);
   
   get isChecked(): boolean {
+    console.log(this.available + ' ' + this.readonly);
     if (typeof this.available === 'boolean') {
       return this.available;
     }
@@ -34,6 +36,9 @@ export class AvailableSelectorComponent {
   }
   
   onCheckboxChange(event: any): void {
+    if (this.readonly) {
+      return; // Prevent changes when readonly
+    }
     const isChecked = event.target.checked;
     const newValue = isChecked ? 1 : 0;
     this.availableChange.emit(newValue);

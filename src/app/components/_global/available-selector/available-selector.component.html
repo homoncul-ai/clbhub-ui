@@ -5,9 +5,10 @@
       class="form-check-input" 
       [id]="uniqueId"
       [checked]="isChecked"
-      [disabled]="disabled"
-      (change)="onCheckboxChange($event)">
-    <label 
+      [disabled]="disabled || readonly"
+      (change)="onCheckboxChange($event)"
+      [readonly]="readonly">
+    <label *ngIf="!readonly"
       class="form-check-label" 
       [for]="uniqueId">
       {{ label }}

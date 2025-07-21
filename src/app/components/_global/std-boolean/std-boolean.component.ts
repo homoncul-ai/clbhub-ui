@@ -33,6 +33,7 @@ export class StdBooleanComponent implements ControlValueAccessor {
   @Input() mode: BooleanMode = 'checkbox';
   @Input() yesText: string = 'Yes';
   @Input() noText: string = 'No';
+  @Input() readonly: boolean = false;
   
   @Output() valueChange = new EventEmitter<boolean>();
 
@@ -89,7 +90,9 @@ export class StdBooleanComponent implements ControlValueAccessor {
   }
 
   onInput(event: any): void {
-    this.value = event.target.checked;
+    if (!this.readonly) {
+      this.value = event.target.checked;
+    }
   }
 
   onBlur(): void {

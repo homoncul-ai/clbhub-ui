@@ -10,6 +10,7 @@ You are an expert Angular developer and code generator. Your task is to generate
 - **Do not generate code directly; generate a markdown spec that describes the code to be generated.**
 - **Reference working examples and best practices from the project.**
 - **All generated files must be idempotent: re-running the generator with an updated spec should not break or duplicate code.**
+- **Regenerating files should update 
 
 ---
 
@@ -44,10 +45,34 @@ You are an expert Angular developer and code generator. Your task is to generate
   - get    - HcclService.get[entityName]ById
 
 ## Guidelines about displaying Data 
-* [attrName] = For foreign keys (`[fkEntityName]Id`), use `<app-[fkEntityName]-crud ... mode=CrudModes.FK>`. For example 
+*  read "hccl.json" and figure out the 'required' the min/max lengths for the [entityName]PUTData, [entityName]POSTData
+
+* [attrName] is For foreign keys (`[fkEntityName]Id`), use `<app-[fkEntityName]-crud ... mode=CrudModes.FK>`. For example 
    if attrName='providerTypeRefId', then 
   ** For details  <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK">
   ** for Edit/Create <app-providerTypeRef-crud id='this.providerTypeRefId' mode="CrudModes.FK_MENU">
+  ** for list display Data in the grid.
+   ```  var fkWrep = ProviderTypeRefCrudWrapper.newInstance(this.providerTypeRefId, this.hcclService);
+        var textToDisplayInGridCell = fkWrap.getDisplayText();
+  ```
+* [attrName] is a stringValue - 
+   ** For Edit and Create - use the <app-std-mdb-text >,<app-std-mdb-textarea >  components with the appropriate required, maxLength params. 
+     - Use "app-std-mdb-textara" - use if MaxLength > 100 OR  [attrName] endswith "text", or "description" or "notes" or "comments")
+     - Use "app-std-mdb-text" - use if not app-std-mdb-textarea
+     
+* [attrName] is a DateGETData value 
+  ** For display. use <app-dategetdata> component.
+  ** for edit - use <app-std-mdb-datepicker> component (for normal dates)
+  
+* [attrName] is a boolean - use <app-std-mdb-boolean >  - use default Checkbox.
+* [attrName] is 'available' - use <app-available-selector > 
+* id, dateLastUpdated,dateCreated,lastUpdatedBy,createdBy are all ignored on create/update.
+
+## For the list page -
+*  List out all the fields in the grid definition section, but comment out "id,dateCreated,lastUpdatedBy"
+*  For foreign keys, use the code above and add the displayText of the foreign key wrapper to the grid.
+
+  
 
 ---
 
