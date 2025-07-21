@@ -1,5 +1,5 @@
 
-input: entityName = Catalog
+input: entityName = HcclUserProfile
 
 
 Using [entityName] - find the spec in "../prompt-output/[entityName]-gencomp.prompt.txt.

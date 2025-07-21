@@ -1,0 +1,6 @@
+<span *ngIf="hasValidLink()">
+  <a [href]="getLink()" target="_blank" rel="noopener noreferrer">{{ getDisplayText() }}</a>
+</span>
+<span *ngIf="!hasValidLink()">
+  {{ getDisplayText() }}
+</span> 

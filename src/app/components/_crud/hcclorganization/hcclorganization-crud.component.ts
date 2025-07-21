@@ -12,6 +12,7 @@ import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-m
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { HcclOrganizationTypeRefCrudComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
@@ -23,7 +24,7 @@ import { HcclOrganizationTypeRefCrudComponent } from '@app/components/_crud/hccl
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, HcclOrganizationTypeRefCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, HcclOrganizationTypeRefCrudComponent],
   standalone: true
 })
 export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrganizationCrudWrapper> implements OnInit, OnChanges {

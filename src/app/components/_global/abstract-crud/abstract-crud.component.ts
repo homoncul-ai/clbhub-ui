@@ -1,13 +1,14 @@
 import { Component, inject, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList } from '../../../restsvc/hccl.service';
+import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList,DateGETData, Reference } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { DategetdataDisplayComponent } from '../dategetdata-display/dategetdata-display.component';
 
 @Component({
   selector: 'app-abstract-crud',
@@ -676,5 +677,18 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   protected entityType: string = '';
   public  getEntityType(): string {
     return this.entityType;
+  }
+
+  public get dateCreated(): DateGETData | null {
+    return this.entity?.getData().dateCreated;
+  }
+  public get dateLastUpdated(): DateGETData | null {
+    return this.entity?.getData().dateLastUpdated;
+  }
+  public get createdByInfo(): Reference | null {
+    return this.entity?.getData().createdByInfo;
+  }
+  public get lastUpdatedByInfo(): Reference | null {
+    return this.entity?.getData().lastUpdatedByInfo;
   }
 }

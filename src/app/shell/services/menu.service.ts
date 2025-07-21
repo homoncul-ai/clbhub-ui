@@ -205,6 +205,10 @@ export class MenuService {
     const hccluserList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLUSER_LIST);
     this.addMenuItem(menu, hccluserList);
 
+    // hccluserprofile list
+    const hccluserprofileList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLUSERPROFILE_LIST);
+    this.addMenuItem(menu, hccluserprofileList);
+
     // workqueuetyperef list
     const workqueuetyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKQUEUETYPEREF_LIST);
     this.addMenuItem(menu, workqueuetyperefList);
@@ -909,11 +913,11 @@ EA_HCCLTEAMMEMBERROLE_LIST: {
 
 EA_HCCLUSERPROFILE_LIST: {
   "level" : 2,
-  "label" : "Hccl User Profile",
-  "route" : "/ecoadmin-dashboard/teams/hccluserprofile-list",
-  "componentPath" : "/src/app/components/_crud/teams/hccluserprofile-list",
-  "componentName" : "hccluserprofile-list",
-  "icon" : ""
+  "label" : "HCCL User Profiles",
+  "route" : "/ecoadmin-dashboard/hccluserprofiles",
+  "componentPath" : "/src/app/components/_crud/hccluserprofile/hccluserprofile-list.component",
+  "componentName" : "HcclUserProfileListComponent",
+  "icon" : "fas fa-user-circle"
 },
 
 EA_HCCLORGANIZATION_LIST: {

@@ -15,47 +15,47 @@
   <div class="section-content">
     <div class="row">
       <div class="col-md-6">
-        <strong>User:</strong> <app-hccluser-crud [id]="entity?.getData().userId" [mode]="'FK'" *ngIf="entity?.getData().userId"></app-hccluser-crud>
+        <strong>User:</strong> <app-hccluser-crud [id]="userId" [modeName]="CRUD_MODES.FK" *ngIf="userId"></app-hccluser-crud>
       </div>
       <div class="col-md-6">
-        <strong>Organization:</strong> <app-hcclorganization-crud [id]="entity?.getData().organizationId" [mode]="'FK'" *ngIf="entity?.getData().organizationId"></app-hcclorganization-crud>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <strong>User Code:</strong> {{ entity?.getData().userCode }}
-      </div>
-      <div class="col-md-6">
-        <strong>Profile Type Code:</strong> {{ entity?.getData().profileTypeCode }}
+        <strong>Organization:</strong> <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK" *ngIf="organizationId"></app-hcclorganization-crud>
       </div>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <strong>User Email:</strong> {{ entity?.getData().userEmail }}
+        <strong>User Code:</strong> {{ userCode }}
       </div>
       <div class="col-md-6">
-        <strong>Cell Phone:</strong> {{ entity?.getData().cellPhoneNumber }}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <strong>Work Phone:</strong> {{ entity?.getData().workPhoneNumber }}
-      </div>
-      <div class="col-md-6">
-        <strong>External User ID:</strong> {{ entity?.getData().externalUserId }}
+        <strong>Profile Type Code:</strong> {{ profileTypeCode }}
       </div>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <strong>External User Entity Type:</strong> {{ entity?.getData().externalUserEntityType }}
+        <strong>User Email:</strong> {{ userEmail }}
       </div>
       <div class="col-md-6">
-        <strong>External User Name:</strong> {{ entity?.getData().externalUserName }}
+        <strong>Cell Phone:</strong> {{ cellPhoneNumber }}
       </div>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <strong>Available:</strong> {{ entity?.getData().available ? 'Yes' : 'No' }}
+        <strong>Work Phone:</strong> {{ workPhoneNumber }}
+      </div>
+      <div class="col-md-6">
+        <strong>External User ID:</strong> {{ externalUserId }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <strong>External User Entity Type:</strong> {{ externalUserEntityType }}
+      </div>
+      <div class="col-md-6">
+        <strong>External User Name:</strong> {{ externalUserName }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <strong>Available:</strong> {{ available ? 'Yes' : 'No' }}
       </div>
     </div>
   </div>
@@ -66,13 +66,13 @@
 </div>
 <!-- CREATE Mode - Form for creating new entity -->
 <div *ngIf="isCreateMode" class="create-form">
-  <form (ngSubmit)="onSubmit()">
+  <form >
     <div class="row">
       <div class="col-md-6">
-        <app-hccluser-crud [(ngModel)]="userId" name="userId" [mode]="'FK_MENU'"></app-hccluser-crud>
+        <app-hccluser-crud [(ngModel)]="userId" name="userId" [modeName]="CRUD_MODES.FK_MENU"></app-hccluser-crud>
       </div>
       <div class="col-md-6">
-        <app-hcclorganization-crud [(ngModel)]="organizationId" name="organizationId" [mode]="'FK_MENU'"></app-hcclorganization-crud>
+        <app-hcclorganization-crud [(ngModel)]="organizationId" name="organizationId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclorganization-crud>
       </div>
     </div>
     <div class="row">

@@ -1,0 +1,18 @@
+:host {
+  display: inline;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+  
+  &:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+} 
