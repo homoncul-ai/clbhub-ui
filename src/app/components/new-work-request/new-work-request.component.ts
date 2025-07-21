@@ -12,6 +12,8 @@ import {
 } from '../../restsvc/hccl.service';
 import { MenuControlDataListComponent } from '../_global/menu-control-data-list/menu-control-data-list.component';
 import { HcclUserProfileDetailsComponent } from '../hccl-user-profile-details/hccl-user-profile-details.component';
+import { WorkRequestCrudWrapper } from '../_crud/workrequest/workrequest-crud.component';
+import { AbstractCrudComponent, AbstractMultimodeComponent } from '../_global';
 
 // //
 // This component is used to create a new work request.
@@ -26,11 +28,12 @@ import { HcclUserProfileDetailsComponent } from '../hccl-user-profile-details/hc
 //  
 @Component({
   selector: 'app-new-work-request',
+  standalone: true,
   imports: [CommonModule, FormsModule, MenuControlDataListComponent, HcclUserProfileDetailsComponent],
   templateUrl: './new-work-request.component.html',
-  styleUrl: './new-work-request.component.scss'
+  styleUrl: '../_global/abstract-crud/abstract-crud.component.scss'
 })
-export class NewWorkRequestComponent implements OnInit {
+export class NewWorkRequestComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit {
   @Input() advocateUserProfileId?: string;
   @Input() clientUserProfileId?: string;
 
@@ -50,11 +53,11 @@ export class NewWorkRequestComponent implements OnInit {
   selectedWorkRequestType: MenuControlData | null = null;
   selectedWorkQueue: MenuControlData | null = null;
 
-  private hcclService = inject(HcclService);
-  private hcclContextService = inject(HcclContextService);
-  constructor() {}
+  constructor() {
+    super();
+  }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
 
     this.hcclContextService.waitForReady() .then(() => {  
       var hcclContext: HcclUserContextGETData = this.hcclContextService.getContext();
@@ -85,6 +88,7 @@ export class NewWorkRequestComponent implements OnInit {
       next: (data: CreateTicketSetupUIData) => {
         this.setupData = data;
         this.loading = false;
+        
       },
       error: (error) => {
         console.error('Error loading setup data:', error);
@@ -116,7 +120,7 @@ export class NewWorkRequestComponent implements OnInit {
     this.successMessage = '';
 
     // Use the context data if available, otherwise use the inputs
-   
+    
     if (this.clientUserProfileId) {
       this.formData.studentUserProfileId = this.clientUserProfileId;
     }
@@ -126,6 +130,7 @@ export class NewWorkRequestComponent implements OnInit {
       next: (result: WorkRequestGETData) => {
         this.loading = false;
         this.successMessage = `Work request created successfully! ID: ${result.id}`;
+        this.router.navigate(['/advocate-dashboard/tickets', result.id]);
         this.resetForm();
       },
       error: (error) => {

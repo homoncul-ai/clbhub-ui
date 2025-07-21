@@ -8,12 +8,13 @@ import { NewWorkRequestComponent } from '../../../components/new-work-request/ne
   imports: [NewWorkRequestComponent],
   template: `
     <div class="create-ticket-container">
-      <!-- Debug information -->
+      <!-- Debug information 
       <div class="debug-info" style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
         <h4>Debug Information:</h4>
         <p><strong>advocateUserProfileId:</strong> {{ advocateUserProfileId || 'undefined' }}</p>
         <p><strong>clientUserProfileId:</strong> {{ clientUserProfileId || 'undefined' }}</p>
       </div>
+	  -->
       
       <app-new-work-request 
           [advocateUserProfileId]="advocateUserProfileId"

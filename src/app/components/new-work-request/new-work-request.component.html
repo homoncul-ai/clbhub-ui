@@ -24,25 +24,23 @@
       </div>
 
       <!-- User Profile Details Section -->
-      <div *ngIf="advocateUserProfileId" class="user-profiles-section mb-4">
-          <!-- Advocate User Profile -->
-          <div  *ngIf="advocateUserProfileId">
+      <div  class="mb-4">
+      <table>
+      <tr><td><div *ngIf="advocateUserProfileId"  >
             <app-hccl-user-profile-details 
               [userProfileId]="advocateUserProfileId" 
               [title]="'Guidance Counsellor'"
               [brevity]="1">
             </app-hccl-user-profile-details>
-          </div>
-       
-          <!-- Client User Profile -->
+          </div></td><td><!-- Client User Profile -->
           <div  *ngIf="clientUserProfileId">
             <app-hccl-user-profile-details 
               [userProfileId]="clientUserProfileId" 
               [title]="'Student'"
               [brevity]="1">
             </app-hccl-user-profile-details>
-          </div>
-      
+          </div></td></tr>
+      </table>
       </div>
 
 

@@ -18,8 +18,7 @@ export class DategetdataDisplayComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    debugger
+  ngOnInit(): void { 
     if (this.data) {
       switch (this.modeName) {
         case "date":
