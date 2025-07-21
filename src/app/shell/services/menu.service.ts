@@ -181,6 +181,10 @@ export class MenuService {
     const courseList = this.copyMenuItem(MENU_CONSTANTS.EA_CLCOURSE_LIST);
     this.addMenuItem(menu, courseList);
 
+    // catalog list
+    const catalogList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOG_LIST);
+    this.addMenuItem(menu, catalogList);
+
     return menu;
   }
 
@@ -1089,8 +1093,8 @@ EA_TAXONOMYENTRY_LIST: {
 EA_CATALOG_LIST: {
   "level" : 2,
   "label" : "Catalog",
-  "route" : "/ecoadmin-dashboard/catalog/catalog-list",
-  "componentPath" : "/src/app/components/_crud/catalog/catalog-list",
+  "route" : "/ecoadmin-dashboard/catalogs",
+  "componentPath" : "/src/app/components/_crud/catalogs/catalog-list",
   "componentName" : "catalog-list",
   "icon" : ""
 },

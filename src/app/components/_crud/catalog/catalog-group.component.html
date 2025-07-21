@@ -1,0 +1,8 @@
+<app-simple-tabset [tabs]="tabs" [currentTabId]="currentTabId" *ngIf="showingTabset"></app-simple-tabset>
+
+<div *ngIf="currentTabId === 'details'">
+  <app-catalog-crud [id]="id" [modeName]="'details'"></app-catalog-crud>
+</div>
+<div *ngIf="currentTabId === 'list'">
+  <!-- List tab content will go here -->
+</div> 

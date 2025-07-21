@@ -1,15 +1,37 @@
 
-input: entityName = CLCourse
+input: entityName = Catalog
+
 
 Using [entityName] - find the spec in "../prompt-output/[entityName]-gencomp.prompt.txt.
 - Generate components in /_crud/[entityName] based on the prompt
-
+- Overwrite the comoponents if they exist. 
 
 Updating Routes
 - Analyze and make sure all the pertinent routes into the "dash-ecosystem" module exist.
+- Do not add the package name to the routes. 
+- Route paths should always be plural of the entityName (e.g., "catalogs" vs "catalog", "clcourses" vs "clcourse")
+- Never use package prefixes like "integration_edu/clcourse" - use "clcourses" instead
 
 - Update the file menu-service.ts - find the component names and update the menu items.  
   Use the menu-service and update the "ecosystem" menu.
- 
- Good luck. 
+
+## IMPORTANT: List Component Requirements
+- The [entityName]-list component MUST extend AbstractListComponent and copy the providertyperef-list component structure
+- Use the abstract list template: '../../_global/abstract-list/abstract-list.component.html'
+- Use the abstract list stylesheet: '../../_global/abstract-list/abstract-list.component.scss'
+- Remove any custom template and stylesheet files for the list component
+- Implement all required abstract methods: getGridColumns(), createCriteria(), findEntities(), hasSearchResults(), getSearchResults(), formatEntityData(), onRowClick(), onAdd()
+- Grid columns should include all entity fields except audit fields (id, createdByInfo, dateCreated, lastUpdatedByInfo) which should be commented out
+- Navigation paths should use the plural route names (e.g., '/ecoadmin-dashboard/clcourses' not '/ecoadmin-dashboard/clcourse')
+
+## Route Naming Convention
+- Always use plural form of entityName for routes
+- Examples:
+  - entityName = "catalog" → route = "catalogs"
+  - entityName = "clcourse" → route = "clcourses" 
+  - entityName = "providertyperef" → route = "providertyperefs"
+- Never include package prefixes in routes
+- Menu routes should match the module routes exactly
+
+Good luck. 
  

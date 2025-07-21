@@ -81,7 +81,8 @@ ensuring that updates to the spec can be safely and efficiently propagated to th
 ## For the list page -
 *  List out all the fields in the grid definition section, but comment out "id,dateCreated,lastUpdatedBy"
 *  For foreign keys, use the code above and add the displayText of the foreign key wrapper to the grid.
-
+*  The list componnent should extend AbstractListComponent and copy the component [copyFromEntity]-list, 
+    just changing the contents of the grid displayed.
 ---
 
 # Component Specification Structure
@@ -190,9 +191,7 @@ See [copyFromEntity] components and import similarly.  These imports will includ
 ## List Component
 - **Purpose:** Router target to search and list `[entityName]GETData`.
 - **Files:**
-  - `[entityName]-list.component.html`
-  - `[entityName]-list.component.ts`
-  - `[entityName]-list.component.scss` (empty)
+  - `[entityName]-list.component.ts` (NO template or stylesheet files - uses abstract list template)
 - **Reference:** Base on the `copyFromEntityList` component.
 - **Method call:** `this.hcclService.find[entityName]s(criteria)`
 - **Attributes Table:**
@@ -202,32 +201,58 @@ See [copyFromEntity] components and import similarly.  These imports will includ
 - **CommonModule** for basic Angular functionality
 - **ActivatedRoute, Router** from `@angular/router`
 - **HcclService** and related interfaces from `@app/restsvc/hccl.service`
-- **ElementRef, ViewChild** for DHTMLX grid integration
+- **AbstractListComponent** from `@app/components/_global/abstract-list/abstract-list.component`
+- **Observable** from `rxjs`
 
 ### Component Structure
-- Implement `OnInit, AfterViewInit`
-- Include DHTMLX grid initialization and configuration
-- Handle row click navigation to details
-- Implement data loading with proper error handling
-- **MUST include:** `declare const dhx: any;` at the top of the file after imports
-- **Constructor:** Inject `HcclService`, `ActivatedRoute`, `Router`
-- **CRITICAL:** Copy ALL methods from `copyFromEntity-list.component.ts` including grid setup, event handlers, and data loading
+- **CRITICAL:** Extend `AbstractListComponent<[entityName]GETData, [entityName]Criteria, [entityName]GETDataSearchResults>`
+- **DO NOT** implement `OnInit, AfterViewInit` - use abstract base class
+- **DO NOT** include DHTMLX grid initialization - handled by abstract base class
+- **DO NOT** include `declare const dhx: any;` - not needed with abstract base class
+- **Constructor:** Only call `super()` - no additional services needed
+- **CRITICAL:** Copy ALL methods from `copyFromEntity-list.component.ts` including abstract method implementations
 
-### Template Structure
-- Use simple template: `<div #gridContainer class="search-list-grid-container" style="width:100%;height:600px;"></div>`
-- Keep template minimal - all logic should be in the TypeScript file
-- **Do NOT** include complex HTML structure
+### Template and Styles
+- **Use abstract list template:** `'../../_global/abstract-list/abstract-list.component.html'`
+- **Use abstract list stylesheet:** `'../../_global/abstract-list/abstract-list.component.scss'`
+- **DO NOT** create custom template or stylesheet files
+- **DO NOT** include `templateUrl` or `styleUrls` pointing to custom files
+
+### Required Abstract Methods
+- `getGridColumns()`: Return grid column configuration for [entityName] fields
+- `createCriteria()`: Create search criteria with paging
+- `findEntities()`: Call `this.hcclService.find[entityName]s(criteria)`
+- `hasSearchResults()`: Check if response has search results
+- `getSearchResults()`: Extract search results from response
+- `formatEntityData()`: Format entity data for display
+- `onRowClick()`: Navigate to detail view using plural route names
+- `onAdd()`: Navigate to create view using plural route names
+
+### Grid Configuration
+- Include all [entityName] fields in grid columns
+- **Comment out audit fields:** id, createdByInfo, dateCreated, lastUpdatedByInfo
+- Add proper filtering and alignment for each column
+- Use plural route names for navigation (e.g., '/ecoadmin-dashboard/[pluralEntityName]')
 
 ---
 
 ## Module Integration
 
+### Route Naming Convention
+- **CRITICAL:** Always use plural form of entityName for routes
+- Examples:
+  - entityName = "catalog" → route = "catalogs"
+  - entityName = "clcourse" → route = "clcourses" 
+  - entityName = "providertyperef" → route = "providertyperefs"
+- **Never include package prefixes** in routes (e.g., use "clcourses" not "integration_edu/clcourse")
+- Menu routes must match module routes exactly
+
 ### Routing Configuration
 Add the following routes to the appropriate module (e.g., `dash-ecoadmin.module.ts`):
 ```typescript
-{ path: '[routePath]/:id/:tabId', component: [entityName]GroupComponent },
-{ path: '[routePath]/:id', redirectTo: '[routePath]/:id/details', pathMatch: 'full' },
-{ path: '[routePath]', component: [entityName]ListComponent }
+{ path: '[pluralEntityName]/[entityName]/:id/:tabId', component: [entityName]GroupComponent },
+{ path: '[pluralEntityName]/[entityName]/:id', redirectTo: '[pluralEntityName]/[entityName]/:id/details', pathMatch: 'full' },
+{ path: '[pluralEntityName]/[entityName]', component: [entityName]ListComponent }
 ```
 
 ### Module Imports
@@ -250,7 +275,7 @@ Add menu item constant to `src/app/shell/services/menu.service.ts`:
 EA_[entityName]_LIST: {
   level: 1,
   label: '[entityName]s',
-  route: '/ecoadmin-dashboard/[routePath]',
+  route: '/ecoadmin-dashboard/[pluralEntityName]/[entityName]',
   componentPath: 'src/app/components/_crud/[entityName]/[entityName]-list.component',
   componentName: '[entityName]ListComponent',
   icon: 'fas fa-list'
@@ -265,7 +290,7 @@ const [entityName] = this.copyMenuItem(MENU_CONSTANTS.EA_[entityName]_LIST);
 this.addMenuItem(menu, [entityName]);
 ```
 
-**CRITICAL ROUTING FIX:** Ensure menu route uses `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]` to match the actual app routing structure.
+**CRITICAL ROUTING FIX:** Ensure menu route uses `/ecoadmin-dashboard/[pluralEntityName]/[entityName]` to match the actual app routing structure.
 
 ---
 
@@ -314,11 +339,13 @@ this.addMenuItem(menu, [entityName]);
 - Always call `super()` in constructor for components extending abstract classes
 - **Do NOT** inject `Router` or `HcclService` in Group component constructor
 
-### DHTMLX Integration
-- **MUST** include `declare const dhx: any;` in list components
-- Ensure proper grid initialization with error handling
-- Copy ALL grid setup methods from `copyFromEntity-list.component.ts`
-- Include proper event handlers for row clicks and data loading
+### AbstractListComponent Integration
+- **CRITICAL:** List components MUST extend `AbstractListComponent` not implement `OnInit`
+- **DO NOT** include `declare const dhx: any;` - handled by abstract base class
+- **DO NOT** include manual DHTMLX grid initialization - handled by abstract base class
+- **DO NOT** create custom template or stylesheet files - use abstract list template
+- Copy ALL abstract method implementations from `copyFromEntity-list.component.ts`
+- Use plural route names for navigation (e.g., '/ecoadmin-dashboard/clcourses')
 
 ### Menu Navigation Issues
 - **CRITICAL:** Menu route must match actual app routing structure
@@ -340,10 +367,12 @@ this.addMenuItem(menu, [entityName]);
 2. **Method Implementation:** Copy ALL methods from reference components, don't create new ones
 3. **Import Requirements:** Include all necessary imports for components and services
 4. **Constructor Rules:** Follow strict constructor injection rules for each component type
-5. **Routing Consistency:** Ensure menu routes match actual app routing structure
+5. **Routing Consistency:** Ensure menu routes match actual app routing structure using plural entity names
 6. **Component Dependencies:** Declare all required `@Input()` properties
 7. **Error Handling:** Include proper error handling in data loading methods
-8. **Grid Integration:** Copy complete DHTMLX grid setup from reference components
+8. **List Component Rules:** MUST extend AbstractListComponent, use abstract list template, no custom template files
+9. **Route Naming:** Always use plural form of entityName for routes (e.g., "catalogs" not "catalog")
+10. **No Package Prefixes:** Never include package prefixes in routes (e.g., use "clcourses" not "integration_edu/clcourse")
 
 ---
 

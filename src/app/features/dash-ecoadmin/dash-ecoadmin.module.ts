@@ -9,6 +9,8 @@ import { ProviderTypeRefListComponent } from '../../components/_crud/providertyp
 import { ProviderTypeRefGroupComponent } from '../../components/_crud/providertyperef/providertyperef-group.component';
 import { CLCourseListComponent } from '../../components/_crud/clcourse/clcourse-list.component';
 import { CLCourseGroupComponent } from '../../components/_crud/clcourse/clcourse-group.component';
+import { CatalogListComponent } from '../../components/_crud/catalog/catalog-list.component';
+import { CatalogGroupComponent } from '../../components/_crud/catalog/catalog-group.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,10 @@ const routes: Routes = [
       { path: 'clcourses/:id/:tabId', component: CLCourseGroupComponent },
       { path: 'clcourses/:id', redirectTo: 'clcourses/:id/details', pathMatch: 'full' },
       { path: 'clcourses', component: CLCourseListComponent },
+      { path: 'catalogs/create', component: CatalogGroupComponent },
+      { path: 'catalogs/:id/:tabId', component: CatalogGroupComponent },
+      { path: 'catalogs/:id', redirectTo: 'catalogs/:id/details', pathMatch: 'full' },
+      { path: 'catalogs', component: CatalogListComponent },
     ]
   }
 ];
@@ -39,7 +45,9 @@ const routes: Routes = [
     ProviderTypeRefListComponent,
     ProviderTypeRefGroupComponent,
     CLCourseListComponent,
-    CLCourseGroupComponent
+    CLCourseGroupComponent,
+    CatalogListComponent,
+    CatalogGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 
