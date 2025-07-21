@@ -23,6 +23,8 @@ import { HcclUserListComponent } from '../../components/_crud/hccluser/hccluser-
 import { HcclUserGroupComponent } from '../../components/_crud/hccluser/hccluser-group.component';
 import { WorkQueueTypeRefListComponent } from '../../components/_crud/workqueuetyperef/workqueuetyperef-list.component';
 import { WorkQueueTypeRefGroupComponent } from '../../components/_crud/workqueuetyperef/workqueuetyperef-group.component';
+import { WorkRequestTypeRefListComponent } from '../../components/_crud/workrequesttyperef/workrequesttyperef-list.component';
+import { WorkRequestTypeRefGroupComponent } from '../../components/_crud/workrequesttyperef/workrequesttyperef-group.component';
 
 const routes: Routes = [
   {
@@ -69,6 +71,10 @@ const routes: Routes = [
       { path: 'workqueuetyperefs/:id/:tabId', component: WorkQueueTypeRefGroupComponent },
       { path: 'workqueuetyperefs/:id', redirectTo: 'workqueuetyperefs/:id/details', pathMatch: 'full' },
       { path: 'workqueuetyperefs', component: WorkQueueTypeRefListComponent },
+      { path: 'workrequesttyperefs/create', component: WorkRequestTypeRefGroupComponent },
+      { path: 'workrequesttyperefs/:id/:tabId', component: WorkRequestTypeRefGroupComponent },
+      { path: 'workrequesttyperefs/:id', redirectTo: 'workrequesttyperefs/:id/details', pathMatch: 'full' },
+      { path: 'workrequesttyperefs', component: WorkRequestTypeRefListComponent },
     ]
   }
 ];
@@ -96,7 +102,9 @@ const routes: Routes = [
     HcclUserListComponent,
     HcclUserGroupComponent,
     WorkQueueTypeRefListComponent,
-    WorkQueueTypeRefGroupComponent
+    WorkQueueTypeRefGroupComponent,
+    WorkRequestTypeRefListComponent,
+    WorkRequestTypeRefGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 
