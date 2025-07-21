@@ -193,6 +193,14 @@ export class MenuService {
     const clschoolList = this.copyMenuItem(MENU_CONSTANTS.EA_CLSCHOOL_LIST);
     this.addMenuItem(menu, clschoolList);
 
+    // hcclorganization list
+    const hcclorganizationList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLORGANIZATION_LIST);
+    this.addMenuItem(menu, hcclorganizationList);
+
+    // hcclorganizationtyperef list
+    const hcclorganizationtyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLORGANIZATIONTYPEREF_LIST);
+    this.addMenuItem(menu, hcclorganizationtyperefList);
+
     return menu;
   }
 
@@ -905,11 +913,11 @@ EA_HCCLUSERPROFILE_LIST: {
 
 EA_HCCLORGANIZATION_LIST: {
   "level" : 2,
-  "label" : "Hccl Organization",
-  "route" : "/ecoadmin-dashboard/teams/hcclorganization-list",
-  "componentPath" : "/src/app/components/_crud/teams/hcclorganization-list",
-  "componentName" : "hcclorganization-list",
-  "icon" : ""
+  "label" : "HCCL Organizations",
+  "route" : "/ecoadmin-dashboard/hcclorganizations",
+  "componentPath" : "/src/app/components/_crud/hcclorganization/hcclorganization-list.component",
+  "componentName" : "HcclOrganizationListComponent",
+  "icon" : "fas fa-building"
 },
 
 EA_TEAMTYPEREF_LIST: {
@@ -923,11 +931,11 @@ EA_TEAMTYPEREF_LIST: {
 
 EA_HCCLORGANIZATIONTYPEREF_LIST: {
   "level" : 2,
-  "label" : "Hccl Organization Type Ref",
-  "route" : "/ecoadmin-dashboard/teams/hcclorganizationtyperef-list",
-  "componentPath" : "/src/app/components/_crud/teams/hcclorganizationtyperef-list",
-  "componentName" : "hcclorganizationtyperef-list",
-  "icon" : ""
+  "label" : "HCCL Organization Type Refs",
+  "route" : "/ecoadmin-dashboard/hcclorganizationtyperefs",
+  "componentPath" : "/src/app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component",
+  "componentName" : "HcclOrganizationTypeRefListComponent",
+  "icon" : "fas fa-sitemap"
 },
 
 //  /ecoadmin-dashboard/prov menu items 

@@ -94,6 +94,26 @@ ensuring that updates to the spec can be safely and efficiently propagated to th
   - `[entityName]-crud.component.ts`
   - Use this in the component definition :  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
   
+## On crud Menus
+- [EntityName] CrudComponent.prepareMenus .   Default implementation : 
+  (Implement but comment out the 
+```
+protected override async prepareMenus(entity: [EntityName]CrudWrapper): Promise<void> {
+    //const criteria = this.get[EntityName]FkMenuCriteria();
+    //this.[entityName]Menu = await entity.getFkMenu([entityName], this.id);
+    return Promise.resolve();
+}
+``` 
+
+- [EntityName]CrudWrapper.getFkMenu()  - implement like this :  
+```
+  public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
+    const [entityName]s = await this.get[EntityName]s();
+    return this.getMenuControlDataList("[entityName]s", getEntityType(), [entityName]s, data);
+  }
+```
+  
+
 
 ### Section: Details
 - **Based on:** `HcclService` interface `[entityName]GETData`
@@ -320,11 +340,11 @@ this.addMenuItem(menu, [entityName]);
 - For date display components, import `DategetdataDisplayComponent`
 - For available selector, import `AvailableSelectorComponent`
 - For menu controls, import `MenuControlDataListComponent`
-- **CRITICAL:** For date components, ensure `@Input() dateData: any` is declared in the component class
+- **CRITICAL:** For date components, ensure `@Input() data: any` is declared in the component class
 
 ### Template Binding Errors
 - Ensure `@Input()` properties are declared in component classes
-- For date components, ensure `@Input() dateData: any` is declared
+- For date components, ensure `@Input() data: any` is declared
 - For available selector, ensure proper two-way binding with `[(ngModel)]`
 - Check that all form field bindings use correct property names
 

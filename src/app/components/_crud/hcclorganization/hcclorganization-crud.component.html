@@ -1,0 +1,320 @@
+<span *ngIf="getMode() === CRUD_MODES.FK  && !isLoading">{{ getCurrentEntity().getDisplayText() }}</span>
+
+<div *ngIf="getMode() === CRUD_MODES.FK_MENU  && !isLoading" class="fk_menu-mode">
+<!-- Heading Mode -->
+<app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+</div>
+
+<div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
+    <div class="details-section">
+      <div class="detail-group">
+        <label>Name:</label>
+        <span>{{ getCurrentEntity().getData().name }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Business Code:</label>
+        <span>{{ getCurrentEntity().getData().businessCode }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Description:</label>
+        <span>{{ getCurrentEntity().getData().description }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Available:</label>
+        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+      </div>
+      <div class="detail-group">
+        <label>Organization Type:</label>
+        <span><app-hcclorganizationtyperef-crud [id]="organizationTypeId" mode="FK"></app-hcclorganizationtyperef-crud></span>
+      </div>
+      <div class="detail-group">
+        <label>Website URL:</label>
+        <span>{{ getCurrentEntity().getData().websiteUrl }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Parent Entity Name:</label>
+        <span>{{ getCurrentEntity().getData().parentEntityName }}</span>
+      </div>
+    </div>
+</div>
+
+<div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
+<!-- Heading Mode -->
+<h3>{{ getCurrentEntity().getDisplayText() }}</h3>
+</div>
+
+<div *ngIf="isCrudModeCUD()" class="crud-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="loading-spinner">Loading...</div>
+  </div>
+
+  <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
+  <!-- Create Mode -->
+  <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Create New HCCL Organization</h3>
+    </div>
+    <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <form
+        (ngSubmit)="this.createEntity()"
+      >
+      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+      </div>
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="name"
+        label="Name"
+        [required]="true"
+        [maxLength]="255"
+        [error]="error"
+        [(ngModel)]="name">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="businessCode"
+        label="Business Code"
+        [required]="true"
+        [maxLength]="50"
+        [error]="error"
+        [(ngModel)]="businessCode">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-textarea 
+        prefix="hcclorganization" 
+        name="description"
+        label="Description"
+        [required]="true"
+        [maxLength]="1024"
+        [error]="error"
+        [(ngModel)]="description">
+      </app-std-mdb-form-textarea>
+      <div class="form-group">
+        <label>Available:</label>
+        <app-available-selector [(ngModel)]="available"></app-available-selector>
+      </div>
+      <div class="form-group">
+        <label>Organization Type:</label>
+        <app-hcclorganizationtyperef-crud [id]="organizationTypeId" mode="FK_MENU"></app-hcclorganizationtyperef-crud>
+      </div>
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="jsonData"
+        label="JSON Data"
+        [error]="error"
+        [(ngModel)]="jsonData">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="websiteUrl"
+        label="Website URL"
+        [error]="error"
+        [(ngModel)]="websiteUrl">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="parentEntityEntityType"
+        label="Parent Entity Entity Type"
+        [maxLength]="50"
+        [error]="error"
+        [(ngModel)]="parentEntityEntityType">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="parentEntityName"
+        label="Parent Entity Name"
+        [maxLength]="255"
+        [error]="error"
+        [(ngModel)]="parentEntityName">
+      </app-std-mdb-form-text>
+     
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Mode -->
+  <div *ngIf="getMode() === CRUD_MODES.EDIT  && !isLoading" class="edit-mode">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit HCCL Organization</h3>
+    </div>
+    <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <form (ngSubmit)="updateEntity(getCurrentEntity())">
+        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+        </div>
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="name"
+          label="Name"
+          [required]="true"
+          [maxLength]="255"
+          [error]="error"
+          [(ngModel)]="name">
+        </app-std-mdb-form-text>
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="businessCode"
+          label="Business Code"
+          [required]="true"
+          [maxLength]="50"
+          [error]="error"
+          [(ngModel)]="businessCode">
+        </app-std-mdb-form-text>
+        <app-std-mdb-form-textarea 
+          prefix="hcclorganization" 
+          name="description"
+          label="Description"
+          [required]="true"
+          [maxLength]="1024"
+          [error]="error"
+          [(ngModel)]="description">
+        </app-std-mdb-form-textarea>
+        <div class="form-group">
+          <label>Available:</label>
+          <app-available-selector [(ngModel)]="available"></app-available-selector>
+        </div>
+        <div class="form-group">
+          <label>Organization Type:</label>
+          <app-hcclorganizationtyperef-crud [id]="organizationTypeId" mode="FK_MENU"></app-hcclorganizationtyperef-crud>
+        </div>
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="jsonData"
+          label="JSON Data"
+          [error]="error"
+          [(ngModel)]="jsonData">
+        </app-std-mdb-form-text>
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="websiteUrl"
+          label="Website URL"
+          [error]="error"
+          [(ngModel)]="websiteUrl">
+        </app-std-mdb-form-text>
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="parentEntityEntityType"
+          label="Parent Entity Entity Type"
+          [maxLength]="50"
+          [error]="error"
+          [(ngModel)]="parentEntityEntityType">
+        </app-std-mdb-form-text>
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="parentEntityName"
+          label="Parent Entity Name"
+          [maxLength]="255"
+          [error]="error"
+          [(ngModel)]="parentEntityName">
+        </app-std-mdb-form-text>
+      </form>
+    </div>
+  </div>
+
+  <!-- Detail Mode  overlay? -->
+  <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading"  class="detail-mode">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">HCCL Organization Details</h3>
+    </div>
+    <div class="details-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <div class="detail-group">
+        <label>Name:</label>
+        <span>{{ getCurrentEntity().getData().name }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Business Code:</label>
+        <span>{{ getCurrentEntity().getData().businessCode }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Description:</label>
+        <span>{{ getCurrentEntity().getData().description }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Available:</label>
+        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+      </div>
+      <div class="detail-group">
+        <label>Organization Type:</label>
+        <span><app-hcclorganizationtyperef-crud [id]="organizationTypeId" mode="FK"></app-hcclorganizationtyperef-crud></span>
+      </div>
+      <div class="detail-group">
+        <label>JSON Data:</label>
+        <span>{{ getCurrentEntity().getData().jsonData }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Website URL:</label>
+        <span>{{ getCurrentEntity().getData().websiteUrl }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Parent Entity ID:</label>
+        <span>{{ getCurrentEntity().getData().parentEntityId }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Parent Entity Entity Type:</label>
+        <span>{{ getCurrentEntity().getData().parentEntityEntityType }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Parent Entity Name:</label>
+        <span>{{ getCurrentEntity().getData().parentEntityName }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Created By:</label>
+        <span>{{ getCurrentEntity().getData().createdByInfo?.name }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Date Created:</label>
+        <span><app-dategetdata-display [data]="getCurrentEntity().getData().dateCreated"></app-dategetdata-display></span>
+      </div>
+      <div class="detail-group">
+        <label>Last Updated By:</label>
+        <span>{{ getCurrentEntity().getData().lastUpdatedByInfo?.name }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Date Last Updated:</label>
+        <span><app-dategetdata-display [data]="getCurrentEntity().getData().dateLastUpdated"></app-dategetdata-display></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Mode -->
+  <div *ngIf="getMode() === CRUD_MODES.DELETE && !isLoading" class="delete-mode">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Delete HCCL Organization</h3>
+    </div>
+    <div class="delete-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <p>Are you sure you want to delete this HCCL Organization?</p>
+      <p><strong>{{ getCurrentEntity().getDisplayText() }}</strong></p>
+      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <button type="button" (click)="deleteEntity(getCurrentEntity().getData().id!)" class="btn btn-danger">Delete</button>
+        <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="getMode() === CRUD_MODES.DEBUG">
+  <!-- debug - show ALL the sections, clearly marked, by  re-creating the crud component -->
+  <h3>details Mode</h3>
+  <app-hcclorganization-crud [modeName]="'details'" [id]="this.id"></app-hcclorganization-crud>
+  <h3>section Mode</h3>
+  <app-hcclorganization-crud [modeName]="'section'" [id]="this.id"></app-hcclorganization-crud>
+  <h3>create Mode</h3>
+  <app-hcclorganization-crud [modeName]="'create'" [id]="this.id"></app-hcclorganization-crud>
+  <h3>edit Mode</h3>
+  <app-hcclorganization-crud [modeName]="'edit'" [id]="this.id"></app-hcclorganization-crud>
+  <h3>delete Mode</h3>
+  <app-hcclorganization-crud [modeName]="'delete'" [id]="this.id"></app-hcclorganization-crud>
+  <h3>fk Mode</h3>
+  <app-hcclorganization-crud [modeName]="'fk'" [id]="this.id"></app-hcclorganization-crud>
+  <h3>fk_menu Mode</h3>
+  <app-hcclorganization-crud [modeName]="'fk_menu'" [id]="this.id"></app-hcclorganization-crud>
+  <h3>heading Mode</h3>
+  <app-hcclorganization-crud [modeName]="'heading'" [id]="this.id"></app-hcclorganization-crud>
+</div>
+
+<div *ngIf="false">
+<h3> Dump </h3>
+<pre>{{ getCurrentEntity().getData() | json }}</pre>
+</div> 

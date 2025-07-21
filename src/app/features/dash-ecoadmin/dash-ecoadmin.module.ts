@@ -15,6 +15,10 @@ import { CatalogEntryListComponent } from '../../components/_crud/catalogentry/c
 import { CatalogEntryGroupComponent } from '../../components/_crud/catalogentry/catalogentry-group.component';
 import { CLSchoolListComponent } from '../../components/_crud/clschool/clschool-list.component';
 import { CLSchoolGroupComponent } from '../../components/_crud/clschool/clschool-group.component';
+import { HcclOrganizationListComponent } from '../../components/_crud/hcclorganization/hcclorganization-list.component';
+import { HcclOrganizationGroupComponent } from '../../components/_crud/hcclorganization/hcclorganization-group.component';
+import { HcclOrganizationTypeRefListComponent } from '../../components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component';
+import { HcclOrganizationTypeRefGroupComponent } from '../../components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-group.component';
 
 const routes: Routes = [
   {
@@ -44,6 +48,14 @@ const routes: Routes = [
       { path: 'clschools/:id/:tabId', component: CLSchoolGroupComponent },
       { path: 'clschools/:id', redirectTo: 'clschools/:id/details', pathMatch: 'full' },
       { path: 'clschools', component: CLSchoolListComponent },
+      { path: 'hcclorganizations/create', component: HcclOrganizationGroupComponent },
+      { path: 'hcclorganizations/:id/:tabId', component: HcclOrganizationGroupComponent },
+      { path: 'hcclorganizations/:id', redirectTo: 'hcclorganizations/:id/details', pathMatch: 'full' },
+      { path: 'hcclorganizations', component: HcclOrganizationListComponent },
+      { path: 'hcclorganizationtyperefs/create', component: HcclOrganizationTypeRefGroupComponent },
+      { path: 'hcclorganizationtyperefs/:id/:tabId', component: HcclOrganizationTypeRefGroupComponent },
+      { path: 'hcclorganizationtyperefs/:id', redirectTo: 'hcclorganizationtyperefs/:id/details', pathMatch: 'full' },
+      { path: 'hcclorganizationtyperefs', component: HcclOrganizationTypeRefListComponent },
     ]
   }
 ];
@@ -63,7 +75,11 @@ const routes: Routes = [
     CatalogEntryListComponent,
     CatalogEntryGroupComponent,
     CLSchoolListComponent,
-    CLSchoolGroupComponent
+    CLSchoolGroupComponent,
+    HcclOrganizationListComponent,
+    HcclOrganizationGroupComponent,
+    HcclOrganizationTypeRefListComponent,
+    HcclOrganizationTypeRefGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 
