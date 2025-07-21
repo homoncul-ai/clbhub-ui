@@ -13,6 +13,8 @@ import { CatalogListComponent } from '../../components/_crud/catalog/catalog-lis
 import { CatalogGroupComponent } from '../../components/_crud/catalog/catalog-group.component';
 import { CatalogEntryListComponent } from '../../components/_crud/catalogentry/catalogentry-list.component';
 import { CatalogEntryGroupComponent } from '../../components/_crud/catalogentry/catalogentry-group.component';
+import { CLSchoolListComponent } from '../../components/_crud/clschool/clschool-list.component';
+import { CLSchoolGroupComponent } from '../../components/_crud/clschool/clschool-group.component';
 
 const routes: Routes = [
   {
@@ -38,6 +40,10 @@ const routes: Routes = [
       { path: 'catalogentries/:id/:tabId', component: CatalogEntryGroupComponent },
       { path: 'catalogentries/:id', redirectTo: 'catalogentries/:id/details', pathMatch: 'full' },
       { path: 'catalogentries', component: CatalogEntryListComponent },
+      { path: 'clschools/create', component: CLSchoolGroupComponent },
+      { path: 'clschools/:id/:tabId', component: CLSchoolGroupComponent },
+      { path: 'clschools/:id', redirectTo: 'clschools/:id/details', pathMatch: 'full' },
+      { path: 'clschools', component: CLSchoolListComponent },
     ]
   }
 ];
@@ -55,7 +61,9 @@ const routes: Routes = [
     CatalogListComponent,
     CatalogGroupComponent,
     CatalogEntryListComponent,
-    CatalogEntryGroupComponent
+    CatalogEntryGroupComponent,
+    CLSchoolListComponent,
+    CLSchoolGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 

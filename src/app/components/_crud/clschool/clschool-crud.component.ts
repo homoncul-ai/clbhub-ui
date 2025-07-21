@@ -1,212 +1,417 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CLSchoolGETData, CLSchoolPOSTData, CLSchoolPUTData, CLSchoolCriteria, HcclService, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { CLSchoolCriteria, CLSchoolGETData, CLSchoolPOSTData, CLSchoolPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
+import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
-import { HcclOrganizationCrudComponent, HcclOrganizationCrudWrapper } from '@app/components/_crud/hccl-organization/hccl-organization-crud.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
 @Component({
   selector: 'app-clschool-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, HcclOrganizationCrudComponent],
   templateUrl: './clschool-crud.component.html',
-  styleUrl: './clschool-crud.component.scss'
+  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
+    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
+    SimpleMessagesSectionComponent, MenuControlDataListComponent,
+    AvailableSelectorComponent, DategetdataDisplayComponent],
+  standalone: true
 })
-export class ClschoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWrapper> implements OnInit, OnChanges {
-  constructor() { super(); }
+export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWrapper> implements OnInit, OnChanges {
 
-  override ngOnInit(): void { 
-    super.ngOnInit(); 
-    this.entityType = CLSchoolCrudWrapper.ENTITY_TYPE;
+  constructor() {
+    super();
+  }
+
+  // Error property for form validation
+  public error: any = null;
+
+  // Validation methods
+  private validateName(name: string): string | null {
+    if (!name || name.trim() === '') {
+      return 'Name is required';
+    }
+    if (name.length > 255) {
+      return 'Name must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateBusinessCode(businessCode: string): string | null {
+    if (!businessCode || businessCode.trim() === '') {
+      return 'Business Code is required';
+    }
+    if (businessCode.length > 50) {
+      return 'Business Code must be less than 50 characters';
+    }
+    return null;
+  }
+
+  private validateDataOriginCode(dataOriginCode: string): string | null {
+    if (dataOriginCode && dataOriginCode.length > 20) {
+      return 'Data Origin Code must be less than 20 characters';
+    }
+    return null;
+  }
+
+  private validateOrganizationName(organizationName: string): string | null {
+    if (organizationName && organizationName.length > 255) {
+      return 'Organization Name must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateAddressLine(addressLine: string, lineNumber: number): string | null {
+    if (addressLine && addressLine.length > 255) {
+      return `Address Line ${lineNumber} must be less than 255 characters`;
+    }
+    return null;
+  }
+
+  private validateDistrictCode(districtCode: string): string | null {
+    if (districtCode && districtCode.length > 255) {
+      return 'District Code must be less than 255 characters';
+    }
+    return null;
+  }
+
+  // Validate all fields and return error object
+  private validateForm(): any {
+    const errors: any = {};
+    
+    const nameError = this.validateName(this.name);
+    if (nameError) {
+      errors.name = { errorMessage: nameError };
+    }
+    
+    const businessCodeError = this.validateBusinessCode(this.businessCode);
+    if (businessCodeError) {
+      errors.businessCode = { errorMessage: businessCodeError };
+    }
+    
+    const dataOriginCodeError = this.validateDataOriginCode(this.dataOriginCode);
+    if (dataOriginCodeError) {
+      errors.dataOriginCode = { errorMessage: dataOriginCodeError };
+    }
+    
+    const organizationNameError = this.validateOrganizationName(this.organizationName);
+    if (organizationNameError) {
+      errors.organizationName = { errorMessage: organizationNameError };
+    }
+    
+    const addressLine1Error = this.validateAddressLine(this.addressLine1, 1);
+    if (addressLine1Error) {
+      errors.addressLine1 = { errorMessage: addressLine1Error };
+    }
+    
+    const addressLine2Error = this.validateAddressLine(this.addressLine2, 2);
+    if (addressLine2Error) {
+      errors.addressLine2 = { errorMessage: addressLine2Error };
+    }
+    
+    const addressLine3Error = this.validateAddressLine(this.addressLine3, 3);
+    if (addressLine3Error) {
+      errors.addressLine3 = { errorMessage: addressLine3Error };
+    }
+    
+    const addressLine4Error = this.validateAddressLine(this.addressLine4, 4);
+    if (addressLine4Error) {
+      errors.addressLine4 = { errorMessage: addressLine4Error };
+    }
+    
+    const districtCodeError = this.validateDistrictCode(this.districtCode);
+    if (districtCodeError) {
+      errors.districtCode = { errorMessage: districtCodeError };
+    }
+    
+    return errors;
+  }
+
+  private clearValidationErrors(): void {
+    this.error = null;
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
   }
 
   protected async loadEntityByIdCall(id: string): Promise<CLSchoolCrudWrapper> {
-    const school = await this.hcclService.getCLSchoolById(id).toPromise();
-    if (school) return new CLSchoolCrudWrapper(school, this.hcclService);
-    throw new Error('School not found');
+    const clschool = await this.hcclService.getCLSchoolById(id).toPromise();
+    if (!clschool) {
+      throw new Error('CLSchool not found');
+    }
+    return new CLSchoolCrudWrapper(clschool, this.hcclService);
   }
 
   protected override async createEntityDataCall(entity: CLSchoolCrudWrapper): Promise<any> {
-    const data = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
     const postData: CLSchoolPOSTData = {
-      organizationId: data.organizationId || '',
-      name: data.name || '',
-      businessCode: data.businessCode || '',
-      available: data.available || 1,
-      dataOriginCode: data.dataOriginCode,
-      organizationName: data.organizationName,
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine2,
-      addressLine3: data.addressLine3,
-      addressLine4: data.addressLine4,
-      districtCode: data.districtCode
+      name: entity.getData().name || '',
+      businessCode: entity.getData().businessCode || '',
+      available: entity.getData().available || 0,
+      organizationId: entity.getData().organizationId,
+      dataOriginCode: entity.getData().dataOriginCode,
+      organizationName: entity.getData().organizationName,
+      addressLine1: entity.getData().addressLine1,
+      addressLine2: entity.getData().addressLine2,
+      addressLine3: entity.getData().addressLine3,
+      addressLine4: entity.getData().addressLine4,
+      districtCode: entity.getData().districtCode
     };
-    return this.hcclService.createCLSchool(postData);
+
+    const errors = this.validateForm();
+    if (Object.keys(errors).length > 0) {
+      this.error = errors;
+      throw new Error('Validation failed');
+    }
+
+    return this.hcclService.createCLSchool(postData).toPromise();
   }
 
-
-
   protected override async updateEntityDataCall(entity: CLSchoolCrudWrapper): Promise<void> {
-    const data = entity.getData();
-    if (!data.id) throw new Error('School ID is required for update');
     const putData: CLSchoolPUTData = {
-      organizationId: data.organizationId || '',
-      name: data.name || '',
-      businessCode: data.businessCode || '',
-      available: data.available || 1,
-      dataOriginCode: data.dataOriginCode,
-      organizationName: data.organizationName,
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine2,
-      addressLine3: data.addressLine3,
-      addressLine4: data.addressLine4,
-      districtCode: data.districtCode
+      name: entity.getData().name || '',
+      businessCode: entity.getData().businessCode || '',
+      available: entity.getData().available || 0,
+      organizationId: entity.getData().organizationId,
+      dataOriginCode: entity.getData().dataOriginCode,
+      organizationName: entity.getData().organizationName,
+      addressLine1: entity.getData().addressLine1,
+      addressLine2: entity.getData().addressLine2,
+      addressLine3: entity.getData().addressLine3,
+      addressLine4: entity.getData().addressLine4,
+      districtCode: entity.getData().districtCode
     };
-    await this.hcclService.updateCLSchoolById(data.id, putData).toPromise();
+
+    const errors = this.validateForm();
+    if (Object.keys(errors).length > 0) {
+      this.error = errors;
+      throw new Error('Validation failed');
+    }
+
+    await this.hcclService.updateCLSchoolById(entity.getData().id!, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
-    await this.hcclService.deleteCLSchoolById(id).toPromise();
-    return true;
-  }
-
-  public override newEmptyWrapper(): CLSchoolCrudWrapper {
-    const empty: CLSchoolGETData = {
-      name: '',
-      businessCode: '',
-      available: 1
-    };
-    return new CLSchoolCrudWrapper(empty, this.hcclService);
-  }
-
-  public createWrapper(data: CLSchoolGETData): CLSchoolCrudWrapper {
-    return new CLSchoolCrudWrapper(data, this.hcclService);
-  }
-
-  public get name(): string { return this.getCurrentEntity().getData().name || ''; }
-  public set name(value: string) { this.getEntityForSet().getData().name = value; }
-
-  public get businessCode(): string { return this.getCurrentEntity().getData().businessCode || ''; }
-  public set businessCode(value: string) { this.getEntityForSet().getData().businessCode = value; }
-
-  public get organizationId(): string { return this.getCurrentEntity().getData().organizationId || ''; }
-  public set organizationId(value: string) { this.getEntityForSet().getData().organizationId = value; }
-
-  public get organizationName(): string { return this.getCurrentEntity().getData().organizationName || ''; }
-  public set organizationName(value: string) { this.getEntityForSet().getData().organizationName = value; }
-
-  public get addressLine1(): string { return this.getCurrentEntity().getData().addressLine1 || ''; }
-  public set addressLine1(value: string) { this.getEntityForSet().getData().addressLine1 = value; }
-
-  public get addressLine2(): string { return this.getCurrentEntity().getData().addressLine2 || ''; }
-  public set addressLine2(value: string) { this.getEntityForSet().getData().addressLine2 = value; }
-
-  public get addressLine3(): string { return this.getCurrentEntity().getData().addressLine3 || ''; }
-  public set addressLine3(value: string) { this.getEntityForSet().getData().addressLine3 = value; }
-
-  public get addressLine4(): string { return this.getCurrentEntity().getData().addressLine4 || ''; }
-  public set addressLine4(value: string) { this.getEntityForSet().getData().addressLine4 = value; }
-
-  public get districtCode(): string { return this.getCurrentEntity().getData().districtCode || ''; }
-  public set districtCode(value: string) { this.getEntityForSet().getData().districtCode = value; }
-
-  public get available(): number { return this.getCurrentEntity().getData().available || 1; }
-  public set available(value: number) { this.getEntityForSet().getData().available = value; }
-
-  onOrganizationChange(selectedOrganization: any): void {
-    console.log('Organization selected:', selectedOrganization);
-    if (selectedOrganization && this.getCurrentEntity()) {
-      this.organizationId = selectedOrganization.id || '';
+    try {
+      await this.hcclService.deleteCLSchoolById(id).toPromise();
+      return true;
+    } catch (error) {
+      console.error('Error deleting CLSchool:', error);
+      return false;
     }
   }
 
-
-   /** Define the menu objects for this crud component */
-   protected organizationMenu: MenuControlDataList | null = null;
-   protected override async prepareMenus(entity: CLSchoolCrudWrapper): Promise<void> {
-    var organizationWrapper = await HcclOrganizationCrudWrapper.newInstance(entity.getOrganizationId(), this.hcclService);
-    const fkMenu = await organizationWrapper.getFkMenu();
-    // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
-    this.organizationMenu = fkMenu || null;
-
- 
-    return Promise.resolve();
+  public override newEmptyWrapper(): CLSchoolCrudWrapper {
+    return CLSchoolCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+  // Getter and setter methods for form binding
+  public get name(): string {
+    return this.getCurrentEntity()?.getData()?.name || '';
+  }
+
+  public set name(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().name = value;
+    }
+  }
+
+  public get businessCode(): string {
+    return this.getCurrentEntity()?.getData()?.businessCode || '';
+  }
+
+  public set businessCode(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().businessCode = value;
+    }
+  }
+
+  public get available(): number {
+    return this.getCurrentEntity()?.getData()?.available || 0;
+  }
+
+  public set available(value: number) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().available = value;
+    }
+  }
+
+  public get organizationId(): string {
+    return this.getCurrentEntity()?.getData()?.organizationId || '';
+  }
+
+  public set organizationId(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().organizationId = value;
+    }
+  }
+
+  public get dataOriginCode(): string {
+    return this.getCurrentEntity()?.getData()?.dataOriginCode || '';
+  }
+
+  public set dataOriginCode(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().dataOriginCode = value;
+    }
+  }
+
+  public get organizationName(): string {
+    return this.getCurrentEntity()?.getData()?.organizationName || '';
+  }
+
+  public set organizationName(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().organizationName = value;
+    }
+  }
+
+  public get addressLine1(): string {
+    return this.getCurrentEntity()?.getData()?.addressLine1 || '';
+  }
+
+  public set addressLine1(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().addressLine1 = value;
+    }
+  }
+
+  public get addressLine2(): string {
+    return this.getCurrentEntity()?.getData()?.addressLine2 || '';
+  }
+
+  public set addressLine2(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().addressLine2 = value;
+    }
+  }
+
+  public get addressLine3(): string {
+    return this.getCurrentEntity()?.getData()?.addressLine3 || '';
+  }
+
+  public set addressLine3(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().addressLine3 = value;
+    }
+  }
+
+  public get addressLine4(): string {
+    return this.getCurrentEntity()?.getData()?.addressLine4 || '';
+  }
+
+  public set addressLine4(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().addressLine4 = value;
+    }
+  }
+
+  public get districtCode(): string {
+    return this.getCurrentEntity()?.getData()?.districtCode || '';
+  }
+
+  public set districtCode(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().districtCode = value;
+    }
+  }
+
+  public createWrapper(clschoolData: CLSchoolGETData): CLSchoolCrudWrapper {
+    return new CLSchoolCrudWrapper(clschoolData, this.hcclService);
+  }
+
+  getCLSchoolFkMenuCriteria(): CLSchoolCriteria {
+    return {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
+  }
+
+  protected clschoolMenu: MenuControlDataList | null = null;
+  protected override async prepareMenus(entity: CLSchoolCrudWrapper): Promise<void> {
+    const criteria = this.getCLSchoolFkMenuCriteria();
+    const results = await this.hcclService.findCLSchools(criteria).toPromise();
+    this.clschoolMenu = entity.getMenuControlDataList("clschools", "CL Schools", results?.searchResults || []);
+  }
 }
 
 export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
 
-  public static ENTITY_TYPE = 'CLSchool';
+  public static newInstanceForCreate(hcclService: HcclService, entityIn?: CLSchoolGETData | null): CLSchoolCrudWrapper {
+    const emptyData: CLSchoolGETData = {
+      name: '',
+      businessCode: '',
+      available: 0
+    };
+    return new CLSchoolCrudWrapper(entityIn || emptyData, hcclService);
+  }
+
   public static async newInstance(id: string, hcclService: HcclService): Promise<CLSchoolCrudWrapper> {
-    const school = await hcclService.getCLSchoolById(id).toPromise();
-    if (school) {
-      return new CLSchoolCrudWrapper(school, hcclService);
+    const data = await hcclService.getCLSchoolById(id).toPromise();
+    if (!data) {
+      throw new Error('CLSchool not found');
     }
-    throw new Error('Student not found');
+    return new CLSchoolCrudWrapper(data, hcclService);
   }
 
   constructor(data: CLSchoolGETData, hcclService?: HcclService) {
     super(data, hcclService);
-    this.entityType = CLSchoolCrudWrapper.ENTITY_TYPE;
   }
-  
+
   getDisplayText(entity?: CLSchoolGETData): string {
-    const d = entity || this.data;
-    return d.name || d.businessCode || 'Unnamed School';
+    const data = entity || this.getData();
+    if (data.name) {
+      return data.name;
+    }
+    if (data.businessCode) {
+      return data.businessCode;
+    }
+    return data.id || 'Unknown CLSchool';
   }
 
   getFullName(): string {
-    return this.data.name || '';
+    return this.getData().name || '';
   }
 
   getBusinessCode(): string {
-    return this.data.businessCode || '';
+    return this.getData().businessCode || '';
   }
 
-  getOrganizationId(): string {
-    return this.data.organizationId || '';
-  }
-
-  getOrganizationName(): string {
-    return this.data.organizationName || '';
-  }
-
-  getAddress(): string {
-    const parts = [
-      this.data.addressLine1,
-      this.data.addressLine2,
-      this.data.addressLine3,
-      this.data.addressLine4
-    ].filter(part => part && part.trim());
-    return parts.join(', ');
-  }
-
-  getDistrictCode(): string {
-    return this.data.districtCode || '';
+  getAvailable(): number {
+    return this.getData().available || 0;
   }
 
   isActive(): boolean {
-    return this.data.available === 1;
+    return this.getData().available === 1;
   }
 
   getFkMenuCriteria(): CLSchoolCriteria {
     return {
-      available: 1
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 
-  async getSchools(criteria?: CLSchoolCriteria): Promise<CLSchoolGETData[]> {
-    const searchResults = await this.hcclService!.findCLSchools(criteria || this.getFkMenuCriteria()).toPromise();
-    return searchResults?.searchResults || [];
+  async getCLSchools(criteria?: CLSchoolCriteria): Promise<CLSchoolGETData[]> {
+    if (!this.hcclService) {
+      throw new Error('HcclService not available');
+    }
+    const results = await this.hcclService.findCLSchools(criteria || this.getFkMenuCriteria()).toPromise();
+    return results?.searchResults || [];
   }
 
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
-    const schools = await this.getSchools();
-    return this.getMenuControlDataList('schools', 'Schools', schools);
+    const clschools = await this.getCLSchools();
+    return this.getMenuControlDataList("clschools", "CL Schools", clschools, data);
   }
-
-}
+} 

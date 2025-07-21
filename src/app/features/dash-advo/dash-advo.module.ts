@@ -15,7 +15,7 @@ import { ListSearchStarterComponent } from '../../views/uistarter/list-search-st
 import { OrgQueueListComponent } from '../../components/org-queue-list/org-queue-list.component';
 import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/org-queue-tix-list.component';
 
-// Integration Components
+// Integration Components 
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
 import { CLSchoolListComponent } from '../../components/_crud/clschool/clschool-list.component';
 import { CLStudentListComponent } from '../../components/_crud/clstudent/clstudent-list.component';
@@ -27,8 +27,8 @@ import { WorkrequestCrudComponent } from '../../components/_crud/workrequest/wor
 import { WorkrequesttypeCrudComponent } from '../../components/_crud/workrequesttype/workrequesttype-crud.component';
 import { WorkqueueCrudComponent } from '../../components/_crud/workqueue/workqueue-crud.component';
 import { CLStudentGroupComponent } from '../../components/_crud/clstudent/clstudent-group.component';
-import { ClschoolGroupComponent } from '../../components/_crud/clschool/clschool-group.component';
 import { WorkrequestGroupComponent } from './tickets/workrequest-group/workrequest-group.component';
+import { CLSchoolGroupComponent } from '../../components/_crud/clschool/clschool-group.component';
 
 const routes: Routes = [
   {
@@ -49,7 +49,7 @@ const routes: Routes = [
         path: 'integrations', 
         component: IntegrationsHomeComponent,
         children: [
-          { path: 'schools/:id/:tabId', component: ClschoolGroupComponent },
+          { path: 'schools/:id/:tabId', component: CLSchoolGroupComponent },
           { path: 'schools/:id', redirectTo: 'schools/:id/details', pathMatch: 'full' },
           { path: 'schools', component: CLSchoolListComponent },
           { path: 'students/:id/:tabId', component: CLStudentGroupComponent },
@@ -98,7 +98,7 @@ const routes: Routes = [
     WorkrequesttypeCrudComponent,
     WorkqueueCrudComponent,
     CLStudentGroupComponent,
-    ClschoolGroupComponent,
+    CLSchoolGroupComponent,
     WorkrequestGroupComponent
   ],
   declarations: [

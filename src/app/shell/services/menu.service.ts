@@ -189,6 +189,10 @@ export class MenuService {
     const catalogEntryList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRY_LIST);
     this.addMenuItem(menu, catalogEntryList);
 
+    // clschool list
+    const clschoolList = this.copyMenuItem(MENU_CONSTANTS.EA_CLSCHOOL_LIST);
+    this.addMenuItem(menu, clschoolList);
+
     return menu;
   }
 
@@ -801,11 +805,11 @@ EA_CLGUIDANCE_LIST: {
 
 EA_CLSCHOOL_LIST: {
   "level" : 2,
-  "label" : "C L School",
-  "route" : "/ecoadmin-dashboard/integration_edu/clschool-list",
-  "componentPath" : "/src/app/components/_crud/integration_edu/clschool-list",
-  "componentName" : "clschool-list",
-  "icon" : ""
+  "label" : "CL Schools",
+  "route" : "/ecoadmin-dashboard/clschools",
+  "componentPath" : "/src/app/components/_crud/clschool/clschool-list.component",
+  "componentName" : "CLSchoolListComponent",
+  "icon" : "fas fa-school"
 },
 
 EA_CLSTUDENT_LIST: {

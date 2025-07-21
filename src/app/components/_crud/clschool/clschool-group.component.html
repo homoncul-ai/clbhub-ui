@@ -1,9 +1,20 @@
-<app-simple-tabset
-  [tabs]="tabs"
-  [currentTabId]="currentTabId">
-</app-simple-tabset>
-
-<div *ngIf="currentTabId === 'details' && id">   
-  <!-- <li>Name :       <app-clschool-crud [id]="id" [modeName]="'fk'"></app-clschool-crud></li> -->
-   <app-clschool-crud [id]="id" [modeName]="'detail'"></app-clschool-crud> 
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+<div *ngIf="currentTabId === 'details'">
+  <app-clschool-crud [id]="id" modeName="detail"></app-clschool-crud>
 </div>
+
+<div *ngIf="currentTabId === 'create'">
+  <h1>Create</h1>
+  <app-clschool-crud [id]="id" modeName="create"></app-clschool-crud>
+</div>
+
+<div *ngIf="currentTabId === 'debug'">
+  <h1>CRUD Modes DEBUG</h1>
+  <hr>
+  <app-clschool-crud [id]="id" modeName="debug"></app-clschool-crud>
+</div>
+
+<div *ngIf="currentTabId === 'fk_menu'">
+  <h1>FK_MENU</h1>
+  <app-clschool-crud [id]="id" modeName="fk_menu"></app-clschool-crud>
+</div> 
