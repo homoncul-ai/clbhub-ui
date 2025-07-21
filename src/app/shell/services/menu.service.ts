@@ -205,6 +205,10 @@ export class MenuService {
     const hccluserList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLUSER_LIST);
     this.addMenuItem(menu, hccluserList);
 
+    // workqueuetyperef list
+    const workqueuetyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKQUEUETYPEREF_LIST);
+    this.addMenuItem(menu, workqueuetyperefList);
+
     return menu;
   }
 
@@ -944,6 +948,8 @@ EA_HCCLUSER_LIST: {
   "icon" : "fas fa-users"
 },
 
+
+
 //  /ecoadmin-dashboard/prov menu items 
 EA_PROVIDER_LIST: {
   "level" : 2,
@@ -1032,7 +1038,7 @@ EA_WORKREQUESTITEM_LIST: {
 EA_WORKQUEUETYPEREF_LIST: {
   "level" : 2,
   "label" : "Work Queue Type Ref",
-  "route" : "/ecoadmin-dashboard/tix/workqueuetyperef-list",
+  "route" : "/ecoadmin-dashboard/workqueuetyperefs",
   "componentPath" : "/src/app/components/_crud/tix/workqueuetyperef-list",
   "componentName" : "workqueuetyperef-list",
   "icon" : ""

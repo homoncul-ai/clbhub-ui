@@ -21,6 +21,8 @@ import { HcclOrganizationTypeRefListComponent } from '../../components/_crud/hcc
 import { HcclOrganizationTypeRefGroupComponent } from '../../components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-group.component';
 import { HcclUserListComponent } from '../../components/_crud/hccluser/hccluser-list.component';
 import { HcclUserGroupComponent } from '../../components/_crud/hccluser/hccluser-group.component';
+import { WorkQueueTypeRefListComponent } from '../../components/_crud/workqueuetyperef/workqueuetyperef-list.component';
+import { WorkQueueTypeRefGroupComponent } from '../../components/_crud/workqueuetyperef/workqueuetyperef-group.component';
 
 const routes: Routes = [
   {
@@ -62,6 +64,11 @@ const routes: Routes = [
       { path: 'hcclusers/:id/:tabId', component: HcclUserGroupComponent },
       { path: 'hcclusers/:id', redirectTo: 'hcclusers/:id/details', pathMatch: 'full' },
       { path: 'hcclusers', component: HcclUserListComponent },
+      
+      { path: 'workqueuetyperefs/create', component: WorkQueueTypeRefGroupComponent },
+      { path: 'workqueuetyperefs/:id/:tabId', component: WorkQueueTypeRefGroupComponent },
+      { path: 'workqueuetyperefs/:id', redirectTo: 'workqueuetyperefs/:id/details', pathMatch: 'full' },
+      { path: 'workqueuetyperefs', component: WorkQueueTypeRefListComponent },
     ]
   }
 ];
@@ -87,7 +94,9 @@ const routes: Routes = [
     HcclOrganizationTypeRefListComponent,
     HcclOrganizationTypeRefGroupComponent,
     HcclUserListComponent,
-    HcclUserGroupComponent
+    HcclUserGroupComponent,
+    WorkQueueTypeRefListComponent,
+    WorkQueueTypeRefGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 
