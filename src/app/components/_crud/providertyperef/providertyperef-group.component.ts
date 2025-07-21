@@ -10,6 +10,7 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
   selector: 'app-providertyperef-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, ProvidertyperefCrudComponent],
+  styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './providertyperef-group.component.html',
 })
 export class ProviderTypeRefGroupComponent extends AbstractEntityGroupComponent<ProviderTypeRefCrudWrapper> implements OnInit {  
