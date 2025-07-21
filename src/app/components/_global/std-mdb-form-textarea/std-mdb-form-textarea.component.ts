@@ -25,7 +25,7 @@ export class StdMdbFormTextareaComponent implements ControlValueAccessor {
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
   @Input() rows: number = 4;
-  @Input() maxlength: number = 1024;
+  @Input() maxLength: number = 1024;
   @Input() placeholder: string = '';
   @Input() error: any = null;
   @Input() showRequiredIndicator: boolean = true;

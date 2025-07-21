@@ -185,6 +185,10 @@ export class MenuService {
     const catalogList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOG_LIST);
     this.addMenuItem(menu, catalogList);
 
+    // catalogentry list
+    const catalogEntryList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRY_LIST);
+    this.addMenuItem(menu, catalogEntryList);
+
     return menu;
   }
 
@@ -1138,9 +1142,9 @@ EA_CATALOGSEARCH_LIST: {
 EA_CATALOGENTRY_LIST: {
   "level" : 2,
   "label" : "Catalog Entry",
-  "route" : "/ecoadmin-dashboard/catalog/catalogentry-list",
-  "componentPath" : "/src/app/components/_crud/catalog/catalogentry-list",
-  "componentName" : "catalogentry-list",
+  "route" : "/ecoadmin-dashboard/catalogentries",
+  "componentPath" : "/src/app/components/_crud/catalogentry/catalogentry-list.component",
+  "componentName" : "CatalogEntryListComponent",
   "icon" : ""
 },
 

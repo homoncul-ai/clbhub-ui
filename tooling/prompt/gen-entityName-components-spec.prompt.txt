@@ -81,7 +81,7 @@ ensuring that updates to the spec can be safely and efficiently propagated to th
 ## For the list page -
 *  List out all the fields in the grid definition section, but comment out "id,dateCreated,lastUpdatedBy"
 *  For foreign keys, use the code above and add the displayText of the foreign key wrapper to the grid.
-*  The list componnent should extend AbstractListComponent and copy the component [copyFromEntity]-list, 
+*  The list component should extend AbstractListComponent and copy the component [copyFromEntity]-list, 
     just changing the contents of the grid displayed.
 ---
 
@@ -233,6 +233,7 @@ See [copyFromEntity] components and import similarly.  These imports will includ
 - **Comment out audit fields:** id, createdByInfo, dateCreated, lastUpdatedByInfo
 - Add proper filtering and alignment for each column
 - Use plural route names for navigation (e.g., '/ecoadmin-dashboard/[pluralEntityName]')
+- calculate [pluralEntityName] with good english grammer.  For example, if it ends in "y" add "ies"
 
 ---
 
@@ -250,9 +251,10 @@ See [copyFromEntity] components and import similarly.  These imports will includ
 ### Routing Configuration
 Add the following routes to the appropriate module (e.g., `dash-ecoadmin.module.ts`):
 ```typescript
-{ path: '[pluralEntityName]/[entityName]/:id/:tabId', component: [entityName]GroupComponent },
-{ path: '[pluralEntityName]/[entityName]/:id', redirectTo: '[pluralEntityName]/[entityName]/:id/details', pathMatch: 'full' },
-{ path: '[pluralEntityName]/[entityName]', component: [entityName]ListComponent }
+{ path: '[pluralEntityName]', component: [entityName]ListComponent },
+{ path: '[pluralEntityName]/create', component: [entityName]GroupComponent },
+{ path: '[pluralEntityName]/:id/:tabId', component: [entityName]GroupComponent },
+{ path: '[pluralEntityName]/:id', redirectTo: '[pluralEntityName]/:id/details', pathMatch: 'full' }
 ```
 
 ### Module Imports
@@ -275,7 +277,7 @@ Add menu item constant to `src/app/shell/services/menu.service.ts`:
 EA_[entityName]_LIST: {
   level: 1,
   label: '[entityName]s',
-  route: '/ecoadmin-dashboard/[pluralEntityName]/[entityName]',
+  route: '/ecoadmin-dashboard/[pluralEntityName]',
   componentPath: 'src/app/components/_crud/[entityName]/[entityName]-list.component',
   componentName: '[entityName]ListComponent',
   icon: 'fas fa-list'
@@ -290,7 +292,7 @@ const [entityName] = this.copyMenuItem(MENU_CONSTANTS.EA_[entityName]_LIST);
 this.addMenuItem(menu, [entityName]);
 ```
 
-**CRITICAL ROUTING FIX:** Ensure menu route uses `/ecoadmin-dashboard/[pluralEntityName]/[entityName]` to match the actual app routing structure.
+**CRITICAL ROUTING FIX:** Ensure menu route uses `/ecoadmin-dashboard/[pluralEntityName]` to match the actual app routing structure.
 
 ---
 

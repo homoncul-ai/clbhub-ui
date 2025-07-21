@@ -77,20 +77,5 @@ export class CatalogListComponent extends AbstractListComponent<CatalogGETData, 
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
     };
   }
-  /**
-   * Override onGoClick for entity-specific behavior
-   */
-  protected override onGoClick() {
-    alert('onGoClick called');
-    // Default implementation - can be customized for Catalog specific behavior
-  }
-
-  protected override onRowClick(entityId: string): void {
-    console.log('onRowClick called with entityId:', entityId);
-    this.router.navigate(['/ecoadmin-dashboard/catalogs', entityId, 'details']);
-  }
-
-  protected override onAdd(): void {
-    this.router.navigate(['/ecoadmin-dashboard/catalogs', 'create']);
-  }
+ 
 } 

@@ -25,7 +25,7 @@ export class StdMdbFormTextComponent implements ControlValueAccessor {
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
   @Input() autocomplete: string = 'off';
-  @Input() maxlength: number | null = null;
+  @Input() maxLength: number | null = null;
   @Input() placeholder: string = '';
   @Input() error: any = null;
   @Input() showRequiredIndicator: boolean = true;

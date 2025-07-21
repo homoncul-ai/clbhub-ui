@@ -11,6 +11,8 @@ import { CLCourseListComponent } from '../../components/_crud/clcourse/clcourse-
 import { CLCourseGroupComponent } from '../../components/_crud/clcourse/clcourse-group.component';
 import { CatalogListComponent } from '../../components/_crud/catalog/catalog-list.component';
 import { CatalogGroupComponent } from '../../components/_crud/catalog/catalog-group.component';
+import { CatalogEntryListComponent } from '../../components/_crud/catalogentry/catalogentry-list.component';
+import { CatalogEntryGroupComponent } from '../../components/_crud/catalogentry/catalogentry-group.component';
 
 const routes: Routes = [
   {
@@ -32,6 +34,10 @@ const routes: Routes = [
       { path: 'catalogs/:id/:tabId', component: CatalogGroupComponent },
       { path: 'catalogs/:id', redirectTo: 'catalogs/:id/details', pathMatch: 'full' },
       { path: 'catalogs', component: CatalogListComponent },
+      { path: 'catalogentries/create', component: CatalogEntryGroupComponent },
+      { path: 'catalogentries/:id/:tabId', component: CatalogEntryGroupComponent },
+      { path: 'catalogentries/:id', redirectTo: 'catalogentries/:id/details', pathMatch: 'full' },
+      { path: 'catalogentries', component: CatalogEntryListComponent },
     ]
   }
 ];
@@ -47,7 +53,9 @@ const routes: Routes = [
     CLCourseListComponent,
     CLCourseGroupComponent,
     CatalogListComponent,
-    CatalogGroupComponent
+    CatalogGroupComponent,
+    CatalogEntryListComponent,
+    CatalogEntryGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 
