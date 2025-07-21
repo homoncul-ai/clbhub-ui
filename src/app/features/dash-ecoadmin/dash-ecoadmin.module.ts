@@ -19,6 +19,8 @@ import { HcclOrganizationListComponent } from '../../components/_crud/hcclorgani
 import { HcclOrganizationGroupComponent } from '../../components/_crud/hcclorganization/hcclorganization-group.component';
 import { HcclOrganizationTypeRefListComponent } from '../../components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component';
 import { HcclOrganizationTypeRefGroupComponent } from '../../components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-group.component';
+import { HcclUserListComponent } from '../../components/_crud/hccluser/hccluser-list.component';
+import { HcclUserGroupComponent } from '../../components/_crud/hccluser/hccluser-group.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,10 @@ const routes: Routes = [
       { path: 'hcclorganizationtyperefs/:id/:tabId', component: HcclOrganizationTypeRefGroupComponent },
       { path: 'hcclorganizationtyperefs/:id', redirectTo: 'hcclorganizationtyperefs/:id/details', pathMatch: 'full' },
       { path: 'hcclorganizationtyperefs', component: HcclOrganizationTypeRefListComponent },
+      { path: 'hcclusers/create', component: HcclUserGroupComponent },
+      { path: 'hcclusers/:id/:tabId', component: HcclUserGroupComponent },
+      { path: 'hcclusers/:id', redirectTo: 'hcclusers/:id/details', pathMatch: 'full' },
+      { path: 'hcclusers', component: HcclUserListComponent },
     ]
   }
 ];
@@ -79,7 +85,9 @@ const routes: Routes = [
     HcclOrganizationListComponent,
     HcclOrganizationGroupComponent,
     HcclOrganizationTypeRefListComponent,
-    HcclOrganizationTypeRefGroupComponent
+    HcclOrganizationTypeRefGroupComponent,
+    HcclUserListComponent,
+    HcclUserGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 

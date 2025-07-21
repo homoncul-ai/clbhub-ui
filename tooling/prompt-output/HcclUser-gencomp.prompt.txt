@@ -33,6 +33,7 @@ This specification will be used to generate Angular components that are:
 - Defines getter/setter methods for form binding
 - Handles foreign key relationships
 - Prepares FK menus for related entities
+- Copy ths structure of providertyperef-crud.component.html and modify for HcclUser attributes, etc
 
 **HTML Template Requirements**:
 - Supports all CRUD modes (FK, FK_MENU, SECTION, HEADING, CREATE, EDIT, DETAIL, DELETE, DEBUG)

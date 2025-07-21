@@ -201,6 +201,10 @@ export class MenuService {
     const hcclorganizationtyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLORGANIZATIONTYPEREF_LIST);
     this.addMenuItem(menu, hcclorganizationtyperefList);
 
+    // hccluser list
+    const hccluserList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLUSER_LIST);
+    this.addMenuItem(menu, hccluserList);
+
     return menu;
   }
 
@@ -839,14 +843,7 @@ EA_CLCOURSE_LIST: {
 },
 
 //  /ecoadmin-dashboard/teams menu items 
-EA_HCCLUSER_LIST: {
-  "level" : 2,
-  "label" : "Hccl User",
-  "route" : "/ecoadmin-dashboard/teams/hccluser-list",
-  "componentPath" : "/src/app/components/_crud/teams/hccluser-list",
-  "componentName" : "hccluser-list",
-  "icon" : ""
-},
+
 
 EA_TEAMTYPEMEMBERROLEREF_LIST: {
   "level" : 2,
@@ -936,6 +933,15 @@ EA_HCCLORGANIZATIONTYPEREF_LIST: {
   "componentPath" : "/src/app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component",
   "componentName" : "HcclOrganizationTypeRefListComponent",
   "icon" : "fas fa-sitemap"
+},
+
+EA_HCCLUSER_LIST: {
+  "level" : 2,
+  "label" : "HCCL Users",
+  "route" : "/ecoadmin-dashboard/hcclusers",
+  "componentPath" : "/src/app/components/_crud/hccluser/hccluser-list.component",
+  "componentName" : "HcclUserListComponent",
+  "icon" : "fas fa-users"
 },
 
 //  /ecoadmin-dashboard/prov menu items 

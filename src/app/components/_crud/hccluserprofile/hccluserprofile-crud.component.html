@@ -1,0 +1,144 @@
+<!-- HcclUserProfile CRUD Component Template -->
+<!-- FK Mode - Display entity name -->
+<div *ngIf="isFkMode" class="fk-display">
+  {{ entity?.getDisplayText() }}
+</div>
+<!-- FK_MENU Mode - Show menu for selection -->
+<div *ngIf="isFkMenuMode" class="fk-menu">
+  <app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+</div>
+<!-- SECTION Mode - Display in section format -->
+<div *ngIf="isSectionMode" class="section-display">
+  <div class="section-header">
+    <h4>{{ entity?.getDisplayText() }}</h4>
+  </div>
+  <div class="section-content">
+    <div class="row">
+      <div class="col-md-6">
+        <strong>User:</strong> <app-hccluser-crud [id]="entity?.getData().userId" [mode]="'FK'" *ngIf="entity?.getData().userId"></app-hccluser-crud>
+      </div>
+      <div class="col-md-6">
+        <strong>Organization:</strong> <app-hcclorganization-crud [id]="entity?.getData().organizationId" [mode]="'FK'" *ngIf="entity?.getData().organizationId"></app-hcclorganization-crud>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <strong>User Code:</strong> {{ entity?.getData().userCode }}
+      </div>
+      <div class="col-md-6">
+        <strong>Profile Type Code:</strong> {{ entity?.getData().profileTypeCode }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <strong>User Email:</strong> {{ entity?.getData().userEmail }}
+      </div>
+      <div class="col-md-6">
+        <strong>Cell Phone:</strong> {{ entity?.getData().cellPhoneNumber }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <strong>Work Phone:</strong> {{ entity?.getData().workPhoneNumber }}
+      </div>
+      <div class="col-md-6">
+        <strong>External User ID:</strong> {{ entity?.getData().externalUserId }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <strong>External User Entity Type:</strong> {{ entity?.getData().externalUserEntityType }}
+      </div>
+      <div class="col-md-6">
+        <strong>External User Name:</strong> {{ entity?.getData().externalUserName }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <strong>Available:</strong> {{ entity?.getData().available ? 'Yes' : 'No' }}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- HEADING Mode - Display as heading -->
+<div *ngIf="isHeadingMode" class="heading-display">
+  <h3>{{ entity?.getDisplayText() }}</h3>
+</div>
+<!-- CREATE Mode - Form for creating new entity -->
+<div *ngIf="isCreateMode" class="create-form">
+  <form (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <app-hccluser-crud [(ngModel)]="userId" name="userId" [mode]="'FK_MENU'"></app-hccluser-crud>
+      </div>
+      <div class="col-md-6">
+        <app-hcclorganization-crud [(ngModel)]="organizationId" name="organizationId" [mode]="'FK_MENU'"></app-hcclorganization-crud>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'User Code'" [(ngModel)]="userCode" name="userCode" [required]="true"></app-std-mdb-form-text>
+      </div>
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'Profile Type Code'" [(ngModel)]="profileTypeCode" name="profileTypeCode" [required]="true"></app-std-mdb-form-text>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'User Email'" [(ngModel)]="userEmail" name="userEmail"></app-std-mdb-form-text>
+      </div>
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'Cell Phone'" [(ngModel)]="cellPhoneNumber" name="cellPhoneNumber"></app-std-mdb-form-text>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'Work Phone'" [(ngModel)]="workPhoneNumber" name="workPhoneNumber"></app-std-mdb-form-text>
+      </div>
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'External User ID'" [(ngModel)]="externalUserId" name="externalUserId"></app-std-mdb-form-text>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'External User Entity Type'" [(ngModel)]="externalUserEntityType" name="externalUserEntityType"></app-std-mdb-form-text>
+      </div>
+      <div class="col-md-6">
+        <app-std-mdb-form-text [label]="'External User Name'" [(ngModel)]="externalUserName" name="externalUserName"></app-std-mdb-form-text>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <app-available-selector [label]="'Available'" [(ngModel)]="available" name="available" [required]="true"></app-available-selector>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+          {{ loading ? 'Creating...' : 'Create' }}
+        </button>
+        <button type="button" class="btn btn-secondary ms-2" (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- EDIT Mode - Form for editing existing entity -->
+<div *ngIf="isEditMode" class="edit-form">
+  <form (ngSubmit)="onSubmit()">
+    <!-- Same as create form, but for editing -->
+  </form>
+</div>
+<!-- DETAIL Mode - Display entity details -->
+<div *ngIf="isDetailMode" class="detail-display">
+  <!-- Details display as in section mode -->
+</div>
+<!-- DELETE Mode - Confirmation for deletion -->
+<div *ngIf="isDeleteMode" class="delete-confirmation">
+  <!-- Delete confirmation UI -->
+</div>
+<!-- DEBUG Mode - Show all modes for debugging -->
+<div *ngIf="currentMode === CRUD_MODES.DEBUG" class="debug-mode">
+  <!-- Debug info -->
+</div>

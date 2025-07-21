@@ -1,0 +1,9 @@
+<div class="group-component">
+  <app-simple-tabset [tabs]="tabs"  ></app-simple-tabset>
+  <div *ngIf="activeTab === 'details'">
+    <app-workrequesttyperef-crud [id]="entityId" [mode]="'DETAIL'"></app-workrequesttyperef-crud>
+  </div>
+  <div *ngIf="activeTab === 'debug'">
+    <app-workrequesttyperef-crud [id]="entityId" [mode]="'DEBUG'"></app-workrequesttyperef-crud>
+  </div>
+</div> 
