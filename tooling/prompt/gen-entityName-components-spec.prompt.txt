@@ -86,6 +86,9 @@ ensuring that updates to the spec can be safely and efficiently propagated to th
 ---
 
 # Component Specification Structure
+- fore [entityName]-crud.component.html - start with the template file "./templates/template-crud.component.html to start with and follow instructions within
+  ** Do NOT change any control structures, just copy them **  
+- for [entityName]-list.component.ts - start with the template file "./templates/template-list.component.ts to start with and follow instructions within
 
 ## CRUD Component
 - **Purpose:** Display, edit, and add `[entityName]` data.
@@ -198,17 +201,10 @@ See [copyFromEntity] components and import similarly.  These imports will includ
 - **CRITICAL:** Use correct route paths - for eco-admin use `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]`
 
 ### Template Structure
-- fore [entityName]-crud.component.html - use the template file "./templates/template-crud.component.html to start with and follow instructions
-  ** Do NOT change any control structures, just copy them ** 
-  
-- for [entityName]-group.component.html - use the template file "./templates/template-group.component.html to start with and follow instructions
-
-- Copy structure from `copyFromEntity-group.component.html`
+- for [entityName]-group.component.html - use the template file "./templates/template-group.component.html to start with and follow instructions within
 - Replace component references with generated component names
-- Use `<app-simple-tabset [tabs]=tabs [currentTabId]="currentTabId" (tabClick)="activateTab($event)"></app-simple-tabset>`
+
 - Include conditional divs for details and list tabs
-- **Do NOT** include `(click)=onClick($event)` handlers in the template
-- Keep template simple and focused on tab display
 - Use `*ngIf` for tab content display
 
 ---

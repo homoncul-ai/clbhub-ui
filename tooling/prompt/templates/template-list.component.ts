@@ -11,6 +11,7 @@ import { HcclService } from '../../../restsvc/hccl.service';
 import { HcclOrganizationGETData, HcclOrganizationCriteria, HcclOrganizationGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
+import { HcclOrganizationTypeRefCrudWrapper } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 
 /**
  * Component for displaying and managing HcclOrganization data using HcclService
@@ -81,18 +82,24 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
    * @param entity 
    * @returns 
    */
-  protected formatEntityData(entity: HcclOrganizationGETData): any {
-    // if and FK, then create a CrudWrapper for the FK and add the displaytext of the crudwrapper
-    /**
-     * const
-     */
-    const crudWr
-    return {
-      createdByInfo: entity.createdByInfo?.name || '',
-      lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
-      dateCreated: entity.dateCreated?.formattedDate || '',
-      dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
-    };
+  protected override async formatEntityDataAsync(entity: HcclOrganizationGETData): Promise<any> {
+    // if there's one ore more FK's FK, then create a CrudWrapper for the FK and add the displaytext of the crudwrapper
+    // 
+    const id = entity.organizationTypeId || '';
+    if (id) {
+      const crudWrapper = await HcclOrganizationTypeRefCrudWrapper.newInstance(id, this.hcclService);
+      const typeName = crudWrapper.getDisplayText();
+      debugger;
+      return {
+        createdByInfo: entity.createdByInfo?.name || '',
+        lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
+        dateCreated: entity.dateCreated?.formattedDate || '',
+        dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+        organizationTypeCode: typeName
+      };
+    }
+    return {};
   }
+
 
 } 
