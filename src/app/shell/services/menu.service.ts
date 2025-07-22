@@ -229,6 +229,14 @@ export class MenuService {
     const workrequestitemList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUESTITEM_LIST);
     this.addMenuItem(menu, workrequestitemList);
 
+    // teamMemberRoleRef list
+    const teamMemberRoleRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMMEMBERROLEREF_LIST);
+    this.addMenuItem(menu, teamMemberRoleRefList);
+
+    // teamTypeRef list
+    const teamTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMTYPEREF_LIST);
+    this.addMenuItem(menu, teamTypeRefList);
+
     return menu;
   }
 
@@ -906,12 +914,12 @@ EA_HCCLTEAMMEMBER_LIST: {
 },
 
 EA_TEAMMEMBERROLEREF_LIST: {
-  "level" : 2,
-  "label" : "Team Member Role Ref",
-  "route" : "/ecoadmin-dashboard/teams/teammemberroleref-list",
-  "componentPath" : "/src/app/components/_crud/teams/teammemberroleref-list",
-  "componentName" : "teammemberroleref-list",
-  "icon" : ""
+  level: 1,
+  label: 'Team Member Role Refs',
+  route: '/ecoadmin-dashboard/teamMemberRoleRefs',
+  componentPath: 'src/app/components/_crud/teammemberroleref/teammemberroleref-list.component',
+  componentName: 'TeamMemberRoleRefListComponent',
+  icon: 'fas fa-list'
 },
 
 EA_HCCLTEAMMEMBERROLE_LIST: {
@@ -942,12 +950,12 @@ EA_HCCLORGANIZATION_LIST: {
 },
 
 EA_TEAMTYPEREF_LIST: {
-  "level" : 2,
-  "label" : "Team Type Ref",
-  "route" : "/ecoadmin-dashboard/teams/teamtyperef-list",
-  "componentPath" : "/src/app/components/_crud/teams/teamtyperef-list",
-  "componentName" : "teamtyperef-list",
-  "icon" : ""
+  level: 1,
+  label: 'Team Type Refs',
+  route: '/ecoadmin-dashboard/teamTypeRefs',
+  componentPath: 'src/app/components/_crud/teamtyperef/teamtyperef-list.component',
+  componentName: 'TeamTypeRefListComponent',
+  icon: 'fas fa-list'
 },
 
 EA_HCCLORGANIZATIONTYPEREF_LIST: {

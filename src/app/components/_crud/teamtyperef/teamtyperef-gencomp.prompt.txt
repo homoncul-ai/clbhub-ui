@@ -1,0 +1,273 @@
+# TeamTypeRef Component Generation Specification
+
+## Entity Information
+- **entityName:** TeamTypeRef
+- **copyFromEntity:** providertyperef
+- **pluralEntityName:** teamTypeRefs (following pluralization rules)
+
+## Data Interfaces
+
+### TeamTypeRefPOSTData
+```typescript
+export interface TeamTypeRefPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+```
+
+### TeamTypeRefGETData
+```typescript
+export interface TeamTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+```
+
+### TeamTypeRefPUTData
+```typescript
+export interface TeamTypeRefPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+}
+```
+
+### TeamTypeRefCriteria
+```typescript
+export interface TeamTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+```
+
+### TeamTypeRefGETDataSearchResults
+```typescript
+export interface TeamTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+```
+
+## Service Methods
+- **Get:** `HcclService.getTeamTypeRefById(id)`
+- **Create:** `HcclService.createTeamTypeRef(body)`
+- **Update:** `HcclService.updateTeamTypeRefById(id, body)`
+- **Search:** `HcclService.findTeamTypeRefs(criteria)`
+
+## Field Analysis
+
+### String Fields
+- **name:** Text input (standard string field)
+- **businessCode:** Text input (standard string field)
+- **description:** Textarea (ends with "description")
+
+### Number Fields
+- **available:** Available selector component
+
+### Hidden Fields (Create/Update)
+- `id`, `dateLastUpdated`, `dateCreated`, `lastUpdatedBy`, `createdBy`
+
+## Component Specifications
+
+### 1. CRUD Component
+
+#### Files to Generate
+- `teamtyperef-crud.component.html` (use `./templates/template-crud.component.html`)
+- `teamtyperef-crud.component.ts` (use `./templates/template-crud.component.ts`)
+
+#### Required Imports
+```typescript
+import { CommonModule, FormsModule } from '@angular/forms';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+```
+
+#### Component Structure
+- **Extend:** `AbstractCrudComponent<TeamTypeRefCrudWrapper>`
+- **Implement:** `OnInit, OnChanges`
+- **Wrapper Class:** Extends `EntityWrapper<TeamTypeRefGETData>`
+- **Constructor:** Only call `super()` - no additional services needed
+
+#### Required Abstract Methods
+- `loadEntityByIdCall()`: Call `this.hcclService.getTeamTypeRefById(id)`
+- `createEntityDataCall()`: Call `this.hcclService.createTeamTypeRef(postData)`
+- `updateEntityDataCall()`: Call `this.hcclService.updateTeamTypeRefById(id, putData)`
+- `deleteEntityData()`: Call `this.hcclService.deleteTeamTypeRefById(id)`
+- `newEmptyWrapper()`: Create new `TeamTypeRefCrudWrapper` with empty data
+
+#### Template Sections
+
+##### Details Section
+- **Based on:** `TeamTypeRefGETData`
+- **Fields:** id, name, businessCode, description, available, dateLastUpdated
+
+##### Section Mode
+- **Based on:** `TeamTypeRefGETData`
+- **Fields:** name, businessCode, description, available
+
+##### Edit Section
+- **Based on:** `TeamTypeRefPUTData`
+- **Fields:** name, businessCode, description, available
+
+##### Create Section
+- **Based on:** `TeamTypeRefPOSTData`
+- **Fields:** name, businessCode, description, available
+
+### 2. Group Component
+
+#### Files to Generate
+- `teamtyperef-group.component.html` (use `./templates/template-group.component.html`)
+- `teamtyperef-group.component.ts`
+- `teamtyperef-group.component.scss` → `'../../_global/abstract-entity-group/abstract-entity-group.component.scss'`
+
+#### Required Imports
+```typescript
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
+import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { HcclService } from '@app/restsvc/hccl.service';
+```
+
+#### Component Structure
+- **Extend:** `AbstractEntityGroupComponent<TeamTypeRefCrudWrapper>`
+- **Implement:** `OnInit`
+- **Input:** `@Input() id!: string`
+- **Constructor:** Only inject `ActivatedRoute` - do NOT inject `Router` or `HcclService`
+
+#### Required Abstract Methods
+- `loadEntityById()`: Load entity using `TeamTypeRefCrudWrapper.newInstance(id, hcclService)`
+- `setupTabs()`: Define tabs for list, details, debug, fk_menu
+
+### 3. List Component
+
+#### Files to Generate
+- `teamtyperef-list.component.ts` ONLY (NO template or stylesheet files)
+
+#### Required Imports
+```typescript
+import { CommonModule } from '@angular/common';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Observable } from 'rxjs';
+```
+
+#### Component Structure
+- **Extend:** `AbstractListComponent<TeamTypeRefGETData, TeamTypeRefCriteria, TeamTypeRefGETDataSearchResults>`
+- **DO NOT** implement `OnInit, AfterViewInit` - use abstract base class
+- **Constructor:** Only call `super()` - no additional services needed
+- **Copy ALL methods** from `providertyperef-list.component.ts`
+
+#### Template and Styles
+- **Template:** `'../../_global/abstract-list/abstract-list.component.html'`
+- **Stylesheet:** `'../../_global/abstract-list/abstract-list.component.scss'`
+- **DO NOT** create custom template or stylesheet files
+
+#### Required Abstract Methods
+- `getGridColumns()`: Return grid column configuration for TeamTypeRef fields
+- `createCriteria()`: Create search criteria with paging
+- `findEntities()`: Call `this.hcclService.findTeamTypeRefs(criteria)`
+- `hasSearchResults()`: Check if response has search results
+- `getSearchResults()`: Extract search results from response
+- `formatEntityData()`: Format entity data for display
+- `onRowClick()`: Handle row click navigation
+- `onAdd()`: Handle add button click
+
+#### Grid Configuration
+- Include all TeamTypeRef fields in grid columns
+- **Comment out audit fields:** id, createdByInfo, dateCreated, lastUpdatedByInfo
+- Add proper filtering and alignment for each column
+- Use plural route names for navigation
+
+## Route Configuration
+
+### Routes to Add
+```typescript
+{ path: 'teamTypeRefs', component: TeamTypeRefListComponent },
+{ path: 'teamTypeRefs/create', component: TeamTypeRefGroupComponent },
+{ path: 'teamTypeRefs/:id/:tabId', component: TeamTypeRefGroupComponent },
+{ path: 'teamTypeRefs/:id', redirectTo: 'teamTypeRefs/:id/details', pathMatch: 'full' }
+```
+
+### Module Imports
+```typescript
+imports: [
+  // ... existing imports
+  TeamTypeRefListComponent,
+  TeamTypeRefGroupComponent
+]
+```
+
+## Menu Integration
+
+### Menu Constants
+Add to `src/app/shell/services/menu.service.ts`:
+```typescript
+EA_TEAMTYPEREF_LIST: {
+  level: 1,
+  label: 'Team Type Refs',
+  route: '/ecoadmin-dashboard/teamTypeRefs',
+  componentPath: 'src/app/components/_crud/teamtyperef/teamtyperef-list.component',
+  componentName: 'TeamTypeRefListComponent',
+  icon: 'fas fa-list'
+}
+```
+
+### Menu Builder
+Update `buildEcoAdminMenu()` method:
+```typescript
+// Add TeamTypeRef
+const teamTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMTYPEREF_LIST);
+this.addMenuItem(menu, teamTypeRefList);
+```
+
+## File Generation Checklist
+
+### Files to Create
+- [ ] `src/app/components/_crud/teamtyperef/teamtyperef-crud.component.html`
+- [ ] `src/app/components/_crud/teamtyperef/teamtyperef-crud.component.ts`
+- [ ] `src/app/components/_crud/teamtyperef/teamtyperef-group.component.html`
+- [ ] `src/app/components/_crud/teamtyperef/teamtyperef-group.component.ts`
+- [ ] `src/app/components/_crud/teamtyperef/teamtyperef-group.component.scss`
+- [ ] `src/app/components/_crud/teamtyperef/teamtyperef-list.component.ts`
+
+### Integration Files to Update
+- [ ] `src/app/features/dash-ecoadmin/dash-ecoadmin.module.ts` (add routes and imports)
+- [ ] `src/app/shell/services/menu.service.ts` (add menu constants and builder)
+
+## Implementation Notes
+
+1. **Use templates from `/tooling/prompt/templates/` as starting points**
+2. **Copy structure from `providertyperef` components**
+3. **Ensure all imports are correctly specified**
+4. **Follow constructor injection rules strictly**
+5. **Use plural entity name for routes: `teamTypeRefs`**
+6. **Include proper error handling in data loading methods**
+7. **Ensure idempotent generation - re-running should not break or duplicate code** 

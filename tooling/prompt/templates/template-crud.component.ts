@@ -158,7 +158,19 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       throw new Error('Validation failed');
     }
 
-    return this.hcclService.createHcclOrganization(postData).toPromise();
+
+    // This is important - the requestCreate method returns { id: string, status: 201 }
+    try {
+      // The requestCreate method returns { id: string, status: 201 }
+      const response = await this.hcclService.createHcclOrganization(postData);
+      console.log('Create response:', response);
+      this.clearValidationErrors(); // Clear errors on success
+      return response;
+    } catch (error) {
+      console.error('Create error:', error);
+      throw error;
+    }
+
   }
 
   protected override async updateEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<void> {

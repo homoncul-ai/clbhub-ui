@@ -34,6 +34,10 @@ import { WorkRequestItemListComponent } from '../../components/_crud/workrequest
 import { WorkRequestItemGroupComponent } from '../../components/_crud/workrequestitem/workrequestitem-group.component';
 import { HcclUserProfileGroupComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-group.component';
 import { HcclUserProfileCrudComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-crud.component';
+import { TeamMemberRoleRefListComponent } from '../../components/_crud/teammemberroleref/teammemberroleref-list.component';
+import { TeamMemberRoleRefGroupComponent } from '../../components/_crud/teammemberroleref/teammemberroleref-group.component';
+import { TeamTypeRefListComponent } from '../../components/_crud/teamtyperef/teamtyperef-list.component';
+import { TeamTypeRefGroupComponent } from '../../components/_crud/teamtyperef/teamtyperef-group.component';
 
 const routes: Routes = [
   {
@@ -99,6 +103,14 @@ const routes: Routes = [
       { path: 'workrequestitems/:id/:tabId', component: WorkRequestItemGroupComponent },
       { path: 'workrequestitems/:id', redirectTo: 'workrequestitems/:id/details', pathMatch: 'full' },
       { path: 'workrequestitems', component: WorkRequestItemListComponent },
+      { path: 'teamMemberRoleRefs/create', component: TeamMemberRoleRefGroupComponent },
+      { path: 'teamMemberRoleRefs/:id/:tabId', component: TeamMemberRoleRefGroupComponent },
+      { path: 'teamMemberRoleRefs/:id', redirectTo: 'teamMemberRoleRefs/:id/details', pathMatch: 'full' },
+      { path: 'teamMemberRoleRefs', component: TeamMemberRoleRefListComponent },
+      { path: 'teamTypeRefs/create', component: TeamTypeRefGroupComponent },
+      { path: 'teamTypeRefs/:id/:tabId', component: TeamTypeRefGroupComponent },
+      { path: 'teamTypeRefs/:id', redirectTo: 'teamTypeRefs/:id/details', pathMatch: 'full' },
+      { path: 'teamTypeRefs', component: TeamTypeRefListComponent },
     ]
   }
 ];
@@ -136,7 +148,11 @@ const routes: Routes = [
     WorkRequestItemListComponent,
     WorkRequestItemGroupComponent,
     HcclUserProfileGroupComponent,
-    HcclUserProfileCrudComponent
+    HcclUserProfileCrudComponent,
+    TeamMemberRoleRefListComponent,
+    TeamMemberRoleRefGroupComponent,
+    TeamTypeRefListComponent,
+    TeamTypeRefGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 
