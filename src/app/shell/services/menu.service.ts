@@ -245,6 +245,10 @@ export class MenuService {
     const teamMemberList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMMEMBER_LIST);
     this.addMenuItem(menu, teamMemberList);
 
+    // hcclTeamLog list
+    const hcclTeamLogList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAMLOG_LIST);
+    this.addMenuItem(menu, hcclTeamLogList);
+
     return menu;
   }
 
@@ -913,12 +917,12 @@ EA_TEAMMEMBER_LIST: {
 },
 
 EA_HCCLTEAMLOG_LIST: {
-  "level" : 2,
-  "label" : "Hccl Team Log",
-  "route" : "/ecoadmin-dashboard/teams/hcclteamlog-list",
-  "componentPath" : "/src/app/components/_crud/teams/hcclteamlog-list",
-  "componentName" : "hcclteamlog-list",
-  "icon" : ""
+  level: 1,
+  label: 'Hccl Team Logs',
+  route: '/ecoadmin-dashboard/hcclteamlogs',
+  componentPath: 'src/app/components/_crud/hcclteamlog/hcclteamlog-list.component',
+  componentName: 'HcclTeamLogListComponent',
+  icon: 'fas fa-list'
 },
 
 EA_HCCLTEAMMEMBER_LIST: {

@@ -42,6 +42,8 @@ import { HcclTeamListComponent } from '../../components/_crud/hcclteam/hcclteam-
 import { HcclTeamGroupComponent } from '../../components/_crud/hcclteam/hcclteam-group.component';
 import { TeamMemberListComponent } from '../../components/_crud/teammember/teammember-list.component';
 import { TeamMemberGroupComponent } from '../../components/_crud/teammember/teammember-group.component';
+import { HcclTeamLogListComponent } from '../../components/_crud/hcclteamlog/hcclteamlog-list.component';
+import { HcclTeamLogGroupComponent } from '../../components/_crud/hcclteamlog/hcclteamlog-group.component';
 
 const routes: Routes = [
   {
@@ -125,6 +127,10 @@ const routes: Routes = [
       { path: 'teamMembers/:id/:tabId', component: TeamMemberGroupComponent },
       { path: 'teamMembers/:id', redirectTo: 'teamMembers/:id/details', pathMatch: 'full' },
       { path: 'teamMembers', component: TeamMemberListComponent },
+      { path: 'hcclteamlogs/create', component: HcclTeamLogGroupComponent },
+      { path: 'hcclteamlogs/:id/:tabId', component: HcclTeamLogGroupComponent },
+      { path: 'hcclteamlogs/:id', redirectTo: 'hcclteamlogs/:id/details', pathMatch: 'full' },
+      { path: 'hcclteamlogs', component: HcclTeamLogListComponent },
     ]
   }
 ];
@@ -170,7 +176,9 @@ const routes: Routes = [
     HcclTeamListComponent,
     HcclTeamGroupComponent,
     TeamMemberListComponent,
-    TeamMemberGroupComponent
+    TeamMemberGroupComponent,
+    HcclTeamLogListComponent,
+    HcclTeamLogGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 

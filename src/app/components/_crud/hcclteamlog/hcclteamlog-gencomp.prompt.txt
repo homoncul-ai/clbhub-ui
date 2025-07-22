@@ -1,0 +1,533 @@
+# HcclTeamLog Component Generation Specification
+
+## Entity Information
+- **entityName**: HcclTeamLog
+- **copyFromEntity**: providertyperef
+- **Special Notes**: teamId and teamMemberId are foreign keys to HcclTeam and TeamMember entities respectively
+
+## Data Interfaces (from hccl.service.ts)
+```typescript
+export interface HcclTeamLogPOSTData {
+  nameText: string;
+  description: string;
+  teamId: string;
+  teamMemberId?: string;
+  roleCode: string;
+  actionCode: string;
+  commentText?: string;
+}
+
+export interface HcclTeamLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  description?: string;
+  teamId?: string;
+  teamMemberId?: string;
+  roleCode?: string;
+  actionCode?: string;
+}
+
+export interface HcclTeamLogPUTData {
+  nameText: string;
+  description: string;
+  teamId: string;
+  teamMemberId?: string;
+  roleCode: string;
+  actionCode: string;
+  commentText?: string;
+}
+
+export interface HcclTeamLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  description?: string;
+  teamId?: string;
+  teamMemberId?: string;
+  roleCode?: string;
+  actionCode?: string;
+}
+
+export interface HcclTeamLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamLogGETData[];
+  filter?: BaseCriteria;
+}
+```
+
+## HcclService Methods
+```typescript
+getHcclTeamLogById(id: string): Observable<HcclTeamLogGETData>;
+createHcclTeamLog(data: HcclTeamLogPOSTData): Observable<any>;
+updateHcclTeamLogById(id: string, data: HcclTeamLogPUTData): Observable<any>;
+deleteHcclTeamLogById(id: string): Observable<any>;
+findHcclTeamLogs(criteria: HcclTeamLogCriteria): Observable<HcclTeamLogGETDataSearchResults>;
+```
+
+## Field Analysis
+
+### Required Fields (POST/PUT)
+- `nameText`: string, maxLength: 255, minLength: 1
+- `description`: string, maxLength: 1024, minLength: 1  
+- `teamId`: string (UUID), required
+- `roleCode`: string, maxLength: 50, minLength: 1
+- `actionCode`: string, maxLength: 50, minLength: 1
+
+### Optional Fields
+- `teamMemberId`: string (UUID)
+- `commentText`: string
+
+### Foreign Keys
+- `teamId`: References HcclTeam entity
+- `teamMemberId`: References TeamMember entity
+
+### Audit Fields (GET only)
+- `id`: string
+- `createdByInfo`: Reference
+- `dateCreated`: DateGETData
+- `lastUpdatedByInfo`: Reference
+- `dateLastUpdated`: DateGETData
+
+## Component Specifications
+
+## 1. CRUD Component
+
+### Purpose
+Display, edit, and add HcclTeamLog data.
+
+### Files
+- `hcclteamlog-crud.component.html` (use `./templates/template-crud.component.html`)
+- `hcclteamlog-crud.component.ts` (use `./templates/template-crud.component.ts`)
+- **Stylesheet:** `'../../_global/abstract-crud/abstract-crud.component.scss'`
+
+### Required Imports
+```typescript
+import { CommonModule, FormsModule } from '@angular/forms';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
+import { TeamMemberCrudComponent } from '@app/components/_crud/teammember/teammember-crud.component';
+```
+
+### Component Structure
+- **Extend:** `AbstractCrudComponent<HcclTeamLogCrudWrapper>`
+- **Implement:** `OnInit, OnChanges`
+- **Wrapper Class:** Extends `EntityWrapper<HcclTeamLogGETData>`
+- **Constructor:** Only call `super()` - no additional services needed
+
+### Required Abstract Methods
+- `loadEntityByIdCall()`: Call `this.hcclService.getHcclTeamLogById(id)`
+- `createEntityDataCall()`: Call `this.hcclService.createHcclTeamLog(postData)`
+- `updateEntityDataCall()`: Call `this.hcclService.updateHcclTeamLogById(id, putData)`
+- `deleteEntityData()`: Call `this.hcclService.deleteHcclTeamLogById(id)`
+- `newEmptyWrapper()`: Return `HcclTeamLogCrudWrapper.newInstanceForCreate(this.hcclService)`
+
+### Validation Methods
+```typescript
+private validateNameText(nameText: string): string | null {
+  if (!nameText || nameText.trim() === '') {
+    return 'Name Text is required';
+  }
+  if (nameText.length > 255) {
+    return 'Name Text must be less than 255 characters';
+  }
+  return null;
+}
+
+private validateDescription(description: string): string | null {
+  if (!description || description.trim() === '') {
+    return 'Description is required';
+  }
+  if (description.length > 1024) {
+    return 'Description must be less than 1024 characters';
+  }
+  return null;
+}
+
+private validateTeamId(teamId: string): string | null {
+  if (!teamId || teamId.trim() === '') {
+    return 'Team ID is required';
+  }
+  return null;
+}
+
+private validateRoleCode(roleCode: string): string | null {
+  if (!roleCode || roleCode.trim() === '') {
+    return 'Role Code is required';
+  }
+  if (roleCode.length > 50) {
+    return 'Role Code must be less than 50 characters';
+  }
+  return null;
+}
+
+private validateActionCode(actionCode: string): string | null {
+  if (!actionCode || actionCode.trim() === '') {
+    return 'Action Code is required';
+  }
+  if (actionCode.length > 50) {
+    return 'Action Code must be less than 50 characters';
+  }
+  return null;
+}
+```
+
+### Template Sections
+
+#### Details Section
+- **Fields:** id, nameText, description, teamId (FK), teamMemberId (FK), roleCode, actionCode, commentText, audit fields
+- **FK Display:** 
+  - `teamId`: `<app-hcclteam-crud [id]="teamId" [modeName]="CRUD_MODES.FK"></app-hcclteam-crud>`
+  - `teamMemberId`: `<app-teammember-crud [id]="teamMemberId" [modeName]="CRUD_MODES.FK"></app-teammember-crud>`
+
+#### Section Mode
+- **Fields:** nameText, description, teamId (FK), teamMemberId (FK), roleCode, actionCode, commentText
+
+#### Edit Section
+- **Fields:** nameText, description, teamId (FK_MENU), teamMemberId (FK_MENU), roleCode, actionCode, commentText
+- **FK Edit:**
+  - `teamId`: `<app-hcclteam-crud [id]="teamId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclteam-crud>`
+  - `teamMemberId`: `<app-teammember-crud [id]="teamMemberId" [modeName]="CRUD_MODES.FK_MENU"></app-teammember-crud>`
+
+#### Create Section
+- **Fields:** nameText, description, teamId (FK_MENU), teamMemberId (FK_MENU), roleCode, actionCode, commentText
+
+### Getter/Setter Methods
+```typescript
+public get nameText(): string { return this.getCurrentEntity()?.getData()?.nameText || ''; }
+public set nameText(value: string) { if (this.getCurrentEntity()) { this.getCurrentEntity()!.getData().nameText = value; } }
+
+public get description(): string { return this.getCurrentEntity()?.getData()?.description || ''; }
+public set description(value: string) { if (this.getCurrentEntity()) { this.getCurrentEntity()!.getData().description = value; } }
+
+public get teamId(): string { return this.getCurrentEntity()?.getData()?.teamId || ''; }
+public set teamId(value: string) { if (this.getCurrentEntity()) { this.getCurrentEntity()!.getData().teamId = value; } }
+
+public get teamMemberId(): string { return this.getCurrentEntity()?.getData()?.teamMemberId || ''; }
+public set teamMemberId(value: string) { if (this.getCurrentEntity()) { this.getCurrentEntity()!.getData().teamMemberId = value; } }
+
+public get roleCode(): string { return this.getCurrentEntity()?.getData()?.roleCode || ''; }
+public set roleCode(value: string) { if (this.getCurrentEntity()) { this.getCurrentEntity()!.getData().roleCode = value; } }
+
+public get actionCode(): string { return this.getCurrentEntity()?.getData()?.actionCode || ''; }
+public set actionCode(value: string) { if (this.getCurrentEntity()) { this.getCurrentEntity()!.getData().actionCode = value; } }
+
+public get commentText(): string { return this.getCurrentEntity()?.getData()?.commentText || ''; }
+public set commentText(value: string) { if (this.getCurrentEntity()) { this.getCurrentEntity()!.getData().commentText = value; } }
+```
+
+### Wrapper Class Methods
+```typescript
+getDisplayText(entity?: HcclTeamLogGETData): string {
+  const data = entity || this.getData();
+  if (data.nameText) {
+    return data.nameText;
+  }
+  return data.id || 'Unknown HcclTeamLog';
+}
+
+getFkMenuCriteria(): HcclTeamLogCriteria {
+  return {
+    pageNumber: 1,
+    pageSize: 50,
+    isPaging: true
+  };
+}
+```
+
+---
+
+## 2. Group Component
+
+### Purpose
+Router target to group all tabs for HcclTeamLog (details, list).
+
+### Files
+- `hcclteamlog-group.component.html` (use template to gen - `./templates/template-group.component.html`)
+- `hcclteamlog-group.component.ts` (use template to gen - `./templates/template-group.component.ts`)
+- **Stylesheet:** `'../../_global/abstract-entity-group/abstract-entity-group.component.scss'`
+
+### Required Imports
+```typescript
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
+import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclTeamLogCrudWrapper, HcclTeamLogCrudComponent } from '@app/components/_crud/hcclteamlog/hcclteamlog-crud.component';
+```
+
+### Component Structure
+- **Extend:** `AbstractEntityGroupComponent<HcclTeamLogCrudWrapper>`
+- **Implement:** `OnInit`
+- **Input:** `@Input() id!: string`
+- **Constructor:** Only inject `ActivatedRoute` - do NOT inject `Router` or `HcclService`
+
+### Required Abstract Methods
+- `loadEntityById()`: Call `this.hcclService.getHcclTeamLogById(id)`
+- `setupTabs()`: Return array of SimpleTab objects
+
+### Template Structure
+- Copy from `template-group.component.html`
+- Replace `entityName` with `hcclteamlog`
+- Include conditional divs for details and create tabs
+- Use `*ngIf` for tab content display
+
+### Tab Configuration
+```typescript
+protected setupTabs(): SimpleTab[] {
+  return [
+    new SimpleTab('list', 'List', '', 
+      () => {
+        this.router.navigate(['/ecoadmin-dashboard/hcclteamlogs']);
+      },
+      () => {
+        return true;
+      }
+    ),
+    new SimpleTab('details', 'Details', '', 
+      () => {
+        this.currentTabId = 'details';
+        this.router.navigate(['/ecoadmin-dashboard/hcclteamlogs', this.id, 'details']);
+      },
+      () => {
+        return this.entity !== null;
+      }
+    ),
+    new SimpleTab('debug', 'Debug', '', 
+      () => {
+        this.currentTabId = 'debug';
+        this.router.navigate(['/ecoadmin-dashboard/hcclteamlogs', this.id, 'debug']);
+      },
+      () => {
+        return true;
+      }
+    ),
+    new SimpleTab('fk_menu', 'FK_MENU', '', 
+      () => {
+        this.currentTabId = 'fk_menu';
+        this.router.navigate(['/ecoadmin-dashboard/hcclteamlogs', this.id, 'fk_menu']);
+      },
+      () => {
+        return true;
+      }
+    )
+  ];
+}
+```
+
+---
+
+## 3. List Component
+
+### Purpose
+Router target to search and list HcclTeamLogGETData.
+
+### Files
+- `hcclteamlog-list.component.ts` ONLY (NO template or stylesheet files)
+
+### Required Imports
+```typescript
+import { CommonModule } from '@angular/common';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Observable } from 'rxjs';
+import { HcclTeamCrudWrapper } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
+import { TeamMemberCrudWrapper } from '@app/components/_crud/teammember/teammember-crud.component';
+```
+
+### Component Structure
+- **Extend:** `AbstractListComponent<HcclTeamLogGETData, HcclTeamLogCriteria, HcclTeamLogGETDataSearchResults>`
+- **DO NOT** implement `OnInit, AfterViewInit` - use abstract base class
+- **Constructor:** Only call `super()` - no additional services needed
+
+### Template and Styles
+- **Template:** `'../../_global/abstract-list/abstract-list.component.html'`
+- **Stylesheet:** `'../../_global/abstract-list/abstract-list.component.scss'`
+- **DO NOT** create custom template or stylesheet files
+
+### Required Abstract Methods
+- `getGridColumns()`: Return grid column configuration
+- `createCriteria()`: Create search criteria with paging
+- `findEntities()`: Call `this.hcclService.findHcclTeamLogs(criteria)`
+- `hasSearchResults()`: Check if response has search results
+- `getSearchResults()`: Extract search results from response
+- `formatEntityDataAsync()`: Format entity data for display including FK resolution
+
+### Grid Configuration
+```typescript
+protected getGridColumns(): any[] {
+  return [
+    { id: 'nameText', header: [{ text: 'Name Text', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+    { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+    { id: 'teamStr', header: [{ text: 'Team', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+    { id: 'teamMemberStr', header: [{ text: 'Team Member', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+    { id: 'roleCode', header: [{ text: 'Role Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+    { id: 'actionCode', header: [{ text: 'Action Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+    { id: 'commentText', header: [{ text: 'Comment Text', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+    { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+  ];
+}
+```
+
+### FK Resolution in List
+```typescript
+protected override async formatEntityDataAsync(entity: HcclTeamLogGETData): Promise<any> {
+  const teamStr: string = entity.teamId == null ? 'unknown' : 
+    (await HcclTeamCrudWrapper.newInstance(entity.teamId, this.hcclService)).getDisplayText();
+  
+  const teamMemberStr: string = entity.teamMemberId == null ? 'unknown' : 
+    (await TeamMemberCrudWrapper.newInstance(entity.teamMemberId, this.hcclService)).getDisplayText();
+
+  return {
+    createdByInfo: entity.createdByInfo?.name || '',
+    lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
+    dateCreated: entity.dateCreated?.formattedDate || '',
+    dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+    teamStr: teamStr,
+    teamMemberStr: teamMemberStr
+  };
+}
+```
+
+---
+
+## Route Naming Convention
+
+### Pluralization Rules
+- **entityName**: HcclTeamLog
+- **pluralEntityName**: hcclteamlogs (add 's')
+
+### Route Structure
+- **CRITICAL:** Never include package prefixes in routes
+- Use: `/ecoadmin-dashboard/hcclteamlogs` (not `/ecoadmin/hcclteamlogs`)
+
+---
+
+## Module Integration
+
+### Routing Configuration
+Add to `dash-ecoadmin.module.ts`:
+```typescript
+{ path: 'hcclteamlogs', component: HcclTeamLogListComponent },
+{ path: 'hcclteamlogs/create', component: HcclTeamLogGroupComponent },
+{ path: 'hcclteamlogs/:id/:tabId', component: HcclTeamLogGroupComponent },
+{ path: 'hcclteamlogs/:id', redirectTo: 'hcclteamlogs/:id/details', pathMatch: 'full' }
+```
+
+### Module Imports
+```typescript
+imports: [
+  // ... existing imports
+  HcclTeamLogListComponent,
+  HcclTeamLogGroupComponent
+]
+```
+
+---
+
+## Menu Integration
+
+### Menu Constants
+Add to `src/app/shell/services/menu.service.ts`:
+```typescript
+EA_HCCLTEAMLOG_LIST: {
+  level: 1,
+  label: 'Hccl Team Logs',
+  route: '/ecoadmin-dashboard/hcclteamlogs',
+  componentPath: 'src/app/components/_crud/hcclteamlog/hcclteamlog-list.component',
+  componentName: 'HcclTeamLogListComponent',
+  icon: 'fas fa-list'
+}
+```
+
+### Menu Builder
+Update `buildEcoAdminMenu()` method:
+```typescript
+// Add HcclTeamLog
+const hcclteamlog = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAMLOG_LIST);
+this.addMenuItem(menu, hcclteamlog);
+```
+
+---
+
+## Common Issues & Solutions
+
+### Component Import Errors
+- Ensure all required components are imported in `@Component.imports` array
+- For FK components, ensure proper import paths
+- For date components, ensure `@Input() data: any` is declared
+
+### Template Binding Errors
+- Ensure `@Input()` properties are declared in component classes
+- Check that all form field bindings use correct property names
+- For FK fields, ensure proper component references
+
+### Routing Issues
+- **CRITICAL:** Ensure route paths match between module configuration and menu constants
+- Use consistent route naming: `/ecoadmin-dashboard/hcclteamlogs` for eco-admin
+- Include proper redirects for default tab navigation
+
+### Constructor Dependencies
+- **CRUD Components:** Only call `super()` - no additional services needed
+- **Group Components:** Only inject `ActivatedRoute` in constructor
+- **List Components:** Only call `super()` - no additional services needed
+- Always call `super()` in constructor for components extending abstract classes
+
+### AbstractListComponent Integration
+- **CRITICAL:** List components MUST extend `AbstractListComponent` not implement `OnInit`
+- **DO NOT** include `declare const dhx: any;` - handled by abstract base class
+- **DO NOT** include manual DHTMLX grid initialization - handled by abstract base class
+- **DO NOT** create custom template or stylesheet files - use abstract list template
+
+---
+
+## Idempotent Generation Rules
+
+1. **Template Copying:** Always copy complete structure from reference components or templates
+2. **Method Implementation:** Copy ALL methods from reference components, but don't create new ones
+3. **Import Requirements:** Include all necessary imports for components and services
+4. **Constructor Rules:** Follow strict constructor injection rules for each component type
+5. **Routing Consistency:** Ensure menu routes match actual app routing structure using plural entity names
+6. **Component Dependencies:** Declare all required `@Input()` properties
+7. **Error Handling:** Include proper error handling in data loading methods
+8. **List Component Rules:** MUST extend AbstractListComponent, use abstract list template, no custom template files
+9. **Route Naming:** Always use plural form of entityName for routes
+10. **No Package Prefixes:** Never include package prefixes in routes
+
+---
+
+## Final Checklist
+
+Before generating components, ensure:
+- [ ] All required imports are specified
+- [ ] Constructor dependencies are correctly defined
+- [ ] Routing paths are consistent between module and menu
+- [ ] Template copying guidelines are followed
+- [ ] Common issues and solutions are addressed
+- [ ] Component structure matches reference components
+- [ ] All abstract methods are implemented
+- [ ] Error handling is included
+- [ ] DHTMLX integration is complete (for list components)
+- [ ] Menu integration uses correct route paths
+- [ ] Templates from `/tooling/prompt/templates/` are used as starting points
+- [ ] FK resolution is properly implemented for both CRUD and List components
+- [ ] Validation methods are included for all required fields
+- [ ] Getter/setter methods are implemented for all form fields 
