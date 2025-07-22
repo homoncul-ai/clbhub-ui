@@ -26,6 +26,8 @@ import { WorkQueueTypeRefListComponent } from '../../components/_crud/workqueuet
 import { WorkQueueTypeRefGroupComponent } from '../../components/_crud/workqueuetyperef/workqueuetyperef-group.component';
 import { WorkRequestTypeRefListComponent } from '../../components/_crud/workrequesttyperef/workrequesttyperef-list.component';
 import { WorkRequestTypeRefGroupComponent } from '../../components/_crud/workrequesttyperef/workrequesttyperef-group.component';
+import { WorkQueueListComponent } from '../../components/_crud/workqueue/workqueue-list.component';
+import { WorkQueueGroupComponent } from '../../components/_crud/workqueue/workqueue-group.component';
 import { HcclUserProfileGroupComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-group.component';
 import { HcclUserProfileCrudComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-crud.component';
 
@@ -80,10 +82,11 @@ const routes: Routes = [
       { path: 'workqueuetyperefs/:id/:tabId', component: WorkQueueTypeRefGroupComponent },
       { path: 'workqueuetyperefs/:id', redirectTo: 'workqueuetyperefs/:id/details', pathMatch: 'full' },
       { path: 'workqueuetyperefs', component: WorkQueueTypeRefListComponent },
-      { path: 'workrequesttyperefs/create', component: WorkRequestTypeRefGroupComponent },
-      { path: 'workrequesttyperefs/:id/:tabId', component: WorkRequestTypeRefGroupComponent },
-      { path: 'workrequesttyperefs/:id', redirectTo: 'workrequesttyperefs/:id/details', pathMatch: 'full' },
-      { path: 'workrequesttyperefs', component: WorkRequestTypeRefListComponent },
+      
+      { path: 'workqueues/create', component: WorkQueueGroupComponent },
+      { path: 'workqueues/:id/:tabId', component: WorkQueueGroupComponent },
+      { path: 'workqueues/:id', redirectTo: 'workqueues/:id/details', pathMatch: 'full' },
+      { path: 'workqueues', component: WorkQueueListComponent },
     ]
   }
 ];
@@ -114,6 +117,8 @@ const routes: Routes = [
     WorkQueueTypeRefGroupComponent,
     WorkRequestTypeRefListComponent,
     WorkRequestTypeRefGroupComponent,
+    WorkQueueListComponent,
+    WorkQueueGroupComponent,
     HcclUserProfileGroupComponent,
     HcclUserProfileCrudComponent
   ]

@@ -1,20 +1,29 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { WorkQueueCriteria, WorkQueueGETData, WorkQueuePOSTData, WorkQueuePUTData, HcclService, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { WorkQueueCriteria, WorkQueueGETData, WorkQueuePOSTData, WorkQueuePUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
 @Component({
   selector: 'app-workqueue-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent],
   templateUrl: './workqueue-crud.component.html',
-  styleUrl: './workqueue-crud.component.scss'
+  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
+    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
+    SimpleMessagesSectionComponent, MenuControlDataListComponent,
+    AvailableSelectorComponent, DategetdataDisplayComponent],
+  standalone: true
 })
 export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudWrapper> implements OnInit, OnChanges {
 /**
@@ -37,10 +46,113 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
   constructor() {
     super();
   }
+
+  // Error property for form validation
+  public error: any = null;
+
+  // Validation methods
+  private validateName(name: string): string | null {
+    if (!name || name.trim() === '') {
+      return 'Name is required';
+    }
+    if (name.length > 255) {
+      return 'Name must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateBusinessCode(businessCode: string): string | null {
+    if (!businessCode || businessCode.trim() === '') {
+      return 'Business Code is required';
+    }
+    if (businessCode.length > 50) {
+      return 'Business Code must be less than 50 characters';
+    }
+    return null;
+  }
+
+  private validateDescription(description: string): string | null {
+    if (!description || description.trim() === '') {
+      return 'Description is required';
+    }
+    if (description.length > 1024) {
+      return 'Description must be less than 1024 characters';
+    }
+    return null;
+  }
+
+  private validatePrefixCode(prefixCode: string): string | null {
+    if (!prefixCode || prefixCode.trim() === '') {
+      return 'Prefix Code is required';
+    }
+    if (prefixCode.length > 50) {
+      return 'Prefix Code must be less than 50 characters';
+    }
+    return null;
+  }
+
+  private validateWorkQueueTypeId(workQueueTypeId: string): string | null {
+    if (!workQueueTypeId || workQueueTypeId.trim() === '') {
+      return 'Work Queue Type ID is required';
+    }
+    return null;
+  }
+
+  private validateWorkQueueTeamId(workQueueTeamId: string): string | null {
+    if (!workQueueTeamId || workQueueTeamId.trim() === '') {
+      return 'Work Queue Team ID is required';
+    }
+    return null;
+  }
+
+  // Validate all fields and return error object
+  private validateForm(): any {
+    const errors: any = {};
+    
+    const nameError = this.validateName(this.name);
+    if (nameError) {
+      errors.name = { errorMessage: nameError };
+    }
+    
+    const businessCodeError = this.validateBusinessCode(this.businessCode);
+    if (businessCodeError) {
+      errors.businessCode = { errorMessage: businessCodeError };
+    }
+    
+    const descriptionError = this.validateDescription(this.description);
+    if (descriptionError) {
+      errors.description = { errorMessage: descriptionError };
+    }
+    
+    const prefixCodeError = this.validatePrefixCode(this.prefixCode);
+    if (prefixCodeError) {
+      errors.prefixCode = { errorMessage: prefixCodeError };
+    }
+    
+    const workQueueTypeIdError = this.validateWorkQueueTypeId(this.workQueueTypeId);
+    if (workQueueTypeIdError) {
+      errors.workQueueTypeId = { errorMessage: workQueueTypeIdError };
+    }
+    
+    const workQueueTeamIdError = this.validateWorkQueueTeamId(this.workQueueTeamId);
+    if (workQueueTeamIdError) {
+      errors.workQueueTeamId = { errorMessage: workQueueTeamIdError };
+    }
+    
+    return Object.keys(errors).length > 0 ? errors : null;
+  }
+
+  // Clear validation errors
+  private clearValidationErrors(): void {
+    this.error = null;
+  }
+
      /** Standard boiler plate for ngOnInit */
   override ngOnInit(): void {
     super.ngOnInit();
+    this.entityType = 'WorkQueue';
   }
+
 
 
   protected async loadEntityByIdCall(id: string): Promise<WorkQueueCrudWrapper> {
@@ -52,33 +164,52 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
   }
   
 
-
   protected override async createEntityDataCall(entity: WorkQueueCrudWrapper): Promise<any> {
-      // Use entityNew if in create mode, otherwise use the passed entity
-      const workQueueData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
-      
-      const postData: WorkQueuePOSTData = {
-        name: workQueueData.name || '',
-        businessCode: workQueueData.businessCode || '',
-        description: workQueueData.description || '',
-        prefixCode: workQueueData.prefixCode || '',
-        workQueueTypeId: workQueueData.workQueueTypeId || '',
-        workQueueTeamId: workQueueData.workQueueTeamId || '',
-        available: workQueueData.available || 1,
-        organizationId: workQueueData.organizationId,
-        externalQueue: workQueueData.externalQueue || 0
-      };
+     // Validate form before creating
+     this.error = this.validateForm();
+     if (this.error) {
+       throw new Error('Validation failed');
+     }
 
-      return this.hcclService.createWorkQueue(postData);
+     // Use entityNew if in create mode, otherwise use the passed entity
+     const workQueueData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
+    
+     const postData: WorkQueuePOSTData = {
+       name: workQueueData.name || '',
+       businessCode: workQueueData.businessCode || '',
+       description: workQueueData.description || '',
+       prefixCode: workQueueData.prefixCode || '',
+       workQueueTypeId: workQueueData.workQueueTypeId || '',
+       workQueueTeamId: workQueueData.workQueueTeamId || '',
+       available: workQueueData.available || 1,
+       organizationId: workQueueData.organizationId || '',
+       externalQueue: workQueueData.externalQueue || 0
+     };
+
+     try {
+       // The requestCreate method now returns { id: string, status: 201 }
+       const response = await this.hcclService.createWorkQueue(postData).toPromise();
+       console.log('Create response:', response);
+       this.clearValidationErrors(); // Clear errors on success
+       return response;
+     } catch (error) {
+       console.error('Create error:', error);
+       throw error;
+     }
   }
 
 
 
   protected override async updateEntityDataCall(entity: WorkQueueCrudWrapper): Promise<void> {
+      // Validate form before updating
+      this.error = this.validateForm();
+      if (this.error) {
+        throw new Error('Validation failed');
+      }
+
       const workQueueData = entity.getData();
       if (!workQueueData.id) {
-        throw new Error('Work Queue ID is required for update');
-      }
+        throw new Error('Work Queue ID is required for update');    }
 
       const putData: WorkQueuePUTData = {
         name: workQueueData.name || '',
@@ -88,11 +219,17 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
         workQueueTypeId: workQueueData.workQueueTypeId || '',
         workQueueTeamId: workQueueData.workQueueTeamId || '',
         available: workQueueData.available || 1,
-        organizationId: workQueueData.organizationId,
+        organizationId: workQueueData.organizationId || '',
         externalQueue: workQueueData.externalQueue || 0
       };
 
-      await this.hcclService.updateWorkQueueById(workQueueData.id, putData).toPromise();
+      try {
+        await this.hcclService.updateWorkQueueById(workQueueData.id, putData).toPromise();
+        this.clearValidationErrors(); // Clear errors on success
+      } catch (error) {
+        console.error('Update error:', error);
+        throw error;
+      }
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
@@ -100,7 +237,7 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
       await this.hcclService.deleteWorkQueueById(id).toPromise();
       return true;
     } catch (error) {
-      console.error('Error deleting work queue:', error);
+      console.error('Error deleting Work Queue:', error);
       throw error;
     }
   }
@@ -117,14 +254,18 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
       workQueueTypeId: '',
       workQueueTeamId: '',
       available: 1,
+      organizationId: '',
       externalQueue: 0
     };
     
     return new WorkQueueCrudWrapper(emptyWorkQueue, this.hcclService);
   }
+
   // Getter methods for form binding
   public get name(): string {
-    return this.getCurrentEntity().getData().name || '';
+    const x = this.getCurrentEntity().getData().name || '';
+   
+    return x;
   }
 
   public set name(value: string) {
@@ -177,6 +318,15 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
     data.getData().workQueueTeamId = value;
   }
 
+  public get organizationId(): string {
+    return this.getCurrentEntity().getData().organizationId || '';
+  }
+
+  public set organizationId(value: string) {
+    var data = super.getEntityForSet();
+    data.getData().organizationId = value;
+  }
+
   public get available(): number {
     return this.getCurrentEntity().getData().available || 1;
   }
@@ -195,15 +345,6 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
     data.getData().externalQueue = value;
   }
 
-  public get organizationId(): string {
-    return this.getCurrentEntity().getData().organizationId || '';
-  }
-
-  public set organizationId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().organizationId = value;
-  }
-
  
   /**
    * Create a wrapper from WorkQueueGETData
@@ -214,47 +355,43 @@ export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudW
     return new WorkQueueCrudWrapper(workQueueData, this.hcclService);
   }
 
-  onWorkQueueTypeChange(selectedType: any): void {
-    // Handle work queue type selection change
-    console.log('Work Queue Type selected:', selectedType);
-    // Implement your work queue type change logic here
-    if (selectedType && this.getCurrentEntity()) {
-      this.workQueueTypeId = selectedType.id || '';
-    }
-  }
-
-  onWorkQueueTeamChange(selectedTeam: any): void {
-    // Handle work queue team selection change
-    console.log('Work Queue Team selected:', selectedTeam);
-    // Implement your work queue team change logic here
-    if (selectedTeam && this.getCurrentEntity()) {
-      this.workQueueTeamId = selectedTeam.id || '';
-    }
+  getWorkQueueFkMenuCriteria(): WorkQueueCriteria {
+    // Work queue organization.
+    return {
+      available: 1
+    };
   }
 
    /** Define the menu objects for this crud component */
-   protected workQueueTypeMenu: MenuControlDataList | null = null;
-   protected workQueueTeamMenu: MenuControlDataList | null = null;
+   protected workQueueMenu: MenuControlDataList | null = null;
    protected override async prepareMenus(entity: WorkQueueCrudWrapper): Promise<void> {
     
-    // TODO: Implement menu preparation logic
-    // This would load the work queue type and team menus
-    // For now, we'll leave this commented out as per instructions
-    /*
-    const fkMenu = await entity.getFkMenu();
-    this.workQueueTypeMenu = fkMenu || null;
+    // const fkMenu = await entity.getFkMenu();
+    // // Actually, we're going to load the work queue wrapper, then call getWorkQueueMenu
+    // this.workQueueMenu = fkMenu || null;
 
-    var teamWrapper = await WorkQueueTeamCrudWrapper.newInstance(entity.getWorkQueueTeamId(), this.hcclService);
-    this.workQueueTeamMenu = await teamWrapper.getFkMenu();
-    */
     return Promise.resolve();
   }
-
 
 }
 
 export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
 
+  public static  newInstanceForCreate( hcclService: HcclService, entityIn?: WorkQueueGETData | null): WorkQueueCrudWrapper {
+    const entity = entityIn || {
+      id: '0',
+      name: '',
+      businessCode: '',
+      description: '',
+      prefixCode: '',
+      workQueueTypeId: '',
+      workQueueTeamId: '',
+      available: 1,
+      organizationId: '',
+      externalQueue: 0
+    } as WorkQueueGETData;
+    return new WorkQueueCrudWrapper(entity, hcclService);
+  }
   public static async newInstance(id: string, hcclService: HcclService): Promise<WorkQueueCrudWrapper> {
     const workQueue = await hcclService.getWorkQueueById(id).toPromise();
     if (workQueue) {
@@ -270,14 +407,23 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
     const data = entity || this.data;
     const name = data.name || '';
     const businessCode = data.businessCode || '';
-    return name || businessCode || 'Unnamed Work Queue';
+    if (name && businessCode) {
+      return `${name} (${businessCode})`;
+    } else if (name) {
+      return name;
+    } else if (businessCode) {
+      return businessCode;
+    } else {
+      return 'Unnamed Work Queue';
+    }
   }
 
   getFullName(): string {
-    const data = this.data;
-    const name = data.name || '';
-    const businessCode = data.businessCode || '';
-    return name || businessCode || 'Unnamed Work Queue';
+    return this.getDisplayText();
+  }
+
+  getBusinessCode(): string {
+    return this.data.businessCode || '';
   }
 
   getDescription(): string {
@@ -300,12 +446,16 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
     return this.data.organizationId || '';
   }
 
-  isActive(): boolean {
-    return this.data.available === 1;
+  getAvailable(): number {
+    return this.data.available || 1;
   }
 
-  isExternalQueue(): boolean {
-    return this.data.externalQueue === 1;
+  getExternalQueue(): number {
+    return this.data.externalQueue || 0;
+  }
+
+  isActive(): boolean {
+    return this.data.available === 1;
   }
 
   getFkMenuCriteria(): WorkQueueCriteria {
@@ -316,16 +466,23 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
 
   async getWorkQueues(criteria?: WorkQueueCriteria): Promise<WorkQueueGETData[]> {
     if (!this.hcclService) {
-      return [];
+      throw new Error('HcclService not available');
     }
-    const searchResults = await this.hcclService.findWorkQueues(criteria || this.getFkMenuCriteria()).toPromise();
-    return searchResults?.searchResults || [];
+    const searchCriteria = criteria || this.getFkMenuCriteria();
+    const response = await this.hcclService.findWorkQueues(searchCriteria).toPromise();
+    return response?.searchResults || [];
   }
 
-   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
-    // TODO: Implement FK menu logic
-    // This would return a menu of work queues for selection
-    return super.getFkMenu(menuHint, data);
+  public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
+    console.log('getFkMenu', menuHint, data);
+    var criteria = this.getFkMenuCriteria();
+    var workQueues = await this.getWorkQueues(criteria);
+    var menuItems = workQueues.map(workQueue => {
+      return {
+        id: workQueue.id,
+        name: workQueue.name
+      } as MenuControlData;
+    });
+    return { menuItems: menuItems } as MenuControlDataList;
   }
-
-}
+} 

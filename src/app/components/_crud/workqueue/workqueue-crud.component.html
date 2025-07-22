@@ -1,189 +1,320 @@
-<span *ngIf="getMode() === CRUD_MODES.FK">{{ getCurrentEntity().getFullName() }}</span>
+<span *ngIf="getMode() === CRUD_MODES.FK  && !isLoading" >{{ getCurrentEntity().getDisplayText() }}</span>
 
+<div *ngIf="getMode() === CRUD_MODES.FK_MENU  && !isLoading" class="fk_menu-mode">
 <!-- Heading Mode -->
-<div *ngIf="getMode() === CRUD_MODES.HEADING" class="heading-mode">
-  <h3>{{ getCurrentEntity().getFullName() }}</h3>
+<app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+</div>
+
+<div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
+    <div class="details-section">
+      <div class="detail-group">
+        <label>Name:</label>
+        <span>{{ name }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Business Code:</label>
+        <span>{{ businessCode }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Description:</label>
+        <span>{{ description }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Prefix Code:</label>
+        <span>{{ prefixCode }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Work Queue Type ID:</label>
+        <span>{{ workQueueTypeId }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Work Queue Team ID:</label>
+        <span>{{ workQueueTeamId }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Organization ID:</label>
+        <span>{{ organizationId }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Available:</label>
+        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+      </div>
+      <div class="detail-group">
+        <label>External Queue:</label>
+        <span>{{ externalQueue }}</span>
+      </div>
+    </div>
 </div>
 
 
-<div *ngIf="isCrudModeCUD()" class="workqueue-crud-container">
+<div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
+<!-- Heading Mode -->
+<h3>{{ getCurrentEntity().getDisplayText() }}</h3>
+</div>
+
+<div *ngIf="isCrudModeCUD()" class="crud-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-spinner">Loading...</div>
   </div>
 
-
-  <!-- Error State -->
   <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
-
-  <!-- Header with Action Buttons -->
-  <div class="crud-header">
-    <h2>Work Queue Management</h2>
-    <div class="action-buttons">
-      <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New Work Queue</button>
-      <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
-      <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
-      <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
-    </div>
-  </div>
-
   <!-- Create Mode -->
   <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
-    <h3>Create New Work Queue</h3>
-    <div class="form-container">
-      <!-- Form fields would go here -->
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" [(ngModel)]="name" class="form-control">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Create New Work Queue</h3>
+    </div>
+    <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <form
+        (ngSubmit)="this.createEntity()"
+      >
+      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
-      <div class="form-group">
-        <label>Business Code:</label>
-        <input type="text" [(ngModel)]="businessCode" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Description:</label>
-        <textarea [(ngModel)]="description" class="form-control"></textarea>
-      </div>
-      <div class="form-group">
-        <label>Prefix Code:</label>
-        <input type="text" [(ngModel)]="prefixCode" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Work Queue Type ID:</label>
-        <input type="text" [(ngModel)]="workQueueTypeId" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Work Queue Team ID:</label>
-        <input type="text" [(ngModel)]="workQueueTeamId" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Organization ID:</label>
-        <input type="text" [(ngModel)]="organizationId" class="form-control">
-      </div>
+      <app-std-mdb-form-text 
+        prefix="workQueue" 
+        name="name"
+        label="Name"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="name">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="workQueue" 
+        name="businessCode"
+        label="Business Code"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="businessCode">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-textarea 
+        prefix="workQueue" 
+        name="description"
+        label="Description"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="description">
+      </app-std-mdb-form-textarea>
+      <app-std-mdb-form-text 
+        prefix="workQueue" 
+        name="prefixCode"
+        label="Prefix Code"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="prefixCode">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="workQueue" 
+        name="workQueueTypeId"
+        label="Work Queue Type ID"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="workQueueTypeId">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="workQueue" 
+        name="workQueueTeamId"
+        label="Work Queue Team ID"
+        [required]="true"
+        [error]="error"
+        [(ngModel)]="workQueueTeamId">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="workQueue" 
+        name="organizationId"
+        label="Organization ID"
+        [required]="false"
+        [error]="error"
+        [(ngModel)]="organizationId">
+      </app-std-mdb-form-text>
       <div class="form-group">
         <label>Available:</label>
         <app-available-selector [(ngModel)]="available"></app-available-selector>
       </div>
       <div class="form-group">
         <label>External Queue:</label>
-        <input type="number" [(ngModel)]="externalQueue" class="form-control">
+        <input type="number" class="form-control" [(ngModel)]="externalQueue" name="externalQueue">
       </div>
-      <div class="form-actions">
-        <button *ngIf="canCreate" (click)="createEntity(getCurrentEntity())" class="btn btn-success">Create</button>
-        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
-      </div>
+     
+      </form>
     </div>
   </div>
 
   <!-- Edit Mode -->
-  <div *ngIf="getMode() === CRUD_MODES.EDIT" class="edit-mode">
-    <h3>Edit Work Queue</h3>
-    <div class="form-container">
-      <!-- Form fields would go here -->
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" [(ngModel)]="name" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Business Code:</label>
-        <input type="text" [(ngModel)]="businessCode" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Description:</label>
-        <textarea [(ngModel)]="description" class="form-control"></textarea>
-      </div>
-      <div class="form-group">
-        <label>Prefix Code:</label>
-        <input type="text" [(ngModel)]="prefixCode" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Work Queue Type ID:</label>
-        <app-menu-control-data-list 
-           [menuControlDataList]="this.workQueueTypeMenu" 
-           placeholder="Select work queue type..." 
-           (selectionChange)="onWorkQueueTypeChange($event)"></app-menu-control-data-list>
-      </div>
-      <div class="form-group">
-        <label>Work Queue Team ID:</label>
-        <app-menu-control-data-list 
-           [menuControlDataList]="this.workQueueTeamMenu" 
-           placeholder="Select work queue team..." 
-           (selectionChange)="onWorkQueueTeamChange($event)"></app-menu-control-data-list>
-      </div>
-      <div class="form-group">
-        <label>Organization ID:</label>
-        <input type="text" [(ngModel)]="organizationId" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Available:</label>
-        <app-available-selector [(ngModel)]="available"></app-available-selector>
-      </div>
-      <div class="form-group">
-        <label>External Queue:</label>
-        <input type="number" [(ngModel)]="externalQueue" class="form-control">
-      </div>
-      <div class="form-actions">
-        <button (click)="updateEntity(getCurrentEntity())" class="btn btn-success">Update</button>
-        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
-      </div>
+  <div *ngIf="getMode() === CRUD_MODES.EDIT  && !isLoading" class="edit-mode">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit Work Queue</h3>
+    </div>
+    <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <form (ngSubmit)="updateEntity(getCurrentEntity())">
+        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+        </div>
+
+        <div class="form-group">
+          <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="workQueue" 
+          name="name"
+          label="Name"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="name">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="workQueue" 
+          name="businessCode"
+          label="Business Code"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="businessCode">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-textarea 
+          prefix="workQueue" 
+          name="description"
+          label="Description"
+          [required]="true"
+          [error]="error"
+          [rows]="4"
+          [maxlength]="1024"
+          [showCharCounter]="true"
+          [(ngModel)]="description">
+        </app-std-mdb-form-textarea>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="workQueue" 
+          name="prefixCode"
+          label="Prefix Code"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="prefixCode">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="workQueue" 
+          name="workQueueTypeId"
+          label="Work Queue Type ID"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="workQueueTypeId">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="workQueue" 
+          name="workQueueTeamId"
+          label="Work Queue Team ID"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="workQueueTeamId">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="workQueue" 
+          name="organizationId"
+          label="Organization ID"
+          [required]="false"
+          [error]="error"
+          [(ngModel)]="organizationId">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+          <label>Available:</label>
+          <app-available-selector [(ngModel)]="available"></app-available-selector>
+        </div>
+        <div class="mb-4">
+          <label>External Queue:</label>
+          <input type="number" class="form-control" [(ngModel)]="externalQueue" name="externalQueue">
+        </div>
+        </div>
+      </form>
     </div>
   </div>
 
-
-  <!-- Detail Mode -->
-  <div *ngIf="getMode() === CRUD_MODES.DETAIL" class="detail-mode">
-    <h3>Work Queue Details</h3>
-    <div class="workqueue-details">
+  <!-- Detail Mode  overlay? -->
+  <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading"  class="detail-mode">
+    <div class="crud-header">
+      <h3>Work Queue Details</h3>
+      <div class="action-buttons">
+        <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
+        <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
+        <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
+      </div>
+    </div>
+    <div class="details-section">
       <div class="detail-group">
-        <label>Work Queue ID:</label>
-        <span>{{ getCurrentEntity().getId() }}</span>
+        <label>ID:</label>
+        <span>{{ getCurrentEntity().getData().id }}</span>
       </div>
       <div class="detail-group">
         <label>Name:</label>
-        <span>{{ getCurrentEntity().getFullName() }}</span>
+        <span>{{ name }}</span>
       </div>
       <div class="detail-group">
         <label>Business Code:</label>
-        <span>{{ getCurrentEntity().getData().businessCode }}</span>
+        <span>{{ businessCode }}</span>
       </div>
       <div class="detail-group">
         <label>Description:</label>
-        <span>{{ getCurrentEntity().getDescription() }}</span>
+        <span>{{ description }}</span>
       </div>
       <div class="detail-group">
         <label>Prefix Code:</label>
-        <span>{{ getCurrentEntity().getPrefixCode() }}</span>
+        <span>{{ prefixCode }}</span>
       </div>
       <div class="detail-group">
         <label>Work Queue Type ID:</label>
-        <span>{{ getCurrentEntity().getWorkQueueTypeId() }}</span>
+        <span>{{ workQueueTypeId }}</span>
       </div>
       <div class="detail-group">
         <label>Work Queue Team ID:</label>
-        <span>{{ getCurrentEntity().getWorkQueueTeamId() }}</span>
+        <span>{{ workQueueTeamId }}</span>
       </div>
       <div class="detail-group">
         <label>Organization ID:</label>
-        <span>{{ getCurrentEntity().getOrganizationId() }}</span>
+        <span>{{ organizationId }}</span>
       </div>
       <div class="detail-group">
-        <label>Status:</label>
-        <span>{{ getCurrentEntity().isActive() ? 'Active' : 'Inactive' }}</span>
+        <label>Available:</label>
+        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
       </div>
       <div class="detail-group">
         <label>External Queue:</label>
-        <span>{{ getCurrentEntity().isExternalQueue() ? 'Yes' : 'No' }}</span>
+        <span>{{ externalQueue }}</span>
       </div>
-      <div class="detail-actions">
+      <div class="detail-group">
+        <label>Date Created:</label>
+        <app-dategetdata-display [data]="getCurrentEntity().getData().dateCreated"></app-dategetdata-display>
+      </div>
+      <div class="detail-group">
+        <label>Created By:</label>
+        <span>{{ getCurrentEntity().getData().createdByInfo?.name }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Date Last Updated:</label>
+        <app-dategetdata-display [data]="getCurrentEntity().getData().dateLastUpdated"></app-dategetdata-display>
+      </div>
+      <div class="detail-group">
+        <label>Last Updated By:</label>
+        <span>{{ getCurrentEntity().getData().lastUpdatedByInfo?.name }}</span>
       </div>
     </div>
   </div>
 
   <!-- Delete Mode -->
-  <div *ngIf="getMode() === CRUD_MODES.DELETE" class="delete-mode">
+  <div *ngIf="getMode() === CRUD_MODES.DELETE && !isLoading" class="delete-mode">
     <h3>Delete Work Queue</h3>
     <div class="delete-confirmation">
-      <p>Are you sure you want to delete the work queue:</p>
+      <p>Are you sure you want to delete this Work Queue?</p>
       <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
       <p>This action cannot be undone.</p>
       <div class="delete-actions">
@@ -192,8 +323,40 @@
       </div>
     </div>
   </div>
+</div> 
 
 
+<div *ngIf="getMode() === CRUD_MODES.DEBUG" >
+  <!-- debug - show ALL the sections, clearly marked, by  re-creating the crud component -->
+  <h3>details Mode</h3>
+  <app-workqueue-crud [modeName]="'details'" [id]="this.id"></app-workqueue-crud>
+  <hr>
+  <h3>create Mode</h3>
+  <app-workqueue-crud [modeName]="'create'"></app-workqueue-crud>
+  <hr>
+  <h3>edit Mode</h3>
+  <app-workqueue-crud [modeName]="'edit'" [id]="this.id"></app-workqueue-crud>
+  <hr>
+  <h3>delete Mode</h3>
+  <app-workqueue-crud [modeName]="'delete'" [id]="this.id"></app-workqueue-crud>
+  <hr>
+  <h3>heading Mode</h3>
+  <app-workqueue-crud [modeName]="'heading'" [id]="this.id"></app-workqueue-crud>
+  <hr>
+   <h3>Section Mode</h3>
+  <app-workqueue-crud [modeName]="'section'" [id]="this.id"></app-workqueue-crud>
+  <hr>
+  <h3>fk Mode</h3>
+  <app-workqueue-crud [modeName]="'fk'" [id]="this.id"></app-workqueue-crud>
+  <hr>
+  <h3>fk_menu Mode</h3>
+  <b>Note - this tempate is only to show the menu, it is not be used in a form without callback, etc</b>
+  <app-workqueue-crud [modeName]="'fk_menu'" [id]="this.id"></app-workqueue-crud>
+  <hr>
   
-
 </div>
+
+<div *ngIf="false">
+<h3> Dump </h3>
+<pre>{{ getCurrentEntity().getData() | json }}</pre>
+</div> 
