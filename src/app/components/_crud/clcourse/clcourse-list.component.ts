@@ -70,7 +70,7 @@ export class CLCourseListComponent extends AbstractListComponent<CLCourseGETData
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: CLCourseGETData): any {
+  protected override formatEntityData(entity: CLCourseGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

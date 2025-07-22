@@ -65,7 +65,7 @@ export class HcclOrganizationTypeRefListComponent extends AbstractListComponent<
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: HcclOrganizationTypeRefGETData): any {
+  protected override formatEntityData(entity: HcclOrganizationTypeRefGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

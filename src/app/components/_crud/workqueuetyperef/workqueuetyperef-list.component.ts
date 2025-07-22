@@ -65,7 +65,7 @@ export class WorkQueueTypeRefListComponent extends AbstractListComponent<WorkQue
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: WorkQueueTypeRefGETData): any {
+  protected override formatEntityData(entity: WorkQueueTypeRefGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

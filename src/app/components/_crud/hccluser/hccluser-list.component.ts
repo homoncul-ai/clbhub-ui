@@ -68,7 +68,7 @@ export class HcclUserListComponent extends AbstractListComponent<HcclUserGETData
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: HcclUserGETData): any {
+  protected override formatEntityData(entity: HcclUserGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

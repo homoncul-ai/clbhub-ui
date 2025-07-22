@@ -72,7 +72,7 @@ export class HcclUserProfileListComponent extends AbstractListComponent<HcclUser
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: HcclUserProfileGETData): any {
+  protected override formatEntityData(entity: HcclUserProfileGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

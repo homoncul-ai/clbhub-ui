@@ -66,7 +66,7 @@ export class WorkRequestTypeRefListComponent extends AbstractListComponent<WorkR
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: WorkRequestTypeRefGETData): any {
+  protected override formatEntityData(entity: WorkRequestTypeRefGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

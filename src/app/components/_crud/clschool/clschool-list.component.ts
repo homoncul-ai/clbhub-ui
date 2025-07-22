@@ -71,7 +71,7 @@ export class CLSchoolListComponent extends AbstractListComponent<CLSchoolGETData
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: CLSchoolGETData): any {
+  protected override formatEntityData(entity: CLSchoolGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

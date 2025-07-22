@@ -69,14 +69,6 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: HcclOrganizationGETData): any {
-    return {
-      createdByInfo: entity.createdByInfo?.name || '',
-      lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
-      dateCreated: entity.dateCreated?.formattedDate || '',
-      dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
-    };
-  }
 
   protected override async formatEntityDataAsync(entity: HcclOrganizationGETData): Promise<any> {
     // if and FK, then create a CrudWrapper for the FK and add the displaytext of the crudwrapper
@@ -86,6 +78,10 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
       const typeName = crudWrapper.getDisplayText();
       debugger;
       return {
+        createdByInfo: entity.createdByInfo?.name || '',
+        lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
+        dateCreated: entity.dateCreated?.formattedDate || '',
+        dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
         organizationTypeCode: typeName
       };
     }

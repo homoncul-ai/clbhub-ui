@@ -339,13 +339,15 @@ implements OnInit, AfterViewInit {
   /**
    * Format entity data for grid display
    */
-  protected abstract formatEntityData(entity: T): any;
+  protected  formatEntityData(entity: T): any {
+    return {};
+  }
 
   /**
    * Format entity data asynchronously for grid display (e.g., FK relationships)
    * Default implementation returns empty object - subclasses can override
    */
-  protected formatEntityDataAsync(entity: T): Promise<any> {
+  protected async formatEntityDataAsync(entity: T): Promise<any> {
     return Promise.resolve({});
   }
 

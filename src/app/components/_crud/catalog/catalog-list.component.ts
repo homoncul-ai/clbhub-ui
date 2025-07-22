@@ -69,7 +69,7 @@ export class CatalogListComponent extends AbstractListComponent<CatalogGETData, 
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: CatalogGETData): any {
+  protected override formatEntityData(entity: CatalogGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',

@@ -65,7 +65,7 @@ export class ProviderTypeRefListComponent extends AbstractListComponent<Provider
     return response.searchResults || [];
   }
 
-  protected formatEntityData(entity: ProviderTypeRefGETData): any {
+  protected override formatEntityData(entity: ProviderTypeRefGETData): any {
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
