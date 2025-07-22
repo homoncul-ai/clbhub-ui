@@ -205,21 +205,10 @@ implements OnInit, AfterViewInit {
       next: (response: TSearchResults) => {
         if (this.hasSearchResults(response)) {
           const entities = this.getSearchResults(response);
-          const gridData = entities.map(entity => {
-            const data: any = {
-              ...entity,
-              ...this.formatEntityData(entity)
-            };
-            
-            // Only add select property if checkbox is shown
-            if (this.showingIdCheckbox) {
-              data.select = false;
-            }
-            
-            return data;
+          this.processEntities(entities).catch(error => {
+            console.error('Error processing entities:', error);
+            this.grid.data.parse([]);
           });
-          this.grid.data.parse(gridData);
-          console.log("Loaded entities:", gridData.length);
         } else {
           this.grid.data.parse([]);
           console.log("No entities found");
@@ -230,6 +219,27 @@ implements OnInit, AfterViewInit {
         this.grid.data.parse([]);
       }
     });
+  }
+
+  private async processEntities(entities: T[]) {
+    const gridData = await Promise.all(entities.map(async (entity, index) => {
+      const asyncData = await this.formatEntityDataAsync(entity);
+      const data: any = {
+        ...entity,
+        ...this.formatEntityData(entity),
+        ...asyncData
+      };
+      
+      // Only add select property if checkbox is shown
+      if (this.showingIdCheckbox) {
+        data.select = false;
+      }
+      console.log('data:', data);
+      
+      return data;
+    }));
+    this.grid.data.parse(gridData);
+    console.log("Loaded entities:", gridData.length);
   }
 
   protected onGoClick() {
@@ -330,6 +340,14 @@ implements OnInit, AfterViewInit {
    * Format entity data for grid display
    */
   protected abstract formatEntityData(entity: T): any;
+
+  /**
+   * Format entity data asynchronously for grid display (e.g., FK relationships)
+   * Default implementation returns empty object - subclasses can override
+   */
+  protected formatEntityDataAsync(entity: T): Promise<any> {
+    return Promise.resolve({});
+  }
 
   /**
    * Handle advanced search action

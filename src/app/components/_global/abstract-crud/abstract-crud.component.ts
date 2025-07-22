@@ -679,16 +679,16 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     return this.entityType;
   }
 
-  public get dateCreated(): DateGETData | null {
-    return this.entity?.getData().dateCreated;
+  public get dateCreated(): DateGETData  {
+    return this.entity?.getData().dateCreated || { date: new Date() };
   }
-  public get dateLastUpdated(): DateGETData | null {
-    return this.entity?.getData().dateLastUpdated;
+  public get dateLastUpdated(): DateGETData  {
+    return this.entity?.getData().dateLastUpdated || { date: new Date() };
   }
-  public get createdByInfo(): Reference | null {
-    return this.entity?.getData().createdByInfo;
+  public get createdByInfo(): Reference   {
+    return this.entity?.getData().createdByInfo || { name: 'Unknown' };
   }
-  public get lastUpdatedByInfo(): Reference | null {
-    return this.entity?.getData().lastUpdatedByInfo;
+  public get lastUpdatedByInfo(): Reference  {
+    return this.entity?.getData().lastUpdatedByInfo || { name: 'Unknown' };
   }
 }

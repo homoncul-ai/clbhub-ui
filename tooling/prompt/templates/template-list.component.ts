@@ -1,3 +1,9 @@
+// This template is for generating a LIST component for an entity that has a FK Menu
+// This was generated using entityName = HcclOrganization
+// Generate the new [entityName]-list.component.ts   files using this template
+// Of course, the code related to the attributes of the entity in the grid should be changed to match the entityName's attributes
+
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,7 +11,6 @@ import { HcclService } from '../../../restsvc/hccl.service';
 import { HcclOrganizationGETData, HcclOrganizationCriteria, HcclOrganizationGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
-import { HcclOrganizationTypeRefCrudWrapper } from '../hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 
 /**
  * Component for displaying and managing HcclOrganization data using HcclService
@@ -32,6 +37,8 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
     //this.searchPlaceholder = ...
   }
 
+  // Always start with the id column, then the attributes of the entity in the order you want them to appear in the grid
+  // start with the id, dateCreated, dateLastUpdated, createdByInfo, lastUpdatedByInfo commented out.
   protected getGridColumns(): any[] {
     return [
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
@@ -69,27 +76,23 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
     return response.searchResults || [];
   }
 
+  /**
+   * Special attributes in the grid.  FK info needs to be added here.
+   * @param entity 
+   * @returns 
+   */
   protected formatEntityData(entity: HcclOrganizationGETData): any {
+    // if and FK, then create a CrudWrapper for the FK and add the displaytext of the crudwrapper
+    /**
+     * const
+     */
+    const crudWr
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
     };
-  }
-
-  protected override async formatEntityDataAsync(entity: HcclOrganizationGETData): Promise<any> {
-    // if and FK, then create a CrudWrapper for the FK and add the displaytext of the crudwrapper
-    const id = entity.organizationTypeId || '';
-    if (id) {
-      const crudWrapper = await HcclOrganizationTypeRefCrudWrapper.newInstance(id, this.hcclService);
-      const typeName = crudWrapper.getDisplayText();
-      debugger;
-      return {
-        organizationTypeCode: typeName
-      };
-    }
-    return {};
   }
 
 } 

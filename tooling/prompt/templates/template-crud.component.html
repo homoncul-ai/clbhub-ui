@@ -8,10 +8,13 @@
 
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
     <div class="details-section">
-      <!-- Display all the details attributes FOR THIS Entity in this section, replacing the ones below. -->
-      <!-- Always use the form {{ attributeName }} to display the attribute value -->
+      <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->
+      <!-- If no section attributes, use the read-only values for 'edit' mode.  -->
+
+      <!-- In general, if not special use the form {{ attributeName }} to display the attribute value -->
       <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
       <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
+       <!-- Note all these attributes are only shown here as examples - only show the attributes that are relevant to this entity -->
         <div class="detail-group">
         <label>Name :</label>
         <span>{{ name }}</span>  
@@ -24,7 +27,7 @@
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
-      <!-- If the attribute is avaliable, use the <app-available-selector readonly=true component to display the value -->
+      <!-- If the attribute is avaliable,  use the <app-available-selector readonly=true component to display the value -->
       <div class="detail-group">
         <label>Available:</label>
         <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
@@ -32,8 +35,8 @@
 
         <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
         <div class="detail-group">
-            <label>Date Created:</label>
-            <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+            <label>Some Date Field:</label>
+            <app-dategetdata-display [data]="someDateField"></app-dategetdata-display>
         </div>
         
 
@@ -43,6 +46,7 @@
           <app-workrequesttyperef-crud [id]="workTypeRefId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
       </div>
 
+      <!-- End example Attributes -->
       
 
     </div>

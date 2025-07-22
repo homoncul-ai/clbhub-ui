@@ -1,3 +1,4 @@
+import { HcclUserProfileListComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -73,7 +74,7 @@ const routes: Routes = [
       { path: 'hccluserprofiles/create', component: HcclUserProfileGroupComponent },
       { path: 'hccluserprofiles/:id/:tabId', component: HcclUserProfileGroupComponent },
       { path: 'hccluserprofiles/:id', redirectTo: 'hccluserprofiles/:id/details', pathMatch: 'full' },
-      { path: 'hccluserprofiles', component: HcclUserProfileCrudComponent },
+      { path: 'hccluserprofiles', component: HcclUserProfileListComponent },
 
       { path: 'workqueuetyperefs/create', component: WorkQueueTypeRefGroupComponent },
       { path: 'workqueuetyperefs/:id/:tabId', component: WorkQueueTypeRefGroupComponent },

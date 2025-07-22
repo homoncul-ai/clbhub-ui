@@ -12,6 +12,7 @@ import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-m
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { HccluserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
@@ -24,7 +25,7 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganiz
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent,
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent,
     HccluserCrudComponent, HcclOrganizationCrudComponent],
   standalone: true
 })
@@ -347,6 +348,23 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
     if (this.entity) {
       this.entity.getData().available = value;
     }
+  }
+
+  // Audit fields for display
+  public override get dateCreated(): any {
+    return this.getCurrentEntity()?.getData()?.dateCreated;
+  }
+
+  public override get dateLastUpdated(): any {
+    return this.getCurrentEntity()?.getData()?.dateLastUpdated;
+  }
+
+  public override get createdByInfo(): any {
+    return this.getCurrentEntity()?.getData()?.createdByInfo;
+  }
+
+  public override get lastUpdatedByInfo(): any {
+    return this.getCurrentEntity()?.getData()?.lastUpdatedByInfo;
   }
 
   public createWrapper(userProfileData: HcclUserProfileGETData): HcclUserProfileCrudWrapper {
