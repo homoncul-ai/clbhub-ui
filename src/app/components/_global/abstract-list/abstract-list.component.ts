@@ -16,6 +16,7 @@ declare const dhx: any;
   selector: 'app-abstract-list',
   templateUrl: './abstract-list.component.html',
   styleUrls: ['./abstract-list.component.scss'],
+  imports: [CommonModule],
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> 
 implements OnInit, AfterViewInit {

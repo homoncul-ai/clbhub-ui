@@ -10,7 +10,7 @@ import { MenuControlDataListComponent } from '@app/components/_global/menu-contr
 
 @Component({
   selector: 'app-hccl-organization-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent],
   templateUrl: './hccl-organization-crud.component.html',
   styleUrl: './hccl-organization-crud.component.scss'
 })

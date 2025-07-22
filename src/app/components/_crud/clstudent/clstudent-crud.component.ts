@@ -12,7 +12,7 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hccl-organi
 import { ClschoolCrudComponent, CLSchoolCrudWrapper } from '@app/components/_crud/clschool/clschool-crud.component';
 @Component({
   selector: 'app-clstudent-crud',
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, HcclOrganizationCrudComponent, ClschoolCrudComponent],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, ClschoolCrudComponent],
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
