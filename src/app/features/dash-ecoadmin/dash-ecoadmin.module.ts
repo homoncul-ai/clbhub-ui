@@ -1,4 +1,4 @@
-import { HcclUserProfileListComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-list.component';
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -28,6 +28,10 @@ import { WorkRequestTypeRefListComponent } from '../../components/_crud/workrequ
 import { WorkRequestTypeRefGroupComponent } from '../../components/_crud/workrequesttyperef/workrequesttyperef-group.component';
 import { WorkQueueListComponent } from '../../components/_crud/workqueue/workqueue-list.component';
 import { WorkQueueGroupComponent } from '../../components/_crud/workqueue/workqueue-group.component';
+import { WorkRequestListComponent } from '../../components/_crud/workrequest/workrequest-list.component';
+import { WorkRequestGroupComponent } from '../../components/_crud/workrequest/workrequest-group.component';
+import { WorkRequestItemListComponent } from '../../components/_crud/workrequestitem/workrequestitem-list.component';
+import { WorkRequestItemGroupComponent } from '../../components/_crud/workrequestitem/workrequestitem-group.component';
 import { HcclUserProfileGroupComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-group.component';
 import { HcclUserProfileCrudComponent } from '../../components/_crud/hccluserprofile/hccluserprofile-crud.component';
 
@@ -76,7 +80,7 @@ const routes: Routes = [
       { path: 'hccluserprofiles/create', component: HcclUserProfileGroupComponent },
       { path: 'hccluserprofiles/:id/:tabId', component: HcclUserProfileGroupComponent },
       { path: 'hccluserprofiles/:id', redirectTo: 'hccluserprofiles/:id/details', pathMatch: 'full' },
-      { path: 'hccluserprofiles', component: HcclUserProfileListComponent },
+      { path: 'hccluserprofiles', component: HcclUserProfileGroupComponent },
 
       { path: 'workqueuetyperefs/create', component: WorkQueueTypeRefGroupComponent },
       { path: 'workqueuetyperefs/:id/:tabId', component: WorkQueueTypeRefGroupComponent },
@@ -87,6 +91,14 @@ const routes: Routes = [
       { path: 'workqueues/:id/:tabId', component: WorkQueueGroupComponent },
       { path: 'workqueues/:id', redirectTo: 'workqueues/:id/details', pathMatch: 'full' },
       { path: 'workqueues', component: WorkQueueListComponent },
+      { path: 'workrequests/create', component: WorkRequestGroupComponent },
+      { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
+      { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
+      { path: 'workrequests', component: WorkRequestListComponent },
+      { path: 'workrequestitems/create', component: WorkRequestItemGroupComponent },
+      { path: 'workrequestitems/:id/:tabId', component: WorkRequestItemGroupComponent },
+      { path: 'workrequestitems/:id', redirectTo: 'workrequestitems/:id/details', pathMatch: 'full' },
+      { path: 'workrequestitems', component: WorkRequestItemListComponent },
     ]
   }
 ];
@@ -119,6 +131,10 @@ const routes: Routes = [
     WorkRequestTypeRefGroupComponent,
     WorkQueueListComponent,
     WorkQueueGroupComponent,
+    WorkRequestListComponent,
+    WorkRequestGroupComponent,
+    WorkRequestItemListComponent,
+    WorkRequestItemGroupComponent,
     HcclUserProfileGroupComponent,
     HcclUserProfileCrudComponent
   ]

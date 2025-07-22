@@ -221,6 +221,14 @@ export class MenuService {
     const workqueueList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKQUEUE_LIST);
     this.addMenuItem(menu, workqueueList);
 
+    // workrequest list
+    const workrequestList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUEST_LIST);
+    this.addMenuItem(menu, workrequestList);
+
+    // workrequestitem list
+    const workrequestitemList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUESTITEM_LIST);
+    this.addMenuItem(menu, workrequestitemList);
+
     return menu;
   }
 
@@ -1049,11 +1057,11 @@ EA_WORKQUEUE_LIST: {
 
 EA_WORKREQUESTITEM_LIST: {
   "level" : 2,
-  "label" : "Work Request Item",
-  "route" : "/ecoadmin-dashboard/tix/workrequestitem-list",
-  "componentPath" : "/src/app/components/_crud/workrequestitem/workrequestitem-list",
-  "componentName" : "workrequestitem-list",
-  "icon" : ""
+  "label" : "Work Request Items",
+  "route" : "/ecoadmin-dashboard/workrequestitems",
+  "componentPath" : "/src/app/components/_crud/workrequestitem/workrequestitem-list.component",
+  "componentName" : "WorkRequestItemListComponent",
+  "icon" : "fas fa-list"
 },
 
 EA_WORKQUEUETYPEREF_LIST: {
@@ -1078,11 +1086,11 @@ EA_WORKREQUESTLOG_LIST: {
 
 EA_WORKREQUEST_LIST: {
   "level" : 2,
-  "label" : "Work Request",
-  "route" : "/ecoadmin-dashboard/tix/workrequest-list",
-  "componentPath" : "/src/app/components/_crud/tix/workrequest-list",
-  "componentName" : "workrequest-list",
-  "icon" : ""
+  "label" : "Work Requests",
+  "route" : "/ecoadmin-dashboard/workrequests",
+  "componentPath" : "/src/app/components/_crud/workrequest/workrequest-list.component",
+  "componentName" : "WorkRequestListComponent",
+  "icon" : "fas fa-list"
 },
 
 EA_WORKREQUESTTEAM_LIST: {

@@ -1,0 +1,238 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
+    </div>
+  </div>
+
+  <!-- Detail Mode -->
+  <div *ngIf="isDetailMode" class="row">
+    <div class="col-12">
+      <h3>Work Request Item Details</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Work Request ID:</strong>
+          <span>{{ workRequestId }}</span>
+        </div>
+        <div class="col-md-6">
+          <strong>Name Text:</strong>
+          <span>{{ nameText }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Business Code:</strong>
+          <span>{{ businessCode }}</span>
+        </div>
+        <div class="col-md-6">
+          <strong>Sequence Order:</strong>
+          <span>{{ sequenceOrder }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <strong>Description:</strong>
+          <span>{{ description }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Accepted By User ID:</strong>
+          <span>{{ acceptedByUserId }}</span>
+        </div>
+        <div class="col-md-6">
+          <strong>Role Code:</strong>
+          <span>{{ roleCode }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Action Code:</strong>
+          <span>{{ actionCode }}</span>
+        </div>
+        <div class="col-md-6">
+          <strong>Current State Code:</strong>
+          <span>{{ currentStateCode }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Current State Transition ID:</strong>
+          <span>{{ currentStateTransitionId }}</span>
+        </div>
+        <div class="col-md-6">
+          <strong>JSON Data:</strong>
+          <span>{{ jsonData }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <strong>Comment Text:</strong>
+          <span>{{ commentText }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Date Created:</strong>
+          <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+        </div>
+        <div class="col-md-6">
+          <strong>Date Last Updated:</strong>
+          <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create/Edit Mode -->
+  <div *ngIf="isCreateMode || isEditMode" class="row">
+    <div class="col-12">
+      <h3>{{ isCreateMode ? 'Create' : 'Edit' }} Work Request Item</h3>
+      <form>
+        <div class="row">
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="workRequestId"
+              label="Work Request ID"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="workRequestId">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="nameText"
+              label="Name Text"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="nameText">
+            </app-std-mdb-form-text>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="businessCode"
+              label="Business Code"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="businessCode">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="sequenceOrder"
+              label="Sequence Order"
+              type="number"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="sequenceOrder">
+            </app-std-mdb-form-text>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <app-std-mdb-form-textarea
+              prefix="workRequestItem"
+              name="description"
+              label="Description"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="description">
+            </app-std-mdb-form-textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="acceptedByUserId"
+              label="Accepted By User ID"
+              [required]="false"
+              [error]="error"
+              [(ngModel)]="acceptedByUserId">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="roleCode"
+              label="Role Code"
+              [required]="false"
+              [error]="error"
+              [(ngModel)]="roleCode">
+            </app-std-mdb-form-text>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="actionCode"
+              label="Action Code"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="actionCode">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="currentStateCode"
+              label="Current State Code"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="currentStateCode">
+            </app-std-mdb-form-text>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <app-std-mdb-form-text
+              prefix="workRequestItem"
+              name="currentStateTransitionId"
+              label="Current State Transition ID"
+              [required]="false"
+              [error]="error"
+              [(ngModel)]="currentStateTransitionId">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="col-md-6">
+            <app-std-mdb-form-textarea
+              prefix="workRequestItem"
+              name="jsonData"
+              label="JSON Data"
+              [required]="false"
+              [error]="error"
+              [(ngModel)]="jsonData">
+            </app-std-mdb-form-textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <app-std-mdb-form-textarea
+              prefix="workRequestItem"
+              name="commentText"
+              label="Comment Text"
+              [required]="false"
+              [error]="error"
+              [(ngModel)]="commentText">
+            </app-std-mdb-form-textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Debug Mode -->
+  <div *ngIf="getMode() === CRUD_MODES.DEBUG" class="row">
+    <div class="col-12">
+      <h3>Work Request Item Debug</h3>
+      <pre>{{ dump() }}</pre>
+    </div>
+  </div>
+</div> 

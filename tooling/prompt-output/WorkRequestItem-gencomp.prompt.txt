@@ -1,0 +1,189 @@
+# WorkRequestItem Component Generation Specification
+
+## Entity Information
+- **Entity Name**: WorkRequestItem
+- **Service Methods**: 
+  - `createWorkRequestItem(body: WorkRequestItemPOSTData)`
+  - `getWorkRequestItemById(id: string)`
+  - `updateWorkRequestItemById(id: string, body: WorkRequestItemPUTData)`
+  - `deleteWorkRequestItemById(id: string)`
+  - `findWorkRequestItems(body: WorkRequestItemCriteria)`
+
+## Data Interfaces
+
+### WorkRequestItemPOSTData
+- **workRequestId**: Required, string
+- **nameText**: Required, string
+- **businessCode**: Required, string
+- **sequenceOrder**: Required, number
+- **description**: Required, string
+- **acceptedByUserId**: Optional, string
+- **roleCode**: Optional, string
+- **actionCode**: Required, string
+- **jsonData**: Optional, string
+- **commentText**: Optional, string
+- **currentStateCode**: Required, string
+- **currentStateTransitionId**: Optional, string
+- **currentStateDateEntered**: Optional, string
+
+### WorkRequestItemGETData
+- **id**: Optional, string
+- **createdByInfo**: Optional, Reference
+- **dateCreated**: Optional, DateGETData
+- **lastUpdatedByInfo**: Optional, Reference
+- **dateLastUpdated**: Optional, DateGETData
+- **workRequestId**: Optional, string
+- **nameText**: Optional, string
+- **businessCode**: Optional, string
+- **sequenceOrder**: Optional, number
+- **description**: Optional, string
+- **acceptedByUserId**: Optional, string
+- **roleCode**: Optional, string
+- **actionCode**: Optional, string
+- **jsonData**: Optional, string
+- **commentText**: Optional, string
+- **currentStateCode**: Optional, string
+- **currentStateTransitionId**: Optional, string
+
+### WorkRequestItemPUTData
+- **workRequestId**: Required, string
+- **nameText**: Required, string
+- **businessCode**: Required, string
+- **sequenceOrder**: Required, number
+- **description**: Required, string
+- **acceptedByUserId**: Optional, string
+- **roleCode**: Optional, string
+- **actionCode**: Required, string
+- **jsonData**: Optional, string
+- **commentText**: Optional, string
+- **currentStateCode**: Required, string
+- **currentStateTransitionId**: Optional, string
+- **currentStateDateEntered**: Optional, string
+
+### WorkRequestItemCriteria
+- **pageNumber**: Optional, number
+- **pageSize**: Optional, number
+- **isPaging**: Optional, boolean
+- **ids**: Optional, string[]
+- **searchByText**: Optional, string
+- **maxResults**: Optional, number
+- **workRequestId**: Optional, string
+- **nameText**: Optional, string
+- **businessCode**: Optional, string
+- **sequenceOrder**: Optional, number
+- **description**: Optional, string
+- **acceptedByUserId**: Optional, string
+- **roleCode**: Optional, string
+- **actionCode**: Optional, string
+- **currentStateCode**: Optional, string
+- **currentStateTransitionId**: Optional, string
+- **currentStateDateEntered**: Optional, string
+
+### WorkRequestItemGETDataSearchResults
+- **pagingInfo**: Optional, DCPageData
+- **searchResults**: Optional, WorkRequestItemGETData[]
+- **filter**: Optional, BaseCriteria
+
+## Component Requirements
+
+### 1. WorkRequestItemCrudComponent
+**File**: `src/app/components/_crud/workrequestitem/workrequestitem-crud.component.ts`
+- Extends: `AbstractCrudComponent<WorkRequestItemCrudWrapper>`
+- Implements: `OnInit, OnChanges`
+- Validation Rules:
+  - **workRequestId**: Required, string
+  - **nameText**: Required, string, min length 1
+  - **businessCode**: Required, string, min length 1
+  - **sequenceOrder**: Required, number, min value 0
+  - **description**: Required, string, min length 1
+  - **actionCode**: Required, string, min length 1
+  - **currentStateCode**: Required, string, min length 1
+
+**File**: `src/app/components/_crud/workrequestitem/workrequestitem-crud.component.html`
+- Form fields for all WorkRequestItem fields
+- Validation display
+- Mode-specific display (create, detail, edit)
+
+### 2. WorkRequestItemListComponent
+**File**: `src/app/components/_crud/workrequestitem/workrequestitem-list.component.ts`
+- Extends: `AbstractListComponent<WorkRequestItemGETData, WorkRequestItemCriteria, WorkRequestItemGETDataSearchResults>`
+- Grid columns:
+  - workRequestId
+  - nameText
+  - businessCode
+  - sequenceOrder
+  - description
+  - acceptedByUserId
+  - roleCode
+  - actionCode
+  - currentStateCode
+  - currentStateTransitionId
+  - dateLastUpdated
+
+### 3. WorkRequestItemGroupComponent
+**File**: `src/app/components/_crud/workrequestitem/workrequestitem-group.component.ts`
+- Extends: `AbstractEntityGroupComponent<WorkRequestItemCrudWrapper>`
+- Implements: `OnInit`
+- Tabs: List, Details, Debug, FK_MENU
+
+**File**: `src/app/components/_crud/workrequestitem/workrequestitem-group.component.html`
+- Tabbed interface structure
+- Conditional display based on current tab
+
+## Routing Configuration
+**File**: `src/app/features/dash-ecoadmin/dash-ecoadmin.module.ts`
+- Add routes:
+  - `/workrequestitems/create` → WorkRequestItemGroupComponent
+  - `/workrequestitems/:id/:tabId` → WorkRequestItemGroupComponent
+  - `/workrequestitems/:id` → redirect to `/workrequestitems/:id/details`
+  - `/workrequestitems` → WorkRequestItemListComponent
+- Add imports for WorkRequestItemListComponent and WorkRequestItemGroupComponent
+
+## Menu Configuration
+**File**: `src/app/shell/services/menu.service.ts`
+- Update existing `EA_WORKREQUESTITEM_LIST` constant:
+  - route: `/ecoadmin-dashboard/workrequestitems`
+  - componentPath: `/src/app/components/_crud/workrequestitem/workrequestitem-list.component`
+  - componentName: `WorkRequestItemListComponent`
+  - icon: `fas fa-list`
+- Add to `buildEcoAdminMenu()` method
+
+## Validation Rules
+- **Required Fields**: workRequestId, nameText, businessCode, sequenceOrder, description, actionCode, currentStateCode
+- **String Fields**: nameText, businessCode, description, acceptedByUserId, roleCode, actionCode, jsonData, commentText, currentStateCode, currentStateTransitionId, currentStateDateEntered
+- **Number Fields**: sequenceOrder (minimum 0)
+- **Optional Fields**: acceptedByUserId, roleCode, jsonData, commentText, currentStateTransitionId, currentStateDateEntered
+
+## Grid Display Configuration
+- **workRequestId**: Header "Work Request ID", minWidth 150, filterable
+- **nameText**: Header "Name Text", minWidth 200, filterable
+- **businessCode**: Header "Business Code", minWidth 120, filterable
+- **sequenceOrder**: Header "Sequence Order", minWidth 120, filterable
+- **description**: Header "Description", minWidth 200, filterable
+- **acceptedByUserId**: Header "Accepted By User ID", minWidth 150, filterable
+- **roleCode**: Header "Role Code", minWidth 120, filterable
+- **actionCode**: Header "Action Code", minWidth 120, filterable
+- **currentStateCode**: Header "Current State Code", minWidth 120, filterable
+- **currentStateTransitionId**: Header "Current State Transition ID", minWidth 180, filterable
+- **dateLastUpdated**: Header "Date Last Updated", minWidth 120, not filterable
+
+## Form Field Configuration
+- **workRequestId**: Text input, required, validation
+- **nameText**: Text input, required, validation
+- **businessCode**: Text input, required, validation
+- **sequenceOrder**: Number input, required, validation, min 0
+- **description**: Textarea, required, validation
+- **acceptedByUserId**: Text input, optional
+- **roleCode**: Text input, optional
+- **actionCode**: Text input, required, validation
+- **jsonData**: Textarea, optional
+- **commentText**: Textarea, optional
+- **currentStateCode**: Text input, required, validation
+- **currentStateTransitionId**: Text input, optional
+- **currentStateDateEntered**: Date input, optional
+
+## Service Integration
+- Use `HcclService` methods for CRUD operations
+- Handle search results with proper pagination
+- Implement proper error handling and user feedback
+- Follow established patterns from providertyperef components 
