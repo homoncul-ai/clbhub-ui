@@ -38,6 +38,10 @@ import { TeamMemberRoleRefListComponent } from '../../components/_crud/teammembe
 import { TeamMemberRoleRefGroupComponent } from '../../components/_crud/teammemberroleref/teammemberroleref-group.component';
 import { TeamTypeRefListComponent } from '../../components/_crud/teamtyperef/teamtyperef-list.component';
 import { TeamTypeRefGroupComponent } from '../../components/_crud/teamtyperef/teamtyperef-group.component';
+import { HcclTeamListComponent } from '../../components/_crud/hcclteam/hcclteam-list.component';
+import { HcclTeamGroupComponent } from '../../components/_crud/hcclteam/hcclteam-group.component';
+import { TeamMemberListComponent } from '../../components/_crud/teammember/teammember-list.component';
+import { TeamMemberGroupComponent } from '../../components/_crud/teammember/teammember-group.component';
 
 const routes: Routes = [
   {
@@ -111,6 +115,16 @@ const routes: Routes = [
       { path: 'teamTypeRefs/:id/:tabId', component: TeamTypeRefGroupComponent },
       { path: 'teamTypeRefs/:id', redirectTo: 'teamTypeRefs/:id/details', pathMatch: 'full' },
       { path: 'teamTypeRefs', component: TeamTypeRefListComponent },
+
+      { path: 'hcclTeams/create', component: HcclTeamGroupComponent },
+      { path: 'hcclTeams/:id/:tabId', component: HcclTeamGroupComponent },
+      { path: 'hcclTeams/:id', redirectTo: 'hcclTeams/:id/details', pathMatch: 'full' },
+      { path: 'hcclTeams', component: HcclTeamListComponent },
+
+      { path: 'teamMembers/create', component: TeamMemberGroupComponent },
+      { path: 'teamMembers/:id/:tabId', component: TeamMemberGroupComponent },
+      { path: 'teamMembers/:id', redirectTo: 'teamMembers/:id/details', pathMatch: 'full' },
+      { path: 'teamMembers', component: TeamMemberListComponent },
     ]
   }
 ];
@@ -152,7 +166,11 @@ const routes: Routes = [
     TeamMemberRoleRefListComponent,
     TeamMemberRoleRefGroupComponent,
     TeamTypeRefListComponent,
-    TeamTypeRefGroupComponent
+    TeamTypeRefGroupComponent,
+    HcclTeamListComponent,
+    HcclTeamGroupComponent,
+    TeamMemberListComponent,
+    TeamMemberGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 

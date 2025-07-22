@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { DateGETData } from './../../../restsvc/currency.service';
+import { DateGETData } from '@app/restsvc/hccl.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

@@ -691,4 +691,8 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   public get lastUpdatedByInfo(): Reference  {
     return this.entity?.getData().lastUpdatedByInfo || { name: 'Unknown' };
   }
+
+  public static newDateGETData(): DateGETData {
+    return EntityWrapper.newDateGETData();
+  }
 }

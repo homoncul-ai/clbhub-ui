@@ -1,4 +1,4 @@
-import { HcclService, MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { DateGETData, HcclService, MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
 import { MenuItem } from '@app/shell/services/menu.service';
 
 /**
@@ -14,6 +14,7 @@ import { MenuItem } from '@app/shell/services/menu.service';
  * }
 */
 export abstract class EntityWrapper<T extends { id?: string }> {
+  
     protected data: T;
     protected hcclService?: HcclService;
 
@@ -102,5 +103,10 @@ export abstract class EntityWrapper<T extends { id?: string }> {
         }
       });
     }
+  }
+
+
+  public static newDateGETData(): DateGETData {
+    return { date: new Date(), formattedDate: new Date().toLocaleDateString(), formattedDateTime: new Date().toLocaleString() };
   }
 }

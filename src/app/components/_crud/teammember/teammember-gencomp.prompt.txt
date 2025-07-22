@@ -1,0 +1,210 @@
+# TeamMember Component Generation Specification
+
+## Entity Information
+- **entityName**: TeamMember
+- **copyFromEntity**: providertyperef
+- **pluralEntityName**: teamMembers (following pluralization rules)
+
+## Data Interfaces (from hccl.service.ts)
+```typescript
+export interface TeamMemberPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamId: string;
+  teamMemberRoleId: string;
+  available: number;
+}
+
+export interface TeamMemberGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamId?: string;
+  teamMemberRoleId?: string;
+  available?: number;
+}
+
+export interface TeamMemberPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamId: string;
+  teamMemberRoleId: string;
+  available: number;
+}
+
+export interface TeamMemberCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamId?: string;
+  teamMemberRoleId?: string;
+  available?: number;
+}
+
+export interface TeamMemberGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: TeamMemberGETData[];
+  filter?: BaseCriteria;
+}
+```
+
+## HcclService Methods
+```typescript
+getTeamMemberById(id: string): Observable<TeamMemberGETData>;
+createTeamMember(data: TeamMemberPOSTData): Observable<TeamMemberGETData>;
+updateTeamMemberById(id: string, data: TeamMemberPUTData): Observable<TeamMemberGETData>;
+deleteTeamMemberById(id: string): Observable<void>;
+findTeamMembers(criteria: TeamMemberCriteria): Observable<TeamMemberGETDataSearchResults>;
+```
+
+## Component Structure
+
+### 1. TeamMemberCrudComponent
+**File**: `src/app/components/_crud/teammember/teammember-crud.component.ts`
+**Extends**: `AbstractCrudComponent<TeamMemberGETData, TeamMemberPOSTData, TeamMemberPUTData>`
+**Template**: `src/app/components/_crud/teammember/teammember-crud.component.html`
+
+**Imports**:
+```typescript
+import { Component } from '@angular/core';
+import { AbstractCrudComponent } from '../../_global/abstract-crud/abstract-crud.component';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { TeamMemberGETData, TeamMemberPOSTData, TeamMemberPUTData } from '../../../restsvc/hccl.service';
+import { EntityWrapper } from '../../../models/crud-entity-wrapper';
+import { CRUD_MODES } from '../../../@core/enums';
+import { HcclTeamCrudComponent } from '../hcclteam/hcclteam-crud.component';
+import { TeamMemberRoleRefCrudComponent } from '../teammemberroleref/teammemberroleref-crud.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
+```
+
+**Methods**:
+- `createEntityDataCall(data: TeamMemberPOSTData): Observable<TeamMemberGETData>`
+- `updateEntityDataCall(id: string, data: TeamMemberPUTData): Observable<TeamMemberGETData>`
+- `deleteEntityDataCall(id: string): Observable<void>`
+- `getEntityDataCall(id: string): Observable<TeamMemberGETData>`
+
+**Entity Wrapper**:
+```typescript
+export class TeamMemberCrudWrapper extends EntityWrapper<TeamMemberGETData> {
+  static newInstance(data?: TeamMemberGETData): TeamMemberCrudWrapper {
+    return new TeamMemberCrudWrapper(data);
+  }
+}
+```
+
+### 2. TeamMemberGroupComponent
+**File**: `src/app/components/_crud/teammember/teammember-group.component.ts`
+**Extends**: `AbstractEntityGroupComponent`
+**Template**: `src/app/components/_crud/teammember/teammember-group.component.html`
+**Styles**: `src/app/components/_crud/teammember/teammember-group.component.scss`
+
+**Imports**:
+```typescript
+import { Component } from '@angular/core';
+import { AbstractEntityGroupComponent } from '../../_global/abstract-entity-group/abstract-entity-group.component';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { TeamMemberGETData } from '../../../restsvc/hccl.service';
+```
+
+**Methods**:
+- `loadEntityById(id: string): Promise<TeamMemberGETData | undefined>`
+
+### 3. TeamMemberListComponent
+**File**: `src/app/components/_crud/teammember/teammember-list.component.ts`
+**Extends**: `AbstractListComponent<TeamMemberGETData>`
+
+**Imports**:
+```typescript
+import { Component } from '@angular/core';
+import { AbstractListComponent } from '../../_global/abstract-list/abstract-list.component';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { TeamMemberGETData, TeamMemberCriteria, TeamMemberGETDataSearchResults } from '../../../restsvc/hccl.service';
+```
+
+**Methods**:
+- `searchEntities(criteria: TeamMemberCriteria): Observable<TeamMemberGETDataSearchResults>`
+
+## HTML Template Structure
+
+### CRUD Component Template
+**Base**: `tooling/prompt/templates/template-crud.component.html`
+
+**Form Fields**:
+- `name`: `<app-std-mdb-text>` (required)
+- `businessCode`: `<app-std-mdb-text>` (required)
+- `description`: `<app-std-mdb-textarea>` (optional)
+- `teamId`: `<app-hcclteam-crud>` (FK to HcclTeam)
+- `teamMemberRoleId`: `<app-teammemberroleref-crud>` (FK to TeamMemberRoleRef)
+- `available`: `<app-std-mdb-boolean>` (required)
+
+### Group Component Template
+**Base**: `tooling/prompt/templates/template-group.component.html`
+
+**Tabs**:
+- List: `<app-teammember-list>`
+- Details: `<app-teammember-crud>`
+- Debug: `<app-teammember-crud>`
+- FK_MENU: `<app-teammember-crud>`
+
+## Routing Configuration
+**Module**: `src/app/features/dash-ecoadmin/dash-ecoadmin.module.ts`
+
+**Routes**:
+```typescript
+{
+  path: 'teamMembers',
+  component: TeamMemberGroupComponent,
+  children: [
+    { path: '', redirectTo: 'list', pathMatch: 'full' },
+    { path: 'list', component: TeamMemberListComponent },
+    { path: 'create', component: TeamMemberCrudComponent },
+    { path: 'detail/:id', component: TeamMemberGroupComponent },
+    { path: 'detail/:id/list', component: TeamMemberListComponent },
+    { path: 'detail/:id/details', component: TeamMemberCrudComponent },
+    { path: 'detail/:id/debug', component: TeamMemberCrudComponent },
+    { path: 'detail/:id/fk_menu', component: TeamMemberCrudComponent }
+  ]
+}
+```
+
+## Menu Integration
+**Service**: `src/app/shell/services/menu.service.ts`
+
+**Menu Item**:
+```typescript
+EA_TEAMMEMBER_LIST = {
+  level: 1,
+  label: 'Team Members',
+  route: '/ecoadmin-dashboard/teamMembers',
+  componentPath: 'src/app/components/_crud/teammember/teammember-list.component',
+  componentName: 'TeamMemberListComponent'
+};
+```
+
+## File Generation Order
+1. `teammember-crud.component.ts`
+2. `teammember-crud.component.html`
+3. `teammember-group.component.ts`
+4. `teammember-group.component.html`
+5. `teammember-group.component.scss`
+6. `teammember-list.component.ts`
+7. Update `dash-ecoadmin.module.ts`
+8. Update `menu.service.ts`
+
+## Special Considerations
+- Import `HcclTeamCrudComponent` and `TeamMemberRoleRefCrudComponent` for foreign key fields
+- Use `app-std-mdb-text` for standard string fields
+- Include `ReferenceDataComponent` for displaying reference data in details mode 

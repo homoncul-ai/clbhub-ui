@@ -1,4 +1,4 @@
-<!-- Generate the HTML for the crud component [entityName]-crud.component.html  using this template and folllowing the instructions below -->
+<!-- HcclTeam CRUD Component Template -->
 <span *ngIf="getMode() === CRUD_MODES.FK  && !isLoading" >{{ getCurrentEntity().getDisplayText() }}</span>
 
 <div *ngIf="getMode() === CRUD_MODES.FK_MENU  && !isLoading" class="fk_menu-mode">
@@ -8,14 +8,8 @@
 
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
     <div class="details-section">
-      <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->
-      <!-- If no section attributes, use the read-only values for 'edit' mode.  -->
-
-      <!-- In general, if not special use the form {{ attributeName }} to display the attribute value -->
-      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
-       <!-- Note all these attributes are only shown here as examples - only show the attributes that are relevant to this entity -->
-        <div class="detail-group">
+      <!-- Display all the SECTION attributes FOR HcclTeam in this section -->
+      <div class="detail-group">
         <label>Name :</label>
         <span>{{ name }}</span>  
       </div>
@@ -27,31 +21,32 @@
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
-      <!-- If the attribute is avaliable,  use the <app-available-selector readonly=true component to display the value -->
+      <div class="detail-group">
+        <label>Team Type:</label>
+        <app-teamtyperef-crud [id]="teamTypeId" [modeName]="CRUD_MODES.FK"></app-teamtyperef-crud>
+      </div>
+      <div class="detail-group">
+        <label>Organization:</label>
+        <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
+      </div>
+      <div class="detail-group">
+        <label>Team Parent ID:</label>
+        <span>{{ teamParentId }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Team Parent Entity Type:</label>
+        <span>{{ teamParentEntityType }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Team Parent Name:</label>
+        <span>{{ teamParentName }}</span>
+      </div>
       <div class="detail-group">
         <label>Available:</label>
         <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
       </div>
-
-        <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-        <div class="detail-group">
-            <label>Some Date Field:</label>
-            <app-dategetdata-display [data]="someDateField"></app-dategetdata-display>
-        </div>
-        
-
-        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-        <div class="detail-group">
-          <label>WorkType:</label>
-          <app-workrequesttyperef-crud [id]="workTypeRefId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
-      </div>
-
-      <!-- End example Attributes -->
-      
-
     </div>
 </div>
-
 
 <div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
 <!-- Heading Mode -->
@@ -68,7 +63,7 @@
   <!-- Create Mode -->
   <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
     <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
-      <h3 style="margin: 0; color: #333; font-size: 24px;">Create New Provider Type Ref</h3>
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Create New Hccl Team</h3>
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <!-- Create Mode Form : Make sure to use this control logic for submit and cancel buttons -->
@@ -78,31 +73,59 @@
         <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
 
-      <!-- Replace these with the attributes for creating according to the rules in the prompt-->
+      <!-- HcclTeam Create Form Fields -->
       <app-std-mdb-form-text 
-        prefix="providerTypeRef" 
+        prefix="hcclteam" 
         name="name"
-        label="administration_name_label"
+        label="Name"
         [required]="true"
         [error]="error"
         [(ngModel)]="name">
       </app-std-mdb-form-text>
       <app-std-mdb-form-text 
-        prefix="providerTypeRef" 
+        prefix="hcclteam" 
         name="businessCode"
         label="Business Code"
         [required]="true"
-        [helpText]="'dpa.'"
         [error]="error"
         [(ngModel)]="businessCode">
       </app-std-mdb-form-text>
       <app-std-mdb-form-textarea 
-        prefix="providerTypeRef" 
+        prefix="hcclteam" 
         name="description"
-        label="administration_description_label"
+        label="Description"
         [error]="error"
         [(ngModel)]="description">
       </app-std-mdb-form-textarea>
+      <div class="form-group">
+        <label>Team Type:</label>
+        <app-teamtyperef-crud [id]="teamTypeId" [modeName]="CRUD_MODES.FK"></app-teamtyperef-crud>
+      </div>
+      <div class="form-group">
+        <label>Organization:</label>
+        <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
+      </div>
+      <app-std-mdb-form-text 
+        prefix="hcclteam" 
+        name="teamParentId"
+        label="Team Parent ID"
+        [error]="error"
+        [(ngModel)]="teamParentId">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="hcclteam" 
+        name="teamParentEntityType"
+        label="Team Parent Entity Type"
+        [error]="error"
+        [(ngModel)]="teamParentEntityType">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="hcclteam" 
+        name="teamParentName"
+        label="Team Parent Name"
+        [error]="error"
+        [(ngModel)]="teamParentName">
+      </app-std-mdb-form-text>
       <div class="form-group">
         <label>Available:</label>
         <app-available-selector [(ngModel)]="available"></app-available-selector>
@@ -115,7 +138,7 @@
   <!-- Edit Mode -->
   <div *ngIf="getMode() === CRUD_MODES.EDIT  && !isLoading" class="edit-mode">
     <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
-      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit Provider Type Ref</h3>
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit Hccl Team</h3>
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <!-- Edit Mode Form : Make sure to use this control logic for submit and cancel buttons -->
@@ -128,7 +151,7 @@
         <div class="form-group">
           <div class="mb-4">
         <app-std-mdb-form-text 
-          prefix="providerTypeRef" 
+          prefix="hcclteam" 
           name="name"
           label="Name"
           [required]="true"
@@ -138,7 +161,7 @@
         </div>
         <div class="mb-4">
         <app-std-mdb-form-text 
-          prefix="providerTypeRef" 
+          prefix="hcclteam" 
           name="businessCode"
           label="Business Code"
           [required]="true"
@@ -148,16 +171,50 @@
         </div>
         <div class="mb-4">
         <app-std-mdb-form-textarea 
-          prefix="providerTypeRef" 
+          prefix="hcclteam" 
           name="description"
           label="Description"
-          [required]="true"
           [error]="error"
           [rows]="4"
           [maxlength]="1024"
           [showCharCounter]="true"
           [(ngModel)]="description">
         </app-std-mdb-form-textarea>
+        </div>
+        <div class="mb-4">
+          <label>Team Type:</label>
+          <app-teamtyperef-crud [id]="teamTypeId" [modeName]="CRUD_MODES.FK"></app-teamtyperef-crud>
+        </div>
+        <div class="mb-4">
+          <label>Organization:</label>
+          <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="hcclteam" 
+          name="teamParentId"
+          label="Team Parent ID"
+          [error]="error"
+          [(ngModel)]="teamParentId">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="hcclteam" 
+          name="teamParentEntityType"
+          label="Team Parent Entity Type"
+          [error]="error"
+          [(ngModel)]="teamParentEntityType">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="hcclteam" 
+          name="teamParentName"
+          label="Team Parent Name"
+          [error]="error"
+          [(ngModel)]="teamParentName">
+        </app-std-mdb-form-text>
         </div>
         <div class="mb-4">
           <label>Available:</label>
@@ -171,7 +228,7 @@
   <!-- Detail Mode  overlay? -->
   <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading"  class="detail-mode">
     <div class="crud-header">
-      <h3>Provider Type Ref Details</h3>
+      <h3>Hccl Team Details</h3>
       <div class="action-buttons">
         <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
         <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
@@ -185,50 +242,52 @@
         <span>{{ id }}</span>
       </div>
       
-      <!-- Display all the details attributes FOR THIS Entity in this section, replacing the ones below. -->
-      <!-- Always use the form {{ attributeName }} to display the attribute value -->
-      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
-        <div class="detail-group">
-          <label>Name :</label>
-          <span>{{ name }}</span>  
-        </div>
-        <div class="detail-group">
-          <label>Business Code:</label>
-          <span>{{ businessCode }}</span>
-        </div>
-        <div class="detail-group">
-          <label>Description:</label>
-          <span>{{ description }}</span>
-        </div>
-        <!-- If the attribute is avaliable, use the <app-available-selector readonly=true component to display the value -->
-        <div class="detail-group">
-          <label>Available:</label>
-          <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
-        </div>
-  
-          <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-          <div class="detail-group">
-              <label>Date Created:</label>
-              <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-          </div>
-          
-  
-          <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-          <div class="detail-group">
-            <label>WorkType:</label>
-            <app-workrequesttyperef-crud [id]="workTypeRefId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
-        </div>
+      <!-- Display all the details attributes FOR HcclTeam in this section -->
+      <div class="detail-group">
+        <label>Name :</label>
+        <span>{{ name }}</span>  
+      </div>
+      <div class="detail-group">
+        <label>Business Code:</label>
+        <span>{{ businessCode }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Description:</label>
+        <span>{{ description }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Team Type:</label>
+        <app-teamtyperef-crud [id]="teamTypeId" [modeName]="CRUD_MODES.FK"></app-teamtyperef-crud>
+      </div>
+      <div class="detail-group">
+        <label>Organization:</label>
+        <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
+      </div>
+      <div class="detail-group">
+        <label>Team Parent ID:</label>
+        <span>{{ teamParentId }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Team Parent Entity Type:</label>
+        <span>{{ teamParentEntityType }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Team Parent Name:</label>
+        <span>{{ teamParentName }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Available:</label>
+        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+      </div>
 
       <!-- Only show these in "details" mode -->
-      <!-- **Always** use this block for these 4 fields in details mode.-->
       <div class="detail-group">
         <label>Date Created:</label>
         <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
       </div>
       <div class="detail-group">
         <label>Created By:</label>
-        <span><app-reference-data [data]="createdByInfo"></app-reference-data></span>
+        <span><app-reference-data [data]="createdByInfo"> </app-reference-data></span>
       </div>
       <div class="detail-group">
         <label>Date Last Updated:</label>
@@ -243,9 +302,9 @@
 
   <!-- Delete Mode -->
   <div *ngIf="getMode() === CRUD_MODES.DELETE && !isLoading" class="delete-mode">
-    <h3>Delete Provider Type Ref</h3>
+    <h3>Delete Hccl Team</h3>
     <div class="delete-confirmation">
-      <p>Are you sure you want to delete this Provider Type Ref?</p>
+      <p>Are you sure you want to delete this Hccl Team?</p>
       <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
       <p>This action cannot be undone.</p>
       <div class="delete-actions">
@@ -256,33 +315,32 @@
   </div>
 </div> 
 
-
 <div *ngIf="getMode() === CRUD_MODES.DEBUG" >
   <!-- debug - show ALL the sections, clearly marked, by  re-creating the crud component -->
   <h3>details Mode</h3>
-  <app-providertyperef-crud [modeName]="'details'" [id]="this.id"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'details'" [id]="this.id"></app-hcclteam-crud>
   <hr>
   <h3>create Mode</h3>
-  <app-providertyperef-crud [modeName]="'create'"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'create'"></app-hcclteam-crud>
   <hr>
   <h3>edit Mode</h3>
-  <app-providertyperef-crud [modeName]="'edit'" [id]="this.id"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'edit'" [id]="this.id"></app-hcclteam-crud>
   <hr>
   <h3>delete Mode</h3>
-  <app-providertyperef-crud [modeName]="'delete'" [id]="this.id"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'delete'" [id]="this.id"></app-hcclteam-crud>
   <hr>
   <h3>heading Mode</h3>
-  <app-providertyperef-crud [modeName]="'heading'" [id]="this.id"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'heading'" [id]="this.id"></app-hcclteam-crud>
   <hr>
    <h3>Section Mode</h3>
-  <app-providertyperef-crud [modeName]="'section'" [id]="this.id"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'section'" [id]="this.id"></app-hcclteam-crud>
   <hr>
   <h3>fk Mode</h3>
-  <app-providertyperef-crud [modeName]="'fk'" [id]="this.id"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'fk'" [id]="this.id"></app-hcclteam-crud>
   <hr>
   <h3>fk_menu Mode</h3>
   <b>Note - this tempate is only to show the menu, it is not be used in a form without callback, etc</b>
-  <app-providertyperef-crud [modeName]="'fk_menu'" [id]="this.id"></app-providertyperef-crud>
+  <app-hcclteam-crud [modeName]="'fk_menu'" [id]="this.id"></app-hcclteam-crud>
   <hr>
   
 </div>
@@ -290,4 +348,4 @@
 <div *ngIf="false">
 <h3> Dump </h3>
 <pre>{{ getCurrentEntity().getData() | json }}</pre>
-</div>
+</div> 

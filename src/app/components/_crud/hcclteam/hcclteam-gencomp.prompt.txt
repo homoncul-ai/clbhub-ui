@@ -1,0 +1,225 @@
+# HcclTeam Component Generation Specification
+
+## Entity Information
+- **entityName**: HcclTeam
+- **copyFromEntity**: providertyperef
+- **Special Notes**: teamParentId is NOT a foreign key - treat as plain string field
+
+## Data Interfaces (from hccl.service.ts)
+```typescript
+export interface HcclTeamPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamTypeId: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available: number;
+}
+
+export interface HcclTeamGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  teamTypeId?: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available?: number;
+  teamMembers?: HcclTeamMemberGETData[];
+  teamMemberRoles?: HcclTeamMemberRoleGETData[];
+}
+
+export interface HcclTeamPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  teamTypeId: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available: number;
+}
+
+export interface HcclTeamCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  organizationId?: string;
+  teamParentId?: string;
+  teamParentEntityType?: string;
+  teamParentName?: string;
+  available?: number;
+}
+
+export interface HcclTeamGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclTeamGETData[];
+  filter?: BaseCriteria;
+}
+```
+
+## HcclService Methods
+```typescript
+getHcclTeamById(id: string): Observable<HcclTeamGETData>;
+createHcclTeam(data: HcclTeamPOSTData): Observable<HcclTeamGETData>;
+updateHcclTeam(id: string, data: HcclTeamPUTData): Observable<HcclTeamGETData>;
+deleteHcclTeam(id: string): Observable<void>;
+searchHcclTeams(criteria: HcclTeamCriteria): Observable<HcclTeamGETDataSearchResults>;
+```
+
+## Component Structure
+
+### 1. HcclTeamCrudComponent
+**File**: `src/app/components/_crud/hcclteam/hcclteam-crud.component.ts`
+**Extends**: `AbstractCrudComponent<HcclTeamGETData, HcclTeamPOSTData, HcclTeamPUTData>`
+**Template**: `src/app/components/_crud/hcclteam/hcclteam-crud.component.html`
+
+**Imports**:
+```typescript
+import { Component } from '@angular/core';
+import { AbstractCrudComponent } from '../../_global/abstract-crud/abstract-crud.component';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { HcclTeamGETData, HcclTeamPOSTData, HcclTeamPUTData } from '../../../restsvc/hccl.service';
+import { EntityWrapper } from '../../../models/crud-entity-wrapper';
+import { CRUD_MODES } from '../../../@core/enums';
+import { TeamTypeRefCrudComponent } from '../teamtyperef/teamtyperef-crud.component';
+import { HcclOrganizationCrudComponent } from '../hcclorganization/hcclorganization-crud.component';
+```
+
+**Methods**:
+- `createEntityDataCall(data: HcclTeamPOSTData): Observable<HcclTeamGETData>`
+- `updateEntityDataCall(id: string, data: HcclTeamPUTData): Observable<HcclTeamGETData>`
+- `deleteEntityDataCall(id: string): Observable<void>`
+- `getEntityDataCall(id: string): Observable<HcclTeamGETData>`
+
+**Entity Wrapper**:
+```typescript
+export class HcclTeamCrudWrapper extends EntityWrapper<HcclTeamGETData> {
+  static newInstance(data?: HcclTeamGETData): HcclTeamCrudWrapper {
+    return new HcclTeamCrudWrapper(data);
+  }
+}
+```
+
+### 2. HcclTeamGroupComponent
+**File**: `src/app/components/_crud/hcclteam/hcclteam-group.component.ts`
+**Extends**: `AbstractEntityGroupComponent`
+**Template**: `src/app/components/_crud/hcclteam/hcclteam-group.component.html`
+**Styles**: `src/app/components/_crud/hcclteam/hcclteam-group.component.scss`
+
+**Imports**:
+```typescript
+import { Component } from '@angular/core';
+import { AbstractEntityGroupComponent } from '../../_global/abstract-entity-group/abstract-entity-group.component';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { HcclTeamGETData } from '../../../restsvc/hccl.service';
+```
+
+**Methods**:
+- `loadEntityById(id: string): Promise<HcclTeamGETData | undefined>`
+
+### 3. HcclTeamListComponent
+**File**: `src/app/components/_crud/hcclteam/hcclteam-list.component.ts`
+**Extends**: `AbstractListComponent<HcclTeamGETData>`
+
+**Imports**:
+```typescript
+import { Component } from '@angular/core';
+import { AbstractListComponent } from '../../_global/abstract-list/abstract-list.component';
+import { HcclService } from '../../../restsvc/hccl.service';
+import { HcclTeamGETData, HcclTeamCriteria, HcclTeamGETDataSearchResults } from '../../../restsvc/hccl.service';
+```
+
+**Methods**:
+- `searchEntities(criteria: HcclTeamCriteria): Observable<HcclTeamGETDataSearchResults>`
+
+## HTML Template Structure
+
+### CRUD Component Template
+**Base**: `tooling/prompt/templates/template-crud.component.html`
+
+**Form Fields**:
+- `name`: `<app-std-mdb-text>` (required)
+- `businessCode`: `<app-std-mdb-text>` (required)
+- `description`: `<app-std-mdb-textarea>` (optional)
+- `teamTypeId`: `<app-teamtyperef-crud>` (FK to TeamTypeRef)
+- `organizationId`: `<app-hcclorganization-crud>` (FK to HcclOrganization)
+- `teamParentId`: `<app-std-mdb-text>` (plain string, not FK)
+- `teamParentEntityType`: `<app-std-mdb-text>` (plain string)
+- `teamParentName`: `<app-std-mdb-text>` (plain string)
+- `available`: `<app-std-mdb-boolean>` (required)
+
+### Group Component Template
+**Base**: `tooling/prompt/templates/template-group.component.html`
+
+**Tabs**:
+- List: `<app-hcclteam-list>`
+- Details: `<app-hcclteam-crud>`
+- Debug: `<app-hcclteam-crud>`
+- FK_MENU: `<app-hcclteam-crud>`
+
+## Routing Configuration
+**Module**: `src/app/features/dash-ecoadmin/dash-ecoadmin.module.ts`
+
+**Routes**:
+```typescript
+{
+  path: 'hcclTeams',
+  component: HcclTeamGroupComponent,
+  children: [
+    { path: '', redirectTo: 'list', pathMatch: 'full' },
+    { path: 'list', component: HcclTeamListComponent },
+    { path: 'create', component: HcclTeamCrudComponent },
+    { path: 'detail/:id', component: HcclTeamGroupComponent },
+    { path: 'detail/:id/list', component: HcclTeamListComponent },
+    { path: 'detail/:id/details', component: HcclTeamCrudComponent },
+    { path: 'detail/:id/debug', component: HcclTeamCrudComponent },
+    { path: 'detail/:id/fk_menu', component: HcclTeamCrudComponent }
+  ]
+}
+```
+
+## Menu Integration
+**Service**: `src/app/shell/services/menu.service.ts`
+
+**Menu Item**:
+```typescript
+EA_HCCLTEAM_LIST = {
+  level: 1,
+  label: 'Hccl Teams',
+  route: '/ecoadmin-dashboard/hcclTeams',
+  componentPath: 'src/app/components/_crud/hcclteam/hcclteam-list.component',
+  componentName: 'HcclTeamListComponent'
+};
+```
+
+## File Generation Order
+1. `hcclteam-crud.component.ts`
+2. `hcclteam-crud.component.html`
+3. `hcclteam-group.component.ts`
+4. `hcclteam-group.component.html`
+5. `hcclteam-group.component.scss`
+6. `hcclteam-list.component.ts`
+7. Update `dash-ecoadmin.module.ts`
+8. Update `menu.service.ts`
+
+## Special Considerations
+- `teamParentId`, `teamParentEntityType`, and `teamParentName` are treated as plain string fields, not foreign keys
+- Import `TeamTypeRefCrudComponent` and `HcclOrganizationCrudComponent` for foreign key fields
+- Use `app-std-mdb-text` for the parent-related fields instead of foreign key components 

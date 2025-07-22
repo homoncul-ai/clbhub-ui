@@ -237,6 +237,14 @@ export class MenuService {
     const teamTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMTYPEREF_LIST);
     this.addMenuItem(menu, teamTypeRefList);
 
+    // hcclTeam list
+    const hcclTeamList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAM_LIST);
+    this.addMenuItem(menu, hcclTeamList);
+
+    // teamMember list
+    const teamMemberList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMMEMBER_LIST);
+    this.addMenuItem(menu, teamMemberList);
+
     return menu;
   }
 
@@ -887,12 +895,21 @@ EA_TEAMTYPEMEMBERROLEREF_LIST: {
 },
 
 EA_HCCLTEAM_LIST: {
-  "level" : 2,
-  "label" : "Hccl Team",
-  "route" : "/ecoadmin-dashboard/teams/hcclteam-list",
-  "componentPath" : "/src/app/components/_crud/teams/hcclteam-list",
-  "componentName" : "hcclteam-list",
-  "icon" : ""
+  level: 1,
+  label: 'Hccl Teams',
+  route: '/ecoadmin-dashboard/hcclTeams',
+  componentPath: 'src/app/components/_crud/hcclteam/hcclteam-list.component',
+  componentName: 'HcclTeamListComponent',
+  icon: 'fas fa-users'
+},
+
+EA_TEAMMEMBER_LIST: {
+  level: 1,
+  label: 'Team Members',
+  route: '/ecoadmin-dashboard/teamMembers',
+  componentPath: 'src/app/components/_crud/teammember/teammember-list.component',
+  componentName: 'TeamMemberListComponent',
+  icon: 'fas fa-users'
 },
 
 EA_HCCLTEAMLOG_LIST: {

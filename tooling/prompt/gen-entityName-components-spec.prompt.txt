@@ -26,17 +26,22 @@ You are an expert Angular developer and code generator. Your task is to generate
 
 ---
 
-## File Structure
+## File Change Manifest
 
 All component files will be contained in: `src/app/components/_crud/[entityName]/`
 
 ### Files to Generate:
-- `[entityName]-crud.component.html`
-- `[entityName]-crud.component.ts`
-- `[entityName]-group.component.html`
-- `[entityName]-group.component.ts`
-- `[entityName]-group.component.scss`
-- `[entityName]-list.component.ts` (NO template or stylesheet files)
+- `[entityName]-crud.component.html` - based on templates/template-crud.component.html
+- `[entityName]-crud.component.ts`  - based on templates/template-crud.component.ts
+- `[entityName]-group.component.html`- based on templates/template-group.component.html
+- `[entityName]-group.component.ts`- based on templates/template-group.component.ts
+- `[entityName]-list.component.ts` - based on templates/template-list.component.ts (NO template or stylesheet files)
+- Do not generate a file called :  `[entityName]-group.component.scss`
+
+
+##s Files to update
+ - menu.service.ts - 
+ - dash-ecoadmin.module.ts
 
 ---
 
@@ -172,8 +177,8 @@ public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuCont
 Router target to group all tabs for `[entityName]` (details, list).
 
 ### Files
-- `[entityName]-group.component.html` (use `./templates/template-group.component.html`)
-- `[entityName]-group.component.ts`
+- `[entityName]-group.component.html` (use template to gen - `./templates/template-group.component.html`)
+- `[entityName]-group.component.ts`   (use template to gen - `./templates/template-group.component.ts`)
 - `[entityName]-group.component.scss` → `'../../_global/abstract-entity-group/abstract-entity-group.component.scss'`
 
 ### Required Imports

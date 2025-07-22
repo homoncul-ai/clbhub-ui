@@ -2,6 +2,7 @@
 // This was generated using entityName = HcclOrganization
 // Generate the new [entityName]-crud.component.ts   files using this template
 // Of course, the code related to the attribtutes of the entity shoule be changed to match the entityName
+// Review the HTML after the generation is complete and maker sure all the imports required are included.
 
 
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';

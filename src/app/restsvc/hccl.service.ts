@@ -2518,7 +2518,7 @@ export interface JobProcessLogPOSTData {
 }
 
 export interface DateGETData {
-  date?: string;
+  date?: Date;
   dateMilliseconds?: number;
   dateFormat?: string;
   formattedDate?: string;
@@ -4329,6 +4329,8 @@ export interface HcclTeamMemberPOSTData {
 }
 
 export interface HcclTeamMemberGETData {
+  dateRemoved: DateGETData;
+  dateAdded: DateGETData;
   id?: string;
   createdByInfo?: Reference;
   dateCreated?: DateGETData;

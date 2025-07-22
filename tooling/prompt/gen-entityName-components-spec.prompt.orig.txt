@@ -86,6 +86,9 @@ ensuring that updates to the spec can be safely and efficiently propagated to th
 ---
 
 # Component Specification Structure
+- fore [entityName]-crud.component.html - start with the template file "./templates/template-crud.component.html to start with and follow instructions within
+  ** Do NOT change any control structures, just copy them **  
+- for [entityName]-list.component.ts - start with the template file "./templates/template-list.component.ts to start with and follow instructions within
 
 ## CRUD Component
 - **Purpose:** Display, edit, and add `[entityName]` data.
@@ -198,12 +201,10 @@ See [copyFromEntity] components and import similarly.  These imports will includ
 - **CRITICAL:** Use correct route paths - for eco-admin use `/ecoadmin-dashboard/[routePath]` not `/ecoadmin/[routePath]`
 
 ### Template Structure
-- Copy structure from `copyFromEntity-group.component.html`
+- for [entityName]-group.component.html - use the template file "./templates/template-group.component.html to start with and follow instructions within
 - Replace component references with generated component names
-- Use `<app-simple-tabset [tabs]=tabs [currentTabId]="currentTabId" (tabClick)="activateTab($event)"></app-simple-tabset>`
+
 - Include conditional divs for details and list tabs
-- **Do NOT** include `(click)=onClick($event)` handlers in the template
-- Keep template simple and focused on tab display
 - Use `*ngIf` for tab content display
 
 ---
@@ -403,8 +404,8 @@ export class [EntityName]ListComponent extends AbstractListComponent<[EntityName
 
 ## Idempotent Generation Rules
 
-1. **Template Copying:** Always copy complete structure from reference components
-2. **Method Implementation:** Copy ALL methods from reference components, don't create new ones
+1. **Template Copying:** Always copy complete structure from reference components or the template.
+2. **Method Implementation:** Copy ALL methods from reference components, but don't create new ones
 3. **Import Requirements:** Include all necessary imports for components and services
 4. **Constructor Rules:** Follow strict constructor injection rules for each component type
 5. **Routing Consistency:** Ensure menu routes match actual app routing structure using plural entity names
@@ -432,4 +433,38 @@ Before generating components, ensure:
 
 
 
-      
+    input: entityName = HcclUserProfile
+
+
+Using [entityName] - find the spec in "../prompt-output/[entityName]-gencomp.prompt.txt.
+- Generate components in /_crud/[entityName] based on the prompt
+- Overwrite the comoponents if they exist. 
+
+Updating Routes
+- Analyze and make sure all the pertinent routes into the "dash-ecosystem" module exist.
+- Do not add the package name to the routes. 
+- Route paths should always be plural of the entityName (e.g., "catalogs" vs "catalog", "clcourses" vs "clcourse")
+- Never use package prefixes like "integration_edu/clcourse" - use "clcourses" instead
+- Update the file menu-service.ts - find the component names and update the menu items.  
+  Use the menu-service and update the "ecosystem" menu.
+
+## IMPORTANT: List Component Requirements
+- The [entityName]-list component MUST extend AbstractListComponent and copy the providertyperef-list component structure
+- Use the abstract list template: '../../_global/abstract-list/abstract-list.component.html'
+- Use the abstract list stylesheet: '../../_global/abstract-list/abstract-list.component.scss'
+- Remove any custom template and stylesheet files for the list component
+- Implement all required abstract methods: getGridColumns(), createCriteria(), findEntities(), hasSearchResults(), getSearchResults(), formatEntityData(), onRowClick(), onAdd()
+- Grid columns should include all entity fields except audit fields (id, createdByInfo, dateCreated, lastUpdatedByInfo) which should be commented out
+
+## Route Naming Convention
+- Always use plural form of entityName for routes
+- Examples:
+  - entityName = "catalog" → route = "catalogs"
+  - entityName = "clcourse" → route = "clcourses" 
+  - entityName = "providertyperef" → route = "providertyperefs"
+  - entityName = "someEntry" -> route = "someEntries" 
+
+- Never include package prefixes in routes 
+- Menu routes should match the module routes exactly
+
+Good luck. 
