@@ -42,14 +42,19 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
   // start with the id, dateCreated, dateLastUpdated, createdByInfo, lastUpdatedByInfo commented out.
   protected getGridColumns(): any[] {
     return [
+      // id is commented out for now - not sure if we want to show this
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-      { id: 'organizationTypeCode', header: [{ text: 'Organization Type Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+
+      // Replace [prefix]Id with the displaytext of the crudwrapper - named [prefix]Str instead of [prefix]Id
+      { id: 'organizationTypeStr', header: [{ text: 'Organization Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'websiteUrl', header: [{ text: 'Website URL', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'parentEntityName', header: [{ text: 'Parent Entity Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+
+      // Commented out for now - not sure if we want to show this
 //      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
   //    { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
     //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
@@ -83,22 +88,18 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
    * @returns 
    */
   protected override async formatEntityDataAsync(entity: HcclOrganizationGETData): Promise<any> {
-    // if there's one ore more FK's FK, then create a CrudWrapper for the FK and add the displaytext of the crudwrapper
-    // 
-    const id = entity.organizationTypeId || '';
-    if (id) {
-      const crudWrapper = await HcclOrganizationTypeRefCrudWrapper.newInstance(id, this.hcclService);
-      const typeName = crudWrapper.getDisplayText();
-      debugger;
+    // Every attribute of the form [prefix]Id is an "foreign key" and should be replaced with the displaytext of the crudwrapper
+    const organizationTypeStr  :string = entity.organizationTypeId  == null ? 'unknown' : 
+       (await HcclOrganizationTypeRefCrudWrapper.newInstance(entity.organizationTypeId , this.hcclService)).getDisplayText();
+
       return {
         createdByInfo: entity.createdByInfo?.name || '',
         lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
         dateCreated: entity.dateCreated?.formattedDate || '',
         dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
-        organizationTypeCode: typeName
+        organizationTypeStr: organizationTypeStr
       };
     }
-    return {};
   }
 
 

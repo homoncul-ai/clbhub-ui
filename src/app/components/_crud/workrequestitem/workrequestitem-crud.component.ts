@@ -321,19 +321,5 @@ export class WorkRequestItemCrudWrapper extends EntityWrapper<WorkRequestItemGET
     return this.data.nameText || this.data.businessCode || 'WorkRequestItem';
   }
 
-  override getId(): string {
-    return this.data.id || '';
-  }
 
-  override getHcclService(): HcclService {
-    return this.hcclService!;
-  }
-
-  override getData(): WorkRequestItemGETData {
-    return this.data;
-  }
-
-  override dump(): string {
-    return JSON.stringify(this.data, null, 2);
-  }
 } 

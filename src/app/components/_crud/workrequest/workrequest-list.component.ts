@@ -5,6 +5,8 @@ import { HcclService } from '../../../restsvc/hccl.service';
 import { WorkRequestGETData, WorkRequestCriteria, WorkRequestGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
+import { WorkQueueCrudWrapper } from '../workqueue/workqueue-crud.component';
+import { WorkRequestTypeCrudWrapper } from '../workrequesttype/workrequesttype-crud.component';
 
 /**
  * Component for displaying and managing WorkRequest data using HcclService
@@ -37,9 +39,9 @@ export class WorkRequestListComponent extends AbstractListComponent<WorkRequestG
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'workRequestTypeId', header: [{ text: 'Work Request Type ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      { id: 'workRequestTypeCode', header: [{ text: 'Work Request Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'currentStateCode', header: [{ text: 'Current State Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'workQueueId', header: [{ text: 'Work Queue ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'workQueueCode', header: [{ text: 'Work Queue', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'createdByTeamId', header: [{ text: 'Created By Team ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'createdByUserId', header: [{ text: 'Created By User ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'acceptedByTeamId', header: [{ text: 'Accepted By Team ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
@@ -75,8 +77,16 @@ export class WorkRequestListComponent extends AbstractListComponent<WorkRequestG
     return response.searchResults || [];
   }
 
-  protected override formatEntityData(entity: WorkRequestGETData): any {
+  protected override async formatEntityDataAsync(entity: WorkRequestGETData): Promise<any> {
+    const typeName :string = entity.workQueueId  == null ? 'unknown' : 
+       (await WorkQueueCrudWrapper.newInstance(entity.workQueueId , this.hcclService)).getDisplayText();
+
+    const typeName2 :string = entity.workRequestTypeId  == null ? 'unknown' : 
+       (await WorkRequestTypeCrudWrapper.newInstance(entity.workRequestTypeId , this.hcclService)).getDisplayText();
+       
     return {
+      workQueueCode: typeName,
+      workRequestTypeCode: typeName2,
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
