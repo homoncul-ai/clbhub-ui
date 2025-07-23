@@ -1,3 +1,7 @@
+// This template is for generating a GROUP component  
+// This was generated using entityName = WorkQueueTypeRef
+// Generate the new [entityName]-group.component.ts   files using this template 
+
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,87 +18,21 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
   templateUrl: './workqueuetyperef-group.component.html',
 })
 export class WorkQueueTypeRefGroupComponent extends AbstractEntityGroupComponent<WorkQueueTypeRefCrudWrapper> implements OnInit {  
-  @Input() id!: string;
 
-  constructor(
-    private route: ActivatedRoute
-  ) {
+  constructor() {
     super();    
   }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const id = params['id'];
-      const tabId = params['tabId'] || 'details';
-      if (!id) {
-        this.currentTabId = tabId;
-        this.showingTabset = false;
-        this.entity = WorkQueueTypeRefCrudWrapper.newInstanceForCreate(this.hcclService);
-      } else {
-      if (id) {
-        this.id = id;
-        this.tabs = this.setupTabs();
-        this.currentTabId = tabId;
-        this.loadEntityById(id).then(entity => {
-          this.entity = entity;
-        }).catch(error => {
-          console.error('Error loading WorkQueueTypeRef:', error);
-        });
-      }
-      }
-    });
+  protected newCrudWrapperForCreate(): WorkQueueTypeRefCrudWrapper {
+    return WorkQueueTypeRefCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
   protected async loadEntityById(id: string): Promise<WorkQueueTypeRefCrudWrapper> {
-    const ref = await this.hcclService.getWorkQueueTypeRefById(id).toPromise();
-    if (!ref) {
-      throw new Error('WorkQueueTypeRef not found');
-    }
-    this.entity = new WorkQueueTypeRefCrudWrapper(ref, this.hcclService);
-    return this.entity;
+    return WorkQueueTypeRefCrudWrapper.newInstance(id, this.hcclService);
   }
 
   protected setupTabs(): SimpleTab[] {
-    return [
-      new SimpleTab('list', 'List', '', 
-        () => {
-          this.router.navigate(['/ecoadmin-dashboard/workqueuetyperefs']);
-        },
-        () => {
-          return true;
-        }
-      ),
-      new SimpleTab('details', 'Details', '', 
-        () => {
-          this.currentTabId = 'details';
-          this.router.navigate(['/ecoadmin-dashboard/workqueuetyperefs', this.id, 'details']);
-        },
-        () => {
-          return this.entity !== null;
-        }
-      ),
-      new SimpleTab('debug', 'Debug', '', 
-        () => {
-          this.currentTabId = 'debug';
-          this.router.navigate(['/ecoadmin-dashboard/workqueuetyperefs', this.id, 'debug']);
-        },
-        () => {
-          return true;
-        }
-      ),
-      new SimpleTab('fk_menu', 'FK_MENU', '', 
-        () => {
-          this.currentTabId = 'fk_menu';
-          this.router.navigate(['/ecoadmin-dashboard/workqueuetyperefs', this.id, 'fk_menu']);
-        },
-        () => {
-          return true;
-        }
-      )
-    ];
+    return this.setupListDetailsTabs();
   }
 
-  public override activateTab(tabId: string): void {
-    this.currentTabId = tabId;
-  }
 } 

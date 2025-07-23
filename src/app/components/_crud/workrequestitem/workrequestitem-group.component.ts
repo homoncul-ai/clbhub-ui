@@ -1,49 +1,40 @@
-import { Component, Input } from '@angular/core';
+// This template is for generating a GROUP component  
+// This was generated using entityName = WorkRequestItem
+// Generate the new [entityName]-group.component.ts   files using this template 
+
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { AbstractEntityGroupComponent } from '../../_global/abstract-entity-group/abstract-entity-group.component';
-import { WorkRequestItemGETData, HcclService } from '../../../restsvc/hccl.service';
-import { WorkRequestItemCrudWrapper } from './workrequestitem-crud.component';
-import { WorkRequestItemCrudComponent } from './workrequestitem-crud.component';
-import { SimpleTabsetComponent } from '../../_global/simple-tabset/simple-tabset.component';
-import { SimpleTab } from '../../_global/simple-tabset/simple-tabset.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
+import { WorkRequestItemCrudWrapper, WorkRequestItemCrudComponent } from '@app/components/_crud/workrequestitem/workrequestitem-crud.component';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 
 @Component({
   selector: 'app-workrequestitem-group',
-  templateUrl: './workrequestitem-group.component.html',
+  standalone: true,
+  imports: [CommonModule, SimpleTabsetComponent, WorkRequestItemCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
-  imports: [CommonModule, TranslateModule, SimpleTabsetComponent, WorkRequestItemCrudComponent],
-  standalone: true
+  templateUrl: './workrequestitem-group.component.html',
 })
-export class WorkRequestItemGroupComponent extends AbstractEntityGroupComponent<WorkRequestItemCrudWrapper> {
-  @Input() id?: string;
-  
+export class WorkRequestItemGroupComponent extends AbstractEntityGroupComponent<WorkRequestItemCrudWrapper> implements OnInit {  
+
   constructor() {
-    super();
+    super();    
+    var x = 1;
+  }
+
+
+  protected newCrudWrapperForCreate(): WorkRequestItemCrudWrapper {
+    return WorkRequestItemCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
   protected async loadEntityById(id: string): Promise<WorkRequestItemCrudWrapper> {
-    const workRequestItemData = await this.hcclService.getWorkRequestItemById(id).toPromise();
-    if (!workRequestItemData) {
-      throw new Error('WorkRequestItem not found');
-    }
-    return new WorkRequestItemCrudWrapper(workRequestItemData, this.hcclService);
+    return WorkRequestItemCrudWrapper.newInstance(id, this.hcclService);
   }
 
   protected setupTabs(): SimpleTab[] {
-    return [
-      new SimpleTab('details', 'Details', '/details', () => {}, () => {}),
-      new SimpleTab('create', 'Create', '/create', () => {}, () => {}),
-      new SimpleTab('debug', 'Debug', '/debug', () => {}, () => {}),
-      new SimpleTab('fk_menu', 'FK Menu', '/fk_menu', () => {}, () => {})
-    ];
+    return this.setupListDetailsTabs();
   }
 
-  protected getEntityType(): string {
-    return 'WorkRequestItem';
-  }
-
-  protected getBaseRoute(): string {
-    return '/ecoadmin-dashboard/workrequestitems';
-  }
 } 

@@ -276,6 +276,14 @@ export class CatalogCrudWrapper extends EntityWrapper<CatalogGETData> {
     return new CatalogCrudWrapper(entityIn || emptyData, hcclService);
   }
 
+  public static async newInstance(id: string, hcclService: HcclService): Promise<CatalogCrudWrapper> {
+    const catalog = await hcclService.getCatalogById(id).toPromise();
+    if (catalog) {
+      return new CatalogCrudWrapper(catalog, hcclService);
+    }
+    throw new Error('Catalog not found');
+  }
+
   constructor(data: CatalogGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }

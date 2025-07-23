@@ -347,6 +347,14 @@ export class CLCourseCrudWrapper extends EntityWrapper<CLCourseGETData> {
     return new CLCourseCrudWrapper(entityIn || emptyData, hcclService);
   }
 
+  public static async newInstance(id: string, hcclService: HcclService): Promise<CLCourseCrudWrapper> {
+    const clCourse = await hcclService.getCLCourseById(id).toPromise();
+    if (clCourse) {
+      return new CLCourseCrudWrapper(clCourse, hcclService);
+    }
+    throw new Error('CLCourse not found');
+  }
+
   constructor(data: CLCourseGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }

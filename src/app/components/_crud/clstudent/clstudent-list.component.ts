@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults, SimpleRestActionResponse } from '../../../restsvc/hccl.service';
-import { forkJoin } from 'rxjs';
-import { ClstudentCrudComponent } from './clstudent-crud.component';
+import { forkJoin } from 'rxjs';    
+import { CLStudentCrudComponent } from './clstudent-crud.component';
 import { SimpleTabsetComponent, SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
 
 declare const dhx: any;

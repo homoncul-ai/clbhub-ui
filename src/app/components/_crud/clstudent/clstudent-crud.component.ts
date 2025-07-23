@@ -16,7 +16,7 @@ import { CLSchoolCrudComponent, CLSchoolCrudWrapper } from '@app/components/_cru
   templateUrl: './clstudent-crud.component.html',
   styleUrl: './clstudent-crud.component.scss'
 })
-export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudWrapper> implements OnInit, OnChanges {
+export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudWrapper> implements OnInit, OnChanges {
 /**
  * This is a component that will be used to create, read, update and delete CL Students
  * It will use the AbstractCrudComponent to handle the CRUD operations
@@ -45,17 +45,17 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
 
 
-  protected async loadEntityByIdCall(id: string): Promise<ClStudentCrudWrapper> {
+  protected async loadEntityByIdCall(id: string): Promise<CLStudentCrudWrapper> {
     const student = await this.hcclService.getCLStudentById(id).toPromise();
       if (student) {
-        return new ClStudentCrudWrapper(student, this.hcclService);
+        return new CLStudentCrudWrapper(student, this.hcclService);
       }
       throw new Error('Student not found');
   }
   
 
 
-  protected override async createEntityDataCall(entity: ClStudentCrudWrapper): Promise<any> {
+  protected override async createEntityDataCall(entity: CLStudentCrudWrapper): Promise<any> {
       // Use entityNew if in create mode, otherwise use the passed entity
       const studentData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
       
@@ -80,7 +80,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
 
 
-  protected override async updateEntityDataCall(entity: ClStudentCrudWrapper): Promise<void> {
+  protected override async updateEntityDataCall(entity: CLStudentCrudWrapper): Promise<void> {
       const studentData = entity.getData();
       if (!studentData.id) {
         throw new Error('Student ID is required for update');
@@ -117,7 +117,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
 
   
-  public override newEmptyWrapper(): ClStudentCrudWrapper {
+  public override newEmptyWrapper(): CLStudentCrudWrapper {
     // Create an empty student if no current entity exists
     const emptyStudent: CLStudentGETData = {
       organizationId: '',
@@ -129,7 +129,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
       schoolId: ''
     };
     
-    return new ClStudentCrudWrapper(emptyStudent, this.hcclService);
+    return new CLStudentCrudWrapper(emptyStudent, this.hcclService);
   }
   // Getter methods for form binding
   public get firstName(): string {
@@ -172,10 +172,10 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
   /**
    * Create a wrapper from CLStudentGETData
    * @param studentData The CLStudentGETData to wrap
-   * @returns ClStudentCrudWrapper instance
+   * @returns CLStudentCrudWrapper instance
    */
-  public createWrapper(studentData: CLStudentGETData): ClStudentCrudWrapper {
-    return new ClStudentCrudWrapper(studentData, this.hcclService);
+  public createWrapper(studentData: CLStudentGETData): CLStudentCrudWrapper {
+    return new CLStudentCrudWrapper(studentData, this.hcclService);
   }
 
   getOrganizationFkMenuCriteria(): HcclOrganizationCriteria {
@@ -206,7 +206,7 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
    /** Define the menu objects for this crud component */
    protected organizationMenu: MenuControlDataList | null = null;
    protected schoolMenu: MenuControlDataList | null = null;
-   protected override async prepareMenus(entity: ClStudentCrudWrapper): Promise<void> {
+   protected override async prepareMenus(entity: CLStudentCrudWrapper): Promise<void> {
     
     const fkMenu = await entity.getFkMenu();
     // Actually, we're going to load the organization wrapper, then call getSchoolsMenu
@@ -221,12 +221,28 @@ export class ClstudentCrudComponent extends AbstractCrudComponent<ClStudentCrudW
 
 }
 
-export class ClStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
+export class CLStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
 
-  public static async newInstance(id: string, hcclService: HcclService): Promise<ClStudentCrudWrapper> {
+  public static newInstanceForCreate(hcclService: HcclService, entityIn?: CLStudentGETData | null): CLStudentCrudWrapper {
+    const emptyData: CLStudentGETData = {
+      id: '',
+      organizationId: '',
+      firstName: '',
+      lastName: '',
+      name: '',
+      userEmail: '',
+      cellPhoneNumber: '',
+      workPhoneNumber: '',
+      schoolId: '',
+      available: 1
+    };
+    return new CLStudentCrudWrapper(entityIn || emptyData, hcclService);
+  }
+
+  public static async newInstance(id: string, hcclService: HcclService): Promise<CLStudentCrudWrapper> {
     const student = await hcclService.getCLStudentById(id).toPromise();
     if (student) {
-      return new ClStudentCrudWrapper(student, hcclService);
+      return new CLStudentCrudWrapper(student, hcclService);
     }
     throw new Error('Student not found');
   }
