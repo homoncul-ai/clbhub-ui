@@ -386,8 +386,11 @@ implements OnInit, AfterViewInit {
    * @returns The base route path for navigation
    */
   protected getBaseRoute(): string {
+    return AbstractListComponent.extractBaseRoute(this.router.url);
+  }
+  public static extractBaseRoute(url:string ): string {
     // Get the current URL segments
-    const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+    const urlSegments = url.split('/').filter(segment => segment.length > 0);
     
     // Find the dashboard type (advocate-dashboard, broker-dashboard, etc.)
     const dashboardIndex = urlSegments.findIndex(segment => segment.includes('-dashboard'));

@@ -5,6 +5,7 @@ import { HcclService } from '@app/restsvc/hccl.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { AbstractListComponent } from '../abstract-list';
 
 @Component({
   selector: 'app-abstract-entity-group',
@@ -44,13 +45,15 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       var defaultTabId = 'details';
       if (urlSegments.length > 0) {
         defaultTabId = urlSegments[urlSegments.length - 1];
+        if (defaultTabId.includes('#')) {
+          defaultTabId = defaultTabId.split('#')[0];
+        }
       }
       const tabId = params['tabId'] || defaultTabId;
      // debugger
       if (!id || tabId === 'create') {
-  
         this.currentTabId = tabId;
-        this.showingTabset = false;
+        this.showingTabset = true;
         this.entity = this.newCrudWrapperForCreate();
       } else {
       if (id) {
@@ -132,37 +135,6 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
    * @returns The base route path for navigation
    */
 protected getBaseRoute(): string {
-  // Get the current URL segments
-  const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
-  
-  // Find the dashboard type (advocate-dashboard, broker-dashboard, etc.)
-  const dashboardIndex = urlSegments.findIndex(segment => segment.includes('-dashboard'));
-  if (dashboardIndex === -1) {
-    // Fallback to ecoadmin-dashboard if no dashboard found
-    return '/ecoadmin-dashboard';
-  }
-  
-  const dashboardType = urlSegments[dashboardIndex];
-  
-  // Find the entity route (the segment after the dashboard)
-  const entityRouteIndex = dashboardIndex + 1;
-  if (entityRouteIndex >= urlSegments.length) {
-    // If no entity route found, return dashboard
-    return `/${dashboardType}`;
-  }
-  
-  // Get the entity route (e.g., 'providertyperefs', 'clstudents', etc.)
-  const entityRoute = urlSegments[entityRouteIndex];
-  
-  // Remove any trailing segments like 'create', 'details', etc. to get the base route
-  // This handles cases where we're on a route like /dashboard/entity/create
-  const baseRoute = `/${dashboardType}/${entityRoute}`;
-  
-  return baseRoute;
+  return AbstractListComponent.extractBaseRoute(this.router.url);
 }
-
-
-  activateTab(tabId: string) {
-    this.currentTabId = tabId;
-  }
 }
