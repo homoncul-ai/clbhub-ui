@@ -57,14 +57,18 @@ const routes: Routes = [
       { path: 'providertyperefs/:id/:tabId', component: ProviderTypeRefGroupComponent },
       { path: 'providertyperefs/:id', redirectTo: 'providertyperefs/:id/details', pathMatch: 'full' },
       { path: 'providertyperefs', component: ProviderTypeRefListComponent },
+      
       { path: 'clcourses/create', component: CLCourseGroupComponent },
       { path: 'clcourses/:id/:tabId', component: CLCourseGroupComponent },
       { path: 'clcourses/:id', redirectTo: 'clcourses/:id/details', pathMatch: 'full' },
       { path: 'clcourses', component: CLCourseListComponent },
+  
       { path: 'catalogs/create', component: CatalogGroupComponent },
       { path: 'catalogs/:id/:tabId', component: CatalogGroupComponent },
       { path: 'catalogs/:id', redirectTo: 'catalogs/:id/details', pathMatch: 'full' },
       { path: 'catalogs', component: CatalogListComponent },
+
+  
       { path: 'catalogentries/create', component: CatalogEntryGroupComponent },
       { path: 'catalogentries/:id/:tabId', component: CatalogEntryGroupComponent },
       { path: 'catalogentries/:id', redirectTo: 'catalogentries/:id/details', pathMatch: 'full' },

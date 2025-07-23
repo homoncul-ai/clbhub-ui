@@ -1,8 +1,15 @@
 <app-simple-tabset [tabs]="tabs" [currentTabId]="currentTabId" *ngIf="showingTabset"></app-simple-tabset>
 
+
+
 <div *ngIf="currentTabId === 'list'">
   <!-- List tab content will go here -->
 </div> 
+<div *ngIf="currentTabId === 'create'">
+  <h1>Create</h1>
+  <app-catalog-crud [id]="id" modeName="'create'"></app-catalog-crud>
+</div>
+
 <div *ngIf="currentTabId === 'details'">
   <app-catalog-crud [id]="id" [modeName]="'details'"></app-catalog-crud>
 </div>

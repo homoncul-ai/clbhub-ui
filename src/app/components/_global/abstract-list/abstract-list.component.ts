@@ -406,7 +406,13 @@ implements OnInit, AfterViewInit {
     }
     
     // Get the entity route (e.g., 'providertyperefs', 'clstudents', etc.)
-    const entityRoute = urlSegments[entityRouteIndex];
+    var entityRoute = urlSegments[entityRouteIndex];
+
+    // if the entitROute like : /catalogs#state=ef9bd2f3-62c2-4461-b8cb-3cd1bedf979b&session_state=8dd4f98a-9d74-4896-9bea-...
+    // then remove the #state=ef9bd2f3-62c2-4461-b8cb-3cd1bedf979b&session_state=8dd4f98a-9d74-4896-9bea-...
+    if (entityRoute.includes('#')) {
+      entityRoute = entityRoute.split('#')[0];
+    }
     
     // Remove any trailing segments like 'create', 'details', etc. to get the base route
     // This handles cases where we're on a route like /dashboard/entity/create

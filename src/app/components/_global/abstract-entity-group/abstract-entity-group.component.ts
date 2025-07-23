@@ -37,10 +37,18 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
       const id = params['id'];
-      const tabId = params['tabId'] || 'details';
-      if (!id) {
+      const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+      var defaultTabId = 'details';
+      if (urlSegments.length > 0) {
+        defaultTabId = urlSegments[urlSegments.length - 1];
+      }
+      const tabId = params['tabId'] || defaultTabId;
+      debugger
+      if (!id || tabId === 'create') {
+  
         this.currentTabId = tabId;
         this.showingTabset = false;
         this.entity = this.newCrudWrapperForCreate();
@@ -52,7 +60,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
         this.loadEntityById(id).then(entity => {
           this.entity = entity;
         }).catch(error => {
-          console.error('Error loading ProviderTypeRef:', error);
+          console.error('Error loading :', error);
         });
       }
       }

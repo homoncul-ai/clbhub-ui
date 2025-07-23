@@ -76,7 +76,6 @@ export class HcclOrganizationListComponent extends AbstractListComponent<HcclOrg
     if (id) {
       const crudWrapper = await HcclOrganizationTypeRefCrudWrapper.newInstance(id, this.hcclService);
       const typeName = crudWrapper.getDisplayText();
-      debugger;
       return {
         createdByInfo: entity.createdByInfo?.name || '',
         lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
