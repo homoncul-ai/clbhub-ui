@@ -5,11 +5,12 @@ import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-e
 import { CLSchoolCrudWrapper, CLSchoolCrudComponent } from '@app/components/_crud/clschool/clschool-crud.component';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { HcclOrganizationCrudComponent } from '../hcclorganization/hcclorganization-crud.component';
 
 @Component({
   selector: 'app-clschool-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, CLSchoolCrudComponent],
+  imports: [CommonModule, SimpleTabsetComponent, CLSchoolCrudComponent,HcclOrganizationCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './clschool-group.component.html',
 })

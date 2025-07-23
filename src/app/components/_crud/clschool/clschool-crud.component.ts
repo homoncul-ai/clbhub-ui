@@ -21,9 +21,9 @@ import { HcclOrganizationCrudComponent } from '../hcclorganization/hcclorganizat
   templateUrl: './clschool-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
-    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
+    StdMdbFormTextComponent, StdMdbFormTextareaComponent,HcclOrganizationCrudComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent,HcclOrganizationCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent],
   standalone: true
 })
 export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWrapper> implements OnInit, OnChanges {
