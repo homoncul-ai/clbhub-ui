@@ -5,7 +5,8 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { HcclTeamMemberCriteria, HcclTeamMemberGETData, HcclTeamMemberPOSTData, HcclTeamMemberPUTData, HcclService, MenuControlDataList, MenuControlData, DateGETData } from '@app/restsvc/hccl.service';
+import { HcclTeamMemberCriteria, HcclTeamMemberGETData, HcclTeamMemberPOSTData, HcclTeamMemberPUTData, HcclService, 
+  MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -18,6 +19,7 @@ import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-c
 import { HccluserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
 import { HcclUserProfileCrudComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
+import { DateGETData } from '@app/restsvc/common-request-service.model';
 
 @Component({
   selector: 'app-teammember-crud',
@@ -300,7 +302,7 @@ export class HcclTeamMemberCrudWrapper extends EntityWrapper<HcclTeamMemberGETDa
   }
 
   getDateAdded(): DateGETData {
-    return this.getData().dateAdded || '';
+    return this.getData().dateAdded || EntityWrapper.newDateGETData();
   }
 
   setDateAdded(value: DateGETData): void {
@@ -308,7 +310,7 @@ export class HcclTeamMemberCrudWrapper extends EntityWrapper<HcclTeamMemberGETDa
   }
 
   getDateRemoved(): DateGETData {
-    return this.getData().dateRemoved || '';
+    return this.getData().dateRemoved || EntityWrapper.newDateGETData();
   }
 
   setDateRemoved(value: DateGETData): void {

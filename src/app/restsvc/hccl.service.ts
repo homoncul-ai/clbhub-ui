@@ -1,18 +1,16 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CommonRequestServiceCaller, CommonServiceRequest } from './common-request-service.model';
-import { AppConstants } from '@app/shell/services/config.service';
+import { CommonRequestServiceCaller, CommonServiceRequest, DateGETData } from './common-request-service.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HcclService extends CommonRequestServiceCaller {
-  constructor(http: HttpClient, appConstants: AppConstants) {
+  constructor(http: HttpClient) {
     super(http);
-    // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
-    const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
-    console.log(baseUrl);
+    const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+    //const baseUrl = 'https://devops2.trutesta.com/trutesta-hccl-services';
     this.setBaseUrl(baseUrl);
   }
 
@@ -2295,13 +2293,39 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
-  createTicket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
+  acceptTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/" + tix_id + "/accept",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestGETData>(request);
+  }
+
+  callCreateTicket(body: CreateTicketPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/create-ticket",
       method: "POST",
       body: body,
     };
     return this.request<WorkRequestGETData>(request);
+  }
+
+  callWorkRequestUi(tix_id: string, action_code: string, body: WorkItemFormRequest): Observable<WorkItemFormResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/" + tix_id + "/workrequestitemui/{action-code}" + "/hccl/tixui//workrequestitemui/" + action_code + "",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkItemFormResponse>(request);
+  }
+
+  getActionsMenu(tix_id: string): Observable<MenuControlDataList> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/" + tix_id + "/wri-actions-menu",
+      method: "GET",
+    };
+    return this.request<MenuControlDataList>(request);
   }
 
   getCreateTicketSetupUi(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
@@ -2327,6 +2351,15 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "GET",
     };
     return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  rerouteTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/" + tix_id + "/reroute",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestGETData>(request);
   }
 
   resolveTicketContext(userProfileId: string): Observable<HcclUserContextGETData> {
@@ -2517,18 +2550,6 @@ export interface JobProcessLogPOSTData {
   totalEntries?: number;
 }
 
-export interface DateGETData {
-  date?: Date;
-  dateMilliseconds?: number;
-  dateFormat?: string;
-  formattedDate?: string;
-  formattedDateTime?: string;
-  year?: number;
-  month?: number;
-  dayOfMonth?: number;
-  monthName?: string;
-  convertToLocalTimezone?: boolean;
-}
 
 export interface JobProcessLogGETData {
   id?: string;
@@ -2575,7 +2596,7 @@ export interface ServiceEventLogPOSTData {
   nextEventName?: string;
   displayName?: string;
   groupId?: string;
-  dateDue?: string;
+  dateDue?: DateGETData;
   applicationCode?: string;
   parentId?: string;
 }
@@ -2649,7 +2670,7 @@ export interface ServiceEventLogPUTData {
   nextEventName?: string;
   displayName?: string;
   groupId?: string;
-  dateDue?: string;
+  dateDue?: DateGETData;
   applicationCode?: string;
   parentId?: string;
 }
@@ -2882,6 +2903,7 @@ export interface CatalogSearchResultGETData {
   subjectEntityType?: string;
   subjectEntityName?: string;
   parentWorkRequestItemId?: string;
+  entries?: CatalogSearchResultEntryGETData[];
 }
 
 export interface CatalogSearchResultGETDataSearchResults {
@@ -4329,8 +4351,6 @@ export interface HcclTeamMemberPOSTData {
 }
 
 export interface HcclTeamMemberGETData {
-  dateRemoved: DateGETData;
-  dateAdded: DateGETData;
   id?: string;
   createdByInfo?: Reference;
   dateCreated?: DateGETData;
@@ -4339,6 +4359,8 @@ export interface HcclTeamMemberGETData {
   teamId?: string;
   userId?: string;
   userProfileId?: string;
+  dateAdded?: DateGETData;
+  dateRemoved?: DateGETData;
 }
 
 export interface HcclTeamMemberGETDataSearchResults {
@@ -5365,15 +5387,15 @@ export interface EncodingPOSTData {
 }
 
 export interface SimpleMessage {
-  messageCode: string;
-  message: string;
-  severity: number;
+  messageCode?: string;
+  message?: string;
+  severity?: number;
   exceptionMessage?: string;
   referenceCode?: string;
 }
 
 export interface SimpleMessageList {
-  messages: SimpleMessage[];
+  messages?: SimpleMessage[];
 }
 
 export interface SimpleRestActionContext {
@@ -5388,6 +5410,13 @@ export interface SimpleRestActionResponse {
   mapFormElements?: any;
 }
 
+export interface RoutingActionPOSTData {
+  userProfileId?: string;
+  reasonId?: string;
+  comments?: string;
+  newQueueId?: string;
+}
+
 export interface CreateTicketPOSTData {
   advocateUserProfileId?: string;
   studentUserProfileId?: string;
@@ -5397,11 +5426,27 @@ export interface CreateTicketPOSTData {
   rawText?: string;
 }
 
-export interface CreateTicketSetupUIData {
-  data?: CreateTicketPOSTData;
-  queuesMenu?: MenuControlDataList;
-  workRequestTypesMenu?: MenuControlDataList;
-  currentUserProfile?: HcclUserProfileGETData;
+export interface WorkItemFormContext {
+  workRequestId: string;
+  workRequestItemId?: string;
+  userProfileId?: string;
+  mapContextData?: any;
+  mapResultsData?: any;
+}
+
+export interface WorkItemFormResponse {
+  context?: WorkItemFormContext;
+  messages?: SimpleMessageList;
+  workItemData?: WorkRequestItemGETData;
+  workRequestData?: WorkRequestGETData;
+  actionFormData?: any;
+  mapFormElements?: any;
+}
+
+export interface WorkItemFormRequest {
+  op?: string;
+  context?: WorkItemFormContext;
+  actionFormData?: any;
 }
 
 export interface MenuControlData {
@@ -5427,13 +5472,19 @@ export interface MenuControlDataList {
   defaultAllowedByRule?: boolean;
 }
 
+export interface CreateTicketSetupUIData {
+  data?: CreateTicketPOSTData;
+  queuesMenu?: MenuControlDataList;
+  workRequestTypesMenu?: MenuControlDataList;
+  currentUserProfile?: HcclUserProfileGETData;
+}
+
 export interface HcclUserContextGETData {
   currentUserProfileId?: string;
   messages?: SimpleMessageList;
   currentUserProfile?: HcclUserProfileGETData;
   userProfileMenu?: MenuControlDataList;
 }
-
 export interface GenericFormUI {
   formUiType?: string;
   title?: string;

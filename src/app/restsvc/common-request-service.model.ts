@@ -143,3 +143,16 @@ export interface CommonServiceRequest<BodyType = any> {
   headers?: { [header: string]: any | any[] }; // Optional HTTP headers
 }
   
+
+export interface DateGETData {
+  date?: Date;
+  dateMilliseconds?: number;
+  dateFormat?: string;
+  formattedDate?: string;
+  formattedDateTime?: string;
+  year?: number;
+  month?: number;
+  dayOfMonth?: number;
+  monthName?: string;
+  convertToLocalTimezone?: boolean;
+}

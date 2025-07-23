@@ -126,7 +126,7 @@ export class NewWorkRequestComponent extends AbstractMultimodeComponent<WorkRequ
     }
     this.formData.advocateUserProfileId = this.hcclContextService.getContext().currentUserProfileId;
     console.log('creatTicket formData:' + this.formData);
-    this.hcclService.createTicket(this.formData).subscribe({
+    this.hcclService.callCreateTicket(this.formData).subscribe({
       next: (result: WorkRequestGETData) => {
         this.loading = false;
         this.successMessage = `Work request created successfully! ID: ${result.id}`;

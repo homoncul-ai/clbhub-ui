@@ -9794,13 +9794,63 @@
         }
       }
     },
+    "/hccl/tixui/{tix-id}/accept": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Accept the ticket",
+        "operationId": "acceptTicket",
+        "parameters": [
+          {
+            "name": "tix-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/RoutingActionPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/tixui/create-ticket": {
       "post": {
         "tags": [
           "/options"
         ],
         "summary": "Fetches Create the ticket",
-        "operationId": "getCreateTicket",
+        "operationId": "callCreateTicket",
         "requestBody": {
           "content": {
             "*/*": {
@@ -9817,6 +9867,105 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tixui/{tix-id}/workrequestitemui/{action-code}": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "callWorkRequestUi",
+        "parameters": [
+          {
+            "name": "tix-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "action-code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemFormRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemFormResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tixui/{tix-id}/wri-actions-menu": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getActionsMenu",
+        "parameters": [
+          {
+            "name": "tix-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuControlDataList"
                 }
               }
             }
@@ -9954,6 +10103,56 @@
         }
       }
     },
+    "/hccl/tixui/{tix-id}/reroute": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Accept the ticket",
+        "operationId": "rerouteTicket",
+        "parameters": [
+          {
+            "name": "tix-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/RoutingActionPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/tixui/get-context": {
       "get": {
         "tags": [
@@ -9966,8 +10165,7 @@
             "name": "userProfileId",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "string"
             }
           }
         ],
@@ -11906,6 +12104,12 @@
           "parentWorkRequestItemId": {
             "type": "string",
             "format": "uuid"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogSearchResultEntryGETData"
+            }
           }
         }
       },
@@ -14358,6 +14562,12 @@
             "type": "string"
           },
           "workPhoneNumber": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
             "type": "string"
           },
           "schoolId": {
@@ -17029,6 +17239,12 @@
           "userProfileId": {
             "type": "string",
             "format": "uuid"
+          },
+          "dateAdded": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "dateRemoved": {
+            "$ref": "#/components/schemas/DateGETData"
           }
         }
       },
@@ -20728,6 +20944,26 @@
           }
         }
       },
+      "RoutingActionPOSTData": {
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reasonId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "newQueueId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
       "CreateTicketPOSTData": {
         "type": "object",
         "properties": {
@@ -20755,20 +20991,81 @@
           }
         }
       },
-      "CreateTicketSetupUIData": {
+      "WorkItemFormContext": {
+        "required": [
+          "workRequestId"
+        ],
         "type": "object",
         "properties": {
-          "data": {
-            "$ref": "#/components/schemas/CreateTicketPOSTData"
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
           },
-          "queuesMenu": {
-            "$ref": "#/components/schemas/MenuControlDataList"
+          "workRequestItemId": {
+            "type": "string",
+            "format": "uuid"
           },
-          "workRequestTypesMenu": {
-            "$ref": "#/components/schemas/MenuControlDataList"
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
           },
-          "currentUserProfile": {
-            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          "mapContextData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "mapResultsData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "WorkItemFormResponse": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/WorkItemFormContext"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "workItemData": {
+            "$ref": "#/components/schemas/WorkRequestItemGETData"
+          },
+          "workRequestData": {
+            "$ref": "#/components/schemas/WorkRequestGETData"
+          },
+          "actionFormData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "mapFormElements": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "WorkItemFormRequest": {
+        "type": "object",
+        "properties": {
+          "op": {
+            "type": "string"
+          },
+          "context": {
+            "$ref": "#/components/schemas/WorkItemFormContext"
+          },
+          "actionFormData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
           }
         }
       },
@@ -20836,7 +21133,30 @@
           }
         }
       },
+      "CreateTicketSetupUIData": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CreateTicketPOSTData"
+          },
+          "queuesMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "workRequestTypesMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "currentUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          }
+        }
+      },
       "HcclUserContextGETData": {
+        "required": [
+          "currentUserProfile",
+          "currentUserProfileId",
+          "messages",
+          "userProfileMenu"
+        ],
         "type": "object",
         "properties": {
           "currentUserProfileId": {

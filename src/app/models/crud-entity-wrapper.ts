@@ -1,4 +1,5 @@
-import { DateGETData, HcclService, MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { DateGETData } from '@app/restsvc/common-request-service.model';
+import {  HcclService, MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
 import { MenuItem } from '@app/shell/services/menu.service';
 
 /**

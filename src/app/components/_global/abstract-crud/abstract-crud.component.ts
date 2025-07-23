@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList,DateGETData, Reference } from '../../../restsvc/hccl.service';
+import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList, Reference } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { DategetdataDisplayComponent } from '../dategetdata-display/dategetdata-display.component';
+import { DateGETData } from '@app/restsvc/common-request-service.model';
 
 @Component({
   selector: 'app-abstract-crud',
