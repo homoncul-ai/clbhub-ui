@@ -15,7 +15,7 @@ import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
 export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>> {
   @Input() id!: string;
   @Input() tabId!: string;
-  @Input() showingTabset!: boolean;
+  @Input() showingTabset: boolean = true;
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
 
