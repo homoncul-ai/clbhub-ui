@@ -22,7 +22,7 @@
       </div>
       <div class="detail-group">
         <label>Available:</label>
-        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+        <span> <app-available-selector [(ngModel)]="available"></app-available-selector></span>
       </div>
     </div>
 </div>
@@ -49,7 +49,8 @@
       <form
         (ngSubmit)="this.createEntity()"
       >
-      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+      <div class="form-actions">
+        
         <button type="submit" class="btn btn-success">Save</button>
         <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
@@ -59,6 +60,7 @@
         label="administration_name_label"
         [required]="true"
         [error]="error"
+        [ngModelOptions]="{standalone: true}"
         [(ngModel)]="name">
       </app-std-mdb-form-text>
       <app-std-mdb-form-text 
@@ -68,6 +70,7 @@
         [required]="true"
         [helpText]="'dpa.'"
         [error]="error"
+        [ngModelOptions]="{standalone: true}"
         [(ngModel)]="businessCode">
       </app-std-mdb-form-text>
       <app-std-mdb-form-textarea 
@@ -75,6 +78,7 @@
         name="description"
         label="administration_description_label"
         [error]="error"
+        [ngModelOptions]="{standalone: true}"
         [(ngModel)]="description">
       </app-std-mdb-form-textarea>
       <div class="form-group">
@@ -93,7 +97,7 @@
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <form (ngSubmit)="updateEntity(getCurrentEntity())">
-        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <div class="form-actions">
           <button type="submit" class="btn btn-success">Save</button>
           <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
         </div>
@@ -106,6 +110,7 @@
           label="Name"
           [required]="true"
           [error]="error"
+          [ngModelOptions]="{standalone: true}"
           [(ngModel)]="name">
         </app-std-mdb-form-text>
         </div>
@@ -116,6 +121,7 @@
           label="Business Code"
           [required]="true"
           [error]="error"
+          [ngModelOptions]="{standalone: true}"
           [(ngModel)]="businessCode">
         </app-std-mdb-form-text>
         </div>
@@ -129,12 +135,12 @@
           [rows]="4"
           [maxlength]="1024"
           [showCharCounter]="true"
-          [(ngModel)]="description">
+          [(ngModel)]="description" [ngModelOptions]="{standalone: true}">
         </app-std-mdb-form-textarea>
         </div>
         <div class="mb-4">
           <label>Available:</label>
-          <app-available-selector [(ngModel)]="available"></app-available-selector>
+          <app-available-selector [(ngModel)]="available" [ngModelOptions]="{standalone: true}"></app-available-selector>
         </div>
         </div>
       </form>
@@ -170,7 +176,7 @@
       </div>
       <div class="detail-group">
         <label>Available:</label>
-        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+        <span> <app-available-selector [(ngModel)]="available"></app-available-selector></span>
       </div>
       <div class="detail-group">
         <label>Date Created:</label>

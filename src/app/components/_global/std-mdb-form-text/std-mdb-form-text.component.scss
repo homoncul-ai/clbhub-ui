@@ -17,3 +17,56 @@
     color: #6c757d !important;
   }
 } 
+
+mdb-form-control {
+  display: block;
+  margin-bottom: 1.5rem;
+  position: relative;
+
+  .form-control {
+    width: 100%;
+    padding: 1.25rem 0.75rem 0.5rem;
+    font-size: 1rem;
+
+    border-radius: 4px;
+    transition: border-color 0.3s ease-in-out;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    &:focus ~ .form-label,
+    &:not(:placeholder-shown) ~ .form-label {
+      top: 0.25rem;
+      font-size: 0.75rem;
+      color: #007bff;
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: #dc3545;
+    }
+  }
+
+  .form-label {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+    color: #6c757d;
+    font-size: 1rem;
+    transition: 0.2s ease-in-out;
+    pointer-events: none;
+
+    padding: 0 4px;
+  }
+
+  .requiredField {
+    color: #dc3545;
+  }
+
+  .errorMessage {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+  }
+}

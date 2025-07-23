@@ -13,7 +13,7 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 @Component({
   selector: 'app-workrequesttype-crud',
   standalone: true,
-  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, AvailableSelectorComponent],
+  imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, AvailableSelectorComponent],
   templateUrl: './workrequesttype-crud.component.html',
   styleUrl: './workrequesttype-crud.component.scss'
 })

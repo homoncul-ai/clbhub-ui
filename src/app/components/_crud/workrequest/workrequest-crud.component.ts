@@ -17,13 +17,15 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
 
 @Component({
   selector: 'app-workrequest-crud',
+  standalone: true,
+  //imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, WorkrequesttypeCrudComponent],
   templateUrl: './workrequest-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
     AvailableSelectorComponent, DategetdataDisplayComponent],
-  standalone: true
+  //standalone: true
 })
 export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestCrudWrapper> implements OnInit, OnChanges {
 /**

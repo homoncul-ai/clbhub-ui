@@ -14,7 +14,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
-  imports: [CommonModule, WorkrequestCrudComponent, SimpleMessagesSectionComponent, MenuControlDataListComponent, FormsModule, AvailableSelectorComponent ],
+  imports: [CommonModule, WorkrequestCrudComponent, SimpleMessagesSectionComponent, FormsModule ],
   templateUrl: './workrequest-update.component.html',
   styleUrl: './workrequest-update.component.scss'
 })

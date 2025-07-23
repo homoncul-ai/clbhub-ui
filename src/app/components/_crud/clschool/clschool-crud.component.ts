@@ -14,6 +14,7 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { HcclOrganizationCrudComponent } from '../hcclorganization/hcclorganization-crud.component';
 
 @Component({
   selector: 'app-clschool-crud',
@@ -22,7 +23,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent,HcclOrganizationCrudComponent],
   standalone: true
 })
 export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWrapper> implements OnInit, OnChanges {
