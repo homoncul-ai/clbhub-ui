@@ -35,10 +35,11 @@ export class CatalogGroupComponent extends AbstractEntityGroupComponent<CatalogC
 
   protected setupTabs(): SimpleTab[] {
     var tabs : SimpleTab[] = this.setupListDetailsTabs();
+    var baseRoute = this.getBaseRoute();
     var tab =  new SimpleTab('entries', 'Entries', '', 
       () => {
-        
         this.currentTabId = 'entries';
+        this.router.navigate([baseRoute, this.id, 'entries']);
         
       },
       () => {
