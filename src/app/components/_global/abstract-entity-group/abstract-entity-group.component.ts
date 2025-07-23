@@ -46,7 +46,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
         defaultTabId = urlSegments[urlSegments.length - 1];
       }
       const tabId = params['tabId'] || defaultTabId;
-      debugger
+     // debugger
       if (!id || tabId === 'create') {
   
         this.currentTabId = tabId;

@@ -1173,9 +1173,9 @@ EA_CATALOG_LIST: {
   "level" : 2,
   "label" : "Catalog",
   "route" : "/ecoadmin-dashboard/catalogs",
-  "componentPath" : "/src/app/components/_crud/catalogs/catalog-list",
-  "componentName" : "catalog-list",
-  "icon" : ""
+  "componentPath" : "src/app/components/_crud/catalog/catalog-list.component",
+  "componentName" : "CatalogListComponent",
+  "icon" : "fas fa-list"
 },
 
 EA_CATALOGENTRYTAG_LIST: {
