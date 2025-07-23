@@ -363,7 +363,6 @@ implements OnInit, AfterViewInit {
    * Handle row click event
    */
   protected onRowClick(entityId: string): void {
-    debugger;
     // Default implementation - subclasses can override
     const baseRoute = this.getBaseRoute();
     console.log('onRowClick called with entityId:', entityId);
