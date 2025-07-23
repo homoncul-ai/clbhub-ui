@@ -7,9 +7,9 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './available-selector.component.html',
-  styleUrl: './available-selector.component.scss'
+  styleUrl: './available-selector.component.scss',
 })
-export class AvailableSelectorComponent {
+export class AvailableSelectorComponent  {
   // This component is used to display a property called available commonly used in 
   // the hccl.service.ts file. 
   // if available is 1 or greater, then check the checkbox
@@ -17,18 +17,19 @@ export class AvailableSelectorComponent {
   // if available is a boolean display as if it's 1 or 0
   // Have a function passed in to handle the change of the checkbox
   // similar to the menu-control-data-list component
-
   @Input() available: number | boolean = 0;
+
   @Input() disabled: boolean = false;
   @Input() label: string = 'Available';
   @Input() readonly: boolean = false;
   
   @Output() availableChange = new EventEmitter<number>();
   
+  
   uniqueId = 'available-' + Math.random().toString(36).substr(2, 9);
+
   
   get isChecked(): boolean {
-    console.log(this.available + ' ' + this.readonly);
     if (typeof this.available === 'boolean') {
       return this.available;
     }

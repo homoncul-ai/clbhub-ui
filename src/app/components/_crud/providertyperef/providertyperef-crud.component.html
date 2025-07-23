@@ -22,7 +22,7 @@
       </div>
       <div class="detail-group">
         <label>Available:</label>
-        <span> <app-available-selector [(ngModel)]="available"></app-available-selector></span>
+        <span> <app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
       </div>
     </div>
 </div>
@@ -83,7 +83,7 @@
       </app-std-mdb-form-textarea>
       <div class="form-group">
         <label>Available:</label>
-        <app-available-selector [(ngModel)]="available"></app-available-selector>
+        <app-available-selector [available]="available"></app-available-selector>
       </div>
      
       </form>
@@ -140,7 +140,7 @@
         </div>
         <div class="mb-4">
           <label>Available:</label>
-          <app-available-selector [(ngModel)]="available" [ngModelOptions]="{standalone: true}"></app-available-selector>
+          <app-available-selector [available]="available"></app-available-selector>
         </div>
         </div>
       </form>
@@ -176,7 +176,7 @@
       </div>
       <div class="detail-group">
         <label>Available:</label>
-        <span> <app-available-selector [(ngModel)]="available"></app-available-selector></span>
+        <span> <app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
       </div>
       <div class="detail-group">
         <label>Date Created:</label>
