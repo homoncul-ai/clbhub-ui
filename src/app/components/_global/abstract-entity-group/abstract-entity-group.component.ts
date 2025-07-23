@@ -97,26 +97,27 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
         () => {
           return this.entity !== null;
         }
-      ),
-      new SimpleTab('debug', 'Debug', '', 
-        () => {
-          this.currentTabId = 'debug';
-          this.router.navigate([baseRoute, this.id, 'debug']);
-        },
-        () => {
-          return true;
-        }
-      ),
-      new SimpleTab('fk_menu', 'FK_MENU', '', 
-        () => {
-          this.currentTabId = 'fk_menu';
-          this.router.navigate([baseRoute, this.id, 'fk_menu']);
-        },
-        () => {
-          return true;
-        }
-      )
-    ];
+      )];
+    //   ,
+    //   new SimpleTab('debug', 'Debug', '', 
+    //     () => {
+    //       this.currentTabId = 'debug';
+    //       this.router.navigate([baseRoute, this.id, 'debug']);
+    //     },
+    //     () => {
+    //       return true;
+    //     }
+    //   ),
+    //   new SimpleTab('fk_menu', 'FK_MENU', '', 
+    //     () => {
+    //       this.currentTabId = 'fk_menu';
+    //       this.router.navigate([baseRoute, this.id, 'fk_menu']);
+    //     },
+    //     () => {
+    //       return true;
+    //     }
+    //   )
+    // ];
   }
 /**
    * Calculate the base route for the current entity type
