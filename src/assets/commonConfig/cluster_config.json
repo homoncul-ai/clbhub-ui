@@ -1,8 +1,10 @@
 {
   "note": "Whatever is 'constants' gets used",
   "constants": {
-    "serviceUrlPrefixdd": "https://devops2.intigna.io",
-    "serviceUrlPrefix": "https://devops2.intigna.io",
+    "Note": "To change the backend - change serviceUrlPrefix value to the new backend url -it is injected from common secrets in the cloud",
+    "serviceUrlPrefixDEV": "https://devops2.intigna.io",
+    "serviceUrlPrefixLocalAAD": "http://localhost:8099",
+    "serviceUrlPrefix": "http://localhost:8099",
     "cdnUrlPrefix": "https://cdn-stage.trutesta.io",
     "keycloakUrlPrefix": "https://keycloak-gbs-dev.trutesta.io",
     "gbsUrlPrefix": "https://gbs-stage.intertek.com"
