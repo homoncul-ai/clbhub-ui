@@ -249,6 +249,14 @@ export class MenuService {
     const hcclTeamLogList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAMLOG_LIST);
     this.addMenuItem(menu, hcclTeamLogList);
 
+    // catalogsearchresult list
+    const catalogsearchresultList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGSEARCHRESULT_LIST);
+    this.addMenuItem(menu, catalogsearchresultList);
+
+    // catalogsearchresultentry list
+    const catalogsearchresultentryList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGSEARCHRESULTENTRY_LIST);
+    this.addMenuItem(menu, catalogsearchresultentryList);
+
     return menu;
   }
 
@@ -1198,11 +1206,11 @@ EA_CATALOGTAGREF_LIST: {
 
 EA_CATALOGSEARCHRESULT_LIST: {
   "level" : 2,
-  "label" : "Catalog Search Result",
-  "route" : "/ecoadmin-dashboard/catalog/catalogsearchresult-list",
-  "componentPath" : "/src/app/components/_crud/catalog/catalogsearchresult-list",
-  "componentName" : "catalogsearchresult-list",
-  "icon" : ""
+  "label" : "Catalog Search Results",
+  "route" : "/ecoadmin-dashboard/catalogsearchresults",
+  "componentPath" : "src/app/components/_crud/catalogsearchresult/catalogsearchresult-list.component",
+  "componentName" : "CatalogSearchResultListComponent",
+  "icon" : "fas fa-list"
 },
 
 EA_CATALOGSEARCH_LIST: {
@@ -1225,11 +1233,11 @@ EA_CATALOGENTRY_LIST: {
 
 EA_CATALOGSEARCHRESULTENTRY_LIST: {
   "level" : 2,
-  "label" : "Catalog Search Result Entry",
-  "route" : "/ecoadmin-dashboard/catalog/catalogsearchresultentry-list",
-  "componentPath" : "/src/app/components/_crud/catalog/catalogsearchresultentry-list",
-  "componentName" : "catalogsearchresultentry-list",
-  "icon" : ""
+  "label" : "Catalog Search Result Entries",
+  "route" : "/ecoadmin-dashboard/catalogsearchresultentries",
+  "componentPath" : "src/app/components/_crud/catalogsearchresultentry/catalogsearchresultentry-list.component",
+  "componentName" : "CatalogSearchResultEntryListComponent",
+  "icon" : "fas fa-list"
 },
 
 //  /ecoadmin-dashboard/vocode menu items 

@@ -44,6 +44,10 @@ import { TeamMemberListComponent } from '../../components/_crud/teammember/teamm
 import { TeamMemberGroupComponent } from '../../components/_crud/teammember/teammember-group.component';
 import { HcclTeamLogListComponent } from '../../components/_crud/hcclteamlog/hcclteamlog-list.component';
 import { HcclTeamLogGroupComponent } from '../../components/_crud/hcclteamlog/hcclteamlog-group.component';
+import { CatalogSearchResultListComponent } from '../../components/_crud/catalogsearchresult/catalogsearchresult-list.component';
+import { CatalogSearchResultGroupComponent } from '../../components/_crud/catalogsearchresult/catalogsearchresult-group.component';
+import { CatalogSearchResultEntryListComponent } from '../../components/_crud/catalogsearchresultentry/catalogsearchresultentry-list.component';
+import { CatalogSearchResultEntryGroupComponent } from '../../components/_crud/catalogsearchresultentry/catalogsearchresultentry-group.component';
 
 const routes: Routes = [
   {
@@ -135,6 +139,14 @@ const routes: Routes = [
       { path: 'hcclteamlogs/:id/:tabId', component: HcclTeamLogGroupComponent },
       { path: 'hcclteamlogs/:id', redirectTo: 'hcclteamlogs/:id/details', pathMatch: 'full' },
       { path: 'hcclteamlogs', component: HcclTeamLogListComponent },
+      { path: 'catalogsearchresults/create', component: CatalogSearchResultGroupComponent },
+      { path: 'catalogsearchresults/:id/:tabId', component: CatalogSearchResultGroupComponent },
+      { path: 'catalogsearchresults/:id', redirectTo: 'catalogsearchresults/:id/details', pathMatch: 'full' },
+      { path: 'catalogsearchresults', component: CatalogSearchResultListComponent },
+      { path: 'catalogsearchresultentries/create', component: CatalogSearchResultEntryGroupComponent },
+      { path: 'catalogsearchresultentries/:id/:tabId', component: CatalogSearchResultEntryGroupComponent },
+      { path: 'catalogsearchresultentries/:id', redirectTo: 'catalogsearchresultentries/:id/details', pathMatch: 'full' },
+      { path: 'catalogsearchresultentries', component: CatalogSearchResultEntryListComponent },
     ]
   }
 ];
@@ -182,7 +194,11 @@ const routes: Routes = [
     TeamMemberListComponent,
     TeamMemberGroupComponent,
     HcclTeamLogListComponent,
-    HcclTeamLogGroupComponent
+    HcclTeamLogGroupComponent,
+    CatalogSearchResultListComponent,
+    CatalogSearchResultGroupComponent,
+    CatalogSearchResultEntryListComponent,
+    CatalogSearchResultEntryGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 

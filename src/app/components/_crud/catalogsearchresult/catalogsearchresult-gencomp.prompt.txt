@@ -1,0 +1,235 @@
+# AI Component Generation Spec for CatalogSearchResult
+
+## Overview
+
+Generate Angular components for `CatalogSearchResult` entity following the established patterns and templates.
+
+**Reference Example:** `copyFromEntity="providertyperef"`
+
+## Entity Information
+
+- **entityName:** `CatalogSearchResult`
+- **pluralEntityName:** `catalogsearchresults`
+- **routePath:** `catalogsearchresults`
+
+## Data Interfaces & Service Methods
+
+### Interfaces by Mode:
+- **Details:** `CatalogSearchResultGETData` (getMode() === CRUD_MODES.DETAIL)
+- **Edit:** `CatalogSearchResultPUTData` (getMode() === CRUD_MODES.EDIT)
+- **Create:** `CatalogSearchResultPOSTData` (getMode() === CRUD_MODES.CREATE)
+
+### Service Methods:
+- **Get:** `HcclService.getCatalogSearchResultById(id)`
+- **Create:** `HcclService.createCatalogSearchResult(body)`
+- **Update:** `HcclService.updateCatalogSearchResultById(id, body)`
+- **Search:** `HcclService.findCatalogSearchResults(criteria)`
+
+## Field Analysis
+
+### CatalogSearchResultGETData Fields:
+- `id?: string` - Hidden in create/edit, shown in details
+- `catalogId?: string` - Required FK to Catalog
+- `comments?: string` - Textarea (description-like field)
+- `subjectEntityId?: string` - Optional string
+- `subjectEntityType?: string` - Optional string  
+- `subjectEntityName?: string` - Optional string
+- `parentWorkRequestItemId?: string` - Optional string
+- Audit fields: `createdByInfo`, `dateCreated`, `lastUpdatedByInfo`, `dateLastUpdated`
+
+### Foreign Keys:
+- `catalogId` → Catalog entity (FK relationship)
+
+## Component Specifications
+
+## 1. CRUD Component
+
+### Files to Generate:
+- `catalogsearchresult-crud.component.html` (use `./templates/template-crud.component.html`)
+- `catalogsearchresult-crud.component.ts` (use `./templates/template-crud.component.ts`)
+
+### Required Imports:
+```typescript
+import { CommonModule, FormsModule } from '@angular/forms';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud.component';
+```
+
+### Component Structure:
+- **Extend:** `AbstractCrudComponent<CatalogSearchResultCrudWrapper>`
+- **Implement:** `OnInit, OnChanges`
+- **Wrapper Class:** Extends `EntityWrapper<CatalogSearchResultGETData>`
+- **Constructor:** Only call `super()` - no additional services needed
+
+### Template Sections:
+
+#### Details Section
+- Display all fields from `CatalogSearchResultGETData`
+- Show `id` first, audit fields last
+- Use `<app-catalog-crud>` for `catalogId` FK display
+
+#### Section Mode  
+- Display all fields except hidden fields (id, audit fields)
+- Use `<app-catalog-crud>` for `catalogId` FK display
+
+#### Edit Section
+- Form fields for all editable attributes
+- Use `<app-catalog-crud>` for `catalogId` FK menu selection
+- Use `<app-std-mdb-form-textarea>` for `comments`
+
+#### Create Section
+- Form fields for all addable attributes
+- Use `<app-catalog-crud>` for `catalogId` FK menu selection
+- Use `<app-std-mdb-form-textarea>` for `comments`
+
+### Validation Methods:
+```typescript
+private validateCatalogId(catalogId: string): string | null {
+  if (!catalogId || catalogId.trim() === '') {
+    return 'Catalog is required';
+  }
+  return null;
+}
+
+private validateComments(comments: string): string | null {
+  if (comments && comments.length > 1024) {
+    return 'Comments must be less than 1024 characters';
+  }
+  return null;
+}
+```
+
+## 2. Group Component
+
+### Files to Generate:
+- `catalogsearchresult-group.component.html` (use `./templates/template-group.component.html`)
+- `catalogsearchresult-group.component.ts` (use `./templates/template-group.component.ts`)
+
+### Required Imports:
+```typescript
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
+import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { CatalogSearchResultCrudWrapper, CatalogSearchResultCrudComponent } from '@app/components/_crud/catalogsearchresult/catalogsearchresult-crud.component';
+```
+
+### Component Structure:
+- **Extend:** `AbstractEntityGroupComponent<CatalogSearchResultCrudWrapper>`
+- **Implement:** `OnInit`
+- **Constructor:** Only inject `ActivatedRoute`
+
+## 3. List Component
+
+### Files to Generate:
+- `catalogsearchresult-list.component.ts` ONLY (NO template or stylesheet files)
+
+### Required Imports:
+```typescript
+import { CommonModule } from '@angular/common';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Observable } from 'rxjs';
+import { CatalogCrudWrapper } from '@app/components/_crud/catalog/catalog-crud.component';
+```
+
+### Component Structure:
+- **Extend:** `AbstractListComponent<CatalogSearchResultGETData, CatalogSearchResultCriteria, CatalogSearchResultGETDataSearchResults>`
+- **Constructor:** Only call `super()` - no additional services needed
+
+### Grid Configuration:
+```typescript
+protected getGridColumns(): any[] {
+  return [
+    { id: 'catalogId', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+    { id: 'comments', header: [{ text: 'Comments', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+    { id: 'subjectEntityName', header: [{ text: 'Subject Entity Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+    { id: 'subjectEntityType', header: [{ text: 'Subject Entity Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+    { id: 'parentWorkRequestItemId', header: [{ text: 'Parent Work Request Item ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+    { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+  ];
+}
+```
+
+### FK Display in Grid:
+```typescript
+protected override async formatEntityDataAsync(entity: CatalogSearchResultGETData): Promise<any> {
+  const catalogStr: string = entity.catalogId == null ? 'unknown' : 
+    (await CatalogCrudWrapper.newInstance(entity.catalogId, this.hcclService)).getDisplayText();
+
+  return {
+    createdByInfo: entity.createdByInfo?.name || '',
+    lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
+    dateCreated: entity.dateCreated?.formattedDate || '',
+    dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+    catalogStr: catalogStr
+  };
+}
+```
+
+## Module Integration
+
+### Routing Configuration
+Add to `dash-ecoadmin.module.ts`:
+```typescript
+{ path: 'catalogsearchresults/create', component: CatalogSearchResultGroupComponent },
+{ path: 'catalogsearchresults/:id/:tabId', component: CatalogSearchResultGroupComponent },
+{ path: 'catalogsearchresults/:id', redirectTo: 'catalogsearchresults/:id/details', pathMatch: 'full' },
+{ path: 'catalogsearchresults', component: CatalogSearchResultListComponent },
+```
+
+### Module Imports
+```typescript
+imports: [
+  // ... existing imports
+  CatalogSearchResultListComponent,
+  CatalogSearchResultGroupComponent
+]
+```
+
+## Menu Integration
+
+### Menu Constants
+Update `src/app/shell/services/menu.service.ts`:
+```typescript
+EA_CATALOGSEARCHRESULT_LIST: {
+  level: 2,
+  label: 'Catalog Search Results',
+  route: '/ecoadmin-dashboard/catalogsearchresults',
+  componentPath: 'src/app/components/_crud/catalogsearchresult/catalogsearchresult-list.component',
+  componentName: 'CatalogSearchResultListComponent',
+  icon: 'fas fa-list'
+}
+```
+
+### Menu Builder
+Update `buildEcoAdminMenu()` method:
+```typescript
+// Add catalogsearchresult
+const catalogsearchresultList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGSEARCHRESULT_LIST);
+this.addMenuItem(menu, catalogsearchresultList);
+```
+
+## Final Checklist
+
+- [ ] All required imports are specified
+- [ ] Constructor dependencies are correctly defined
+- [ ] Routing paths are consistent between module and menu
+- [ ] Template copying guidelines are followed
+- [ ] Component structure matches reference components
+- [ ] All abstract methods are implemented
+- [ ] Error handling is included
+- [ ] FK relationships are properly handled
+- [ ] Menu integration uses correct route paths
+- [ ] Templates from `/tooling/prompt/templates/` are used as starting points 
