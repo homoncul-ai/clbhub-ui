@@ -79,10 +79,11 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
     return t;
   }
   protected setupListDetailsTabs(): SimpleTab[] {
+    const baseRoute = this.getBaseRoute();
     return [
       new SimpleTab('list', 'List', '', 
         () => {
-          this.router.navigate(['/ecoadmin-dashboard/providertyperefs']);
+          this.router.navigate([baseRoute]);
         },
         () => {
           return true;
@@ -91,7 +92,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       new SimpleTab('details', 'Details', '', 
         () => {
           this.currentTabId = 'details';
-          this.router.navigate(['/ecoadmin-dashboard/providertyperefs', this.id, 'details']);
+          this.router.navigate([baseRoute, this.id, 'details']);
         },
         () => {
           return this.entity !== null;
@@ -100,7 +101,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       new SimpleTab('debug', 'Debug', '', 
         () => {
           this.currentTabId = 'debug';
-          this.router.navigate(['/ecoadmin-dashboard/providertyperefs', this.id, 'debug']);
+          this.router.navigate([baseRoute, this.id, 'debug']);
         },
         () => {
           return true;
@@ -109,7 +110,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       new SimpleTab('fk_menu', 'FK_MENU', '', 
         () => {
           this.currentTabId = 'fk_menu';
-          this.router.navigate(['/ecoadmin-dashboard/providertyperefs', this.id, 'fk_menu']);
+          this.router.navigate([baseRoute, this.id, 'fk_menu']);
         },
         () => {
           return true;
@@ -117,7 +118,39 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       )
     ];
   }
-
+/**
+   * Calculate the base route for the current entity type
+   * @returns The base route path for navigation
+   */
+protected getBaseRoute(): string {
+  // Get the current URL segments
+  const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+  
+  // Find the dashboard type (advocate-dashboard, broker-dashboard, etc.)
+  const dashboardIndex = urlSegments.findIndex(segment => segment.includes('-dashboard'));
+  if (dashboardIndex === -1) {
+    // Fallback to ecoadmin-dashboard if no dashboard found
+    return '/ecoadmin-dashboard';
+  }
+  
+  const dashboardType = urlSegments[dashboardIndex];
+  
+  // Find the entity route (the segment after the dashboard)
+  const entityRouteIndex = dashboardIndex + 1;
+  if (entityRouteIndex >= urlSegments.length) {
+    // If no entity route found, return dashboard
+    return `/${dashboardType}`;
+  }
+  
+  // Get the entity route (e.g., 'providertyperefs', 'clstudents', etc.)
+  const entityRoute = urlSegments[entityRouteIndex];
+  
+  // Remove any trailing segments like 'create', 'details', etc. to get the base route
+  // This handles cases where we're on a route like /dashboard/entity/create
+  const baseRoute = `/${dashboardType}/${entityRoute}`;
+  
+  return baseRoute;
+}
 
 
   activateTab(tabId: string) {
