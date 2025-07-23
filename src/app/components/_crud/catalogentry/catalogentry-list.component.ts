@@ -62,6 +62,7 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
   }
 
   protected findEntities(criteria: CatalogEntryCriteria): Observable<CatalogEntryGETDataSearchResults> {
+    alert('findEntities' + JSON.stringify(criteria));
     return this.hcclService.findCatalogEntrys(criteria);
   }
 

@@ -187,13 +187,13 @@ implements OnInit, AfterViewInit {
   }
 
   private loadGridData(searchByText?: string) {
-    const criteria = this.createCriteria();
+    const criteria = this.criteria || this.createCriteria();
 
     // Add search criteria if provided
     if (searchByText && searchByText.trim() !== '') {
       (criteria as any).searchByText = searchByText;
     }
-    if (this.selectedId) {
+    if (this.criteria == null && this.selectedId) {
       (criteria as any).ids = [this.selectedId];
     }
     this.loadGridDataCall(criteria);
