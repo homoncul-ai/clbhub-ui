@@ -39,7 +39,7 @@ All component files will be contained in: `src/app/components/_crud/[entityName]
 - Do not generate a file called :  `[entityName]-group.component.scss`
 
 
-##s Files to update
+## Files to update
  - menu.service.ts - 
  - dash-ecoadmin.module.ts
 

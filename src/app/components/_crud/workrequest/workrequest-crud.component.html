@@ -1,3 +1,4 @@
+<!-- Generate the HTML for the crud component workrequest-crud.component.html  using this template and folllowing the instructions below -->
 <span *ngIf="getMode() === CRUD_MODES.FK  && !isLoading" >{{ getCurrentEntity().getDisplayText() }}</span>
 
 <div *ngIf="getMode() === CRUD_MODES.FK_MENU  && !isLoading" class="fk_menu-mode">
@@ -7,9 +8,16 @@
 
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
     <div class="details-section">
-      <div class="detail-group">
-        <label>Name:</label>
-        <span>{{ name }}</span>
+      <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->
+      <!-- If no section attributes, use the read-only values for 'edit' mode.  -->
+
+      <!-- In general, if not special use the form {{ attributeName }} to display the attribute value -->
+      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
+       <!-- Note all these attributes are only shown here as examples - only show the attributes that are relevant to this entity -->
+        <div class="detail-group">
+        <label>Name :</label>
+        <span>{{ name }}</span>  
       </div>
       <div class="detail-group">
         <label>Business Code:</label>
@@ -19,50 +27,33 @@
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
-      <div class="detail-group">
-        <label>Work Request Type ID:</label>
-        <span>{{ workRequestTypeId }}</span>
+
+        <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+        <div class="detail-group">
+            <label>Date Created:</label>
+            <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+        </div>
+        
+
+        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
+        <div class="detail-group">
+          <label>Work Request Type:</label>
+          <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
       </div>
+
+      <div class="detail-group">
+        <label>Work Queue:</label>
+        <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK"></app-workqueue-crud>
+      </div>
+
       <div class="detail-group">
         <label>Current State Code:</label>
         <span>{{ currentStateCode }}</span>
       </div>
-      <div class="detail-group">
-        <label>Work Queue ID:</label>
-        <span>{{ workQueueId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Created By Team ID:</label>
-        <span>{{ createdByTeamId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Created By User ID:</label>
-        <span>{{ createdByUserId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Accepted By Team ID:</label>
-        <span>{{ acceptedByTeamId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Accepted By User ID:</label>
-        <span>{{ acceptedByUserId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity ID:</label>
-        <span>{{ subjectEntityId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Type:</label>
-        <span>{{ subjectEntityType }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Name:</label>
-        <span>{{ subjectEntityName }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Parent Work Request Item ID:</label>
-        <span>{{ parentWorkRequestItemId }}</span>
-      </div>
+
+      <!-- End example Attributes -->
+      
+
     </div>
 </div>
 
@@ -85,13 +76,14 @@
       <h3 style="margin: 0; color: #333; font-size: 24px;">Create New Work Request</h3>
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
-      <form
-        (ngSubmit)="this.createEntity()"
-      >
+      <!-- Create Mode Form : Make sure to use this control logic for submit and cancel buttons -->
+      <form (ngSubmit)="this.createEntity()">
       <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
         <button type="submit" class="btn btn-success">Save</button>
         <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
+
+      <!-- Replace these with the attributes for creating according to the rules in the prompt-->
       <app-std-mdb-form-text 
         prefix="workRequest" 
         name="name"
@@ -116,14 +108,12 @@
         [error]="error"
         [(ngModel)]="description">
       </app-std-mdb-form-textarea>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="workRequestTypeId"
-        label="Work Request Type ID"
-        [required]="true"
-        [error]="error"
-        [(ngModel)]="workRequestTypeId">
-      </app-std-mdb-form-text>
+
+      <div class="form-group">
+        <label>Work Request Type:</label>
+        <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK_MENU"></app-workrequesttyperef-crud>
+      </div>
+
       <app-std-mdb-form-text 
         prefix="workRequest" 
         name="currentStateCode"
@@ -132,85 +122,54 @@
         [error]="error"
         [(ngModel)]="currentStateCode">
       </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="currentStateTransitionId"
-        label="Current State Transition ID"
-        [required]="false"
-        [error]="error"
-        [(ngModel)]="currentStateTransitionId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="workQueueId"
-        label="Work Queue ID"
-        [required]="true"
-        [error]="error"
-        [(ngModel)]="workQueueId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="createdByTeamId"
-        label="Created By Team ID"
-        [required]="false"
-        [error]="error"
-        [(ngModel)]="createdByTeamId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="createdByUserId"
-        label="Created By User ID"
-        [required]="false"
-        [error]="error"
-        [(ngModel)]="createdByUserId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="acceptedByTeamId"
-        label="Accepted By Team ID"
-        [required]="false"
-        [error]="error"
-        [(ngModel)]="acceptedByTeamId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="acceptedByUserId"
-        label="Accepted By User ID"
-        [required]="false"
-        [error]="error"
-        [(ngModel)]="acceptedByUserId">
-      </app-std-mdb-form-text>
+
+      <div class="form-group">
+        <label>Work Queue:</label>
+        <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK_MENU"></app-workqueue-crud>
+      </div>
+
+      <div class="form-group">
+        <label>Created By Team:</label>
+        <app-hcclteam-crud [id]="createdByTeamId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclteam-crud>
+      </div>
+
+      <div class="form-group">
+        <label>Created By User:</label>
+        <app-hccluser-crud [id]="createdByUserId" [modeName]="CRUD_MODES.FK_MENU"></app-hccluser-crud>
+      </div>
+
+      <div class="form-group">
+        <label>Accepted By Team:</label>
+        <app-hcclteam-crud [id]="acceptedByTeamId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclteam-crud>
+      </div>
+
+      <div class="form-group">
+        <label>Accepted By User:</label>
+        <app-hccluser-crud [id]="acceptedByUserId" [modeName]="CRUD_MODES.FK_MENU"></app-hccluser-crud>
+      </div>
+
       <app-std-mdb-form-text 
         prefix="workRequest" 
         name="subjectEntityId"
         label="Subject Entity ID"
-        [required]="false"
         [error]="error"
         [(ngModel)]="subjectEntityId">
       </app-std-mdb-form-text>
+
       <app-std-mdb-form-text 
         prefix="workRequest" 
         name="subjectEntityType"
         label="Subject Entity Type"
-        [required]="false"
         [error]="error"
         [(ngModel)]="subjectEntityType">
       </app-std-mdb-form-text>
+
       <app-std-mdb-form-text 
         prefix="workRequest" 
         name="subjectEntityName"
         label="Subject Entity Name"
-        [required]="false"
         [error]="error"
         [(ngModel)]="subjectEntityName">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="parentWorkRequestItemId"
-        label="Parent Work Request Item ID"
-        [required]="false"
-        [error]="error"
-        [(ngModel)]="parentWorkRequestItemId">
       </app-std-mdb-form-text>
      
       </form>
@@ -223,6 +182,7 @@
       <h3 style="margin: 0; color: #333; font-size: 24px;">Edit Work Request</h3>
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <!-- Edit Mode Form : Make sure to use this control logic for submit and cancel buttons -->
       <form (ngSubmit)="updateEntity(getCurrentEntity())">
         <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
           <button type="submit" class="btn btn-success">Save</button>
@@ -264,14 +224,8 @@
         </app-std-mdb-form-textarea>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="workRequestTypeId"
-          label="Work Request Type ID"
-          [required]="true"
-          [error]="error"
-          [(ngModel)]="workRequestTypeId">
-        </app-std-mdb-form-text>
+          <label>Work Request Type:</label>
+          <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK_MENU"></app-workrequesttyperef-crud>
         </div>
         <div class="mb-4">
         <app-std-mdb-form-text 
@@ -284,71 +238,30 @@
         </app-std-mdb-form-text>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="currentStateTransitionId"
-          label="Current State Transition ID"
-          [required]="false"
-          [error]="error"
-          [(ngModel)]="currentStateTransitionId">
-        </app-std-mdb-form-text>
+          <label>Work Queue:</label>
+          <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK_MENU"></app-workqueue-crud>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="workQueueId"
-          label="Work Queue ID"
-          [required]="true"
-          [error]="error"
-          [(ngModel)]="workQueueId">
-        </app-std-mdb-form-text>
+          <label>Created By Team:</label>
+          <app-hcclteam-crud [id]="createdByTeamId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclteam-crud>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="createdByTeamId"
-          label="Created By Team ID"
-          [required]="false"
-          [error]="error"
-          [(ngModel)]="createdByTeamId">
-        </app-std-mdb-form-text>
+          <label>Created By User:</label>
+          <app-hccluser-crud [id]="createdByUserId" [modeName]="CRUD_MODES.FK_MENU"></app-hccluser-crud>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="createdByUserId"
-          label="Created By User ID"
-          [required]="false"
-          [error]="error"
-          [(ngModel)]="createdByUserId">
-        </app-std-mdb-form-text>
+          <label>Accepted By Team:</label>
+          <app-hcclteam-crud [id]="acceptedByTeamId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclteam-crud>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="acceptedByTeamId"
-          label="Accepted By Team ID"
-          [required]="false"
-          [error]="error"
-          [(ngModel)]="acceptedByTeamId">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="acceptedByUserId"
-          label="Accepted By User ID"
-          [required]="false"
-          [error]="error"
-          [(ngModel)]="acceptedByUserId">
-        </app-std-mdb-form-text>
+          <label>Accepted By User:</label>
+          <app-hccluser-crud [id]="acceptedByUserId" [modeName]="CRUD_MODES.FK_MENU"></app-hccluser-crud>
         </div>
         <div class="mb-4">
         <app-std-mdb-form-text 
           prefix="workRequest" 
           name="subjectEntityId"
           label="Subject Entity ID"
-          [required]="false"
           [error]="error"
           [(ngModel)]="subjectEntityId">
         </app-std-mdb-form-text>
@@ -358,7 +271,6 @@
           prefix="workRequest" 
           name="subjectEntityType"
           label="Subject Entity Type"
-          [required]="false"
           [error]="error"
           [(ngModel)]="subjectEntityType">
         </app-std-mdb-form-text>
@@ -368,19 +280,8 @@
           prefix="workRequest" 
           name="subjectEntityName"
           label="Subject Entity Name"
-          [required]="false"
           [error]="error"
           [(ngModel)]="subjectEntityName">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="workRequest" 
-          name="parentWorkRequestItemId"
-          label="Parent Work Request Item ID"
-          [required]="false"
-          [error]="error"
-          [(ngModel)]="parentWorkRequestItemId">
         </app-std-mdb-form-text>
         </div>
         </div>
@@ -399,85 +300,109 @@
       </div>
     </div>
     <div class="details-section">
+      <!-- Only show "id:" in "details" mode -->
       <div class="detail-group">
         <label>ID:</label>
-        <span>{{ getCurrentEntity().getData().id }}</span>
+        <span>{{ id }}</span>
       </div>
-      <div class="detail-group">
-        <label>Name:</label>
-        <span>{{ name }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Business Code:</label>
-        <span>{{ businessCode }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Description:</label>
-        <span>{{ description }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Work Request Type ID:</label>
-        <span>{{ workRequestTypeId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Current State Code:</label>
-        <span>{{ currentStateCode }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Current State Transition ID:</label>
-        <span>{{ currentStateTransitionId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Work Queue ID:</label>
-        <span>{{ workQueueId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Created By Team ID:</label>
-        <span>{{ createdByTeamId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Created By User ID:</label>
-        <span>{{ createdByUserId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Accepted By Team ID:</label>
-        <span>{{ acceptedByTeamId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Accepted By User ID:</label>
-        <span>{{ acceptedByUserId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity ID:</label>
-        <span>{{ subjectEntityId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Type:</label>
-        <span>{{ subjectEntityType }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Name:</label>
-        <span>{{ subjectEntityName }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Parent Work Request Item ID:</label>
-        <span>{{ parentWorkRequestItemId }}</span>
-      </div>
+      
+      <!-- Display all the details attributes FOR THIS Entity in this section, replacing the ones below. -->
+      <!-- Always use the form {{ attributeName }} to display the attribute value -->
+      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
+        <div class="detail-group">
+          <label>Name :</label>
+          <span>{{ name }}</span>  
+        </div>
+        <div class="detail-group">
+          <label>Business Code:</label>
+          <span>{{ businessCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Description:</label>
+          <span>{{ description }}</span>
+        </div>
+  
+          <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+          <div class="detail-group">
+              <label>Date Created:</label>
+              <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+          </div>
+          
+  
+          <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
+          <div class="detail-group">
+            <label>Work Request Type:</label>
+            <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
+        </div>
+
+        <div class="detail-group">
+          <label>Current State Code:</label>
+          <span>{{ currentStateCode }}</span>
+        </div>
+
+        <div class="detail-group">
+          <label>Work Queue:</label>
+          <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK"></app-workqueue-crud>
+        </div>
+
+        <div class="detail-group">
+          <label>Created By Team:</label>
+          <app-hcclteam-crud [id]="createdByTeamId" [modeName]="CRUD_MODES.FK"></app-hcclteam-crud>
+        </div>
+
+        <div class="detail-group">
+          <label>Created By User:</label>
+          <app-hccluser-crud [id]="createdByUserId" [modeName]="CRUD_MODES.FK"></app-hccluser-crud>
+        </div>
+
+        <div class="detail-group">
+          <label>Accepted By Team:</label>
+          <app-hcclteam-crud [id]="acceptedByTeamId" [modeName]="CRUD_MODES.FK"></app-hcclteam-crud>
+        </div>
+
+        <div class="detail-group">
+          <label>Accepted By User:</label>
+          <app-hccluser-crud [id]="acceptedByUserId" [modeName]="CRUD_MODES.FK"></app-hccluser-crud>
+        </div>
+
+        <div class="detail-group">
+          <label>Subject Entity ID:</label>
+          <span>{{ subjectEntityId }}</span>
+        </div>
+
+        <div class="detail-group">
+          <label>Subject Entity Type:</label>
+          <span>{{ subjectEntityType }}</span>
+        </div>
+
+        <div class="detail-group">
+          <label>Subject Entity Name:</label>
+          <span>{{ subjectEntityName }}</span>
+        </div>
+
+        <div class="detail-group">
+          <label>Parent Work Request Item ID:</label>
+          <span>{{ parentWorkRequestItemId }}</span>
+        </div>
+
+      <!-- Only show these in "details" mode -->
+      <!-- **Always** use this block for these 4 fields in details mode.-->
       <div class="detail-group">
         <label>Date Created:</label>
-        <app-dategetdata-display [data]="getCurrentEntity().getData().dateCreated"></app-dategetdata-display>
+        <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
       </div>
       <div class="detail-group">
         <label>Created By:</label>
-        <span>{{ getCurrentEntity().getData().createdByInfo?.name }}</span>
+        <span><app-reference-data [data]="createdByInfo"></app-reference-data></span>
       </div>
       <div class="detail-group">
         <label>Date Last Updated:</label>
-        <app-dategetdata-display [data]="getCurrentEntity().getData().dateLastUpdated"></app-dategetdata-display>
+        <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
       </div>
       <div class="detail-group">
         <label>Last Updated By:</label>
-        <span>{{ getCurrentEntity().getData().lastUpdatedByInfo?.name }}</span>
+        <span><app-reference-data [data]="lastUpdatedByInfo"> </app-reference-data></span>
       </div>
     </div>
   </div>

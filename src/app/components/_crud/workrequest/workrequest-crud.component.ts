@@ -12,39 +12,29 @@ import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-m
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
+// Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
+import { WorkrequesttyperefCrudComponent } from '@app/components/_crud/workrequesttyperef/workrequesttyperef-crud.component';
+import { WorkqueueCrudComponent } from '@app/components/_crud/workqueue/workqueue-crud.component';
+import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
+import { HccluserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
+
 @Component({
   selector: 'app-workrequest-crud',
-  standalone: true,
-  //imports: [CommonModule, FormsModule, SimpleMessagesSectionComponent, MenuControlDataListComponent, WorkrequesttypeCrudComponent],
   templateUrl: './workrequest-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
-  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
+      imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent],
-  //standalone: true
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, 
+    WorkrequesttyperefCrudComponent, WorkqueueCrudComponent, HcclTeamCrudComponent, HccluserCrudComponent],
+  standalone: true
 })
-export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestCrudWrapper> implements OnInit, OnChanges {
-/**
- * This is a component that will be used to create, read, update and delete Work Requests
- * It will use the AbstractCrudComponent to handle the CRUD operations
- * It will use the WorkRequestGETData and WorkRequestPOSTData interfaces to handle the data
- * It will use the HcclService to handle the data
- * 
- * Input parameter:
- * - id?: string - Optional work request ID to load a specific work request for viewing/editing
- * 
- * If no ID is provided, the component will load the full list of work requests.
- * If an ID is provided, the component will load that specific work request and show it in detail mode.
- * 
- * Create a wrapper class that extends EntityWrapper<WorkRequestGETData>
- * and implement the abstract methods of the AbstractCrudComponent
- */
+export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestCrudWrapper> implements OnInit, OnChanges {
 
-  
   constructor() {
     super();
   }
@@ -85,7 +75,7 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
 
   private validateWorkRequestTypeId(workRequestTypeId: string): string | null {
     if (!workRequestTypeId || workRequestTypeId.trim() === '') {
-      return 'Work Request Type ID is required';
+      return 'Work Request Type is required';
     }
     return null;
   }
@@ -99,7 +89,7 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
 
   private validateWorkQueueId(workQueueId: string): string | null {
     if (!workQueueId || workQueueId.trim() === '') {
-      return 'Work Queue ID is required';
+      return 'Work Queue is required';
     }
     return null;
   }
@@ -138,109 +128,87 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
       errors.workQueueId = { errorMessage: workQueueIdError };
     }
     
-    return Object.keys(errors).length > 0 ? errors : null;
+    return errors;
   }
 
-  // Clear validation errors
   private clearValidationErrors(): void {
     this.error = null;
   }
 
-     /** Standard boiler plate for ngOnInit */
   override ngOnInit(): void {
     super.ngOnInit();
-    this.entityType = 'WorkRequest';
   }
-
-
 
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
-    const workRequest = await this.hcclService.getWorkRequestById(id).toPromise();
-      if (workRequest) {
-        return new WorkRequestCrudWrapper(workRequest, this.hcclService);
-      }
-      throw new Error('Work Request not found');
+    const workrequest = await this.hcclService.getWorkRequestById(id).toPromise();
+    if (!workrequest) {
+      throw new Error('WorkRequest not found');
+    }
+    return new WorkRequestCrudWrapper(workrequest, this.hcclService);
   }
-  
 
   protected override async createEntityDataCall(entity: WorkRequestCrudWrapper): Promise<any> {
-     // Validate form before creating
-     this.error = this.validateForm();
-     if (this.error) {
-       throw new Error('Validation failed');
-     }
+    const postData: WorkRequestPOSTData = {
+      name: entity.getData().name || '',
+      businessCode: entity.getData().businessCode || '',
+      description: entity.getData().description || '',
+      workRequestTypeId: entity.getData().workRequestTypeId || '',
+      currentStateCode: entity.getData().currentStateCode || '',
+      currentStateTransitionId: entity.getData().currentStateTransitionId,
+      workQueueId: entity.getData().workQueueId || '',
+      createdByTeamId: entity.getData().createdByTeamId,
+      createdByUserId: entity.getData().createdByUserId,
+      acceptedByTeamId: entity.getData().acceptedByTeamId,
+      acceptedByUserId: entity.getData().acceptedByUserId,
+      subjectEntityId: entity.getData().subjectEntityId,
+      subjectEntityType: entity.getData().subjectEntityType,
+      subjectEntityName: entity.getData().subjectEntityName,
+      parentWorkRequestItemId: entity.getData().parentWorkRequestItemId
+    };
 
-     // Use entityNew if in create mode, otherwise use the passed entity
-     const workRequestData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
-    
-     const postData: WorkRequestPOSTData = {
-       name: workRequestData.name || '',
-       businessCode: workRequestData.businessCode || '',
-       description: workRequestData.description || '',
-       workRequestTypeId: workRequestData.workRequestTypeId || '',
-       currentStateCode: workRequestData.currentStateCode || '',
-       currentStateTransitionId: workRequestData.currentStateTransitionId || '',
-       workQueueId: workRequestData.workQueueId || '',
-       createdByTeamId: workRequestData.createdByTeamId || '',
-       createdByUserId: workRequestData.createdByUserId || '',
-       acceptedByTeamId: workRequestData.acceptedByTeamId || '',
-       acceptedByUserId: workRequestData.acceptedByUserId || '',
-       subjectEntityId: workRequestData.subjectEntityId || '',
-       subjectEntityType: workRequestData.subjectEntityType || '',
-       subjectEntityName: workRequestData.subjectEntityName || '',
-       parentWorkRequestItemId: workRequestData.parentWorkRequestItemId || ''
-     };
+    const errors = this.validateForm();
+    if (Object.keys(errors).length > 0) {
+      this.error = errors;
+      throw new Error('Validation failed');
+    }
 
-     try {
-       // The requestCreate method now returns { id: string, status: 201 }
-       const response = await this.hcclService.createWorkRequest(postData).toPromise();
-       console.log('Create response:', response);
-       this.clearValidationErrors(); // Clear errors on success
-       return response;
-     } catch (error) {
-       console.error('Create error:', error);
-       throw error;
-     }
+    try {
+      const response = await this.hcclService.createWorkRequest(postData);
+      console.log('Create response:', response);
+      this.clearValidationErrors();
+      return response;
+    } catch (error) {
+      console.error('Create error:', error);
+      throw error;
+    }
   }
 
-
-
   protected override async updateEntityDataCall(entity: WorkRequestCrudWrapper): Promise<void> {
-      // Validate form before updating
-      this.error = this.validateForm();
-      if (this.error) {
-        throw new Error('Validation failed');
-      }
+    const putData: WorkRequestPUTData = {
+      name: entity.getData().name || '',
+      businessCode: entity.getData().businessCode || '',
+      description: entity.getData().description || '',
+      workRequestTypeId: entity.getData().workRequestTypeId || '',
+      currentStateCode: entity.getData().currentStateCode || '',
+      currentStateTransitionId: entity.getData().currentStateTransitionId,
+      workQueueId: entity.getData().workQueueId || '',
+      createdByTeamId: entity.getData().createdByTeamId,
+      createdByUserId: entity.getData().createdByUserId,
+      acceptedByTeamId: entity.getData().acceptedByTeamId,
+      acceptedByUserId: entity.getData().acceptedByUserId,
+      subjectEntityId: entity.getData().subjectEntityId,
+      subjectEntityType: entity.getData().subjectEntityType,
+      subjectEntityName: entity.getData().subjectEntityName,
+      parentWorkRequestItemId: entity.getData().parentWorkRequestItemId
+    };
 
-      const workRequestData = entity.getData();
-      if (!workRequestData.id) {
-        throw new Error('Work Request ID is required for update');    }
+    const errors = this.validateForm();
+    if (Object.keys(errors).length > 0) {
+      this.error = errors;
+      throw new Error('Validation failed');
+    }
 
-      const putData: WorkRequestPUTData = {
-        name: workRequestData.name || '',
-        businessCode: workRequestData.businessCode || '',
-        description: workRequestData.description || '',
-        workRequestTypeId: workRequestData.workRequestTypeId || '',
-        currentStateCode: workRequestData.currentStateCode || '',
-        currentStateTransitionId: workRequestData.currentStateTransitionId || '',
-        workQueueId: workRequestData.workQueueId || '',
-        createdByTeamId: workRequestData.createdByTeamId || '',
-        createdByUserId: workRequestData.createdByUserId || '',
-        acceptedByTeamId: workRequestData.acceptedByTeamId || '',
-        acceptedByUserId: workRequestData.acceptedByUserId || '',
-        subjectEntityId: workRequestData.subjectEntityId || '',
-        subjectEntityType: workRequestData.subjectEntityType || '',
-        subjectEntityName: workRequestData.subjectEntityName || '',
-        parentWorkRequestItemId: workRequestData.parentWorkRequestItemId || ''
-      };
-
-      try {
-        await this.hcclService.updateWorkRequestById(workRequestData.id, putData).toPromise();
-        this.clearValidationErrors(); // Clear errors on success
-      } catch (error) {
-        console.error('Update error:', error);
-        throw error;
-      }
+    await this.hcclService.updateWorkRequestById(entity.getData().id!, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
@@ -248,316 +216,256 @@ export class WorkrequestCrudComponent extends AbstractCrudComponent<WorkRequestC
       await this.hcclService.deleteWorkRequestById(id).toPromise();
       return true;
     } catch (error) {
-      console.error('Error deleting Work Request:', error);
-      throw error;
+      console.error('Error deleting WorkRequest:', error);
+      return false;
+    }
+  }
+
+  public override newEmptyWrapper(): WorkRequestCrudWrapper {
+    return WorkRequestCrudWrapper.newInstanceForCreate(this.hcclService);
+  }
+
+  // Getter and setter methods for form binding
+  public get name(): string {
+    return this.getCurrentEntity()?.getData()?.name || '';
+  }
+
+  public set name(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().name = value;
+    }
+  }
+
+  public get businessCode(): string {
+    return this.getCurrentEntity()?.getData()?.businessCode || '';
+  }
+
+  public set businessCode(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().businessCode = value;
+    }
+  }
+
+  public get description(): string {
+    return this.getCurrentEntity()?.getData()?.description || '';
+  }
+
+  public set description(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().description = value;
+    }
+  }
+
+  public get workRequestTypeId(): string {
+    return this.getCurrentEntity()?.getData()?.workRequestTypeId || '';
+  }
+
+  public set workRequestTypeId(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().workRequestTypeId = value;
+    }
+  }
+
+  public get currentStateCode(): string {
+    return this.getCurrentEntity()?.getData()?.currentStateCode || '';
+  }
+
+  public set currentStateCode(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().currentStateCode = value;
+    }
+  }
+
+  public get currentStateTransitionId(): string {
+    return this.getCurrentEntity()?.getData()?.currentStateTransitionId || '';
+  }
+
+  public set currentStateTransitionId(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().currentStateTransitionId = value;
     }
   }
 
 
-  
-  public override newEmptyWrapper(): WorkRequestCrudWrapper {
-    // Create an empty work request if no current entity exists
-    const emptyWorkRequest: WorkRequestGETData = {
-      name: '',
-      businessCode: '',
-      description: '',
-      workRequestTypeId: '',
-      currentStateCode: '',
-      currentStateTransitionId: '',
-      workQueueId: '',
-      createdByTeamId: '',
-      createdByUserId: '',
-      acceptedByTeamId: '',
-      acceptedByUserId: '',
-      subjectEntityId: '',
-      subjectEntityType: '',
-      subjectEntityName: '',
-      parentWorkRequestItemId: ''
-    };
-    
-    return new WorkRequestCrudWrapper(emptyWorkRequest, this.hcclService);
-  }
-
-  // Getter methods for form binding
-  public get name(): string {
-    const x = this.getCurrentEntity().getData().name || '';
-   
-    return x;
-  }
-
-  public set name(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().name = value;
-  }
-
-  public get businessCode(): string {
-    return this.getCurrentEntity().getData().businessCode || '';
-  }
-
-  public set businessCode(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().businessCode = value;
-  }
-
-  public get description(): string {
-    return this.getCurrentEntity().getData().description || '';
-  }
-
-  public set description(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().description = value;
-  }
-
-  public get workRequestTypeId(): string {
-    return this.getCurrentEntity().getData().workRequestTypeId || '';
-  }
-
-  public set workRequestTypeId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().workRequestTypeId = value;
-  }
-
-  public get currentStateCode(): string {
-    return this.getCurrentEntity().getData().currentStateCode || '';
-  }
-
-  public set currentStateCode(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().currentStateCode = value;
-  }
-
-  public get currentStateTransitionId(): string {
-    return this.getCurrentEntity().getData().currentStateTransitionId || '';
-  }
-
-  public set currentStateTransitionId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().currentStateTransitionId = value;
-  }
 
   public get workQueueId(): string {
-    return this.getCurrentEntity().getData().workQueueId || '';
+    return this.getCurrentEntity()?.getData()?.workQueueId || '';
   }
 
   public set workQueueId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().workQueueId = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().workQueueId = value;
+    }
   }
 
   public get createdByTeamId(): string {
-    return this.getCurrentEntity().getData().createdByTeamId || '';
+    return this.getCurrentEntity()?.getData()?.createdByTeamId || '';
   }
 
   public set createdByTeamId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().createdByTeamId = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().createdByTeamId = value;
+    }
   }
 
   public get createdByUserId(): string {
-    return this.getCurrentEntity().getData().createdByUserId || '';
+    return this.getCurrentEntity()?.getData()?.createdByUserId || '';
   }
 
   public set createdByUserId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().createdByUserId = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().createdByUserId = value;
+    }
   }
 
   public get acceptedByTeamId(): string {
-    return this.getCurrentEntity().getData().acceptedByTeamId || '';
+    return this.getCurrentEntity()?.getData()?.acceptedByTeamId || '';
   }
 
   public set acceptedByTeamId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().acceptedByTeamId = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().acceptedByTeamId = value;
+    }
   }
 
   public get acceptedByUserId(): string {
-    return this.getCurrentEntity().getData().acceptedByUserId || '';
+    return this.getCurrentEntity()?.getData()?.acceptedByUserId || '';
   }
 
   public set acceptedByUserId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().acceptedByUserId = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().acceptedByUserId = value;
+    }
   }
 
+
+
   public get subjectEntityId(): string {
-    return this.getCurrentEntity().getData().subjectEntityId || '';
+    return this.getCurrentEntity()?.getData()?.subjectEntityId || '';
   }
 
   public set subjectEntityId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().subjectEntityId = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().subjectEntityId = value;
+    }
   }
 
   public get subjectEntityType(): string {
-    return this.getCurrentEntity().getData().subjectEntityType || '';
+    return this.getCurrentEntity()?.getData()?.subjectEntityType || '';
   }
 
   public set subjectEntityType(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().subjectEntityType = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().subjectEntityType = value;
+    }
   }
 
   public get subjectEntityName(): string {
-    return this.getCurrentEntity().getData().subjectEntityName || '';
+    return this.getCurrentEntity()?.getData()?.subjectEntityName || '';
   }
 
   public set subjectEntityName(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().subjectEntityName = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().subjectEntityName = value;
+    }
   }
 
   public get parentWorkRequestItemId(): string {
-    return this.getCurrentEntity().getData().parentWorkRequestItemId || '';
+    return this.getCurrentEntity()?.getData()?.parentWorkRequestItemId || '';
   }
 
   public set parentWorkRequestItemId(value: string) {
-    var data = super.getEntityForSet();
-    data.getData().parentWorkRequestItemId = value;
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().parentWorkRequestItemId = value;
+    }
   }
 
- 
-  /**
-   * Create a wrapper from WorkRequestGETData
-   * @param workRequestData The WorkRequestGETData to wrap
-   * @returns WorkRequestCrudWrapper instance
-   */
-  public createWrapper(workRequestData: WorkRequestGETData): WorkRequestCrudWrapper {
-    return new WorkRequestCrudWrapper(workRequestData, this.hcclService);
+  public createWrapper(workrequestData: WorkRequestGETData): WorkRequestCrudWrapper {
+    return new WorkRequestCrudWrapper(workrequestData, this.hcclService);
   }
 
   getWorkRequestFkMenuCriteria(): WorkRequestCriteria {
-    // Work request organization.
     return {
-      // Add any specific criteria for work requests
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 
-   /** Define the menu objects for this crud component */
-   protected workRequestMenu: MenuControlDataList | null = null;
-   protected override async prepareMenus(entity: WorkRequestCrudWrapper): Promise<void> {
-    
-    // const fkMenu = await entity.getFkMenu();
-    // // Actually, we're going to load the work request wrapper, then call getWorkRequestMenu
-    // this.workRequestMenu = fkMenu || null;
-
-    return Promise.resolve();
+  protected workrequestMenu: MenuControlDataList | null = null;
+  protected override async prepareMenus(entity: WorkRequestCrudWrapper): Promise<void> {
+    const criteria = this.getWorkRequestFkMenuCriteria();
+    const results = await this.hcclService.findWorkRequests(criteria).toPromise();
+    this.workrequestMenu = await entity.getFkMenu("workrequests", this.id);
   }
-
 }
 
 export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
 
-  public static  newInstanceForCreate( hcclService: HcclService, entityIn?: WorkRequestGETData | null): WorkRequestCrudWrapper {
-    const entity = entityIn || {
-      id: '0',
+  public static newInstanceForCreate(hcclService: HcclService, entityIn?: WorkRequestGETData | null): WorkRequestCrudWrapper {
+    const emptyData: WorkRequestGETData = {
       name: '',
       businessCode: '',
       description: '',
       workRequestTypeId: '',
       currentStateCode: '',
-      currentStateTransitionId: '',
-      workQueueId: '',
-      createdByTeamId: '',
-      createdByUserId: '',
-      acceptedByTeamId: '',
-      acceptedByUserId: '',
-      subjectEntityId: '',
-      subjectEntityType: '',
-      subjectEntityName: '',
-      parentWorkRequestItemId: ''
-    } as WorkRequestGETData;
-    return new WorkRequestCrudWrapper(entity, hcclService);
+      workQueueId: ''
+    };
+    return new WorkRequestCrudWrapper(entityIn || emptyData, hcclService);
   }
+
   public static async newInstance(id: string, hcclService: HcclService): Promise<WorkRequestCrudWrapper> {
-    const workRequest = await hcclService.getWorkRequestById(id).toPromise();
-    if (workRequest) {
-      return new WorkRequestCrudWrapper(workRequest, hcclService);
+    const data = await hcclService.getWorkRequestById(id).toPromise();
+    if (!data) {
+      throw new Error('WorkRequest not found');
     }
-    throw new Error('Work Request not found');
+    return new WorkRequestCrudWrapper(data, hcclService);
   }
+
   constructor(data: WorkRequestGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }
-  
+
   getDisplayText(entity?: WorkRequestGETData): string {
-    const data = entity || this.data;
-    const name = data.name || '';
-    const businessCode = data.businessCode || '';
-    if (name && businessCode) {
-      return `${name} (${businessCode})`;
-    } else if (name) {
-      return name;
-    } else if (businessCode) {
-      return businessCode;
-    } else {
-      return 'Unnamed Work Request';
+    const data = entity || this.getData();
+    if (data.name) {
+      return data.name;
     }
+    if (data.businessCode) {
+      return data.businessCode;
+    }
+    return data.id || 'Unknown WorkRequest';
   }
 
   getFullName(): string {
-    return this.getDisplayText();
+    return this.getData().name || '';
   }
 
   getBusinessCode(): string {
-    return this.data.businessCode || '';
+    return this.getData().businessCode || '';
   }
 
   getDescription(): string {
-    return this.data.description || '';
+    return this.getData().description || '';
   }
 
   getWorkRequestTypeId(): string {
-    return this.data.workRequestTypeId || '';
+    return this.getData().workRequestTypeId || '';
   }
 
   getCurrentStateCode(): string {
-    return this.data.currentStateCode || '';
+    return this.getData().currentStateCode || '';
   }
 
   getWorkQueueId(): string {
-    return this.data.workQueueId || '';
-  }
-
-  getCreatedByTeamId(): string {
-    return this.data.createdByTeamId || '';
-  }
-
-  getCreatedByUserId(): string {
-    return this.data.createdByUserId || '';
-  }
-
-  getAcceptedByTeamId(): string {
-    return this.data.acceptedByTeamId || '';
-  }
-
-  getAcceptedByUserId(): string {
-    return this.data.acceptedByUserId || '';
-  }
-
-  getSubjectEntityId(): string {
-    return this.data.subjectEntityId || '';
-  }
-
-  getSubjectEntityType(): string {
-    return this.data.subjectEntityType || '';
-  }
-
-  getSubjectEntityName(): string {
-    return this.data.subjectEntityName || '';
-  }
-
-  getParentWorkRequestItemId(): string {
-    return this.data.parentWorkRequestItemId || '';
-  }
-
-  isActive(): boolean {
-    return true; // Work requests don't have an available field, so assume active
+    return this.getData().workQueueId || '';
   }
 
   getFkMenuCriteria(): WorkRequestCriteria {
     return {
-      // Add any specific criteria for work requests
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 
@@ -565,21 +473,12 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
     if (!this.hcclService) {
       throw new Error('HcclService not available');
     }
-    const searchCriteria = criteria || this.getFkMenuCriteria();
-    const response = await this.hcclService.findWorkRequests(searchCriteria).toPromise();
-    return response?.searchResults || [];
+    const results = await this.hcclService.findWorkRequests(criteria || this.getFkMenuCriteria()).toPromise();
+    return results?.searchResults || [];
   }
 
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
-    console.log('getFkMenu', menuHint, data);
-    var criteria = this.getFkMenuCriteria();
-    var workRequests = await this.getWorkRequests(criteria);
-    var menuItems = workRequests.map(workRequest => {
-      return {
-        id: workRequest.id,
-        name: workRequest.name
-      } as MenuControlData;
-    });
-    return { menuItems: menuItems } as MenuControlDataList;
+    const workrequests = await this.getWorkRequests();
+    return this.getMenuControlDataList("workrequests", this.getEntityType() + " Menu", workrequests, data);
   }
 } 
