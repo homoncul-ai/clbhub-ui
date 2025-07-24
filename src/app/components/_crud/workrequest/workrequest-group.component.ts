@@ -13,11 +13,12 @@ import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
 import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { WorkRequestItemCrudComponent } from '../workrequestitem/workrequestitem-crud.component';
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, WorkRequestListComponent, WorkRequestItemListComponent],
+  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -46,6 +47,16 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
         return this.entity !== null;
       }
     );
+    tabs.push(tab) 
+    tab =  new SimpleTab('workRequestItem', 'Work Request Item', '', 
+      () => {
+        this.currentTabId = 'workRequestItem';
+        
+      },
+      () => {
+        return this.childId !== null && this.childId !== undefined && this.childId !== '';
+      }
+    );
     tabs.push(tab)
     return tabs;
     return tabs;
@@ -59,9 +70,13 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
 
   myOnRowClickBehavior(): OnRowClickBehavior {
-    return new OnRowClickBehavior();
-    //return new MyOnRowClickBehavior();
+    var x: OnRowClickBehavior =  new OnRowClickBehavior();
+    x.parentId = this.id;
+    x.tabId = 'workRequestItem';
+    //x.alertMessage = 'Catalog Entry';
+    return x;
   }
+   
 } 
 
 // class MyOnRowClickBehavior extends OnRowClickBehavior {

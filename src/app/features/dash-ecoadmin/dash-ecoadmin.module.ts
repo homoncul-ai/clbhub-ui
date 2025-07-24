@@ -78,6 +78,7 @@ const routes: Routes = [
       { path: 'catalogentries/:id/:tabId', component: CatalogEntryGroupComponent },
       { path: 'catalogentries/:id', redirectTo: 'catalogentries/:id/details', pathMatch: 'full' },
       { path: 'catalogentries', component: CatalogEntryListComponent },
+
       { path: 'clschools/create', component: CLSchoolGroupComponent },
       { path: 'clschools/:id/:tabId', component: CLSchoolGroupComponent },
       { path: 'clschools/:id', redirectTo: 'clschools/:id/details', pathMatch: 'full' },
@@ -110,7 +111,9 @@ const routes: Routes = [
       { path: 'workqueues/:id/:tabId', component: WorkQueueGroupComponent },
       { path: 'workqueues/:id', redirectTo: 'workqueues/:id/details', pathMatch: 'full' },
       { path: 'workqueues', component: WorkQueueListComponent },
+      
       { path: 'workrequests/create', component: WorkRequestGroupComponent },
+      { path: 'workrequests/:id/:tabId/:childId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
       { path: 'workrequests', component: WorkRequestListComponent },
