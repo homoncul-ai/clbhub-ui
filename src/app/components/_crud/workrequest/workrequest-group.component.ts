@@ -36,7 +36,8 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
 
   protected setupTabs(): SimpleTab[] {
-    var tabs = this.setupListDetailsTabs();var baseRoute = this.getBaseRoute();
+    var tabs = this.setupListDetailsTabs();
+    var baseRoute = this.getBaseRoute();
     var tab =  new SimpleTab('items', 'Items', '', 
       () => {
         this.currentTabId = 'items';
@@ -58,10 +59,20 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
       }
     );
     tabs.push(tab)
+
+    // var tabD: SimpleTab | undefined = this.findTabById(tabs, 'details');
+    // if (tabD) {
+    //   //alert('found tabD');
+    //   tabD.label = this.entity?.getBusinessCode() || '';
+    // }
     return tabs;
     return tabs;
   }
 
+  override getDetailsTabLabel(): string {
+    return this.entity?.getBusinessCode() || '';
+  }
+ 
   get itemsCriteria(): WorkRequestItemCriteria {
     var criteria: WorkRequestItemCriteria = {  
       workRequestId: this.id
@@ -78,14 +89,3 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
    
 } 
-
-// class MyOnRowClickBehavior extends OnRowClickBehavior {
-//   protected workRequest: WorkRequestCrudWrapper | null = null;
-//   protected parentEntity: AbstactCru | null = null;
-//   override onRowClick(entityId: string, baseRoute: string, router?: any): void {
-//     alert('MyOnRowClickBehavior.onRowClick called with entityId:' + entityId + 'baseRoute:' + baseRoute);
-//     super.onRowClick(entityId, baseRoute, router);
-
-//     this.router.navigate([baseRoute, this.id, 'items']);
-//   }
-// }

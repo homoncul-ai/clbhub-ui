@@ -76,10 +76,11 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
         this.entity = this.newCrudWrapperForCreate();
       } else {
       if (id) {
-        this.tabs = this.setupTabs();
-        this.currentTabId = finalTabId;
         this.loadEntityById(id).then(entity => {
           this.entity = entity;
+          this.tabs = this.setupTabs();
+          this.currentTabId = finalTabId;
+  
         }).catch(error => {
           console.error('Error loading :', error);
         });
@@ -118,7 +119,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
           return true;
         }
       ),
-      new SimpleTab('details', 'Details', '', 
+      new SimpleTab('details', this.getDetailsTabLabel(), '', 
         () => {
           this.currentTabId = 'details';
           this.router.navigate([baseRoute, this.id, 'details']);
@@ -155,4 +156,13 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 protected getBaseRoute(): string {
   return AbstractListComponent.extractBaseRoute(this.router.url);
 }
+
+protected findTabById(tabs: SimpleTab[], tabId: string): SimpleTab | undefined {
+  return tabs.find(tab => tab.id === tabId);
+}
+
+public getDetailsTabLabel(): string {
+  return "Details";
+}
+
 }
