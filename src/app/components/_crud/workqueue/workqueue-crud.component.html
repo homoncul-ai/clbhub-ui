@@ -25,7 +25,7 @@
       </div>
       <div class="detail-group">
         <label>Work Queue Type ID:</label>
-        <span>{{ workQueueTypeId }}</span>
+        <span>xxx<app-workqueuetyperef-crud [id]="workQueueTypeId" [modeName]="CRUD_MODES.FK"></app-workqueuetyperef-crud></span>
       </div>
       <div class="detail-group">
         <label>Work Queue Team ID:</label>
@@ -272,8 +272,9 @@
         <span>{{ prefixCode }}</span>
       </div>
       <div class="detail-group">
-        <label>Work Queue Type ID:</label>
-        <span>{{ workQueueTypeId }}</span>
+        <label>Work Queue Type ID:</label>      
+        <span><app-workqueuetyperef-crud [id]="workQueueTypeId" [modeName]="CRUD_MODES.FK"></app-workqueuetyperef-crud></span>
+ 
       </div>
       <div class="detail-group">
         <label>Work Queue Team ID:</label>

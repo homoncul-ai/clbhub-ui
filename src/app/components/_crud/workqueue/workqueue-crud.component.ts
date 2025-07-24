@@ -14,6 +14,7 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { WorkqueuetyperefCrudComponent  } from '@app/components/_crud/workqueuetyperef/workqueuetyperef-crud.component';
 
 @Component({
   selector: 'app-workqueue-crud',
@@ -22,7 +23,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, WorkqueuetyperefCrudComponent ],
   standalone: true
 })
 export class WorkqueueCrudComponent extends AbstractCrudComponent<WorkQueueCrudWrapper> implements OnInit, OnChanges {
