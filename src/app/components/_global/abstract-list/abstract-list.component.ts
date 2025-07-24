@@ -21,7 +21,12 @@ declare const dhx: any;
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> 
 implements OnInit, AfterViewInit {
   @Input() criteria: TCriteria | null = null;
-  
+  @Input() showingSearch: boolean = true;
+  @Input() showingSearchHeading: boolean = true;
+  @Input() showingGoButton: boolean = true;
+  @Input() showingAddButton: boolean = false;
+  @Input() showingIdCheckbox: boolean = false;
+
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   protected grid: any;
   protected isDhtmlxLoaded = false;
@@ -30,8 +35,8 @@ implements OnInit, AfterViewInit {
   protected showingAdvancedSearch: boolean = false;
   protected searchHeading: string = 'Entities';
   protected searchPlaceholder: string = 'search by name or business code, * for wildcard';
-  protected showingIdCheckbox: boolean = false;
-  protected showingAddButton: boolean = false;
+  
+
 
   protected hcclService = inject(HcclService);
   protected route = inject(ActivatedRoute);

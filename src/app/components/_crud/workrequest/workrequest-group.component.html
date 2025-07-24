@@ -8,6 +8,12 @@
   <app-workrequest-crud [id]="id" modeName="create"></app-workrequest-crud>
 </div>
 
+<div *ngIf="currentTabId === 'items'">
+  <app-workrequest-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" onRowClickFunction="onRowClickFunction"></app-workrequest-list>
+  <!--  <app-workrequest-update [workRequestId]="id" modeName="detail"></app-workrequest-update> -->
+</div>
+
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
   <hr>
@@ -16,5 +22,7 @@
 
 <div *ngIf="currentTabId === 'fk_menu'">
   <h1>FK_MENU</h1>
-  <app-workrequest-crud [id]="id" modeName="fk_menu"></app-workrequest-crud>
+  
 </div> 
+
+{{currentTabId}}

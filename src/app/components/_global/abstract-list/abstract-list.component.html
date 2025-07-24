@@ -1,11 +1,11 @@
 
 
 <div class="search-list-container">
-    <span class="search-list-title">{{ this.searchHeading }}</span>
-    <div class="search-list-button-bar">
+    <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
+    <div *ngIf="showingGoButton" class="search-list-button-bar">
       <!-- <button class="search-list-button-bar-button btn-primary" (click)="onRefresh()">Refresh</button> -->
     </div>
-    <form class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
+    <form *ngIf="showingSearch" class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
       <input #searchInput type="text" class="search-list-input" [placeholder]="searchPlaceholder" />
       <button type="submit" class="search-list-input-button">
         <span class="material-icons" aria-label="Search">Search</span>

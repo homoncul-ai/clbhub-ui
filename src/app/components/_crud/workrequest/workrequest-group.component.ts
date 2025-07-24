@@ -7,13 +7,15 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclService, WorkRequestCriteria, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { WorkrequestUpdateComponent } from "./workrequest-update.component";
+import { WorkRequestListComponent } from './workrequest-list.component';
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent],
+  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, WorkRequestListComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -31,7 +33,26 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
 
   protected setupTabs(): SimpleTab[] {
-    return this.setupListDetailsTabs();
+    var tabs = this.setupListDetailsTabs();var baseRoute = this.getBaseRoute();
+    var tab =  new SimpleTab('items', 'Items', '', 
+      () => {
+        this.currentTabId = 'items';
+        this.router.navigate([baseRoute, this.id, 'items']);
+        
+      },
+      () => {
+        return this.entity !== null;
+      }
+    );
+    tabs.push(tab)
+    return tabs;
+    return tabs;
   }
 
+  get itemsCriteria(): WorkRequestItemCriteria {
+    var criteria: WorkRequestItemCriteria = {  
+      workRequestId: this.id
+    }
+    return criteria;
+  }
 } 

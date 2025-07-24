@@ -16,7 +16,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
   standalone: true,
   imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule ],
   templateUrl: './workrequest-update.component.html',
-  styleUrl: './workrequest-update.component.scss'
+  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
 export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
 
@@ -25,7 +25,9 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   availableQueues: any[] = [];
 
   override async ngOnInit(): Promise<void> {
+    console.log('WorkrequestUpdateComponent ngOnInit');
     this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
+    console.log('WorkrequestUpdateComponent ngOnInit ' + this.entity.dump);
     this.localModes = ['accept', 'reroute'];
     super.ngOnInit();
   }
@@ -48,7 +50,9 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       severity: 1,
       message: 'Ticket accepted'
     };
-    this.messages.messages.push(msg);
+    if (this.messages?.messages) {
+      this.messages.messages.push(msg);
+    }
   }
 
   rerouteTicket(selectedQueue?: any): void {
@@ -57,6 +61,8 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       severity: 1,
       message: 'Ticket rerouted'
     };
-    this.messages.messages.push(msg);
+    if (this.messages?.messages) {
+      this.messages.messages.push(msg);
+    }
   }
-}
+} 
