@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { HcclService, SimpleMessageList } from '@app/restsvc/hccl.service';
@@ -18,8 +18,8 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 })
 export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> implements OnInit {
   
-  protected id!: string;
-  protected modeName!: string;
+  @Input() id!: string;
+  @Input() modeName!: string;
 
   protected entity!: R ;
 

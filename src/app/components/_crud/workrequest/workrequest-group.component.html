@@ -1,4 +1,7 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+
+<div *ngIf="!loading">
+   
 <div *ngIf="currentTabId === 'details'">
   <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud>
 </div>
@@ -6,6 +9,10 @@
 <div *ngIf="currentTabId === 'create'">
   <h1>Create</h1>
   <app-workrequest-crud [id]="id" modeName="create"></app-workrequest-crud>
+</div>
+
+<div *ngIf="currentTabId === 'update'">
+ <app-workrequest-update [id]="id" modeName="detail"></app-workrequest-update> 
 </div>
 
 <div *ngIf="currentTabId === 'items'">
@@ -28,5 +35,11 @@
   <h1>FK_MENU</h1>
   
 </div> 
+</div>
 
-{{currentTabId}}
+<li>CurrentId :{{currentTabId}}</li>
+<li>Id :{{id}}</li>
+<li>ChildId :{{childId}}</li>
+<li>Loading :{{loading}}</li>
+<li>ShowingTabset :{{showingTabset}}</li>
+<li>Tabs :{{tabs}}</li> 

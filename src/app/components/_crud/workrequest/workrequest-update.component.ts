@@ -19,21 +19,23 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
 export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
-
+  
   // Properties referenced in template
   acceptText: string = '';
   availableQueues: any[] = [];
 
   override async ngOnInit(): Promise<void> {
+    alert("WorkrequestUpdateComponent ngOnInit " + this.id);
     console.log('WorkrequestUpdateComponent ngOnInit');
     this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
-    console.log('WorkrequestUpdateComponent ngOnInit ' + this.entity.dump);
+    //
     this.localModes = ['accept', 'reroute'];
     super.ngOnInit();
   }
 
   protected override async prepareModeEntry(entity: WorkRequestCrudWrapper, mode: string): Promise<void> {
     super.prepareModeEntry(entity, mode);
+    console.log('WorkrequestUpdateComponent ngOnInit ' + this.entity.dump);
     if (mode === 'accept') {
       // Create show a text area.
     } else if (mode === 'reroute') {

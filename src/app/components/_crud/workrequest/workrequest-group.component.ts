@@ -38,10 +38,22 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   protected setupTabs(): SimpleTab[] {
     var tabs = this.setupListDetailsTabs();
     var baseRoute = this.getBaseRoute();
-    var tab =  new SimpleTab('items', 'Items', '', 
+    var tab =  new SimpleTab('update', 'Update', '', 
+      () => {
+        this.currentTabId = 'update';
+       // this.router.navigate([baseRoute, this.id, 'update']);
+        alert("update");
+      },
+      () => {
+        return this.entity !== null;
+      }
+    );
+    tabs.push(tab) 
+
+     tab =  new SimpleTab('items', 'Items', '', 
       () => {
         this.currentTabId = 'items';
-        this.router.navigate([baseRoute, this.id, 'items']);
+       // this.router.navigate([baseRoute, this.id, 'items']);
         
       },
       () => {
@@ -49,7 +61,8 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
       }
     );
     tabs.push(tab) 
-    tab =  new SimpleTab('workRequestItem', 'Work Request Item', '', 
+    
+    tab =  new SimpleTab('workRequestItem', 'Item', '', 
       () => {
         this.currentTabId = 'workRequestItem';
         
