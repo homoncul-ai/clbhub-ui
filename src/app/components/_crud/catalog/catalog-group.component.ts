@@ -55,7 +55,7 @@ export class CatalogGroupComponent extends AbstractEntityGroupComponent<CatalogC
         
       },
       () => {
-        return this.childId !== null;
+        return this.childId !== null && this.childId !== undefined && this.childId !== '';
       }
     );
     tabs.push(tab)
