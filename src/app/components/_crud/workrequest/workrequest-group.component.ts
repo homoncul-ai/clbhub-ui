@@ -11,11 +11,13 @@ import { HcclService, WorkRequestCriteria, WorkRequestItemCriteria } from '@app/
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
+import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, WorkRequestListComponent],
+  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, WorkRequestListComponent, WorkRequestItemListComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -55,4 +57,20 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     }
     return criteria;
   }
+
+  myOnRowClickBehavior(): OnRowClickBehavior {
+    return new OnRowClickBehavior();
+    //return new MyOnRowClickBehavior();
+  }
 } 
+
+// class MyOnRowClickBehavior extends OnRowClickBehavior {
+//   protected workRequest: WorkRequestCrudWrapper | null = null;
+//   protected parentEntity: AbstactCru | null = null;
+//   override onRowClick(entityId: string, baseRoute: string, router?: any): void {
+//     alert('MyOnRowClickBehavior.onRowClick called with entityId:' + entityId + 'baseRoute:' + baseRoute);
+//     super.onRowClick(entityId, baseRoute, router);
+
+//     this.router.navigate([baseRoute, this.id, 'items']);
+//   }
+// }

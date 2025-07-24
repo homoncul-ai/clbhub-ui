@@ -68,6 +68,7 @@ const routes: Routes = [
       { path: 'clcourses', component: CLCourseListComponent },
   
       { path: 'catalogs/create', component: CatalogGroupComponent },
+      { path: 'catalogs/:id/:tabId/:childId', component: CatalogGroupComponent },
       { path: 'catalogs/:id/:tabId', component: CatalogGroupComponent },
       { path: 'catalogs/:id', redirectTo: 'catalogs/:id/details', pathMatch: 'full' },
       { path: 'catalogs', component: CatalogListComponent },

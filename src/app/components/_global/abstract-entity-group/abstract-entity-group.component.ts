@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
 import { AbstractListComponent } from '../abstract-list';
+import { OnRowClickBehavior } from '../abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-abstract-entity-group',
@@ -15,8 +16,12 @@ import { AbstractListComponent } from '../abstract-list';
 })
 export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>> {
   @Input() id!: string;
+  @Input() childId?: string;
   @Input() tabId!: string;
   @Input() showingTabset: boolean = true;
+
+  @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
+
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
 
@@ -38,9 +43,12 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
 
   ngOnInit(): void {
-
     this.route.params.subscribe(params => {
-      const id = params['id'];
+      this. id = params['id'];
+      const tabId = params['tabId'];
+      this. childId = params['childId'];
+
+      
       const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
       var defaultTabId = 'details';
       if (urlSegments.length > 0) {
@@ -49,17 +57,27 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
           defaultTabId = defaultTabId.split('#')[0];
         }
       }
-      const tabId = params['tabId'] || defaultTabId;
+      const finalTabId = tabId || defaultTabId;
+      
+      // Set the extracted parameters
+       
+     
+      if (finalTabId) {
+        this.tabId = finalTabId;
+      }
+
+      //alert("AbstractEntityGroupComponent.ngOnInit id, tabid, childId = "  + this.id + " " + finalTabId + " " +this.childId + " " +  " " );
+     
+      var id = this.id;
      // debugger
-      if (!id || tabId === 'create') {
-        this.currentTabId = tabId;
+      if (!id || finalTabId === 'create') {
+        this.currentTabId = finalTabId;
         this.showingTabset = true;
         this.entity = this.newCrudWrapperForCreate();
       } else {
       if (id) {
-        this.id = id;
         this.tabs = this.setupTabs();
-        this.currentTabId = tabId;
+        this.currentTabId = finalTabId;
         this.loadEntityById(id).then(entity => {
           this.entity = entity;
         }).catch(error => {

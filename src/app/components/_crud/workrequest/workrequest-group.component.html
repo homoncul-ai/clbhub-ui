@@ -9,8 +9,8 @@
 </div>
 
 <div *ngIf="currentTabId === 'items'">
-  <app-workrequest-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
-  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" onRowClickFunction="onRowClickFunction"></app-workrequest-list>
+  <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
   <!--  <app-workrequest-update [workRequestId]="id" modeName="detail"></app-workrequest-update> -->
 </div>
 

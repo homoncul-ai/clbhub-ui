@@ -15,7 +15,11 @@
 </div>
 
 <div *ngIf="currentTabId === 'entries'">
-  <app-catalogentry-list [criteria]="getCatalogEntryCriteria()"></app-catalogentry-list>
+  <app-catalogentry-list [criteria]="getCatalogEntryCriteria()" [onRowClickBehavior]="getCatalogEntryOnClickBehavior()"></app-catalogentry-list>
+</div>
+
+<div *ngIf="currentTabId === 'catalogEntry'">
+  <app-catalogentry-crud [id]="childId" [modeName]="'details'"></app-catalogentry-crud>
 </div>
 
 {{currentTabId}}

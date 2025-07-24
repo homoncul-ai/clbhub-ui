@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 
 declare const dhx: any;
 
+
 /**
  * Abstract base component for displaying and managing entity data using HcclService
  * Provides common grid functionality and requires subclasses to implement entity-specific methods
@@ -26,6 +27,7 @@ implements OnInit, AfterViewInit {
   @Input() showingGoButton: boolean = true;
   @Input() showingAddButton: boolean = false;
   @Input() showingIdCheckbox: boolean = false;
+  @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
 
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   protected grid: any;
@@ -364,6 +366,7 @@ implements OnInit, AfterViewInit {
 
   }
 
+  
   /**
    * Handle row click event
    */
@@ -373,8 +376,7 @@ implements OnInit, AfterViewInit {
     console.log('onRowClick called with entityId:', entityId);
     console.log('Current URL:', this.router.url);
     console.log('Calculated base route:', baseRoute);
-    console.log('Navigating to:', [baseRoute, entityId, 'details']);
-    this.router.navigate([baseRoute, entityId, 'details']);
+    this.onRowClickBehavior.onRowClick(entityId, baseRoute, this.router);
   }
 
   protected onAdd(): void {
@@ -429,4 +431,37 @@ implements OnInit, AfterViewInit {
     return baseRoute;
   }
 
+  
 } 
+
+/**
+ * Object containing row click action functionality
+ */
+export class OnRowClickBehavior  {
+  alertMessage: string = '';
+  parentId: string = '';
+  tabId: string = '';
+
+  onRowClick(entityId: string, baseRoute: string, router: Router): void {
+    console.log('OnRowClickAction.onRowClick called with entityId:', entityId, 'baseRoute:', baseRoute);
+    if (router) {
+      var urlParts = [baseRoute, entityId, 'details'];
+      if (this.tabId != null && this.parentId != '') {
+        urlParts = this.getNavigateUrl(entityId, baseRoute);
+      } else {
+        urlParts = [baseRoute, entityId, 'details'];
+      }
+      if (this.alertMessage.length > 0) {
+        alert(this.alertMessage + ' ' + urlParts.join('/'));
+      }
+      router.navigate(urlParts);
+    } else {
+      console.warn('Router not provided to OnRowClickAction.onRowClick');
+    }
+  }
+
+  getNavigateUrl(entityId: string, baseRoute: string): any[] {
+      return [baseRoute, this.parentId, this.tabId, entityId ];
+  }
+  
+};

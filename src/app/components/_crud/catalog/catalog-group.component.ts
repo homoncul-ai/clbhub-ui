@@ -11,11 +11,13 @@ import { CatalogCrudWrapper, CatalogCrudComponent } from '@app/components/_crud/
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { CatalogEntryListComponent } from "../catalogentry/catalogentry-list.component";
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { CatalogEntryCrudComponent } from '../catalogentry/catalogentry-crud.component';
 
 @Component({
   selector: 'app-catalog-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, CatalogCrudComponent, CatalogEntryListComponent],
+  imports: [CommonModule, SimpleTabsetComponent, CatalogCrudComponent, CatalogEntryListComponent,CatalogEntryCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './catalog-group.component.html',
 })
@@ -39,11 +41,21 @@ export class CatalogGroupComponent extends AbstractEntityGroupComponent<CatalogC
     var tab =  new SimpleTab('entries', 'Entries', '', 
       () => {
         this.currentTabId = 'entries';
-        this.router.navigate([baseRoute, this.id, 'entries']);
+        //this.router.navigate([baseRoute, this.id, 'entries']);
         
       },
       () => {
         return this.entity !== null;
+      }
+    );
+    tabs.push(tab)
+    tab =  new SimpleTab('catalogEntry', 'Catalog Entry', '', 
+      () => {
+        this.currentTabId = 'catalogEntry';
+        
+      },
+      () => {
+        return this.childId !== null;
       }
     );
     tabs.push(tab)
@@ -57,5 +69,13 @@ export class CatalogGroupComponent extends AbstractEntityGroupComponent<CatalogC
       pageSize: 50,
       isPaging: true
     };
+  }
+
+  protected getCatalogEntryOnClickBehavior(): OnRowClickBehavior {
+    var x: OnRowClickBehavior =  new OnRowClickBehavior();
+    x.parentId = this.id;
+    x.tabId = 'catalogEntry';
+    //x.alertMessage = 'Catalog Entry';
+    return x;
   }
 } 
