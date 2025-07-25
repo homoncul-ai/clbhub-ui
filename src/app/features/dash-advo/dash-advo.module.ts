@@ -29,6 +29,10 @@ import { WorkqueueCrudComponent } from '../../components/_crud/workqueue/workque
 import { CLStudentGroupComponent } from '../../components/_crud/clstudent/clstudent-group.component';
 import { WorkRequestGroupComponent } from '../../components/_crud/workrequest/workrequest-group.component';
 import { CLSchoolGroupComponent } from '../../components/_crud/clschool/clschool-group.component';
+import { ProviderRequestTypeRefListComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-list.component';
+import { ProviderRequestTypeRefGroupComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-group.component';
+import { ProviderRequestListComponent } from '../../components/_crud/providerrequest/providerrequest-list.component';
+import { ProviderRequestGroupComponent } from '../../components/_crud/providerrequest/providerrequest-group.component';
 
 const routes: Routes = [
   {
@@ -64,6 +68,12 @@ const routes: Routes = [
           { path: 'workqueues/:id/:tabId', component: WorkqueueCrudComponent },
           { path: 'workqueues/:id', redirectTo: 'workqueues/:id/details', pathMatch: 'full' },
           { path: 'workqueues', component: WorkqueueCrudComponent },
+          { path: 'providerrequesttyperefs/:id/:tabId', component: ProviderRequestTypeRefGroupComponent },
+          { path: 'providerrequesttyperefs/:id', redirectTo: 'providerrequesttyperefs/:id/details', pathMatch: 'full' },
+          { path: 'providerrequesttyperefs', component: ProviderRequestTypeRefListComponent },
+          { path: 'providerrequests/:id/:tabId', component: ProviderRequestGroupComponent },
+          { path: 'providerrequests/:id', redirectTo: 'providerrequests/:id/details', pathMatch: 'full' },
+          { path: 'providerrequests', component: ProviderRequestListComponent },
           { path: 'guidance', component: CLGuidanceListComponent },
           { path: '', redirectTo: 'schools', pathMatch: 'full' }
         ]
@@ -99,7 +109,11 @@ const routes: Routes = [
     WorkrequesttypeCrudComponent,
     WorkqueueCrudComponent,
     CLSchoolGroupComponent,
-    WorkRequestGroupComponent
+    WorkRequestGroupComponent,
+    ProviderRequestTypeRefListComponent,
+    ProviderRequestTypeRefGroupComponent,
+    ProviderRequestListComponent,
+    ProviderRequestGroupComponent
   ],
   declarations: [
     // Non-standalone components would go here

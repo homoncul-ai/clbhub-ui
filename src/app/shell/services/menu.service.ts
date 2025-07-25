@@ -104,6 +104,8 @@ export class MenuService {
     this.addChildMenuItem(integrations, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_CLSCHOOLS));
     this.addChildMenuItem(integrations, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_CLSTUDENTS));
     this.addChildMenuItem(integrations, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_CLGUIDANCE));
+    this.addChildMenuItem(integrations, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_PROVIDERREQUESTTYPEREFS));
+    this.addChildMenuItem(integrations, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_PROVIDERREQUESTS));
     this.addMenuItem(menu, integrations);
     
     // Add Component Inventory
@@ -713,6 +715,22 @@ export const MENU_CONSTANTS = {
     componentName: 'clguidance-list',
     icon: 'fas fa-user-tie'
   },
+  ADVOCATE_PROVIDERREQUESTTYPEREFS: {
+    level: 2,
+    label: 'Provider Request Type Refs',
+    route: '/advocate-dashboard/integrations/providerrequesttyperefs',
+    componentPath: 'src/app/components/_crud/providerrequesttyperef/providerrequesttyperef-list.component',
+    componentName: 'ProviderRequestTypeRefListComponent',
+    icon: 'fas fa-list'
+  },
+  ADVOCATE_PROVIDERREQUESTS: {
+    level: 2,
+    label: 'Provider Requests',
+    route: '/advocate-dashboard/integrations/providerrequests',
+    componentPath: 'src/app/components/_crud/providerrequest/providerrequest-list.component',
+    componentName: 'ProviderRequestListComponent',
+    icon: 'fas fa-clipboard-list'
+  },
   ADVOCATE_COMPONENT_INVENTORY: {
     level: 1,
     label: 'Component Inventory',
@@ -1023,19 +1041,19 @@ EA_HCCLUSER_LIST: {
 EA_PROVIDER_LIST: {
   "level" : 2,
   "label" : "Provider",
-  "route" : "/ecoadmin-dashboard/prov/provider-list",
-  "componentPath" : "/src/app/components/_crud/prov/provider-list",
-  "componentName" : "provider-list",
-  "icon" : ""
+  "route" : "/ecoadmin-dashboard/providers",
+  "componentPath" : "src/app/components/_crud/provider/provider-list.component",
+  "componentName" : "ProviderListComponent",
+  "icon" : "fas fa-building"
 },
 
 EA_PROVIDERUSER_LIST: {
   "level" : 2,
   "label" : "Provider User",
-  "route" : "/ecoadmin-dashboard/prov/provideruser-list",
-  "componentPath" : "/src/app/components/_crud/prov/provideruser-list",
-  "componentName" : "provideruser-list",
-  "icon" : ""
+  "route" : "/ecoadmin-dashboard/providers",
+  "componentPath" : "src/app/components/_crud/provider/provider-list.component",
+  "componentName" : "ProviderListComponent",
+  "icon" : "fas fa-users"
 },
 
 EA_PROVIDERTYPEREF_LIST: {
@@ -1284,19 +1302,19 @@ EA_VOCATIONENCODING_LIST: {
 EA_PROVIDERREQUEST_LIST: {
   "level" : 2,
   "label" : "Provider Request",
-  "route" : "/ecoadmin-dashboard/provreq/providerrequest-list",
-  "componentPath" : "/src/app/components/_crud/provreq/providerrequest-list",
-  "componentName" : "providerrequest-list",
-  "icon" : ""
+  "route" : "/ecoadmin-dashboard/providerrequests",
+  "componentPath" : "src/app/components/_crud/providerrequest/providerrequest-list.component",
+  "componentName" : "ProviderRequestListComponent",
+  "icon" : "fas fa-clipboard-list"
 },
 
 EA_PROVIDERREQUESTTYPEREF_LIST: {
   "level" : 2,
   "label" : "Provider Request Type Ref",
-  "route" : "/ecoadmin-dashboard/provreq/providerrequesttyperef-list",
-  "componentPath" : "/src/app/components/_crud/provreq/providerrequesttyperef-list",
-  "componentName" : "providerrequesttyperef-list",
-  "icon" : ""
+  "route" : "/ecoadmin-dashboard/providerrequesttyperefs",
+  "componentPath" : "src/app/components/_crud/providerrequesttyperef/providerrequesttyperef-list.component",
+  "componentName" : "ProviderRequestTypeRefListComponent",
+  "icon" : "fas fa-list"
 }
 
   
