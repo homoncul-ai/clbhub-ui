@@ -83,7 +83,7 @@ export class WorkRequestItemAttachRFIContentComponent extends AbstractMultimodeC
     var rsp  =  await this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise();
 
     
-    //debugger;
+    debugger;
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     this.workItemFormResponse = wirsp;
     console.log('WorkRequestItemAttachRFIContentComponent ngOnInit ' + JSON.stringify(rsp));
