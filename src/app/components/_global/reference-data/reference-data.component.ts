@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Reference } from '../../../restsvc/hccl.service';
+import { Reference } from '../../../restsvc/common-request-service.model';
 
 @Component({
   selector: 'app-reference-data',

@@ -121,9 +121,18 @@ export class HcclContextService {
   public getContext(): HcclUserContextGETData {
     var x : HcclUserContextGETData = this.context() || {
       currentUserProfileId: '',
-      currentUserProfile: undefined,
-      messages: undefined,
-      userProfileMenu: undefined
+      currentUserProfile: {
+      },
+      messages: {
+        messages: []
+      },
+      userProfileMenu: {
+        applicationName: '',
+        clientId: '',
+        menuId: '',
+        menuName: '',
+        label: '',
+      }
     };
 
     return x;
