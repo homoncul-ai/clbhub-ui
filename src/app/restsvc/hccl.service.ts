@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CommonRequestServiceCaller, CommonServiceRequest, DateGETData } from './common-request-service.model';
+import { DateGETData ,Reference, RelationshipGETData, JobProcessLogPUTData , ServiceManifest, LoggerConfigurationData, LoggerConfigurationPUTData, JobDefinitionPOSTData, JobDefinitionCriteria, JobDefinitionPUTData, JobProcessLogPOSTData} from './common-request-service.model';
+import { CommonRequestServiceCaller, CommonServiceRequest } from './common-request-service.model';
 import { AppConstants } from '@app/shell/services/config.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class HcclService extends CommonRequestServiceCaller {
-	constructor(http: HttpClient, appConstants: AppConstants) {
-	   super(http);
-     // Hard code it if you want
-	   // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
-	   const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
-	   console.log("Setting baseUrl to " + baseUrl);
-	   this.setBaseUrl(baseUrl);
-	 }
+  constructor(http: HttpClient, appConstants: AppConstants) {
+    super(http);
+    // Hard code it if you want
+	  // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
+
+    const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
+    console.log("Setting HCCL Service baseUrl to " + baseUrl);
+    this.setBaseUrl(baseUrl);
+  }
 
   checkApplicationHealth(): Observable<any> {
     const request: CommonServiceRequest = {
@@ -2488,73 +2489,6 @@ export class HcclService extends CommonRequestServiceCaller {
   }
 }
 
-export interface ServiceManifest {
-  buildId?: string;
-  buildNumber?: string;
-  buildTime?: string;
-  buildJdk?: string;
-  buildUrl?: string;
-  gitUrl?: string;
-  gitBranch?: string;
-  gitCommit?: string;
-  builtBy?: string;
-  implementationVersion?: string;
-  implementationTitle?: string;
-  implementationVendorId?: string;
-  specificationVersion?: string;
-  specificationTitle?: string;
-  dockerImageName?: string;
-  dockerImageVersion?: string;
-  clusterName?: string;
-  clusterType?: string;
-}
-
-export interface LoggerConfigurationData {
-  loggerName: string;
-  loggerLevel: string;
-}
-
-export interface LoggerConfigurationPUTData {
-  loggerConfigurationData: LoggerConfigurationData[];
-}
-
-export interface JobDefinitionPOSTData {
-  name: string;
-  description?: string;
-  status?: boolean;
-  cronSchedule: string;
-  reserveBatchSize?: number;
-  purgeEventLogDays: number;
-  purgeProcessLogDays: number;
-}
-
-export interface JobDefinitionCriteria {
-  pageNumber?: number;
-  pageSize?: number;
-  isPaging?: boolean;
-  ids?: string[];
-  name?: string;
-  status?: boolean;
-  omitJobDefinitionId?: string;
-}
-
-export interface JobDefinitionPUTData {
-  name: string;
-  description?: string;
-  status?: boolean;
-  cronSchedule: string;
-  reserveBatchSize?: number;
-  purgeEventLogDays: number;
-  purgeProcessLogDays: number;
-}
-
-export interface JobProcessLogPOSTData {
-  name: string;
-  totalEntriesReserved: number;
-  totalEntries?: number;
-}
-
-
 export interface JobProcessLogGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -2571,27 +2505,6 @@ export interface JobProcessLogGETData {
   errorMessage?: string;
 }
 
-export interface Reference {
-  name?: string;
-  link?: string;
-}
-
-export interface RelationshipGETData {
-  id?: string;
-  type?: string;
-  name?: string;
-  icon?: string;
-  description?: string;
-  link?: string;
-  aboutPath?: string;
-}
-
-export interface JobProcessLogPUTData {
-  name: string;
-  totalEntriesReserved: number;
-  totalEntries?: number;
-}
-
 export interface ServiceEventLogPOSTData {
   referenceId: string;
   entityName: string;
@@ -2600,7 +2513,7 @@ export interface ServiceEventLogPOSTData {
   nextEventName?: string;
   displayName?: string;
   groupId?: string;
-  dateDue?: DateGETData;
+  dateDue?: string;
   applicationCode?: string;
   parentId?: string;
 }
@@ -2674,7 +2587,7 @@ export interface ServiceEventLogPUTData {
   nextEventName?: string;
   displayName?: string;
   groupId?: string;
-  dateDue?: DateGETData;
+  dateDue?: string;
   applicationCode?: string;
   parentId?: string;
 }
@@ -5484,11 +5397,12 @@ export interface CreateTicketSetupUIData {
 }
 
 export interface HcclUserContextGETData {
-  currentUserProfileId?: string;
-  messages?: SimpleMessageList;
-  currentUserProfile?: HcclUserProfileGETData;
-  userProfileMenu?: MenuControlDataList;
+  currentUserProfileId: string;
+  messages: SimpleMessageList;
+  currentUserProfile: HcclUserProfileGETData;
+  userProfileMenu: MenuControlDataList;
 }
+
 export interface GenericFormUI {
   formUiType?: string;
   title?: string;

@@ -156,3 +156,87 @@ export interface DateGETData {
   monthName?: string;
   convertToLocalTimezone?: boolean;
 }
+export interface Reference {
+  name?: string;
+  link?: string;
+}
+export interface RelationshipGETData {
+  id?: string;
+  type?: string;
+  name?: string;
+  icon?: string;
+  description?: string;
+  link?: string;
+  aboutPath?: string;
+}
+
+export interface JobProcessLogPUTData {
+  name: string;
+  totalEntriesReserved: number;
+  totalEntries?: number;
+}
+export interface ServiceManifest {
+  buildId?: string;
+  buildNumber?: string;
+  buildTime?: string;
+  buildJdk?: string;
+  buildUrl?: string;
+  gitUrl?: string;
+  gitBranch?: string;
+  gitCommit?: string;
+  builtBy?: string;
+  implementationVersion?: string;
+  implementationTitle?: string;
+  implementationVendorId?: string;
+  specificationVersion?: string;
+  specificationTitle?: string;
+  dockerImageName?: string;
+  dockerImageVersion?: string;
+  clusterName?: string;
+  clusterType?: string;
+}
+
+export interface LoggerConfigurationData {
+  loggerName: string;
+  loggerLevel: string;
+}
+
+export interface LoggerConfigurationPUTData {
+  loggerConfigurationData: LoggerConfigurationData[];
+}
+
+export interface JobDefinitionPOSTData {
+  name: string;
+  description?: string;
+  status?: boolean;
+  cronSchedule: string;
+  reserveBatchSize?: number;
+  purgeEventLogDays: number;
+  purgeProcessLogDays: number;
+}
+
+export interface JobDefinitionCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  name?: string;
+  status?: boolean;
+  omitJobDefinitionId?: string;
+}
+
+export interface JobDefinitionPUTData {
+  name: string;
+  description?: string;
+  status?: boolean;
+  cronSchedule: string;
+  reserveBatchSize?: number;
+  purgeEventLogDays: number;
+  purgeProcessLogDays: number;
+}
+
+export interface JobProcessLogPOSTData {
+  name: string;
+  totalEntriesReserved: number;
+  totalEntries?: number;
+}
