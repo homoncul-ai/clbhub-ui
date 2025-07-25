@@ -9,15 +9,18 @@ import { FormsModule } from '@angular/forms';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { WorkRequestCrudWrapper } from '../workrequest/workrequest-crud.component';
 import { JsonPipe } from '@angular/common';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 
 @Component({
-  selector: 'app-workrequestitem-enqueuerfi',
+  selector: 'app-workrequestitem-attachrficontent',
   standalone: true,
-  imports: [ CommonModule, WorkRequestItemCrudComponent, SimpleMessagesSectionComponent, FormsModule, MenuControlDataListComponent, JsonPipe ],
-  templateUrl: './workrequestitem-enqueuerfi.component.html',
+  imports: [ CommonModule, WorkRequestItemCrudComponent, SimpleMessagesSectionComponent, FormsModule, MenuControlDataListComponent, JsonPipe,
+    StdMdbFormTextComponent
+   ],
+  templateUrl: './workrequestitem-attachrficontent.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
-export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
+export class WorkRequestItemAttachRFIContentComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
   
   // Properties referenced in template
   acceptText: string = '';
@@ -25,7 +28,7 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
 
   // RFI is for enqueuing a new erquest.
   override async ngOnInit(): Promise<void> {
-    console.log('WorkrequestUpdateComponent ngOnInit');
+    console.log('WorkRequestItemAttachRFIContentComponent ngOnInit');
     this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
     //
     this.localModes = ['createItemView', 'createItemViewPost'];
@@ -43,7 +46,7 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
 
   protected override async prepareModeEntry(entity: WorkRequestCrudWrapper, mode: string): Promise<void> {
     super.prepareModeEntry(entity, mode);
-    console.log('WorkrequestUpdateComponent ngOnInit ' + this.entity.dump);
+    console.log('WorkRequestItemAttachRFIContentComponent ngOnInit ' + this.entity.dump);
   // debugger;
      
     if (mode === 'createItemView') {
@@ -73,29 +76,34 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
       context: this.workItemFormContext,
       actionFormData: {}
     }
+    this.workItemFormRequest = request;
     
-    console.log('WorkrequestUpdateComponent ngOnInit ' + JSON.stringify(this.workItemFormContext));
+    console.log('WorkRequestItemAttachRFIContentComponent ngOnInit ' + JSON.stringify(this.workItemFormContext));
     //debugger;
-    var rsp  =  await this.hcclService.callWorkRequestUi(this.id, 'EnqueueRFI', request).toPromise();
+    var rsp  =  await this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise();
 
     
     //debugger;
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
-    console.log('WorkrequestUpdateComponent ngOnInit ' + JSON.stringify(rsp));
-    this.menuQueues = wirsp.mapFormElements.menu_workqueues;
+    this.workItemFormResponse = wirsp;
+    console.log('WorkRequestItemAttachRFIContentComponent ngOnInit ' + JSON.stringify(rsp));
+    this.menuCatalogs = wirsp.mapFormElements.menu_catalogs;
     this.workItemFormContext = wirsp.context as WorkItemFormContext;
   }
-
-  protected menuQueues : MenuControlDataList = {
+  protected notes: string = '';
+  protected menuCatalogs : MenuControlDataList = {
     menuItems: []
   };
 
+  protected workItemFormResponse : WorkItemFormResponse | null = null;
+  protected workItemFormRequest : WorkItemFormRequest | null = null;
+
   protected selectedWorkQueue : MenuControlData | null = null;
 
-  protected queueId : string = '';
-  onWorkQueueChange(selectedItem: MenuControlData | null): void {
+  protected catalogCode : string = '';
+  onCatalogChange(selectedItem: MenuControlData | null): void {
     this.selectedWorkQueue = selectedItem;
-   this.queueId = selectedItem?.id || '';
+   this.catalogCode = selectedItem?.id || '';
   }
 
   createItemViewPost() { 
@@ -103,10 +111,10 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
       op: 'createItemViewPost',
       context: this.workItemFormContext,
       actionFormData: {
-        queueCode: this.queueId
+        catalogCode: this.catalogCode
       }
     }
-   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'EnqueueRFI', request).toPromise().then(rsp => {
+   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
     var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
@@ -117,4 +125,4 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
 
    
   }
-}
+} 

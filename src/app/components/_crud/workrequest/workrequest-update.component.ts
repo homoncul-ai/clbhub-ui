@@ -12,11 +12,13 @@ import { CRUD_MODES } from '@app/@core/constants/app-settings';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { SimpleMessage } from '@app/restsvc/common-request-service.model';
 import { WorkRequestItemEnqueueRFIComponent } from '@app/components/_crud/workrequestitem/workrequestitem-enqueuerfi.component';
+import { WorkRequestItemAttachRFIContentComponent } from '../workrequestitem/workrequestitem-attachrficontent.component';
 
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
-  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule, WorkRequestItemEnqueueRFIComponent ],
+  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule
+    , WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentComponent ],
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -76,4 +78,13 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       this.messages.messages.push(msg);
     }
   }
+  
+  showingAttachRFIContent: boolean = true;
+  public isShowingEnqueueRFI(): boolean {
+    return this.showingAttachRFIContent == false;
+  }
+  public isShowingAttachRFIContent(): boolean {
+    return this.showingAttachRFIContent == true;
+  }
+
 } 

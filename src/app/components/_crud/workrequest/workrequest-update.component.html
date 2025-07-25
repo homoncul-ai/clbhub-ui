@@ -18,11 +18,28 @@
     <button (click)="rerouteTicket()" class="btn btn-primary">Reroute Ticket</button>
 </div>
 <hr/>
+
+<h3>Add Work Request Item </h3>
+<!-- create a radio button to select the type of work request item to add -->
+<div>
+  <input type="radio" name="workRequestItemType" value="attachRFIContent" [checked]="showingAttachRFIContent" (click)="showingAttachRFIContent = true"> Attach RFI Content
+  <input type="radio" name="workRequestItemType" value="enqueueRFI" [checked]="!showingAttachRFIContent" (click)="showingAttachRFIContent = false"> Enqueue RFI
+</div>
+<div *ngIf="isShowingEnqueueRFI() ">
   <!--  <app-workrequest-update [workRequestId]="id" modeName="detail"></app-workrequest-update> -->
-  <div id="createItems"> <h3>Create Items - Enqueue RFI</h3>
+  <div id="enqueueRFI"> <h3>Create Items - Enqueue RFI</h3>
     <app-workrequestitem-enqueuerfi [id]="id"></app-workrequestitem-enqueuerfi>
   </div>
+</div>
+
+<div *ngIf="isShowingAttachRFIContent() ">
+  <div id="attachRFIContent"> <h3>Create Items - Attach RFI Content</h3>
+    <app-workrequestitem-attachrficontent [id]="id"></app-workrequestitem-attachrficontent>
+  </div>
+</div>
 
 
+  showingEnqueueRFI:  {{ isShowingEnqueueRFI() }}
+  showingAttachRFIContent:  {{ isShowingAttachRFIContent() }}
 <pre *ngIf="false">
     {{ entity.dump() }}</pre> 

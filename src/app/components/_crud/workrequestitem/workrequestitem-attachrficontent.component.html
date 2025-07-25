@@ -1,17 +1,23 @@
 
-<!-- DEBUG: Enqueue RFI Component Loaded -->
-<app-workrequestitem-crud [id]="id" [modeName]="CRUD_MODES.SECTION"></app-workrequestitem-crud> 
-
+<!-- DEBUG: Attach RFI Content Component Loaded -->
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
 <div *ngIf="!isLoading()">
-    <h3>Create Ticket {{ isLoading() }} {{ currentMode }} </h3>
+    <h3>Attach RFI Content {{ isLoading() }} {{ currentMode }} </h3>
+    <app-std-mdb-form-text 
+        prefix="workRequest" 
+        name="speaker_notes"
+        label="Notes"
+        [required]="true"
+        [error]="false"
+        [(ngModel)]="notes">
+      </app-std-mdb-form-text>
     <app-menu-control-data-list
-              [menuControlDataList]="this.menuQueues || null"
-              placeholder="Select work queue..."
-              (selectionChange)="onWorkQueueChange($event)">
+              [menuControlDataList]="this.menuCatalogs || null"
+              placeholder="Select catalog..."
+              (selectionChange)="onCatalogChange($event)">
             </app-menu-control-data-list>
-    <button (click)="createItemViewPost()" class="btn btn-primary">Create Ticket</button>
+    <button (click)="createItemViewPost()" class="btn btn-primary">Attach RFI Content</button>
 </div>
 
 <div *ngIf="!isLoading() && currentMode === 'createItemView'">
@@ -22,11 +28,11 @@
 <pre>currentMode === "createItemView": {{ currentMode === "createItemView" }}</pre>
 <pre>currentMode == 'createItemView': {{ currentMode == 'createItemView' }}</pre>
 <pre>currentMode.trim() === 'createItemView': {{ currentMode?.trim() === 'createItemView' }}</pre>
-<pre *ngIf="!isLoading() && currentMode === 'createItemView'">{{ currentMode }} enqueue rfi</pre>
-<pre> See! {{ currentMode }}</pre>
-<pre>menuQueues: {{ menuQueues | json }}</pre>
-<pre>menuQueues.menuItems.length: {{ menuQueues?.menuItems?.length }}</pre>
+<pre *ngIf="!isLoading() && currentMode === 'createItemView'">{{ currentMode }} attach rfi content</pre>
+<pre> See! {{ currentMode }}</pre> 
 <pre>isLoading: {{ isLoading() }}</pre>
 
 <!-- <pre>{{ entity.dump() }}</pre>  -->
- 
+
+{{ currentMode }} 
+{{ this.workItemFormResponse | json }}
