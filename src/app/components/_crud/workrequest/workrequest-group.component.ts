@@ -14,11 +14,13 @@ import { WorkRequestListComponent } from './workrequest-list.component';
 import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { WorkRequestItemCrudComponent } from '../workrequestitem/workrequestitem-crud.component';
+import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent],
+  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, 
+    WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent, WorkRequestItemEnqueueRFIComponent  ],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -40,9 +42,9 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     var baseRoute = this.getBaseRoute();
     var tab =  new SimpleTab('update', 'Update', '', 
       () => {
-        this.currentTabId = 'update';
-       // this.router.navigate([baseRoute, this.id, 'update']);
-        alert("update");
+        //this.currentTabId = 'update';
+        this.router.navigate([baseRoute, this.id, 'update']);
+       // alert("update");
       },
       () => {
         return this.entity !== null;
@@ -52,8 +54,8 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
 
      tab =  new SimpleTab('items', 'Items', '', 
       () => {
-        this.currentTabId = 'items';
-       // this.router.navigate([baseRoute, this.id, 'items']);
+        //this.currentTabId = 'items';
+        this.router.navigate([baseRoute, this.id, 'items']);
         
       },
       () => {
@@ -64,7 +66,8 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     
     tab =  new SimpleTab('workRequestItem', 'Item', '', 
       () => {
-        this.currentTabId = 'workRequestItem';
+        this.router.navigate([baseRoute, this.id, 'workRequestItem', this.childId]);
+        //this.currentTabId = 'workRequestItem';
         
       },
       () => {

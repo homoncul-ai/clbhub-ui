@@ -7,53 +7,49 @@
 </div>
 
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
+
     <div class="details-section">
-      <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->
-      <!-- If no section attributes, use the read-only values for 'edit' mode.  -->
-
-      <!-- In general, if not special use the form {{ attributeName }} to display the attribute value -->
-      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
-       <!-- Note all these attributes are only shown here as examples - only show the attributes that are relevant to this entity -->
+      <!-- Left Column --> 
+      <div class="column-left">
         <div class="detail-group">
-        <label>Name :</label>
-        <span>{{ name }}</span>  
-      </div>
-      <div class="detail-group">
-        <label>Business Code:</label>
-        <span>{{ businessCode }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Description:</label>
-        <span>{{ description }}</span>
-      </div>
-
-        <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-        <div class="detail-group">
-            <label>Date Created:</label>
-            <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+          <label>Name :</label>
+          <span>{{ name }}</span>  
         </div>
-        
+        <div class="detail-group">
+          <label>Business Code:</label>
+          <span>{{ businessCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Description:</label>
+          <span>{{ description }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Date Created:</label>
+          <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+        </div>
+      </div>
 
-        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
+      <!-- Right Column -->
+      <div class="column-right">
         <div class="detail-group">
           <label>Work Request Type:</label>
           <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
+        </div>
+        <div class="detail-group">
+          <label>Work Queue:</label>
+          <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK"></app-workqueue-crud>
+        </div>
+        <div class="detail-group">
+          <label>Current State Code:</label>
+          <span>{{ currentStateCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Accepted By :</label>
+          <app-hcclteam-crud [id]="acceptedByTeamId" [modeName]="CRUD_MODES.FK"></app-hcclteam-crud> &nbsp;
+          <app-hccluser-crud [id]="acceptedByUserId" [modeName]="CRUD_MODES.FK"></app-hccluser-crud>
+        </div>
+
       </div>
-
-      <div class="detail-group">
-        <label>Work Queue:</label>
-        <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK"></app-workqueue-crud>
-      </div>
-
-      <div class="detail-group">
-        <label>Current State Code:</label>
-        <span>{{ currentStateCode }}</span>
-      </div>
-
-      <!-- End example Attributes -->
-      
-
     </div>
 </div>
 

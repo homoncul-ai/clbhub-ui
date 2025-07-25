@@ -32,6 +32,7 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   protected hcclContextService = inject(HcclContextService);
   protected messages: SimpleMessageList  = { messages: [] };
   protected currentMode: string = '';
+  protected loading: boolean = false;
 
   ngOnInit(): void {
     //throw new Error('Method not implemented.');
@@ -49,10 +50,14 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   public isValidMode(mode: string): boolean {
     return this.localModes.includes(mode);
   }
-
+  protected isLoading(): boolean {
+    return this.loading;
+  }
   public enterMode(mode: string): void {
+    this.loading = true;
     this.prepareModeEntry(this.entity, mode).then(() => {
       this.currentMode = mode;
+      this.loading = false;
     });
   }
 

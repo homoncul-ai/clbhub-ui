@@ -143,6 +143,42 @@
     }
   }
 
+  // Two-column layout for section mode
+  .section-mode {
+    .details-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      
+      .column-left, .column-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .detail-group {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #dee2e6;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        label {
+          display: block;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 0.5rem;
+        }
+
+        span {
+          color: #555;
+        }
+      }
+    }
+  }
+
   .delete-confirmation {
     background-color: #fff3cd;
     border: 1px solid #ffeaa7;
@@ -219,6 +255,14 @@
 
     .form-actions {
       flex-direction: column;
+    }
+
+    // Responsive 2-column layout for section mode
+    .section-mode {
+      .details-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
     }
   }
 }

@@ -11,11 +11,12 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 import { CRUD_MODES } from '@app/@core/constants/app-settings';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { SimpleMessage } from '@app/restsvc/common-request-service.model';
+import { WorkRequestItemEnqueueRFIComponent } from '@app/components/_crud/workrequestitem/workrequestitem-enqueuerfi.component';
 
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
-  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule ],
+  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule, WorkRequestItemEnqueueRFIComponent ],
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -26,7 +27,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   availableQueues: any[] = [];
 
   override async ngOnInit(): Promise<void> {
-    alert("WorkrequestUpdateComponent ngOnInit " + this.id);
+    //alert("WorkrequestUpdateComponent ngOnInit " + this.id);
     console.log('WorkrequestUpdateComponent ngOnInit');
     this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
     //
@@ -45,6 +46,13 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     return Promise.resolve();
   }
 
+  isTicketAccepted(): boolean {
+    return this.entity?.isTicketAccepted() || false;
+  }
+
+  isTicketRerouted(): boolean {
+    return this.entity?.getCurrentStateCode() === 'rerouted';
+  }
   // Methods referenced in template
   acceptTicket(): void {
     // TODO: Implement accept ticket functionality

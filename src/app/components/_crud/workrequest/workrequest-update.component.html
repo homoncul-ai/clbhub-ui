@@ -1,14 +1,13 @@
-<p>workrequest-update works!</p>
 
-<div class="action-buttons">
-    <button *ngIf="this.canEnterMode('accept')" (click)="this.enterMode('accept')" class="btn btn-primary">Accept Ticket</button>
-    <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
-    <button *ngIf="this.canEnterMode('reroute')" (click)="this.enterMode('reroute')" class="btn btn-primary">Reroute Ticket</button>
-  </div>
 <app-workrequest-crud [id]="id" [modeName]="CRUD_MODES.SECTION"></app-workrequest-crud> 
 
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
+<div class="action-buttons">
+    <button *ngIf="!isTicketAccepted()" (click)="this.enterMode('accept')" class="btn btn-primary">Accept Ticket</button>
+    <!--<button (click)="switchToViewMode()" class="btn btn-secondary">View Mode</button>  -->
+    <button *ngIf="isTicketAccepted()" (click)="this.enterMode('reroute')" class="btn btn-primary">Reroute Ticket</button>
+</div>
 <div *ngIf="currentMode === 'accept'">
     <textarea [(ngModel)]="acceptText" class="form-control" placeholder="Enter your message here"></textarea>
     <button (click)="acceptTicket()" class="btn btn-primary">Accept Ticket</button>
@@ -18,5 +17,12 @@
     <!-- <app-available-selector [available]="availableQueues" (selected)="rerouteTicket($event)"></app-available-selector> -->
     <button (click)="rerouteTicket()" class="btn btn-primary">Reroute Ticket</button>
 </div>
+<hr/>
+  <!--  <app-workrequest-update [workRequestId]="id" modeName="detail"></app-workrequest-update> -->
+  <div id="createItems"> <h3>Create Items - Enqueue RFI</h3>
+    <app-workrequestitem-enqueuerfi [id]="id"></app-workrequestitem-enqueuerfi>
+  </div>
 
-<pre>{{ entity.dump() }}</pre> 
+
+<pre *ngIf="false">
+    {{ entity.dump() }}</pre> 

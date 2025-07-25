@@ -6,14 +6,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
-import { WorkRequestItemCrudWrapper, WorkRequestItemCrudComponent } from '@app/components/_crud/workrequestitem/workrequestitem-crud.component';
+import { WorkRequestItemCrudWrapper, WorkRequestItemCrudComponent} from '@app/components/_crud/workrequestitem/workrequestitem-crud.component';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { WorkRequestItemEnqueueRFIComponent } from './workrequestitem-enqueuerfi.component';
 
 @Component({
   selector: 'app-workrequestitem-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, WorkRequestItemCrudComponent],
+  imports: [CommonModule, SimpleTabsetComponent, WorkRequestItemCrudComponent, WorkRequestItemEnqueueRFIComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequestitem-group.component.html',
 })

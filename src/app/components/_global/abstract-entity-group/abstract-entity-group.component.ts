@@ -121,7 +121,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       ),
       new SimpleTab('details', this.getDetailsTabLabel(), '', 
         () => {
-          this.currentTabId = 'details';
+          //this.currentTabId = 'details';
           this.router.navigate([baseRoute, this.id, 'details']);
         },
         () => {

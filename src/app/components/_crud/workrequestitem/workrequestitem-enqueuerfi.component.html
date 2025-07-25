@@ -1,0 +1,35 @@
+
+<app-workrequestitem-crud [id]="id" [modeName]="CRUD_MODES.SECTION"></app-workrequestitem-crud> 
+
+<app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
+
+<div *ngIf="!isLoading()"> -->
+    <h3>Create Ticket {{ isLoading() }} {{ currentMode }} </h3>
+    <app-menu-control-data-list
+              [menuControlDataList]="this.menuQueues || null"
+              placeholder="Select work queue..."
+              (selectionChange)="onWorkQueueChange($event)">
+            </app-menu-control-data-list>
+    <button (click)="createItemViewPost()" class="btn btn-primary">Create Ticket</button>
+</div>
+
+<div *ngIf="!isLoading() && currentMode === 'createItemView'">
+<pre>currentMode: "{{ currentMode }}"</pre>
+<pre>currentMode type: {{ typeof currentMode }}</pre>
+<pre>currentMode length: {{ currentMode?.length }}</pre>
+<pre>currentMode === 'createItemView': {{ currentMode === 'createItemView' }}</pre>
+<pre>currentMode === "createItemView": {{ currentMode === "createItemView" }}</pre>
+<pre>currentMode == 'createItemView': {{ currentMode == 'createItemView' }}</pre>
+<pre>currentMode.trim() === 'createItemView': {{ currentMode?.trim() === 'createItemView' }}</pre>
+<pre *ngIf="!isLoading() && currentMode === 'createItemView'">{{ currentMode }} enqueue rfi</pre>
+<pre> See! {{ currentMode }}</pre>
+<pre>menuQueues: {{ menuQueues | json }}</pre>
+<pre>menuQueues.menuItems.length: {{ menuQueues?.menuItems?.length }}</pre>
+<pre>isLoading: {{ isLoading() }}</pre>
+
+<!-- <pre>{{ entity.dump() }}</pre>  -->
+<a href="
+http://localhost:4200/ecoadmin-dashboard/workrequests/ef93c024-a2e6-48db-ad7d-2bf84b0089a4/workrequestitem/8f8e0109-7f5b-4bb1-b985-076cb048d76a">test</a>  
+http://localhost:4200/ecoadmin-dashboard/workrequests/ef93c024-a2e6-48db-ad7d-2bf84b0089a4/workRequestItem/92e9d301-26d7-4a2c-871e-d370955ab23c
+</div>
+{{ currentMode }}

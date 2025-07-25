@@ -45,7 +45,6 @@ export class NewWorkRequestComponent extends AbstractMultimodeComponent<WorkRequ
     queueId: ''
   };
   
-  loading = false;
   submitted = false;
   errorMessage = '';
   successMessage = '';

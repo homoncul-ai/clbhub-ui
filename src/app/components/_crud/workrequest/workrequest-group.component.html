@@ -16,9 +16,16 @@
 </div>
 
 <div *ngIf="currentTabId === 'items'">
+  <div id="items" *ngIf="true">
   <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
   [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
+</div>
   <!--  <app-workrequest-update [workRequestId]="id" modeName="detail"></app-workrequest-update> -->
+  <div id="createItems"> <h3>Create Items - Enqueue RFI</h3>
+  <app-workrequestitem-enqueuerfi [id]="id"></app-workrequestitem-enqueuerfi>
+<hr/>
+
+</div>
 </div>
 
 <div *ngIf="currentTabId === 'workRequestItem'">
@@ -37,9 +44,11 @@
 </div> 
 </div>
 
+<div *ngIf="false">
 <li>CurrentId :{{currentTabId}}</li>
 <li>Id :{{id}}</li>
 <li>ChildId :{{childId}}</li>
 <li>Loading :{{loading}}</li>
 <li>ShowingTabset :{{showingTabset}}</li>
 <li>Tabs :{{tabs}}</li> 
+</div>

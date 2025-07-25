@@ -2318,7 +2318,7 @@ export class HcclService extends CommonRequestServiceCaller {
 
   callWorkRequestUi(tix_id: string, action_code: string, body: WorkItemFormRequest): Observable<WorkItemFormResponse> {
     const request: CommonServiceRequest = {
-      url: "/hccl/tixui/" + tix_id + "/workrequestitemui/{action-code}" + "/hccl/tixui//workrequestitemui/" + action_code + "",
+      url: "/hccl/tixui/" + tix_id + "/workrequestitemui/"+ action_code + "",
       method: "POST",
       body: body,
     };

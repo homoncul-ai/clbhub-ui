@@ -41,7 +41,7 @@ export class WorkRequestItemListComponent extends AbstractListComponent<WorkRequ
   // start with the id, dateCreated, dateLastUpdated, createdByInfo, lastUpdatedByInfo commented out.
   protected getGridColumns(): any[] {
     return [
-      //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'workRequestId', header: [{ text: 'Work Request ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'nameText', header: [{ text: 'Name Text', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },

@@ -469,6 +469,10 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
     };
   }
 
+  isTicketAccepted(): boolean {
+    return this.getData().acceptedByUserId != null;
+  }
+
   async getWorkRequests(criteria?: WorkRequestCriteria): Promise<WorkRequestGETData[]> {
     if (!this.hcclService) {
       throw new Error('HcclService not available');

@@ -40,8 +40,8 @@ export class CatalogGroupComponent extends AbstractEntityGroupComponent<CatalogC
     var baseRoute = this.getBaseRoute();
     var tab =  new SimpleTab('entries', 'Entries', '', 
       () => {
-        this.currentTabId = 'entries';
-        //this.router.navigate([baseRoute, this.id, 'entries']);
+        //this.currentTabId = 'entries';
+        this.router.navigate([baseRoute, this.id, 'entries']);
         
       },
       () => {
@@ -51,7 +51,8 @@ export class CatalogGroupComponent extends AbstractEntityGroupComponent<CatalogC
     tabs.push(tab)
     tab =  new SimpleTab('catalogEntry', 'Catalog Entry', '', 
       () => {
-        this.currentTabId = 'catalogEntry';
+        this.router.navigate([baseRoute, this.id, 'catalogEntry', this.childId]);
+        //this.currentTabId = 'catalogEntry';
         
       },
       () => {
