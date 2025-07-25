@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SimpleMessageList } from '../../../restsvc/hccl.service';
+import { SimpleMessageList } from '@app/restsvc/common-request-service.model';
+
 
 @Component({
   selector: 'app-simple-messages-section',

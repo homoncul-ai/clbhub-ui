@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { HcclService, SimpleMessage } from '@app/restsvc/hccl.service';
+import { HcclService } from '@app/restsvc/hccl.service';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { CRUD_MODES } from '@app/@core/constants/app-settings';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
+import { SimpleMessage } from '@app/restsvc/common-request-service.model';
 
 @Component({
   selector: 'app-workrequest-update',

@@ -240,3 +240,16 @@ export interface JobProcessLogPOSTData {
   totalEntriesReserved: number;
   totalEntries?: number;
 }
+
+
+export interface SimpleMessage {
+  messageCode?: string;
+  message?: string;
+  severity?: number;
+  exceptionMessage?: string;
+  referenceCode?: string;
+}
+
+export interface SimpleMessageList {
+  messages?: SimpleMessage[];
+}

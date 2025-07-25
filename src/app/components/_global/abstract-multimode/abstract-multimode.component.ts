@@ -1,13 +1,14 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { HcclService, SimpleMessageList } from '@app/restsvc/hccl.service';
+import { HcclService } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { SimpleMessageList } from '@app/restsvc/common-request-service.model';
 
 @Component({
   selector: 'app-abstract-multimode',
@@ -29,7 +30,7 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   protected hcclService = inject(HcclService);
   protected router = inject(Router);
   protected hcclContextService = inject(HcclContextService);
-  protected messages: SimpleMessageList = { messages: [] };
+  protected messages: SimpleMessageList  = { messages: [] };
   protected currentMode: string = '';
 
   ngOnInit(): void {

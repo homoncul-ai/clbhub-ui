@@ -176,6 +176,18 @@ export class MenuService {
     // Add Provider Type Ref
     const providerTypeRef = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERTYPEREF_LIST);
     this.addMenuItem(menu, providerTypeRef);
+
+    // Add Provider
+    const providerList = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDER_LIST);
+    this.addMenuItem(menu, providerList);
+
+    // Add Provider Request
+    const providerRequestList = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERREQUEST_LIST);
+    this.addMenuItem(menu, providerRequestList);
+
+    // Add Provider Request Type Ref
+    const providerRequestTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERREQUESTTYPEREF_LIST);
+    this.addMenuItem(menu, providerRequestTypeRefList);
     
     // course list
     const courseList = this.copyMenuItem(MENU_CONSTANTS.EA_CLCOURSE_LIST);

@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, SimpleMessageList } from '../../../restsvc/hccl.service';
-import { Reference } from '../../../restsvc/common-request-service.model';
+import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList } from '../../../restsvc/hccl.service';
+import { Reference, SimpleMessageList } from '../../../restsvc/common-request-service.model';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
 import { CommonModule } from '@angular/common';

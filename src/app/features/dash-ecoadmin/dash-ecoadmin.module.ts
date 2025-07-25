@@ -48,6 +48,12 @@ import { CatalogSearchResultListComponent } from '../../components/_crud/catalog
 import { CatalogSearchResultGroupComponent } from '../../components/_crud/catalogsearchresult/catalogsearchresult-group.component';
 import { CatalogSearchResultEntryListComponent } from '../../components/_crud/catalogsearchresultentry/catalogsearchresultentry-list.component';
 import { CatalogSearchResultEntryGroupComponent } from '../../components/_crud/catalogsearchresultentry/catalogsearchresultentry-group.component';
+import { ProviderListComponent } from '../../components/_crud/provider/provider-list.component';
+import { ProviderGroupComponent } from '../../components/_crud/provider/provider-group.component';
+import { ProviderRequestListComponent } from '../../components/_crud/providerrequest/providerrequest-list.component';
+import { ProviderRequestGroupComponent } from '../../components/_crud/providerrequest/providerrequest-group.component';
+import { ProviderRequestTypeRefListComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-list.component';
+import { ProviderRequestTypeRefGroupComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-group.component';
 
 const routes: Routes = [
   {
@@ -61,6 +67,21 @@ const routes: Routes = [
       { path: 'providertyperefs/:id/:tabId', component: ProviderTypeRefGroupComponent },
       { path: 'providertyperefs/:id', redirectTo: 'providertyperefs/:id/details', pathMatch: 'full' },
       { path: 'providertyperefs', component: ProviderTypeRefListComponent },
+      
+      { path: 'providers/create', component: ProviderGroupComponent },
+      { path: 'providers/:id/:tabId', component: ProviderGroupComponent },
+      { path: 'providers/:id', redirectTo: 'providers/:id/details', pathMatch: 'full' },
+      { path: 'providers', component: ProviderListComponent },
+      
+      { path: 'providerrequests/create', component: ProviderRequestGroupComponent },
+      { path: 'providerrequests/:id/:tabId', component: ProviderRequestGroupComponent },
+      { path: 'providerrequests/:id', redirectTo: 'providerrequests/:id/details', pathMatch: 'full' },
+      { path: 'providerrequests', component: ProviderRequestListComponent },
+      
+      { path: 'providerrequesttyperefs/create', component: ProviderRequestTypeRefGroupComponent },
+      { path: 'providerrequesttyperefs/:id/:tabId', component: ProviderRequestTypeRefGroupComponent },
+      { path: 'providerrequesttyperefs/:id', redirectTo: 'providerrequesttyperefs/:id/details', pathMatch: 'full' },
+      { path: 'providerrequesttyperefs', component: ProviderRequestTypeRefListComponent },
       
       { path: 'clcourses/create', component: CLCourseGroupComponent },
       { path: 'clcourses/:id/:tabId', component: CLCourseGroupComponent },
@@ -163,6 +184,12 @@ const routes: Routes = [
     EcoAdminDashboardComponent,
     ProviderTypeRefListComponent,
     ProviderTypeRefGroupComponent,
+    ProviderListComponent,
+    ProviderGroupComponent,
+    ProviderRequestListComponent,
+    ProviderRequestGroupComponent,
+    ProviderRequestTypeRefListComponent,
+    ProviderRequestTypeRefGroupComponent,
     CLCourseListComponent,
     CLCourseGroupComponent,
     CatalogListComponent,

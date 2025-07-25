@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DateGETData ,Reference, RelationshipGETData, JobProcessLogPUTData , ServiceManifest, LoggerConfigurationData, LoggerConfigurationPUTData, JobDefinitionPOSTData, JobDefinitionCriteria, JobDefinitionPUTData, JobProcessLogPOSTData} from './common-request-service.model';
+import { DateGETData ,Reference, RelationshipGETData, JobProcessLogPUTData , ServiceManifest, LoggerConfigurationData, LoggerConfigurationPUTData, JobDefinitionPOSTData, JobDefinitionCriteria, JobDefinitionPUTData, JobProcessLogPOSTData, SimpleMessageList} from './common-request-service.model';
 import { CommonRequestServiceCaller, CommonServiceRequest } from './common-request-service.model';
 import { AppConstants } from '@app/shell/services/config.service';
 
@@ -11,11 +11,11 @@ import { AppConstants } from '@app/shell/services/config.service';
 export class HcclService extends CommonRequestServiceCaller {
   constructor(http: HttpClient, appConstants: AppConstants) {
     super(http);
-    // Hard code it if you want
-	  // const baseUrl = 'http://localhost:8099/trutesta-hccl-services';
 
+  // Hard code it if you want
+   // const baseUrl: string = "http://localhost:8099/trutesta-hccl-services";
     const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
-    console.log("Setting HCCL Service baseUrl to " + baseUrl);
+    console.log("Setting  HCCL Service baseUrl to " + baseUrl);
     this.setBaseUrl(baseUrl);
   }
 
@@ -5301,18 +5301,6 @@ export interface VocationEncodingPUTData {
 export interface EncodingPOSTData {
   textToEncode: string;
   sourceOfText: string;
-}
-
-export interface SimpleMessage {
-  messageCode?: string;
-  message?: string;
-  severity?: number;
-  exceptionMessage?: string;
-  referenceCode?: string;
-}
-
-export interface SimpleMessageList {
-  messages?: SimpleMessage[];
 }
 
 export interface SimpleRestActionContext {
