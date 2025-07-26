@@ -13,8 +13,9 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { CatalogEntryListComponent } from "../catalogentry/catalogentry-list.component";
 import { CatalogEntryCrudComponent } from '../catalogentry/catalogentry-crud.component';
 import { CatalogEntryGroupComponent } from '../catalogentry/catalogentry-group.component';
-import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogSearchResultEntryListComponent } from '../catalogsearchresultentry/catalogsearchresultentry-list.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-addentries',
@@ -157,5 +158,14 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
 
   getCatalogCode(): string {
     return this.catalogCode;
+  }
+
+  getOnGoClickAction(): OnGoClickActionBehavior {
+    var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
+    o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
+      alert('onGoClick Booyeah called with entityIds:' + entityIds + ' baseRoute:' + baseRoute + " " + this.id + " " + this.childId);
+    }
+    o.alertMessage = 'Go with entity ids:';
+    return o;
   }
 } 

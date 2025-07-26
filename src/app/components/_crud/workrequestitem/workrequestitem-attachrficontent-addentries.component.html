@@ -7,7 +7,8 @@
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"></app-catalogsearchresultentry-list> 
 <hr>
 <app-catalogentry-list [criteria]="this.getCriteriaForSearch()" [showingSearch]="true" [showingSearchHeading]="true" 
-[showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"></app-catalogentry-list> 
+[showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
+[onGoClickAction]="getOnGoClickAction()"></app-catalogentry-list> 
 </div>
 
 
