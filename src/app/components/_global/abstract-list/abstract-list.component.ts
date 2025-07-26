@@ -28,6 +28,7 @@ implements OnInit, AfterViewInit {
   @Input() showingAddButton: boolean = false;
   @Input() showingIdCheckbox: boolean = false;
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
+  @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
 
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   protected grid: any;
@@ -254,12 +255,32 @@ implements OnInit, AfterViewInit {
   }
 
   protected onGoClick() {
-    alert('onGoClick called');
+    //alert('onGoClick called');
     if (!this.showingIdCheckbox) {
       alert('Please enable checkboxes first to select entities for tuning');
       return;
     }
+       if (this.grid) {
+      const allData = this.grid.data.serialize();
+      const checkedRows = allData.filter((row: any) => row.select === true);
+      
+      if (checkedRows.length === 0) {
+        alert('Please select at least one entity to tune');
+        return;
+      }
+
+      const entityIds = checkedRows.map((row: any) => row.id);
+      console.log('Tuning entities:', entityIds);
+      const baseRoute = this.getBaseRoute();
+      this.onGoClickAction.alertMessage = 'Go with entity ids:';
+      this.onGoClickAction.onGoClick(entityIds, baseRoute, this.router);
+    }
     // Default implementation - subclasses can override
+  }
+
+  protected onGoAction(checkedRows: any[], entityIds: string[]): void {
+    // Default implementation - subclasses can override
+    alert('onGoAction called with entityIds:' + entityIds);
   }
 
   protected onShowingAdvancedSearch() {
@@ -471,5 +492,24 @@ export class OnRowClickBehavior  {
   getNavigateUrl(entityId: string, baseRoute: string): any[] {
       return [baseRoute, this.parentId, this.tabId, entityId ];
   }
+  
+};
+
+/**
+ * Object containing row click action functionality
+ */
+
+export class OnGoClickActionBehavior  {
+  alertMessage: string = '';
+  doNotNavigate: boolean = false;
+
+  async onGoClick(entityIds: string[], baseRoute: string, router: Router): Promise<void> {
+    console.log('OnGoClickActionBehavior.onGoClick called with entityId:', entityIds, 'baseRoute:', baseRoute);
+      
+      if (this.alertMessage.length > 0) {
+        alert(this.alertMessage + ' ' + entityIds.join('/'));
+      }
+  }
+
   
 };

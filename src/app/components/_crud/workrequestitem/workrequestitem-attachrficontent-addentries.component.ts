@@ -33,15 +33,28 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   protected workRequestItem: WorkRequestItemCrudWrapper | null = null;
   // RFI is for enqueuing a new erquest.
   override async ngOnInit(): Promise<void> {
-    console.log('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit');
+    this.loading = true;
+    //
+   // alert('ngOnInit ' + this.id + ' ' + this.childId);
     this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
     if (this.childId != null) {
       this.workRequestItem = await WorkRequestItemCrudWrapper.newInstance(this.childId || '', this.hcclService);
     }
-    //
+
+    var x : HcclUserContextGETData = this.hcclContextService.getContext();
+
+    if (this.workItemFormContext.workRequestId === '') {
+      this.workItemFormContext.workRequestId = this.id;
+      this.workItemFormContext.workRequestItemId = this.childId;
+      this.workItemFormContext.userProfileId = x.currentUserProfileId
+      this.workItemFormContext.mapContextData = {};
+      this.workItemFormContext.mapResultsData = {};
+    }
+    
+    this.loading = false;
     this.localModes = ['createItemView', 'createItemViewPost'];
-    super.ngOnInit();
     this.enterMode('createItemView');
+    super.ngOnInit();
   }
 
   protected workItemFormContext : WorkItemFormContext = {
@@ -54,9 +67,8 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
 
   protected override async prepareModeEntry(entity: WorkRequestCrudWrapper, mode: string): Promise<void> {
     super.prepareModeEntry(entity, mode);
-    console.log('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit ' + this.entity.dump);
-  // debugger;
-     
+    //alert('prepareModeEntry ' + this.id + ' ' + this.childId);
+
     if (mode === 'createItemView') {
       // Create show a text area.
         await this.setupCreateItemView();
@@ -68,16 +80,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   }
 
   protected async setupCreateItemView() {
-    var x : HcclUserContextGETData = this.hcclContextService.getContext();
-
-    if (this.workItemFormContext.workRequestId === '') {
-      this.workItemFormContext.workRequestId = this.id;
-      this.workItemFormContext.workRequestItemId = this.childId;
-      this.workItemFormContext.userProfileId = x.currentUserProfileId
-      this.workItemFormContext.mapContextData = {};
-      this.workItemFormContext.mapResultsData = {};
-    }
-    
+   
      
     var request : WorkItemFormRequest = {
       op: 'createItemView',
@@ -86,16 +89,14 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     }
     this.workItemFormRequest = request;
     
-    console.log('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit ' + JSON.stringify(this.workItemFormContext));
-    //debugger;
     var rsp  =  await this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise();
 
     
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     this.workItemFormResponse = wirsp;
-    console.log('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit ' + JSON.stringify(rsp));
+   // alert('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit ' + JSON.stringify(rsp));
     this.menuCatalogs = wirsp.mapFormElements.menu_catalogs;
-    this.catalogSearchResult = wirsp.mapFormElements.catalogSearchResults;
+    this.catalogSearchResult = wirsp.mapFormElements.catalogSearchResult;
     this.workItemFormContext = wirsp.context as WorkItemFormContext;
   }
   protected notes: string = '';
@@ -128,12 +129,9 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
     var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-    //alert(this.modeName + ' ' + path.join('/'));
     this.router.navigate(path)
     this.enterMode('createItemViewPost'); 
    });
-
-   
   }
 
   getCriteriaForEntries(): CatalogSearchResultEntryCriteria {

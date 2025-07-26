@@ -2,25 +2,13 @@
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
 
+<div *ngIf="isLoading() === false">
 <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" [showingSearchHeading]="false" 
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"></app-catalogsearchresultentry-list> 
 <hr>
 <app-catalogentry-list [criteria]="this.getCriteriaForSearch()" [showingSearch]="true" [showingSearchHeading]="true" 
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"></app-catalogentry-list> 
+</div>
 
-<div *ngIf="!isLoading() && currentMode === 'createItemView'">
-<pre>currentMode: "{{ currentMode }}"</pre>
-<pre>currentMode type: {{ typeof currentMode }}</pre>
-<pre>currentMode length: {{ currentMode?.length }}</pre>
-<pre>currentMode === 'createItemView': {{ currentMode === 'createItemView' }}</pre>
-<pre>currentMode === "createItemView": {{ currentMode === "createItemView" }}</pre>
-<pre>currentMode == 'createItemView': {{ currentMode == 'createItemView' }}</pre>
-<pre>currentMode.trim() === 'createItemView': {{ currentMode?.trim() === 'createItemView' }}</pre>
-<pre *ngIf="!isLoading() && currentMode === 'createItemView'">{{ currentMode }} attach rfi content</pre>
-<pre> See! {{ currentMode }}</pre> 
-<pre>isLoading: {{ isLoading() }}</pre>
 
-<!-- <pre>{{ entity.dump() }}</pre>  -->
-
-{{ currentMode }} 
-{{ this.workItemFormResponse | json }} 
+<pre>currentMode: "{{ currentMode }}"</pre> 

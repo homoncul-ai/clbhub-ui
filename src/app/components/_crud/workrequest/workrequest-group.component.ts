@@ -108,7 +108,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.parentId = this.id;
     x.tabId = 'workRequestItem';
-    //x.alertMessage = 'Catalog Entry';
+    x.alertMessage = 'Catalog Entry';
     return x;
   }
    
