@@ -38,6 +38,8 @@ export class CommonRequestServiceCaller {
 
     let httpRequest: Observable<T>;
 
+    console.log('request ' + req.method + ' ' + url);
+
     switch (req.method) {
       case 'GET':
         httpRequest = this.http.get<T>(url, options);
@@ -73,6 +75,8 @@ export class CommonRequestServiceCaller {
     };
 
     let httpRequest: Observable<any>;
+
+    console.log('requestCreate ' + req.method + ' ' + url);
 
     switch (req.method) {
       case 'POST':

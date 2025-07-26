@@ -20,6 +20,7 @@ import { SimpleMessageList } from '@app/restsvc/common-request-service.model';
 export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> implements OnInit {
   
   @Input() id!: string;
+  @Input() childId!: string;
   @Input() modeName!: string;
 
   protected entity!: R ;

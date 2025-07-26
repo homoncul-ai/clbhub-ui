@@ -13,7 +13,7 @@ import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
 import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
-import { WorkRequestItemCrudComponent } from '../workrequestitem/workrequestitem-crud.component';
+import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../workrequestitem/workrequestitem-crud.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 
 @Component({
@@ -34,8 +34,14 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
 
   protected async loadEntityById(id: string): Promise<WorkRequestCrudWrapper> {
-    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+    var workRequest = await WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+    if (this.childId != null) {
+      this.workRequestItem = await WorkRequestItemCrudWrapper.newInstance(this.childId || '', this.hcclService);
+    }
+    return workRequest;
   }
+
+  protected workRequestItem: WorkRequestItemCrudWrapper | null = null;
 
   protected setupTabs(): SimpleTab[] {
     var tabs = this.setupListDetailsTabs();
@@ -104,4 +110,8 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     return x;
   }
    
+  getWorkRequestItemActionCode(): string {
+    return this.workRequestItem?.getData().actionCode || 'Error';
+  }
+  
 } 

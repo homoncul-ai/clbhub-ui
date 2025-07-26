@@ -441,6 +441,7 @@ export class OnRowClickBehavior  {
   alertMessage: string = '';
   parentId: string = '';
   tabId: string = '';
+  childId: string = '';
 
   onRowClick(entityId: string, baseRoute: string, router: Router): void {
     console.log('OnRowClickAction.onRowClick called with entityId:', entityId, 'baseRoute:', baseRoute);
