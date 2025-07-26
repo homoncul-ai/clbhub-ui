@@ -30,7 +30,7 @@
 
 <div *ngIf="currentTabId === 'workRequestItem'">
   <app-workrequestitem-crud [id]="childId" modeName="section"></app-workrequestitem-crud>
-
+  <app-workrequestitem-attachrficontent-addentries [id]="childId || ''"></app-workrequestitem-attachrficontent-addentries>
 </div>
 
 <div *ngIf="currentTabId === 'debug'">

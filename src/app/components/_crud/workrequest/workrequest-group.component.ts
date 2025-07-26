@@ -15,12 +15,14 @@ import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../workrequestitem/workrequestitem-crud.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
+import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workrequestitem/workrequestitem-attachrficontent-addentries.component';
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, 
-    WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent, WorkRequestItemEnqueueRFIComponent  ],
+    WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent, 
+    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent ],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })

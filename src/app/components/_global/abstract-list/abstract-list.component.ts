@@ -193,12 +193,15 @@ implements OnInit, AfterViewInit {
     this.initializeGrid();
   }
 
+  copyCreateCriteria(criteria: TCriteria): TCriteria {
+    return { ...criteria };
+  }
+
   private loadGridData(searchByText?: string) {
     const criteria = this.criteria || this.createCriteria();
-
-    // Add search criteria if provided
+    
     if (searchByText && searchByText.trim() !== '') {
-      (criteria as any).searchByText = searchByText;
+      (criteria as any).searchByText = searchByText; 
     }
     if (this.criteria == null && this.selectedId) {
       (criteria as any).ids = [this.selectedId];
@@ -208,7 +211,7 @@ implements OnInit, AfterViewInit {
 
   protected loadGridDataCall(criteria: TCriteria) {
     console.log('Loading entities with criteria:', criteria);
-
+    
     this.findEntities(criteria).subscribe({
       next: (response: TSearchResults) => {
         if (this.hasSearchResults(response)) {
@@ -441,7 +444,7 @@ export class OnRowClickBehavior  {
   alertMessage: string = '';
   parentId: string = '';
   tabId: string = '';
-  childId: string = '';
+  doNotNavigate: boolean = false;
 
   onRowClick(entityId: string, baseRoute: string, router: Router): void {
     console.log('OnRowClickAction.onRowClick called with entityId:', entityId, 'baseRoute:', baseRoute);
@@ -455,7 +458,11 @@ export class OnRowClickBehavior  {
       if (this.alertMessage.length > 0) {
         alert(this.alertMessage + ' ' + urlParts.join('/'));
       }
-      router.navigate(urlParts);
+      if (this.doNotNavigate) {
+        console.log('doNotNavigate is true, not navigating');
+      } else {
+        router.navigate(urlParts);
+      }
     } else {
       console.warn('Router not provided to OnRowClickAction.onRowClick');
     }

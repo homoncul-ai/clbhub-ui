@@ -2,8 +2,8 @@
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
 
-<app-catalogentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" [showingSearchHeading]="false" 
-[showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"></app-catalogentry-list> 
+<app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" [showingSearchHeading]="false" 
+[showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"></app-catalogsearchresultentry-list> 
 <hr>
 <app-catalogentry-list [criteria]="this.getCriteriaForSearch()" [showingSearch]="true" [showingSearchHeading]="true" 
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"></app-catalogentry-list> 

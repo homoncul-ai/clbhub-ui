@@ -1,4 +1,4 @@
-import { CatalogEntryCriteria, CatalogSearchResultGETData, CatalogSearchResultPOSTData, HcclUserContextGETData, MenuControlData, MenuControlDataList, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse } from './../../../restsvc/hccl.service';
+import { CatalogEntryCriteria, CatalogSearchResultEntryCriteria, CatalogSearchResultGETData, CatalogSearchResultPOSTData, HcclUserContextGETData, MenuControlData, MenuControlDataList, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse } from './../../../restsvc/hccl.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
@@ -14,12 +14,13 @@ import { CatalogEntryListComponent } from "../catalogentry/catalogentry-list.com
 import { CatalogEntryCrudComponent } from '../catalogentry/catalogentry-crud.component';
 import { CatalogEntryGroupComponent } from '../catalogentry/catalogentry-group.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { CatalogSearchResultEntryListComponent } from '../catalogsearchresultentry/catalogsearchresultentry-list.component';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-addentries',
   standalone: true,
   imports: [CommonModule, WorkRequestItemCrudComponent, SimpleMessagesSectionComponent, FormsModule, MenuControlDataListComponent, JsonPipe,
-    StdMdbFormTextComponent, CatalogEntryListComponent ],
+    StdMdbFormTextComponent, CatalogEntryListComponent, CatalogSearchResultEntryListComponent ],
   templateUrl: './workrequestitem-attachrficontent-addentries.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -135,11 +136,11 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
    
   }
 
-  getCriteriaForEntries(): CatalogEntryCriteria {
+  getCriteriaForEntries(): CatalogSearchResultEntryCriteria {
     return {
-      catalogId: this.catalogSearchResult?.catalogId || '',
+      catalogSearchResultId: this.catalogSearchResult?.id || ''
     }
-  }
+  }   
 
   getCriteriaForSearch(): CatalogEntryCriteria {
     return {
@@ -150,11 +151,9 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   clickRowToShowEntry(): OnRowClickBehavior {
     var o : OnRowClickBehavior = new OnRowClickBehavior();
     o.parentId = this.id;
-    o.tabId = 'catalogentry';
-    o.childId = this.childId;
-    o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {
-      return [baseRoute, this.parentId, this.tabId, entityId ];
-    }
+    o.tabId = 'catalogentry'; 
+    o.alertMessage = 'Modal to show catalog entry';
+    o.doNotNavigate = true;
     return o;
   }
 
