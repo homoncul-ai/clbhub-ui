@@ -9,6 +9,7 @@ export interface MenuItem {
   componentName: string;
   children?: MenuItem[];
   icon?: string;
+  open?: boolean;
 }
 
 
@@ -47,6 +48,7 @@ export class MenuService {
     // Initialize children array if it doesn't exist
     if (!parentMenuItem.children) {
       parentMenuItem.children = [];
+      parentMenuItem.open = false;
     }
     
     // Add child to parent's children array
@@ -74,6 +76,17 @@ export class MenuService {
     }
 
     return copiedItem;
+  }
+
+  newGroupMenuItem(label: string, icon: string): MenuItem {
+    return {
+      level: 1,
+      label: label,
+      route: '',
+      componentPath: '',
+      componentName: '',
+      icon: icon
+    };
   }
 
   /**
@@ -175,101 +188,119 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.EA_DASHBOARD);
     this.addMenuItem(menu, dashboard);
 
+    const providerGroup = this.newGroupMenuItem('Provider Setup', 'fas fa-users');
+    const courseGroup = this.newGroupMenuItem('Catalog Setup', 'fas fa-book');
+    const clschoolGroup = this.newGroupMenuItem('Users and Orgs Setup', 'fas fa-school');
+
+    const workGroup = this.newGroupMenuItem('Work Setup', 'fas fa-tasks');
+
+
+    const teamGroup = this.newGroupMenuItem('Team Setup', 'fas fa-users');
+    this.addMenuItem(menu, workGroup);
+    this.addMenuItem(menu, teamGroup);
+
+    this.addMenuItem(menu, providerGroup);
+    this.addMenuItem(menu, courseGroup);
+    this.addMenuItem(menu, clschoolGroup);
+
+
     // Add Provider Type Ref
     const providerTypeRef = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERTYPEREF_LIST);
-    this.addMenuItem(menu, providerTypeRef);
+    this.addChildMenuItem(providerGroup, providerTypeRef);
 
     // Add Provider
     const providerList = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDER_LIST);
-    this.addMenuItem(menu, providerList);
+    this.addChildMenuItem(providerGroup, providerList);
 
     // Add Provider Request
     const providerRequestList = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERREQUEST_LIST);
-    this.addMenuItem(menu, providerRequestList);
+    this.addChildMenuItem(providerGroup, providerRequestList);
 
     // Add Provider Request Type Ref
     const providerRequestTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERREQUESTTYPEREF_LIST);
-    this.addMenuItem(menu, providerRequestTypeRefList);
+    this.addChildMenuItem(providerGroup, providerRequestTypeRefList);
     
+
     // course list
     const courseList = this.copyMenuItem(MENU_CONSTANTS.EA_CLCOURSE_LIST);
-    this.addMenuItem(menu, courseList);
+    this.addChildMenuItem(courseGroup, courseList);
 
     // catalog list
     const catalogList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOG_LIST);
-    this.addMenuItem(menu, catalogList);
+    this.addChildMenuItem(courseGroup, catalogList);
 
     // catalogentry list
     const catalogEntryList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRY_LIST);
-    this.addMenuItem(menu, catalogEntryList);
+    this.addChildMenuItem(courseGroup, catalogEntryList);
+
 
     // clschool list
     const clschoolList = this.copyMenuItem(MENU_CONSTANTS.EA_CLSCHOOL_LIST);
-    this.addMenuItem(menu, clschoolList);
+    this.addChildMenuItem(clschoolGroup, clschoolList);
 
     // hcclorganization list
     const hcclorganizationList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLORGANIZATION_LIST);
-    this.addMenuItem(menu, hcclorganizationList);
+    this.addChildMenuItem(clschoolGroup, hcclorganizationList);
 
     // hcclorganizationtyperef list
     const hcclorganizationtyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLORGANIZATIONTYPEREF_LIST);
-    this.addMenuItem(menu, hcclorganizationtyperefList);
+    this.addChildMenuItem(clschoolGroup, hcclorganizationtyperefList);
 
     // hccluser list
     const hccluserList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLUSER_LIST);
-    this.addMenuItem(menu, hccluserList);
+    this.addChildMenuItem(clschoolGroup, hccluserList);
 
     // hccluserprofile list
     const hccluserprofileList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLUSERPROFILE_LIST);
-    this.addMenuItem(menu, hccluserprofileList);
-
+    this.addChildMenuItem(clschoolGroup, hccluserprofileList);
     // workqueuetyperef list
     const workqueuetyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKQUEUETYPEREF_LIST);
-    this.addMenuItem(menu, workqueuetyperefList);
+    this.addChildMenuItem(workGroup, workqueuetyperefList);
 
     // workrequesttyperef list
     const workrequesttyperefList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUESTTYPEREF_LIST);
-    this.addMenuItem(menu, workrequesttyperefList);
+    this.addChildMenuItem(workGroup, workrequesttyperefList);
 
     // workqueue list
     const workqueueList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKQUEUE_LIST);
-    this.addMenuItem(menu, workqueueList);
+    this.addChildMenuItem(workGroup, workqueueList);
 
     // workrequest list
     const workrequestList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUEST_LIST);
-    this.addMenuItem(menu, workrequestList);
+    this.addChildMenuItem(workGroup, workrequestList);
 
     // workrequestitem list
     const workrequestitemList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUESTITEM_LIST);
-    this.addMenuItem(menu, workrequestitemList);
-
-    // teamMemberRoleRef list
-    const teamMemberRoleRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMMEMBERROLEREF_LIST);
-    this.addMenuItem(menu, teamMemberRoleRefList);
-
-    // teamTypeRef list
-    const teamTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMTYPEREF_LIST);
-    this.addMenuItem(menu, teamTypeRefList);
-
-    // hcclTeam list
-    const hcclTeamList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAM_LIST);
-    this.addMenuItem(menu, hcclTeamList);
-
-    // teamMember list
-    const teamMemberList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMMEMBER_LIST);
-    this.addMenuItem(menu, teamMemberList);
-
-    // hcclTeamLog list
-    const hcclTeamLogList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAMLOG_LIST);
-    this.addMenuItem(menu, hcclTeamLogList);
+    this.addChildMenuItem(workGroup, workrequestitemList);
 
     // catalogsearchresult list
     const catalogsearchresultList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGSEARCHRESULT_LIST);
-    this.addMenuItem(menu, catalogsearchresultList);
+    this.addChildMenuItem(workGroup, catalogsearchresultList);
 
     // catalogsearchresultentry list
     const catalogsearchresultentryList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGSEARCHRESULTENTRY_LIST);
-    this.addMenuItem(menu, catalogsearchresultentryList);
+    this.addChildMenuItem(workGroup, catalogsearchresultentryList);
+
+
+    // teamMemberRoleRef list
+    const teamMemberRoleRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMMEMBERROLEREF_LIST);
+    this.addChildMenuItem(teamGroup, teamMemberRoleRefList);
+
+    // teamTypeRef list
+    const teamTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMTYPEREF_LIST);
+    this.addChildMenuItem(teamGroup, teamTypeRefList);
+
+    // hcclTeam list
+    const hcclTeamList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAM_LIST);
+    this.addChildMenuItem(teamGroup, hcclTeamList);
+
+    // teamMember list
+    const teamMemberList = this.copyMenuItem(MENU_CONSTANTS.EA_TEAMMEMBER_LIST);
+    this.addChildMenuItem(teamGroup, teamMemberList);
+
+    // hcclTeamLog list
+    const hcclTeamLogList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAMLOG_LIST);
+    this.addChildMenuItem(teamGroup, hcclTeamLogList);
 
     return menu;
   }

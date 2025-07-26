@@ -11942,6 +11942,9 @@
           },
           "comments": {
             "type": "string"
+          },
+          "catalogEntry": {
+            "$ref": "#/components/schemas/CatalogEntryGETData"
           }
         }
       },
@@ -12109,6 +12112,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CatalogSearchResultEntryGETData"
+            }
+          },
+          "entryIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         }
