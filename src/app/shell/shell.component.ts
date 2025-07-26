@@ -172,7 +172,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     return menuItems.map(item => ({
       id: item.label,
       value: item.label,
-      opened: true,
+      opened: item.open === true, // Only open if explicitly set to true
       icon: {
         folder: item.icon || "fas fa-folder",
         openFolder: item.icon || "fas fa-folder-open",
