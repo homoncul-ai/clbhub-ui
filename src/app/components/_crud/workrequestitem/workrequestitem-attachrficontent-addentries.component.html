@@ -5,11 +5,11 @@
 <div *ngIf="isLoading() === false">
 <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" [showingSearchHeading]="false" 
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
-[onGoClickAction]="getOnGoRemoveCatalogEntriesToRFI()"></app-catalogsearchresultentry-list> 
+[onGoClickAction]="getOnGoRemoveCatalogEntriesToRFI()" goButtonLabel="Remove Selected Items"></app-catalogsearchresultentry-list> 
 <hr>
 <app-catalogentry-list [criteria]="this.getCriteriaForSearch()" [showingSearch]="true" [showingSearchHeading]="true" 
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
-[onGoClickAction]="getOnGoAddCatalogEntriesToRFI()"></app-catalogentry-list> 
+[onGoClickAction]="getOnGoAddCatalogEntriesToRFI()" goButtonLabel="Add Selected Items"></app-catalogentry-list> 
 </div>
 
 

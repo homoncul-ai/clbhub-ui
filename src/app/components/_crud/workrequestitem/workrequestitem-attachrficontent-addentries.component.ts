@@ -98,6 +98,9 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
    // alert('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit ' + JSON.stringify(rsp));
     this.menuCatalogs = wirsp.mapFormElements.menu_catalogs;
     this.catalogSearchResult = wirsp.mapFormElements.catalogSearchResult;
+    this.catalogEntriesIdsToRemove = this.catalogSearchResult?.entries?.map
+      (entry => entry.catalogEntryId).filter((id): id is string => id !== undefined) || [];
+    debugger;
     this.workItemFormContext = wirsp.context as WorkItemFormContext;
   }
   protected notes: string = '';
@@ -108,7 +111,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   protected workItemFormResponse : WorkItemFormResponse | null = null;
   protected workItemFormRequest : WorkItemFormRequest | null = null;
   protected catalogSearchResult : CatalogSearchResultGETData | null = null;
-
+  protected catalogEntriesIdsToRemove: string[] = [];
   protected selectedWorkQueue : MenuControlData | null = null;
 
   protected catalogCode : string = '';
@@ -128,6 +131,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   getCriteriaForSearch(): CatalogEntryCriteria {
     return {
       catalogId: this.catalogSearchResult?.catalogId || '',
+      idsToRemove: this.catalogEntriesIdsToRemove
     }
   } 
 
@@ -149,7 +153,6 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   getOnGoRemoveCatalogEntriesToRFI(): OnGoClickActionBehavior {
     var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
     o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
-      alert('onGoClick Booyeah called with entityIds:' + entityIds + ' baseRoute:' + baseRoute + " " + this.id + " " + this.childId);
       this.removeItemsFromRFI(entityIds);
     }
     o.alertMessage = 'Go with entity ids:';
@@ -165,20 +168,16 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
         searchResultsCatalogEntryIds: entityIds,
       }
     }
-    debugger
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    debugger;
     var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
     this.router.navigate(path)
-    this.enterMode('createItemViewPost'); 
    });
   }
   getOnGoAddCatalogEntriesToRFI(): OnGoClickActionBehavior {
     var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
     o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
-      alert('onGoClick Booyeah called with entityIds:' + entityIds + ' baseRoute:' + baseRoute + " " + this.id + " " + this.childId);
       this.addItemsToRFI(entityIds);
     }
     o.alertMessage = 'Go with entity ids:';
@@ -192,13 +191,12 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
       actionFormData: {
         catalogEntryIds: entityIds,
       }
-    }
-    debugger
+    } 
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    debugger;
     var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+   // alert('addItemsToRFI called with entityIds:' + entityIds );
     this.router.navigate(path)
     this.enterMode('createItemViewPost'); 
    });

@@ -23,9 +23,13 @@ export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, T
 implements OnInit, AfterViewInit {
   @Input() criteria: TCriteria | null = null;
   @Input() showingSearch: boolean = true;
+  @Input() searchButtonLabel: string = 'Search';
+  @Input() searchPlaceholder: string = 'search by name or business code, * for wildcard';
   @Input() showingSearchHeading: boolean = true;
   @Input() showingGoButton: boolean = true;
+  @Input() goButtonLabel: string = 'Go';
   @Input() showingAddButton: boolean = false;
+  @Input() addButtonLabel: string = 'Add';
   @Input() showingIdCheckbox: boolean = false;
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
@@ -38,7 +42,6 @@ implements OnInit, AfterViewInit {
   protected selectedId: string | null = null;
   protected showingAdvancedSearch: boolean = false;
   protected searchHeading: string = 'Entities';
-  protected searchPlaceholder: string = 'search by name or business code, * for wildcard';
   
 
 
@@ -279,10 +282,10 @@ implements OnInit, AfterViewInit {
     // Default implementation - subclasses can override
   }
 
-  protected onGoAction(checkedRows: any[], entityIds: string[]): void {
-    // Default implementation - subclasses can override
-    alert('onGoAction called with entityIds:' + entityIds);
-  }
+  // protected onGoAction(checkedRows: any[], entityIds: string[]): void {
+  //   // Default implementation - subclasses can override
+  //   alert('onGoAction called with entityIds:' + entityIds);
+  // }
 
   protected onShowingAdvancedSearch() {
 

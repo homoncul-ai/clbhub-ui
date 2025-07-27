@@ -2654,6 +2654,7 @@ export interface CatalogEntryCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToRemove?: string[];
   searchByText?: string;
   maxResults?: number;
   catalogId?: string;

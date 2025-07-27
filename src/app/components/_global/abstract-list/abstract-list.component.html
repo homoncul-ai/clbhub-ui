@@ -4,28 +4,28 @@
     <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
     <form *ngIf="showingSearch" class="search-list-search-bar" (submit)="onSearch(searchInput.value); $event.preventDefault();">
       <div *ngIf="showingGoButton" class="search-list-button-bar">
-        <button class="search-list-button-bar-button btn-primary" (click)="onGoClick()">Go</button> 
+        <button class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
         <input #searchInput type="text" class="search-list-input" [placeholder]="searchPlaceholder" />
       <button type="submit" class="search-list-input-button">
-        <span class="material-icons" aria-label="Search">Search</span>
+        <span class="material-icons" aria-label="Search">{{ searchButtonLabel }}</span>
       </button>
       <button *ngIf="showingAdvancedSearch" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
         <span class="material-icons" aria-label="Advanced Search">(AdvSrch)</span>
       </button>
       <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
-        <span class="material-icons" aria-label="Add">Add</span>
+        <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
     </form>
 
     <form *ngIf="!showingSearch" class="search-list-search-bar" >
       <div *ngIf="showingGoButton" class="search-list-button-bar">
-        <button class="search-list-button-bar-button btn-primary" (click)="onGoClick()">Go</button> 
+        <button class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
       <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
-        <span class="material-icons" aria-label="Add">Add</span>
+        <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
     </form>
     <div #gridContainer class="search-list-grid"></div>
