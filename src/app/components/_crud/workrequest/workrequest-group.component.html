@@ -4,6 +4,8 @@
    
 <div *ngIf="currentTabId === 'details'">
   <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud>
+
+ 
 </div>
 
 <div *ngIf="currentTabId === 'create'">
@@ -12,20 +14,23 @@
 </div>
 
 <div *ngIf="currentTabId === 'update'">
+  <app-workrequest-crud [id]="id" [modeName]="'section'"></app-workrequest-crud> 
+
+  <div id="items" *ngIf="true">
+    <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
+    [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
+  </div>
+  
  <app-workrequest-update [id]="id" modeName="detail"></app-workrequest-update> 
 </div>
 
 <div *ngIf="currentTabId === 'items'">
+  
   <div id="items" *ngIf="true">
   <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
   [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
 </div>
-  <!--  <app-workrequest-update [workRequestId]="id" modeName="detail"></app-workrequest-update> -->
-  <div id="createItems"> <h3>Create Items - Enqueue RFI</h3>
-  <app-workrequestitem-enqueuerfi [id]="id"></app-workrequestitem-enqueuerfi>
-<hr/>
-
-</div>
+ 
 </div>
 
 <div *ngIf="currentTabId === 'workRequestItem'">
