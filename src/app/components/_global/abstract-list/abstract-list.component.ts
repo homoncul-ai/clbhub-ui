@@ -158,8 +158,8 @@ implements OnInit, AfterViewInit {
     this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
       columns: columns,
       css: "search-list-grid",
-      height: 600,
-      autoWidth: false,
+      height: "auto",
+      autoWidth: true,
       selection: 'row',
       editable: false,
       resizable: true,

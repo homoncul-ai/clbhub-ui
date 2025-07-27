@@ -1,3 +1,9 @@
+.search-list-container {
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 .search-list-title {
     font-size: 1.2em;
     font-weight: 600;
@@ -157,6 +163,11 @@
     /* Revert some previous styles to get standard table appearance */
     border: 1px solid #ddd; /* Outer border */
     border-radius: 4px;
+    max-width: 100%;
+    width: 100%;
+    max-height: 70vh;
+    overflow-x: auto;
+    overflow-y: auto;
   }
   
   .search-list-grid .dhx_grid-header {
@@ -190,6 +201,17 @@
       word-wrap: break-word;
       white-space: normal;
       line-height: 1.4;
+  }
+  
+  /* Ensure DHTMLX grid respects container constraints */
+  .search-list-grid .dhx_grid {
+      max-width: 100% !important;
+      width: 100% !important;
+  }
+  
+  .search-list-grid .dhx_grid__table {
+      max-width: 100% !important;
+      table-layout: auto;
   }
   
   .search-list-grid .dhx_grid-row {
