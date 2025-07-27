@@ -35,6 +35,8 @@ implements OnInit, AfterViewInit {
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
   @Input() otherData: any = {};
 
+  protected actionCode: string = 'search';
+
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   @ViewChild('searchInput') searchInput!: ElementRef;
   protected grid: any;
@@ -270,6 +272,7 @@ implements OnInit, AfterViewInit {
   }
 
   protected onGoClick() {
+    this.actionCode = 'go';
     //alert('onGoClick called');
     if (!this.showingIdCheckbox) {
       alert('Please enable checkboxes first to select entities for tuning');
@@ -316,7 +319,15 @@ implements OnInit, AfterViewInit {
   }
 
   public onSearch(query: string) {
+    this.actionCode = 'search';
     this.loadGridData(query);
+  }
+
+  public onFormSubmit(event: Event) {
+    event.preventDefault();
+    if (this.searchInput?.nativeElement) {
+      this.onSearch(this.searchInput.nativeElement.value);
+    }
   }
 
   protected onAdvancedSearch() { 

@@ -185,6 +185,13 @@
       border-right: none !important;
   }
   
+  /* Text wrapping for grid cells */
+  .search-list-grid .dhx_grid-cell {
+      word-wrap: break-word;
+      white-space: normal;
+      line-height: 1.4;
+  }
+  
   .search-list-grid .dhx_grid-row {
     border-bottom: none; /* Remove default row border, handled by cell borders */
   }

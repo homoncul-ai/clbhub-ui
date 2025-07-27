@@ -34,23 +34,23 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
 
   protected getGridColumns(): any[] {
     return [
-      { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'catalogId', header: [{ text: 'Catalog ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+     // { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      //{ id: 'catalogId', header: [{ text: 'Catalog ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'entryCode', header: [{ text: 'Entry Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'title', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'shortDescription', header: [{ text: 'Short Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'notes', header: [{ text: 'Notes', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-      { id: 'url', header: [{ text: 'URL', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'vocodeInstanceId', header: [{ text: 'Vocode Instance ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'integrationEntityId', header: [{ text: 'Integration Entity ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'integrationEntityType', header: [{ text: 'Integration Entity Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'integrationEntityName', header: [{ text: 'Integration Entity Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      { id: 'title', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, maxWidth: 300, adjust: true },
+      { id: 'shortDescription', header: [{ text: 'Short Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true, wordWrap: true },
+      //{ id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'notes', header: [{ text: 'Notes', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      //{ id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
+      //{ id: 'url', header: [{ text: 'URL', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      //{ id: 'vocodeInstanceId', header: [{ text: 'Vocode Instance ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      //{ id: 'integrationEntityId', header: [{ text: 'Integration Entity ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      //{ id: 'integrationEntityType', header: [{ text: 'Integration Entity Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      //{ id: 'integrationEntityName', header: [{ text: 'Integration Entity Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
 //      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
   //    { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
     //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
-      { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+      //{ id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
     ];
   }
 
