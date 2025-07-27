@@ -283,15 +283,17 @@ implements OnInit, AfterViewInit {
       const checkedRows = allData.filter((row: any) => row.select === true);
       
       if (checkedRows.length === 0) {
-        alert('Please select at least one entity to tune');
+        //alert('Please select at least one entity to tune');
         return;
       }
 
       const entityIds = checkedRows.map((row: any) => row.id);
-      console.log('Tuning entities:', entityIds);
-      const baseRoute = this.getBaseRoute();
-      this.onGoClickAction.alertMessage = 'Go with entity ids:';
-      this.onGoClickAction.onGoClick(entityIds, baseRoute, this.router);
+      if (entityIds.length > 0) {
+        console.log('Tuning entities:', entityIds);
+        const baseRoute = this.getBaseRoute();
+        this.onGoClickAction.alertMessage = 'Go with entity ids:';
+        this.onGoClickAction.onGoClick(entityIds, baseRoute, this.router);
+      }
     }
     // Default implementation - subclasses can override
   }
