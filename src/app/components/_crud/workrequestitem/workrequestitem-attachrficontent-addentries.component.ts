@@ -16,12 +16,13 @@ import { CatalogEntryGroupComponent } from '../catalogentry/catalogentry-group.c
 import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogSearchResultEntryListComponent } from '../catalogsearchresultentry/catalogsearchresultentry-list.component';
 import { Router } from '@angular/router';
+import { CatalogSearchResultCrudComponent } from '../catalogsearchresult/catalogsearchresult-crud.component';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-addentries',
   standalone: true,
   imports: [CommonModule, WorkRequestItemCrudComponent, SimpleMessagesSectionComponent, FormsModule, MenuControlDataListComponent, JsonPipe,
-    StdMdbFormTextComponent, CatalogEntryListComponent, CatalogSearchResultEntryListComponent ],
+    StdMdbFormTextComponent, CatalogEntryListComponent, CatalogSearchResultEntryListComponent, CatalogSearchResultCrudComponent],
   templateUrl: './workrequestitem-attachrficontent-addentries.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -200,5 +201,11 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     this.router.navigate(path)
     this.enterMode('createItemViewPost'); 
    });
+  }
+
+  getCatalogEntryOtherData(): any {
+    return {
+      catalogCode: "Bambi"
+    }
   }
 } 

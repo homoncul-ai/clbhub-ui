@@ -16,13 +16,14 @@ import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstra
 import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../workrequestitem/workrequestitem-crud.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workrequestitem/workrequestitem-attachrficontent-addentries.component';
+import { CatalogSearchResultCrudComponent } from "../catalogsearchresult/catalogsearchresult-crud.component";
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent, 
-    WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent, 
-    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent ],
+  imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
+    WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
+    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent, CatalogSearchResultCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -108,7 +109,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.parentId = this.id;
     x.tabId = 'workRequestItem';
-    x.alertMessage = 'Catalog Entry';
+    //x.alertMessage = 'Catalog Entry';
     return x;
   }
    

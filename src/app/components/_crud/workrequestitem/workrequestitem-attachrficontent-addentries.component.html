@@ -1,15 +1,21 @@
 <!-- DEBUG: Attach RFI Content Component Loaded -->
-<app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
-
 
 <div *ngIf="isLoading() === false">
+    <app-catalogsearchresult-crud [id]="this.catalogSearchResult?.id" modeName="section"></app-catalogsearchresult-crud>
+    <hr>
+
+    <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
+    
+    
 <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" [showingSearchHeading]="false" 
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
-[onGoClickAction]="getOnGoRemoveCatalogEntriesToRFI()" goButtonLabel="Remove Selected Items"></app-catalogsearchresultentry-list> 
+[onGoClickAction]="getOnGoRemoveCatalogEntriesToRFI()" goButtonLabel="Remove Selected Items" 
+[otherData]="getCatalogEntryOtherData()"></app-catalogsearchresultentry-list> 
 <hr>
 <app-catalogentry-list [criteria]="this.getCriteriaForSearch()" [showingSearch]="true" [showingSearchHeading]="true" 
 [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
-[onGoClickAction]="getOnGoAddCatalogEntriesToRFI()" goButtonLabel="Add Selected Items"></app-catalogentry-list> 
+[onGoClickAction]="getOnGoAddCatalogEntriesToRFI()" goButtonLabel="Add Selected Items" 
+[otherData]="getCatalogEntryOtherData()"></app-catalogentry-list> 
 </div>
 
 

@@ -33,6 +33,7 @@ implements OnInit, AfterViewInit {
   @Input() showingIdCheckbox: boolean = false;
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
+  @Input() otherData: any = {};
 
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   @ViewChild('searchInput') searchInput!: ElementRef;
@@ -243,7 +244,8 @@ implements OnInit, AfterViewInit {
       const data: any = {
         ...entity,
         ...this.formatEntityData(entity),
-        ...asyncData
+        ...asyncData,
+        ...this.getOtherData(entity)
       };
       
       // Only add select property if checkbox is shown
@@ -256,6 +258,15 @@ implements OnInit, AfterViewInit {
     }));
     this.grid.data.parse(gridData);
     console.log("Loaded entities:", gridData.length);
+  }
+
+  /**
+   * 
+   * @param entity Pass in constant data that is not part of the entity
+   * @returns 
+   */
+  protected getOtherData(entity: T): any {
+    return this.otherData;
   }
 
   protected onGoClick() {
@@ -281,11 +292,6 @@ implements OnInit, AfterViewInit {
     }
     // Default implementation - subclasses can override
   }
-
-  // protected onGoAction(checkedRows: any[], entityIds: string[]): void {
-  //   // Default implementation - subclasses can override
-  //   alert('onGoAction called with entityIds:' + entityIds);
-  // }
 
   protected onShowingAdvancedSearch() {
 

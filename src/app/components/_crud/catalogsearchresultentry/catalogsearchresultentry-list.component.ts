@@ -46,21 +46,29 @@ export class CatalogSearchResultEntryListComponent extends AbstractListComponent
     return [
       // id is commented out for now - not sure if we want to show this
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'catalogSearchResultId', header: [{ text: 'Catalog Search Result', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'catalogEntryId', header: [{ text: 'Catalog Entry', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'catalogId', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'comments', header: [{ text: 'Comments', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogSearchResultId', header: [{ text: 'Catalog Search Result', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogEntryId', header: [{ text: 'Catalog Entry', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogId', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      //{ id: 'comments', header: [{ text: 'Comments', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
 
       // Replace [prefix]Id with the displaytext of the crudwrapper - named [prefix]Str instead of [prefix]Id
-      { id: 'catalogSearchResultStr', header: [{ text: 'Catalog Search Result', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'catalogEntryStr', header: [{ text: 'Catalog Entry', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'catalogStr', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      //{ id: 'catalogSearchResultStr', header: [{ text: 'Catalog Search Result', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogEntryStr', header: [{ text: 'Catalog Entry', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogStr', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
 
       // Commented out for now - not sure if we want to show this
 //      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
   //    { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
     //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
-      { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+      //{ id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+      //{ id: 'catalogCode', header: [{ text: 'Catalog Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'catalogEntryEntryCode', header: [{ text: 'Entry Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'catalogEntryTitle', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'catalogEntryShortDescription', header: [{ text: 'Short Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogEntryDescription', header: [{ text: 'Catalog Entry Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogEntryNotes', header: [{ text: 'Catalog Entry Notes', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogEntryAvailable', header: [{ text: 'Catalog Entry Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      //{ id: 'catalogEntryUrl', header: [{ text: 'Catalog Entry Url', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
     ];
   }
 
@@ -105,9 +113,12 @@ export class CatalogSearchResultEntryListComponent extends AbstractListComponent
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
-      catalogSearchResultStr: catalogSearchResultStr,
-      catalogEntryStr: catalogEntryStr,
-      catalogStr: catalogStr
+      catalogEntryEntryCode: entity.catalogEntry?.entryCode || '',
+      catalogEntryTitle: entity.catalogEntry?.title || '',
+      catalogEntryShortDescription: entity.catalogEntry?.shortDescription || '',
+      //catalogSearchResultStr: catalogSearchResultStr,
+      //catalogEntryStr: catalogEntryStr,
+      //catalogStr: catalogStr
     };
   }
 } 
