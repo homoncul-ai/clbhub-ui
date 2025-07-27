@@ -31,6 +31,7 @@ implements OnInit, AfterViewInit {
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
 
   @ViewChild('gridContainer') gridContainer!: ElementRef;
+  @ViewChild('searchInput') searchInput!: ElementRef;
   protected grid: any;
   protected isDhtmlxLoaded = false;
 

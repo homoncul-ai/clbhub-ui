@@ -117,23 +117,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
    this.catalogCode = selectedItem?.id || '';
   }
 
-  createItemViewPost() { 
-    var request : WorkItemFormRequest = {
-      op: 'createItemViewPost',
-      context: this.workItemFormContext,
-      actionFormData: {
-        catalogCode: this.catalogCode,
-        notes: this.notes
-      }
-    }
-   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
-    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
-    var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-    this.router.navigate(path)
-    this.enterMode('createItemViewPost'); 
-   });
-  }
+ 
 
   getCriteriaForEntries(): CatalogSearchResultEntryCriteria {
     return {
@@ -160,12 +144,63 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     return this.catalogCode;
   }
 
-  getOnGoClickAction(): OnGoClickActionBehavior {
+
+
+  getOnGoRemoveCatalogEntriesToRFI(): OnGoClickActionBehavior {
     var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
     o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
       alert('onGoClick Booyeah called with entityIds:' + entityIds + ' baseRoute:' + baseRoute + " " + this.id + " " + this.childId);
+      this.removeItemsFromRFI(entityIds);
     }
     o.alertMessage = 'Go with entity ids:';
     return o;
+  }
+
+
+  removeItemsFromRFI(entityIds: string[]) { 
+    var request : WorkItemFormRequest = {
+      op: 'contentRemoveItems',
+      context: this.workItemFormContext,
+      actionFormData: {
+        searchResultsCatalogEntryIds: entityIds,
+      }
+    }
+    debugger
+   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
+    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
+    var wrid: string = wirsp.context?.workRequestItemId || '';
+    debugger;
+    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+    this.router.navigate(path)
+    this.enterMode('createItemViewPost'); 
+   });
+  }
+  getOnGoAddCatalogEntriesToRFI(): OnGoClickActionBehavior {
+    var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
+    o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
+      alert('onGoClick Booyeah called with entityIds:' + entityIds + ' baseRoute:' + baseRoute + " " + this.id + " " + this.childId);
+      this.addItemsToRFI(entityIds);
+    }
+    o.alertMessage = 'Go with entity ids:';
+    return o;
+  }
+
+  addItemsToRFI(entityIds: string[]) { 
+    var request : WorkItemFormRequest = {
+      op: 'contentAddPost',
+      context: this.workItemFormContext,
+      actionFormData: {
+        catalogEntryIds: entityIds,
+      }
+    }
+    debugger
+   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
+    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
+    var wrid: string = wirsp.context?.workRequestItemId || '';
+    debugger;
+    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+    this.router.navigate(path)
+    this.enterMode('createItemViewPost'); 
+   });
   }
 } 

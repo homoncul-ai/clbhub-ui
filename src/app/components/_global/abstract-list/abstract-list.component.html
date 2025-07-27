@@ -18,5 +18,15 @@
         <span class="material-icons" aria-label="Add">Add</span>
       </button>
     </form>
+
+    <form *ngIf="!showingSearch" class="search-list-search-bar" >
+      <div *ngIf="showingGoButton" class="search-list-button-bar">
+        <button class="search-list-button-bar-button btn-primary" (click)="onGoClick()">Go</button> 
+        &nbsp;
+      </div>
+      <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
+        <span class="material-icons" aria-label="Add">Add</span>
+      </button>
+    </form>
     <div #gridContainer class="search-list-grid"></div>
   </div>
