@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { HcclUserContextGETData, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { AdvoMessagesComponent } from '../messages/advo-messages.component';
+import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-advo-dash-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, AdvoMessagesComponent],
+  imports: [CommonModule, SimpleTabsetComponent, AdvoMessagesComponent, WorkRequestListComponent],
   templateUrl: './advo-dash-group.component.html',
   styleUrl: './advo-dash-group.component.scss'
 })
@@ -20,13 +22,15 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
     this.hcclContextService.refreshContext().subscribe(context => {
       this.defaultId = context.currentUserProfileId || '';
       this.id = this.defaultId;
-    
+      this.setupWorkRequestListBlocks();
       // Call parent ngOnInit after setting the ID
       super.ngOnInit();
       //alert('defaultId ' + this.defaultId);
     });
 
   }
+ 
+
   protected defaultId: string = '';
   protected override getDefaultId(): string {
     return this.defaultId;
@@ -68,4 +72,46 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
     return 'home';
   }
 
-} 
+  protected workRequestListBlocks: WorkRequestListBlock[] = [];
+
+  protected async setupWorkRequestListBlocks(): Promise<WorkRequestListBlock[]> {
+    this.workRequestListBlocks = [];
+    const queues = await this.hcclContextService.getContext().dashQueues || [];
+
+    // First, inbound tickets 
+    for (const queueT of queues) {
+      const queue: WorkQueueGETData = queueT as WorkQueueGETData;
+      const criteria: WorkRequestCriteria = {
+        workQueueId: queue.id,
+        currentStateCode: 'initial',
+      }
+
+      this.workRequestListBlocks.push(new WorkRequestListBlock(queue?.businessCode || '', '', criteria));
+    }
+
+    // Load queues, then get the instructions.
+    return this.workRequestListBlocks;
+  }
+
+  onClickWorkRequestRow(): OnRowClickBehavior {
+    var x: OnRowClickBehavior =  new OnRowClickBehavior();
+    x.alertMessage = 'Ticket';
+    x.usingNavigateUrl = true;
+    x.getNavigateUrl = (id: string) => {
+      return ['/advocate-dashboard', 'workrequests', id];
+    };
+    //x.alertMessage = 'Catalog Entry';
+    return x;
+  }
+}
+export class WorkRequestListBlock {
+    public title: string = '';
+    public criteria: WorkRequestCriteria = {};
+    public helptext: string = '';
+
+    constructor(  title: string,   helptext: string,   criteria: WorkRequestCriteria) {
+      this.title = title;
+      this.criteria = criteria;
+      this.helptext = helptext;
+    }
+  }

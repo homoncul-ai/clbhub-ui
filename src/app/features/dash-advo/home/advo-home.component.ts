@@ -3,15 +3,14 @@ import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofil
 import { AbstractMultimodeComponent } from '@app/components/_global';
 
 @Component({
-  selector: 'app-advo-messages',
-  template: `<div>Advocate Messages</div> will contain 'recent messges
-   from all tickets`,
+  selector: 'app-advo-home',
+  template: `<div>Advocate Home Dashboard</div>`,
   standalone: true
 })
-export class AdvoMessagesComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper>{
+export class AdvoHomeComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper>{
     constructor() {
         super();
-        console.log('AdvoMessagesComponent');
+        console.log('AdvoHomeComponent');
     }
 
     protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {
@@ -21,6 +20,4 @@ export class AdvoMessagesComponent extends AbstractMultimodeComponent<HcclUserPr
     protected async loadEntityById(id: string): Promise<HcclUserProfileCrudWrapper> {
         return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
     }
-
-
 } 

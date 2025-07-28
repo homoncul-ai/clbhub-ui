@@ -2662,6 +2662,8 @@ export interface CatalogEntryCriteria {
   title?: string;
   shortDescription?: string;
   available?: number;
+  url?: string;
+  vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
@@ -2727,6 +2729,7 @@ export interface CatalogEntryTagCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   catalogId?: string;
@@ -2786,6 +2789,7 @@ export interface CatalogSearchResultEntryCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   catalogSearchResultId?: string;
@@ -2837,6 +2841,7 @@ export interface CatalogSearchResultCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   catalogId?: string;
@@ -2885,6 +2890,7 @@ export interface CatalogSearchCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   searchName?: string;
@@ -2938,6 +2944,7 @@ export interface CatalogCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   organizationId?: string;
@@ -2945,6 +2952,8 @@ export interface CatalogCriteria {
   businessCode?: string;
   available?: number;
   taxonomyEntryId?: string;
+  urlPrefix?: string;
+  url?: string;
 }
 
 export interface CatalogPUTData {
@@ -2992,6 +3001,7 @@ export interface CatalogTagRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   tagCode?: string;
@@ -3043,6 +3053,7 @@ export interface ExperienceLocationCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3091,6 +3102,7 @@ export interface ExperienceRegRuleCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3155,6 +3167,7 @@ export interface ExperienceCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3221,6 +3234,7 @@ export interface ExperienceTypeCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3279,6 +3293,7 @@ export interface CLCourseCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   organizationId?: string;
@@ -3355,6 +3370,7 @@ export interface CLGuidanceCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   organizationId?: string;
@@ -3432,6 +3448,7 @@ export interface CLSchoolCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   organizationId?: string;
@@ -3509,6 +3526,7 @@ export interface CLStudentCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   organizationId?: string;
@@ -3580,6 +3598,7 @@ export interface ProviderCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3631,6 +3650,7 @@ export interface ProviderTypeRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3674,6 +3694,7 @@ export interface ProviderUserCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   userCode?: string;
@@ -3728,6 +3749,7 @@ export interface ProviderRequestCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3788,6 +3810,7 @@ export interface ProviderRequestTypeRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -3851,6 +3874,7 @@ export interface StateTransitionLogCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   nameText?: string;
@@ -3921,6 +3945,7 @@ export interface TaxonomyEntryCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   nameText?: string;
@@ -3976,6 +4001,7 @@ export interface TaxonomyLevelCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   nameText?: string;
@@ -4027,6 +4053,7 @@ export interface TaxonomyCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   nameText?: string;
@@ -4088,6 +4115,7 @@ export interface HcclOrganizationCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4144,6 +4172,7 @@ export interface HcclOrganizationTypeRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4195,6 +4224,7 @@ export interface HcclTeamLogCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   nameText?: string;
@@ -4245,6 +4275,7 @@ export interface HcclTeamMemberRoleCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   teamId?: string;
@@ -4294,6 +4325,7 @@ export interface HcclTeamMemberCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   teamId?: string;
@@ -4353,6 +4385,7 @@ export interface HcclTeamCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4423,6 +4456,7 @@ export interface HcclUserProfileCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   userCode?: string;
@@ -4488,6 +4522,7 @@ export interface HcclUserCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4539,6 +4574,7 @@ export interface TeamMemberRoleRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4582,6 +4618,7 @@ export interface TeamTypeMemberRoleRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   teamType?: RelationshipGETData;
@@ -4625,6 +4662,7 @@ export interface TeamTypeRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4680,6 +4718,7 @@ export interface WorkQueueCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4735,6 +4774,7 @@ export interface WorkQueueTypeRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -4797,6 +4837,7 @@ export interface WorkRequestItemCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   workRequestId?: string;
@@ -4876,6 +4917,7 @@ export interface WorkRequestLogCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   nameText?: string;
@@ -4938,6 +4980,7 @@ export interface WorkRequestRoutingReasonCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -5007,6 +5050,7 @@ export interface WorkRequestCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -5084,6 +5128,7 @@ export interface WorkRequestTeamCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -5137,6 +5182,7 @@ export interface WorkRequestTypeRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -5186,6 +5232,7 @@ export interface VocationEncodingInstanceCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   vocationEncodingId?: string;
@@ -5237,6 +5284,7 @@ export interface VocationEncodingRefCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   name?: string;
@@ -5286,6 +5334,7 @@ export interface VocationEncodingCriteria {
   pageSize?: number;
   isPaging?: boolean;
   ids?: string[];
+  idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
   parentEntityId?: string;
@@ -5392,6 +5441,7 @@ export interface HcclUserContextGETData {
   messages: SimpleMessageList;
   currentUserProfile: HcclUserProfileGETData;
   userProfileMenu: MenuControlDataList;
+  dashQueues?: WorkQueueGETData[];
 }
 
 export interface GenericFormUI {

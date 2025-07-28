@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { DashAdvoComponent } from './dash-advo.component';
 import { AdvoDashGroupComponent } from './advo-dash-group/advo-dash-group.component';
 import { AdvoMessagesComponent } from './messages/advo-messages.component';
+import { AdvoHomeComponent } from './home/advo-home.component';
 import { AdvoStudentListComponent } from './students/advo-student-list.component';
 import { AdvoStudentDetailsComponent } from './students/advo-student-details.component';
 import { AdvoTicketListComponent } from './tickets/advo-ticket-list.component';
@@ -34,6 +35,7 @@ import { ProviderRequestTypeRefListComponent } from '../../components/_crud/prov
 import { ProviderRequestTypeRefGroupComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-group.component';
 import { ProviderRequestListComponent } from '../../components/_crud/providerrequest/providerrequest-list.component';
 import { ProviderRequestGroupComponent } from '../../components/_crud/providerrequest/providerrequest-group.component';
+import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
 
 const routes: Routes = [
   {
@@ -42,9 +44,16 @@ const routes: Routes = [
     children: [
       { path: 'home', component: AdvoDashGroupComponent },
       { path: 'home/:tabId', component: AdvoDashGroupComponent },
-      
+       
       { path: 'messages', component: AdvoMessagesComponent },
       { path: 'students', component: AdvoStudentListComponent },
+
+      { path: 'workrequests/:id/:tabId/:childId', component: WorkRequestGroupComponent },
+      { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
+      { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
+     
+
+      
       { path: 'tickets', component: AdvoTicketListComponent },
       { path: 'tickets/create/:advocateId/:clientId', component: CreateTicketComponent },
       { path: 'tickets/:id', component: WorkRequestGroupComponent },
@@ -97,6 +106,7 @@ const routes: Routes = [
     DashAdvoComponent,
     AdvoDashGroupComponent,
     AdvoMessagesComponent,
+    AdvoHomeComponent,
     AdvoStudentListComponent,
     AdvoStudentDetailsComponent,
     AdvoTicketListComponent,

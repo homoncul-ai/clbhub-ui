@@ -21,6 +21,7 @@ declare const dhx: any;
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> 
 implements OnInit, AfterViewInit {
+  // [showingSearchHeading]="false" [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
   @Input() criteria: TCriteria | null = null;
   @Input() showingSearch: boolean = true;
   @Input() searchButtonLabel: string = 'Search';
@@ -489,15 +490,17 @@ export class OnRowClickBehavior  {
   parentId: string = '';
   tabId: string = '';
   doNotNavigate: boolean = false;
+  usingNavigateUrl: boolean = false;
 
   onRowClick(entityId: string, baseRoute: string, router: Router): void {
     console.log('OnRowClickAction.onRowClick called with entityId:', entityId, 'baseRoute:', baseRoute);
     if (router) {
       var urlParts = [baseRoute, entityId, 'details'];
       if (this.tabId != null && this.parentId != '') {
+        this.usingNavigateUrl = true;
+      } 
+      if (this.usingNavigateUrl) {
         urlParts = this.getNavigateUrl(entityId, baseRoute);
-      } else {
-        urlParts = [baseRoute, entityId, 'details'];
       }
       if (this.alertMessage.length > 0) {
         alert(this.alertMessage + ' ' + urlParts.join('/'));

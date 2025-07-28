@@ -1,19 +1,34 @@
 
-Tabset 
+
 <div *ngIf="!loading">
   <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
    
 <div *ngIf="currentTabId === 'home'">
-  <span>Welcome </span>
+  
+  <h3>Tickets from </h3>
+
+  
+  <ng-container *ngFor="let block of workRequestListBlocks">
+    <h4>{{block.title}}</h4>
+    <app-workrequest-list [criteria]="block.criteria" [showingSearchHeading]="false" 
+    [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+    [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>
+  </ng-container>
 </div>
  
 <div *ngIf="currentTabId === 'messages'">
-  <span>Messages</span>
+  <h2>Messages</h2>
+
   <app-advo-messages [id]="id" modeName="detail"></app-advo-messages>
 
 </div> 
 
+
+<div *ngIf="currentTabId === 'ticket-history'">
+  <h2>Ticket history</h2>
+
+</div> 
 
 <div *ngIf="true">
 <li>CurrentId :{{currentTabId}}</li>

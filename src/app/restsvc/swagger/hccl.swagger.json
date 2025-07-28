@@ -11533,6 +11533,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -11556,6 +11563,13 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "url": {
+            "type": "string"
+          },
+          "vocodeInstanceId": {
+            "type": "string",
+            "format": "uuid"
           },
           "integrationEntityId": {
             "type": "string",
@@ -11786,6 +11800,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -11986,6 +12007,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -12161,6 +12189,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -12313,6 +12348,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -12496,6 +12538,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -12520,6 +12569,12 @@
           "taxonomyEntryId": {
             "type": "string",
             "format": "uuid"
+          },
+          "urlPrefix": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
           }
         }
       },
@@ -12676,6 +12731,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -12858,6 +12920,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -13015,6 +13084,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -13235,6 +13311,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -13474,6 +13557,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -13676,6 +13766,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -13959,6 +14056,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -14250,6 +14354,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -14533,6 +14644,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -14795,6 +14913,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -14976,6 +15101,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -15115,6 +15247,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -15307,6 +15446,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -15526,6 +15672,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -15754,6 +15907,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -16008,6 +16168,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -16196,6 +16363,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -16366,6 +16540,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -16586,6 +16767,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -16780,6 +16968,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -16949,6 +17144,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -17129,6 +17331,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -17290,6 +17499,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -17504,6 +17720,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -17764,6 +17987,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -17998,6 +18228,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -18174,6 +18411,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -18313,6 +18557,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -18446,6 +18697,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -18648,6 +18906,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -18840,6 +19105,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -19061,6 +19333,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -19359,6 +19638,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -19577,6 +19863,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -19829,6 +20122,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -20119,6 +20419,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -20306,6 +20613,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -20470,6 +20784,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -20655,6 +20976,13 @@
               "format": "uuid"
             }
           },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "searchByText": {
             "type": "string"
           },
@@ -20818,6 +21146,13 @@
             "type": "boolean"
           },
           "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
             "type": "array",
             "items": {
               "type": "string",
@@ -21164,6 +21499,7 @@
         "required": [
           "currentUserProfile",
           "currentUserProfileId",
+          "dashQueues",
           "messages",
           "userProfileMenu"
         ],
@@ -21181,6 +21517,12 @@
           },
           "userProfileMenu": {
             "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "dashQueues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkQueueGETData"
+            }
           }
         }
       },
