@@ -15,7 +15,6 @@ import { AdvoMessagesComponent } from '../messages/advo-messages.component';
 })
 export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {
 
-  protected defaultId: string = '';
   override ngOnInit(): void {
     // For singleton behavior, always use current user profile ID
     this.hcclContextService.refreshContext().subscribe(context => {
@@ -24,11 +23,11 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
     
       // Call parent ngOnInit after setting the ID
       super.ngOnInit();
-      alert('defaultId ' + this.defaultId);
+      //alert('defaultId ' + this.defaultId);
     });
 
   }
-
+  protected defaultId: string = '';
   protected override getDefaultId(): string {
     return this.defaultId;
   }
@@ -56,7 +55,7 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
       new SimpleTab('messages', 'Messages', '', 
         () => {
           //this.currentTabId = 'details';
-          this.router.navigate([baseRoute, this.id, 'messages']);
+          this.router.navigate([baseRoute,  'messages']);
         },
         () => {
           return this.entity !== null;

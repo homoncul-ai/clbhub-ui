@@ -44,12 +44,13 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
   ngOnInit(): void {
     var id = this.hcclContextService?.getCurrentUserProfileId() || '';
-    alert('ngOnInit ' + id);  
     this.route.params.subscribe(params => {
       this. id = params['id'];
       let tabId = params['tabId'];
       this. childId = params['childId'];
+      this.tabs = this.setupTabs();
 
+      //debugger
       if (this.id === undefined || this.id === '') {
         this.id = this.getDefaultId();
       }
@@ -58,7 +59,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       var defaultTabId = this.getDefaultTabId();
       if (urlSegments.length > 0) {
         tabId = urlSegments[urlSegments.length - 1];
-        if (defaultTabId.includes('#')) {
+        if (tabId.includes('#')) {
           tabId = tabId.split('#')[0];
         }
       }
@@ -67,7 +68,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       if (!this.tabs.find(tab => tab.id === tabId)) {
         tabId = defaultTabId;
       }
-
+      // debugger
       const finalTabId = tabId || defaultTabId;
       
       // Set the extracted parameters

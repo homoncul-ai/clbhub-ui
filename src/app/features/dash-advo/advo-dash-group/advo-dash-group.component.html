@@ -6,14 +6,14 @@ Tabset
    
 <div *ngIf="currentTabId === 'home'">
   <span>Welcome </span>
-  <app-advo-messages [id]="id" modeName="detail"></app-advo-messages>
 </div>
  
-<!-- 
 <div *ngIf="currentTabId === 'messages'">
-  
- <app-workrequest-update [id]="id" modeName="detail"></app-workrequest-update> 
-</div> -->
+  <span>Messages</span>
+  <app-advo-messages [id]="id" modeName="detail"></app-advo-messages>
+
+</div> 
+
 
 <div *ngIf="true">
 <li>CurrentId :{{currentTabId}}</li>
