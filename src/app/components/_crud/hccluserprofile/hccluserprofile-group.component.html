@@ -4,17 +4,19 @@
 </app-simple-tabset>
 
 <div *ngIf="currentTabId === 'list' && id">   
+  List
   <app-hccluserprofile-crud [id]="id" [modeName]="'o'"></app-hccluserprofile-crud> 
 </div>
 
 <div *ngIf="currentTabId === 'details' && id">   
   <app-hccluserprofile-crud [id]="id" [modeName]="'detail'"></app-hccluserprofile-crud> 
 </div>
-
+<!-- 
 <div *ngIf="currentTabId === 'debug' && id">   
   <app-hccluserprofile-crud [id]="id" [modeName]="'debug'"></app-hccluserprofile-crud> 
 </div>
 
 <div *ngIf="currentTabId === 'fk_menu' && id">   
   <app-hccluserprofile-crud [id]="id" [modeName]="'fk_menu'"></app-hccluserprofile-crud> 
-</div> 
+</div>  -->
+{{currentTabId}}

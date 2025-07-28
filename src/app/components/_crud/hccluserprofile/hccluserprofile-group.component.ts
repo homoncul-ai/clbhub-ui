@@ -19,8 +19,7 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
 })
 export class HcclUserProfileGroupComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
 
-  constructor() {
-    super();    
+  constructor() {    super();    
   }
 
   protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {

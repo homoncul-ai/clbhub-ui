@@ -179,9 +179,10 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
     this.error = null;
   }
 
-  override ngOnInit(): void {
+  override ngOnInit(): void { 
     super.ngOnInit();
     this.clearValidationErrors();
+    
   }
 
   protected async loadEntityByIdCall(id: string): Promise<HcclUserProfileCrudWrapper> {

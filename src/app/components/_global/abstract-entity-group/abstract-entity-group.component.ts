@@ -43,20 +43,27 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
       this. id = params['id'];
-      const tabId = params['tabId'];
+      let tabId = params['tabId'];
       this. childId = params['childId'];
 
       
       const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
       var defaultTabId = 'details';
       if (urlSegments.length > 0) {
-        defaultTabId = urlSegments[urlSegments.length - 1];
+        tabId = urlSegments[urlSegments.length - 1];
         if (defaultTabId.includes('#')) {
-          defaultTabId = defaultTabId.split('#')[0];
+          tabId = tabId.split('#')[0];
         }
       }
+
+      // Check to see if the tabId is a valid tab
+      if (!this.tabs.find(tab => tab.id === tabId)) {
+        tabId = defaultTabId;
+      }
+
       const finalTabId = tabId || defaultTabId;
       
       // Set the extracted parameters

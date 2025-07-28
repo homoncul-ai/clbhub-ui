@@ -54,6 +54,7 @@ import { ProviderRequestListComponent } from '../../components/_crud/providerreq
 import { ProviderRequestGroupComponent } from '../../components/_crud/providerrequest/providerrequest-group.component';
 import { ProviderRequestTypeRefListComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-list.component';
 import { ProviderRequestTypeRefGroupComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-group.component';
+import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
 
 const routes: Routes = [
   {
@@ -104,6 +105,7 @@ const routes: Routes = [
       { path: 'clschools/:id/:tabId', component: CLSchoolGroupComponent },
       { path: 'clschools/:id', redirectTo: 'clschools/:id/details', pathMatch: 'full' },
       { path: 'clschools', component: CLSchoolListComponent },
+      
       { path: 'hcclorganizations/create', component: HcclOrganizationGroupComponent },
       { path: 'hcclorganizations/:id/:tabId', component: HcclOrganizationGroupComponent },
       { path: 'hcclorganizations/:id', redirectTo: 'hcclorganizations/:id/details', pathMatch: 'full' },
@@ -121,7 +123,7 @@ const routes: Routes = [
       { path: 'hccluserprofiles/create', component: HcclUserProfileGroupComponent },
       { path: 'hccluserprofiles/:id/:tabId', component: HcclUserProfileGroupComponent },
       { path: 'hccluserprofiles/:id', redirectTo: 'hccluserprofiles/:id/details', pathMatch: 'full' },
-      { path: 'hccluserprofiles', component: HcclUserProfileGroupComponent },
+      { path: 'hccluserprofiles', component: HcclUserProfileListComponent },
 
       { path: 'workqueuetyperefs/create', component: WorkQueueTypeRefGroupComponent },
       { path: 'workqueuetyperefs/:id/:tabId', component: WorkQueueTypeRefGroupComponent },
@@ -138,14 +140,17 @@ const routes: Routes = [
       { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
       { path: 'workrequests', component: WorkRequestListComponent },
+
       { path: 'workrequestitems/create', component: WorkRequestItemGroupComponent },
       { path: 'workrequestitems/:id/:tabId', component: WorkRequestItemGroupComponent },
       { path: 'workrequestitems/:id', redirectTo: 'workrequestitems/:id/details', pathMatch: 'full' },
       { path: 'workrequestitems', component: WorkRequestItemListComponent },
+
       { path: 'teamMemberRoleRefs/create', component: TeamMemberRoleRefGroupComponent },
       { path: 'teamMemberRoleRefs/:id/:tabId', component: TeamMemberRoleRefGroupComponent },
       { path: 'teamMemberRoleRefs/:id', redirectTo: 'teamMemberRoleRefs/:id/details', pathMatch: 'full' },
       { path: 'teamMemberRoleRefs', component: TeamMemberRoleRefListComponent },
+
       { path: 'teamTypeRefs/create', component: TeamTypeRefGroupComponent },
       { path: 'teamTypeRefs/:id/:tabId', component: TeamTypeRefGroupComponent },
       { path: 'teamTypeRefs/:id', redirectTo: 'teamTypeRefs/:id/details', pathMatch: 'full' },
@@ -160,14 +165,17 @@ const routes: Routes = [
       { path: 'teamMembers/:id/:tabId', component: TeamMemberGroupComponent },
       { path: 'teamMembers/:id', redirectTo: 'teamMembers/:id/details', pathMatch: 'full' },
       { path: 'teamMembers', component: TeamMemberListComponent },
+
       { path: 'hcclteamlogs/create', component: HcclTeamLogGroupComponent },
       { path: 'hcclteamlogs/:id/:tabId', component: HcclTeamLogGroupComponent },
       { path: 'hcclteamlogs/:id', redirectTo: 'hcclteamlogs/:id/details', pathMatch: 'full' },
       { path: 'hcclteamlogs', component: HcclTeamLogListComponent },
+
       { path: 'catalogsearchresults/create', component: CatalogSearchResultGroupComponent },
       { path: 'catalogsearchresults/:id/:tabId', component: CatalogSearchResultGroupComponent },
       { path: 'catalogsearchresults/:id', redirectTo: 'catalogsearchresults/:id/details', pathMatch: 'full' },
       { path: 'catalogsearchresults', component: CatalogSearchResultListComponent },
+
       { path: 'catalogsearchresultentries/create', component: CatalogSearchResultEntryGroupComponent },
       { path: 'catalogsearchresultentries/:id/:tabId', component: CatalogSearchResultEntryGroupComponent },
       { path: 'catalogsearchresultentries/:id', redirectTo: 'catalogsearchresultentries/:id/details', pathMatch: 'full' },
