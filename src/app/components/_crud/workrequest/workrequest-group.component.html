@@ -51,7 +51,7 @@
 </div> 
 </div>
 
- 
+<div *ngIf="currentTabId === 'false'">
 <li>CurrentId :{{currentTabId}}</li>
 <li>Id :{{id}}</li>
 <li>ChildId :{{childId}}</li>
@@ -59,3 +59,4 @@
 <li>ShowingTabset :{{showingTabset}}</li>
 <li>Tabs :{{tabs}}</li> 
 <li> WorkRequestGETData :<pre>{{ this.entity | json}}</pre></li>
+</div>
