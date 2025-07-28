@@ -43,15 +43,19 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
 
   ngOnInit(): void {
-
+    var id = this.hcclContextService?.getCurrentUserProfileId() || '';
+    alert('ngOnInit ' + id);  
     this.route.params.subscribe(params => {
       this. id = params['id'];
       let tabId = params['tabId'];
       this. childId = params['childId'];
 
-      
+      if (this.id === undefined || this.id === '') {
+        this.id = this.getDefaultId();
+      }
+
       const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
-      var defaultTabId = 'details';
+      var defaultTabId = this.getDefaultTabId();
       if (urlSegments.length > 0) {
         tabId = urlSegments[urlSegments.length - 1];
         if (defaultTabId.includes('#')) {
@@ -95,7 +99,13 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       }
     });
   }
-
+  protected getDefaultId(): string {
+    alert('getDefaultId ' + this.id + ' id is not defined ');
+    return '';
+  }
+  protected getDefaultTabId(): string {
+    return 'details';
+  }
   protected abstract newCrudWrapperForCreate(): T;
 
   public addTab(tab: SimpleTab): void {

@@ -119,31 +119,61 @@ export class HcclContextService {
    * @returns Current context data or empty object if not initialized
    */
   public getContext(): HcclUserContextGETData {
-    var x : HcclUserContextGETData = this.context() || {
-      currentUserProfileId: '',
-      currentUserProfile: {
-      },
-      messages: {
-        messages: []
-      },
-      userProfileMenu: {
-        applicationName: '',
-        clientId: '',
-        menuId: '',
-        menuName: '',
-        label: '',
-      }
-    };
+    // Check if context is ready before returning data
+    if (!this.isReady()) {
+      this.logger.warn('Attempting to get context before it is ready');
+      return {
+        currentUserProfileId: '',
+        currentUserProfile: {},
+        messages: {
+          messages: []
+        },
+        userProfileMenu: {
+          applicationName: '',
+          clientId: '',
+          menuId: '',
+          menuName: '',
+          label: '',
+        }
+      };
+    }
 
-    return x;
+    return this.context()!;
+  }
+
+  /**
+   * Get the current context data (async version that waits for ready)
+   * @returns Promise that resolves with context data when ready
+   */
+  public async getContextAsync(): Promise<HcclUserContextGETData> {
+    if (this.isReady()) {
+      return this.context()!;
+    }
+    return this.waitForReady();
   }
 
   /**
    * Get the current user profile ID
-   * @returns Current user profile ID or null if not available
+   * @returns Current user profile ID or empty string if not available
    */
   public getCurrentUserProfileId(): string {
+    if (!this.isReady()) {
+      this.logger.warn('Attempting to get user profile ID before context is ready');
+      return '';
+    }
     return this.context()?.currentUserProfileId || '';
+  }
+
+  /**
+   * Get the current user profile ID (async version that waits for ready)
+   * @returns Promise that resolves with user profile ID when ready
+   */
+  public async getCurrentUserProfileIdAsync(): Promise<string> {
+    if (this.isReady()) {
+      return this.context()?.currentUserProfileId || '';
+    }
+    const context = await this.waitForReady();
+    return context.currentUserProfileId || '';
   }
 
   /**
@@ -151,7 +181,23 @@ export class HcclContextService {
    * @returns Current user profile or null if not available
    */
   public getCurrentUserProfile(): any {
+    if (!this.isReady()) {
+      this.logger.warn('Attempting to get user profile before context is ready');
+      return null;
+    }
     return this.context()?.currentUserProfile || null;
+  }
+
+  /**
+   * Get the current user profile (async version that waits for ready)
+   * @returns Promise that resolves with user profile when ready
+   */
+  public async getCurrentUserProfileAsync(): Promise<any> {
+    if (this.isReady()) {
+      return this.context()?.currentUserProfile || null;
+    }
+    const context = await this.waitForReady();
+    return context.currentUserProfile || null;
   }
 
   /**
@@ -159,7 +205,23 @@ export class HcclContextService {
    * @returns User profile menu or null if not available
    */
   public getUserProfileMenu(): any {
+    if (!this.isReady()) {
+      this.logger.warn('Attempting to get user profile menu before context is ready');
+      return null;
+    }
     return this.context()?.userProfileMenu || null;
+  }
+
+  /**
+   * Get user profile menu (async version that waits for ready)
+   * @returns Promise that resolves with user profile menu when ready
+   */
+  public async getUserProfileMenuAsync(): Promise<any> {
+    if (this.isReady()) {
+      return this.context()?.userProfileMenu || null;
+    }
+    const context = await this.waitForReady();
+    return context.userProfileMenu || null;
   }
 
   /**
@@ -167,7 +229,23 @@ export class HcclContextService {
    * @returns Messages or null if not available
    */
   public getMessages(): any {
+    if (!this.isReady()) {
+      this.logger.warn('Attempting to get messages before context is ready');
+      return null;
+    }
     return this.context()?.messages || null;
+  }
+
+  /**
+   * Get messages (async version that waits for ready)
+   * @returns Promise that resolves with messages when ready
+   */
+  public async getMessagesAsync(): Promise<any> {
+    if (this.isReady()) {
+      return this.context()?.messages || null;
+    }
+    const context = await this.waitForReady();
+    return context.messages || null;
   }
 
   /**
@@ -211,8 +289,15 @@ export class HcclContextService {
    */
   public waitForReady(timeout: number = 30000): Promise<HcclUserContextGETData> {
     return new Promise((resolve, reject) => {
+      // If already ready, resolve immediately
       if (this.isReady()) {
         resolve(this.getContext()!);
+        return;
+      }
+
+      // If there's an error, reject immediately
+      if (this.error()) {
+        reject(new Error(this.error() || 'Failed to initialize HCCL context'));
         return;
       }
 
@@ -220,18 +305,76 @@ export class HcclContextService {
         reject(new Error('Timeout waiting for HCCL context to be ready'));
       }, timeout);
 
-      // Check every 100ms
-      const intervalId = setInterval(() => {
-        if (this.isReady()) {
+      // Use a more efficient approach that checks loading state
+      const checkReady = () => {
+        // If loading is complete and we have context, resolve
+        if (!this.isLoading() && this.isReady()) {
           clearTimeout(timeoutId);
-          clearInterval(intervalId);
           resolve(this.getContext()!);
-        } else if (this.error()) {
-          clearTimeout(timeoutId);
-          clearInterval(intervalId);
-          reject(new Error(this.error() || 'Failed to initialize HCCL context'));
+          return;
         }
-      }, 100);
+        
+        // If there's an error, reject
+        if (this.error()) {
+          clearTimeout(timeoutId);
+          reject(new Error(this.error() || 'Failed to initialize HCCL context'));
+          return;
+        }
+
+        // If still loading, check again in a shorter interval
+        if (this.isLoading()) {
+          setTimeout(checkReady, 50); // Check more frequently when loading
+        } else {
+          setTimeout(checkReady, 100); // Check less frequently when not loading
+        }
+      };
+
+      // Start checking
+      checkReady();
+    });
+  }
+
+  /**
+   * Get an observable that emits when context is ready
+   * @returns Observable that emits the context data when ready
+   */
+  public waitForReady$(): Observable<HcclUserContextGETData> {
+    return new Observable(observer => {
+      // If already ready, emit immediately
+      if (this.isReady()) {
+        observer.next(this.getContext()!);
+        observer.complete();
+        return;
+      }
+
+      // If there's an error, emit error immediately
+      if (this.error()) {
+        observer.error(new Error(this.error() || 'Failed to initialize HCCL context'));
+        return;
+      }
+
+      // Use polling approach but more efficiently
+      const checkInterval = setInterval(() => {
+        const currentState = this.state();
+        
+        // If loading is complete and we have context, emit
+        if (!currentState.isLoading && currentState.isInitialized && currentState.context) {
+          clearInterval(checkInterval);
+          observer.next(currentState.context);
+          observer.complete();
+          return;
+        }
+        
+        // If there's an error, emit error
+        if (currentState.error) {
+          clearInterval(checkInterval);
+          observer.error(new Error(currentState.error));
+          return;
+        }
+      }, 50); // Check more frequently
+
+      // Return cleanup function
+      return () => clearInterval(checkInterval);
     });
   }
 } 

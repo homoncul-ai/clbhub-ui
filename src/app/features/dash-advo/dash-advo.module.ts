@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 // Components
 import { DashAdvoComponent } from './dash-advo.component';
+import { AdvoDashGroupComponent } from './advo-dash-group/advo-dash-group.component';
 import { AdvoMessagesComponent } from './messages/advo-messages.component';
 import { AdvoStudentListComponent } from './students/advo-student-list.component';
 import { AdvoStudentDetailsComponent } from './students/advo-student-details.component';
@@ -39,6 +40,9 @@ const routes: Routes = [
     path: '',
     component: DashAdvoComponent,
     children: [
+      { path: 'home', component: AdvoDashGroupComponent },
+      { path: 'home/:tabId', component: AdvoDashGroupComponent },
+      
       { path: 'messages', component: AdvoMessagesComponent },
       { path: 'students', component: AdvoStudentListComponent },
       { path: 'tickets', component: AdvoTicketListComponent },
@@ -75,10 +79,12 @@ const routes: Routes = [
           { path: 'providerrequests/:id', redirectTo: 'providerrequests/:id/details', pathMatch: 'full' },
           { path: 'providerrequests', component: ProviderRequestListComponent },
           { path: 'guidance', component: CLGuidanceListComponent },
+
+
           { path: '', redirectTo: 'schools', pathMatch: 'full' }
         ]
       },
-      { path: '', redirectTo: 'messages', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }
 ];
@@ -89,6 +95,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     // Standalone components
     DashAdvoComponent,
+    AdvoDashGroupComponent,
     AdvoMessagesComponent,
     AdvoStudentListComponent,
     AdvoStudentDetailsComponent,

@@ -1,0 +1,26 @@
+
+Tabset 
+<div *ngIf="!loading">
+  <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+
+   
+<div *ngIf="currentTabId === 'home'">
+  <span>Welcome </span>
+  <app-advo-messages [id]="id" modeName="detail"></app-advo-messages>
+</div>
+ 
+<!-- 
+<div *ngIf="currentTabId === 'messages'">
+  
+ <app-workrequest-update [id]="id" modeName="detail"></app-workrequest-update> 
+</div> -->
+
+<div *ngIf="true">
+<li>CurrentId :{{currentTabId}}</li>
+<li>Id :{{id}}</li>
+<li>ChildId :{{childId}}</li>
+<li>Loading :{{loading}}</li>
+<li>ShowingTabset :{{showingTabset}}</li>
+<li>Tabs :{{tabs}}</li> 
+</div>
+</div>
