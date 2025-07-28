@@ -36,6 +36,8 @@ import { ProviderRequestTypeRefGroupComponent } from '../../components/_crud/pro
 import { ProviderRequestListComponent } from '../../components/_crud/providerrequest/providerrequest-list.component';
 import { ProviderRequestGroupComponent } from '../../components/_crud/providerrequest/providerrequest-group.component';
 import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
+import { WorkRequestLogListComponent } from '@app/components/_crud/workrequestlog/workrequestlog-list.component';
+import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestlog/workrequestlog-group.component';
 
 const routes: Routes = [
   {
@@ -75,6 +77,9 @@ const routes: Routes = [
           { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
           { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
           { path: 'workrequests', component: AdvoTicketListComponent },
+          { path: 'workrequestlogs/:id/:tabId', component: WorkRequestLogGroupComponent },
+          { path: 'workrequestlogs/:id', redirectTo: 'workrequestlogs/:id/details', pathMatch: 'full' },
+          { path: 'workrequestlogs', component: WorkRequestLogListComponent },
           { path: 'workrequesttypes/:id/:tabId', component: WorkrequesttypeCrudComponent },
           { path: 'workrequesttypes/:id', redirectTo: 'workrequesttypes/:id/details', pathMatch: 'full' },
           { path: 'workrequesttypes', component: WorkrequesttypeCrudComponent },
@@ -130,7 +135,9 @@ const routes: Routes = [
     ProviderRequestTypeRefListComponent,
     ProviderRequestTypeRefGroupComponent,
     ProviderRequestListComponent,
-    ProviderRequestGroupComponent
+    ProviderRequestGroupComponent,
+    WorkRequestLogListComponent,
+    WorkRequestLogGroupComponent
   ],
   declarations: [
     // Non-standalone components would go here

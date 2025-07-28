@@ -1,3 +1,4 @@
+import { TeamMemberListComponent } from './../teammember/teammember-list.component';
 // This template is for generating a GROUP component  
 // This was generated using entityName = WorkRequest
 // Generate the new [entityName]-group.component.ts   files using this template 
@@ -7,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
-import { HcclService, WorkRequestCriteria, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, HcclTeamLogCriteria, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
@@ -17,13 +18,16 @@ import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../wor
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workrequestitem/workrequestitem-attachrficontent-addentries.component';
 import { CatalogSearchResultCrudComponent } from "../catalogsearchresult/catalogsearchresult-crud.component";
+import { HcclTeamLogListComponent } from '../hcclteamlog/hcclteamlog-list.component';
+import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-list.component';
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
-    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent, CatalogSearchResultCrudComponent],
+    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent, 
+    CatalogSearchResultCrudComponent, WorkRequestLogListComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -85,6 +89,18 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     );
     tabs.push(tab)
 
+    tab =  new SimpleTab('logs', 'Logs', '', 
+      () => {
+        this.router.navigate([baseRoute, this.id, 'logs']);
+        //this.currentTabId = 'workRequestItem';
+        
+      },
+      () => {
+        return true;
+      }
+    );
+    tabs.push(tab)
+
     // var tabD: SimpleTab | undefined = this.findTabById(tabs, 'details');
     // if (tabD) {
     //   //alert('found tabD');
@@ -116,5 +132,11 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   getWorkRequestItemActionCode(): string {
     return this.workRequestItem?.getData().actionCode || 'Error';
   }
-  
+
+  getLogsCriteria(): WorkRequestLogCriteria {
+    var criteria: WorkRequestLogCriteria = {  
+      workRequestId: this.id || '',
+    }
+    return criteria;
+  }
 } 

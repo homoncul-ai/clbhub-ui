@@ -33,6 +33,12 @@
   <app-workrequestitem-attachrficontent-addentries [id]="id || ''" [childId]="childId || ''"></app-workrequestitem-attachrficontent-addentries>
 </div>
 
+
+<div *ngIf="currentTabId === 'logs'">
+  <app-workrequestlog-list [criteria]="getLogsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"></app-workrequestlog-list>
+ 
+</div>
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
   <hr>
