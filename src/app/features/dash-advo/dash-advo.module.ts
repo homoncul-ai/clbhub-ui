@@ -93,9 +93,10 @@ const routes: Routes = [
           { path: 'providerrequests/:id', redirectTo: 'providerrequests/:id/details', pathMatch: 'full' },
           { path: 'providerrequests', component: ProviderRequestListComponent },
           { path: 'guidance', component: CLGuidanceListComponent },
+          { path: 'home', component: IntegrationsHomeComponent },
 
 
-          { path: '', redirectTo: 'schools', pathMatch: 'full' }
+          { path: '', redirectTo: 'home', pathMatch: 'full' }
         ]
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -121,7 +122,6 @@ const routes: Routes = [
     ListSearchStarterComponent,
     OrgQueueListComponent,
     OrgQueueTixListComponent, 
-    IntegrationsHomeComponent,
     CLSchoolListComponent,  
     CLStudentListComponent,
     CLGuidanceListComponent,
