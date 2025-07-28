@@ -55,6 +55,8 @@ import { ProviderRequestGroupComponent } from '../../components/_crud/providerre
 import { ProviderRequestTypeRefListComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-list.component';
 import { ProviderRequestTypeRefGroupComponent } from '../../components/_crud/providerrequesttyperef/providerrequesttyperef-group.component';
 import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
+import { WorkRequestLogListComponent } from '@app/components/_crud/workrequestlog/workrequestlog-list.component';
+import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestlog/workrequestlog-group.component';
 
 const routes: Routes = [
   {
@@ -146,6 +148,11 @@ const routes: Routes = [
       { path: 'workrequestitems/:id', redirectTo: 'workrequestitems/:id/details', pathMatch: 'full' },
       { path: 'workrequestitems', component: WorkRequestItemListComponent },
 
+      { path: 'workrequestlogs/create', component: WorkRequestLogGroupComponent },
+      { path: 'workrequestlogs/:id/:tabId', component: WorkRequestLogGroupComponent },
+      { path: 'workrequestlogs/:id', redirectTo: 'workrequestlogs/:id/details', pathMatch: 'full' },
+      { path: 'workrequestlogs', component: WorkRequestLogListComponent },
+
       { path: 'teamMemberRoleRefs/create', component: TeamMemberRoleRefGroupComponent },
       { path: 'teamMemberRoleRefs/:id/:tabId', component: TeamMemberRoleRefGroupComponent },
       { path: 'teamMemberRoleRefs/:id', redirectTo: 'teamMemberRoleRefs/:id/details', pathMatch: 'full' },
@@ -222,6 +229,8 @@ const routes: Routes = [
     WorkRequestGroupComponent,
     WorkRequestItemListComponent,
     WorkRequestItemGroupComponent,
+    WorkRequestLogListComponent,
+    WorkRequestLogGroupComponent,
     HcclUserProfileGroupComponent,
     HcclUserProfileCrudComponent,
     TeamMemberRoleRefListComponent,

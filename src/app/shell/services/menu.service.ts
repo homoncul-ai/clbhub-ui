@@ -101,7 +101,7 @@ export class MenuService {
 //    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_MESSAGES));
     this.addMenuItem(menu, dashboard);
     
-    this.addMenuItem(menu, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_QUEUES));
+    //    this.addMenuItem(menu, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_QUEUES));
     // Add Students with children
     const students = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_STUDENTS);
 //    this.addChildMenuItem(students, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_STUDENT_DETAILS));
@@ -272,6 +272,10 @@ export class MenuService {
     // workrequestitem list
     const workrequestitemList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUESTITEM_LIST);
     this.addChildMenuItem(workGroup, workrequestitemList);
+
+    // workrequestlog list
+    const workrequestlogList = this.copyMenuItem(MENU_CONSTANTS.EA_WORKREQUESTLOG_LIST);
+    this.addChildMenuItem(workGroup, workrequestlogList);
 
     // catalogsearchresult list
     const catalogsearchresultList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGSEARCHRESULT_LIST);
@@ -1173,11 +1177,11 @@ EA_WORKQUEUETYPEREF_LIST: {
 
 EA_WORKREQUESTLOG_LIST: {
   "level" : 2,
-  "label" : "Work Request Log",
-  "route" : "/ecoadmin-dashboard/tix/workrequestlog-list",
-  "componentPath" : "/src/app/components/_crud/tix/workrequestlog-list",
-  "componentName" : "workrequestlog-list",
-  "icon" : ""
+  "label" : "Work Request Logs",
+  "route" : "/ecoadmin-dashboard/workrequestlogs",
+  "componentPath" : "src/app/components/_crud/workrequestlog/workrequestlog-list.component",
+  "componentName" : "WorkRequestLogListComponent",
+  "icon" : "fas fa-list"
 },
 
 
