@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { Observable } from 'rxjs';
+import { DateGETData } from '@app/restsvc/common-request-service.model';
 
 declare const dhx: any;
 
@@ -479,6 +480,14 @@ implements OnInit, AfterViewInit {
     return baseRoute;
   }
 
+  protected formatDateTime(date: DateGETData | undefined): string {
+    if (!date) {
+      return '';
+    }
+    var dx : Date = new Date(date.dateMilliseconds || 0);
+    return dx.toLocaleString();
+  }
+
   
 } 
 
@@ -519,11 +528,16 @@ export class OnRowClickBehavior  {
       return [baseRoute, this.parentId, this.tabId, entityId ];
   }
   
-};
+  /**
+   * Object containing row click action functionality
+   */
+  getOnRowClickDoNothing(): OnRowClickBehavior {
+    let x: OnRowClickBehavior = new OnRowClickBehavior();
+    x.doNotNavigate = true;
+    return x;
+  }
 
-/**
- * Object containing row click action functionality
- */
+};
 
 export class OnGoClickActionBehavior  {
   alertMessage: string = '';
@@ -536,6 +550,7 @@ export class OnGoClickActionBehavior  {
         alert(this.alertMessage + ' ' + entityIds.join('/'));
       }
   }
+
 
   
 };

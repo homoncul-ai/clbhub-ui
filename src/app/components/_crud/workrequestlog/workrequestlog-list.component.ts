@@ -13,6 +13,7 @@ import { AbstractListComponent } from '@app/components/_global/abstract-list/abs
 import { Observable } from 'rxjs';
 import { WorkRequestCrudWrapper } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { WorkRequestItemCrudWrapper } from '@app/components/_crud/workrequestitem/workrequestitem-crud.component';
+import { DateGETData } from '@app/restsvc/common-request-service.model';
 
 /**
  * Component for displaying and managing WorkRequestLog data using HcclService
@@ -98,13 +99,16 @@ export class WorkRequestLogListComponent extends AbstractListComponent<WorkReque
     const workRequestItemStr: string = entity.workRequestItemId == null ? 'unknown' : 
        (await WorkRequestItemCrudWrapper.newInstance(entity.workRequestItemId, this.hcclService)).getDisplayText();
 
+       var dateLastUpdatedStr:string = super.formatDateTime(entity.dateLastUpdated);
+        
       return {
         createdByInfo: entity.createdByInfo?.name || '',
         lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
         dateCreated: entity.dateCreated?.formattedDate || '',
-        dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+        dateLastUpdated: dateLastUpdatedStr,
         workRequestStr: workRequestStr,
         workRequestItemStr: workRequestItemStr
       };
   }
+
 } 
