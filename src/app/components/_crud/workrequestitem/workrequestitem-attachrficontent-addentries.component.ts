@@ -99,7 +99,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
    // alert('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit ' + JSON.stringify(rsp));
     this.menuCatalogs = wirsp.mapFormElements.menu_catalogs;
     this.catalogSearchResult = wirsp.mapFormElements.catalogSearchResult;
-    this.catalogEntriesIdsToRemove = this.catalogSearchResult?.entries?.map
+    this.catalogEntriesIdsToExclude = this.catalogSearchResult?.entries?.map
       (entry => entry.catalogEntryId).filter((id): id is string => id !== undefined) || [];
     debugger;
     this.workItemFormContext = wirsp.context as WorkItemFormContext;
@@ -112,7 +112,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   protected workItemFormResponse : WorkItemFormResponse | null = null;
   protected workItemFormRequest : WorkItemFormRequest | null = null;
   protected catalogSearchResult : CatalogSearchResultGETData | null = null;
-  protected catalogEntriesIdsToRemove: string[] = [];
+  protected catalogEntriesIdsToExclude: string[] = [];
   protected selectedWorkQueue : MenuControlData | null = null;
 
   protected catalogCode : string = '';
@@ -132,7 +132,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   getCriteriaForSearch(): CatalogEntryCriteria {
     return {
       catalogId: this.catalogSearchResult?.catalogId || '',
-      idsToRemove: this.catalogEntriesIdsToRemove
+      idsToExclude: this.catalogEntriesIdsToExclude
     }
   } 
 
