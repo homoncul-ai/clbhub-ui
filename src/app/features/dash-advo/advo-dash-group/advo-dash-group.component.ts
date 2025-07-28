@@ -98,11 +98,19 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
     x.alertMessage = 'Ticket';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
-      return ['/advocate-dashboard', 'workrequests', id];
+      return ['/advocate-dashboard', 'workrequests', id, 'update'];
     };
     //x.alertMessage = 'Catalog Entry';
     return x;
   }
+
+
+  getMyAcceptedOpenTickets(): WorkRequestCriteria {
+    return {
+      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().userId || ''
+    };
+  }
+
 }
 export class WorkRequestListBlock {
     public title: string = '';

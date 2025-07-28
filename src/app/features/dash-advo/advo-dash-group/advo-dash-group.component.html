@@ -6,15 +6,22 @@
    
 <div *ngIf="currentTabId === 'home'">
   
-  <h3>Tickets from </h3>
-
-  
   <ng-container *ngFor="let block of workRequestListBlocks">
-    <h4>{{block.title}}</h4>
+    <h4>{{block.title}} Tickets </h4>
     <app-workrequest-list [criteria]="block.criteria" [showingSearchHeading]="false" 
     [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
     [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>
   </ng-container>
+
+  <h4>My Accepted Open Tickets</h4>
+  <app-workrequest-list [criteria]="getMyAcceptedOpenTickets()" [showingSearchHeading]="false" 
+  [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+  [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>
+
+  <h4>All Tickets</h4> 
+  <app-workrequest-list   [showingSearchHeading]="false" 
+  [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+  [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>
 </div>
  
 <div *ngIf="currentTabId === 'messages'">

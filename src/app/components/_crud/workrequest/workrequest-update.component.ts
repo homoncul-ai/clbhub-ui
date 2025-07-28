@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { CreateTicketSetupUIData, HcclService, RoutingActionPOSTData, SimpleRestActionResponse, WorkQueueGETData, WorkRequestGETData, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -10,15 +10,21 @@ import { FormsModule } from '@angular/forms';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { CRUD_MODES } from '@app/@core/constants/app-settings';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
-import { SimpleMessage } from '@app/restsvc/common-request-service.model';
+import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
 import { WorkRequestItemEnqueueRFIComponent } from '@app/components/_crud/workrequestitem/workrequestitem-enqueuerfi.component';
 import { WorkRequestItemAttachRFIContentComponent } from '../workrequestitem/workrequestitem-attachrficontent.component';
+import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { StdMdbFormTextComponent } from "../../_global/std-mdb-form-text/std-mdb-form-text.component";
+import { MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
+
 
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
-  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule
-    , WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentComponent ],
+  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule,
+    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentComponent,
+     WorkRequestItemListComponent, StdMdbFormTextComponent, MenuControlDataListComponent],
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -27,12 +33,31 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   // Properties referenced in template
   acceptText: string = '';
   availableQueues: any[] = [];
+  error: any = null;
 
   override async ngOnInit(): Promise<void> {
     //alert("WorkrequestUpdateComponent ngOnInit " + this.id);
     console.log('WorkrequestUpdateComponent ngOnInit');
     this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
     //
+
+    const queues = await this.hcclContextService.getContext().dashQueues || [];
+
+    // First, inbound tickets 
+    this.menu_queues = {
+      menuItems: [],
+    }
+
+    for (const queueT of queues) {
+      const queue: WorkQueueGETData = queueT as WorkQueueGETData;
+      var md : MenuControlData = {
+        id: queue.id,
+        name: queue.businessCode,
+        selected: false,
+      }
+      this.menu_queues?.menuItems?.push(md);      
+    }
+
     this.localModes = ['accept', 'reroute'];
     super.ngOnInit();
   }
@@ -56,28 +81,33 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     return this.entity?.getCurrentStateCode() === 'rerouted';
   }
   // Methods referenced in template
-  acceptTicket(): void {
-    // TODO: Implement accept ticket functionality
-    var msg: SimpleMessage = {
-      messageCode: 'TIX_ACCEPT_TICKET',
-      severity: 1,
-      message: 'Ticket accepted'
+  async acceptTicket(): Promise<void> {
+     
+    var data: RoutingActionPOSTData = {
+      comments: this.acceptText,
+      userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
     };
-    if (this.messages?.messages) {
-      this.messages.messages.push(msg);
-    }
+    this.hcclService.acceptTicket(this.id,data).subscribe(
+      (data: WorkRequestGETData) => {
+       this.router.navigate(['/workrequests', this.id]);
+      }
+    );
   }
 
   rerouteTicket(selectedQueue?: any): void {
-    var msg: SimpleMessage = {
-      messageCode: 'TIX_RE_ROUTE_TICKET',
-      severity: 1,
-      message: 'Ticket rerouted'
+    var data: RoutingActionPOSTData = {
+      comments: this.acceptText,
+      userProfileId: this.hcclContextService.getCurrentUserProfileId() || '',
+      newQueueId: this.selectedWorkQueue?.id || ''
     };
-    if (this.messages?.messages) {
-      this.messages.messages.push(msg);
-    }
+    this.hcclService.rerouteTicket(this.id,data).subscribe(
+      (data: WorkRequestGETData) => {
+       this.router.navigate(['/workrequests', this.id]);
+      }
+    );
   }
+
+  menu_queues: MenuControlDataList | null = null; 
   
   showingAttachRFIContent: boolean = true;
   public isShowingEnqueueRFI(): boolean {
@@ -85,6 +115,26 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   }
   public isShowingAttachRFIContent(): boolean {
     return this.showingAttachRFIContent == true;
+  }
+
+  get itemsCriteria(): WorkRequestItemCriteria {
+    var criteria: WorkRequestItemCriteria = {  
+      workRequestId: this.id
+    }
+    return criteria;
+  }
+
+  myOnRowClickBehavior(): OnRowClickBehavior {
+    var x: OnRowClickBehavior =  new OnRowClickBehavior();
+    x.parentId = this.id;
+    x.tabId = 'workRequestItem';
+    //x.alertMessage = 'Catalog Entry';
+    return x;
+  }
+   
+  selectedWorkQueue: MenuControlData | null = null;
+  onWorkQueueChange(selectedItem: MenuControlData | null): void {
+    this.selectedWorkQueue = selectedItem;
   }
 
 } 

@@ -52,7 +52,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     this.canCreate = false;
     this.canEdit = true;
     this.canDelete = false;
-
+    
  
     // Some modes required load, some don't 
     // CREATE, FK_MENU, DEBUG, dont require load
@@ -86,6 +86,11 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
       case CRUD_MODES.SECTION:
       case CRUD_MODES.HEADING:
       case CRUD_MODES.FK:
+        if (!this.id) {
+          //alert("No id for " + this.getEntityType() + " in " + this.modeName);
+          this.setMode(CRUD_MODES.FK);
+          break;
+        }
         if (this.id && this.modeName) {
           this.loadEntityById(this.id).then(entity => {
             this.entity = entity;

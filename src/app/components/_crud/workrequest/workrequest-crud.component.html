@@ -23,10 +23,7 @@
           <label>Description:</label>
           <span>{{ description }}</span>
         </div>
-        <div class="detail-group">
-          <label>Date Created:</label>
-          <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-        </div>
+        
       </div>
 
       <!-- Right Column -->
@@ -43,12 +40,16 @@
           <label>Current State Code:</label>
           <span>{{ currentStateCode }}</span>
         </div>
-        <div class="detail-group">
+        <div class="detail-group" *ngIf="acceptedByUserId">
           <label>Accepted By :</label>
           <app-hcclteam-crud [id]="acceptedByTeamId" [modeName]="CRUD_MODES.FK"></app-hcclteam-crud> &nbsp;
           <app-hccluser-crud [id]="acceptedByUserId" [modeName]="CRUD_MODES.FK"></app-hccluser-crud>
         </div>
 
+        <div class="detail-group">
+          <label>Date Created:</label>
+          <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+        </div>
       </div>
     </div>
 </div>

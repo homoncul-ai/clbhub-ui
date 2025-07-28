@@ -5,7 +5,7 @@
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
 <div *ngIf="!isLoading()">
-    <h3>Create Ticket {{ isLoading() }} {{ currentMode }} </h3>
+    <h3>Send request to a provider </h3>
     <app-menu-control-data-list
               [menuControlDataList]="this.menuQueues || null"
               placeholder="Select work queue..."
