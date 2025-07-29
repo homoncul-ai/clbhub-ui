@@ -1,3 +1,10 @@
+// This template is for generating a CRUD component for an entity that has a FK Menu
+// This was generated using entityName = CLSchool
+// Generate the new [entityName]-crud.component.ts   files using this template
+// Of course, the code related to the attribtutes of the entity shoule be changed to match the entityName
+// Review the HTML after the generation is complete and maker sure all the imports required are included.
+
+
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, Validators } from '@angular/forms';
@@ -12,18 +19,21 @@ import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-m
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
-import { HcclOrganizationCrudComponent } from '../hcclorganization/hcclorganization-crud.component';
+
+// Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
+import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 
 @Component({
   selector: 'app-clschool-crud',
   templateUrl: './clschool-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
-    StdMdbFormTextComponent, StdMdbFormTextareaComponent,HcclOrganizationCrudComponent,
+    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, HcclOrganizationCrudComponent],
   standalone: true
 })
 export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWrapper> implements OnInit, OnChanges {
@@ -56,13 +66,6 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
     return null;
   }
 
-  private validateDataOriginCode(dataOriginCode: string): string | null {
-    if (dataOriginCode && dataOriginCode.length > 20) {
-      return 'Data Origin Code must be less than 20 characters';
-    }
-    return null;
-  }
-
   private validateOrganizationName(organizationName: string): string | null {
     if (organizationName && organizationName.length > 255) {
       return 'Organization Name must be less than 255 characters';
@@ -70,9 +73,30 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
     return null;
   }
 
-  private validateAddressLine(addressLine: string, lineNumber: number): string | null {
-    if (addressLine && addressLine.length > 255) {
-      return `Address Line ${lineNumber} must be less than 255 characters`;
+  private validateAddressLine1(addressLine1: string): string | null {
+    if (addressLine1 && addressLine1.length > 255) {
+      return 'Address Line 1 must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateAddressLine2(addressLine2: string): string | null {
+    if (addressLine2 && addressLine2.length > 255) {
+      return 'Address Line 2 must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateAddressLine3(addressLine3: string): string | null {
+    if (addressLine3 && addressLine3.length > 255) {
+      return 'Address Line 3 must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateAddressLine4(addressLine4: string): string | null {
+    if (addressLine4 && addressLine4.length > 255) {
+      return 'Address Line 4 must be less than 255 characters';
     }
     return null;
   }
@@ -80,6 +104,13 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
   private validateDistrictCode(districtCode: string): string | null {
     if (districtCode && districtCode.length > 255) {
       return 'District Code must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateDataOriginCode(dataOriginCode: string): string | null {
+    if (dataOriginCode && dataOriginCode.length > 20) {
+      return 'Data Origin Code must be less than 20 characters';
     }
     return null;
   }
@@ -98,32 +129,27 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
       errors.businessCode = { errorMessage: businessCodeError };
     }
     
-    const dataOriginCodeError = this.validateDataOriginCode(this.dataOriginCode);
-    if (dataOriginCodeError) {
-      errors.dataOriginCode = { errorMessage: dataOriginCodeError };
-    }
-    
     const organizationNameError = this.validateOrganizationName(this.organizationName);
     if (organizationNameError) {
       errors.organizationName = { errorMessage: organizationNameError };
     }
     
-    const addressLine1Error = this.validateAddressLine(this.addressLine1, 1);
+    const addressLine1Error = this.validateAddressLine1(this.addressLine1);
     if (addressLine1Error) {
       errors.addressLine1 = { errorMessage: addressLine1Error };
     }
     
-    const addressLine2Error = this.validateAddressLine(this.addressLine2, 2);
+    const addressLine2Error = this.validateAddressLine2(this.addressLine2);
     if (addressLine2Error) {
       errors.addressLine2 = { errorMessage: addressLine2Error };
     }
     
-    const addressLine3Error = this.validateAddressLine(this.addressLine3, 3);
+    const addressLine3Error = this.validateAddressLine3(this.addressLine3);
     if (addressLine3Error) {
       errors.addressLine3 = { errorMessage: addressLine3Error };
     }
     
-    const addressLine4Error = this.validateAddressLine(this.addressLine4, 4);
+    const addressLine4Error = this.validateAddressLine4(this.addressLine4);
     if (addressLine4Error) {
       errors.addressLine4 = { errorMessage: addressLine4Error };
     }
@@ -131,6 +157,11 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
     const districtCodeError = this.validateDistrictCode(this.districtCode);
     if (districtCodeError) {
       errors.districtCode = { errorMessage: districtCodeError };
+    }
+    
+    const dataOriginCodeError = this.validateDataOriginCode(this.dataOriginCode);
+    if (dataOriginCodeError) {
+      errors.dataOriginCode = { errorMessage: dataOriginCodeError };
     }
     
     return errors;
@@ -173,7 +204,18 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
       throw new Error('Validation failed');
     }
 
-    return this.hcclService.createCLSchool(postData).toPromise();
+    // This is important - the requestCreate method returns { id: string, status: 201 }
+    try {
+      // The requestCreate method returns { id: string, status: 201 }
+      const response = await this.hcclService.createCLSchool(postData);
+      console.log('Create response:', response);
+      this.clearValidationErrors(); // Clear errors on success
+      return response;
+    } catch (error) {
+      console.error('Create error:', error);
+      throw error;
+    }
+
   }
 
   protected override async updateEntityDataCall(entity: CLSchoolCrudWrapper): Promise<void> {
@@ -232,36 +274,6 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
   public set businessCode(value: string) {
     if (this.getCurrentEntity()) {
       this.getCurrentEntity()!.getData().businessCode = value;
-    }
-  }
-
-  public get available(): number {
-    return this.getCurrentEntity()?.getData()?.available || 0;
-  }
-
-  public set available(value: number) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().available = value;
-    }
-  }
-
-  public get organizationId(): string {
-    return this.getCurrentEntity()?.getData()?.organizationId || '';
-  }
-
-  public set organizationId(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().organizationId = value;
-    }
-  }
-
-  public get dataOriginCode(): string {
-    return this.getCurrentEntity()?.getData()?.dataOriginCode || '';
-  }
-
-  public set dataOriginCode(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().dataOriginCode = value;
     }
   }
 
@@ -325,6 +337,52 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
     }
   }
 
+  public get dataOriginCode(): string {
+    return this.getCurrentEntity()?.getData()?.dataOriginCode || '';
+  }
+
+  public set dataOriginCode(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().dataOriginCode = value;
+    }
+  }
+
+  public get available(): number {
+    return this.getCurrentEntity()?.getData()?.available || 0;
+  }
+
+  public set available(value: number) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().available = value;
+    }
+  }
+
+  public get organizationId(): string {
+    return this.getCurrentEntity()?.getData()?.organizationId || '';
+  }
+
+  public set organizationId(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().organizationId = value;
+    }
+  }
+
+  public override get dateCreated(): any {
+    return this.getCurrentEntity()?.getData()?.dateCreated;
+  }
+
+  public override get dateLastUpdated(): any {
+    return this.getCurrentEntity()?.getData()?.dateLastUpdated;
+  }
+
+  public override get createdByInfo(): any {
+    return this.getCurrentEntity()?.getData()?.createdByInfo;
+  }
+
+  public override get lastUpdatedByInfo(): any {
+    return this.getCurrentEntity()?.getData()?.lastUpdatedByInfo;
+  }
+
   public createWrapper(clschoolData: CLSchoolGETData): CLSchoolCrudWrapper {
     return new CLSchoolCrudWrapper(clschoolData, this.hcclService);
   }
@@ -341,7 +399,7 @@ export class CLSchoolCrudComponent extends AbstractCrudComponent<CLSchoolCrudWra
   protected override async prepareMenus(entity: CLSchoolCrudWrapper): Promise<void> {
     const criteria = this.getCLSchoolFkMenuCriteria();
     const results = await this.hcclService.findCLSchools(criteria).toPromise();
-    this.clschoolMenu = entity.getMenuControlDataList("clschools", "CL Schools", results?.searchResults || []);
+    this.clschoolMenu = await entity.getFkMenu("clschools", this.id);
   }
 }
 
@@ -387,6 +445,10 @@ export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
     return this.getData().businessCode || '';
   }
 
+  getOrganizationName(): string {
+    return this.getData().organizationName || '';
+  }
+
   getAvailable(): number {
     return this.getData().available || 0;
   }
@@ -413,6 +475,6 @@ export class CLSchoolCrudWrapper extends EntityWrapper<CLSchoolGETData> {
 
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
     const clschools = await this.getCLSchools();
-    return this.getMenuControlDataList("clschools", "CL Schools", clschools, data);
+    return this.getMenuControlDataList("clschools", this.getEntityType() + " Menu", clschools, data);
   }
 } 

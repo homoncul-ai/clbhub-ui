@@ -531,7 +531,7 @@ export class OnRowClickBehavior  {
   /**
    * Object containing row click action functionality
    */
-  getOnRowClickDoNothing(): OnRowClickBehavior {
+  static getOnRowClickDoNothing(): OnRowClickBehavior {
     let x: OnRowClickBehavior = new OnRowClickBehavior();
     x.doNotNavigate = true;
     return x;

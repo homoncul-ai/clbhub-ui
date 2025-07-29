@@ -21,7 +21,7 @@ import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/or
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
 import { CLSchoolListComponent } from '../../components/_crud/clschool/clschool-list.component';
 import { CLStudentListComponent } from '../../components/_crud/clstudent/clstudent-list.component';
-import { CLGuidanceListComponent } from './integrations/guidance/guidance-list.component';
+import { GuidanceListComponent } from './integrations/guidance/guidance-list.component';
 
 // CRUD Components
 import { CLStudentCrudComponent } from '../../components/_crud/clstudent/clstudent-crud.component';
@@ -46,15 +46,27 @@ const routes: Routes = [
     children: [
       { path: 'home', component: AdvoDashGroupComponent },
       { path: 'home/:tabId', component: AdvoDashGroupComponent },
-       
+      
+      { path: 'integrations/:tabId/:childId', component: IntegrationsHomeComponent },
+      { path: 'integrations/:tabId', component: IntegrationsHomeComponent },
+      { path: 'integrations', component: IntegrationsHomeComponent },
+
       { path: 'messages', component: AdvoMessagesComponent },
       { path: 'students', component: AdvoStudentListComponent },
 
       { path: 'workrequests/:id/:tabId/:childId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
-     
-
+      
+      // // CLStudent routes
+      // { path: 'students/:id/:tabId', component: CLStudentGroupComponent },
+      // { path: 'students/:id', redirectTo: 'students/:id/details', pathMatch: 'full' },
+      // { path: 'students', component: CLStudentListComponent },
+      
+      // // CLSchool routes
+      // { path: 'schools/:id/:tabId', component: CLSchoolGroupComponent },
+      // { path: 'schools/:id', redirectTo: 'schools/:id/details', pathMatch: 'full' },
+      // { path: 'schools', component: CLSchoolListComponent },
       
       { path: 'tickets', component: AdvoTicketListComponent },
       { path: 'tickets/create/:advocateId/:clientId', component: CreateTicketComponent },
@@ -64,6 +76,8 @@ const routes: Routes = [
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
       { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },
+
+      /** 
       { 
         path: 'integrations', 
         component: IntegrationsHomeComponent,
@@ -92,13 +106,14 @@ const routes: Routes = [
           { path: 'providerrequests/:id/:tabId', component: ProviderRequestGroupComponent },
           { path: 'providerrequests/:id', redirectTo: 'providerrequests/:id/details', pathMatch: 'full' },
           { path: 'providerrequests', component: ProviderRequestListComponent },
-          { path: 'guidance', component: CLGuidanceListComponent },
+          { path: 'guidance', component: GuidanceListComponent },
           { path: 'home', component: IntegrationsHomeComponent },
 
 
           { path: '', redirectTo: 'home', pathMatch: 'full' }
         ]
       },
+      */
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }
@@ -124,7 +139,7 @@ const routes: Routes = [
     OrgQueueTixListComponent, 
     CLSchoolListComponent,  
     CLStudentListComponent,
-    CLGuidanceListComponent,
+    GuidanceListComponent,
     CLStudentCrudComponent,
     CLStudentGroupComponent,
     WorkRequestCrudComponent,
@@ -136,8 +151,8 @@ const routes: Routes = [
     ProviderRequestTypeRefGroupComponent,
     ProviderRequestListComponent,
     ProviderRequestGroupComponent,
-    WorkRequestLogListComponent,
-    WorkRequestLogGroupComponent
+    // WorkRequestLogListComponent,
+    // WorkRequestLogGroupComponent
   ],
   declarations: [
     // Non-standalone components would go here

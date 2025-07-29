@@ -5,11 +5,41 @@
   <h2>Integrations Home</h2>
   <p>Welcome to the Integrations dashboard. Here you can manage various integrations and configurations.</p>
 </div>
- 
+
+
+<div *ngIf="currentTabId === 'students'">
+  <h2>Students</h2>
+  <p>Students and help information for integrations.</p>
+  <app-clstudent-list [criteria]="getStudentsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="getOnRowClickBehaviorForStudent()"></app-clstudent-list>
+</div> 
+
+
+<div *ngIf="currentTabId === 'schools'">
+  <h2>Schools</h2>
+  <p>Schools and help information for integrations.</p>
+  <app-clschool-list [criteria]="getSchoolsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="getOnRowClickBehaviorForSchool()"></app-clschool-list>
+</div> 
+
 <div *ngIf="currentTabId === 'guidance'">
   <h2>Guidance</h2>
   <p>Guidance and help information for integrations.</p>
 </div> 
+
+<div *ngIf="currentTabId === 'school'">
+  <h2>Schools</h2>
+  <app-clschool-crud [id]="childId" modeName="detail"></app-clschool-crud>
+</div> 
+
+
+<div *ngIf="currentTabId === 'student'">
+  <h2>Students </h2>
+  <app-clstudent-crud [id]="childId" modeName="detail"></app-clstudent-crud>
+</div> 
+
+
+
 
 <div *ngIf="true">
 <li>CurrentId :{{currentTabId}}</li>

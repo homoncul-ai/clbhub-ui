@@ -50,7 +50,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       this. childId = params['childId'];
       this.tabs = this.setupTabs();
 
-      //debugger
+    //debugger
       if (this.id === undefined || this.id === '') {
         this.id = this.getDefaultId();
       }
@@ -58,9 +58,12 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
       var defaultTabId = this.getDefaultTabId();
       if (urlSegments.length > 0) {
-        tabId = urlSegments[urlSegments.length - 1];
-        if (tabId.includes('#')) {
-          tabId = tabId.split('#')[0];
+        let tabIdT = urlSegments[urlSegments.length - 1];
+        if (tabIdT.includes('#')) {
+          tabIdT = tabIdT.split('#')[0];
+        }
+        if (this.tabs.find(tab => tab.id === tabIdT)) {
+          tabId = tabIdT;
         }
       }
 
@@ -68,6 +71,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       if (!this.tabs.find(tab => tab.id === tabId)) {
         tabId = defaultTabId;
       }
+
       // debugger
       const finalTabId = tabId || defaultTabId;
       

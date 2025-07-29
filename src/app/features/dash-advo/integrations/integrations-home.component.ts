@@ -3,12 +3,20 @@ import { CommonModule } from '@angular/common';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { HcclUserContextGETData, CLStudentCriteria, CLSchoolCriteria, CLGuidanceCriteria } from '@app/restsvc/hccl.service';
+import { CLSchoolListComponent } from '@app/components/_crud/clschool/clschool-list.component';
+import { CLStudentListComponent } from '@app/components/_crud/clstudent/clstudent-list.component';
+import { CLStudentCrudComponent } from '@app/components/_crud/clstudent/clstudent-crud.component';
+import { CLSchoolCrudComponent } from '@app/components/_crud/clschool/clschool-crud.component';
+import { CLGuidanceListComponent } from '@app/components/_crud/clguidance/clguidance-list.component';
+import { CLGuidanceCrudComponent } from '@app/components/_crud/clguidance/clguidance-crud.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+
 
 @Component({
   selector: 'app-integrations-home',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent],
+  imports: [CommonModule, SimpleTabsetComponent, CLSchoolListComponent, CLStudentListComponent, CLGuidanceListComponent, CLSchoolCrudComponent, CLStudentCrudComponent, CLGuidanceCrudComponent],
   templateUrl: './integrations-home.component.html',
   styleUrl: './integrations-home.component.scss'
 })
@@ -21,6 +29,7 @@ export class IntegrationsHomeComponent extends AbstractEntityGroupComponent<Hccl
       this.id = this.defaultId;
       // Call parent ngOnInit after setting the ID
       super.ngOnInit();
+      //alert('ngOnInit: ' + this.tabId + ' ' + this.childId);
     });
   }
 
@@ -34,6 +43,7 @@ export class IntegrationsHomeComponent extends AbstractEntityGroupComponent<Hccl
   }
 
   protected async loadEntityById(id: string): Promise<HcclUserProfileCrudWrapper> {
+    //alert('loadEntityById: ' + id + ' ' + this.tabId + ' ' + this.childId);
     return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
   }
 
@@ -55,10 +65,81 @@ export class IntegrationsHomeComponent extends AbstractEntityGroupComponent<Hccl
         () => {
           return true;
         }
+      ),
+      new SimpleTab('schools', 'Schools', '', 
+        () => {
+          this.router.navigate([baseRoute, 'schools']);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('students', 'Students', '', 
+        () => {
+          this.router.navigate([baseRoute, 'students']);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('school', 'School', '', 
+        () => {
+          this.router.navigate([baseRoute, 'school']);
+        },
+        () => {
+          return this.childId != null && this.currentTabId == 'school';
+        }
+      ),
+      new SimpleTab('student', 'Student', '', 
+        () => {
+          this.router.navigate([baseRoute, 'student']);
+        },
+        () => {
+          return this.childId != null && this.currentTabId == 'student';
+        }
       )];
   }
 
   protected override getDefaultTabId(): string {
     return 'home';
+  }
+
+  protected getSchoolsCriteria(): CLSchoolCriteria {
+    return {};
+  }
+
+  protected getStudentsCriteria(): CLStudentCriteria {
+    return {};
+  }
+
+  protected getGuidanceCriteria(): CLGuidanceCriteria {
+    return {};
+  }
+  protected getOnRowClickBehavior(): OnRowClickBehavior {
+    return OnRowClickBehavior.getOnRowClickDoNothing();
+  }
+  protected getOnRowClickBehaviorForSchool(): OnRowClickBehavior {
+    let x: OnRowClickBehavior = OnRowClickBehavior.getOnRowClickDoNothing();
+    x.doNotNavigate = false;
+    x.parentId = this.id
+    x.tabId = "school";
+    x.usingNavigateUrl = true;
+   // x.alertMessage = "Navigate to school";
+    x.getNavigateUrl = (entityId: string, baseRoute: string) => {
+      return [baseRoute, 'school', entityId];
+    }
+    return x;
+  }
+  protected getOnRowClickBehaviorForStudent(): OnRowClickBehavior {
+    let x: OnRowClickBehavior = OnRowClickBehavior.getOnRowClickDoNothing();
+    x.doNotNavigate = false;
+    x.parentId = this.id
+    x.tabId = "student";
+    x.usingNavigateUrl = true;
+   // x.alertMessage = "Navigate to student";
+    x.getNavigateUrl = (entityId: string, baseRoute: string) => {
+      return [baseRoute, 'student', entityId];
+    }
+    return x;
   }
 } 

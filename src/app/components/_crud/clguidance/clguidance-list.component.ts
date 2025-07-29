@@ -1,5 +1,5 @@
 // This template is for generating a LIST component for an entity that has a FK Menu
-// This was generated using entityName = CLStudent
+// This was generated using entityName = CLGuidance
 // Generate the new [entityName]-list.component.ts   files using this template
 // Of course, the code related to the attributes of the entity in the grid should be changed to match the entityName's attributes
 
@@ -8,31 +8,31 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
-import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../../restsvc/hccl.service';
+import { CLGuidanceGETData, CLGuidanceCriteria, CLGuidanceGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
+import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { CLSchoolCrudWrapper } from '@app/components/_crud/clschool/clschool-crud.component';
 
 /**
- * Component for displaying and managing CLStudent data using HcclService
+ * Component for displaying and managing CLGuidance data using HcclService
  * Extends AbstractListComponent for common grid functionality
  */
 
 @Component({
-  selector: 'app-clstudent-list',
+  selector: 'app-clguidance-list',
   standalone: true,
   templateUrl: '../../_global/abstract-list/abstract-list.component.html',
   styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
     imports: [CommonModule]
 })
-export class CLStudentListComponent extends AbstractListComponent<CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults> {
+export class CLGuidanceListComponent extends AbstractListComponent<CLGuidanceGETData, CLGuidanceCriteria, CLGuidanceGETDataSearchResults> {
   
-  constructor(   
-  ) {
+  constructor() {
     super();
     
     // Set entity-specific properties
-    this.searchHeading = 'CL Students';
+    this.searchHeading = 'CL Guidance Counsellors';
     this.showingAddButton = true;
     this.showingIdCheckbox = true;
     //this.searchPlaceholder = ...
@@ -46,14 +46,16 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'lastName', header: [{ text: 'Last Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'userEmail', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      { id: 'lastName', header: [{ text: 'Last Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      { id: 'userEmail', header: [{ text: 'User Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'jobTitle', header: [{ text: 'Job Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
 
       // Replace [prefix]Id with the displaytext of the crudwrapper - named [prefix]Str instead of [prefix]Id
+      { id: 'organizationStr', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'schoolStr', header: [{ text: 'School', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
 
       // Commented out for now - not sure if we want to show this
@@ -64,7 +66,7 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
     ];
   }
 
-  protected createCriteria(): CLStudentCriteria {
+  protected createCriteria(): CLGuidanceCriteria {
     return {
       pageNumber: 1,
       pageSize: 50,
@@ -72,15 +74,15 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
     };
   }
 
-  protected findEntities(criteria: CLStudentCriteria): Observable<CLStudentGETDataSearchResults> {
-    return this.hcclService.findCLStudents(criteria);
+  protected findEntities(criteria: CLGuidanceCriteria): Observable<CLGuidanceGETDataSearchResults> {
+    return this.hcclService.findCLGuidances(criteria);
   }
 
-  protected hasSearchResults(response: CLStudentGETDataSearchResults): boolean {
+  protected hasSearchResults(response: CLGuidanceGETDataSearchResults): boolean {
     return !!response.searchResults;
   }
 
-  protected getSearchResults(response: CLStudentGETDataSearchResults): CLStudentGETData[] {
+  protected getSearchResults(response: CLGuidanceGETDataSearchResults): CLGuidanceGETData[] {
     return response.searchResults || [];
   }
 
@@ -89,8 +91,10 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
    * @param entity 
    * @returns 
    */
-  protected override async formatEntityDataAsync(entity: CLStudentGETData): Promise<any> {
+  protected override async formatEntityDataAsync(entity: CLGuidanceGETData): Promise<any> {
     // Every attribute of the form [prefix]Id is an "foreign key" and should be replaced with the displaytext of the crudwrapper
+    const organizationStr: string = entity.organizationId == null ? 'unknown' : 
+       (await HcclOrganizationCrudWrapper.newInstance(entity.organizationId, this.hcclService)).getDisplayText();
     const schoolStr: string = entity.schoolId == null ? 'unknown' : 
        (await CLSchoolCrudWrapper.newInstance(entity.schoolId, this.hcclService)).getDisplayText();
 
@@ -99,6 +103,7 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+      organizationStr: organizationStr,
       schoolStr: schoolStr
     };
   }

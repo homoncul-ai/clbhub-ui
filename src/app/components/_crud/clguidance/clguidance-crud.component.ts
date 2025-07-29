@@ -1,5 +1,5 @@
 // This template is for generating a CRUD component for an entity that has a FK Menu
-// This was generated using entityName = CLStudent
+// This was generated using entityName = CLGuidance
 // Generate the new [entityName]-crud.component.ts   files using this template
 // Of course, the code related to the attribtutes of the entity shoule be changed to match the entityName
 // Review the HTML after the generation is complete and maker sure all the imports required are included.
@@ -12,7 +12,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CLStudentCriteria, CLStudentGETData, CLStudentPOSTData, CLStudentPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CLGuidanceCriteria, CLGuidanceGETData, CLGuidancePOSTData, CLGuidancePUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -24,19 +24,20 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
+import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { CLSchoolCrudComponent } from '@app/components/_crud/clschool/clschool-crud.component';
 
 @Component({
-  selector: 'app-clstudent-crud',
-  templateUrl: './clstudent-crud.component.html',
+  selector: 'app-clguidance-crud',
+  templateUrl: './clguidance-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CLSchoolCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, HcclOrganizationCrudComponent, CLSchoolCrudComponent],
   standalone: true
 })
-export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudWrapper> implements OnInit, OnChanges {
+export class CLGuidanceCrudComponent extends AbstractCrudComponent<CLGuidanceCrudWrapper> implements OnInit, OnChanges {
 
   constructor() {
     super();
@@ -88,21 +89,35 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
 
   private validateUserEmail(userEmail: string): string | null {
     if (userEmail && userEmail.length > 255) {
-      return 'Email must be less than 255 characters';
+      return 'User Email must be less than 255 characters';
     }
     return null;
   }
 
   private validateCellPhoneNumber(cellPhoneNumber: string): string | null {
     if (cellPhoneNumber && cellPhoneNumber.length > 255) {
-      return 'Cell Phone must be less than 255 characters';
+      return 'Cell Phone Number must be less than 255 characters';
     }
     return null;
   }
 
   private validateWorkPhoneNumber(workPhoneNumber: string): string | null {
     if (workPhoneNumber && workPhoneNumber.length > 255) {
-      return 'Work Phone must be less than 255 characters';
+      return 'Work Phone Number must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateJobTitle(jobTitle: string): string | null {
+    if (jobTitle && jobTitle.length > 255) {
+      return 'Job Title must be less than 255 characters';
+    }
+    return null;
+  }
+
+  private validateDataOriginCode(dataOriginCode: string): string | null {
+    if (dataOriginCode && dataOriginCode.length > 20) {
+      return 'Data Origin Code must be less than 20 characters';
     }
     return null;
   }
@@ -146,6 +161,16 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
       errors.workPhoneNumber = { errorMessage: workPhoneNumberError };
     }
     
+    const jobTitleError = this.validateJobTitle(this.jobTitle);
+    if (jobTitleError) {
+      errors.jobTitle = { errorMessage: jobTitleError };
+    }
+    
+    const dataOriginCodeError = this.validateDataOriginCode(this.dataOriginCode);
+    if (dataOriginCodeError) {
+      errors.dataOriginCode = { errorMessage: dataOriginCodeError };
+    }
+    
     return errors;
   }
 
@@ -157,29 +182,34 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
     super.ngOnInit();
   }
 
-  protected async loadEntityByIdCall(id: string): Promise<CLStudentCrudWrapper> {
-    const clstudent = await this.hcclService.getCLStudentById(id).toPromise();
-    if (!clstudent) {
-      throw new Error('CLStudent not found');
-    }
-    return new CLStudentCrudWrapper(clstudent, this.hcclService);
+  override ngOnChanges(changes: SimpleChanges): void {
+    // Implementation for OnChanges interface
   }
 
-  protected override async createEntityDataCall(entity: CLStudentCrudWrapper): Promise<any> {
-    const postData: CLStudentPOSTData = {
+  protected async loadEntityByIdCall(id: string): Promise<CLGuidanceCrudWrapper> {
+    const clguidance = await this.hcclService.getCLGuidanceById(id).toPromise();
+    if (!clguidance) {
+      throw new Error('CLGuidance not found');
+    }
+    return new CLGuidanceCrudWrapper(clguidance, this.hcclService);
+  }
+
+  protected override async createEntityDataCall(entity: CLGuidanceCrudWrapper): Promise<any> {
+    const postData: CLGuidancePOSTData = {
+      organizationId: entity.getData().organizationId || '',
       name: entity.getData().name || '',
       businessCode: entity.getData().businessCode || '',
-      available: entity.getData().available || 1,
+      available: entity.getData().available || 0,
+      dataOriginCode: entity.getData().dataOriginCode || '',
+      userProfileId: entity.getData().userProfileId || '',
+      userId: entity.getData().userId || '',
+      userEmail: entity.getData().userEmail || '',
+      cellPhoneNumber: entity.getData().cellPhoneNumber || '',
+      workPhoneNumber: entity.getData().workPhoneNumber || '',
       firstName: entity.getData().firstName || '',
       lastName: entity.getData().lastName || '',
       schoolId: entity.getData().schoolId || '',
-      organizationId: entity.getData().organizationId,
-      dataOriginCode: entity.getData().dataOriginCode,
-      userProfileId: entity.getData().userProfileId,
-      userId: entity.getData().userId,
-      userEmail: entity.getData().userEmail,
-      cellPhoneNumber: entity.getData().cellPhoneNumber,
-      workPhoneNumber: entity.getData().workPhoneNumber
+      jobTitle: entity.getData().jobTitle || ''
     };
 
     const errors = this.validateForm();
@@ -191,7 +221,7 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
     // This is important - the requestCreate method returns { id: string, status: 201 }
     try {
       // The requestCreate method returns { id: string, status: 201 }
-      const response = await this.hcclService.createCLStudent(postData);
+      const response = await this.hcclService.createCLGuidance(postData);
       console.log('Create response:', response);
       this.clearValidationErrors(); // Clear errors on success
       return response;
@@ -202,21 +232,22 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
 
   }
 
-  protected override async updateEntityDataCall(entity: CLStudentCrudWrapper): Promise<void> {
-    const putData: CLStudentPUTData = {
+  protected override async updateEntityDataCall(entity: CLGuidanceCrudWrapper): Promise<void> {
+    const putData: CLGuidancePUTData = {
+      organizationId: entity.getData().organizationId || '',
       name: entity.getData().name || '',
       businessCode: entity.getData().businessCode || '',
-      available: entity.getData().available || 1,
+      available: entity.getData().available || 0,
+      dataOriginCode: entity.getData().dataOriginCode || '',
+      userProfileId: entity.getData().userProfileId || '',
+      userId: entity.getData().userId || '',
+      userEmail: entity.getData().userEmail || '',
+      cellPhoneNumber: entity.getData().cellPhoneNumber || '',
+      workPhoneNumber: entity.getData().workPhoneNumber || '',
       firstName: entity.getData().firstName || '',
       lastName: entity.getData().lastName || '',
       schoolId: entity.getData().schoolId || '',
-      organizationId: entity.getData().organizationId,
-      dataOriginCode: entity.getData().dataOriginCode,
-      userProfileId: entity.getData().userProfileId,
-      userId: entity.getData().userId,
-      userEmail: entity.getData().userEmail,
-      cellPhoneNumber: entity.getData().cellPhoneNumber,
-      workPhoneNumber: entity.getData().workPhoneNumber
+      jobTitle: entity.getData().jobTitle || ''
     };
 
     const errors = this.validateForm();
@@ -225,21 +256,21 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
       throw new Error('Validation failed');
     }
 
-    await this.hcclService.updateCLStudentById(entity.getData().id!, putData).toPromise();
+    await this.hcclService.updateCLGuidanceById(entity.getData().id!, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
     try {
-      await this.hcclService.deleteCLStudentById(id).toPromise();
+      await this.hcclService.deleteCLGuidanceById(id).toPromise();
       return true;
     } catch (error) {
-      console.error('Error deleting CLStudent:', error);
+      console.error('Error deleting CLGuidance:', error);
       return false;
     }
   }
 
-  public override newEmptyWrapper(): CLStudentCrudWrapper {
-    return CLStudentCrudWrapper.newInstanceForCreate(this.hcclService);
+  public override newEmptyWrapper(): CLGuidanceCrudWrapper {
+    return CLGuidanceCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
   // Getter and setter methods for form binding
@@ -263,56 +294,6 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
     }
   }
 
-  public get firstName(): string {
-    return this.getCurrentEntity()?.getData()?.firstName || '';
-  }
-
-  public set firstName(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().firstName = value;
-    }
-  }
-
-  public get lastName(): string {
-    return this.getCurrentEntity()?.getData()?.lastName || '';
-  }
-
-  public set lastName(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().lastName = value;
-    }
-  }
-
-  public get userEmail(): string {
-    return this.getCurrentEntity()?.getData()?.userEmail || '';
-  }
-
-  public set userEmail(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().userEmail = value;
-    }
-  }
-
-  public get cellPhoneNumber(): string {
-    return this.getCurrentEntity()?.getData()?.cellPhoneNumber || '';
-  }
-
-  public set cellPhoneNumber(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().cellPhoneNumber = value;
-    }
-  }
-
-  public get workPhoneNumber(): string {
-    return this.getCurrentEntity()?.getData()?.workPhoneNumber || '';
-  }
-
-  public set workPhoneNumber(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().workPhoneNumber = value;
-    }
-  }
-
   public get available(): number {
     return this.getCurrentEntity()?.getData()?.available || 0;
   }
@@ -320,26 +301,6 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
   public set available(value: number) {
     if (this.getCurrentEntity()) {
       this.getCurrentEntity()!.getData().available = value;
-    }
-  }
-
-  public get schoolId(): string {
-    return this.getCurrentEntity()?.getData()?.schoolId || '';
-  }
-
-  public set schoolId(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().schoolId = value;
-    }
-  }
-
-  public get organizationId(): string {
-    return this.getCurrentEntity()?.getData()?.organizationId || '';
-  }
-
-  public set organizationId(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().organizationId = value;
     }
   }
 
@@ -373,27 +334,91 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
     }
   }
 
-  public override get dateCreated(): any {
-    return this.getCurrentEntity()?.getData()?.dateCreated;
+  public get userEmail(): string {
+    return this.getCurrentEntity()?.getData()?.userEmail || '';
   }
 
-  public override get dateLastUpdated(): any {
-    return this.getCurrentEntity()?.getData()?.dateLastUpdated;
+  public set userEmail(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().userEmail = value;
+    }
   }
 
-  public override get createdByInfo(): any {
-    return this.getCurrentEntity()?.getData()?.createdByInfo;
+  public get cellPhoneNumber(): string {
+    return this.getCurrentEntity()?.getData()?.cellPhoneNumber || '';
   }
 
-  public override get lastUpdatedByInfo(): any {
-    return this.getCurrentEntity()?.getData()?.lastUpdatedByInfo;
+  public set cellPhoneNumber(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().cellPhoneNumber = value;
+    }
   }
 
-  public createWrapper(clstudentData: CLStudentGETData): CLStudentCrudWrapper {
-    return new CLStudentCrudWrapper(clstudentData, this.hcclService);
+  public get workPhoneNumber(): string {
+    return this.getCurrentEntity()?.getData()?.workPhoneNumber || '';
   }
 
-  getCLStudentFkMenuCriteria(): CLStudentCriteria {
+  public set workPhoneNumber(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().workPhoneNumber = value;
+    }
+  }
+
+  public get firstName(): string {
+    return this.getCurrentEntity()?.getData()?.firstName || '';
+  }
+
+  public set firstName(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().firstName = value;
+    }
+  }
+
+  public get lastName(): string {
+    return this.getCurrentEntity()?.getData()?.lastName || '';
+  }
+
+  public set lastName(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().lastName = value;
+    }
+  }
+
+  public get schoolId(): string {
+    return this.getCurrentEntity()?.getData()?.schoolId || '';
+  }
+
+  public set schoolId(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().schoolId = value;
+    }
+  }
+
+  public get jobTitle(): string {
+    return this.getCurrentEntity()?.getData()?.jobTitle || '';
+  }
+
+  public set jobTitle(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().jobTitle = value;
+    }
+  }
+
+  public get organizationId(): string {
+    return this.getCurrentEntity()?.getData()?.organizationId || '';
+  }
+
+  public set organizationId(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().organizationId = value;
+    }
+  }
+
+  public createWrapper(clguidanceData: CLGuidanceGETData): CLGuidanceCrudWrapper {
+    return new CLGuidanceCrudWrapper(clguidanceData, this.hcclService);
+  }
+
+  getCLGuidanceFkMenuCriteria(): CLGuidanceCriteria {
     return {
       pageNumber: 1,
       pageSize: 50,
@@ -401,41 +426,41 @@ export class CLStudentCrudComponent extends AbstractCrudComponent<CLStudentCrudW
     };
   }
 
-  protected clstudentMenu: MenuControlDataList | null = null;
-  protected override async prepareMenus(entity: CLStudentCrudWrapper): Promise<void> {
-    const criteria = this.getCLStudentFkMenuCriteria();
-    const results = await this.hcclService.findCLStudents(criteria).toPromise();
-    this.clstudentMenu = await entity.getFkMenu("clstudents", this.id);
+  protected clguidanceMenu: MenuControlDataList | null = null;
+  protected override async prepareMenus(entity: CLGuidanceCrudWrapper): Promise<void> {
+    const criteria = this.getCLGuidanceFkMenuCriteria();
+    const results = await this.hcclService.findCLGuidances(criteria).toPromise();
+    this.clguidanceMenu = await entity.getFkMenu("clguidances", this.id);
   }
 }
 
-export class CLStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
+export class CLGuidanceCrudWrapper extends EntityWrapper<CLGuidanceGETData> {
 
-  public static newInstanceForCreate(hcclService: HcclService, entityIn?: CLStudentGETData | null): CLStudentCrudWrapper {
-    const emptyData: CLStudentGETData = {
+  public static newInstanceForCreate(hcclService: HcclService, entityIn?: CLGuidanceGETData | null): CLGuidanceCrudWrapper {
+    const emptyData: CLGuidanceGETData = {
       name: '',
       businessCode: '',
-      available: 1,
+      available: 0,
       firstName: '',
       lastName: '',
       schoolId: ''
     };
-    return new CLStudentCrudWrapper(entityIn || emptyData, hcclService);
+    return new CLGuidanceCrudWrapper(entityIn || emptyData, hcclService);
   }
 
-  public static async newInstance(id: string, hcclService: HcclService): Promise<CLStudentCrudWrapper> {
-    const data = await hcclService.getCLStudentById(id).toPromise();
+  public static async newInstance(id: string, hcclService: HcclService): Promise<CLGuidanceCrudWrapper> {
+    const data = await hcclService.getCLGuidanceById(id).toPromise();
     if (!data) {
-      throw new Error('CLStudent not found');
+      throw new Error('CLGuidance not found');
     }
-    return new CLStudentCrudWrapper(data, hcclService);
+    return new CLGuidanceCrudWrapper(data, hcclService);
   }
 
-  constructor(data: CLStudentGETData, hcclService?: HcclService) {
+  constructor(data: CLGuidanceGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }
 
-  getDisplayText(entity?: CLStudentGETData): string {
+  getDisplayText(entity?: CLGuidanceGETData): string {
     const data = entity || this.getData();
     if (data.name) {
       return data.name;
@@ -443,29 +468,23 @@ export class CLStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     if (data.businessCode) {
       return data.businessCode;
     }
-    return data.id || 'Unknown CLStudent';
+    return data.id || 'Unknown CLGuidance';
   }
 
   getFullName(): string {
-    const data = this.getData();
-    const firstName = data.firstName || '';
-    const lastName = data.lastName || '';
-    if (firstName && lastName) {
-      return `${firstName} ${lastName}`;
-    }
-    return data.name || '';
+    return this.getData().name || '';
   }
 
-  getEmail(): string {
-    return this.getData().userEmail || '';
+  getBusinessCode(): string {
+    return this.getData().businessCode || '';
   }
 
-  getPhone(): string {
-    return this.getData().cellPhoneNumber || this.getData().workPhoneNumber || '';
+  getFirstName(): string {
+    return this.getData().firstName || '';
   }
 
-  getOrganizationId(): string {
-    return this.getData().organizationId || '';
+  getLastName(): string {
+    return this.getData().lastName || '';
   }
 
   getAvailable(): number {
@@ -476,7 +495,7 @@ export class CLStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     return this.getData().available === 1;
   }
 
-  getFkMenuCriteria(): CLStudentCriteria {
+  getFkMenuCriteria(): CLGuidanceCriteria {
     return {
       pageNumber: 1,
       pageSize: 50,
@@ -484,16 +503,16 @@ export class CLStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     };
   }
 
-  async getCLStudents(criteria?: CLStudentCriteria): Promise<CLStudentGETData[]> {
+  async getCLGuidances(criteria?: CLGuidanceCriteria): Promise<CLGuidanceGETData[]> {
     if (!this.hcclService) {
       throw new Error('HcclService not available');
     }
-    const results = await this.hcclService.findCLStudents(criteria || this.getFkMenuCriteria()).toPromise();
+    const results = await this.hcclService.findCLGuidances(criteria || this.getFkMenuCriteria()).toPromise();
     return results?.searchResults || [];
   }
 
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
-    const clstudents = await this.getCLStudents();
-    return this.getMenuControlDataList("clstudents", this.getEntityType() + " Menu", clstudents, data);
+    const clguidances = await this.getCLGuidances();
+    return this.getMenuControlDataList("clguidances", this.getEntityType() + " Menu", clguidances, data);
   }
-}
+} 

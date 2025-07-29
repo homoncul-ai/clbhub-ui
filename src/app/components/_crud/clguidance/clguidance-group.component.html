@@ -1,23 +1,23 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
 <div *ngIf="currentTabId === 'details'">
-  <app-clstudent-crud [id]="id" modeName="detail"></app-clstudent-crud>
+  <app-clguidance-crud [id]="id" modeName="detail"></app-clguidance-crud>
 </div>
 
 <div *ngIf="currentTabId === 'create'">
   <h1>Create</h1>
-  <app-clstudent-crud [id]="id" modeName="create"></app-clstudent-crud>
+  <app-clguidance-crud [id]="id" modeName="create"></app-clguidance-crud>
 </div>
 
 <!--
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
   <hr>
-  <app-clstudent-crud [id]="id" modeName="debug"></app-clstudent-crud>
+  <app-clguidance-crud [id]="id" modeName="debug"></app-clguidance-crud>
 </div>
 
 <div *ngIf="currentTabId === 'fk_menu'">
   <h1>FK_MENU</h1>
-  <app-clstudent-crud [id]="id" modeName="fk_menu"></app-clstudent-crud>
+  <app-clguidance-crud [id]="id" modeName="fk_menu"></app-clguidance-crud>
 </div>
--->
+--> 
