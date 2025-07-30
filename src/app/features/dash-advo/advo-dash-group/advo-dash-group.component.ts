@@ -95,7 +95,7 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
 
   onClickWorkRequestRow(): OnRowClickBehavior {
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
-    x.alertMessage = 'Ticket';
+    //x.alertMessage = 'Ticket';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
       return ['/advocate-dashboard', 'workrequests', id, 'update'];

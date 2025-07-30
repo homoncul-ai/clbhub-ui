@@ -92,7 +92,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
       this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
         columns: [
           { id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 },
-          { id: 'action', header: [{ text: 'Action', align: 'center' }], width: 120, htmlEnable: true, template: () => {
+          { id: 'action', header: [{ text: 'Action', align: 'center' }], width: 150, htmlEnable: true, template: () => {
             return `<button class=\"create-ticket-btn\">Create Ticket</button>`;
           }},
           { id: 'userCode', header: [{ text: 'User Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
