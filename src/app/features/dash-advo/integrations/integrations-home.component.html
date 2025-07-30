@@ -11,7 +11,10 @@
   <h2>Students</h2>
   <p>Students and help information for integrations.</p>
   <app-clstudent-list [criteria]="getStudentsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
-  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="getOnRowClickBehaviorForStudent()"></app-clstudent-list>
+  [showingGoButton]="true" 
+  [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="getOnRowClickBehaviorForStudent()"
+  [onGoClickAction]="getOnGoClickBehaviorForCLStudent()" [showingIdCheckbox]="true"
+  ></app-clstudent-list>
 </div> 
 
 

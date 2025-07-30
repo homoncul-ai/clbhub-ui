@@ -7,7 +7,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HcclService, HcclUserGETData } from '../../../restsvc/hccl.service';
+import { HcclService, HcclUserGETData, HcclUserProfileCriteria, HcclUserProfileGETData, HcclUserProfileGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
@@ -44,6 +44,8 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
     return [
       // id is commented out for now - not sure if we want to show this
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'userProfileStr', header: [{ text: 'Account', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'firstName', header: [{ text: 'First Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
@@ -100,6 +102,14 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
     // const hcclUserGETDataGD = 
     //    (await CLSchoolCrudWrapper.newInstance(entity.schoolId, this.hcclService)).getDisplayText();
 
+    let userProfileStr: string = '';
+    if (entity.id) { //clstudent.id
+      let userProfile: HcclUserProfileGETData = this.mapFkUser.get(entity.id) || {};
+      if (userProfile && userProfile.userEmail) {
+        userProfileStr = userProfile.userEmail || '';
+       console.log('userProfileStr: ' + userProfile.userEmail + ' ' + entity.id);
+      }
+    }
 
     return {
       id: entityId, // Include the entity ID in the formatted data
@@ -107,7 +117,36 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
-      schoolStr: schoolStr
+      schoolStr: schoolStr,
+      userProfileStr: userProfileStr
     };
   }
+
+
+  protected mapFkUser : Map<string, HcclUserProfileGETData> = new Map<string, HcclUserProfileGETData>();
+
+  protected override async  preProcessEntities(entities: CLStudentGETData[], ids: string[]): Promise<void> {
+    super.preProcessEntities(entities, ids);
+
+
+    // Get the hcclUserGETData for each entity
+    const criteria: HcclUserProfileCriteria = {
+      externalUserIds: ids,
+      externalUserEntityType: 'CLStudent'
+    };
+   this.hcclService.findHcclUserProfiles(criteria).subscribe((response: HcclUserProfileGETDataSearchResults) => {
+    // loop through the users, update the map of id to UserProfile
+    if (response.searchResults) {
+      for (const user of response.searchResults) {
+        let userProfile: HcclUserProfileGETData = user;
+        let id: string = userProfile.externalUserId || '';
+        this.mapFkUser.set(id, userProfile);
+      }
+    }
+   });
+
+    // Default implementation - subclasses can override
+    return Promise.resolve();
+  }
+
 } 

@@ -44,8 +44,6 @@ export class CLSchoolListComponent extends AbstractListComponent<CLSchoolGETData
     return [
       // id is commented out for now - not sure if we want to show this
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'userProfileStr', header: [{ text: 'Account', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'organizationName', header: [{ text: 'Organization Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
@@ -80,32 +78,6 @@ export class CLSchoolListComponent extends AbstractListComponent<CLSchoolGETData
     return this.hcclService.findCLSchools(criteria);
   }
 
-  protected mapFkUser : Map<string, HcclUserProfileGETData> = new Map<string, HcclUserProfileGETData>();
-
-  protected override async  preProcessEntities(entities: CLSchoolGETData[], ids: string[]): Promise<void> {
-    super.preProcessEntities(entities, ids);
-
-
-    // Get the hcclUserGETData for each entity
-    const criteria: HcclUserProfileCriteria = {
-      externalUserIds: ids,
-      externalUserEntityType: 'CLSchool'
-    };
-   this.hcclService.findHcclUserProfiles(criteria).subscribe((response: HcclUserProfileGETDataSearchResults) => {
-    // loop through the users, update the map of id to UserProfile
-    if (response.searchResults) {
-      for (const user of response.searchResults) {
-        let userProfile: HcclUserProfileGETData = user;
-        let id: string = userProfile.externalUserId || '';
-        this.mapFkUser.set(id, userProfile);
-      }
-    }
-   });
-
-    // Default implementation - subclasses can override
-    return Promise.resolve();
-  }
-
   protected hasSearchResults(response: CLSchoolGETDataSearchResults): boolean {
     return !!response.searchResults;
   }
@@ -124,19 +96,12 @@ export class CLSchoolListComponent extends AbstractListComponent<CLSchoolGETData
     const organizationStr: string = entity.organizationId == null ? 'unknown' : 
        (await HcclOrganizationCrudWrapper.newInstance(entity.organizationId, this.hcclService)).getDisplayText();
 
-    let userProfileStr: string = '';
-    if (entity.id) { //clstudent.id
-      let userProfile: HcclUserProfileGETData = this.mapFkUser.get(entity.id) || {};
-      userProfileStr = userProfile.userEmail || '';
-    }
-
     return {
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
-      organizationStr: organizationStr,
-      userProfileStr: userProfileStr
+      organizationStr: organizationStr
     };
   }
 } 

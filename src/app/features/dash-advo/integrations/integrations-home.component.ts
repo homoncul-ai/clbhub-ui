@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclUserContextGETData, CLStudentCriteria, CLSchoolCriteria, CLGuidanceCriteria } from '@app/restsvc/hccl.service';
+import { HcclUserContextGETData, CLStudentCriteria, CLSchoolCriteria, CLGuidanceCriteria, SimpleRestActionResponse } from '@app/restsvc/hccl.service';
 import { CLSchoolListComponent } from '@app/components/_crud/clschool/clschool-list.component';
 import { CLStudentListComponent } from '@app/components/_crud/clstudent/clstudent-list.component';
 import { CLStudentCrudComponent } from '@app/components/_crud/clstudent/clstudent-crud.component';
 import { CLSchoolCrudComponent } from '@app/components/_crud/clschool/clschool-crud.component';
 import { CLGuidanceListComponent } from '@app/components/_crud/clguidance/clguidance-list.component';
 import { CLGuidanceCrudComponent } from '@app/components/_crud/clguidance/clguidance-crud.component';
-import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -141,5 +142,39 @@ export class IntegrationsHomeComponent extends AbstractEntityGroupComponent<Hccl
       return [baseRoute, 'student', entityId];
     }
     return x;
+  }
+
+  protected getOnGoClickBehaviorForCLStudent(): OnGoClickActionBehavior {
+    var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
+    o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
+      this.promoteStudents(entityIds);
+    }
+    o.alertMessage = 'Promote students:';
+    return o;
+  }
+
+  promoteStudents(entityIds: string[]) { 
+    const studentIds = entityIds;
+    console.log('Promoting students:', studentIds);
+
+
+    // TODO: Implement promotion logic
+    //alert(`Promoting ${checkedRows.length} student(s)` + ' ' + studentIds.join(', '));
+    var criteria: CLStudentCriteria = {
+      ids: studentIds,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
+    this.hcclService.promoteStudentsToUsers(criteria).subscribe({
+      next: (response: SimpleRestActionResponse) => {
+        alert('Promotion successful');
+        this.router.navigate([this.getBaseRoute(), 'students']);
+      },
+      error: (error: any) => {
+        alert('Promotion failed');
+      }
+    });
+
   }
 } 

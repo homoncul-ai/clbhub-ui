@@ -228,16 +228,21 @@ implements OnInit, AfterViewInit {
           const entities = this.getSearchResults(response);
           // Set up fk data, whatever else.
           const ids: string[] = entities.map((entity: T) => this.extractId(entity));
-          this.preProcessEntities(entities, ids).catch(error => {
+          this.preProcessEntities(entities, ids).then(() => {
+            this.processEntities(entities).catch(error => {
+              console.error('Error processing entities:', error);
+              this.grid.data.parse([]);
+            });
+          }).catch(error => {
             console.error('Error processing entities:', error);
             this.grid.data.parse([]);
           });
           
-          // Now, process entites, 
-          this.processEntities(entities).catch(error => {
-            console.error('Error processing entities:', error);
-            this.grid.data.parse([]);
-          });
+            // // Now, process entites, 
+            // this.processEntities(entities).catch(error => {
+            //   console.error('Error processing entities:', error);
+            //   this.grid.data.parse([]);
+            // });
         } else {
           this.grid.data.parse([]);
           console.log("No entities found");
