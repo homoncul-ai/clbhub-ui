@@ -99,9 +99,6 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
     const schoolStr: string = entity.schoolId == null ? 'unknown' : 
        (await CLSchoolCrudWrapper.newInstance(entity.schoolId, this.hcclService)).getDisplayText();
 
-    // const hcclUserGETDataGD = 
-    //    (await CLSchoolCrudWrapper.newInstance(entity.schoolId, this.hcclService)).getDisplayText();
-
     let userProfileStr: string = '';
     if (entity.id) { //clstudent.id
       let userProfile: HcclUserProfileGETData = this.mapFkUser.get(entity.id) || {};
@@ -134,7 +131,7 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
       externalUserIds: ids,
       externalUserEntityType: 'CLStudent'
     };
-   this.hcclService.findHcclUserProfiles(criteria).subscribe((response: HcclUserProfileGETDataSearchResults) => {
+     this.hcclService.findHcclUserProfiles(criteria).subscribe((response: HcclUserProfileGETDataSearchResults) => {
     // loop through the users, update the map of id to UserProfile
     if (response.searchResults) {
       for (const user of response.searchResults) {
@@ -142,6 +139,7 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
         let id: string = userProfile.externalUserId || '';
         this.mapFkUser.set(id, userProfile);
       }
+      console.log('mapFkUser finished : ' + this.mapFkUser.size);
     }
    });
 
