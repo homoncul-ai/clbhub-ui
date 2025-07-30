@@ -10,7 +10,7 @@
 <div *ngIf="currentTabId === 'students'">
   <h2>Students</h2>
   <p>Students and help information for integrations.</p>
-  <app-clstudent-list [criteria]="getStudentsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
+  <app-clstudent-list [criteria]="getStudentsCriteria()" [showingSearchHeading]="false" [goButtonLabel]="'Promote Students'"
   [showingGoButton]="true" 
   [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="getOnRowClickBehaviorForStudent()"
   [onGoClickAction]="getOnGoClickBehaviorForCLStudent()" [showingIdCheckbox]="true"
@@ -21,7 +21,7 @@
 <div *ngIf="currentTabId === 'schools'">
   <h2>Schools</h2>
   <p>Schools and help information for integrations.</p>
-  <app-clschool-list [criteria]="getSchoolsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
+  <app-clschool-list [criteria]="getSchoolsCriteria()" 
   [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="getOnRowClickBehaviorForSchool()"></app-clschool-list>
 </div> 
 
