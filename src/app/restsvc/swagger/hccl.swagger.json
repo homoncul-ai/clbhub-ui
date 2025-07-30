@@ -9755,6 +9755,58 @@
         }
       }
     },
+    "/hccl/intg/mapfk/{entity-type}": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Reads ticket context for the current user. ",
+        "operationId": "getEntityMapForFK",
+        "parameters": [
+          {
+            "name": "entity-type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserContextGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/intg/actions/promote-students": {
       "post": {
         "tags": [
@@ -18033,6 +18085,13 @@
           },
           "externalUserName": {
             "type": "string"
+          },
+          "externalUserIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
@@ -21223,6 +21282,101 @@
           }
         }
       },
+      "HcclUserContextGETData": {
+        "required": [
+          "currentUserProfile",
+          "currentUserProfileId",
+          "dashQueues",
+          "messages",
+          "userProfileMenu"
+        ],
+        "type": "object",
+        "properties": {
+          "currentUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "currentUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "userProfileMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "dashQueues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkQueueGETData"
+            }
+          }
+        }
+      },
+      "MenuControlData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "selected": {
+            "type": "boolean"
+          },
+          "groupId": {
+            "type": "string"
+          },
+          "roleRequired": {
+            "type": "string"
+          },
+          "helpText": {
+            "type": "string"
+          },
+          "allowedByRole": {
+            "type": "boolean"
+          },
+          "allowedByRule": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MenuControlDataList": {
+        "type": "object",
+        "properties": {
+          "applicationName": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "menuId": {
+            "type": "string"
+          },
+          "menuName": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "menuItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MenuControlData"
+            }
+          },
+          "defaultAllowedByRule": {
+            "type": "boolean"
+          }
+        }
+      },
       "SimpleMessage": {
         "type": "object",
         "properties": {
@@ -21414,70 +21568,6 @@
           }
         }
       },
-      "MenuControlData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "icon": {
-            "type": "string"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "selected": {
-            "type": "boolean"
-          },
-          "groupId": {
-            "type": "string"
-          },
-          "roleRequired": {
-            "type": "string"
-          },
-          "helpText": {
-            "type": "string"
-          },
-          "allowedByRole": {
-            "type": "boolean"
-          },
-          "allowedByRule": {
-            "type": "boolean"
-          }
-        }
-      },
-      "MenuControlDataList": {
-        "type": "object",
-        "properties": {
-          "applicationName": {
-            "type": "string"
-          },
-          "clientId": {
-            "type": "string"
-          },
-          "menuId": {
-            "type": "string"
-          },
-          "menuName": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "menuItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MenuControlData"
-            }
-          },
-          "defaultAllowedByRule": {
-            "type": "boolean"
-          }
-        }
-      },
       "CreateTicketSetupUIData": {
         "type": "object",
         "properties": {
@@ -21492,37 +21582,6 @@
           },
           "currentUserProfile": {
             "$ref": "#/components/schemas/HcclUserProfileGETData"
-          }
-        }
-      },
-      "HcclUserContextGETData": {
-        "required": [
-          "currentUserProfile",
-          "currentUserProfileId",
-          "dashQueues",
-          "messages",
-          "userProfileMenu"
-        ],
-        "type": "object",
-        "properties": {
-          "currentUserProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "currentUserProfile": {
-            "$ref": "#/components/schemas/HcclUserProfileGETData"
-          },
-          "userProfileMenu": {
-            "$ref": "#/components/schemas/MenuControlDataList"
-          },
-          "dashQueues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/WorkQueueGETData"
-            }
           }
         }
       },

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {  SimpleMessage, SimpleMessageList, DateGETData ,Reference, RelationshipGETData, JobProcessLogPUTData , 
-  ServiceManifest, LoggerConfigurationData, LoggerConfigurationPUTData, JobDefinitionPOSTData, JobDefinitionCriteria, 
-  JobDefinitionPUTData, JobProcessLogPOSTData} from './common-request-service.model';
+import {  SimpleMessage, SimpleMessageList, DateGETData ,Reference, RelationshipGETData, JobProcessLogPUTData , ServiceManifest, LoggerConfigurationData, LoggerConfigurationPUTData, JobDefinitionPOSTData, JobDefinitionCriteria, JobDefinitionPUTData, JobProcessLogPOSTData} from './common-request-service.model';
 import { CommonRequestServiceCaller, CommonServiceRequest } from './common-request-service.model';
 import { AppConstants } from '@app/shell/services/config.service';
 
@@ -2291,6 +2289,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  getEntityMapForFK(entity_type: string, body: any): Observable<HcclUserContextGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/intg/mapfk/" + entity_type,
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserContextGETData>(request);
+  }
+
   promoteStudentsToUsers(body: CLStudentCriteria): Observable<SimpleRestActionResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/actions/promote-students",
@@ -4471,6 +4478,7 @@ export interface HcclUserProfileCriteria {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  externalUserIds?: string[];
 }
 
 export interface HcclUserProfilePUTData {
@@ -5357,6 +5365,37 @@ export interface EncodingPOSTData {
   sourceOfText: string;
 }
 
+export interface HcclUserContextGETData {
+  currentUserProfileId: string;
+  messages: SimpleMessageList;
+  currentUserProfile: HcclUserProfileGETData;
+  userProfileMenu: MenuControlDataList;
+  dashQueues: WorkQueueGETData[];
+}
+
+export interface MenuControlData {
+  id?: string;
+  name?: string;
+  icon?: string;
+  active?: boolean;
+  selected?: boolean;
+  groupId?: string;
+  roleRequired?: string;
+  helpText?: string;
+  allowedByRole?: boolean;
+  allowedByRule?: boolean;
+}
+
+export interface MenuControlDataList {
+  applicationName?: string;
+  clientId?: string;
+  menuId?: string;
+  menuName?: string;
+  label?: string;
+  menuItems?: MenuControlData[];
+  defaultAllowedByRule?: boolean;
+}
+
 export interface SimpleRestActionContext {
   userName?: string;
 }
@@ -5408,42 +5447,11 @@ export interface WorkItemFormRequest {
   actionFormData?: any;
 }
 
-export interface MenuControlData {
-  id?: string;
-  name?: string;
-  icon?: string;
-  active?: boolean;
-  selected?: boolean;
-  groupId?: string;
-  roleRequired?: string;
-  helpText?: string;
-  allowedByRole?: boolean;
-  allowedByRule?: boolean;
-}
-
-export interface MenuControlDataList {
-  applicationName?: string;
-  clientId?: string;
-  menuId?: string;
-  menuName?: string;
-  label?: string;
-  menuItems?: MenuControlData[];
-  defaultAllowedByRule?: boolean;
-}
-
 export interface CreateTicketSetupUIData {
   data?: CreateTicketPOSTData;
   queuesMenu?: MenuControlDataList;
   workRequestTypesMenu?: MenuControlDataList;
   currentUserProfile?: HcclUserProfileGETData;
-}
-
-export interface HcclUserContextGETData {
-  currentUserProfileId: string;
-  messages: SimpleMessageList;
-  currentUserProfile: HcclUserProfileGETData;
-  userProfileMenu: MenuControlDataList;
-  dashQueues?: WorkQueueGETData[];
 }
 
 export interface GenericFormUI {

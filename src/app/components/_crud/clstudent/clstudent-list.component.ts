@@ -7,7 +7,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HcclService } from '../../../restsvc/hccl.service';
+import { HcclService, HcclUserGETData } from '../../../restsvc/hccl.service';
 import { CLStudentGETData, CLStudentCriteria, CLStudentGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
@@ -90,11 +90,19 @@ export class CLStudentListComponent extends AbstractListComponent<CLStudentGETDa
    * @returns 
    */
   protected override async formatEntityDataAsync(entity: CLStudentGETData): Promise<any> {
+    // Get the entity ID
+    const entityId: string = entity.id || '';
+    
     // Every attribute of the form [prefix]Id is an "foreign key" and should be replaced with the displaytext of the crudwrapper
     const schoolStr: string = entity.schoolId == null ? 'unknown' : 
        (await CLSchoolCrudWrapper.newInstance(entity.schoolId, this.hcclService)).getDisplayText();
 
+    // const hcclUserGETDataGD = 
+    //    (await CLSchoolCrudWrapper.newInstance(entity.schoolId, this.hcclService)).getDisplayText();
+
+
     return {
+      id: entityId, // Include the entity ID in the formatted data
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',

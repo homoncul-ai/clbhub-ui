@@ -226,6 +226,14 @@ implements OnInit, AfterViewInit {
       next: (response: TSearchResults) => {
         if (this.hasSearchResults(response)) {
           const entities = this.getSearchResults(response);
+          // Set up fk data, whatever else.
+          const ids: string[] = entities.map((entity: T) => this.extractId(entity));
+          this.preProcessEntities(entities, ids).catch(error => {
+            console.error('Error processing entities:', error);
+            this.grid.data.parse([]);
+          });
+          
+          // Now, process entites, 
           this.processEntities(entities).catch(error => {
             console.error('Error processing entities:', error);
             this.grid.data.parse([]);
@@ -241,6 +249,19 @@ implements OnInit, AfterViewInit {
       }
     });
   }
+
+  protected extractId(entity: T): string {
+    let id: string = '';
+    let entityObj: any = entity;
+    id = entityObj.id;
+    return id;
+  }
+
+  protected async preProcessEntities(entities: T[], ids: string[]): Promise<void> {
+    // Default implementation - subclasses can override
+    return Promise.resolve();
+  }
+
 
   private async processEntities(entities: T[]) {
     const gridData = await Promise.all(entities.map(async (entity, index) => {

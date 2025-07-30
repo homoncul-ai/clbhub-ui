@@ -41,7 +41,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
     //
 
-    const queues = await this.hcclContextService.getContext().dashQueues || [];
+    const queues = this.hcclContextService.getContext().dashQueues || [];
 
     // First, inbound tickets 
     this.menu_queues = {

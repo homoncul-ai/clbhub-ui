@@ -134,7 +134,8 @@ export class HcclContextService {
           menuId: '',
           menuName: '',
           label: '',
-        }
+        },
+        dashQueues: []
       };
     }
 
