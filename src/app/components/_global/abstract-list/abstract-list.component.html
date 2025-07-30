@@ -30,3 +30,7 @@
     </form>
     <div #gridContainer class="search-list-grid"></div>
   </div>
+
+  <div *ngIf="showingDiagnostics">
+    <pre>{{ this.currentCriteria| json }}</pre>
+  </div>

@@ -36,6 +36,7 @@ implements OnInit, AfterViewInit {
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
   @Input() otherData: any = {};
+  @Input() showingDiagnostics: boolean = false;
 
   protected actionCode: string = 'search';
 
@@ -207,6 +208,7 @@ implements OnInit, AfterViewInit {
     return { ...criteria };
   }
 
+  currentCriteria: TCriteria | null = null;
   private loadGridData(searchByText?: string) {
     const criteria = this.criteria || this.createCriteria();
     
@@ -216,6 +218,8 @@ implements OnInit, AfterViewInit {
     if (this.criteria == null && this.selectedId) {
       (criteria as any).ids = [this.selectedId];
     }
+
+    this.currentCriteria = criteria;
     this.loadGridDataCall(criteria);
   }
 
