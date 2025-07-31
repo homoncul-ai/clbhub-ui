@@ -35,6 +35,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   protected hcclService = inject(HcclService);
   protected hcclContextService = inject(HcclContextService);
   protected hcclContext: HcclUserContextGETData | null = null;
+  protected currentUserProfileId: string =   '';
 
   protected abstract loadEntityById(id: string): Promise<T>;
   protected tabs: SimpleTab[] = [];
@@ -43,7 +44,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
 
   ngOnInit(): void {
-    var id = this.hcclContextService?.getCurrentUserProfileId() || '';
+    this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';
     this.route.params.subscribe(params => {
       this. id = params['id'];
       let tabId = params['tabId'];
@@ -65,13 +66,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
           tabId = tabIdT;
         }
       }
-
-     
-      
-  
-
-      //alert("AbstractEntityGroupComponent.ngOnInit id, tabid, childId = "  + this.id + " " + finalTabId + " " +this.childId + " " +  " " );
-     
+ 
       var id = this.id;
      // debugger
       if (!id || tabId === 'create') {

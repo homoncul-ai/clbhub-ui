@@ -80,7 +80,7 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
       let tab : SimpleTab = new SimpleTab('student', this.getDetailsTabLabel(), '', 
         () => {
           
-            this.router.navigate([baseRoute,  'student']);
+            this.router.navigate([baseRoute,  'student', this.childId]);
             
         },
         () => {
@@ -92,7 +92,7 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
       tab  = new SimpleTab('tickets', 'Tickets', '', 
       () => {
         
-          this.router.navigate([baseRoute,  'tickets']);
+          this.router.navigate([baseRoute,  'tickets', this.childId]);
           
       },
       () => {
