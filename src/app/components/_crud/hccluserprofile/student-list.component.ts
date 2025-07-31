@@ -57,7 +57,7 @@ export class StudentListComponent extends AbstractListComponent<HcclUserProfileG
 
   protected override addGridEventListeners(grid: any) {
     // Default implementation - subclasses can override
-    console.log('addGridEventListeners called');
+    //console.log('addGridEventListeners called');
     // Use grid's cellClick event for the Action column
     grid.events.on('cellClick', (row: any, col: any, e: any) => {
       if (col && col.id === 'action') {
@@ -75,7 +75,8 @@ export class StudentListComponent extends AbstractListComponent<HcclUserProfileG
   }
 
   protected findEntities(criteria: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults> {
-    return this.hcclService.findHcclUserProfiles(criteria);
+    var x = this.hcclService.findHcclUserProfiles(criteria);
+    return x;
   }
 
   protected hasSearchResults(response: HcclUserProfileGETDataSearchResults): boolean {

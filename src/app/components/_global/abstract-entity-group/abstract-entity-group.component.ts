@@ -48,7 +48,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       this. id = params['id'];
       let tabId = params['tabId'];
       this. childId = params['childId'];
-      this.tabs = this.setupTabs();
+      
 
     //debugger
       if (this.id === undefined || this.id === '') {
@@ -56,7 +56,6 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       }
 
       const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
-      var defaultTabId = this.getDefaultTabId();
       if (urlSegments.length > 0) {
         let tabIdT = urlSegments[urlSegments.length - 1];
         if (tabIdT.includes('#')) {
@@ -67,36 +66,34 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
         }
       }
 
-      // Check to see if the tabId is a valid tab
-      if (!this.tabs.find(tab => tab.id === tabId)) {
-        tabId = defaultTabId;
-      }
-
-      // debugger
-      const finalTabId = tabId || defaultTabId;
-      
-      // Set the extracted parameters
-       
      
-      if (finalTabId) {
-        this.tabId = finalTabId;
-      }
+      
+  
 
       //alert("AbstractEntityGroupComponent.ngOnInit id, tabid, childId = "  + this.id + " " + finalTabId + " " +this.childId + " " +  " " );
      
       var id = this.id;
      // debugger
-      if (!id || finalTabId === 'create') {
-        this.currentTabId = finalTabId;
+      if (!id || tabId === 'create') {
+        this.currentTabId = 'create';
         this.showingTabset = true;
         this.entity = this.newCrudWrapperForCreate();
       } else {
       if (id) {
         this.loadEntityById(id).then(entity => {
+
           this.entity = entity;
           this.tabs = this.setupTabs();
-          this.currentTabId = finalTabId;
-  
+          const defaultTabId = this.getDefaultTabId();
+              // Check to see if the tabId is a valid tab
+          if (!this.tabs.find(tab => tab.id === tabId)) {
+            tabId = defaultTabId;
+          }
+
+          // debugger
+          const finalTabId = tabId || defaultTabId;
+                    this.currentTabId = finalTabId;
+            
         }).catch(error => {
           console.error('Error loading :', error);
         });

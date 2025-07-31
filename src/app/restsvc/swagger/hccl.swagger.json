@@ -17940,6 +17940,50 @@
           }
         }
       },
+      "HcclUserGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "externalUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalUserEntityType": {
+            "type": "string"
+          },
+          "externalUserName": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "HcclUserProfileGETData": {
         "type": "object",
         "properties": {
@@ -17998,6 +18042,9 @@
           },
           "externalUserName": {
             "type": "string"
+          },
+          "theUser": {
+            "$ref": "#/components/schemas/HcclUserGETData"
           }
         }
       },
@@ -18197,50 +18244,6 @@
           "externalUserName": {
             "maxLength": 255,
             "minLength": 1,
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "HcclUserGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "externalUserId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "externalUserEntityType": {
-            "type": "string"
-          },
-          "externalUserName": {
             "type": "string"
           },
           "available": {
@@ -20034,6 +20037,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "clientUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "createdByTeamId": {
             "type": "string",
             "format": "uuid"
@@ -20114,6 +20121,10 @@
             "format": "uuid"
           },
           "workQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clientUserProfileId": {
             "type": "string",
             "format": "uuid"
           },
@@ -20229,6 +20240,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "clientUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "createdByTeamId": {
             "type": "string",
             "format": "uuid"
@@ -20309,6 +20324,10 @@
             "format": "date-time"
           },
           "workQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clientUserProfileId": {
             "type": "string",
             "format": "uuid"
           },

@@ -4434,6 +4434,21 @@ export interface HcclUserProfilePOSTData {
   externalUserName?: string;
 }
 
+export interface HcclUserGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available?: number;
+}
+
 export interface HcclUserProfileGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -4452,6 +4467,7 @@ export interface HcclUserProfileGETData {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  theUser?: HcclUserGETData;
 }
 
 export interface HcclUserProfileGETDataSearchResults {
@@ -4504,21 +4520,6 @@ export interface HcclUserPOSTData {
   externalUserEntityType?: string;
   externalUserName?: string;
   available: number;
-}
-
-export interface HcclUserGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  externalUserId?: string;
-  externalUserEntityType?: string;
-  externalUserName?: string;
-  available?: number;
 }
 
 export interface HcclUserGETDataSearchResults {
@@ -5015,6 +5016,7 @@ export interface WorkRequestPOSTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   workQueueId: string;
+  clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
   acceptedByTeamId?: string;
@@ -5039,6 +5041,7 @@ export interface WorkRequestGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   workQueueId?: string;
+  clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
   acceptedByTeamId?: string;
@@ -5071,6 +5074,7 @@ export interface WorkRequestCriteria {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   workQueueId?: string;
+  clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
   acceptedByTeamId?: string;
@@ -5091,6 +5095,7 @@ export interface WorkRequestPUTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   workQueueId: string;
+  clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
   acceptedByTeamId?: string;

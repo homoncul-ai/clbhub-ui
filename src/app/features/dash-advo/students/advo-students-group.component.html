@@ -1,0 +1,45 @@
+
+<div *ngIf="!loading">
+  <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+
+   
+<div *ngIf="currentTabId === 'home'">
+  
+  <h4>Students</h4>
+  <app-student-list [criteria]="getMyStudentsCriteria()" [showingSearchHeading]="false" 
+  [showingSearch]="true" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+  [onRowClickBehavior]="onClickRowStudent()"></app-student-list>
+
+</div>
+ 
+<div *ngIf="currentTabId === 'student'">
+
+  <app-hccluserprofile-crud [id]="childId" modeName="detail"></app-hccluserprofile-crud>
+
+</div> 
+
+
+<div *ngIf="currentTabId === 'tickets'">
+
+  <app-workrequest-list [criteria]="getMyStudentTicketsCriteria()" [showingSearchHeading]="false" 
+  [showingSearch]="true" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+  [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>
+
+</div> 
+
+
+
+<div *ngIf="currentTabId === 'ticket-history'">
+  <h2>Ticket history</h2>
+
+</div> 
+
+<div *ngIf="true">
+<li>CurrentId :{{currentTabId}}</li>
+<li>Id :{{id}}</li>
+<li>ChildId :{{childId}}</li>
+<li>Loading :{{loading}}</li>
+<li>ShowingTabset :{{showingTabset}}</li>
+<li>Tabs :{{tabs}}</li> 
+</div>
+</div> 

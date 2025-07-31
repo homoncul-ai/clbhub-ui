@@ -21,7 +21,7 @@ import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/or
 import { IntegrationsHomeComponent } from './integrations/integrations-home.component';
 import { CLSchoolListComponent } from '../../components/_crud/clschool/clschool-list.component';
 import { CLStudentListComponent } from '../../components/_crud/clstudent/clstudent-list.component';
-import { GuidanceListComponent } from './integrations/guidance/guidance-list.component';
+import { AdvoStudentsGroupComponent } from './students/advo-students-group.component';
 
 // CRUD Components
 import { CLStudentCrudComponent } from '../../components/_crud/clstudent/clstudent-crud.component';
@@ -52,7 +52,11 @@ const routes: Routes = [
       { path: 'integrations', component: IntegrationsHomeComponent },
 
       { path: 'messages', component: AdvoMessagesComponent },
-      { path: 'students', component: AdvoStudentListComponent },
+
+
+      { path: 'students/:tabId/:childId', component: AdvoStudentsGroupComponent },
+      { path: 'students/:tabId', component: AdvoStudentsGroupComponent },
+      { path: 'students', component: AdvoStudentsGroupComponent },
 
       { path: 'workrequests/:id/:tabId/:childId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
@@ -139,7 +143,7 @@ const routes: Routes = [
     OrgQueueTixListComponent, 
     CLSchoolListComponent,  
     CLStudentListComponent,
-    GuidanceListComponent,
+//    GuidanceListComponent,
     CLStudentCrudComponent,
     CLStudentGroupComponent,
     WorkRequestCrudComponent,

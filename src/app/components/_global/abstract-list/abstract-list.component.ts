@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { Observable } from 'rxjs';
 import { DateGETData } from '@app/restsvc/common-request-service.model';
+import { HcclContextService } from '@app/shell/services/hccl-context.service';
 
 declare const dhx: any;
 
@@ -50,10 +51,11 @@ implements OnInit, AfterViewInit {
   protected searchHeading: string = 'Entities';
   
 
-
   protected hcclService = inject(HcclService);
-  protected route = inject(ActivatedRoute);
   protected router = inject(Router);
+  protected route = inject(ActivatedRoute);
+  protected hcclContextService = inject(HcclContextService);
+
 
   ngOnInit() {
     // Check for ID parameter in route
@@ -132,12 +134,19 @@ implements OnInit, AfterViewInit {
         }
       });
 
+      this.addGridEventListeners(this.grid)
+
       // Load initial data
       this.loadGridData();
 
     } catch (error) {
       console.error('Error initializing DHTMLX grid:', error);
     }
+  }
+
+  protected addGridEventListeners(grid: any) {
+    // Default implementation - subclasses can override
+    console.log('addGridEventListeners called');
   }
 
   protected setupGrid() {
