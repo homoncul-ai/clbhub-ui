@@ -35,6 +35,8 @@
 
 
 <div *ngIf="currentTabId === 'logs'">
+  <app-workrequest-route [id]="id"></app-workrequest-route>
+  <hr/>
   <app-workrequestlog-list [criteria]="getLogsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
   [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"></app-workrequestlog-list>
  

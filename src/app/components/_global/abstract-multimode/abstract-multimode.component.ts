@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { SimpleMessageList } from '@app/restsvc/common-request-service.model';
+import { AbstractListComponent } from '../abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-abstract-multimode',
@@ -36,7 +37,7 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   protected loading: boolean = false;
 
   ngOnInit(): void {
-    //throw new Error('Method not implemented.');
+    this.loading = true;
   }
 
   
@@ -76,5 +77,12 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   protected  async prepareModeEntry(entity: R, mode: string): Promise<void> {
     this.messages.messages = [];
     return Promise.resolve();
+  }
+  /**
+   * Calculate the base route for the current entity type
+   * @returns The base route path for navigation
+   */
+  protected getBaseRoute(): string {
+    return AbstractListComponent.extractBaseRoute(this.router.url);
   }
 }

@@ -20,15 +20,15 @@ import { MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service'
 
 
 @Component({
-  selector: 'app-workrequest-update',
+  selector: 'app-workrequest-route',
   standalone: true,
   imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule,
     WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentComponent,
      WorkRequestItemListComponent, StdMdbFormTextComponent, MenuControlDataListComponent],
-  templateUrl: './workrequest-update.component.html',
+  templateUrl: './workrequest-route.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
-export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
+export class WorkRequestRouteComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
   
   // Properties referenced in template
   acceptText: string = '';
@@ -37,38 +37,35 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
-    //alert("WorkrequestUpdateComponent ngOnInit " + this.id);
-    console.log('WorkrequestUpdateComponent ngOnInit');
-     WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
-      this.entity = x;
-      const queues = this.hcclContextService.getContext().dashQueues || [];
-
-      // First, inbound tickets 
-      this.menu_queues = {
-        menuItems: [],
-      }
-  
-      for (const queueT of queues) {
-        const queue: WorkQueueGETData = queueT as WorkQueueGETData;
-        var md : MenuControlData = {
-          id: queue.id,
-          name: queue.businessCode,
-          selected: false,
-        }
-        this.menu_queues?.menuItems?.push(md);      
-      }
-  
-      this.localModes = ['accept', 'reroute'];
-      this.loading = false;
-     });
+    //alert("WorkRequestRouteComponent ngOnInit " + this.id);
+    console.log('WorkRequestRouteComponent ngOnInit');
+    this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
     //
 
-   
+    const queues = this.hcclContextService.getContext().dashQueues || [];
+
+    // First, inbound tickets 
+    this.menu_queues = {
+      menuItems: [],
+    }
+
+    for (const queueT of queues) {
+      const queue: WorkQueueGETData = queueT as WorkQueueGETData;
+      var md : MenuControlData = {
+        id: queue.id,
+        name: queue.businessCode,
+        selected: false,
+      }
+      this.menu_queues?.menuItems?.push(md);      
+    }
+
+    this.localModes = ['accept', 'reroute'];
+    this.loading = false;
   }
 
   protected override async prepareModeEntry(entity: WorkRequestCrudWrapper, mode: string): Promise<void> {
     super.prepareModeEntry(entity, mode);
-    console.log('WorkrequestUpdateComponent ngOnInit ' + this.entity.dump);
+    console.log('WorkRequestRouteComponent ngOnInit ' + this.entity.dump);
     if (mode === 'accept') {
       // Create show a text area.
     } else if (mode === 'reroute') {
@@ -86,19 +83,22 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   }
   // Methods referenced in template
   async acceptTicket(): Promise<void> {
-     
+    var baseRoute = super.getBaseRoute();
+   
     var data: RoutingActionPOSTData = {
       comments: this.acceptText,
       userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
     };
     this.hcclService.acceptTicket(this.id,data).subscribe(
       (data: WorkRequestGETData) => {
-       this.router.navigate([this.getBaseRoute(), this.id, 'update']);
+       this.router.navigate([baseRoute, this.id]);
       }
     );
   }
 
   rerouteTicket(selectedQueue?: any): void {
+    var baseRoute = super.getBaseRoute();
+   
     var data: RoutingActionPOSTData = {
       comments: this.acceptText,
       userProfileId: this.hcclContextService.getCurrentUserProfileId() || '',
@@ -106,7 +106,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     };
     this.hcclService.rerouteTicket(this.id,data).subscribe(
       (data: WorkRequestGETData) => {
-       this.router.navigate([this.getBaseRoute(), this.id, 'logs']);
+       this.router.navigate([baseRoute, this.id, 'logs  ']);
       }
     );
   }

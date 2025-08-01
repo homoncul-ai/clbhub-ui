@@ -20,6 +20,7 @@ import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workreque
 import { CatalogSearchResultCrudComponent } from "../catalogsearchresult/catalogsearchresult-crud.component";
 import { HcclTeamLogListComponent } from '../hcclteamlog/hcclteamlog-list.component';
 import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-list.component';
+import { WorkRequestRouteComponent } from './workrequest-route.component';
 
 @Component({
   selector: 'app-workrequest-group',
@@ -27,7 +28,7 @@ import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-li
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
     WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent, 
-    CatalogSearchResultCrudComponent, WorkRequestLogListComponent],
+    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -89,7 +90,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     );
     tabs.push(tab)
 
-    tab =  new SimpleTab('logs', 'Logs', '', 
+    tab =  new SimpleTab('logs', 'Routing Logs', '', 
       () => {
         this.router.navigate([baseRoute, this.id, 'logs']);
         //this.currentTabId = 'workRequestItem';

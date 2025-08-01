@@ -2,6 +2,8 @@
 
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
+<div *ngIf="isLoading()">Loading... </div>
+<div *ngIf="!isLoading()">
 <div *ngIf="!isTicketAccepted()">
   <app-std-mdb-form-text 
     prefix="workRequest" 
@@ -12,23 +14,6 @@
     [(ngModel)]="acceptText">
   </app-std-mdb-form-text>
     <button (click)="acceptTicket()" class="btn btn-primary">Accept Ticket</button>
-</div>
-<div *ngIf="isTicketAccepted()"><app-std-mdb-form-text 
-  prefix="workRequest" 
-  name="rerouteText"
-  label="Reroute Text"
-  [required]="true"
-  [error]="error"
-  [(ngModel)]="acceptText">
-</app-std-mdb-form-text>
-    <!-- <app-available-selector [available]="availableQueues" (selected)="rerouteTicket($event)"></app-available-selector> -->
-    <app-menu-control-data-list
-    [menuControlDataList]="this.menu_queues || null"
-    placeholder="Select work queue..."
-    (selectionChange)="onWorkQueueChange($event)">
-  </app-menu-control-data-list>
-  
-    <button (click)="rerouteTicket()" class="btn btn-primary">Reroute Ticket</button>
 </div>
 <hr/>
 
@@ -54,7 +39,7 @@
     <app-workrequestitem-attachrficontent [id]="id"></app-workrequestitem-attachrficontent>
   </div>
 </div>
-
+</div>
 
 <pre *ngIf="false">
     {{ entity.dump() }}</pre> 
