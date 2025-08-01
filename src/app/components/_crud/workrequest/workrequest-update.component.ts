@@ -91,9 +91,14 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       comments: this.acceptText,
       userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
     };
+    this.loading = true;
     this.hcclService.acceptTicket(this.id,data).subscribe(
       (data: WorkRequestGETData) => {
-       this.router.navigate([this.getBaseRoute(), this.id, 'update']);
+         //this.router.navigate([this.getBaseRoute(), this.id, 'update']);
+         WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
+          this.entity = x;
+          this.loading = false;
+        });
       }
     );
   }

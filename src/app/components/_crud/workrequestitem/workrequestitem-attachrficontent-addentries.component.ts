@@ -13,7 +13,7 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { CatalogEntryListComponent } from "../catalogentry/catalogentry-list.component";
 import { CatalogEntryCrudComponent } from '../catalogentry/catalogentry-crud.component';
 import { CatalogEntryGroupComponent } from '../catalogentry/catalogentry-group.component';
-import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { AbstractListComponent, OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogSearchResultEntryListComponent } from '../catalogsearchresultentry/catalogsearchresultentry-list.component';
 import { Router } from '@angular/router';
 import { CatalogSearchResultCrudComponent } from '../catalogsearchresult/catalogsearchresult-crud.component';
@@ -172,8 +172,9 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-    this.router.navigate(path)
+    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
+    //this.router.navigate(path)  
+    AbstractListComponent.routeToPath(this.router, path);
    });
   }
   getOnGoAddCatalogEntriesToRFI(): OnGoClickActionBehavior {
@@ -196,10 +197,13 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-   // alert('addItemsToRFI called with entityIds:' + entityIds );
-    this.router.navigate(path)
-    this.enterMode('createItemViewPost'); 
+    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
+    AbstractListComponent.routeToPath(this.router, path);
+    
+  //   var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+  //  // alert('addItemsToRFI called with entityIds:' + entityIds );
+  //   this.router.navigate(path)
+  //   this.enterMode('createItemViewPost'); 
    });
   }
 

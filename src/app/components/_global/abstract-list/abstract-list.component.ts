@@ -23,6 +23,8 @@ declare const dhx: any;
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> 
 implements OnInit, AfterViewInit {
+  
+  
   // [showingSearchHeading]="false" [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
   @Input() criteria: TCriteria | null = null;
   @Input() showingSearch: boolean = true;
@@ -516,6 +518,9 @@ implements OnInit, AfterViewInit {
     return baseRoute;
   }
 
+  public static routeToPath(router: Router, routePath: string[]) {
+    window.location.href = router.createUrlTree(routePath).toString();
+  }
   protected formatDateTime(date: DateGETData | undefined): string {
     if (!date) {
       return '';
@@ -572,7 +577,7 @@ export class OnRowClickBehavior  {
     x.doNotNavigate = true;
     return x;
   }
-
+ 
 };
 
 export class OnGoClickActionBehavior  {

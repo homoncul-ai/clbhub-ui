@@ -15,6 +15,7 @@ import { OnRowClickBehavior } from '../abstract-list/abstract-list.component';
   styleUrl: './abstract-entity-group.component.scss'
 })
 export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>> {
+  
   @Input() id!: string;
   @Input() childId?: string;
   @Input() tabId!: string;
@@ -169,6 +170,10 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
    */
 protected getBaseRoute(): string {
   return AbstractListComponent.extractBaseRoute(this.router.url);
+}
+
+public routeToPath(routePath: string[]) {
+  return AbstractListComponent.routeToPath(this.router, routePath);
 }
 
 protected findTabById(tabs: SimpleTab[], tabId: string): SimpleTab | undefined {

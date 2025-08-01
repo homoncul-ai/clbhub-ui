@@ -169,10 +169,11 @@ export class IntegrationsHomeComponent extends AbstractEntityGroupComponent<Hccl
     this.hcclService.promoteStudentsToUsers(criteria).subscribe({
       next: (response: SimpleRestActionResponse) => {
         //alert('Promotion successful');
-        let rndStr: string = Math.random().toString(36).substring(2, 15);
+        //let rndStr: string = Math.random().toString(36).substring(2, 15);
         // Works - URL looks bad
         //this.router.navigate([this.getBaseRoute(), 'students', rndStr]);
-        window.location.href = this.router.createUrlTree([this.getBaseRoute(), 'students']).toString();
+        var routePath: string[] = [this.getBaseRoute(), 'students']
+        super.routeToPath(routePath);
 
       },
       error: (error: any) => {
