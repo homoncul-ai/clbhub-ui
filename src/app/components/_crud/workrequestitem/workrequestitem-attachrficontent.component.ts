@@ -10,6 +10,8 @@ import { MenuControlDataListComponent } from '@app/components/_global/menu-contr
 import { WorkRequestCrudWrapper } from '../workrequest/workrequest-crud.component';
 import { JsonPipe } from '@angular/common';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { ProviderWorkQueueListComponent } from '../workqueue/provider-workqueue-list.component';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent',
@@ -123,6 +125,8 @@ export class WorkRequestItemAttachRFIContentComponent extends AbstractMultimodeC
     this.enterMode('createItemViewPost'); 
    });
 
-   
+
   }
+
+  
 } 

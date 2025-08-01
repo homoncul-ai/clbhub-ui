@@ -4741,6 +4741,7 @@ export interface WorkQueueCriteria {
   available?: number;
   organizationId?: string;
   externalQueue?: number;
+  workQueueTypeCode?: string;
 }
 
 export interface WorkQueuePUTData {

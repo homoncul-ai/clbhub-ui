@@ -19013,6 +19013,9 @@
           "externalQueue": {
             "type": "integer",
             "format": "int32"
+          },
+          "workQueueTypeCode": {
+            "type": "string"
           }
         }
       },

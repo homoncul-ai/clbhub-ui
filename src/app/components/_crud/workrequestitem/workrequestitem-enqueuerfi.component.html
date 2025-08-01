@@ -4,8 +4,10 @@
 
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
-<div *ngIf="!isLoading()">
+<div *ngIf="false && !isLoading()">
     <h3>Send request to a provider </h3>
+
+
     <app-menu-control-data-list
               [menuControlDataList]="this.menuQueues || null"
               placeholder="Select work queue..."
@@ -13,6 +15,27 @@
             </app-menu-control-data-list>
     <button (click)="createItemViewPost()" class="btn btn-primary">Create Ticket</button>
 </div>
+
+<div *ngIf="!isLoading()">
+  <app-std-mdb-form-text 
+  prefix="workRequest" 
+  name="comments"
+  label="Provider Instructions"
+  [required]="true"
+  [error]="false"
+  [(ngModel)]="comments">
+</app-std-mdb-form-text>
+
+<app-provider-workqueue-list [showingSearch]="true" [showingSearchHeading]="true" 
+  [searchHeadingLabel]="'Choose Providers to Asssist'"
+  [criteria]="getCriteriaForProviders()"
+  [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="onClickProviderRow()"
+  [onGoClickAction]="getOnGoAddProvidersToRFI()" goButtonLabel="Select Providers" ></app-provider-workqueue-list>
+
+<button (click)="createItemViewPost()" class="btn btn-primary">Send Provider Requests</button>
+  
+</div>
+
 
 <div *ngIf="!isLoading() && currentMode === 'createItemView'">
 <pre>currentMode: "{{ currentMode }}"</pre>

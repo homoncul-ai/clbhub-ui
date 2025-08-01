@@ -3,6 +3,7 @@
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
 <div *ngIf="!isLoading()">
+
     <h3>Attach Catalog Entries  </h3>
     <app-menu-control-data-list
               [menuControlDataList]="this.menuCatalogs || null"
