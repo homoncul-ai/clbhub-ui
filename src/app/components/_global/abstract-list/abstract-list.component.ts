@@ -31,6 +31,7 @@ implements OnInit, AfterViewInit {
   @Input() searchButtonLabel: string = 'Search';
   @Input() searchPlaceholder: string = 'search by name or business code, * for wildcard';
   @Input() showingSearchHeading: boolean = true;
+  @Input() searchHeadingLabel: string = 'Entities';
   @Input() showingGoButton: boolean = true;
   @Input() goButtonLabel: string = 'Go';
   @Input() showingAddButton: boolean = false;
@@ -50,9 +51,9 @@ implements OnInit, AfterViewInit {
 
   protected selectedId: string | null = null;
   protected showingAdvancedSearch: boolean = false;
-  protected searchHeading: string = 'Entities';
   
 
+  protected searchHeading: string = 'Entities';
   protected hcclService = inject(HcclService);
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
@@ -61,6 +62,7 @@ implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Check for ID parameter in route
+    this.searchHeading = this.searchHeadingLabel;
     this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
