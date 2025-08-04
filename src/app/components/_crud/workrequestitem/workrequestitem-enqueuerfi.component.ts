@@ -164,16 +164,17 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
       actionFormData: {
         queueCode: this.queueId,
         comments: this.comments,
-        providerIds: entityIds
+        providerQueueIds: entityIds
       }
     };
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'EnqueueRFI', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+    //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+    var path : string[] = [this.getBaseRoute(), this.id, 'update'];
     //alert(this.modeName + ' ' + path.join('/'));
-    this.router.navigate(path)
-    this.enterMode('createItemViewPost'); 
+    this.routeToPath(path);
+//    this.enterMode('createItemViewPost'); 
    });
   }
 

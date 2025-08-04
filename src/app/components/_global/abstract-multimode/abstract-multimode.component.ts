@@ -85,4 +85,8 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   protected getBaseRoute(): string {
     return AbstractListComponent.extractBaseRoute(this.router.url);
   }
+
+  public routeToPath(routePath: string[]) {
+    return AbstractListComponent.routeToPath(this.router, routePath);
+  }
 }

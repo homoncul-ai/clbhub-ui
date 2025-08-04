@@ -1,0 +1,48 @@
+There will be 3 input variables to this prompt
+[schoolName] 
+[schoolCode]
+[courseCreationHints]
+Using the example catalog below, for [schoolName], guess what a set of 10 classes would be for the school.
+- make sure the output can be deserialized to this java object 
+public CourseCatalog {
+    public CatalogEntry[] courses;
+}
+- use coursecreation hints to guide you in generating the elements. 
+- the output to running this prompt will be tooling/hccl-data/[schoolCode]-courses.yaml
+- generate 20 course descriptions
+
+Example Yaml catalog : 
+courses:
+  - category: Professional, Electrical
+    title: Electrical I
+    url: /professional-courses-1/electrical-journeyman-i-full-price
+    price: $0.00
+    original-price: null
+    descriptionRaw: |
+      <p><strong>Prerequisite: Present employment as an Electrical Apprentice.</strong></p>
+      <p>Topics include the following: safety, theory, testing and test equipment, blueprint reading, commercial, industrial and residential wiring.</p>
+      <p><a href="https://www.amazon.com/National-Electrical-Code-2023-Tabs/dp/1455930342/ref=sr_1_6?crid=18K4VX5ITFIET&dib=eyJ2IjoiMSJ9.YKJddZMstiQMh50vBJr_faPazMjMNhAE2_ZFt5sMs2mXPzwKiDRwx1OX0"><strong><em>Students are required to provide their own NFPA 70 Code Book</em></strong></a></p>
+      <p><strong>Mondays and Wednesdays 6:00PM - 9:00PM</strong></p>
+      <p><strong>Next Class Begins September 2025</strong></p>
+      <p><strong>150 HOURS</strong></p>
+      <p>Please note all <strong>professional licensure</strong> cosmetology, electrical and plumbing courses offer a 5% discount when paid in full</p>
+    descriptionMd: |
+      **Prerequisite: Present employment as an Electrical Apprentice.**
+
+      Topics include the following: safety, theory, testing and test equipment, blueprint reading, commercial, industrial and residential wiring.
+
+      [Students are required to provide their own NFPA 70 Code Book](https://www.amazon.com/National-Electrical-Code-2023-Tabs/dp/1455930342/ref=sr_1_6?crid=18K4VX5ITFIET&dib=eyJ2IjoiMSJ9.YKJddZMstiQMh50vBJr_faPazMjMNhAE2_ZFt5sMs2mXPzwKiDRwx1OX0)
+
+      **Mondays and Wednesdays 6:00PM - 9:00PM**
+
+      **Next Class Begins September 2025**
+
+      **150 HOURS**
+
+      Please note all **professional licensure** cosmetology, electrical and plumbing courses offer a 5% discount when paid in full
+    description: First level electrical course covering safety, theory, testing equipment, blueprint reading, and various types of wiring.
+    prerequisite: Present employment as an Electrical Apprentice
+    schedInfo: Mondays and Wednesdays 6:00PM - 9:00PM
+    schedSem: Next Class Begins September 2025
+    numHours: 150
+    otherNotes: Students are required to provide their own NFPA 70 Code Book. 5% discount available when paid in full.
