@@ -1,12 +1,18 @@
 <!-- DEBUG: Attach RFI Content Component Loaded -->
 
 <div *ngIf="isLoading() === false">
+
+    <div *ngIf="isWorkRequestItemInProcess() === true" class="detail-group">
+        <label>Current State Code:</label>
+        <span>{{ this.workRequestItem?.getCurrentStateCode() }} <input type="button" value="Complete Item" (click)="changeWorRequestItemStateToComplete()"></span>
+    </div>
+
     <app-catalogsearchresult-crud [id]="this.catalogSearchResult?.id" modeName="section"></app-catalogsearchresult-crud>
     <hr>
-
+<div *ngIf="isWorkRequestItemComplete() === true">
     <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
     
-    
+  
 <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" 
 [showingSearchHeading]="true" 
 [searchHeadingLabel]="'Selected Catalog Entries'"
@@ -21,5 +27,6 @@
 [otherData]="getCatalogEntryOtherData()"></app-catalogentry-list> 
 </div>
 
-
+</div>
+<pre>currentMode: "{{ currentMode }}"</pre> 
 <pre>currentMode: "{{ currentMode }}"</pre> 

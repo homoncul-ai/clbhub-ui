@@ -46,9 +46,9 @@ export class CatalogSearchResultEntryListComponent extends AbstractListComponent
     return [
       // id is commented out for now - not sure if we want to show this
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      //{ id: 'catalogSearchResultId', header: [{ text: 'Catalog Search Result', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+     // { id: 'catalogSearchResultId', header: [{ text: 'Catalog Search Result', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       //{ id: 'catalogEntryId', header: [{ text: 'Catalog Entry', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      //{ id: 'catalogId', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+    //  { id: 'catalogId', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       //{ id: 'comments', header: [{ text: 'Comments', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
 
       // Replace [prefix]Id with the displaytext of the crudwrapper - named [prefix]Str instead of [prefix]Id
