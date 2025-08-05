@@ -163,7 +163,8 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
       subjectEntityId: entity.getData().subjectEntityId,
       subjectEntityType: entity.getData().subjectEntityType,
       subjectEntityName: entity.getData().subjectEntityName,
-      parentWorkRequestItemId: entity.getData().parentWorkRequestItemId
+      parentWorkRequestItemId: entity.getData().parentWorkRequestItemId,
+      initialWorkQueueId: entity.getData().initialWorkQueueId || ''
     };
 
     const errors = this.validateForm();
@@ -199,7 +200,8 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
       subjectEntityId: entity.getData().subjectEntityId,
       subjectEntityType: entity.getData().subjectEntityType,
       subjectEntityName: entity.getData().subjectEntityName,
-      parentWorkRequestItemId: entity.getData().parentWorkRequestItemId
+      parentWorkRequestItemId: entity.getData().parentWorkRequestItemId,
+      initialWorkQueueId: entity.getData().initialWorkQueueId || ''
     };
 
     const errors = this.validateForm();

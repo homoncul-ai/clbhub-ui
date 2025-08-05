@@ -38,6 +38,8 @@ import { ProviderRequestGroupComponent } from '../../components/_crud/providerre
 import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
 import { WorkRequestLogListComponent } from '@app/components/_crud/workrequestlog/workrequestlog-list.component';
 import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestlog/workrequestlog-group.component';
+import { WorkItemDeliverableListComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-list.component';
+import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
 
 const routes: Routes = [
   {
@@ -80,6 +82,11 @@ const routes: Routes = [
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
       { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },
+      
+      // WorkItemDeliverable routes
+      { path: 'workitemdeliverables/:id/:tabId', component: WorkItemDeliverableGroupComponent },
+      { path: 'workitemdeliverables/:id', redirectTo: 'workitemdeliverables/:id/details', pathMatch: 'full' },
+      { path: 'workitemdeliverables', component: WorkItemDeliverableListComponent },
 
       /** 
       { 
@@ -155,6 +162,8 @@ const routes: Routes = [
     ProviderRequestTypeRefGroupComponent,
     ProviderRequestListComponent,
     ProviderRequestGroupComponent,
+    WorkItemDeliverableListComponent,
+    WorkItemDeliverableGroupComponent,
     // WorkRequestLogListComponent,
     // WorkRequestLogGroupComponent
   ],

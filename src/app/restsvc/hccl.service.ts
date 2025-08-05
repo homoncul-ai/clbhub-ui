@@ -1798,6 +1798,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TeamTypeRefGETDataSearchResults>(request);
   }
 
+  createWorkItemDeliverable(body: WorkItemDeliverablePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workitemdeliverable",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getWorkItemDeliverableById(id: string): Observable<WorkItemDeliverableGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workitemdeliverable/" + id,
+      method: "GET",
+    };
+    return this.request<WorkItemDeliverableGETData>(request);
+  }
+
+  updateWorkItemDeliverableById(id: string, body: WorkItemDeliverablePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workitemdeliverable/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteWorkItemDeliverableById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workitemdeliverable/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findWorkItemDeliverables(body: WorkItemDeliverableCriteria): Observable<WorkItemDeliverableGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workitemdeliverable/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkItemDeliverableGETDataSearchResults>(request);
+  }
+
   createWorkQueue(body: WorkQueuePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workqueue",
@@ -4689,6 +4732,94 @@ export interface TeamTypeRefPUTData {
   available: number;
 }
 
+export interface WorkItemDeliverablePOSTData {
+  workRequestId: string;
+  workRequestItemId?: string;
+  nameText: string;
+  businessCode: string;
+  description?: string;
+  delivTypeCode: string;
+  comments?: string;
+  jsonData?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  linkToDeliverableId?: string;
+}
+
+export interface WorkItemDeliverableGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestId?: string;
+  workRequestItemId?: string;
+  nameText?: string;
+  businessCode?: string;
+  description?: string;
+  delivTypeCode?: string;
+  comments?: string;
+  jsonData?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  linkToDeliverableId?: string;
+}
+
+export interface WorkItemDeliverableGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkItemDeliverableGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkItemDeliverableCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  workRequestId?: string;
+  workRequestItemId?: string;
+  nameText?: string;
+  businessCode?: string;
+  description?: string;
+  delivTypeCode?: string;
+  comments?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  linkToDeliverableId?: string;
+}
+
+export interface WorkItemDeliverablePUTData {
+  workRequestId: string;
+  workRequestItemId?: string;
+  nameText: string;
+  businessCode: string;
+  description?: string;
+  delivTypeCode: string;
+  comments?: string;
+  jsonData?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  linkToDeliverableId?: string;
+}
+
 export interface WorkQueuePOSTData {
   name: string;
   businessCode: string;
@@ -4742,6 +4873,7 @@ export interface WorkQueueCriteria {
   organizationId?: string;
   externalQueue?: number;
   workQueueTypeCode?: string;
+  organizationIdsToExclude?: string[];
 }
 
 export interface WorkQueuePUTData {
@@ -4895,6 +5027,7 @@ export interface WorkRequestLogPOSTData {
   actionSubCode?: string;
   statusCode?: string;
   commentText?: string;
+  workItemDeliverableId?: string;
 }
 
 export interface WorkRequestLogGETData {
@@ -4916,6 +5049,7 @@ export interface WorkRequestLogGETData {
   actionSubCode?: string;
   statusCode?: string;
   commentText?: string;
+  workItemDeliverableId?: string;
 }
 
 export interface WorkRequestLogGETDataSearchResults {
@@ -4944,6 +5078,7 @@ export interface WorkRequestLogCriteria {
   eventCode?: string;
   actionSubCode?: string;
   statusCode?: string;
+  workItemDeliverableId?: string;
 }
 
 export interface WorkRequestLogPUTData {
@@ -4960,6 +5095,7 @@ export interface WorkRequestLogPUTData {
   actionSubCode?: string;
   statusCode?: string;
   commentText?: string;
+  workItemDeliverableId?: string;
 }
 
 export interface WorkRequestRoutingReasonPOSTData {
@@ -5017,9 +5153,12 @@ export interface WorkRequestPOSTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   workQueueId: string;
+  initialWorkQueueId?: string;
   clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
+  createdByUserProfileId?: string;
+  createdByOrganizationId?: string;
   acceptedByTeamId?: string;
   acceptedByUserId?: string;
   dateAccepted?: string;
@@ -5042,9 +5181,12 @@ export interface WorkRequestGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   workQueueId?: string;
+  initialWorkQueueId?: string;
   clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
+  createdByUserProfileId?: string;
+  createdByOrganizationId?: string;
   acceptedByTeamId?: string;
   acceptedByUserId?: string;
   subjectEntityId?: string;
@@ -5075,9 +5217,12 @@ export interface WorkRequestCriteria {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   workQueueId?: string;
+  initialWorkQueueId?: string;
   clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
+  createdByUserProfileId?: string;
+  createdByOrganizationId?: string;
   acceptedByTeamId?: string;
   acceptedByUserId?: string;
   dateAccepted?: string;
@@ -5096,9 +5241,12 @@ export interface WorkRequestPUTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   workQueueId: string;
+  initialWorkQueueId: string;
   clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;
+  createdByUserProfileId?: string;
+  createdByOrganizationId?: string;
   acceptedByTeamId?: string;
   acceptedByUserId?: string;
   dateAccepted?: string;

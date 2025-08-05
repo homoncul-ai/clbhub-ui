@@ -7645,6 +7645,192 @@
         }
       }
     },
+    "/hccl/tix/workitemdeliverable": {
+      "post": {
+        "tags": [
+          "/tix"
+        ],
+        "summary": "Create a new WorkItemDeliverable.",
+        "operationId": "createWorkItemDeliverable_1",
+        "requestBody": {
+          "description": "New WorkItemDeliverable data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemDeliverablePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tix/workitemdeliverable/{id}": {
+      "get": {
+        "tags": [
+          "/tix"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getWorkItemDeliverableById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemDeliverableGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/tix"
+        ],
+        "summary": "Updates and existing WorkItemDeliverable.",
+        "operationId": "updateWorkItemDeliverableById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated WorkItemDeliverable data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemDeliverablePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/tix"
+        ],
+        "summary": "Deletes an existing WorkItemDeliverable.",
+        "operationId": "deleteWorkItemDeliverableById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tix/workitemdeliverable/query": {
+      "post": {
+        "tags": [
+          "/tix"
+        ],
+        "summary": "Fetches all WorkItemDeliverables.",
+        "operationId": "findWorkItemDeliverables_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemDeliverableCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemDeliverableGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/tix/workqueue": {
       "post": {
         "tags": [
@@ -18822,6 +19008,334 @@
           }
         }
       },
+      "WorkItemDeliverablePOSTData": {
+        "required": [
+          "businessCode",
+          "currentStateCode",
+          "delivTypeCode",
+          "nameText",
+          "workRequestId"
+        ],
+        "type": "object",
+        "properties": {
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestItemId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nameText": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "delivTypeCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "comments": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "linkToDeliverableId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "WorkItemDeliverableGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestItemId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "delivTypeCode": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "linkToDeliverableId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "WorkItemDeliverableGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkItemDeliverableGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "WorkItemDeliverableCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestItemId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "delivTypeCode": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "linkToDeliverableId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "WorkItemDeliverablePUTData": {
+        "required": [
+          "businessCode",
+          "currentStateCode",
+          "delivTypeCode",
+          "nameText",
+          "workRequestId"
+        ],
+        "type": "object",
+        "properties": {
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestItemId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nameText": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "delivTypeCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "comments": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "linkToDeliverableId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
       "WorkQueuePOSTData": {
         "required": [
           "available",
@@ -19016,6 +19530,13 @@
           },
           "workQueueTypeCode": {
             "type": "string"
+          },
+          "organizationIdsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
@@ -19596,6 +20117,10 @@
           },
           "commentText": {
             "type": "string"
+          },
+          "workItemDeliverableId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -19662,6 +20187,10 @@
           },
           "commentText": {
             "type": "string"
+          },
+          "workItemDeliverableId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -19758,6 +20287,10 @@
           },
           "statusCode": {
             "type": "string"
+          },
+          "workItemDeliverableId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -19829,6 +20362,10 @@
           },
           "commentText": {
             "type": "string"
+          },
+          "workItemDeliverableId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -19998,6 +20535,7 @@
           "businessCode",
           "currentStateCode",
           "description",
+          "initialWorkQueueId",
           "name",
           "workQueueId",
           "workRequestTypeId"
@@ -20040,6 +20578,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "initialWorkQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "clientUserProfileId": {
             "type": "string",
             "format": "uuid"
@@ -20049,6 +20591,14 @@
             "format": "uuid"
           },
           "createdByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByOrganizationId": {
             "type": "string",
             "format": "uuid"
           },
@@ -20127,6 +20677,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "initialWorkQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "clientUserProfileId": {
             "type": "string",
             "format": "uuid"
@@ -20136,6 +20690,14 @@
             "format": "uuid"
           },
           "createdByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByOrganizationId": {
             "type": "string",
             "format": "uuid"
           },
@@ -20243,6 +20805,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "initialWorkQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "clientUserProfileId": {
             "type": "string",
             "format": "uuid"
@@ -20252,6 +20818,14 @@
             "format": "uuid"
           },
           "createdByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByOrganizationId": {
             "type": "string",
             "format": "uuid"
           },
@@ -20288,6 +20862,7 @@
           "businessCode",
           "currentStateCode",
           "description",
+          "initialWorkQueueId",
           "name",
           "workQueueId",
           "workRequestTypeId"
@@ -20330,6 +20905,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "initialWorkQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "clientUserProfileId": {
             "type": "string",
             "format": "uuid"
@@ -20339,6 +20918,14 @@
             "format": "uuid"
           },
           "createdByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByOrganizationId": {
             "type": "string",
             "format": "uuid"
           },
