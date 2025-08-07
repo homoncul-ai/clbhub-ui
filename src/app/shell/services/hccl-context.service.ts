@@ -153,6 +153,19 @@ export class HcclContextService {
     return this.waitForReady();
   }
 
+  public getContextWrapper() : HcclContextWrapper {
+    var x = new HcclContextWrapper();
+    x.data = this.getContext();
+    return x as HcclContextWrapper;
+  }
+
+  public getContextWrapperAsync() : Promise<HcclContextWrapper> {
+    var x = new HcclContextWrapper();
+    x.data = this.getContext();
+    return Promise.resolve(x);
+
+  }
+
   /**
    * Get the current user profile ID
    * @returns Current user profile ID or empty string if not available
@@ -379,3 +392,27 @@ export class HcclContextService {
     });
   }
 } 
+
+export class HcclContextWrapper {
+  public data: HcclUserContextGETData = {
+    currentUserProfileId: '',
+    currentUserProfile: {},
+    messages: {
+      messages: []
+    },
+    userProfileMenu: {
+      applicationName: '',
+      clientId: '',
+      menuId: '',
+      menuName: '',
+      label: '',
+    },
+    dashQueues: []
+  };
+
+  public hasRole(roleCode: string) : boolean {
+    return true;
+  }
+}
+
+

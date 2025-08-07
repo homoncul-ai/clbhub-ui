@@ -113,6 +113,13 @@ export class NewWorkRequestComponent extends AbstractMultimodeComponent<WorkRequ
       return;
     }
 
+    var postData : CreateTicketPOSTData = {
+      title: this.formData.title,
+      rawText: this.formData.rawText,
+      workRequestTypeId: this.formData.workRequestTypeId,
+      queueId: this.formData.queueId,
+      advocateUserProfileId: this.hcclContextService.getContext().currentUserProfileId,
+    }
     this.loading = true;
     this.submitted = true;
     this.errorMessage = '';

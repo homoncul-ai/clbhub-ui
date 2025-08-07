@@ -1583,6 +1583,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamGETDataSearchResults>(request);
   }
 
+  createHcclUserProfileRole(body: HcclUserProfileRolePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofilerole",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclUserProfileRoleById(id: string): Observable<HcclUserProfileRoleGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofilerole/" + id,
+      method: "GET",
+    };
+    return this.request<HcclUserProfileRoleGETData>(request);
+  }
+
+  updateHcclUserProfileRoleById(id: string, body: HcclUserProfileRolePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofilerole/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclUserProfileRoleById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofilerole/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclUserProfileRoles(body: HcclUserProfileRoleCriteria): Observable<HcclUserProfileRoleGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofilerole/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserProfileRoleGETDataSearchResults>(request);
+  }
+
   createHcclUserProfile(body: HcclUserProfilePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofile",
@@ -4179,6 +4222,7 @@ export interface HcclOrganizationCriteria {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+  organizationTypeCode?: string;
 }
 
 export interface HcclOrganizationPUTData {
@@ -4462,6 +4506,51 @@ export interface HcclTeamPUTData {
   available: number;
 }
 
+export interface HcclUserProfileRolePOSTData {
+  userId: string;
+  roleCode: string;
+  userProfileId: string;
+  organizationId: string;
+}
+
+export interface HcclUserProfileRoleGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userId?: string;
+  roleCode?: string;
+  userProfileId?: string;
+  organizationId?: string;
+}
+
+export interface HcclUserProfileRoleGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserProfileRoleGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclUserProfileRoleCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  roleCode?: string;
+  userProfileId?: string;
+  organizationId?: string;
+}
+
+export interface HcclUserProfileRolePUTData {
+  userId: string;
+  roleCode: string;
+  userProfileId: string;
+  organizationId: string;
+}
+
 export interface HcclUserProfilePOSTData {
   userId: string;
   userCode: string;
@@ -4510,6 +4599,7 @@ export interface HcclUserProfileGETData {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  roles?: string[];
   theUser?: HcclUserGETData;
 }
 
@@ -5153,7 +5243,7 @@ export interface WorkRequestPOSTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   workQueueId: string;
-  initialWorkQueueId?: string;
+  initialWorkQueueId: string;
   clientUserProfileId?: string;
   createdByTeamId?: string;
   createdByUserId?: string;

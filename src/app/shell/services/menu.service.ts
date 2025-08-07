@@ -89,6 +89,7 @@ export class MenuService {
     };
   }
 
+
   /**
    * Builds the advocate menu dynamically using the constants and helper methods
    * @returns Array of MenuItem objects for the advocate dashboard
@@ -185,6 +186,10 @@ export class MenuService {
     // Add Dashboard
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.EA_DASHBOARD);
     this.addMenuItem(menu, dashboard);
+
+    const onboarding = this.newGroupMenuItem('Onboarding', 'fas fa-users');
+    this.addChildMenuItem(onboarding, this.copyMenuItem(MENU_CONSTANTS.EA_ORGSCHOOLS_LIST));
+    this.addMenuItem(menu, onboarding);
 
     const providerGroup = this.newGroupMenuItem('Provider Setup', 'fas fa-users');
     const courseGroup = this.newGroupMenuItem('Catalog Setup', 'fas fa-book');
@@ -603,6 +608,15 @@ export class MenuService {
 
     // Map profile type codes to dashboard types
     switch (profileTypeCode?.toUpperCase()) {
+
+      case 'ECOADMIN':
+      case 'EDU_ECOADMIN':
+        return 'ecoadmin';
+
+
+      case 'SCHOOL':
+        return 'advocate';
+
       case 'ADVOCATE':
       case 'EDU_ADVOCATE':
         return 'advocate';
@@ -614,11 +628,11 @@ export class MenuService {
       case 'SERVICE_PROVIDER':
       case 'EDU_SERVICE_PROVIDER':
         return 'service-provider';
-      case 'ECOADMIN':
-      case 'EDU_ECOADMIN':
-        return 'ecoadmin';
+     
+
       default:
         console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
+        alert('Unknown profile type code, defaulting to advocate:' + profileTypeCode);
         return 'advocate';
     }
   }
@@ -1041,6 +1055,7 @@ EA_HCCLORGANIZATION_LIST: {
   "icon" : "fas fa-building"
 },
 
+
 EA_TEAMTYPEREF_LIST: {
   level: 1,
   label: 'Team Type Refs',
@@ -1348,9 +1363,17 @@ EA_PROVIDERREQUESTTYPEREF_LIST: {
   "componentPath" : "src/app/components/_crud/providerrequesttyperef/providerrequesttyperef-list.component",
   "componentName" : "ProviderRequestTypeRefListComponent",
   "icon" : "fas fa-list"
-}
+},
 
-  
+// Bespoke org types - for onboarding.
+EA_ORGSCHOOLS_LIST: {
+  "level" : 2,
+  "label" : "Org Schools",
+  "route" : "/ecoadmin-dashboard/orgs/schools",
+  "componentPath" : "/src/app/features/dash-ecoadmin/orgs/org-schools-group.component",
+  "componentName" : "OrgSchoolsGroupComponent",
+  "icon" : "fas fa-building"
+}
     
 
 };

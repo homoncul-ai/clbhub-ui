@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
@@ -226,6 +226,21 @@ export class HcclOrganizationTypeRefCrudWrapper extends EntityWrapper<HcclOrgani
       throw new Error('HcclOrganizationTypeRef not found');
     }
     return new HcclOrganizationTypeRefCrudWrapper(data, hcclService);
+  }
+
+  public static async newInstanceByCode(code: string, hcclService: HcclService): Promise<HcclOrganizationTypeRefCrudWrapper> {
+    const criteria: HcclOrganizationTypeRefCriteria = {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      businessCode: code
+    };
+    const data = await hcclService.findHcclOrganizationTypeRefs(criteria).toPromise();
+    if (!data?.searchResults || data.searchResults.length === 0) {
+      throw new Error('HcclOrganizationTypeRef not found');
+    }
+    console.log('HcclOrganizationTypeRefCrudWrapper.newInstanceByCode: ' + JSON.stringify(data.searchResults[0]));
+    return new HcclOrganizationTypeRefCrudWrapper(data.searchResults[0], hcclService);
   }
 
   constructor(data: HcclOrganizationTypeRefGETData, hcclService?: HcclService) {

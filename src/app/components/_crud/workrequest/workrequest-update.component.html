@@ -14,8 +14,10 @@
     [(ngModel)]="acceptText">
   </app-std-mdb-form-text>
     <button (click)="acceptTicket()" class="btn btn-primary">Accept Ticket</button>
-</div>
 <hr/>
+</div>
+
+
 
 <div id="items" *ngIf="true">
   <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 

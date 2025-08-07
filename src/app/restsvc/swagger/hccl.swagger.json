@@ -6715,6 +6715,192 @@
         }
       }
     },
+    "/hccl/teams/hccluserprofilerole": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new HcclUserProfileRole.",
+        "operationId": "createHcclUserProfileRole_1",
+        "requestBody": {
+          "description": "New HcclUserProfileRole data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserProfileRolePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserprofilerole/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclUserProfileRoleById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserProfileRoleGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing HcclUserProfileRole.",
+        "operationId": "updateHcclUserProfileRoleById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated HcclUserProfileRole data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserProfileRolePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing HcclUserProfileRole.",
+        "operationId": "deleteHcclUserProfileRoleById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserprofilerole/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all HcclUserProfileRoles.",
+        "operationId": "findHcclUserProfileRoles_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserProfileRoleCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserProfileRoleGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/teams/hccluserprofile": {
       "post": {
         "tags": [
@@ -17048,6 +17234,9 @@
           },
           "parentEntityName": {
             "type": "string"
+          },
+          "organizationTypeCode": {
+            "type": "string"
           }
         }
       },
@@ -18060,6 +18249,163 @@
           }
         }
       },
+      "HcclUserProfileRolePOSTData": {
+        "required": [
+          "organizationId",
+          "roleCode",
+          "userId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "HcclUserProfileRoleGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "HcclUserProfileRoleGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclUserProfileRoleGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "HcclUserProfileRoleCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roleCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "HcclUserProfileRolePUTData": {
+        "required": [
+          "organizationId",
+          "roleCode",
+          "userId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
       "HcclUserProfilePOSTData": {
         "required": [
           "available",
@@ -18228,6 +18574,12 @@
           },
           "externalUserName": {
             "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "theUser": {
             "$ref": "#/components/schemas/HcclUserGETData"
