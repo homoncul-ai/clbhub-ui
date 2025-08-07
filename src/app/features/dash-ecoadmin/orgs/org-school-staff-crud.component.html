@@ -1,5 +1,5 @@
 
-STAFF Crud
+
 <!-- Generate the HTML for the crud component hccluserprofile-crud.component.html  using this template and following the instructions below -->
 <span *ngIf="getMode() === CRUD_MODES.FK  && !isLoading" >{{ getCurrentEntity().getDisplayText() }}</span>
 
@@ -264,7 +264,7 @@ STAFF Crud
   <!-- Detail Mode  overlay? -->
   <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading"  class="detail-mode">
     <div class="crud-header">
-      <h3>HCCL User Profile Details</h3>
+      <div class="title">School Staff Details</div>
       <div class="action-buttons">
         <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
         <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 

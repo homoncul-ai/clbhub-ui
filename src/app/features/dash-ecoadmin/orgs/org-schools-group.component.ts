@@ -81,7 +81,7 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
           this.router.navigate([baseRoute, this.id, 'staffmember', this.childId]);
         },
         () => {
-          return this.entity !== null;
+          return this.currentTabId === 'staffmember';
         }
       );
       tabs.push(tab);
