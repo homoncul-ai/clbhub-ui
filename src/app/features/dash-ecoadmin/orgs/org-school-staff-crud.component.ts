@@ -193,7 +193,6 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
     if (!userProfile) {
       throw new Error('HCCL User Profile not found');
     }
-    alert('loadEntityByIdCall' + JSON.stringify(userProfile));
     return new HcclUserProfileCrudWrapper(userProfile, this.hcclService);
   }
 
