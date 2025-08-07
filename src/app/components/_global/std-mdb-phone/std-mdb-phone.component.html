@@ -1,0 +1,30 @@
+<mdb-form-control>
+  <input 
+    type="tel" 
+    [name]="fieldName" 
+    [id]="uniqueId" 
+    class="form-control validate" 
+    [value]="readonly ? formattedPhone : value"
+    mdbInput
+    [disabled]="disabled || readonly"
+    [placeholder]="placeholder"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    (focus)="onFocus($event)">
+  <label 
+    mdbLabel 
+    class="form-label" 
+    data-error="wrong" 
+    data-success="right" 
+    [for]="uniqueId">
+    <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
+    <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
+    {{ label | translate }}
+  </label>
+  <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
+    <div class="invalid-feedback">{{ errorMessage }}</div>
+  </div>
+  <div *ngIf="helpText" class="field-help mt-n3 field-help-position">
+    {{ helpText | translate }}
+  </div>
+</mdb-form-control>

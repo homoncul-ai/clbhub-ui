@@ -1,0 +1,26 @@
+<div *ngIf="isDetailMode && crudWrapper" class="details-section">
+  <div class="detail-group">
+    <label>Date Created:</label>
+    <span>
+      <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+    </span>
+  </div>
+  <div class="detail-group">
+    <label>Created By:</label>
+    <span>
+      <app-reference-data [data]="createdByInfo"></app-reference-data>
+    </span>
+  </div>
+  <div class="detail-group">
+    <label>Date Last Updated:</label>
+    <span>
+      <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
+    </span>
+  </div>
+  <div class="detail-group">
+    <label>Last Updated By:</label>
+    <span>
+      <app-reference-data [data]="lastUpdatedByInfo"></app-reference-data>
+    </span>
+  </div>
+</div>

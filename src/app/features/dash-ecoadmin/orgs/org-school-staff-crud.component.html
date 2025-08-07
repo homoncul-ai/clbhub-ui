@@ -112,13 +112,14 @@
         [error]="error"
         [(ngModel)]="userEmail">
       </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="hccluserprofile" 
-        name="cellPhoneNumber"
-        label="Cell Phone Number"
-        [error]="error"
-        [(ngModel)]="cellPhoneNumber">
-      </app-std-mdb-form-text>
+      <app-std-mdb-phone 
+          prefix="hccluserprofile" 
+          name="cellPhoneNumber" 
+          label="Cell Phone Number" 
+          [error]="error" 
+          [readonly]="true"
+          [(ngModel)]="cellPhoneNumber">
+        </app-std-mdb-phone> 
       <app-std-mdb-form-text 
         prefix="hccluserprofile" 
         name="workPhoneNumber"
@@ -158,9 +159,7 @@
 
   <!-- Edit Mode -->
   <div *ngIf="getMode() === CRUD_MODES.EDIT  && !isLoading" class="edit-mode">
-    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
-      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit HCCL User Profile</h3>
-    </div>
+    
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <!-- Edit Mode Form : Make sure to use this control logic for submit and cancel buttons -->
       <form (ngSubmit)="updateEntity(getCurrentEntity())">
@@ -170,11 +169,7 @@
         </div>
 
         <div class="form-group">
-          <div class="mb-4">
-            <label>User:</label>
-            <app-hccluser-crud [id]="userId" mode="FK_MENU"></app-hccluser-crud>
-          </div>
-          <div class="mb-4">
+        <div class="mb-4">
         <app-std-mdb-form-text 
           prefix="hccluserprofile" 
           name="userCode"
@@ -184,20 +179,7 @@
           [(ngModel)]="userCode">
         </app-std-mdb-form-text>
         </div>
-        <div class="mb-4">
-            <label>Organization:</label>
-            <app-hcclorganization-crud [id]="organizationId" mode="FK_MENU"></app-hcclorganization-crud>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="hccluserprofile" 
-          name="profileTypeCode"
-          label="Profile Type Code"
-          [required]="true"
-          [error]="error"
-          [(ngModel)]="profileTypeCode">
-        </app-std-mdb-form-text>
-        </div>
+        
         <div class="mb-4">
         <app-std-mdb-form-text 
           prefix="hccluserprofile" 
@@ -208,50 +190,24 @@
         </app-std-mdb-form-text>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
+          <app-std-mdb-phone 
           prefix="hccluserprofile" 
-          name="cellPhoneNumber"
-          label="Cell Phone Number"
-          [error]="error"
+          name="cellPhoneNumber" 
+          label="Cell Phone Number" 
+          [error]="error" 
           [(ngModel)]="cellPhoneNumber">
-        </app-std-mdb-form-text>
+        </app-std-mdb-phone>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
+          <app-std-mdb-phone 
           prefix="hccluserprofile" 
-          name="workPhoneNumber"
-          label="Work Phone Number"
-          [error]="error"
+          name="workPhoneNumber" 
+          label="Work Phone Number" 
+          [error]="error"   
           [(ngModel)]="workPhoneNumber">
-        </app-std-mdb-form-text>
+        </app-std-mdb-phone>
         </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="hccluserprofile" 
-          name="externalUserId"
-          label="External User ID"
-          [error]="error"
-          [(ngModel)]="externalUserId">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="hccluserprofile" 
-          name="externalUserEntityType"
-          label="External User Entity Type"
-          [error]="error"
-          [(ngModel)]="externalUserEntityType">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="hccluserprofile" 
-          name="externalUserName"
-          label="External User Name"
-          [error]="error"
-          [(ngModel)]="externalUserName">
-        </app-std-mdb-form-text>
-        </div>
+         
         <div class="mb-4">
           <label>Available:</label>
           <app-available-selector [(ngModel)]="available"></app-available-selector>
@@ -282,13 +238,11 @@
       <!-- Always use the form {{ attributeName }} to display the attribute value -->
       <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
       <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
+        <app-hccluser-crud [id]="userId" [modeName]="CRUD_MODES.SECTION"></app-hccluser-crud>
+
         <div class="detail-group">
           <label>User Code :</label>
           <span>{{ userCode }}</span>  
-        </div>
-        <div class="detail-group">
-          <label>Profile Type Code:</label>
-          <span>{{ profileTypeCode }}</span>
         </div>
         <div class="detail-group">
           <label>User Email:</label>
@@ -302,58 +256,16 @@
           <label>Work Phone Number:</label>
           <span>{{ workPhoneNumber }}</span>
         </div>
-        <div class="detail-group">
-          <label>External User ID:</label>
-          <span>{{ externalUserId }}</span>
-        </div>
-        <div class="detail-group">
-          <label>External User Entity Type:</label>
-          <span>{{ externalUserEntityType }}</span>
-        </div>
-        <div class="detail-group">
-          <label>External User Name:</label>
-          <span>{{ externalUserName }}</span>
-        </div>
+       
         <!-- If the attribute is avaliable, use the <app-available-selector readonly=true component to display the value -->
         <div class="detail-group">
           <label>Available:</label>
           <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
         </div>
   
-          <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-          <div class="detail-group">
-              <label>Date Created:</label>
-              <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-          </div>
-          
-  
-          <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-          <div class="detail-group">
-            <label>User:</label>
-            <app-hccluser-crud [id]="userId" [modeName]="CRUD_MODES.FK"></app-hccluser-crud>
-        </div>
-        <div class="detail-group">
-          <label>Organization:</label>
-          <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
-      </div>
 
       <!-- Only show these in "details" mode -->
-      <div class="detail-group">
-        <label>Date Created:</label>
-        <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-      </div>
-      <div class="detail-group">
-        <label>Created By:</label>
-        <span><app-reference-data [data]="createdByInfo"></app-reference-data></span>
-      </div>
-      <div class="detail-group">
-        <label>Date Last Updated:</label>
-        <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
-      </div>
-      <div class="detail-group">
-        <label>Last Updated By:</label>
-        <span><app-reference-data [data]="lastUpdatedByInfo"></app-reference-data></span>
-      </div>
+       <app-crud-internal-data [crudWrapper]="getCurrentEntity()" [crudMode]="CRUD_MODES.DETAIL"></app-crud-internal-data>
     </div>
   </div>
 

@@ -17,6 +17,8 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { HccluserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
 import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+import { CrudInternalDataComponent } from '@app/components/_global/crud-internal-data/crud-internal-data.component';
+import { StdMdbPhoneComponent } from '@app/components/_global/std-mdb-phone/std-mdb-phone.component';
 
 @Component({
   selector: 'app-org-school-staff-crud',
@@ -26,7 +28,7 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganiz
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
     AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent,
-    HccluserCrudComponent, HcclOrganizationCrudComponent],
+    HccluserCrudComponent, HcclOrganizationCrudComponent, CrudInternalDataComponent, StdMdbPhoneComponent],
   standalone: true
 })
 export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserProfileCrudWrapper> implements OnInit, OnChanges {
@@ -183,6 +185,7 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
     super.ngOnInit();
     this.clearValidationErrors();
     
+    
   }
 
   protected async loadEntityByIdCall(id: string): Promise<HcclUserProfileCrudWrapper> {
@@ -190,6 +193,7 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
     if (!userProfile) {
       throw new Error('HCCL User Profile not found');
     }
+    alert('loadEntityByIdCall' + JSON.stringify(userProfile));
     return new HcclUserProfileCrudWrapper(userProfile, this.hcclService);
   }
 
