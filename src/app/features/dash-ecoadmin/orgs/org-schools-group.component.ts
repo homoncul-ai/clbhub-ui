@@ -136,7 +136,7 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
     var o : OnRowClickBehavior = new OnRowClickBehavior();
     o.parentId = this.id;
     o.tabId = 'staffmember';     
-    o.alertMessage = 'Modal to show catalog entry';
+   // o.alertMessage = 'Modal to show catalog entry';
     o.usingNavigateUrl = true;
     //o.doNotNavigate = true;
     o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {

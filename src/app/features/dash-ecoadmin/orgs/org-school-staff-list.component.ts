@@ -25,7 +25,7 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
     super();
     
     // Set entity-specific properties
-    this.searchHeading = 'School Staff';
+    this.searchHeadingLabel = 'School Staff';
     this.showingAddButton = true;
     this.showingIdCheckbox = false;
     this.showingGoButton = false;
@@ -39,7 +39,7 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
 //      { id: 'userCode', header: [{ text: 'User Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
   //    { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-  //    { id: 'profileTypeCode', header: [{ text: 'Profile Type Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      { id: 'profileTypeCode', header: [{ text: 'Profile Type Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'userEmail', header: [{ text: 'User Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
