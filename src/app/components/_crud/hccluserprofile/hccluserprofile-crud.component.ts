@@ -225,7 +225,8 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
       externalUserId: data.externalUserId,
       externalUserEntityType: data.externalUserEntityType,
       externalUserName: data.externalUserName,
-      available: data.available || 1
+      available: data.available || 1,
+      name: data.theUser?.name || ''
     };
     
     await this.hcclService.updateHcclUserProfileById(data.id || '', putData).toPromise();
