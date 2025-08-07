@@ -2384,6 +2384,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserContextGETData>(request);
   }
 
+  onboardOrgUser(body: OnboardOrgUserPOSTData): Observable<HcclUserProfileGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/intg/onboard/orguser",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserProfileGETData>(request);
+  }
+
   promoteStudentsToUsers(body: CLStudentCriteria): Observable<SimpleRestActionResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/actions/promote-students",
@@ -4643,6 +4652,7 @@ export interface HcclUserProfilePUTData {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  name: string;
 }
 
 export interface HcclUserPOSTData {
@@ -5638,6 +5648,17 @@ export interface MenuControlDataList {
   label?: string;
   menuItems?: MenuControlData[];
   defaultAllowedByRule?: boolean;
+}
+
+export interface OnboardOrgUserPOSTData {
+  organizationId?: string;
+  name?: string;
+  userName?: string;
+  emailAddress?: string;
+  workPhone?: string;
+  cellPhone?: string;
+  roles?: string[];
+  profileTypeCode?: string;
 }
 
 export interface SimpleRestActionContext {

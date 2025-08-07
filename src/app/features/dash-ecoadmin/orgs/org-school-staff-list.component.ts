@@ -84,4 +84,12 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
     };
   }
   
+  protected override onAdd(): void {
+    // Default implementation - subclasses can override
+    const baseRoute = this.getBaseRoute();
+    console.log('Current URL:', this.router.url);
+    console.log('Calculated base route:', baseRoute);
+    console.log('Navigating to:', [baseRoute, 'create']);
+    alert('onAdd');
+ }
 } 

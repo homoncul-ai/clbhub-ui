@@ -88,10 +88,11 @@
       <app-std-mdb-form-text 
         prefix="hccluserprofile" 
         name="userCode"
-        label="User Code"
-        [required]="true"
+        label="User Code" 
         [error]="error"
+        [disabled]="true"
         [(ngModel)]="userCode">
+        
       </app-std-mdb-form-text>
       <div class="form-group">
         <label>Organization:</label>
@@ -169,22 +170,32 @@
         </div>
 
         <div class="form-group">
+          <div class="mb-4">
+            <app-std-mdb-form-text 
+            prefix="hccluserprofile" 
+            name="name"
+            label="Name" 
+            [error]="error"
+            [disabled]="false"
+            [(ngModel)]="name">
+          </app-std-mdb-form-text>
+          </div>
+ 
         <div class="mb-4">
-        <app-std-mdb-form-text 
+          <app-std-mdb-form-text 
           prefix="hccluserprofile" 
           name="userCode"
-          label="User Code"
-          [required]="true"
+          label="User Code" 
           [error]="error"
+          [disabled]="true"
           [(ngModel)]="userCode">
         </app-std-mdb-form-text>
         </div>
-        
         <div class="mb-4">
         <app-std-mdb-form-text 
           prefix="hccluserprofile" 
           name="userEmail"
-          label="User Email"
+          label="Email"
           [error]="error"
           [(ngModel)]="userEmail">
         </app-std-mdb-form-text>
@@ -193,7 +204,7 @@
           <app-std-mdb-phone 
           prefix="hccluserprofile" 
           name="cellPhoneNumber" 
-          label="Cell Phone Number" 
+          label="Cell Phone" 
           [error]="error" 
           [(ngModel)]="cellPhoneNumber">
         </app-std-mdb-phone>
@@ -202,7 +213,7 @@
           <app-std-mdb-phone 
           prefix="hccluserprofile" 
           name="workPhoneNumber" 
-          label="Work Phone Number" 
+          label="Work Phone" 
           [error]="error"   
           [(ngModel)]="workPhoneNumber">
         </app-std-mdb-phone>
@@ -249,11 +260,11 @@
           <span>{{ userEmail }}</span>
         </div>
         <div class="detail-group">
-          <label>Cell Phone Number:</label>
+          <label>Cell Phone:</label>
           <span>{{ cellPhoneNumber }}</span>
         </div>
         <div class="detail-group">
-          <label>Work Phone Number:</label>
+          <label>Work Phone:</label>
           <span>{{ workPhoneNumber }}</span>
         </div>
        

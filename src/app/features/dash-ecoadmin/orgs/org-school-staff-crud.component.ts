@@ -228,7 +228,8 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
       externalUserId: data.externalUserId,
       externalUserEntityType: data.externalUserEntityType,
       externalUserName: data.externalUserName,
-      available: data.available || 1
+      available: data.available || 1,
+      name: data.theUser?.name || ''
     };
     
     await this.hcclService.updateHcclUserProfileById(data.id || '', putData).toPromise();
@@ -244,6 +245,16 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
   }
 
   // Getter and setter methods for form binding
+
+  public get name(): string {
+    return this.entity?.getData().theUser?.name || '';
+  }
+  public set name(value: string) {
+    if (this.entity) {
+      this.entity.getData().theUser?.name;
+    }
+  }
+
   public get userId(): string {
     return this.entity?.getData().userId || '';
   }
