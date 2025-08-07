@@ -17,27 +17,9 @@
         <span>{{ name }}</span>  
       </div>
       <div class="detail-group">
-        <label>Business Code:</label>
-        <span>{{ businessCode }}</span>
-      </div>
-      <div class="detail-group">
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
-      <!-- If the attribute is avaliable, use the <app-available-selector readonly=true component to display the value -->
-      <div class="detail-group">
-        <label>Available:</label>
-        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
-      </div>
-
-        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-        <div class="detail-group">
-          <label>Organization Type:</label>
-          <app-hcclorganizationtyperef-crud [id]="organizationTypeId" [modeName]="CRUD_MODES.FK"></app-hcclorganizationtyperef-crud>
-      </div>
-
-      
-
     </div>
 </div>
 

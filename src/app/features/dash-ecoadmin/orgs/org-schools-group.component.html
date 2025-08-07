@@ -9,7 +9,7 @@
 </div>
 
 <div *ngIf="currentTabId === 'details'">
-  <h3>School Details {{ id }}</h3>
+  <h3>School Details </h3>
   <app-org-school-crud [id]="id" modeName="detail"></app-org-school-crud> 
 </div>
 
@@ -17,6 +17,21 @@
   <h3>Create New School</h3>
   <app-org-school-crud [entityForCreate]="entityForCreate" modeName="create"></app-org-school-crud>
 </div>
+
+<div *ngIf="currentTabId === 'staff'">
+  <app-org-school-crud [id]="id" modeName="section"></app-org-school-crud>
+  <hr/>
+  <app-org-school-staff-list [criteria]="getCriteriaForStaff()" [onRowClickBehavior]="onClickOrgStaffRowBehavior()"></app-org-school-staff-list>
+</div>
+
+
+<div *ngIf="currentTabId === 'staffmember'">
+  <app-org-school-crud [id]="id" modeName="section"></app-org-school-crud>
+  <hr/>
+  <app-org-school-staff-crud [id]="childId" modeName="details" ></app-org-school-staff-crud>
+</div>
+
+
 <!-- 
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
@@ -29,4 +44,5 @@
   <app-hcclorganization-crud [id]="id" modeName="fk_menu"></app-hcclorganization-crud>
 </div>  -->
 
+<hr/>
 {{ currentTabId }}

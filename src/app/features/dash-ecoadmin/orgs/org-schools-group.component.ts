@@ -4,17 +4,19 @@ import { HcclOrganizationCrudComponent, HcclOrganizationCrudWrapper } from '@app
 import { AbstractListComponent, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclOrganizationCriteria, HcclService } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCriteria, HcclService, HcclUserProfileCriteria } from '@app/restsvc/hccl.service';
 import { HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefCrudWrapper } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 import { HcclOrganizationTypeRefListComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component';
 import { HcclOrganizationListComponent } from '@app/components/_crud/hcclorganization/hcclorganization-list.component';
 import { OrgSchoolCrudComponent } from './org-school-crud.component';
+import { OrgSchoolStaffListComponent } from './org-school-staff-list.component';
+import { OrgSchoolStaffCrudComponent } from './org-school-staff-crud.component';
 
 @Component({
   selector: 'app-org-schools-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, HcclOrganizationCrudComponent, HcclOrganizationListComponent,
-    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, OrgSchoolCrudComponent],
+    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, OrgSchoolCrudComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent],
   templateUrl: './org-schools-group.component.html' 
 })
 export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclOrganizationCrudWrapper> implements OnInit {  
@@ -43,8 +45,47 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
    return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
   }
 
-  protected setupTabs(): SimpleTab[] {
-    return this.setupListDetailsTabs();
+  protected setupTabs(): SimpleTab[] {  
+    const baseRoute = this.getBaseRoute();
+    let tabs: SimpleTab[] = [
+      new SimpleTab('list', 'List', '', 
+        () => {
+          this.router.navigate([baseRoute]);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('details', this.getDetailsTabLabel(), '', 
+        () => {
+          //this.currentTabId = 'details';
+          this.router.navigate([baseRoute, this.id, 'details']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      )];
+      let tab = new SimpleTab('staff', 'Staff', '', 
+        () => {
+          //this.currentTabId = 'details';
+          this.router.navigate([baseRoute, this.id, 'staff']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);
+      tab = new SimpleTab('staffmember', 'Staff Member', '', 
+        () => {
+          //this.currentTabId = 'details';
+          this.router.navigate([baseRoute, this.id, 'staffmember', this.childId]);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);
+    return tabs;
   }
 
   protected getCriteria(): HcclOrganizationCriteria {
@@ -80,7 +121,27 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
     this.entityForCreate.getData().name = 'New School';
   }
 
-  public x() {
-    super.routeToPath(['/ecoadmin-dashboard/orgs/schools']);
+  protected override getBaseRoute(): string {
+    return '/ecoadmin-dashboard/orgs/schools';
+  }
+
+  protected getCriteriaForStaff(): HcclUserProfileCriteria {
+    var x: HcclUserProfileCriteria = { 
+      organizationId: this.id
+    };
+    return x;
+  }
+
+  onClickOrgStaffRowBehavior(): OnRowClickBehavior {
+    var o : OnRowClickBehavior = new OnRowClickBehavior();
+    o.parentId = this.id;
+    o.tabId = 'staffmember';     
+    o.alertMessage = 'Modal to show catalog entry';
+    o.usingNavigateUrl = true;
+    //o.doNotNavigate = true;
+    o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {
+      return ['/ecoadmin-dashboard/orgs/schools', this.id, 'staffmember', entityId];
+    };
+    return o;
   }
 } 

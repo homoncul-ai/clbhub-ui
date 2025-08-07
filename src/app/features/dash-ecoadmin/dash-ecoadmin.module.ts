@@ -253,7 +253,8 @@ const routes: Routes = [
     CatalogSearchResultListComponent,
     CatalogSearchResultGroupComponent,
     CatalogSearchResultEntryListComponent,
-    CatalogSearchResultEntryGroupComponent
+    CatalogSearchResultEntryGroupComponent,
+    OrgSchoolsGroupComponent
   ]
 })
 export class DashEcoAdminModule { } 
