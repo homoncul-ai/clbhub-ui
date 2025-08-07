@@ -57,6 +57,7 @@ import { ProviderRequestTypeRefGroupComponent } from '../../components/_crud/pro
 import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
 import { WorkRequestLogListComponent } from '@app/components/_crud/workrequestlog/workrequestlog-list.component';
 import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestlog/workrequestlog-group.component';
+import { OrgSchoolsGroupComponent } from './orgs/org-schools-group.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,12 @@ const routes: Routes = [
     component: DashEcoAdminComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+      { path: 'orgs/schools/:id/:tabId/:childId', component: OrgSchoolsGroupComponent },
+      { path: 'orgs/schools/:id/:tabId', component: OrgSchoolsGroupComponent },
+      { path: 'orgs/schools/:id', redirectTo: 'orgs/schools/:id/details', pathMatch: 'full' },
+      { path: 'orgs/schools', component: OrgSchoolsGroupComponent },
+
       { path: 'dashboard', component: EcoAdminDashboardComponent },
       
       { path: 'providertyperefs/create', component: ProviderTypeRefGroupComponent },

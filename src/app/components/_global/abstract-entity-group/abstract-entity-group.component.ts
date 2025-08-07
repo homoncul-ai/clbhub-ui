@@ -70,14 +70,14 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
  
       var id = this.id;
      // debugger
-      if (!id || tabId === 'create') {
-        this.currentTabId = 'create';
-        this.showingTabset = true;
-        this.entity = this.newCrudWrapperForCreate();
-      } else {
-      if (id) {
+     if (tabId === 'create') {
+      this.currentTabId = 'create';
+      this.showingTabset = true;
+      this.entity = this.newCrudWrapperForCreate();
+     } else if (!id ) {
+        this.setupIfNoId();
+     } else {
         this.loadEntityById(id).then(entity => {
-
           this.entity = entity;
           this.tabs = this.setupTabs();
           const defaultTabId = this.getDefaultTabId();
@@ -94,11 +94,17 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
           console.error('Error loading :', error);
         });
       }
-      }
     });
   }
+
+  protected setupIfNoId(): void {
+    this.currentTabId = 'create';
+    this.showingTabset = true;
+    this.entity = this.newCrudWrapperForCreate();   
+  }
+
   protected getDefaultId(): string {
-    alert('getDefaultId ' + this.id + ' id is not defined ');
+    //alert('getDefaultId ' + this.id + ' id is not defined ');
     return '';
   }
   protected getDefaultTabId(): string {
