@@ -1,3 +1,4 @@
+import { WorkItemDeliverableCriteria } from '@app/restsvc/hccl.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,6 +6,8 @@ import { HcclService } from '../../../restsvc/hccl.service';
 import { HcclUserProfileGETData, HcclUserProfileCriteria, HcclUserProfileGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { OnboardOrgUserModalComponent } from './onboard-org-user-modal.component';
 
 /**
  * Component for displaying and managing HcclUserProfile data using HcclService
@@ -16,12 +19,13 @@ import { Observable } from 'rxjs';
   standalone: true,
   templateUrl: '../../../components/_global/abstract-list/abstract-list.component.html',
   styleUrls: ['../../../components/_global/abstract-list/abstract-list.component.scss'],
-    imports: [CommonModule]
+  imports: [CommonModule]
 })
 export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserProfileGETData, HcclUserProfileCriteria, HcclUserProfileGETDataSearchResults> {
   
-  constructor(   
-  ) {
+  protected modalRef?: MdbModalRef<OnboardOrgUserModalComponent>;
+  
+  constructor() {
     super();
     
     // Set entity-specific properties
@@ -62,6 +66,8 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
     };
   }
 
+  
+
   protected findEntities(criteria: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults> {
     return this.hcclService.findHcclUserProfiles(criteria);
   }
@@ -85,11 +91,25 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
   }
   
   protected override onAdd(): void {
-    // Default implementation - subclasses can override
-    const baseRoute = this.getBaseRoute();
-    console.log('Current URL:', this.router.url);
-    console.log('Calculated base route:', baseRoute);
-    console.log('Navigating to:', [baseRoute, 'create']);
-    alert('onAdd');
- }
+    // Get organization ID from route parameters if available
+    const organizationId = this.criteria?.organizationId;
+
+    // Open the onboarding modal
+    this.modalRef = this.modalService.open(OnboardOrgUserModalComponent, {
+      modalClass: 'modal-lg',
+      keyboard: false,
+      ignoreBackdropClick: true,
+      data: {
+        organizationId: organizationId
+      }
+    });
+
+    // Handle modal close
+    this.modalRef.onClose.subscribe((result: boolean) => {
+      if (result) {
+        // Refresh the list if onboarding was successful
+        this.onRefresh();
+      }
+    });
+  }
 } 

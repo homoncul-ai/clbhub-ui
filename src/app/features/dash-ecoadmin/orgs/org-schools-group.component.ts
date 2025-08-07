@@ -11,12 +11,13 @@ import { HcclOrganizationListComponent } from '@app/components/_crud/hcclorganiz
 import { OrgSchoolCrudComponent } from './org-school-crud.component';
 import { OrgSchoolStaffListComponent } from './org-school-staff-list.component';
 import { OrgSchoolStaffCrudComponent } from './org-school-staff-crud.component';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-org-schools-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, HcclOrganizationCrudComponent, HcclOrganizationListComponent,
-    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, OrgSchoolCrudComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent],
+    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, OrgSchoolCrudComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent, MdbModalModule],
   templateUrl: './org-schools-group.component.html' 
 })
 export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclOrganizationCrudWrapper> implements OnInit {  

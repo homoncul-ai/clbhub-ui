@@ -1,0 +1,98 @@
+<div class="modal-header text-white">
+  <h5 class="modal-title">Onboard Organization User</h5>
+  <span class="fa fa-times cursorPointer" (click)="onCancel()"></span>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="onboardForm">
+    <div class="form-symbols-text text-end">
+      <small class="text-muted">
+        <span class="requiredField">* </span>Required fields
+      </small>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-10 offset-md-1">
+          
+          <!-- Name -->
+          <app-std-mdb-form-text 
+            prefix="onboardUser" 
+            name="name"
+            label="Name"
+            [required]="true"
+            [error]="error"
+            formControlName="name">
+          </app-std-mdb-form-text>
+
+          <!-- User Name -->
+          <app-std-mdb-form-text 
+            prefix="onboardUser" 
+            name="userName"
+            label="User Name"
+            [required]="true"
+            [error]="error"
+            formControlName="userName">
+          </app-std-mdb-form-text>
+
+          <!-- Email Address -->
+          <app-std-mdb-form-text 
+            prefix="onboardUser" 
+            name="emailAddress"
+            label="Email Address"
+            [required]="true"
+            [error]="error"
+            formControlName="emailAddress">
+          </app-std-mdb-form-text>
+
+          <!-- Work Phone -->
+          <app-std-mdb-phone 
+            prefix="onboardUser" 
+            name="workPhone"
+            label="Work Phone"
+            [error]="error"
+            formControlName="workPhone">
+          </app-std-mdb-phone>
+
+          <!-- Cell Phone -->
+          <app-std-mdb-phone 
+            prefix="onboardUser" 
+            name="cellPhone"
+            label="Cell Phone"
+            [error]="error"
+            formControlName="cellPhone">
+          </app-std-mdb-phone>
+
+          <!-- Profile Type Code -->
+          <app-std-mdb-form-text 
+            prefix="onboardUser" 
+            name="profileTypeCode"
+            label="Profile Type Code"
+            [required]="true"
+            [error]="error"
+            formControlName="profileTypeCode">
+          </app-std-mdb-form-text>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    (click)="onSubmit()"
+    [disabled]="!onboardForm.valid || isLoading"
+  >
+    <span
+      [ngClass]="{ 'spinner-border spinner-border-sm': isLoading }"
+    >
+      {{ isLoading ? 'Onboarding...' : 'Onboard User' }}
+    </span>
+  </button>
+  <button type="button" class="btn btn-sm btn-dark" (click)="onCancel()">
+    Cancel
+  </button>
+</div>
