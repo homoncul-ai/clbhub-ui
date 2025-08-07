@@ -1,17 +1,21 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
 <div *ngIf="currentTabId === 'list'">
+  <h1>Schools Administration</h1>
+  <button class="btn btn-primary" (click)="onClickAddSchool()">Add School</button>
   <app-hcclorganization-list [criteria]="getCriteria()" [onRowClickBehavior]="onClickOrgRowBehavior()"
-  [showingAddButton]="true" [showingGoButton]="false" [showingIdCheckbox]="false" [showingSearchHeading]="false" ></app-hcclorganization-list>
+  [showingAddButton]="false" [showingGoButton]="false" [showingIdCheckbox]="false" [showingSearchHeading]="false"
+   ></app-hcclorganization-list>
 </div>
 
 <div *ngIf="currentTabId === 'details'">
-  <app-hcclorganization-crud [id]="id" modeName="detail"></app-hcclorganization-crud>
+  <h3>School Details {{ id }}</h3>
+  <app-org-school-crud [id]="id" modeName="detail"></app-org-school-crud> 
 </div>
 
 <div *ngIf="currentTabId === 'create'">
-  <h1>Create</h1>
-  <app-hcclorganization-crud [id]="id" modeName="create"></app-hcclorganization-crud>
+  <h3>Create New School</h3>
+  <app-org-school-crud [entityForCreate]="entityForCreate" modeName="create"></app-org-school-crud>
 </div>
 <!-- 
 <div *ngIf="currentTabId === 'debug'">

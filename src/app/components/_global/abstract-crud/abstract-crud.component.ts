@@ -11,6 +11,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { DategetdataDisplayComponent } from '../dategetdata-display/dategetdata-display.component';
 import { DateGETData } from '@app/restsvc/common-request-service.model';
+import { AbstractListComponent } from '../abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-abstract-crud',
@@ -43,6 +44,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   @Input() id?: string;
   @Input() modeName: string = 'detail';
   @Input() menuCreationHint?: string = '';
+  @Input() entityForCreate?: R;
 
   protected ngOnInitInternal(): void {
     this.ngOnInit()
@@ -52,8 +54,11 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     this.canCreate = false;
     this.canEdit = true;
     this.canDelete = false;
-    
- 
+    if (this.entityForCreate) {
+      this.entityNew = this.entityForCreate;
+    //  alert('entityForCreate: ' + JSON.stringify(this.entityNew));
+    }
+    debugger;
     // Some modes required load, some don't 
     // CREATE, FK_MENU, DEBUG, dont require load
     // DETAIL, EDIT, DELETE, SECTION, HEADING, FK do
@@ -701,5 +706,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
 
   public static newDateGETData(): DateGETData {
     return EntityWrapper.newDateGETData();
+  }
+
+
+  public routeToPath(routePath: string[]) {
+    return AbstractListComponent.routeToPath(this.router, routePath);
   }
 }

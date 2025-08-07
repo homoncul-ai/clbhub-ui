@@ -1,0 +1,258 @@
+<!-- Generate the HTML for the crud component hcclorganization-crud.component.html  using this template and following the instructions below -->
+<span *ngIf="getMode() === CRUD_MODES.FK  && !isLoading" >{{ getCurrentEntity().getDisplayText() }}</span>
+
+<div *ngIf="getMode() === CRUD_MODES.FK_MENU  && !isLoading" class="fk_menu-mode">
+<!-- Heading Mode -->
+<app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+</div>
+
+<div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
+    <div class="details-section">
+      <!-- Display all the details attributes FOR THIS Entity in this section, replacing the ones below. -->
+      <!-- Always use the form {{ attributeName }} to display the attribute value -->
+      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
+        <div class="detail-group">
+        <label>Name :</label>
+        <span>{{ name }}</span>  
+      </div>
+      <div class="detail-group">
+        <label>Business Code:</label>
+        <span>{{ businessCode }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Description:</label>
+        <span>{{ description }}</span>
+      </div>
+      <!-- If the attribute is avaliable, use the <app-available-selector readonly=true component to display the value -->
+      <div class="detail-group">
+        <label>Available:</label>
+        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+      </div>
+
+        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
+        <div class="detail-group">
+          <label>Organization Type:</label>
+          <app-hcclorganizationtyperef-crud [id]="organizationTypeId" [modeName]="CRUD_MODES.FK"></app-hcclorganizationtyperef-crud>
+      </div>
+
+      
+
+    </div>
+</div>
+
+
+<div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
+<!-- Heading Mode -->
+<h3>{{ getCurrentEntity().getDisplayText() }}</h3>
+</div>
+
+<div *ngIf="isCrudModeCUD()" class="crud-container" style=" max-width: 1200px; margin: 0 auto;">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="loading-spinner">Loading...</div>
+  </div>
+
+  <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
+  <!-- Create Mode -->
+  <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
+      <form (ngSubmit)="this.createEntity()">
+      <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+      </div>
+
+      <!-- Replace these with the attributes for creating according to the rules in the prompt-->
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="name"
+        label="Name"
+        [required]="true"
+        [maxLength]="255"
+        [error]="error"
+        [(ngModel)]="name">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="businessCode"
+        label="Business Code"
+        [required]="true"
+        [maxLength]="50"
+        [error]="error"
+        [(ngModel)]="businessCode">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-textarea 
+        prefix="hcclorganization" 
+        name="description"
+        label="Description"
+        [required]="true"
+        [maxLength]="1024"
+        [error]="error"
+        [(ngModel)]="description">
+      </app-std-mdb-form-textarea>
+      <div class="form-group">
+        <label>Available:</label>
+        <app-available-selector [(ngModel)]="available"></app-available-selector>
+      </div>
+      <div class="form-group">
+        <label>Organization Type:</label>
+        <span><app-hcclorganizationtyperef-crud [id]="organizationTypeId" [modeName]="CRUD_MODES.FK"></app-hcclorganizationtyperef-crud></span>
+      </div>
+       
+      <app-std-mdb-form-text 
+        prefix="hcclorganization" 
+        name="websiteUrl"
+        label="Website URL"
+        [error]="error"
+        [(ngModel)]="websiteUrl">
+      </app-std-mdb-form-text>
+    
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Mode -->
+  <div *ngIf="getMode() === CRUD_MODES.EDIT  && !isLoading" class="edit-mode">
+    <div class="form-container" >
+      <!-- Edit Mode Form : Make sure to use this control logic for submit and cancel buttons -->
+      <form (ngSubmit)="updateEntity(getCurrentEntity())">
+        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+        </div>
+
+        <div class="form-group">
+          <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="name"
+          label="Name"
+          [required]="true"
+          [maxLength]="255"
+          [error]="error"
+          [(ngModel)]="name">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="businessCode"
+          label="Business Code"
+          [required]="true"
+          [maxLength]="50"
+          [error]="error"
+          [(ngModel)]="businessCode">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-textarea 
+          prefix="hcclorganization" 
+          name="description"
+          label="Description"
+          [required]="true"
+          [maxLength]="1024"
+          [error]="error"
+          [rows]="4"
+          [showCharCounter]="true"
+          [(ngModel)]="description">
+        </app-std-mdb-form-textarea>
+        </div>
+        <div class="mb-4">
+          <label>Available:</label>
+          <app-available-selector [(ngModel)]="available"></app-available-selector>
+        </div>
+        <div class="mb-4">
+          <label>Organization Type: </label>
+          <span><app-hcclorganizationtyperef-crud [id]="organizationTypeId" [modeName]="CRUD_MODES.FK"></app-hcclorganizationtyperef-crud></span>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="hcclorganization" 
+          name="websiteUrl"
+          label="Website URL"
+          [error]="error"
+          [(ngModel)]="websiteUrl">
+        </app-std-mdb-form-text>
+        </div>
+       
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Detail Mode  overlay? -->
+  <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading"  class="detail-mode">
+    <div class="crud-header">
+      <div class="action-buttons">
+        <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
+        <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
+        <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
+      </div>
+    </div>
+    <div class="details-section">
+      <!-- Only show "id:" in "details" mode -->
+      <div class="detail-group">
+        <label>ID:</label>
+        <span>{{ id }}</span>
+      </div>
+      
+      <!-- Display all the details attributes FOR THIS Entity in this section, replacing the ones below. -->
+      <!-- Always use the form {{ attributeName }} to display the attribute value -->
+      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
+        <div class="detail-group">
+          <label>Name :</label>
+          <span>{{ name }}</span>  
+        </div>
+        <div class="detail-group">
+          <label>Business Code:</label>
+          <span>{{ businessCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Description:</label>
+          <span>{{ description }}</span>
+        </div>
+        <!-- If the attribute is avaliable, use the <app-available-selector readonly=true component to display the value -->
+        <div class="detail-group">
+          <label>Available:</label>
+          <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+        </div>
+  
+          <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+          <div class="detail-group">
+              <label>Date Created:</label>
+              <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+          </div>
+          
+  
+          <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
+          <div class="detail-group">
+            <label>Organization Type:</label>
+            <span><app-hcclorganizationtyperef-crud [id]="organizationTypeId" [modeName]="CRUD_MODES.FK"></app-hcclorganizationtyperef-crud></span>
+        </div>
+
+      <!-- Only show these in "details" mode -->
+      <div class="detail-group">
+        <label>Date Created:</label>
+        <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+      </div>
+      <div class="detail-group">
+        <label>Created By:</label>
+        <span><app-reference-data [data]="createdByInfo"></app-reference-data></span>
+      </div>
+      <div class="detail-group">
+        <label>Date Last Updated:</label>
+        <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
+      </div>
+      <div class="detail-group">
+        <label>Last Updated By:</label>
+        <span><app-reference-data [data]="lastUpdatedByInfo"></app-reference-data></span>
+      </div>
+    </div>
+  </div>
+ 
+
+<div *ngIf="false">
+<h3> Dump </h3>
+<pre>{{ getCurrentEntity().getData() | json }}</pre>
+</div> 

@@ -8,18 +8,24 @@ import { HcclOrganizationCriteria, HcclService } from '@app/restsvc/hccl.service
 import { HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefCrudWrapper } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 import { HcclOrganizationTypeRefListComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component';
 import { HcclOrganizationListComponent } from '@app/components/_crud/hcclorganization/hcclorganization-list.component';
+import { OrgSchoolCrudComponent } from './org-school-crud.component';
 
 @Component({
   selector: 'app-org-schools-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, HcclOrganizationCrudComponent, HcclOrganizationListComponent,
-    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent],
+    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, OrgSchoolCrudComponent],
   templateUrl: './org-schools-group.component.html' 
 })
 export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclOrganizationCrudWrapper> implements OnInit {  
 
   constructor() {
     super();    
+  }
+  override async ngOnInit(): Promise<void> {
+    super.ngOnInit();
+    this.organizationTypeRefWrapper = await HcclOrganizationTypeRefCrudWrapper.newInstanceByCode(this.organizationTypeCode, this.hcclService);
+    this.organizationTypeId = this.organizationTypeRefWrapper.getData().id ?? '';
   }
 
   protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
@@ -34,9 +40,7 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
 
  
   protected async loadEntityById(id: string): Promise<HcclOrganizationCrudWrapper> {
-    this.organizationTypeRefWrapper = await HcclOrganizationTypeRefCrudWrapper.newInstanceByCode(this.organizationTypeCode, this.hcclService);
-    this.organizationTypeId = this.organizationTypeRefWrapper.getData().id ?? '';
-    return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+   return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
   }
 
   protected setupTabs(): SimpleTab[] {
@@ -59,7 +63,7 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
     var o : OnRowClickBehavior = new OnRowClickBehavior();
     o.parentId = this.id;
     o.tabId = 'details';     
-    o.alertMessage = 'Modal to show catalog entry';
+  //  o.alertMessage = 'Modal to show catalog entry';
     o.usingNavigateUrl = true;
     //o.doNotNavigate = true;
     o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {
@@ -67,5 +71,16 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
     };
     return o;
   }
-  
+
+  entityForCreate?: HcclOrganizationCrudWrapper ;
+  onClickAddSchool(): void {
+    this.currentTabId = 'create';
+    this.showingTabset = true;
+    this.entityForCreate = this.newCrudWrapperForCreate();
+    this.entityForCreate.getData().name = 'New School';
+  }
+
+  public x() {
+    super.routeToPath(['/ecoadmin-dashboard/orgs/schools']);
+  }
 } 
