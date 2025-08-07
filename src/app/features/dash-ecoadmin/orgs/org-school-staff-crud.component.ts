@@ -345,10 +345,11 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
   }
 
   public get available(): number {
-    return this.entity?.getData().available || 1;
+    return super.availableValue(this.entity?.getData().available)
   }
 
   public set available(value: number) {
+    alert('setting available ' + value);
     if (this.entity) {
       this.entity.getData().available = value;
     }

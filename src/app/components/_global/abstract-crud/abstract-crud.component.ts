@@ -21,6 +21,7 @@ import { AbstractListComponent } from '../abstract-list/abstract-list.component'
   styleUrl: './abstract-crud.component.scss'
 })
 export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implements OnInit {
+  
   /**
    * This component takes a generic type T that  extends EntityWrapper<T>
    * and a generic type R that extends EntityWrapper<T>
@@ -711,5 +712,14 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
 
   public routeToPath(routePath: string[]) {
     return AbstractListComponent.routeToPath(this.router, routePath);
+  }
+
+  public availableValue(available: number | undefined): number {
+    if (!available) {
+      available = 0;
+    } else {
+      available = available < 1 ? 0 : 1;
+    }
+    return available;
   }
 }

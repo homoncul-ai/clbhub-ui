@@ -17,6 +17,7 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { HcclOrganizationTypeRefCrudComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+import { CrudInternalDataComponent } from '@app/components/_global/crud-internal-data/crud-internal-data.component';
 
 @Component({
   selector: 'app-org-school-crud',
@@ -25,7 +26,8 @@ import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganizat
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, HcclOrganizationTypeRefCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, 
+    HcclOrganizationTypeRefCrudComponent, CrudInternalDataComponent],
   standalone: true
 })
 export class OrgSchoolCrudComponent extends AbstractCrudComponent<HcclOrganizationCrudWrapper> implements OnInit, OnChanges {
@@ -144,7 +146,7 @@ export class OrgSchoolCrudComponent extends AbstractCrudComponent<HcclOrganizati
       name: entity.getData().name || '',
       businessCode: entity.getData().businessCode || '',
       description: entity.getData().description || '',
-      available: entity.getData().available || 0,
+      available: super.availableValue(entity.getData().available),
       organizationTypeId: entity.getData().organizationTypeId || '',
       organizationTypeCode: '', // This field is required by POST interface but not available in GET data
       jsonData: entity.getData().jsonData,
@@ -227,6 +229,8 @@ export class OrgSchoolCrudComponent extends AbstractCrudComponent<HcclOrganizati
   }
 
   public set description(value: string) {
+
+    //alert('setting description ' + value);
     if (this.getCurrentEntity()) {
       this.getCurrentEntity()!.getData().description = value;
     }
@@ -237,6 +241,7 @@ export class OrgSchoolCrudComponent extends AbstractCrudComponent<HcclOrganizati
   }
 
   public set available(value: number) {
+    alert('setting available ' + value);
     if (this.getCurrentEntity()) {
       this.getCurrentEntity()!.getData().available = value;
     }

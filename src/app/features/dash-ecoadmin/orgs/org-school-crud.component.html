@@ -199,37 +199,8 @@
           <label>Available:</label>
           <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
         </div>
-  
-          <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-          <div class="detail-group">
-              <label>Date Created:</label>
-              <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-          </div>
-          
-  
-          <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-          <div class="detail-group">
-            <label>Organization Type:</label>
-            <span><app-hcclorganizationtyperef-crud [id]="organizationTypeId" [modeName]="CRUD_MODES.FK"></app-hcclorganizationtyperef-crud></span>
-        </div>
-
-      <!-- Only show these in "details" mode -->
-      <div class="detail-group">
-        <label>Date Created:</label>
-        <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-      </div>
-      <div class="detail-group">
-        <label>Created By:</label>
-        <span><app-reference-data [data]="createdByInfo"></app-reference-data></span>
-      </div>
-      <div class="detail-group">
-        <label>Date Last Updated:</label>
-        <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
-      </div>
-      <div class="detail-group">
-        <label>Last Updated By:</label>
-        <span><app-reference-data [data]="lastUpdatedByInfo"></app-reference-data></span>
-      </div>
+        <app-crud-internal-data [crudWrapper]="getCurrentEntity()" [crudMode]="CRUD_MODES.DETAIL"></app-crud-internal-data>
+       
     </div>
   </div>
  
