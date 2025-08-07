@@ -58,6 +58,8 @@ import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprof
 import { WorkRequestLogListComponent } from '@app/components/_crud/workrequestlog/workrequestlog-list.component';
 import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestlog/workrequestlog-group.component';
 import { OrgSchoolsGroupComponent } from './orgs/org-schools-group.component';
+import { OrgNonprofitGroupComponent } from './orgs/org-nonprofit-group.component';
+import { OrgBusinessGroupComponent } from './orgs/org-business-group.component';
 
 const routes: Routes = [
   {
@@ -70,6 +72,16 @@ const routes: Routes = [
       { path: 'orgs/schools/:id/:tabId', component: OrgSchoolsGroupComponent },
       { path: 'orgs/schools/:id', redirectTo: 'orgs/schools/:id/details', pathMatch: 'full' },
       { path: 'orgs/schools', component: OrgSchoolsGroupComponent },
+
+      { path: 'orgs/nonprofits/:id/:tabId/:childId', component: OrgNonprofitGroupComponent },
+      { path: 'orgs/nonprofits/:id/:tabId', component: OrgNonprofitGroupComponent },
+      { path: 'orgs/nonprofits/:id', redirectTo: 'orgs/nonprofits/:id/details', pathMatch: 'full' },
+      { path: 'orgs/nonprofits', component: OrgNonprofitGroupComponent },
+
+      { path: 'orgs/businesses/:id/:tabId/:childId', component: OrgBusinessGroupComponent },
+      { path: 'orgs/businesses/:id/:tabId', component: OrgBusinessGroupComponent },
+      { path: 'orgs/businesses/:id', redirectTo: 'orgs/businesses/:id/details', pathMatch: 'full' },
+      { path: 'orgs/businesses', component: OrgBusinessGroupComponent },
 
       { path: 'dashboard', component: EcoAdminDashboardComponent },
       

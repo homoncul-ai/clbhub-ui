@@ -21,6 +21,8 @@ import { OnboardOrgUserModalComponent } from './onboard-org-user-modal.component
   styleUrls: ['../../../components/_global/abstract-list/abstract-list.component.scss'],
   imports: [CommonModule]
 })
+
+
 export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserProfileGETData, HcclUserProfileCriteria, HcclUserProfileGETDataSearchResults> {
   
   protected modalRef?: MdbModalRef<OnboardOrgUserModalComponent>;
@@ -113,3 +115,61 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
     });
   }
 } 
+
+@Component({
+  selector: 'app-org-nonprofit-staff-list',
+  standalone: true,
+  templateUrl: '../../../components/_global/abstract-list/abstract-list.component.html',
+  styleUrls: ['../../../components/_global/abstract-list/abstract-list.component.scss'],
+  imports: [CommonModule]
+})
+export class OrgNonprofitStaffListComponent extends OrgSchoolStaffListComponent {
+  constructor() {
+    super();
+    this.searchHeadingLabel = 'Nonprofit Staff';
+  }
+
+  protected override onAdd(): void {
+    // Get organization ID from route parameters if available
+    const organizationId = this.criteria?.organizationId;
+
+    // Open the onboarding modal
+    this.modalRef = this.modalService.open(OnboardOrgUserModalComponent, {
+      modalClass: 'modal-lg',
+      keyboard: false,
+      ignoreBackdropClick: true,
+      data: {
+        organizationId: organizationId
+      }
+    });
+  }
+}
+
+@Component({
+  selector: 'app-org-business-staff-list',
+  standalone: true,
+  templateUrl: '../../../components/_global/abstract-list/abstract-list.component.html',
+  styleUrls: ['../../../components/_global/abstract-list/abstract-list.component.scss'],
+  imports: [CommonModule]
+})
+export class OrgBusinessStaffListComponent extends OrgSchoolStaffListComponent {
+  constructor() {
+    super();
+    this.searchHeadingLabel = 'Business Staff';
+  }
+
+  protected override onAdd(): void {
+    // Get organization ID from route parameters if available
+    const organizationId = this.criteria?.organizationId;
+
+    // Open the onboarding modal
+    this.modalRef = this.modalService.open(OnboardOrgUserModalComponent, {
+      modalClass: 'modal-lg',
+      keyboard: false,
+      ignoreBackdropClick: true,
+      data: {
+        organizationId: organizationId
+      }
+    });
+  }
+}

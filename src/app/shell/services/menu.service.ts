@@ -189,6 +189,8 @@ export class MenuService {
 
     const onboarding = this.newGroupMenuItem('Onboarding', 'fas fa-users');
     this.addChildMenuItem(onboarding, this.copyMenuItem(MENU_CONSTANTS.EA_ORGSCHOOLS_LIST));
+    this.addChildMenuItem(onboarding, this.copyMenuItem(MENU_CONSTANTS.EA_ORGNONPROFITS_LIST));
+    this.addChildMenuItem(onboarding, this.copyMenuItem(MENU_CONSTANTS.EA_ORG_BUSINESSES_LIST));
     this.addMenuItem(menu, onboarding);
 
     const providerGroup = this.newGroupMenuItem('Provider Setup', 'fas fa-users');
@@ -1373,7 +1375,21 @@ EA_ORGSCHOOLS_LIST: {
   "componentPath" : "/src/app/features/dash-ecoadmin/orgs/org-schools-group.component",
   "componentName" : "OrgSchoolsGroupComponent",
   "icon" : "fas fa-building"
+},
+EA_ORGNONPROFITS_LIST: {
+  "level" : 2,
+  "label" : "Org Nonprofits",
+  "route" : "/ecoadmin-dashboard/orgs/nonprofits",
+  "componentPath" : "/src/app/features/dash-ecoadmin/orgs/org-nonprofit-group.component",
+  "componentName" : "OrgNonprofitGroupComponent",
+  "icon" : "fas fa-building"
+},
+EA_ORG_BUSINESSES_LIST: {
+  "level" : 2,
+  "label" : "Org Businesses",
+  "route" : "/ecoadmin-dashboard/orgs/businesses",
+  "componentPath" : "/src/app/features/dash-ecoadmin/orgs/org-business-group.component",
+  "componentName" : "OrgBusinessGroupComponent",
+  "icon" : "fas fa-building"
 }
-    
-
 };
