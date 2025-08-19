@@ -27,6 +27,7 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { MdbTreeviewModule } from 'mdb-angular-treeview';
 import { GravatarModule } from 'ngx-gravatar';
 import { MenuControlDataListComponent } from '../components/_global/menu-control-data-list/menu-control-data-list.component';
+import { SimpleTabsetComponent } from '../components/_global/simple-tabset/simple-tabset.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { MenuControlDataListComponent } from '../components/_global/menu-control
     MdbAccordionModule,
     MdbTreeviewModule,
     GravatarModule,
-    MenuControlDataListComponent
+    MenuControlDataListComponent,
+    SimpleTabsetComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [ShellComponent],
