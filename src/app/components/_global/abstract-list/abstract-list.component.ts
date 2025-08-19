@@ -57,7 +57,7 @@ implements OnInit, AfterViewInit {
 
   protected selectedId: string | null = null;
   protected showingAdvancedSearch: boolean = false;
-  
+  protected showingButtonBar: boolean = false;
 
   protected searchHeading: string = 'Entities';
   protected hcclService = inject(HcclService);
@@ -82,6 +82,7 @@ implements OnInit, AfterViewInit {
 
     // Check if DHTMLX is loaded
     this.checkDhtmlxLoaded();
+    this.showingButtonBar = this.hasButtonBarList();
   }
 
   ngAfterViewInit() {
@@ -319,6 +320,10 @@ implements OnInit, AfterViewInit {
    */
   protected getOtherData(entity: T): any {
     return this.otherData;
+  }
+
+  protected hasButtonBarList(): boolean {
+    return this.buttonBarList != null && this.buttonBarList.length > 0;
   }
 
   protected onGoClick() {
@@ -596,6 +601,8 @@ export class OnRowClickBehavior  {
     x.doNotNavigate = true;
     return x;
   }
+
+  
  
 };
 

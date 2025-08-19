@@ -2,13 +2,11 @@
 
 <div class="search-list-container">
     <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
+ 
     <form *ngIf="showingSearch" class="search-list-search-bar" (submit)="onFormSubmit($event)">
       <div *ngIf="showingGoButton" class="search-list-button-bar">
         <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
-      </div>
-      <div *ngIf="buttonBarList" class="search-list-button-bar">
-        <app-simple-tabset [tabs]="buttonBarList" [displayMode]="'buttons'"></app-simple-tabset>
       </div>
         <input #searchInput type="text" class="search-list-input" [placeholder]="searchPlaceholder" (keydown.enter)="onFormSubmit($event)" />
       <button type="submit" class="search-list-input-button">
@@ -26,6 +24,9 @@
       <div *ngIf="showingGoButton" class="search-list-button-bar">
         <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
+      </div>
+      <div *ngIf="showingButtonBar" class="search-list-button-bar">
+        <app-simple-tabset [tabs]="buttonBarList" [displayMode]="'buttons'"></app-simple-tabset>
       </div>
       <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>

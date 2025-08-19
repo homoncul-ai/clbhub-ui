@@ -11,6 +11,7 @@
     </li>
   </ul>
   <div class="button-bar" *ngIf="displayMode === 'buttons'">
+    Buttons
     <button *ngFor="let tab of tabs" (click)="selectTab(tab.id)">
       {{ tab.label }}
     </button>

@@ -13,7 +13,7 @@ export class SimpleTabsetComponent implements OnInit {
   //    alert('SimpleTabsetComponent ngOnInit ' + this.currentTabId + ' ' + this.tabs.length);
   }
 
-  @Input() tabs: SimpleTab[] = [];
+  @Input() tabs: SimpleTab[] | null = null;
   @Input() currentTabId: string | null = null;
   @Input() displayMode: string = 'tabs'; // 'tabs' or 'buttons'
 
@@ -21,15 +21,22 @@ export class SimpleTabsetComponent implements OnInit {
 
 
   public addTab(tab: SimpleTab): void {
-    this.tabs.push(tab);
+    if (this.tabs) {
+      this.tabs.push(tab);
+    }
   }
 
   public removeTab(tab: SimpleTab): void {
-    this.tabs = this.tabs.filter(t => t.id !== tab.id);
+    if (this.tabs) {
+      this.tabs = this.tabs.filter(t => t.id !== tab.id);
+    }
   }
 
   public getTab(id: string): SimpleTab | undefined {
-    return this.tabs.find(t => t.id === id);
+    if (this.tabs) {
+      return this.tabs.find(t => t.id === id);
+    }
+    return undefined;
   }
 
   public newTab(id: string, label: string, url: string, 
@@ -37,7 +44,9 @@ export class SimpleTabsetComponent implements OnInit {
     showingTabFunction: () => boolean,
     data: any = null): SimpleTab {
     var t : SimpleTab = new SimpleTab(id, label, url, activateFunction, showingTabFunction);
-    //this.tabs.push(t);
+    if (this.tabs) {
+      this.tabs.push(t);
+    }
     return t;
   }
 

@@ -266,10 +266,11 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   }
 
   getSelectedActionsList(): SimpleTab[] {
+    debugger
     return [
       new SimpleTab('remove', 'Remove Selected Items', '', () => { return; }, () => {return true}),
       new SimpleTab('add', 'Add Selected Items', '', this.getOnGoAddCatalogEntriesToRFI, () => {return true})
-    ];
+    ]; 
   }
 
 } 
