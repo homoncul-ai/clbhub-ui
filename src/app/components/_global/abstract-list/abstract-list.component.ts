@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { DateGETData } from '@app/restsvc/common-request-service.model';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { SimpleTab, SimpleTabsetComponent } from '../simple-tabset/simple-tabset.component';
 
 declare const dhx: any;
 
@@ -20,7 +21,8 @@ declare const dhx: any;
   selector: 'app-abstract-list',
   templateUrl: './abstract-list.component.html',
   styleUrls: ['./abstract-list.component.scss'],
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, SimpleTabsetComponent],
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> 
 implements OnInit, AfterViewInit {
@@ -42,6 +44,9 @@ implements OnInit, AfterViewInit {
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
   @Input() otherData: any = {};
   @Input() showingDiagnostics: boolean = false;
+
+  // This is a list of button names and their labels that will be displayed in the button bar.
+  @Input() buttonBarList: SimpleTab[] | null = null;
 
   protected actionCode: string = 'search';
 

@@ -1,5 +1,5 @@
 <div class="tabset">
-  <ul class="tab-nav">
+  <ul class="tab-nav" *ngIf="displayMode === 'tabs'">
     <li 
       *ngFor="let tab of tabs"
       [class.active]="tab.id === currentTabId"
@@ -10,4 +10,9 @@
       </ng-container>
     </li>
   </ul>
+  <div class="button-bar" *ngIf="displayMode === 'buttons'">
+    <button *ngFor="let tab of tabs" (click)="selectTab(tab.id)">
+      {{ tab.label }}
+    </button>
+  </div>
 </div>

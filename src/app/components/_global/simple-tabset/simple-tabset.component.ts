@@ -15,7 +15,10 @@ export class SimpleTabsetComponent implements OnInit {
 
   @Input() tabs: SimpleTab[] = [];
   @Input() currentTabId: string | null = null;
+  @Input() displayMode: string = 'tabs'; // 'tabs' or 'buttons'
+  
   @Output() tabSelected = new EventEmitter<string>();
+
 
   public addTab(tab: SimpleTab): void {
     this.tabs.push(tab);
