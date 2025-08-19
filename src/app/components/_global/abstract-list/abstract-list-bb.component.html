@@ -7,43 +7,39 @@
 
     <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
       <button 
+        mat-button
         *ngFor="let button of buttonBar?.buttons"
-        (click)="myAlert(button.id)"
+        (click)="__onButtonClick(button.id)"
         class="button-item">
         <ng-container *ngIf="button.showingButtonFunction()">
           {{ button.label }}
         </ng-container>
       </button>
     </div> 
-    <div  *ngFor="let button of buttonBar?.buttons"
-    (click)="__onButtonClick(button.id)"
-    class="button-item"> {{ button.label  }} </div>
-    <button type="button" class="search-list-button-bar-button btn-primary" (click)="__onButtonClick('add')">Add</button> 
-
     <div *ngIf="showingSearch" class="search-list-search-bar" >
       <div *ngIf="showingGoButton" class="search-list-button-bar">
-        <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
+        <button mat-button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
         <input #searchInput type="text" class="search-list-input" [placeholder]="searchPlaceholder" (keydown.enter)="onFormSubmit($event)" />
-      <button type="submit" class="search-list-input-button">
+      <button mat-button type="submit" class="search-list-input-button">
         <span class="material-icons" aria-label="Search">{{ searchButtonLabel }}</span>
       </button>
-      <button *ngIf="showingAdvancedSearch" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
+      <button mat-button *ngIf="showingAdvancedSearch" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
         <span class="material-icons" aria-label="Advanced Search">(AdvSrch)</span>
       </button>
-      <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
+      <button mat-button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
     </div>
 
     <div *ngIf="!showingSearch" class="search-list-search-bar" >
       <div *ngIf="showingGoButton" class="search-list-button-bar">
-        <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
+        <button mat-button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
   
-      <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
+      <button mat-button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
     </div>

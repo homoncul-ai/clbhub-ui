@@ -1,6 +1,7 @@
 import { BaseCriteria } from '../../../restsvc/hccl.service';
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { Observable } from 'rxjs';
@@ -22,7 +23,7 @@ declare const dhx: any;
   templateUrl: './abstract-list.component.html',
   styleUrls: ['./abstract-list.component.scss'],
   standalone: true,
-  imports: [CommonModule, SimpleButtonbarComponent],
+  imports: [CommonModule, SimpleButtonbarComponent, MatButtonModule],
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> 
 implements OnInit, AfterViewInit {
