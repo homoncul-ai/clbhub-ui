@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 // Components
 import { DashAdvoComponent } from './dash-advo.component';
@@ -134,6 +135,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    MdbModalModule,
     // Standalone components
     DashAdvoComponent,
     AdvoDashGroupComponent,

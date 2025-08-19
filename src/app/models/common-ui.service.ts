@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 //import { ToastService } from '@app/@shared/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +14,6 @@ import { ParamMap } from '@angular/router';
 })
 export class CommonUiService {
   constructor(
-    private modal: MdbModalService,
     //private toast: ToastService,
     private translate: TranslateService,
     //private errorHandler: ExceptionHandlingService,
@@ -22,6 +21,7 @@ export class CommonUiService {
     //private sharedService: SharedService,
     private formBuilder: FormBuilder
   ) {}
+  protected modalService: MdbModalService = inject(MdbModalService);
 
   /**
    * Gets the current route parameters
@@ -121,7 +121,7 @@ export class CommonUiService {
    * @returns Modal reference
    */
   openModal(component: any, config?: any) {
-    return this.modal.open(component, config);
+    return this.modalService.open(component, config);
   }
 
   /**
