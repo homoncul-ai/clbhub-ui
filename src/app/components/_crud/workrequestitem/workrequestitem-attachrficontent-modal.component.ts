@@ -27,7 +27,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
   styleUrl: './workrequestitem-attachrficontent-modal.component.scss'
 })
 export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
-  @Input() workRequestItem: WorkRequestItemCrudWrapper | null = null;
+  workRequestItem: WorkRequestItemCrudWrapper | null = null;
   workRequestId: string = '';
   
   public modalRef!: MdbModalRef<WorkRequestItemAttachRFIContentModalComponent>;
@@ -242,9 +242,9 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
   }
 
   closeModal() {
-    if (this.modalRef) {
-      this.modalRef.close(true); // Close with refresh flag
-    }
+    var wrid: string = this.workRequestItemEntity?.getData()?.id || '';
+    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
+      AbstractListComponent.routeToPath(this.router, path);
   }
 
   isLoading(): boolean {
