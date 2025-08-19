@@ -20,6 +20,7 @@ import { CatalogSearchResultCrudComponent } from '../catalogsearchresult/catalog
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { WorkRequestItemAttachRFIContentModalComponent } from './workrequestitem-attachrficontent-modal.component';
 import { SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { SimpleButton } from '@app/components/_global';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-addentries',
@@ -265,11 +266,10 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     }
   }
 
-  getSelectedActionsList(): SimpleTab[] {
+  getSelectedActionsList(): SimpleButton[] {
     debugger
     return [
-      new SimpleTab('remove', 'Remove Selected Items', '', () => { return; }, () => {return true}),
-      new SimpleTab('add', 'Add Selected Items', '', this.getOnGoAddCatalogEntriesToRFI, () => {return true})
+      new SimpleButton('remove', 'Remove Selected Items', (data: any) => { return; }, () => {return true}),
     ]; 
   }
 

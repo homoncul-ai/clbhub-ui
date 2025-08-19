@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 import { CatalogSearchResultCrudWrapper } from '@app/components/_crud/catalogsearchresult/catalogsearchresult-crud.component';
 import { CatalogEntryCrudWrapper } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { CatalogCrudWrapper } from '@app/components/_crud/catalog/catalog-crud.component';
-import { SimpleTabsetComponent } from '@app/components/_global';
+import { SimpleButtonbarComponent, SimpleTabsetComponent } from '@app/components/_global';
 
 /**
  * Component for displaying and managing CatalogSearchResultEntry data using HcclService
@@ -26,7 +26,7 @@ import { SimpleTabsetComponent } from '@app/components/_global';
   standalone: true,
   templateUrl: '../../_global/abstract-list/abstract-list.component-bb.html',
   styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
-    imports: [CommonModule, SimpleTabsetComponent]
+    imports: [CommonModule, SimpleButtonbarComponent]
 })
 export class CatalogSearchResultEntryListComponent extends AbstractListComponent<CatalogSearchResultEntryGETData, CatalogSearchResultEntryCriteria, CatalogSearchResultEntryGETDataSearchResults> {
   

@@ -26,7 +26,7 @@
         &nbsp;
       </div>
       <div *ngIf="showingButtonBar" class="search-list-button-bar">
-        <app-simple-tabset [tabs]="buttonBarList" [displayMode]="'buttons'"></app-simple-tabset>
+        <app-simple-buttonbar [buttons]="buttonBarList"></app-simple-buttonbar>
       </div>
       <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>

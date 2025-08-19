@@ -14,6 +14,7 @@ export { MenuControlDataListComponent } from './menu-control-data-list/menu-cont
 export { MenuControlDataListMComponent } from './menu-control-data-list-m/menu-control-data-list-m.component';
 export { SimpleMessagesSectionComponent } from './simple-messages-section/simple-messages-section.component';
 export { SimpleTabsetComponent, SimpleTab } from './simple-tabset/simple-tabset.component';
+export { SimpleButtonbarComponent, SimpleButton } from './simple-buttonbar/simple-buttonbar.component';
 
 // Form components
 export { StdMdbFormTextComponent } from './std-mdb-form-text/std-mdb-form-text.component';
