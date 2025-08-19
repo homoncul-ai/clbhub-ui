@@ -1,13 +1,14 @@
 <div class="buttonbar">
   <div class="button-bar" *ngIf="displayMode === 'buttons'">
-    <button 
-      *ngFor="let button of buttonBar.buttons"
-      (click)="selectButton(button.id)"
-      class="button-item">
-      <ng-container *ngIf="button.showingButtonFunction()">
-        {{ button.label }}
-      </ng-container>
-    </button>
+          <button 
+        mat-button
+        *ngFor="let button of buttonBar.buttons"
+        (click)="selectButton(button.id)"
+        class="button-item">
+        <ng-container *ngIf="button.showingButtonFunction()">
+          {{ button.label }}
+        </ng-container>
+      </button>
   </div>
   
 </div>

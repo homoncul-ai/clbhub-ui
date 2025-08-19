@@ -24,9 +24,9 @@ import { SimpleButtonbarComponent, SimpleTabsetComponent } from '@app/components
 @Component({
   selector: 'app-catalogsearchresultentry-list',
   standalone: true,
-  templateUrl: '../../_global/abstract-list/abstract-list.component-bb.html',
+  templateUrl: '../../_global/abstract-list/abstract-list-bb.component.html',
   styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
-    imports: [CommonModule, SimpleButtonbarComponent]
+    imports: [CommonModule]
 })
 export class CatalogSearchResultEntryListComponent extends AbstractListComponent<CatalogSearchResultEntryGETData, CatalogSearchResultEntryCriteria, CatalogSearchResultEntryGETDataSearchResults> {
   

@@ -170,7 +170,11 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     o.alertMessage = 'Go with entity ids:';
 
     o.onButtonClick = async (id: string, entityIds: string[], button: SimpleButton) => {
-      this.removeItemsFromRFI(entityIds);
+      if (id === 'remove') {
+        this.removeItemsFromRFI(entityIds);
+      } else if (id === 'add') {
+        this.openAttachRFIContentModal();
+      }
     }
     return o;
   }
@@ -274,12 +278,13 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   getSelectedActionsButtonBar(): SimpleButtonBar {
     var b : SimpleButtonBar = new SimpleButtonBar();
     b.addButton('remove', 'Remove Selected Items');
+    b.addButton('add', 'Add Selected Items');
     return b; 
   }
 
-  onButtonClick(id: string, entityIds: string[], button: SimpleButton) {
-    if (id === 'remove') {
-      this.removeItemsFromRFI(entityIds);
-    }
-  }
+  // onButtonClick(id: string, entityIds: string[], button: SimpleButton) {
+  //   if (id === 'remove') {
+  //     this.removeItemsFromRFI(entityIds);
+  //   }
+  // }
 } 

@@ -3,7 +3,24 @@
 <div class="search-list-container">
     <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
  
-    <form *ngIf="showingSearch" class="search-list-search-bar" (submit)="onFormSubmit($event)">
+  <form (submit)="onFormSubmit($event)">
+
+    <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
+      <button 
+        *ngFor="let button of buttonBar?.buttons"
+        (click)="myAlert(button.id)"
+        class="button-item">
+        <ng-container *ngIf="button.showingButtonFunction()">
+          {{ button.label }}
+        </ng-container>
+      </button>
+    </div> 
+    <div  *ngFor="let button of buttonBar?.buttons"
+    (click)="__onButtonClick(button.id)"
+    class="button-item"> {{ button.label  }} </div>
+    <button type="button" class="search-list-button-bar-button btn-primary" (click)="__onButtonClick('add')">Add</button> 
+
+    <div *ngIf="showingSearch" class="search-list-search-bar" >
       <div *ngIf="showingGoButton" class="search-list-button-bar">
         <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
@@ -18,30 +35,30 @@
       <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
-    </form>
+    </div>
 
-    <form *ngIf="!showingSearch" class="search-list-search-bar" >
+    <div *ngIf="!showingSearch" class="search-list-search-bar" >
       <div *ngIf="showingGoButton" class="search-list-button-bar">
         <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
-      <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
-            <button 
-              *ngFor="let button of buttonBar?.buttons"
-              (click)="__onButtonClick(button.id)"
-              class="button-item">
-              <ng-container *ngIf="button.showingButtonFunction()">
-                {{ button.label }}
-              </ng-container>
-            </button>
-          </div> 
+  
       <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
-    </form>
+    </div>
     <div #gridContainer class="search-list-grid"></div>
-  </div>
+  </form>
 
-  <div *ngIf="showingDiagnostics">
+  <div *ngIf="true">
+    <pre>buttonBar: {{ buttonBar | json }}</pre>
     <pre>{{ this.currentCriteria| json }}</pre>
+    <pre>showingAddButton: {{ showingAddButton }}</pre>
+    <pre>showingGoButton: {{ showingGoButton }}</pre>
+    <pre>showingSearchHeading: {{ showingSearchHeading }}</pre>
+    <pre>showingSearch: {{ showingSearch }}</pre>
+    <pre>showingAdvancedSearch: {{ showingAdvancedSearch }}</pre>
+    <pre>showingButtonBar: {{ showingButtonBar }}</pre>
+    <pre>showingDiagnostics: {{ showingDiagnostics }}</pre>
+    <pre>showingIdCheckbox: {{ showingIdCheckbox }}</pre>
   </div>

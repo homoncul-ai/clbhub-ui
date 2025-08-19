@@ -14,6 +14,7 @@ import { CatalogSearchResultCrudComponent } from '../catalogsearchresult/catalog
 import { AbstractListComponent, OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogEntryCriteria, CatalogSearchResultEntryCriteria, CatalogSearchResultGETData, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse, HcclService, HcclUserContextGETData, MenuControlData, MenuControlDataList } from './../../../restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { SimpleButton, SimpleButtonBar } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-modal',
@@ -191,7 +192,15 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
     o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
       this.addItemsToRFI(entityIds);
     }
-    o.alertMessage = 'Go with entity ids:';
+    o.onButtonClick = async (id: string, entityIds: string[], button: SimpleButton) => {
+      alert('onButtonClick ' + id + ' ' + entityIds.join(','));
+      if (id === 'add') {
+        this.addItemsToRFI(entityIds);
+      } else if (id === 'cancel') {
+        this.closeModal();
+      }
+    }
+    o.alertMessage = 'Go with access ids:';
     return o;
   }
 
@@ -254,4 +263,13 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
   enterMode(mode: string) {
     this.currentMode = mode;
   }
+
+  getSelectedActionsButtonBar(): SimpleButtonBar {
+    var b : SimpleButtonBar = new SimpleButtonBar();
+    b.addButton('add', 'Add Selected Items');
+    b.addButton('cancel', 'Cancel');
+    return b; 
+  }
+
+  
 }

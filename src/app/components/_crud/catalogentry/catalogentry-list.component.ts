@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-catalogentry-list',
   standalone: true,
-  templateUrl: '../../_global/abstract-list/abstract-list.component.html',
+  templateUrl: '../../_global/abstract-list/abstract-list-bb.component.html',
   styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
     imports: [CommonModule]
 })
