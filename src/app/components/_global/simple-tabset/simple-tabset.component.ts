@@ -16,7 +16,7 @@ export class SimpleTabsetComponent implements OnInit {
   @Input() tabs: SimpleTab[] = [];
   @Input() currentTabId: string | null = null;
   @Input() displayMode: string = 'tabs'; // 'tabs' or 'buttons'
-  
+
   @Output() tabSelected = new EventEmitter<string>();
 
 
@@ -34,7 +34,7 @@ export class SimpleTabsetComponent implements OnInit {
 
   public newTab(id: string, label: string, url: string, 
     activateFunction: () => void, 
-    showingTabFunction: () => void,
+    showingTabFunction: () => boolean,
     data: any = null): SimpleTab {
     var t : SimpleTab = new SimpleTab(id, label, url, activateFunction, showingTabFunction);
     //this.tabs.push(t);
@@ -61,9 +61,9 @@ export class SimpleTab {
   url: string; // for going there directly
   data: any;
   activateFunction: () => void;
-  showingTabFunction: () => void;
+  showingTabFunction: () => boolean;
 
-  constructor(id: string, label: string, url: string, activateFunction: () => void, showingTabFunction: () => void) {
+  constructor(id: string, label: string, url: string, activateFunction: () => void, showingTabFunction: () => boolean) {
     this.id = id;
     this.label = label;
     this.url = url;

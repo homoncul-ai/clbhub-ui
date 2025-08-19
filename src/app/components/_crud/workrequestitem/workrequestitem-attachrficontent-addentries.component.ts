@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { CatalogSearchResultCrudComponent } from '../catalogsearchresult/catalogsearchresult-crud.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { WorkRequestItemAttachRFIContentModalComponent } from './workrequestitem-attachrficontent-modal.component';
+import { SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-addentries',
@@ -262,6 +263,13 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
         }
       });
     }
+  }
+
+  getSelectedActionsList(): SimpleTab[] {
+    return [
+      new SimpleTab('remove', 'Remove Selected Items', '', () => { return; }, () => {return true}),
+      new SimpleTab('add', 'Add Selected Items', '', this.getOnGoAddCatalogEntriesToRFI, () => {return true})
+    ];
   }
 
 } 

@@ -123,9 +123,13 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
     return this.tabs.find(t => t.id === id);
   }
 
-  public newTab(id: string, label: string, url: string, activateFunction: () => void, showingTabFunction: () => void): SimpleTab {
+  public newTab(id: string, label: string, url: string, activateFunction: () => void, showingTabFunction: () => boolean): SimpleTab {
     var t : SimpleTab = new SimpleTab(id, label, url, activateFunction, showingTabFunction);
     //this.tabs.push(t);
+    return t;
+  }
+  public newTabX(id: string, label: string, activateFunction: () => void): SimpleTab {
+    var t : SimpleTab = new SimpleTab(id, label, '', activateFunction, () => {return true});
     return t;
   }
   protected setupListDetailsTabs(): SimpleTab[] {

@@ -328,7 +328,7 @@ implements OnInit, AfterViewInit {
       alert('Please enable checkboxes first to select entities for tuning');
       return;
     }
-       if (this.grid) {
+    if (this.grid) {
       const allData = this.grid.data.serialize();
       const checkedRows = allData.filter((row: any) => row.select === true);
       
@@ -346,6 +346,15 @@ implements OnInit, AfterViewInit {
       }
     }
     // Default implementation - subclasses can override
+  }
+
+  public getCheckedRows(): any[] {
+    if (this.grid) {
+      const allData = this.grid.data.serialize();
+      const checkedRows = allData.filter((row: any) => row.select === true);
+      return checkedRows;
+    }
+    return [];
   }
 
   protected onShowingAdvancedSearch() {
