@@ -1,0 +1,31 @@
+<div class="menu-control-multi-list">
+  <div class="placeholder-text" *ngIf="!menuItems || menuItems.length === 0">
+    {{ placeholder }}
+  </div>
+  
+  <div class="checkbox-list" *ngIf="menuItems && menuItems.length > 0">
+    <div class="checkbox-item" *ngFor="let item of menuItems">
+      <label class="checkbox-label" [class.disabled]="disabled || readonly">
+        <input 
+          type="checkbox" 
+          [checked]="isItemSelected(item)"
+          [disabled]="disabled || readonly"
+          (change)="onSelectionChange(item, $any($event.target).checked)"
+          class="form-check-input"
+          [class.readonly]="readonly">
+        
+        <span class="checkbox-text">{{ item.name || 'Unnamed Item' }}</span>
+        
+        <div class="item-help" *ngIf="item.helpText">
+          <small class="text-muted">{{ item.helpText }}</small>
+        </div>
+      </label>
+    </div>
+  </div>
+  
+  <div class="selection-summary" *ngIf="selectedItems.length > 0">
+    <small class="text-info">
+      {{ selectedItems.length }} item(s) selected
+    </small>
+  </div>
+</div>

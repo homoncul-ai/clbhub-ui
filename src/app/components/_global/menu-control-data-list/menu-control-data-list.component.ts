@@ -14,6 +14,7 @@ export class MenuControlDataListComponent implements OnInit {
   @Input() menuControlDataList: MenuControlDataList | null = null;
   @Input() placeholder: string = 'Select an option...';
   @Input() disabled: boolean = false;
+  @Input() readonly: boolean = false; // if true, dropdown is read-only and cannot be changed
   
   @Output() selectionChange = new EventEmitter<MenuControlData | null>();
   
@@ -23,6 +24,11 @@ export class MenuControlDataListComponent implements OnInit {
   }
   
   onSelectionChange(event: any): void {
+    // Prevent selection change if component is readonly
+    if (this.readonly) {
+      return;
+    }
+    
     const selectedId = event.target.value;
     if (selectedId && this.menuControlDataList?.menuItems) {
       this.selectedItem = this.menuControlDataList.menuItems.find(item => item.id === selectedId) || null;

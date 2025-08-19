@@ -1,9 +1,10 @@
 <div class="menu-control-dropdown">
   <select 
-    [disabled]="disabled"
+    [disabled]="disabled || readonly"
     (change)="onSelectionChange($event)"
     class="form-select"
-    [class.disabled]="disabled">
+    [class.disabled]="disabled"
+    [class.readonly]="readonly">
     
     <option value="" [selected]="!selectedItem">
       {{ placeholder }}

@@ -29,6 +29,18 @@
       opacity: 0.65;
       cursor: not-allowed;
     }
+    
+    &.readonly {
+      background-color: #f8f9fa;
+      border-color: #dee2e6;
+      color: #495057;
+      cursor: default;
+      
+      &:focus {
+        border-color: #dee2e6;
+        box-shadow: none;
+      }
+    }
   }
   
   .selected-item-info {
