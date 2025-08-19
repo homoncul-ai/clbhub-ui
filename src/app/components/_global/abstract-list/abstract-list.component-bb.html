@@ -25,9 +25,16 @@
         <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
-      <div *ngIf="showingButtonBar" class="search-list-button-bar">
-        <app-simple-buttonbar [buttons]="buttonBarList"></app-simple-buttonbar>
-      </div>
+      <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
+            <button 
+              *ngFor="let button of buttonBar?.buttons"
+              (click)="__onButtonClick(button.id)"
+              class="button-item">
+              <ng-container *ngIf="button.showingButtonFunction()">
+                {{ button.label }}
+              </ng-container>
+            </button>
+          </div> 
       <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>

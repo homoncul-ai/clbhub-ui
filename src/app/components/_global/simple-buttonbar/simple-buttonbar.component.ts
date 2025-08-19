@@ -13,45 +13,47 @@ export class SimpleButtonbarComponent implements OnInit {
   //    alert('SimpleButtonbarComponent ngOnInit ' + this.currentButtonId + ' ' + this.buttons.length);
   }
 
-  @Input() buttons: SimpleButton[] | null = null;
-  @Input() currentButtonId: string | null = null;
+  @Input() buttonBar: SimpleButtonBar = new SimpleButtonBar(); 
   @Input() displayMode: string = 'buttons'; // 'buttons' or 'tabs'
 
   @Output() buttonSelected = new EventEmitter<string>();
 
-
-  public addButton(button: SimpleButton): void {
-    if (this.buttons) {
-      this.buttons.push(button);
-    }
+  public selectButton(id: string): void {
+    this.buttonSelected.emit(id);
+    this.buttonBar?.getButton(id)?.activate(null);
   }
+ 
+}
 
-  public removeButton(button: SimpleButton): void {
+export class SimpleButtonBar {
+  public buttons: SimpleButton[] = [];
+  
+  removeButton(button: SimpleButton): void {
     if (this.buttons) {
       this.buttons = this.buttons.filter(b => b.id !== button.id);
     }
   }
-
-  public getButton(id: string): SimpleButton | undefined {
+  getButton(id: string): SimpleButton | undefined {
     if (this.buttons) {
       return this.buttons.find(b => b.id === id);
     }
     return undefined;
   }
+  
+  hasButton(id: string): boolean {
+    return this.getButton(id) !== undefined;
+  }
+
+  addButton(id: string, label: string, activateFunction?: (data?: any) => void): SimpleButton {
+    if (activateFunction == null) {
+      activateFunction = (data?: any ) => {alert('Empty Activate Function for ' + id + ' ' + label);};
+    }
+    var b : SimpleButton = new SimpleButton(id, label, activateFunction, () => {return true});
+    this.buttons.push(b);
+    return b;
+  }
 
   
-  get currentButton(): SimpleButton | undefined {
-    return this.currentButtonId ? this.getButton(this.currentButtonId) : undefined;
-  }
-
-  public selectButton(id: string): void {
-    this.buttonSelected.emit(id);
-    this.getButton(id)?.activate(null);
-  }
-
-  public isActivated(id: string): boolean {
-    return this.currentButtonId === id;
-  }
 }
 
 export class SimpleButton {

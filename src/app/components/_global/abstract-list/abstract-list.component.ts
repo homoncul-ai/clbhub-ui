@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { DateGETData } from '@app/restsvc/common-request-service.model';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { SimpleButton, SimpleButtonbarComponent  } from '../simple-buttonbar/simple-buttonbar.component';
+import { SimpleButton, SimpleButtonBar, SimpleButtonbarComponent  } from '../simple-buttonbar/simple-buttonbar.component';
 
 declare const dhx: any;
 
@@ -46,7 +46,7 @@ implements OnInit, AfterViewInit {
   @Input() showingDiagnostics: boolean = false;
 
   // This is a list of button names and their labels that will be displayed in the button bar.
-  @Input() buttonBarList: SimpleButton[] | null = null;
+  @Input() buttonBar: SimpleButtonBar | null = null;
 
   protected actionCode: string = 'search';
 
@@ -323,7 +323,7 @@ implements OnInit, AfterViewInit {
   }
 
   protected hasButtonBarList(): boolean {
-    return this.buttonBarList != null && this.buttonBarList.length > 0;
+    return this.buttonBar != null && this.buttonBar.buttons.length > 0;
   }
 
   protected onGoClick() {
@@ -346,12 +346,32 @@ implements OnInit, AfterViewInit {
       if (entityIds.length > 0) {
         console.log('Tuning entities:', entityIds);
         const baseRoute = this.getBaseRoute();
-        this.onGoClickAction.alertMessage = 'Go with entity ids:';
+        if (this.onGoClickAction.alertMessage.length > 0) {
+          alert( this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
+        }
         this.onGoClickAction.onGoClick(entityIds, baseRoute, this.router);
       }
     }
     // Default implementation - subclasses can override
   }
+
+  protected getSelectedEntityIds(): string[] {
+    const allData = this.grid.data.serialize();
+    const checkedRows = allData.filter((row: any) => row.select === true);
+    return checkedRows.map((row: any) => row.id);
+  }
+
+  protected __onButtonClick(id: string) {
+    var button: SimpleButton | undefined = this.buttonBar?.getButton(id);
+    if (button) {
+      const entityIds = this.getSelectedEntityIds();
+      if (this.onGoClickAction.alertMessage.length > 0) {
+        alert("id: " + id + ' ' + this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
+      }
+      this.onGoClickAction.onButtonClick(button.id, entityIds, button);
+    }
+  }
+
 
   public getCheckedRows(): any[] {
     if (this.grid) {
@@ -616,6 +636,11 @@ export class OnGoClickActionBehavior  {
       if (this.alertMessage.length > 0) {
         alert(this.alertMessage + ' ' + entityIds.join('/'));
       }
+  }
+
+  async onButtonClick(id: string, entityIds: string[], button: SimpleButton) {
+    // Default implementation - subclasses can override
+    
   }
 
 

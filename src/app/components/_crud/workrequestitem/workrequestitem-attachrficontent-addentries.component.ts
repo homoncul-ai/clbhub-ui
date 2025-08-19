@@ -21,6 +21,7 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { WorkRequestItemAttachRFIContentModalComponent } from './workrequestitem-attachrficontent-modal.component';
 import { SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SimpleButton } from '@app/components/_global';
+import { SimpleButtonBar } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-addentries',
@@ -167,6 +168,10 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
       this.removeItemsFromRFI(entityIds);
     }
     o.alertMessage = 'Go with entity ids:';
+
+    o.onButtonClick = async (id: string, entityIds: string[], button: SimpleButton) => {
+      this.removeItemsFromRFI(entityIds);
+    }
     return o;
   }
 
@@ -266,11 +271,15 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     }
   }
 
-  getSelectedActionsList(): SimpleButton[] {
-    debugger
-    return [
-      new SimpleButton('remove', 'Remove Selected Items', (data: any) => { return; }, () => {return true}),
-    ]; 
+  getSelectedActionsButtonBar(): SimpleButtonBar {
+    var b : SimpleButtonBar = new SimpleButtonBar();
+    b.addButton('remove', 'Remove Selected Items');
+    return b; 
   }
 
+  onButtonClick(id: string, entityIds: string[], button: SimpleButton) {
+    if (id === 'remove') {
+      this.removeItemsFromRFI(entityIds);
+    }
+  }
 } 
