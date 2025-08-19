@@ -26,7 +26,6 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
 
-
   protected entity: T | null = null;
   protected loading: boolean = false;
   protected error: string = '';

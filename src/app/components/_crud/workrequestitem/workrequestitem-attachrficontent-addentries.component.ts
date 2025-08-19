@@ -1,5 +1,5 @@
 import { CatalogEntryCriteria, CatalogSearchResultEntryCriteria, CatalogSearchResultGETData, CatalogSearchResultPOSTData, HcclUserContextGETData, MenuControlData, MenuControlDataList, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse } from './../../../restsvc/hccl.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from './workrequestitem-crud.component';
@@ -17,17 +17,25 @@ import { AbstractListComponent, OnGoClickActionBehavior, OnRowClickBehavior } fr
 import { CatalogSearchResultEntryListComponent } from '../catalogsearchresultentry/catalogsearchresultentry-list.component';
 import { Router } from '@angular/router';
 import { CatalogSearchResultCrudComponent } from '../catalogsearchresult/catalogsearchresult-crud.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { WorkRequestItemAttachRFIContentModalComponent } from './workrequestitem-attachrficontent-modal.component';
 
 @Component({
   selector: 'app-workrequestitem-attachrficontent-addentries',
   standalone: true,
-  imports: [CommonModule, WorkRequestItemCrudComponent, SimpleMessagesSectionComponent, FormsModule, MenuControlDataListComponent, JsonPipe,
+  imports: [CommonModule, WorkRequestItemCrudComponent, FormsModule, WorkRequestItemAttachRFIContentModalComponent,
+     WorkRequestItemCrudComponent, SimpleMessagesSectionComponent, FormsModule, MenuControlDataListComponent, JsonPipe,
     StdMdbFormTextComponent, CatalogEntryListComponent, CatalogSearchResultEntryListComponent, CatalogSearchResultCrudComponent],
+
   templateUrl: './workrequestitem-attachrficontent-addentries.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
 export class WorkRequestItemAttachRFIContentAddEntriesComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
   
+   // Modal functionality
+   private modalService = inject(MdbModalService);
+   protected modalRef?: MdbModalRef<WorkRequestItemAttachRFIContentModalComponent>;
+
   // Properties referenced in template
   acceptText: string = '';
   availableQueues: any[] = [];
@@ -234,6 +242,26 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
     AbstractListComponent.routeToPath(this.router, path);
    });
+  }
+
+  openAttachRFIContentModal() {
+    this.modalRef = this.modalService.open(WorkRequestItemAttachRFIContentModalComponent, {
+      modalClass: 'modal-xl',
+      data: {
+        workRequestItem: this.workRequestItem,
+        workRequestId: this.id
+      }
+    }) as MdbModalRef<WorkRequestItemAttachRFIContentModalComponent>;
+
+    // Handle modal close
+    if (this.modalRef?.onClose) {
+      this.modalRef.onClose.subscribe((result: boolean) => {
+        if (result) {
+          // Reload the component when modal is closed with refresh flag
+          this.ngOnInit();
+        }
+      });
+    }
   }
 
 } 
