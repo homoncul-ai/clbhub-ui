@@ -25,23 +25,13 @@
     [showingSearch]="false" 
     [showingSearchHeading]="true" 
     [searchHeadingLabel]="'Selected Catalog Entries'"
-    [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
+    [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
     [onGoClickAction]="getOnGoRemoveCatalogEntriesToRFI()" goButtonLabel="Remove Selected Items" 
     [buttonBar]="getSelectedActionsButtonBar()"
     [otherData]="getCatalogEntryOtherData()"></app-catalogsearchresultentry-list> 
-    <hr>
-    <div class="text-center" style="padding: 2rem;">
-        <button type="button" class="btn btn-primary btn-lg" (click)="openAttachRFIContentModal()" 
-                style="padding: 1rem 2rem; font-size: 1.1rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <i class="fas fa-plus-circle me-2"></i>
-            Open Attach RFI Content Modal
-        </button>
-        <p class="mt-3 text-muted">Click to open the modal for managing RFI content and catalog entries</p>
-    </div> 
+    
 </div>
 
 </div>
-<pre>currentMode: "{{ currentMode }}"</pre> 
-<pre>currentMode: "{{ currentMode }}"</pre> 
 
 

@@ -6,16 +6,23 @@
   <form (submit)="onFormSubmit($event)">
 
     <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
-      <button 
-        mat-button
-        *ngFor="let button of buttonBar?.buttons"
-        (click)="__onButtonClick(button.id)"
+        <!-- Moving on ! will not work in ngFor. -->
+        <button mat-button   type="button" class="search-list-input-button"
+        (click)="__onButtonClick('add')"
         class="button-item">
-        <ng-container *ngIf="button.showingButtonFunction()">
-          {{ button.label }}
+        <ng-container >
+          Add SelectedItems
+        </ng-container>
+      </button>
+      <button mat-button type="button"
+        (click)="__onButtonClick('cancel')"
+        class="button-item">
+        <ng-container >
+          Cancel
         </ng-container>
       </button>
     </div> 
+
     <div *ngIf="showingSearch" class="search-list-search-bar" >
       <div *ngIf="showingGoButton" class="search-list-button-bar">
         <button mat-button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
@@ -45,16 +52,4 @@
     </div>
     <div #gridContainer class="search-list-grid"></div>
   </form>
-
-  <div *ngIf="false">
-    <pre>buttonBar: {{ buttonBar | json }}</pre>
-    <pre>{{ this.currentCriteria| json }}</pre>
-    <pre>showingAddButton: {{ showingAddButton }}</pre>
-    <pre>showingGoButton: {{ showingGoButton }}</pre>
-    <pre>showingSearchHeading: {{ showingSearchHeading }}</pre>
-    <pre>showingSearch: {{ showingSearch }}</pre>
-    <pre>showingAdvancedSearch: {{ showingAdvancedSearch }}</pre>
-    <pre>showingButtonBar: {{ showingButtonBar }}</pre>
-    <pre>showingDiagnostics: {{ showingDiagnostics }}</pre>
-    <pre>showingIdCheckbox: {{ showingIdCheckbox }}</pre>
-  </div>
+ 

@@ -167,7 +167,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
       this.removeItemsFromRFI(entityIds);
     }
-    o.alertMessage = 'Go with entity ids:';
+   // o.alertMessage = 'Go with entity ids:';
 
     o.onButtonClick = async (id: string, entityIds: string[], button: SimpleButton) => {
       if (id === 'remove') {
@@ -201,7 +201,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
       this.addItemsToRFI(entityIds);
     }
-    o.alertMessage = 'Go with entity ids:';
+    //o.alertMessage = 'Go with entity ids:';
     return o;
   }
 

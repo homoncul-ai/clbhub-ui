@@ -6,13 +6,14 @@
 
 <!-- Modal Body -->
 <div class="modal-body" *ngIf="isLoading() === false">
-
      
-      <app-catalogentry-list [criteria]="this.getCriteriaForSearch()" [showingSearch]="true" [showingSearchHeading]="true" 
-      [searchHeadingLabel]="'Search for Catalog Entries to Add'"
-      [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
+      <app-catalogentry-list [criteria]="this.getCriteriaForSearch()" 
+      [showingSearch]="true" [showingSearchHeading]="false" 
+      [searchHeadingLabel]="'...'"
+      [onRowClickBehavior]="clickRowToShowEntry()"
+      [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="true" 
       [onGoClickAction]="getOnGoAddCatalogEntriesToRFI()" 
-      [buttonBar]="getSelectedActionsButtonBar()"
+      [buttonBar]="getSelectedActionsButtonBar()" 
       [otherData]="getCatalogEntryOtherData()"
       ></app-catalogentry-list> 
   

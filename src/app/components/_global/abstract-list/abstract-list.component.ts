@@ -364,7 +364,7 @@ implements OnInit, AfterViewInit {
 
   protected __onButtonClick(id: string) {
     var button: SimpleButton | undefined = this.buttonBar?.getButton(id);
-    alert('__onButtonClick ' + id + ' ' + button?.label);
+    //alert('__onButtonClick ' + id + ' ' + button?.label);
     if (button) {
       const entityIds = this.getSelectedEntityIds();
       if (this.onGoClickAction.alertMessage.length > 0) {
