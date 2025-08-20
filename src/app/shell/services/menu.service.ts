@@ -19,6 +19,52 @@ export interface MenuItem {
 export class MenuService {
 
   /**
+   * 	String DASHBOARD_ECOADMIN = "EcoAdmin"; // 
+	String DASHBOARD_STUDENT = "Student"; 
+	String DASHBOARD_ADULT = "Adult"; 
+	String DASHBOARD_GUIDANCE = "Guidance";
+	String DASHBOARD_SCHOOL_PROVIDER= "Provider";
+	String DASHBOARD_EMPLOYER = "Provider";
+	String DASHBOARD_NONPROFIT = "NonProfit";
+
+   * 
+   */
+  private getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' {
+    if (!context || !context.currentUserProfile) {
+      console.log('No user profile in context, defaulting to advocate');
+      return 'advocate';
+    }
+
+    const profileTypeCode = context.currentUserProfile.profileTypeCode;
+    console.log('User profile type code:', profileTypeCode);
+
+    switch (profileTypeCode?.toUpperCase()) {
+
+      case 'ECOADMIN':
+      case 'EDU_ECOADMIN':
+        return 'ecoadmin';
+
+
+      case 'ADVOCATE':
+      case 'EDU_ADVOCATE':
+      case 'GUIDANCE':
+        return 'advocate';
+
+    
+      case 'PROVIDER':
+      case 'SERVICE_PROVIDER':
+      case 'EDU_SERVICE_PROVIDER':
+        return 'service-provider';
+     
+
+      default:
+        console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
+        alert('Unknown profile type code, defaulting to advocate:' + profileTypeCode);
+        return 'advocate';
+    }
+  }
+
+  /**
    * We want to build the menu on the fly. 
    * - 
    * - addMenuItem(theMenu: MenuItem[], menuItem: MenuItem) - adds a menu item to the list
@@ -536,12 +582,12 @@ export class MenuService {
     }
   ];
 */
-  getMenuItems(dashboardType: 'advocate' | 'broker' | 'service-provider' | 'ecoadmin'): MenuItem[] {
+  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
           return this.buildAdvocateMenu();
-      case 'broker':
-        return this.buildBrokerMenu();
+      case 'nonprofit':
+        return this.buildBrokerMenu(); // TODO: buildNonProfitMenu();
       case 'service-provider':
         return this.buildServiceProviderMenu();
       case 'ecoadmin':
@@ -551,11 +597,11 @@ export class MenuService {
     }
   }
 
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'broker' | 'service-provider' | 'ecoadmin' | null {
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
     } else if (route.startsWith('/broker-dashboard')) {
-      return 'broker';
+      return 'nonprofit';
     } else if (route.startsWith('/service-provider-dashboard')) {
       return 'service-provider';
     } else if (route.startsWith('/ecoadmin-dashboard')) {
@@ -599,46 +645,7 @@ export class MenuService {
    * @param context - The HCCL context containing user profile information
    * @returns The dashboard type based on user profile
    */
-  private getDashboardTypeFromContext(context: any): 'advocate' | 'broker' | 'service-provider' | 'ecoadmin' {
-    if (!context || !context.currentUserProfile) {
-      console.log('No user profile in context, defaulting to advocate');
-      return 'advocate';
-    }
-
-    const profileTypeCode = context.currentUserProfile.profileTypeCode;
-    console.log('User profile type code:', profileTypeCode);
-
-    // Map profile type codes to dashboard types
-    switch (profileTypeCode?.toUpperCase()) {
-
-      case 'ECOADMIN':
-      case 'EDU_ECOADMIN':
-        return 'ecoadmin';
-
-
-      case 'SCHOOL':
-        return 'advocate';
-
-      case 'ADVOCATE':
-      case 'EDU_ADVOCATE':
-        return 'advocate';
-      case 'BROKER':
-      case 'EDU_BROKER':
-        return 'broker';
-    
-      case 'PROVIDER':
-      case 'SERVICE_PROVIDER':
-      case 'EDU_SERVICE_PROVIDER':
-        return 'service-provider';
-     
-
-      default:
-        console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
-        alert('Unknown profile type code, defaulting to advocate:' + profileTypeCode);
-        return 'advocate';
-    }
-  }
-
+  
   /**
    * Find the first menu item that has a route (navigable)
    * @param menuItems - Array of menu items to search through
