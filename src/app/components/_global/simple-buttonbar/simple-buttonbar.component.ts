@@ -16,11 +16,12 @@ export class SimpleButtonbarComponent implements OnInit {
 
   @Input() buttonBar: SimpleButtonBar = new SimpleButtonBar(); 
   @Input() displayMode: string = 'buttons'; // 'buttons' or 'tabs'
-
+  @Input() alertMsg: string = '';
   @Output() buttonSelected = new EventEmitter<string>();
 
   public selectButton(id: string): void {
     this.buttonSelected.emit(id);
+    alert(this.alertMsg + " " + id);
     this.buttonBar?.getButton(id)?.activate(null);
   }
  

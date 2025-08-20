@@ -326,6 +326,9 @@ implements OnInit, AfterViewInit {
   protected hasButtonBarList(): boolean {
     return this.buttonBar != null && this.buttonBar.buttons.length > 0;
   }
+  public getButtonBar(): SimpleButtonBar  {
+    return this.buttonBar|| new SimpleButtonBar();
+  }
 
   protected onGoClick() {
     this.actionCode = 'go';

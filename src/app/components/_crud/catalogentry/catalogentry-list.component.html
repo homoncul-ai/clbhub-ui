@@ -4,7 +4,22 @@
     <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
  
   <form (submit)="onFormSubmit($event)">
-
+<!--
+    <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
+        <button 
+          mat-button type="button" class="search-list-input-button"
+          *ngFor="let button of buttonBar?.buttons"
+          (click)="__onButtonClick(button.id)"
+          class="button-item">
+          <ng-container >
+            {{ button.label }}
+          </ng-container>
+        </button>
+      </div>
+      <p>buttonBar: {{ buttonBar | json }}</p>
+      <app-simple-buttonbar [buttonBar]="getButtonBar()" alertMsg="test"></app-simple-buttonbar>
+      <p>Next</p>
+-->
     <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
         <!-- Moving on ! will not work in ngFor. -->
         <button mat-button   type="button" class="search-list-input-button"

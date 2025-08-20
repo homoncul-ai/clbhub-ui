@@ -5,6 +5,7 @@ import { HcclService } from '../../../restsvc/hccl.service';
 import { CatalogEntryGETData, CatalogEntryCriteria, CatalogEntryGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
+import { SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 
 /**
  * Component for displaying and managing CatalogEntry data using HcclService
@@ -17,7 +18,7 @@ import { Observable } from 'rxjs';
 //  templateUrl: '../../_global/abstract-list/abstract-list-bb.component.html',
   templateUrl: './catalogentry-list.component.html',
   styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
-    imports: [CommonModule]
+    imports: [CommonModule, SimpleButtonbarComponent]
 })
 export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntryGETData, CatalogEntryCriteria, CatalogEntryGETDataSearchResults> {
   
