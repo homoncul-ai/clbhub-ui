@@ -19,14 +19,6 @@ export class HcclService extends CommonRequestServiceCaller {
     this.setBaseUrl(baseUrl);
   }
 
-  checkApplicationHealth(): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/healthchecks/application",
-      method: "GET",
-    };
-    return this.request<any>(request);
-  }
-
   getCurrentManifest(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/servicemanifest",
@@ -2228,6 +2220,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestTypeRefGETDataSearchResults>(request);
   }
 
+  createPersonalStatement(body: PersonalStatementPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatement",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPersonalStatementById(id: string): Observable<PersonalStatementGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatement/" + id,
+      method: "GET",
+    };
+    return this.request<PersonalStatementGETData>(request);
+  }
+
+  updatePersonalStatementById(id: string, body: PersonalStatementPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatement/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePersonalStatementById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatement/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPersonalStatements(body: PersonalStatementCriteria): Observable<PersonalStatementGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatement/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PersonalStatementGETDataSearchResults>(request);
+  }
+
   createVocationEncodingInstance(body: VocationEncodingInstancePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/vocationencodinginstance",
@@ -2384,6 +2419,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserContextGETData>(request);
   }
 
+  getOrgSetupData(hccl_org_id: string, userId: string): Observable<HcclOrgSetupData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/intg/onboard/" + hccl_org_id + "/setupdata",
+      method: "GET",
+      params: { userId: this.convertToString(userId) },
+    };
+    return this.request<HcclOrgSetupData>(request);
+  }
+
   onboardOrgUser(body: OnboardOrgUserPOSTData): Observable<HcclUserProfileGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/onboard/orguser",
@@ -2480,114 +2524,10 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserContextGETData>(request);
   }
 
-  entityActionCheck(body: SLEntityActionUiDefnRequest): Observable<any> {
+  checkApplicationHealth(): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/entityaction/check",
-      method: "POST",
-      body: body,
-    };
-    return this.request<any>(request);
-  }
-
-  entityActionDoc(body: SLEntityActionUiDefnRequest): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/entityaction/doc",
-      method: "POST",
-      body: body,
-    };
-    return this.request<any>(request);
-  }
-
-  entityActionRun(body: SLEntityActionUiDefnRequest): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/entityaction/run",
-      method: "POST",
-      body: body,
-    };
-    return this.request<any>(request);
-  }
-
-  entityActionUi(body: SLEntityActionUiDefnRequest): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/entityaction/ui",
-      method: "POST",
-      body: body,
-    };
-    return this.request<any>(request);
-  }
-
-  fetchBubbleContents(entity_type: string, id: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/bubble/" + entity_type + "/" + id,
+      url: "/hccl/healthchecks/application",
       method: "GET",
-    };
-    return this.request<any>(request);
-  }
-
-  fetchMenu(entity_type: string, id: string, menu_code: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/menu/" + entity_type + "/" + id + "/" + menu_code,
-      method: "GET",
-    };
-    return this.request<any>(request);
-  }
-
-  getFeatures(): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/features",
-      method: "GET",
-    };
-    return this.request<any>(request);
-  }
-
-  loadMergePayload(body: MergePayloadRequest): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/payload",
-      method: "POST",
-      body: body,
-    };
-    return this.request<any>(request);
-  }
-
-  loadMergePayloadGet(entity_type: string, id: string, datasets: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/payload/" + entity_type + "/" + id,
-      method: "GET",
-      params: { datasets: this.convertToString(datasets) },
-    };
-    return this.request<any>(request);
-  }
-
-  loadServiceMetadata(): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/servicelib/metadata",
-      method: "GET",
-    };
-    return this.request<any>(request);
-  }
-
-  get(wait: number, job_id: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/" + job_id,
-      method: "GET",
-      params: { wait: this.convertToString(wait) },
-    };
-    return this.request<any>(request);
-  }
-
-  readAndRemove(wait: number, job_id: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/" + job_id,
-      method: "POST",
-      params: { wait: this.convertToString(wait) },
-    };
-    return this.request<any>(request);
-  }
-
-  remove(job_id: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/" + job_id,
-      method: "DELETE",
     };
     return this.request<any>(request);
   }
@@ -3820,7 +3760,7 @@ export interface ProviderRequestPOSTData {
   rawRequestText: string;
   requesterUserId: string;
   advocateUserId: string;
-  vocationEncodingInstanceId?: string;
+  vocationEncodingId?: string;
   requestTypeId: string;
 }
 
@@ -3838,7 +3778,7 @@ export interface ProviderRequestGETData {
   rawRequestText?: string;
   requesterUserId?: string;
   advocateUserId?: string;
-  vocationEncodingInstanceId?: string;
+  vocationEncodingId?: string;
   requestTypeId?: string;
 }
 
@@ -3864,7 +3804,7 @@ export interface ProviderRequestCriteria {
   currentStateDateEntered?: string;
   requesterUserId?: string;
   advocateUserId?: string;
-  vocationEncodingInstanceId?: string;
+  vocationEncodingId?: string;
   requestTypeId?: string;
 }
 
@@ -3878,7 +3818,7 @@ export interface ProviderRequestPUTData {
   rawRequestText: string;
   requesterUserId: string;
   advocateUserId: string;
-  vocationEncodingInstanceId?: string;
+  vocationEncodingId?: string;
   requestTypeId: string;
 }
 
@@ -5464,12 +5404,87 @@ export interface WorkRequestTypeRefPUTData {
   available: number;
 }
 
+export interface PersonalStatementPOSTData {
+  name: string;
+  businessCode: string;
+  description?: string;
+  statementTypeCode?: string;
+  parentEntityId: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  rawText: string;
+  encodingText: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
+export interface PersonalStatementGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  statementTypeCode?: string;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  rawText?: string;
+  encodingText?: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
+export interface PersonalStatementGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PersonalStatementGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PersonalStatementCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  statementTypeCode?: string;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
+export interface PersonalStatementPUTData {
+  name: string;
+  businessCode: string;
+  description?: string;
+  statementTypeCode?: string;
+  parentEntityId: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  rawText: string;
+  encodingText: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
 export interface VocationEncodingInstancePOSTData {
   vocationEncodingId?: string;
   encodingName: string;
   vocationEncodingRefId: string;
   sequenceOrder?: number;
   encodingDistance: number;
+  originCode?: string;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface VocationEncodingInstanceGETData {
@@ -5483,6 +5498,9 @@ export interface VocationEncodingInstanceGETData {
   vocationEncodingRefId?: string;
   sequenceOrder?: number;
   encodingDistance?: number;
+  originCode?: string;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface VocationEncodingInstanceGETDataSearchResults {
@@ -5503,7 +5521,11 @@ export interface VocationEncodingInstanceCriteria {
   encodingName?: string;
   vocationEncodingRefId?: string;
   sequenceOrder?: number;
+  originCode?: string;
   encodingDistance?: number;
+  primaryCode?: number;
+  secondaryCode?: number;
+  secondaryCodeDistance?: number;
 }
 
 export interface VocationEncodingInstancePUTData {
@@ -5512,6 +5534,9 @@ export interface VocationEncodingInstancePUTData {
   vocationEncodingRefId: string;
   sequenceOrder?: number;
   encodingDistance: number;
+  originCode?: string;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface VocationEncodingRefPOSTData {
@@ -5519,8 +5544,8 @@ export interface VocationEncodingRefPOSTData {
   businessCode: string;
   description: string;
   available: number;
-  primaryCode: string;
-  secondaryCode: string;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface VocationEncodingRefGETData {
@@ -5533,8 +5558,8 @@ export interface VocationEncodingRefGETData {
   businessCode?: string;
   description?: string;
   available?: number;
-  primaryCode?: string;
-  secondaryCode?: string;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface VocationEncodingRefGETDataSearchResults {
@@ -5555,8 +5580,8 @@ export interface VocationEncodingRefCriteria {
   businessCode?: string;
   description?: string;
   available?: number;
-  primaryCode?: string;
-  secondaryCode?: string;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface VocationEncodingRefPUTData {
@@ -5564,15 +5589,23 @@ export interface VocationEncodingRefPUTData {
   businessCode: string;
   description: string;
   available: number;
-  primaryCode: string;
-  secondaryCode: string;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface VocationEncodingPOSTData {
+  encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;
   parentEntityName?: string;
   encodingText: string;
+  encodingResponseJson?: string;
+  status?: number;
+  errorMessage?: string;
+  dateStart?: string;
+  durationMs?: number;
+  pipelineLogJson?: string;
+  available?: number;
 }
 
 export interface VocationEncodingGETData {
@@ -5581,10 +5614,18 @@ export interface VocationEncodingGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;
   parentEntityName?: string;
   encodingText?: string;
+  encodingResponseJson?: string;
+  status?: number;
+  errorMessage?: string;
+  durationMs?: number;
+  pipelineLogJson?: string;
+  available?: number;
+  vocationEncodingInstances: VocationEncodingInstanceGETData[];
 }
 
 export interface VocationEncodingGETDataSearchResults {
@@ -5601,17 +5642,38 @@ export interface VocationEncodingCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;
   parentEntityName?: string;
-  encodingText?: string;
+  status?: number;
+  errorMessage?: string;
+  dateStart?: string;
+  durationMs?: number;
+  available?: number;
 }
 
 export interface VocationEncodingPUTData {
+  encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;
   parentEntityName?: string;
   encodingText: string;
+  encodingResponseJson?: string;
+  status?: number;
+  errorMessage?: string;
+  dateStart?: string;
+  durationMs?: number;
+  pipelineLogJson?: string;
+  available?: number;
+}
+
+export interface SearchDistancePOJO {
+  datapointId?: string;
+  distance?: number;
+  title?: string;
+  code?: string;
+  definition?: string;
 }
 
 export interface EncodingPOSTData {
@@ -5648,6 +5710,10 @@ export interface MenuControlDataList {
   label?: string;
   menuItems?: MenuControlData[];
   defaultAllowedByRule?: boolean;
+}
+
+export interface HcclOrgSetupData {
+  profileTypeMenu: MenuControlDataList;
 }
 
 export interface OnboardOrgUserPOSTData {
@@ -5717,114 +5783,5 @@ export interface CreateTicketSetupUIData {
   queuesMenu?: MenuControlDataList;
   workRequestTypesMenu?: MenuControlDataList;
   currentUserProfile?: HcclUserProfileGETData;
-}
-
-export interface GenericFormUI {
-  formUiType?: string;
-  title?: string;
-  description?: string;
-  schema?: any;
-  ui?: any;
-  data?: any;
-}
-
-export interface SLEntityActionUiDefnResponse {
-  ui?: GenericFormUI;
-  checkMessages?: SimpleMessageList;
-  actionMessages?: SimpleMessageList;
-  responseData?: any;
-  status?: number;
-  message?: string;
-}
-
-export interface SLEntityActionUiDefnRequest {
-  id?: string;
-  entityActionCode?: string;
-  formData?: any;
-}
-
-export interface SLControlProperty {
-  name?: string;
-  value?: any;
-  comment?: string;
-}
-
-export interface SLFeature {
-  property?: string;
-  name?: string;
-  enabled?: boolean;
-  status?: string;
-  statusInfo?: string;
-  ctrlProps?: any;
-  messages?: SimpleMessageList;
-}
-
-export interface SLFeatures {
-  features?: SLFeature[];
-}
-
-export interface EntityTuple {
-  tenantId?: string;
-  entityName?: string;
-  entityOrgId?: string;
-  entityId?: string;
-  entityIdStr?: string;
-  serviceCode?: string;
-  entityDisplayText?: string;
-}
-
-export interface MergeFieldInsertImage {
-  classUrl?: string;
-  webUrl?: string;
-  imageFileName?: string;
-  barcodeType?: string;
-  barcodeText?: string;
-  imageWidth?: number;
-  imageHeight?: number;
-  imageUnit?: number;
-  byteArray?: string;
-}
-
-export interface MergePayloadData {
-  datasets?: any;
-  images?: any;
-  watermarks?: any;
-}
-
-export interface MergePayloadRequest {
-  payloadName?: string;
-  entityTuples?: EntityTuple[];
-  datasets?: string[];
-  languageCode?: string;
-  usingJsonData?: boolean;
-  aspect?: string;
-}
-
-export interface MergePayloadResponse {
-  messages?: SimpleMessageList;
-  request?: MergePayloadRequest;
-  payloads?: MergePayloadData[];
-}
-
-export interface MergeWatermark {
-  watermarkText?: string;
-}
-
-export interface SLEntityDataset {
-  name?: string;
-  descrip?: string;
-  status?: number;
-}
-
-export interface SLEntityDefnGETData {
-  entityName?: string;
-  supportingMergeData?: boolean;
-  datasets?: SLEntityDataset[];
-}
-
-export interface SLServiceMetaData {
-  serviceCode?: string;
-  descrip?: string;
-  entities?: SLEntityDefnGETData[];
 }
 

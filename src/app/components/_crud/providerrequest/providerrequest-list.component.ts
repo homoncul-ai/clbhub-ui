@@ -51,7 +51,7 @@ export class ProviderRequestListComponent extends AbstractListComponent<Provider
       { id: 'rawRequestText', header: [{ text: 'Raw Request Text', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'requesterUserId', header: [{ text: 'Requester User ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'advocateUserId', header: [{ text: 'Advocate User ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'vocationEncodingInstanceId', header: [{ text: 'Vocation Encoding Instance ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'vocationEncodingId', header: [{ text: 'Vocation Encoding Instance ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
 
       // Replace [prefix]Id with the displaytext of the crudwrapper - named [prefix]Str instead of [prefix]Id
       { id: 'requestTypeStr', header: [{ text: 'Request Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },

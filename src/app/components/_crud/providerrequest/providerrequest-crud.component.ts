@@ -116,8 +116,8 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
     return null;
   }
 
-  private validateVocationEncodingInstanceId(vocationEncodingInstanceId: string): string | null {
-    if (vocationEncodingInstanceId && vocationEncodingInstanceId.length > 255) {
+  private validatevocationEncodingId(vocationEncodingId: string): string | null {
+    if (vocationEncodingId && vocationEncodingId.length > 255) {
       return 'Vocation Encoding Instance ID must be less than 255 characters';
     }
     return null;
@@ -169,9 +169,9 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
       errors.advocateUserId = { errorMessage: advocateUserIdError };
     }
     
-    const vocationEncodingInstanceIdError = this.validateVocationEncodingInstanceId(this.vocationEncodingInstanceId);
-    if (vocationEncodingInstanceIdError) {
-      errors.vocationEncodingInstanceId = { errorMessage: vocationEncodingInstanceIdError };
+    const vocationEncodingIdError = this.validatevocationEncodingId(this.vocationEncodingId);
+    if (vocationEncodingIdError) {
+      errors.vocationEncodingId = { errorMessage: vocationEncodingIdError };
     }
     
     const requestTypeIdError = this.validateRequestTypeId(this.requestTypeId);
@@ -209,7 +209,7 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
       rawRequestText: entity.getData().rawRequestText || '',
       requesterUserId: entity.getData().requesterUserId || '',
       advocateUserId: entity.getData().advocateUserId || '',
-      vocationEncodingInstanceId: entity.getData().vocationEncodingInstanceId,
+      vocationEncodingId: entity.getData().vocationEncodingId,
       requestTypeId: entity.getData().requestTypeId || ''
     };
 
@@ -244,7 +244,7 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
       rawRequestText: entity.getData().rawRequestText || '',
       requesterUserId: entity.getData().requesterUserId || '',
       advocateUserId: entity.getData().advocateUserId || '',
-      vocationEncodingInstanceId: entity.getData().vocationEncodingInstanceId,
+      vocationEncodingId: entity.getData().vocationEncodingId,
       requestTypeId: entity.getData().requestTypeId || ''
     };
 
@@ -342,13 +342,13 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
     }
   }
 
-  public get vocationEncodingInstanceId(): string {
-    return this.getCurrentEntity()?.getData()?.vocationEncodingInstanceId || '';
+  public get vocationEncodingId(): string {
+    return this.getCurrentEntity()?.getData()?.vocationEncodingId || '';
   }
 
-  public set vocationEncodingInstanceId(value: string) {
+  public set vocationEncodingId(value: string) {
     if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().vocationEncodingInstanceId = value;
+      this.getCurrentEntity()!.getData().vocationEncodingId = value;
     }
   }
 
@@ -449,8 +449,8 @@ export class ProviderRequestCrudWrapper extends EntityWrapper<ProviderRequestGET
     return this.getData().advocateUserId || '';
   }
 
-  getVocationEncodingInstanceId(): string {
-    return this.getData().vocationEncodingInstanceId || '';
+  getvocationEncodingId(): string {
+    return this.getData().vocationEncodingId || '';
   }
 
   getRequestTypeId(): string {

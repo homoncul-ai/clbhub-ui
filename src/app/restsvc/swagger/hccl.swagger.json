@@ -1,30 +1,33 @@
 {
   "openapi": "3.0.1",
-  "paths": {
-    "/hccl/healthchecks/application": {
-      "get": {
-        "tags": [
-          "/healthchecks"
-        ],
-        "summary": "Performs a Health Check on the Dependent Applications.",
-        "operationId": "checkApplicationHealth_1",
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
+  "info": {
+    "title": "TruTesta HCCL REST Services",
+    "description": "HCCL Services Application",
+    "termsOfService": "http://www.sematree.com",
+    "contact": {
+      "name": "API Team",
+      "url": "http://www.sematree.com",
+      "email": "apiteam@sematree.com"
     },
+    "license": {
+      "name": "",
+      "url": ""
+    },
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://devops2.intigna.io/trutesta-hccl-services"
+    }
+  ],
+  "paths": {
     "/hccl/healthchecks/servicemanifest": {
       "get": {
         "tags": [
           "/healthchecks"
         ],
         "summary": "Fetches the service manifest created during build.",
-        "operationId": "getCurrentManifest_1",
+        "operationId": "getCurrentManifest",
         "responses": {
           "200": {
             "description": "Ok"
@@ -44,7 +47,7 @@
           "/healthchecks"
         ],
         "summary": "Fetches the Swagger, replacing the host with property file entry.",
-        "operationId": "getInternals_1",
+        "operationId": "getInternals",
         "responses": {
           "200": {
             "description": "Ok"
@@ -64,7 +67,7 @@
           "/healthchecks"
         ],
         "summary": "Fetches the Swagger, replacing the host with property file entry.",
-        "operationId": "getSwagger_1",
+        "operationId": "getSwagger",
         "responses": {
           "200": {
             "description": "Ok"
@@ -84,7 +87,7 @@
           "/healthchecks"
         ],
         "summary": "Ping the Service.",
-        "operationId": "ping_1",
+        "operationId": "ping",
         "responses": {
           "204": {
             "description": "Service is Reachable"
@@ -98,7 +101,7 @@
           "/healthchecks"
         ],
         "summary": "Runs Health Check on Database and return Results.",
-        "operationId": "runHealthCheckOnDatabase_1",
+        "operationId": "runHealthCheckOnDatabase",
         "responses": {
           "200": {
             "description": "Service is Healthy"
@@ -115,7 +118,7 @@
           "/debug/loggers"
         ],
         "summary": "Fetches all the Loggers.",
-        "operationId": "getAllLoggers_1",
+        "operationId": "getAllLoggers",
         "parameters": [
           {
             "name": "pageNumber",
@@ -153,7 +156,7 @@
           "/debug/loggers"
         ],
         "summary": "Updates an existing Logger Level.",
-        "operationId": "updateLoggerLevel_1",
+        "operationId": "updateLoggerLevel",
         "requestBody": {
           "description": "Updates an existing Logger Level.",
           "content": {
@@ -187,7 +190,7 @@
           "/job-definitions"
         ],
         "summary": "Fetches all Job Definitions.",
-        "operationId": "getJobDefinitions",
+        "operationId": "getJobDefinitions_1",
         "parameters": [
           {
             "name": "status",
@@ -246,7 +249,7 @@
           "/job-definitions"
         ],
         "summary": "Create a new Job Definition.",
-        "operationId": "createJobDefinition_1",
+        "operationId": "createJobDefinition",
         "requestBody": {
           "description": "Create a new Job Definition.",
           "content": {
@@ -280,7 +283,7 @@
           "/job-definitions"
         ],
         "summary": "Fetches a Job Definition based on its id.",
-        "operationId": "getJobDefinitionById_1",
+        "operationId": "getJobDefinitionById",
         "parameters": [
           {
             "name": "id",
@@ -320,7 +323,7 @@
           "/job-definitions"
         ],
         "summary": "Updates an existing Job Definition.",
-        "operationId": "updateJobDefinition_1",
+        "operationId": "updateJobDefinition",
         "parameters": [
           {
             "name": "id",
@@ -363,7 +366,7 @@
           "/job-definitions"
         ],
         "summary": "Deletes an existing Job Definition.",
-        "operationId": "deleteJobDefinition_1",
+        "operationId": "deleteJobDefinition",
         "parameters": [
           {
             "name": "id",
@@ -394,7 +397,7 @@
           "/job-definitions"
         ],
         "summary": "Fetches all Job Definitions.",
-        "operationId": "getJobDefinitions_2",
+        "operationId": "getJobDefinitions",
         "requestBody": {
           "description": "Fetches all Job Definitions.",
           "content": {
@@ -431,7 +434,7 @@
           "/job-definitions"
         ],
         "summary": "Initializes Job Definitions from Quartz XML File.",
-        "operationId": "initializeJobDefinitions_1",
+        "operationId": "initializeJobDefinitions",
         "parameters": [
           {
             "name": "enableJob",
@@ -458,7 +461,7 @@
           "/job-definitions"
         ],
         "summary": "Fetches all Job Process Logs.",
-        "operationId": "getJobProcessLogs_1",
+        "operationId": "getJobProcessLogs",
         "parameters": [
           {
             "name": "definition-id",
@@ -536,7 +539,7 @@
           "/job-definitions"
         ],
         "summary": "Create a new Job Process Log.",
-        "operationId": "createJobProcessLog_1",
+        "operationId": "createJobProcessLog",
         "parameters": [
           {
             "name": "definition-id",
@@ -581,7 +584,7 @@
           "/job-definitions"
         ],
         "summary": "Fetches a Job Process Log based on its id.",
-        "operationId": "getJobProcessLogById_1",
+        "operationId": "getJobProcessLogById",
         "parameters": [
           {
             "name": "definition-id",
@@ -622,7 +625,7 @@
           "/job-definitions"
         ],
         "summary": "Updates an existing Job Process Log.",
-        "operationId": "updateJobProcessLog_1",
+        "operationId": "updateJobProcessLog",
         "parameters": [
           {
             "name": "definition-id",
@@ -674,7 +677,7 @@
           "/job-definitions"
         ],
         "summary": "Deletes an existing Job Process Log.",
-        "operationId": "deleteJobProcessLog_1",
+        "operationId": "deleteJobProcessLog",
         "parameters": [
           {
             "name": "definition-id",
@@ -714,7 +717,7 @@
           "/job-definitions"
         ],
         "summary": "Set Job Process Log as Completed.",
-        "operationId": "setJobProcessLogCompleted_1",
+        "operationId": "setJobProcessLogCompleted",
         "parameters": [
           {
             "name": "definition-id",
@@ -757,7 +760,7 @@
           "/service-event-logs"
         ],
         "summary": "Cancels an existing Service Event Log.",
-        "operationId": "cancelServiceEventLog_1",
+        "operationId": "cancelServiceEventLog",
         "parameters": [
           {
             "name": "id",
@@ -791,7 +794,7 @@
           "/service-event-logs"
         ],
         "summary": "Create a new Service Event Log.",
-        "operationId": "createServiceEventLog_1",
+        "operationId": "createServiceEventLog",
         "requestBody": {
           "description": "Create a new Service Event Log.",
           "content": {
@@ -825,7 +828,7 @@
           "/service-event-logs"
         ],
         "summary": "Create multiple service event log entries.",
-        "operationId": "createServiceEventLogs_1",
+        "operationId": "createServiceEventLogs",
         "requestBody": {
           "description": "Create multiple service event log entries.",
           "content": {
@@ -862,7 +865,7 @@
           "/service-event-logs"
         ],
         "summary": "Fetches a Service Event Log based on its id.",
-        "operationId": "getServiceEventLogById_1",
+        "operationId": "getServiceEventLogById",
         "parameters": [
           {
             "name": "id",
@@ -894,7 +897,7 @@
           "/service-event-logs"
         ],
         "summary": "Updates an existing Service Event Log.",
-        "operationId": "updateServiceEventLog_1",
+        "operationId": "updateServiceEventLog",
         "parameters": [
           {
             "name": "id",
@@ -937,7 +940,7 @@
           "/service-event-logs"
         ],
         "summary": "Deletes an existing Service Event Log.",
-        "operationId": "deleteServiceEventLog_1",
+        "operationId": "deleteServiceEventLog",
         "parameters": [
           {
             "name": "id",
@@ -968,7 +971,7 @@
           "/service-event-logs"
         ],
         "summary": "Used to download the file.",
-        "operationId": "downloadFile_1",
+        "operationId": "downloadFile",
         "parameters": [
           {
             "name": "service-event-log-id",
@@ -1002,7 +1005,7 @@
           "/service-event-logs"
         ],
         "summary": "Fetches all Service Event Logs.",
-        "operationId": "getServiceEventLogs_1",
+        "operationId": "getServiceEventLogs",
         "requestBody": {
           "description": "Fetches all Service Event Logs.",
           "content": {
@@ -1039,7 +1042,7 @@
           "/service-event-logs"
         ],
         "summary": "Fetches a summary Service Event Logs.",
-        "operationId": "queryEventSummaryByDisplayNameAndEventName_1",
+        "operationId": "queryEventSummaryByDisplayNameAndEventName",
         "requestBody": {
           "description": "Fetches a summary Service Event Logs.",
           "content": {
@@ -1073,7 +1076,7 @@
           "/service-event-logs"
         ],
         "summary": "Fetches a summary Service Event Logs and groups by event.",
-        "operationId": "queryEventSummaryByEventName_1",
+        "operationId": "queryEventSummaryByEventName",
         "requestBody": {
           "description": "Fetches a summary Service Event Logs and groups by event.",
           "content": {
@@ -1107,7 +1110,7 @@
           "/service-event-logs"
         ],
         "summary": "Fetches a summary Service Event Logs and groups by reference.",
-        "operationId": "queryEventSummaryByReferenceIdAndEventName_1",
+        "operationId": "queryEventSummaryByReferenceIdAndEventName",
         "requestBody": {
           "description": "Fetches a summary Service Event Logs and groups by reference.",
           "content": {
@@ -9505,6 +9508,192 @@
         }
       }
     },
+    "/hccl/vocode/personalstatement": {
+      "post": {
+        "tags": [
+          "/vocode"
+        ],
+        "summary": "Create a new PersonalStatement.",
+        "operationId": "createPersonalStatement_1",
+        "requestBody": {
+          "description": "New PersonalStatement data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalStatementPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/vocode/personalstatement/{id}": {
+      "get": {
+        "tags": [
+          "/vocode"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPersonalStatementById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/vocode"
+        ],
+        "summary": "Updates and existing PersonalStatement.",
+        "operationId": "updatePersonalStatementById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PersonalStatement data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalStatementPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/vocode"
+        ],
+        "summary": "Deletes an existing PersonalStatement.",
+        "operationId": "deletePersonalStatementById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/vocode/personalstatement/query": {
+      "post": {
+        "tags": [
+          "/vocode"
+        ],
+        "summary": "Fetches all PersonalStatements.",
+        "operationId": "findPersonalStatements_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalStatementCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/vocode/vocationencodinginstance": {
       "post": {
         "tags": [
@@ -10179,6 +10368,55 @@
         }
       }
     },
+    "/hccl/intg/onboard/{hccl-org-id}/setupdata": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Setup info for  ",
+        "operationId": "getOrgSetupData",
+        "parameters": [
+          {
+            "name": "hccl-org-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclOrgSetupData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/intg/onboard/orguser": {
       "post": {
         "tags": [
@@ -10655,434 +10893,19 @@
         }
       }
     },
-    "/hccl/servicelib/entityaction/check": {
-      "post": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches a the system features set up by props.",
-        "operationId": "entityActionCheck",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "$ref": "#/components/schemas/SLEntityActionUiDefnRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/entityaction/doc": {
-      "post": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches a the system features set up by props.",
-        "operationId": "entityActionDoc",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "$ref": "#/components/schemas/SLEntityActionUiDefnRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/entityaction/run": {
-      "post": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches a the system features set up by props.",
-        "operationId": "entityActionRun",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "$ref": "#/components/schemas/SLEntityActionUiDefnRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/entityaction/ui": {
-      "post": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches a the system features set up by props.",
-        "operationId": "entityActionUi",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "$ref": "#/components/schemas/SLEntityActionUiDefnRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/bubble/{entity-type}/{id}": {
+    "/hccl/healthchecks/application": {
       "get": {
         "tags": [
-          "/servicelib"
+          "/healthchecks"
         ],
-        "summary": "Fetches a bubble for an entity based on the rules. ",
-        "operationId": "fetchBubbleContents",
-        "parameters": [
-          {
-            "name": "entity-type",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
+        "summary": "Performs a Health Check on the Dependent Applications.",
+        "operationId": "checkApplicationHealth",
         "responses": {
           "200": {
             "description": "Ok"
           },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
           "500": {
             "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/menu/{entity-type}/{id}/{menu-code}": {
-      "get": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches a menu for an entity based on the rules. ",
-        "operationId": "fetchMenu",
-        "parameters": [
-          {
-            "name": "entity-type",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "menu-code",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/features": {
-      "get": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches a the system features set up by props.",
-        "operationId": "getFeatures",
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/payload": {
-      "post": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Using the MergePayloaRequest object allows for multiple objects.",
-        "operationId": "loadMergePayload",
-        "requestBody": {
-          "description": "Fetches merge payloads.",
-          "content": {
-            "*/*": {
-              "schema": {
-                "$ref": "#/components/schemas/MergePayloadRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/payload/{entity-type}/{id}": {
-      "get": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches an payload  based on its id.  Generally, the entity-type name is the name of the entity object. ",
-        "operationId": "loadMergePayload_1",
-        "parameters": [
-          {
-            "name": "entity-type",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "datasets",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/servicelib/metadata": {
-      "get": {
-        "tags": [
-          "/servicelib"
-        ],
-        "summary": "Fetches the metadata about this service setup..",
-        "operationId": "loadServiceMetadata",
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/{job-id}": {
-      "get": {
-        "operationId": "get",
-        "parameters": [
-          {
-            "name": "wait",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int64",
-              "default": -1
-            }
-          },
-          {
-            "name": "job-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "default response",
-            "content": {
-              "*/*": {}
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "readAndRemove",
-        "parameters": [
-          {
-            "name": "wait",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int64",
-              "default": -1
-            }
-          },
-          {
-            "name": "job-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "default response",
-            "content": {
-              "*/*": {}
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "remove",
-        "parameters": [
-          {
-            "name": "job-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "default response",
-            "content": {
-              "*/*": {}
-            }
           }
         }
       }
@@ -15811,7 +15634,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "vocationEncodingInstanceId": {
+          "vocationEncodingId": {
             "type": "string",
             "format": "uuid"
           },
@@ -15867,7 +15690,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "vocationEncodingInstanceId": {
+          "vocationEncodingId": {
             "type": "string",
             "format": "uuid"
           },
@@ -15957,7 +15780,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "vocationEncodingInstanceId": {
+          "vocationEncodingId": {
             "type": "string",
             "format": "uuid"
           },
@@ -16020,7 +15843,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "vocationEncodingInstanceId": {
+          "vocationEncodingId": {
             "type": "string",
             "format": "uuid"
           },
@@ -21746,6 +21569,267 @@
           }
         }
       },
+      "PersonalStatementPOSTData": {
+        "required": [
+          "businessCode",
+          "encodingText",
+          "name",
+          "parentEntityId",
+          "rawText"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "statementTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "rawText": {
+            "type": "string"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PersonalStatementGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "statementTypeCode": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "rawText": {
+            "type": "string"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PersonalStatementGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonalStatementGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PersonalStatementCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "statementTypeCode": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PersonalStatementPUTData": {
+        "required": [
+          "businessCode",
+          "encodingText",
+          "name",
+          "parentEntityId",
+          "rawText"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "statementTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "rawText": {
+            "type": "string"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "VocationEncodingInstancePOSTData": {
         "required": [
           "encodingDistance",
@@ -21774,6 +21858,17 @@
           "encodingDistance": {
             "type": "number",
             "format": "double"
+          },
+          "originCode": {
+            "type": "string"
+          },
+          "primaryCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "secondaryCode": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -21814,6 +21909,17 @@
           "encodingDistance": {
             "type": "number",
             "format": "double"
+          },
+          "originCode": {
+            "type": "string"
+          },
+          "primaryCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "secondaryCode": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -21884,9 +21990,24 @@
             "type": "integer",
             "format": "int32"
           },
+          "originCode": {
+            "type": "string"
+          },
           "encodingDistance": {
             "type": "number",
             "format": "double"
+          },
+          "primaryCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "secondaryCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "secondaryCodeDistance": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -21918,6 +22039,17 @@
           "encodingDistance": {
             "type": "number",
             "format": "double"
+          },
+          "originCode": {
+            "type": "string"
+          },
+          "primaryCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "secondaryCode": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -21926,9 +22058,7 @@
           "available",
           "businessCode",
           "description",
-          "name",
-          "primaryCode",
-          "secondaryCode"
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -21952,14 +22082,12 @@
             "format": "int32"
           },
           "primaryCode": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "secondaryCode": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -21996,10 +22124,12 @@
             "format": "int32"
           },
           "primaryCode": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "secondaryCode": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -22069,10 +22199,12 @@
             "format": "int32"
           },
           "primaryCode": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "secondaryCode": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -22081,9 +22213,7 @@
           "available",
           "businessCode",
           "description",
-          "name",
-          "primaryCode",
-          "secondaryCode"
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -22107,14 +22237,12 @@
             "format": "int32"
           },
           "primaryCode": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "secondaryCode": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -22124,6 +22252,11 @@
         ],
         "type": "object",
         "properties": {
+          "encodingTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "parentEntityId": {
             "type": "string",
             "format": "uuid"
@@ -22139,13 +22272,41 @@
             "type": "string"
           },
           "encodingText": {
-            "maxLength": 1024,
+            "type": "string"
+          },
+          "encodingResponseJson": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
+            "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pipelineLogJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
       "VocationEncodingGETData": {
+        "required": [
+          "vocationEncodingInstances"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -22164,6 +22325,9 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "encodingTypeCode": {
+            "type": "string"
+          },
           "parentEntityId": {
             "type": "string",
             "format": "uuid"
@@ -22176,6 +22340,33 @@
           },
           "encodingText": {
             "type": "string"
+          },
+          "encodingResponseJson": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pipelineLogJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vocationEncodingInstances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VocationEncodingInstanceGETData"
+            }
           }
         }
       },
@@ -22231,6 +22422,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "encodingTypeCode": {
+            "type": "string"
+          },
           "parentEntityId": {
             "type": "string",
             "format": "uuid"
@@ -22241,8 +22435,24 @@
           "parentEntityName": {
             "type": "string"
           },
-          "encodingText": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
             "type": "string"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -22252,6 +22462,11 @@
         ],
         "type": "object",
         "properties": {
+          "encodingTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "parentEntityId": {
             "type": "string",
             "format": "uuid"
@@ -22267,8 +22482,54 @@
             "type": "string"
           },
           "encodingText": {
-            "maxLength": 1024,
+            "type": "string"
+          },
+          "encodingResponseJson": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
+            "maxLength": 255,
             "minLength": 1,
+            "type": "string"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pipelineLogJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SearchDistancePOJO": {
+        "type": "object",
+        "properties": {
+          "datapointId": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "number",
+            "format": "double"
+          },
+          "title": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "definition": {
             "type": "string"
           }
         }
@@ -22412,6 +22673,23 @@
             "items": {
               "$ref": "#/components/schemas/SimpleMessage"
             }
+          },
+          "errorMessageAsString": {
+            "type": "string"
+          },
+          "firstErrorMessage": {
+            "$ref": "#/components/schemas/SimpleMessage"
+          }
+        }
+      },
+      "HcclOrgSetupData": {
+        "required": [
+          "profileTypeMenu"
+        ],
+        "type": "object",
+        "properties": {
+          "profileTypeMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
           }
         }
       },
@@ -22621,323 +22899,6 @@
           },
           "currentUserProfile": {
             "$ref": "#/components/schemas/HcclUserProfileGETData"
-          }
-        }
-      },
-      "GenericFormUI": {
-        "type": "object",
-        "properties": {
-          "formUiType": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "schema": {
-            "type": "object"
-          },
-          "ui": {
-            "type": "object"
-          },
-          "data": {
-            "type": "object"
-          }
-        }
-      },
-      "SLEntityActionUiDefnResponse": {
-        "type": "object",
-        "properties": {
-          "ui": {
-            "$ref": "#/components/schemas/GenericFormUI"
-          },
-          "checkMessages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "actionMessages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "responseData": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "SLEntityActionUiDefnRequest": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityActionCode": {
-            "type": "string"
-          },
-          "formData": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
-          }
-        }
-      },
-      "SLControlProperty": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "value": {
-            "type": "object"
-          },
-          "comment": {
-            "type": "string"
-          }
-        }
-      },
-      "SLFeature": {
-        "type": "object",
-        "properties": {
-          "property": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "status": {
-            "type": "string"
-          },
-          "statusInfo": {
-            "type": "string"
-          },
-          "ctrlProps": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/SLControlProperty"
-            }
-          },
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          }
-        }
-      },
-      "SLFeatures": {
-        "type": "object",
-        "properties": {
-          "features": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SLFeature"
-            }
-          }
-        }
-      },
-      "EntityTuple": {
-        "type": "object",
-        "properties": {
-          "tenantId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityName": {
-            "type": "string"
-          },
-          "entityOrgId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityIdStr": {
-            "type": "string"
-          },
-          "serviceCode": {
-            "type": "string"
-          },
-          "entityDisplayText": {
-            "type": "string"
-          }
-        }
-      },
-      "MergeFieldInsertImage": {
-        "type": "object",
-        "properties": {
-          "classUrl": {
-            "type": "string"
-          },
-          "webUrl": {
-            "type": "string"
-          },
-          "imageFileName": {
-            "type": "string"
-          },
-          "barcodeType": {
-            "type": "string"
-          },
-          "barcodeText": {
-            "type": "string"
-          },
-          "imageWidth": {
-            "type": "number",
-            "format": "double"
-          },
-          "imageHeight": {
-            "type": "number",
-            "format": "double"
-          },
-          "imageUnit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "byteArray": {
-            "type": "string",
-            "format": "byte"
-          }
-        }
-      },
-      "MergePayloadData": {
-        "type": "object",
-        "properties": {
-          "datasets": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
-          },
-          "images": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object",
-              "additionalProperties": {
-                "$ref": "#/components/schemas/MergeFieldInsertImage"
-              }
-            }
-          },
-          "watermarks": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/MergeWatermark"
-            }
-          }
-        }
-      },
-      "MergePayloadRequest": {
-        "type": "object",
-        "properties": {
-          "payloadName": {
-            "type": "string"
-          },
-          "entityTuples": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EntityTuple"
-            }
-          },
-          "datasets": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "languageCode": {
-            "type": "string"
-          },
-          "usingJsonData": {
-            "type": "boolean"
-          },
-          "aspect": {
-            "type": "string",
-            "writeOnly": true
-          }
-        }
-      },
-      "MergePayloadResponse": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "request": {
-            "$ref": "#/components/schemas/MergePayloadRequest"
-          },
-          "payloads": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MergePayloadData"
-            }
-          }
-        }
-      },
-      "MergeWatermark": {
-        "type": "object",
-        "properties": {
-          "watermarkText": {
-            "type": "string"
-          }
-        }
-      },
-      "SLEntityDataset": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "descrip": {
-            "type": "string"
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "SLEntityDefnGETData": {
-        "type": "object",
-        "properties": {
-          "entityName": {
-            "type": "string"
-          },
-          "supportingMergeData": {
-            "type": "boolean"
-          },
-          "datasets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SLEntityDataset"
-            }
-          }
-        }
-      },
-      "SLServiceMetaData": {
-        "type": "object",
-        "properties": {
-          "serviceCode": {
-            "type": "string"
-          },
-          "descrip": {
-            "type": "string"
-          },
-          "entities": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SLEntityDefnGETData"
-            }
           }
         }
       }
