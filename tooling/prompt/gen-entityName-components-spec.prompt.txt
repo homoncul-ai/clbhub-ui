@@ -100,7 +100,7 @@ All component files will be contained in: `src/app/components/_crud/[entityName]
 ### Purpose
 Display, edit, and add `[entityName]` data.
 
-### Files
+### Files to generate from templates
 - `[entityName]-crud.component.html` (use `./templates/template-crud.component.html`)
 - `[entityName]-crud.component.ts` (use `./templates/template-crud.component.ts`)
 - **Stylesheet:** `'../../_global/abstract-crud/abstract-crud.component.scss'`
@@ -176,7 +176,7 @@ public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuCont
 ### Purpose
 Router target to group all tabs for `[entityName]` (details, list).
 
-### Files
+### Files to generate from templates
 - `[entityName]-group.component.html` (use template to gen - `./templates/template-group.component.html`)
 - `[entityName]-group.component.ts`   (use template to gen - `./templates/template-group.component.ts`)
 - `[entityName]-group.component.scss` → `'../../_global/abstract-entity-group/abstract-entity-group.component.scss'`
@@ -213,8 +213,10 @@ import { HcclService } from '@app/restsvc/hccl.service';
 ### Purpose
 Router target to search and list `[entityName]GETData`.
 
-### Files
-- `[entityName]-list.component.ts` ONLY (NO template or stylesheet files)
+### Files to generate from templates
+- `[entityName]-list.component.ts` (use template to gen - `./templates/template-group.component.html`)
+- HTML  templateUrl: -> use  '../../_global/abstract-list/abstract-list.component.html' (do not generate),
+- SCSS styleUrls: use ['../../_global/abstract-list/abstract-list.component.scss'] (do not generate),
 
 ### Required Imports
 ```typescript

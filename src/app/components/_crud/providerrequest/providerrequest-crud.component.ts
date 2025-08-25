@@ -44,148 +44,7 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
 
   // Error property for form validation
   public error: any = null;
-
-  // Validation methods
-  private validateName(name: string): string | null {
-    if (!name || name.trim() === '') {
-      return 'Name is required';
-    }
-    if (name.length > 255) {
-      return 'Name must be less than 255 characters';
-    }
-    return null;
-  }
-
-  private validateBusinessCode(businessCode: string): string | null {
-    if (!businessCode || businessCode.trim() === '') {
-      return 'Business Code is required';
-    }
-    if (businessCode.length > 50) {
-      return 'Business Code must be less than 50 characters';
-    }
-    return null;
-  }
-
-  private validateDescription(description: string): string | null {
-    if (!description || description.trim() === '') {
-      return 'Description is required';
-    }
-    if (description.length > 1024) {
-      return 'Description must be less than 1024 characters';
-    }
-    return null;
-  }
-
-  private validateCurrentStateCode(currentStateCode: string): string | null {
-    if (!currentStateCode || currentStateCode.trim() === '') {
-      return 'Current State Code is required';
-    }
-    if (currentStateCode.length > 50) {
-      return 'Current State Code must be less than 50 characters';
-    }
-    return null;
-  }
-
-  private validateRawRequestText(rawRequestText: string): string | null {
-    if (!rawRequestText || rawRequestText.trim() === '') {
-      return 'Raw Request Text is required';
-    }
-    if (rawRequestText.length > 4000) {
-      return 'Raw Request Text must be less than 4000 characters';
-    }
-    return null;
-  }
-
-  private validateRequesterUserId(requesterUserId: string): string | null {
-    if (!requesterUserId || requesterUserId.trim() === '') {
-      return 'Requester User ID is required';
-    }
-    if (requesterUserId.length > 255) {
-      return 'Requester User ID must be less than 255 characters';
-    }
-    return null;
-  }
-
-  private validateAdvocateUserId(advocateUserId: string): string | null {
-    if (!advocateUserId || advocateUserId.trim() === '') {
-      return 'Advocate User ID is required';
-    }
-    if (advocateUserId.length > 255) {
-      return 'Advocate User ID must be less than 255 characters';
-    }
-    return null;
-  }
-
-  private validatevocationEncodingId(vocationEncodingId: string): string | null {
-    if (vocationEncodingId && vocationEncodingId.length > 255) {
-      return 'Vocation Encoding Instance ID must be less than 255 characters';
-    }
-    return null;
-  }
-
-  private validateRequestTypeId(requestTypeId: string): string | null {
-    if (!requestTypeId || requestTypeId.trim() === '') {
-      return 'Request Type is required';
-    }
-    return null;
-  }
-
-  // Validate all fields and return error object
-  private validateForm(): any {
-    const errors: any = {};
-    
-    const nameError = this.validateName(this.name);
-    if (nameError) {
-      errors.name = { errorMessage: nameError };
-    }
-    
-    const businessCodeError = this.validateBusinessCode(this.businessCode);
-    if (businessCodeError) {
-      errors.businessCode = { errorMessage: businessCodeError };
-    }
-    
-    const descriptionError = this.validateDescription(this.description);
-    if (descriptionError) {
-      errors.description = { errorMessage: descriptionError };
-    }
-    
-    const currentStateCodeError = this.validateCurrentStateCode(this.currentStateCode);
-    if (currentStateCodeError) {
-      errors.currentStateCode = { errorMessage: currentStateCodeError };
-    }
-    
-    const rawRequestTextError = this.validateRawRequestText(this.rawRequestText);
-    if (rawRequestTextError) {
-      errors.rawRequestText = { errorMessage: rawRequestTextError };
-    }
-    
-    const requesterUserIdError = this.validateRequesterUserId(this.requesterUserId);
-    if (requesterUserIdError) {
-      errors.requesterUserId = { errorMessage: requesterUserIdError };
-    }
-    
-    const advocateUserIdError = this.validateAdvocateUserId(this.advocateUserId);
-    if (advocateUserIdError) {
-      errors.advocateUserId = { errorMessage: advocateUserIdError };
-    }
-    
-    const vocationEncodingIdError = this.validatevocationEncodingId(this.vocationEncodingId);
-    if (vocationEncodingIdError) {
-      errors.vocationEncodingId = { errorMessage: vocationEncodingIdError };
-    }
-    
-    const requestTypeIdError = this.validateRequestTypeId(this.requestTypeId);
-    if (requestTypeIdError) {
-      errors.requestTypeId = { errorMessage: requestTypeIdError };
-    }
-    
-    return errors;
-  }
-
-  private clearValidationErrors(): void {
-    this.error = null;
-  }
-
+ 
   override ngOnInit(): void {
     super.ngOnInit();
   }
@@ -213,18 +72,11 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
       requestTypeId: entity.getData().requestTypeId || ''
     };
 
-    const errors = this.validateForm();
-    if (Object.keys(errors).length > 0) {
-      this.error = errors;
-      throw new Error('Validation failed');
-    }
-
     // This is important - the requestCreate method returns { id: string, status: 201 }
     try {
       // The requestCreate method returns { id: string, status: 201 }
       const response = await this.hcclService.createProviderRequest(postData);
       console.log('Create response:', response);
-      this.clearValidationErrors(); // Clear errors on success
       return response;
     } catch (error) {
       console.error('Create error:', error);
@@ -248,12 +100,7 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
       requestTypeId: entity.getData().requestTypeId || ''
     };
 
-    const errors = this.validateForm();
-    if (Object.keys(errors).length > 0) {
-      this.error = errors;
-      throw new Error('Validation failed');
-    }
-
+    
     await this.hcclService.updateProviderRequestById(entity.getData().id!, putData).toPromise();
   }
 

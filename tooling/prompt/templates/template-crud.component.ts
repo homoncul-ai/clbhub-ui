@@ -45,86 +45,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
   // Error property for form validation
   public error: any = null;
 
-  // Validation methods
-  private validateName(name: string): string | null {
-    if (!name || name.trim() === '') {
-      return 'Name is required';
-    }
-    if (name.length > 255) {
-      return 'Name must be less than 255 characters';
-    }
-    return null;
-  }
-
-  private validateBusinessCode(businessCode: string): string | null {
-    if (!businessCode || businessCode.trim() === '') {
-      return 'Business Code is required';
-    }
-    if (businessCode.length > 50) {
-      return 'Business Code must be less than 50 characters';
-    }
-    return null;
-  }
-
-  private validateDescription(description: string): string | null {
-    if (!description || description.trim() === '') {
-      return 'Description is required';
-    }
-    if (description.length > 1024) {
-      return 'Description must be less than 1024 characters';
-    }
-    return null;
-  }
-
-  private validateParentEntityEntityType(parentEntityEntityType: string): string | null {
-    if (parentEntityEntityType && parentEntityEntityType.length > 50) {
-      return 'Parent Entity Entity Type must be less than 50 characters';
-    }
-    return null;
-  }
-
-  private validateParentEntityName(parentEntityName: string): string | null {
-    if (parentEntityName && parentEntityName.length > 255) {
-      return 'Parent Entity Name must be less than 255 characters';
-    }
-    return null;
-  }
-
-  // Validate all fields and return error object
-  private validateForm(): any {
-    const errors: any = {};
-    
-    const nameError = this.validateName(this.name);
-    if (nameError) {
-      errors.name = { errorMessage: nameError };
-    }
-    
-    const businessCodeError = this.validateBusinessCode(this.businessCode);
-    if (businessCodeError) {
-      errors.businessCode = { errorMessage: businessCodeError };
-    }
-    
-    const descriptionError = this.validateDescription(this.description);
-    if (descriptionError) {
-      errors.description = { errorMessage: descriptionError };
-    }
-    
-    const parentEntityEntityTypeError = this.validateParentEntityEntityType(this.parentEntityEntityType);
-    if (parentEntityEntityTypeError) {
-      errors.parentEntityEntityType = { errorMessage: parentEntityEntityTypeError };
-    }
-    
-    const parentEntityNameError = this.validateParentEntityName(this.parentEntityName);
-    if (parentEntityNameError) {
-      errors.parentEntityName = { errorMessage: parentEntityNameError };
-    }
-    
-    return errors;
-  }
-
-  private clearValidationErrors(): void {
-    this.error = null;
-  }
+  
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -152,20 +73,12 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       parentEntityEntityType: entity.getData().parentEntityEntityType,
       parentEntityName: entity.getData().parentEntityName
     };
-
-    const errors = this.validateForm();
-    if (Object.keys(errors).length > 0) {
-      this.error = errors;
-      throw new Error('Validation failed');
-    }
-
-
+ 
     // This is important - the requestCreate method returns { id: string, status: 201 }
     try {
       // The requestCreate method returns { id: string, status: 201 }
       const response = await this.hcclService.createHcclOrganization(postData);
       console.log('Create response:', response);
-      this.clearValidationErrors(); // Clear errors on success
       return response;
     } catch (error) {
       console.error('Create error:', error);
@@ -187,12 +100,6 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       parentEntityEntityType: entity.getData().parentEntityEntityType,
       parentEntityName: entity.getData().parentEntityName
     };
-
-    const errors = this.validateForm();
-    if (Object.keys(errors).length > 0) {
-      this.error = errors;
-      throw new Error('Validation failed');
-    }
 
     await this.hcclService.updateHcclOrganizationById(entity.getData().id!, putData).toPromise();
   }
