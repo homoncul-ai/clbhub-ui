@@ -357,6 +357,14 @@ export class MenuService {
     const hcclTeamLogList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLTEAMLOG_LIST);
     this.addChildMenuItem(teamGroup, hcclTeamLogList);
 
+    // Add Vocode group
+    const vocodeGroup = this.newGroupMenuItem('Vocode', 'fas fa-code');
+    this.addMenuItem(menu, vocodeGroup);
+
+    // Add PersonalStatement
+    const personalStatementList = this.copyMenuItem(MENU_CONSTANTS.EA_PERSONALSTATEMENT_LIST);
+    this.addChildMenuItem(vocodeGroup, personalStatementList);
+
     return menu;
   }
 
@@ -1328,6 +1336,15 @@ EA_CATALOGSEARCHRESULTENTRY_LIST: {
 },
 
 //  /ecoadmin-dashboard/vocode menu items 
+EA_PERSONALSTATEMENT_LIST: {
+  "level" : 2,
+  "label" : "Personal Statements",
+  "route" : "/ecoadmin-dashboard/personalstatements",
+  "componentPath" : "src/app/components/_crud/personalstatement/personalstatement-list.component",
+  "componentName" : "PersonalStatementListComponent",
+  "icon" : "fas fa-file-alt"
+},
+
 EA_VOCATIONENCODINGINSTANCE_LIST: {
   "level" : 2,
   "label" : "Vocation Encoding Instance",

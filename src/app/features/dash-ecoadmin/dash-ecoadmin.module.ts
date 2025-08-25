@@ -60,6 +60,8 @@ import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestl
 import { OrgSchoolsGroupComponent } from './orgs/org-schools-group.component';
 import { OrgNonprofitGroupComponent } from './orgs/org-nonprofit-group.component';
 import { OrgBusinessGroupComponent } from './orgs/org-business-group.component';
+import { PersonalStatementListComponent } from '../../components/_crud/personalstatement/personalstatement-list.component';
+import { PersonalStatementGroupComponent } from '../../components/_crud/personalstatement/personalstatement-group.component';
 
 const routes: Routes = [
   {
@@ -206,6 +208,12 @@ const routes: Routes = [
       { path: 'catalogsearchresultentries/:id/:tabId', component: CatalogSearchResultEntryGroupComponent },
       { path: 'catalogsearchresultentries/:id', redirectTo: 'catalogsearchresultentries/:id/details', pathMatch: 'full' },
       { path: 'catalogsearchresultentries', component: CatalogSearchResultEntryListComponent },
+      
+      // PersonalStatement routes
+      { path: 'personalstatements/create', component: PersonalStatementGroupComponent },
+      { path: 'personalstatements/:id/:tabId', component: PersonalStatementGroupComponent },
+      { path: 'personalstatements/:id', redirectTo: 'personalstatements/:id/details', pathMatch: 'full' },
+      { path: 'personalstatements', component: PersonalStatementListComponent },
     ]
   }
 ];
@@ -266,6 +274,8 @@ const routes: Routes = [
     CatalogSearchResultGroupComponent,
     CatalogSearchResultEntryListComponent,
     CatalogSearchResultEntryGroupComponent,
+    PersonalStatementListComponent,
+    PersonalStatementGroupComponent,
     OrgSchoolsGroupComponent
   ]
 })
