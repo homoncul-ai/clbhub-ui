@@ -59,7 +59,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
       this.entityNew = this.entityForCreate;
     //  alert('entityForCreate: ' + JSON.stringify(this.entityNew));
     }
-    debugger;
+   // debugger;
     // Some modes required load, some don't 
     // CREATE, FK_MENU, DEBUG, dont require load
     // DETAIL, EDIT, DELETE, SECTION, HEADING, FK do

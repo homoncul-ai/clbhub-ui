@@ -45,7 +45,7 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
   }
 
   protected setupTabs(): SimpleTab[] {
-    debugger
+    //debugger
     const baseRoute = this.getBaseRoute();
     return [
       new SimpleTab('home', 'Home', '', 

@@ -29,7 +29,7 @@ export class MenuService {
 
    * 
    */
-  private getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' {
+  private getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
       return 'advocate';
@@ -56,6 +56,13 @@ export class MenuService {
       case 'EDU_SERVICE_PROVIDER':
         return 'service-provider';
      
+      case 'NONPROFIT':
+      case 'EDU_NONPROFIT':
+        return 'nonprofit';
+
+
+      case 'STUDENT':
+        return 'student';
 
       default:
         console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
@@ -218,6 +225,32 @@ export class MenuService {
     const requests = this.copyMenuItem(MENU_CONSTANTS.SERVICE_REQUESTS);
     this.addChildMenuItem(requests, this.copyMenuItem(MENU_CONSTANTS.SERVICE_REQUEST_DETAILS));
     this.addMenuItem(menu, requests);
+    
+    return menu;
+  }
+
+  /**
+   * Builds the student menu dynamically using the constants and helper methods
+   * @returns Array of MenuItem objects for the student dashboard
+   */
+  buildStudentMenu(): MenuItem[] {
+    const menu: MenuItem[] = [];
+    
+    // Add Dashboard with children
+    const dashboard = this.copyMenuItem(MENU_CONSTANTS.STUDENT_DASHBOARD);
+    this.addMenuItem(menu, dashboard);
+    
+    // Add Courses with children
+    const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_COURSES);
+    this.addMenuItem(menu, courses);
+    
+    // Add Progress with children
+    const progress = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROGRESS);
+    this.addMenuItem(menu, progress);
+    
+    // Add Schedule with children
+    const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
+    this.addMenuItem(menu, schedule);
     
     return menu;
   }
@@ -590,7 +623,7 @@ export class MenuService {
     }
   ];
 */
-  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin'): MenuItem[] {
+  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
           return this.buildAdvocateMenu();
@@ -600,12 +633,14 @@ export class MenuService {
         return this.buildServiceProviderMenu();
       case 'ecoadmin':
         return this.buildEcoAdminMenu();
+      case 'student':
+        return this.buildStudentMenu();
       default:
         return [];
     }
   }
 
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | null {
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
     } else if (route.startsWith('/broker-dashboard')) {
@@ -614,6 +649,8 @@ export class MenuService {
       return 'service-provider';
     } else if (route.startsWith('/ecoadmin-dashboard')) {
       return 'ecoadmin';
+    } else if (route.startsWith('/student-dashboard')) {
+      return 'student';
     }
     return null;
   }
@@ -1408,12 +1445,46 @@ EA_ORGNONPROFITS_LIST: {
   "componentName" : "OrgNonprofitGroupComponent",
   "icon" : "fas fa-building"
 },
-EA_ORG_BUSINESSES_LIST: {
-  "level" : 2,
-  "label" : "Org Businesses",
-  "route" : "/ecoadmin-dashboard/orgs/businesses",
-  "componentPath" : "/src/app/features/dash-ecoadmin/orgs/org-business-group.component",
-  "componentName" : "OrgBusinessGroupComponent",
-  "icon" : "fas fa-building"
-}
+  EA_ORG_BUSINESSES_LIST: {
+    "level" : 2,
+    "label" : "Org Businesses",
+    "route" : "/ecoadmin-dashboard/orgs/businesses",
+    "componentPath" : "/src/app/features/dash-ecoadmin/orgs/org-business-group.component",
+    "componentName" : "OrgBusinessGroupComponent",
+    "icon" : "fas fa-building"
+  },
+
+  // Student Dashboard Menu Items
+  STUDENT_DASHBOARD: {
+    level: 1,
+    label: 'Dashboard',
+    route: '/student-dashboard/home',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-home',
+    icon: 'fas fa-tachometer-alt'
+  },
+  STUDENT_COURSES: {
+    level: 1,
+    label: 'My Courses',
+    route: '/student-dashboard/courses',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-courses',
+    icon: 'fas fa-book'
+  },
+  STUDENT_PROGRESS: {
+    level: 1,
+    label: 'Progress',
+    route: '/student-dashboard/progress',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-progress',
+    icon: 'fas fa-chart-line'
+  },
+  STUDENT_SCHEDULE: {
+    level: 1,
+    label: 'Schedule',
+    route: '/student-dashboard/schedule',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-schedule',
+    icon: 'fas fa-calendar'
+  }
 };

@@ -53,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log('Starting HCCL context initialization and redirect process ');
     this._hcclContextService.initializeContext('').subscribe({
       next: (context) => {
-        console.log('HCCL context loaded successfully:', context);
+        console.log('app.component.ts: HCCL context loaded successfully:', context);
         
         // Check if we're already on a valid route
         const currentUrl = this._router.url;
@@ -65,7 +65,8 @@ export class AppComponent implements OnInit, OnDestroy {
                               currentUrl === '/advocate-dashboard' ||
                               currentUrl === '/broker-dashboard' ||
                               currentUrl === '/service-provider-dashboard' ||
-                              currentUrl === '/ecoadmin-dashboard';
+                              currentUrl === '/ecoadmin-dashboard' || 
+                              currentUrl === '/student-dashboard';
         
         if (shouldRedirect) {
           console.log('Current URL requires redirect, getting first menu item');

@@ -112,7 +112,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     this.catalogSearchResult = wirsp.mapFormElements.catalogSearchResult;
     this.catalogEntriesIdsToExclude = this.catalogSearchResult?.entries?.map
       (entry => entry.catalogEntryId).filter((id): id is string => id !== undefined) || [];
-    debugger;
+   // debugger;
     this.workItemFormContext = wirsp.context as WorkItemFormContext;
   }
   protected notes: string = '';

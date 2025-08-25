@@ -49,7 +49,7 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
       this.student = await  HcclUserProfileCrudWrapper.newInstance(this.childId || '', this.hcclService);
       let studentS: HcclUserProfileCrudWrapper = this.student; 
 
-      debugger;
+      //debugger;
     }
    
     var profile = await HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
@@ -64,7 +64,7 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
   }
 
   protected setupTabs(): SimpleTab[] {
-    debugger
+    //debugger
     const baseRoute = this.getBaseRoute();
 
     const tabs: SimpleTab[] = [

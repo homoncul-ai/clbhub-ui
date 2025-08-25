@@ -64,7 +64,7 @@ export class HcclContextService {
 
     return this.hcclService.resolveTicketContext(userProfileId).pipe(
       tap((context: HcclUserContextGETData) => {
-        this.logger.info('HCCL context loaded successfully', { context });
+        this.logger.info('hccl-context.service.ts: HCCL context loaded successfully', { context });
         
         // Update state
         this._state.update(state => ({
