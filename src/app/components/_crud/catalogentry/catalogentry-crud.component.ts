@@ -184,7 +184,8 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
        vocodeInstanceId: catalogEntryData.vocodeInstanceId || '',
        integrationEntityId: catalogEntryData.integrationEntityId || '',
        integrationEntityType: catalogEntryData.integrationEntityType || '',
-       integrationEntityName: catalogEntryData.integrationEntityName || ''
+       integrationEntityName: catalogEntryData.integrationEntityName || '',
+       catalogTypeCode: catalogEntryData.catalogTypeCode || ''
      };
 
      try {
@@ -224,7 +225,8 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
         vocodeInstanceId: catalogEntryData.vocodeInstanceId || '',
         integrationEntityId: catalogEntryData.integrationEntityId || '',
         integrationEntityType: catalogEntryData.integrationEntityType || '',
-        integrationEntityName: catalogEntryData.integrationEntityName || ''
+        integrationEntityName: catalogEntryData.integrationEntityName || '',
+        catalogTypeCode: catalogEntryData.catalogTypeCode || ''
       };
 
       try {
@@ -377,7 +379,14 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
     data.getData().integrationEntityName = value;
   }
 
- 
+  public get catalogTypeCode(): string {
+    return this.getCurrentEntity().getData().catalogTypeCode || '';
+  }
+
+  public set catalogTypeCode(value: string) {
+    var data = super.getEntityForSet();
+    data.getData().catalogTypeCode = value;
+  }
   /**
    * Create a wrapper from CatalogEntryGETData
    * @param catalogEntryData The CatalogEntryGETData to wrap
@@ -423,7 +432,8 @@ export class CatalogEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> 
       vocodeInstanceId: '',
       integrationEntityId: '',
       integrationEntityType: '',
-      integrationEntityName: ''
+      integrationEntityName: '',
+      catalogTypeCode: ''
     } as CatalogEntryGETData;
     return new CatalogEntryCrudWrapper(entity, hcclService);
   }

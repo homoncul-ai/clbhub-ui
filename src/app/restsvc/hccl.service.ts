@@ -2640,6 +2640,7 @@ export interface CatalogEntryPOSTData {
   catalogId: string;
   entryCode: string;
   title: string;
+  catalogTypeCode: string;
   shortDescription: string;
   description: string;
   notes?: string;
@@ -2666,6 +2667,7 @@ export interface CatalogEntryGETData {
   catalogId?: string;
   entryCode?: string;
   title?: string;
+  catalogTypeCode?: string;
   shortDescription?: string;
   description?: string;
   notes?: string;
@@ -2675,12 +2677,32 @@ export interface CatalogEntryGETData {
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
+  catalogCode?: string;
+  distance?: number;
+  distanceFromCode?: string;
 }
 
 export interface CatalogEntryGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CatalogEntryGETData[];
   filter?: BaseCriteria;
+  catalog?: CatalogGETData;
+}
+
+export interface CatalogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  taxonomyEntryId?: string;
+  urlPrefix?: string;
+  url?: string;
 }
 
 export interface DCPageData {
@@ -2704,6 +2726,7 @@ export interface CatalogEntryCriteria {
   catalogId?: string;
   entryCode?: string;
   title?: string;
+  catalogTypeCode?: string;
   shortDescription?: string;
   available?: number;
   url?: string;
@@ -2718,6 +2741,7 @@ export interface CatalogEntryPUTData {
   catalogId: string;
   entryCode: string;
   title: string;
+  catalogTypeCode: string;
   shortDescription: string;
   description: string;
   notes?: string;
@@ -2956,22 +2980,6 @@ export interface CatalogPOSTData {
   businessCode: string;
   description: string;
   available: number;
-  taxonomyEntryId?: string;
-  urlPrefix?: string;
-  url?: string;
-}
-
-export interface CatalogGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  organizationId?: string;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  available?: number;
   taxonomyEntryId?: string;
   urlPrefix?: string;
   url?: string;
@@ -4566,6 +4574,7 @@ export interface HcclUserProfileCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  userId?: string;
   userCode?: string;
   organizationId?: string;
   profileTypeCode?: string;
@@ -5477,7 +5486,7 @@ export interface PersonalStatementPUTData {
 }
 
 export interface VocationEncodingInstancePOSTData {
-  vocationEncodingId?: string;
+  vocationEncodingId: string;
   encodingName: string;
   vocationEncodingRefId: string;
   sequenceOrder?: number;
@@ -5526,10 +5535,11 @@ export interface VocationEncodingInstanceCriteria {
   primaryCode?: number;
   secondaryCode?: number;
   secondaryCodeDistance?: number;
+  catalogEntryTypeCode?: string;
 }
 
 export interface VocationEncodingInstancePUTData {
-  vocationEncodingId?: string;
+  vocationEncodingId: string;
   encodingName: string;
   vocationEncodingRefId: string;
   sequenceOrder?: number;

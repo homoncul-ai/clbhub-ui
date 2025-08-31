@@ -11610,6 +11610,7 @@
         "required": [
           "available",
           "catalogId",
+          "catalogTypeCode",
           "description",
           "entryCode",
           "shortDescription",
@@ -11628,6 +11629,11 @@
           },
           "title": {
             "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "catalogTypeCode": {
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
           },
@@ -11714,6 +11720,9 @@
           "title": {
             "type": "string"
           },
+          "catalogTypeCode": {
+            "type": "string"
+          },
           "shortDescription": {
             "type": "string"
           },
@@ -11743,6 +11752,16 @@
           },
           "integrationEntityName": {
             "type": "string"
+          },
+          "catalogCode": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "distanceFromCode": {
+            "type": "string"
           }
         }
       },
@@ -11760,6 +11779,57 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          },
+          "catalog": {
+            "$ref": "#/components/schemas/CatalogGETData"
+          }
+        }
+      },
+      "CatalogGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taxonomyEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "urlPrefix": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
           }
         }
       },
@@ -11843,6 +11913,9 @@
           "title": {
             "type": "string"
           },
+          "catalogTypeCode": {
+            "type": "string"
+          },
           "shortDescription": {
             "type": "string"
           },
@@ -11876,6 +11949,7 @@
         "required": [
           "available",
           "catalogId",
+          "catalogTypeCode",
           "description",
           "entryCode",
           "shortDescription",
@@ -11894,6 +11968,11 @@
           },
           "title": {
             "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "catalogTypeCode": {
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
           },
@@ -12717,54 +12796,6 @@
           "businessCode": {
             "maxLength": 50,
             "minLength": 1,
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "taxonomyEntryId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "urlPrefix": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          }
-        }
-      },
-      "CatalogGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "organizationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
             "type": "string"
           },
           "description": {
@@ -18500,6 +18531,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "userCode": {
             "type": "string"
           },
@@ -21834,6 +21869,7 @@
         "required": [
           "encodingDistance",
           "encodingName",
+          "vocationEncodingId",
           "vocationEncodingRefId"
         ],
         "type": "object",
@@ -22008,6 +22044,9 @@
           "secondaryCodeDistance": {
             "type": "integer",
             "format": "int32"
+          },
+          "catalogEntryTypeCode": {
+            "type": "string"
           }
         }
       },
@@ -22015,6 +22054,7 @@
         "required": [
           "encodingDistance",
           "encodingName",
+          "vocationEncodingId",
           "vocationEncodingRefId"
         ],
         "type": "object",
