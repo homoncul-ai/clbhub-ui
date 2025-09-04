@@ -1,21 +1,40 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
+import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-student-personalstatement-search',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './student-personalstatement-search.component.html',
   styleUrl: '../../components/_global/abstract-crud/abstract-crud.component.scss'
 })
 export class StudentPersonalStatementSearchComponent extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
   
-  // Properties referenced in template
+  // Properties for dropdown and search functionality
+  selectedSearchType: string = '';
+  searchResults: VeiSearchResultsGETData | null = null;
+  override loading: boolean = false;
   error: any = null;
+
+  // Search type options
+  searchTypes = [
+    { value: 'jobs', label: 'Jobs' },
+    { value: 'courses', label: 'Courses' },
+    { value: 'events', label: 'Events' }
+  ];
+
+  /* update this page to have a dropdown with 3 choices : jobs, courses, events
+    and a search button. 
+    When the user selects a choice, update the criteria object with the appropriate criteria.
+    Add a method "getCriteria" that returns a catalogentrycriteria object and pass it to the catalog entry list component.
+    call the method queryCatalogEntries and display the VEISearchResultsGETData
+   */
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
@@ -29,5 +48,73 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
     super.prepareModeEntry(entity, mode);
     console.log('PersonalStatementSearchComponent prepareModeEntry ' + this.entity.dump);
     return Promise.resolve();
+  }
+
+  /**
+   * Get criteria based on selected search type
+   */
+  getCriteria(): CatalogEntryCriteria {
+    const criteria: CatalogEntryCriteria = {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      vocationEncodingId: this.entity?.getVocationEncodingId()
+    };
+
+    // Add specific criteria based on search type
+    switch (this.selectedSearchType) {
+      case 'jobs':
+        criteria.catalogTypeCode = 'JOB';
+        break;
+      case 'courses':
+        criteria.catalogTypeCode = 'COURSE';
+        break;
+      case 'events':
+        criteria.catalogTypeCode = 'EVENT';
+        break;
+    }
+
+    return criteria;
+  }
+
+  /**
+   * Perform search using queryCatalogEntries (findCatalogEntrysUsingVocode)
+   */
+  async performSearch(): Promise<void> {
+    if (!this.selectedSearchType) {
+      this.error = 'Please select a search type';
+      return;
+    }
+
+    this.loading = true;
+    this.error = null;
+
+    try {
+      const criteria = this.getCriteria();
+      const results = await this.hcclService.findCatalogEntrysUsingVocode(criteria).toPromise();
+      this.searchResults = results || null;
+      console.log('Search results:', results);
+    } catch (err) {
+      this.error = 'Error performing search: ' + (err as any)?.message || 'Unknown error';
+      console.error('Search error:', err);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  /**
+   * Handle search type change
+   */
+  onSearchTypeChange(): void {
+    // Clear previous results when search type changes
+    this.searchResults = null;
+    this.error = null;
+  }
+
+  /**
+   * Handle search button click
+   */
+  onSearchClick(): void {
+    this.performSearch();
   }
 }

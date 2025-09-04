@@ -328,6 +328,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogEntryGETDataSearchResults>(request);
   }
 
+  findCatalogEntrysUsingVocode(body: CatalogEntryCriteria): Observable<VeiSearchResultsGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentry/query-using-vocode",
+      method: "POST",
+      body: body,
+    };
+    return this.request<VeiSearchResultsGETData>(request);
+  }
+
   createCatalogEntryTag(body: CatalogEntryTagPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrytag",
@@ -2734,7 +2743,27 @@ export interface CatalogEntryCriteria {
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
-  searchText?: string;
+  vocationEncodingId?: string;
+}
+
+export interface VeiSearchResultsGETData {
+  catalogEntries?: CatalogEntryGETDataSearchResults;
+  mapVocationRef?: any;
+  mapCatalog?: any;
+}
+
+export interface VocationEncodingRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  primaryCode?: number;
+  secondaryCode?: number;
 }
 
 export interface CatalogEntryPUTData {
@@ -5554,20 +5583,6 @@ export interface VocationEncodingRefPOSTData {
   businessCode: string;
   description: string;
   available: number;
-  primaryCode?: number;
-  secondaryCode?: number;
-}
-
-export interface VocationEncodingRefGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  available?: number;
   primaryCode?: number;
   secondaryCode?: number;
 }

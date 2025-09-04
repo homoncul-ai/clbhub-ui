@@ -1,1 +1,74 @@
-<h1>Generated StudentPersonalStatementSearchComponent</h1>
+<div class="container mt-4">
+  <h1>Personal Statement Search</h1>
+  
+  <!-- Search Form -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="searchType" class="form-label">Search Type *</label>
+        <select 
+          id="searchType" 
+          class="form-select" 
+          [(ngModel)]="selectedSearchType"
+          (change)="onSearchTypeChange()"
+          [class.is-invalid]="error && !selectedSearchType">
+          <option value="">Select search type...</option>
+          <option *ngFor="let type of searchTypes" [value]="type.value">
+            {{ type.label }}
+          </option>
+        </select>
+        <div *ngIf="error && !selectedSearchType" class="invalid-feedback">
+          Please select a search type
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 d-flex align-items-end">
+      <button 
+        type="button" 
+        class="btn btn-primary" 
+        (click)="onSearchClick()"
+        [disabled]="loading || !selectedSearchType">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+        {{ loading ? 'Searching...' : 'Search' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Display -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="searchResults && searchResults.catalogEntries">
+    <h3>Search Results</h3>
+    <div *ngIf="searchResults.catalogEntries.searchResults && searchResults.catalogEntries.searchResults.length > 0">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Entry Code</th>
+              <th>Title</th>
+              <th>Short Description</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entry of searchResults.catalogEntries.searchResults">
+              <td>{{ entry.entryCode }}</td>
+              <td>{{ entry.title }}</td>
+              <td>{{ entry.shortDescription }}</td>
+              <td>{{ entry.catalogTypeCode }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results Message -->
+  <div *ngIf="searchResults && (!searchResults.catalogEntries || searchResults.catalogEntries.searchResults?.length === 0)" 
+       class="alert alert-info" role="alert">
+    No results found for the selected search type.
+  </div>
+</div>

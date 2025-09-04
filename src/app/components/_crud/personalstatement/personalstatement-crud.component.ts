@@ -336,7 +336,10 @@ export class PersonalStatementCrudWrapper extends EntityWrapper<PersonalStatemen
   getStatus(): number {
     return this.getData().status || 0;
   }
-
+  getVocationEncodingId(): string {
+    return this.getData().vocationEncodingId || '';
+  }
+  
   getFkMenuCriteria(): PersonalStatementCriteria {
     return {
       pageNumber: 1,
