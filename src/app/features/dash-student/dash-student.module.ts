@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 // Components
 import { DashStudentComponent } from './dash-student.component';
 import { DashStudentHomeComponent } from './dash-student-home.component';
-import { DashStudentCoursesComponent } from './dash-student-courses.component';
+import { DashStudentPersonalStatementsComponent } from './dash-student-personalstatements.component';
 import { DashStudentProgressComponent } from './dash-student-progress.component';
 import { DashStudentScheduleComponent } from './dash-student-schedule.component';
+import { StudentPersonalStatementGroupComponent } from './student-personalstatement-group.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,9 @@ const routes: Routes = [
     component: DashStudentComponent,
     children: [
       { path: 'home', component: DashStudentHomeComponent },
-      { path: 'courses', component: DashStudentCoursesComponent },
+      { path: 'personalstatements', component: DashStudentPersonalStatementsComponent },
+      { path: 'personalstatements/:id/:tabId', component: StudentPersonalStatementGroupComponent },
+      { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'schedule', component: DashStudentScheduleComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -30,7 +33,7 @@ const routes: Routes = [
     // Standalone components
     DashStudentComponent,
     DashStudentHomeComponent,
-    DashStudentCoursesComponent,
+    DashStudentPersonalStatementsComponent,
     DashStudentProgressComponent,
     DashStudentScheduleComponent,
   ],

@@ -1465,10 +1465,10 @@ EA_ORGNONPROFITS_LIST: {
   },
   STUDENT_COURSES: {
     level: 1,
-    label: 'My Courses',
-    route: '/student-dashboard/courses',
+    label: 'My Personal Statements',
+    route: '/student-dashboard/personalstatements',
     componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-courses',
+    componentName: 'dash-student-personalstatements',
     icon: 'fas fa-book'
   },
   STUDENT_PROGRESS: {

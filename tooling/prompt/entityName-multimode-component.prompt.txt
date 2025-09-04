@@ -1,0 +1,27 @@
+This prompt will use the .ts template ./templates/template-multimode-component.ts with a couple of arguments. 
+The goal is to create a working page that a tab will route to. 
+We'll call this prompt with the following arguments : 
+
+[folderName] - the folder to put the new component 
+[componentClassName] - the class name of the component
+[groupComponentName] - the component that needs to have the tab [tabName]. 
+[entityName] - specifies the '_crud/[entityName]' folder you'll find the components/objects in.
+[tabName] - specifies the name of the tab to be used in the routing module. 
+
+-- make sure the group component has the 'SimpleTab' for the page created. 
+-- the routeName for the new page will be the route for the [groupComponentName], appending '/[tabName]'
+-- generate the component selector based on the componentClassName, with proper angular conventions
+-- generate the component .ts, .html file name based on the componentClassName, with proper angular conventions
+-- create the generated .ts, html file in [folderName]
+-- on completion, clicking on the tab [tabName] will open this file.
+-- in the .html file, simply generate content as '<h1>Generated [compomentClassName] </h1>'
+
+
+run these instructions for the following variables :  
+folderName = dash-student
+componentClassName = student-personalstatement-search
+groupCompnentName = StudentPersonalStatementGroupComponent
+entityName = PersonalStatement
+tabName = search
+
+
