@@ -313,6 +313,9 @@
         <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
         <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
         <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button> 
+        <button (click)="navigateToSearch('jobs')" class="btn btn-info">Search Jobs</button>
+        <button (click)="navigateToSearch('courses')" class="btn btn-success">Search Courses</button>
+        <button (click)="navigateToSearch('events')" class="btn btn-warning">Search Events</button>
       </div>
     </div>
     <div class="details-section">

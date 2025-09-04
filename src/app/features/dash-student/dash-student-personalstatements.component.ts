@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { HcclService, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { Observable } from 'rxjs';
@@ -54,17 +55,17 @@ import { DategetdataDisplayComponent } from "../../components/_global/dategetdat
                       
                       <!-- Action buttons for each card -->
                       <div class="card-actions">
-                        <button class="btn btn-xs btn-primary me-1" (click)="findMatchingJobs(statement)">
+                        <button class="btn btn-xs btn-primary me-1" (click)="findMatchingJobs(statement)" title="Search Jobs">
                           <i class="fas fa-briefcase me-1"></i>
-                          Jobs
+                          
                         </button>
-                        <button class="btn btn-xs btn-success me-1" (click)="findMatchingCourses(statement)">
+                        <button class="btn btn-xs btn-success me-1" (click)="findMatchingCourses(statement)" title="Search Courses">
                           <i class="fas fa-graduation-cap me-1"></i>
-                          Courses
+                  
                         </button>
-                        <button class="btn btn-xs btn-info" (click)="findMatchingEvents(statement)">
+                        <button class="btn btn-xs btn-info" (click)="findMatchingEvents(statement)" title="Search Events">
                           <i class="fas fa-calendar-alt me-1"></i>
-                          Events
+                          
                         </button>
                       </div>
                     </div>
@@ -163,7 +164,8 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
 
   constructor(
     private hcclService: HcclService,
-    private hcclContextService: HcclContextService
+    private hcclContextService: HcclContextService,
+    private router: Router
   ) {
     console.log('DashStudentCoursesComponent initialized');
   }
@@ -244,20 +246,23 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
   }
 
   findMatchingJobs(statement: PersonalStatementGETData): void {
-    // TODO: Implement job matching functionality
-    console.log('Find matching jobs clicked for statement:', statement.id);
-    alert('Job matching functionality will be implemented soon for this statement.');
+    if (statement.id) {
+      const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=jobs`;
+      window.open(url, '_blank');
+    }
   }
 
   findMatchingCourses(statement: PersonalStatementGETData): void {
-    // TODO: Implement course matching functionality
-    console.log('Find matching courses clicked for statement:', statement.id);
-    alert('Course matching functionality will be implemented soon for this statement.');
+    if (statement.id) {
+      const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=courses`;
+      window.open(url, '_blank');
+    }
   }
 
   findMatchingEvents(statement: PersonalStatementGETData): void {
-    // TODO: Implement event matching functionality
-    console.log('Find matching events clicked for statement:', statement.id);
-    alert('Event matching functionality will be implemented soon for this statement.');
+    if (statement.id) {
+      const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=events`;
+      window.open(url, '_blank');
+    }
   }
 }

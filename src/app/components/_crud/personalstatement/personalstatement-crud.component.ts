@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { PersonalStatementCriteria, PersonalStatementGETData, PersonalStatementPOSTData, PersonalStatementPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
@@ -260,6 +261,18 @@ export class PersonalStatementCrudComponent extends AbstractCrudComponent<Person
     const criteria = this.getPersonalStatementFkMenuCriteria();
     const results = await this.hcclService.findPersonalStatements(criteria).toPromise();
     this.personalstatementMenu = await entity.getFkMenu("personalstatements", this.id);
+  }
+
+  /**
+   * Navigate to search page with specific search type
+   */
+  navigateToSearch(searchType: string): void {
+    if (this.id) {
+      const baseRoute = this.getBaseRoute();
+      this.router.navigate([baseRoute, this.id, 'search'], { 
+        queryParams: { searchType: searchType } 
+      });
+    }
   }
 }
 

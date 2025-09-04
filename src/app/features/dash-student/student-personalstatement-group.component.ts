@@ -64,4 +64,11 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     return tabs;
     return tabs;
   }
+
+  /**
+   * Get search type from route query parameters
+   */
+  getSearchTypeFromRoute(): string {
+    return this.route.snapshot.queryParams['searchType'] || '';
+  }
 }

@@ -10,7 +10,7 @@
 </div>
 
 <div *ngIf="currentTabId === 'search'">
-  <app-student-personalstatement-search [id]="id"></app-student-personalstatement-search>
+  <app-student-personalstatement-search [id]="id" [searchType]="getSearchTypeFromRoute()"></app-student-personalstatement-search>
 </div>
 
 <div *ngIf="currentTabId === 'research'">

@@ -16,6 +16,8 @@ import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl
 })
 export class StudentPersonalStatementSearchComponent extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
   
+  @Input() searchType: string = '';
+  
   // Properties for dropdown and search functionality
   selectedSearchType: string = '';
   searchResults: VeiSearchResultsGETData | null = null;
@@ -42,6 +44,13 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
     this.entity = await PersonalStatementCrudWrapper.newInstance(this.id, this.hcclService);
     this.localModes = ['mode1', 'mode2'];
     this.loading = false;
+    
+    // Initialize searchType from input parameter if provided
+    if (this.searchType && this.searchTypes.some(type => type.value === this.searchType)) {
+      this.selectedSearchType = this.searchType;
+      // Automatically perform search if searchType is provided
+      this.performSearch();
+    }
   }
 
   protected override async prepareModeEntry(entity: PersonalStatementCrudWrapper, mode: string): Promise<void> {
