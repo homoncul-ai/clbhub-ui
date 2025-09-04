@@ -19,9 +19,9 @@ We'll call this prompt with the following arguments :
 
 run these instructions for the following variables :  
 folderName = dash-student
-componentClassName = student-personalstatement-search
+componentClassName = student-personalstatement-research
 groupCompnentName = StudentPersonalStatementGroupComponent
 entityName = PersonalStatement
-tabName = search
+tabName = research
 
 

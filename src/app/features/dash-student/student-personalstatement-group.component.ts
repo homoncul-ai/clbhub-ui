@@ -10,11 +10,12 @@ import { PersonalStatementCrudWrapper, PersonalStatementCrudComponent } from '@a
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { StudentPersonalStatementSearchComponent } from './student-personalstatement-search.component';
+import { StudentPersonalStatementResearchComponent } from './student-personalstatement-research.component';
 
 @Component({
   selector: 'app-student-personalstatement-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, PersonalStatementCrudComponent, StudentPersonalStatementSearchComponent],
+  imports: [CommonModule, SimpleTabsetComponent, PersonalStatementCrudComponent, StudentPersonalStatementSearchComponent, StudentPersonalStatementResearchComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: 'student-personalstatement-group.component.html',
 })
@@ -51,7 +52,7 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
      tab =  new SimpleTab('research', 'Research', '', 
       () => {
         //this.currentTabId = 'items';
-        this.router.navigate([baseRoute, this.id, 'research', this.childId]);
+        this.router.navigate([baseRoute, this.id, 'research']);
         
       },
       () => {

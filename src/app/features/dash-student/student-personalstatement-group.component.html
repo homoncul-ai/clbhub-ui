@@ -13,6 +13,10 @@
   <app-student-personalstatement-search [id]="id"></app-student-personalstatement-search>
 </div>
 
+<div *ngIf="currentTabId === 'research'">
+  <app-student-personalstatement-research [id]="id"></app-student-personalstatement-research>
+</div>
+
 <!--
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
