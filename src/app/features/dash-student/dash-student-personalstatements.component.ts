@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HcclService, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, PersonalStatementPOSTData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { Observable } from 'rxjs';
 import { DategetdataDisplayComponent } from "../../components/_global/dategetdata-display/dategetdata-display.component";
@@ -9,7 +10,7 @@ import { DategetdataDisplayComponent } from "../../components/_global/dategetdat
 @Component({
   selector: 'app-dash-student-courses',
   standalone: true,
-  imports: [CommonModule, DategetdataDisplayComponent],
+  imports: [CommonModule, FormsModule, DategetdataDisplayComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -20,6 +21,10 @@ import { DategetdataDisplayComponent } from "../../components/_global/dategetdat
                 <i class="fas fa-file-alt me-2"></i>
                 My Personal Statements
               </h3>
+              <button class="btn btn-primary btn-sm" (click)="openCreateModal()" title="Create New Personal Statement">
+                <i class="fas fa-plus me-1"></i>
+                New Statement
+              </button>
             </div>
             <div class="card-body">
               <!-- Loading state -->
@@ -90,6 +95,59 @@ import { DategetdataDisplayComponent } from "../../components/_global/dategetdat
         </div>
       </div>
     </div>
+
+    <!-- Create Personal Statement Modal -->
+    <div *ngIf="showModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="createPersonalStatementModalLabel" aria-hidden="false">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createPersonalStatementModalLabel">
+              <i class="fas fa-plus me-2"></i>
+              Create New Personal Statement
+            </h5>
+            <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form #createForm="ngForm" (ngSubmit)="createPersonalStatement(createForm)">
+              <div class="mb-3">
+                <label for="statementName" class="form-label">Statement Name *</label>
+                <input type="text" class="form-control" id="statementName" name="statementName" 
+                       [(ngModel)]="newStatement.name" required maxlength="255"
+                       placeholder="Enter statement name">
+              </div>
+              <div class="mb-3">
+                <label for="statementDescription" class="form-label">Description</label>
+                <textarea class="form-control" id="statementDescription" name="statementDescription" 
+                          [(ngModel)]="newStatement.description" rows="3" maxlength="1024"
+                          placeholder="Enter statement description"></textarea>
+              </div> 
+              <div class="mb-3">
+                <label for="statementRawText" class="form-label">Raw Text *</label>
+                <textarea class="form-control" id="statementRawText" name="statementRawText" 
+                          [(ngModel)]="newStatement.rawText" rows="6" required
+                          placeholder="Enter your personal statement text"></textarea>
+              </div>
+<!--               
+              <div class="mb-3">
+                <label for="statementTypeCode" class="form-label">Statement Type Code</label>
+                <input type="text" class="form-control" id="statementTypeCode" name="statementTypeCode" 
+                       [(ngModel)]="newStatement.statementTypeCode" maxlength="50"
+                       placeholder="Enter statement type code">
+              </div> -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="createPersonalStatement(createForm)" 
+                    [disabled]="!createForm.form.valid || creating">
+              <span *ngIf="creating" class="spinner-border spinner-border-sm me-2" role="status"></span>
+              {{ creating ? 'Creating...' : 'Create Statement' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showModal" class="modal-backdrop fade show"></div>
   `,
   styles: [`
     .card {
@@ -155,12 +213,45 @@ import { DategetdataDisplayComponent } from "../../components/_global/dategetdat
       padding: 0.75rem 1.5rem;
       font-weight: 500;
     }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header {
+      background-color: #f8f9fa;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+    .modal-title {
+      color: #333;
+      font-weight: 600;
+    }
   `]
 })
 export class DashStudentPersonalStatementsComponent implements OnInit {
   personalStatements: PersonalStatementGETData[] = [];
   loading = false;
   error = '';
+
+  // Modal and form properties
+  newStatement: Partial<PersonalStatementPOSTData> = {
+    name: '',
+    description: '',
+    rawText: '',
+    statementTypeCode: '',
+    businessCode: '',
+    parentEntityId: '',
+    parentEntityType: '',
+    parentEntityName: '',
+    encodingText: '',
+    vocationEncodingId: '',
+    status: 0
+  };
+  creating = false;
+  showModal = false;
 
   constructor(
     private hcclService: HcclService,
@@ -263,6 +354,96 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
     if (statement.id) {
       const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=events`;
       window.open(url, '_blank');
+    }
+  }
+
+  /**
+   * Open the create personal statement modal
+   */
+  openCreateModal(): void {
+    // Reset form
+    this.newStatement = {
+      name: '',
+      description: '',
+      rawText: '',
+      statementTypeCode: '',
+      businessCode: '',
+      parentEntityId: '',
+      parentEntityType: '',
+      parentEntityName: '',
+      encodingText: '',
+      vocationEncodingId: '',
+      status: 0
+    };
+    
+    // Show modal using Angular
+    this.showModal = true;
+  }
+
+  /**
+   * Close the modal
+   */
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  /**
+   * Create a new personal statement
+   */
+  async createPersonalStatement(form: any): Promise<void> {
+    if (!form.form.valid) {
+      return;
+    }
+
+    this.creating = true;
+    this.error = '';
+
+    try {
+      // Wait for context to be ready
+      await this.hcclContextService.waitForReady();
+      
+      const currentUserId = this.hcclContextService.getCurrentUserProfileId();
+      
+      if (!currentUserId) {
+        this.error = 'Unable to determine current user. Please try logging in again.';
+        this.creating = false;
+        return;
+      }
+
+      const businessCode = "autocalc";
+      // Prepare the data for creation
+      const postData: PersonalStatementPOSTData = {
+        name: this.newStatement.name || '',
+        businessCode: businessCode,
+        description: this.newStatement.description || '',
+        statementTypeCode: 'student_vocation',
+        parentEntityId: currentUserId,
+        parentEntityType: 'HcclUserProfile',
+        parentEntityName: 'ParentEntityName',
+        rawText: this.newStatement.rawText || '',
+        encodingText: '',
+        vocationEncodingId: this.newStatement.vocationEncodingId || '',
+        status: this.newStatement.status || 0
+      };
+
+      // Create the personal statement
+      const response = await this.hcclService.createPersonalStatement(postData).toPromise();
+      
+      if (response) {
+        // Close modal
+        this.closeModal();
+        
+        // Reload the list
+        await this.loadPersonalStatements();
+        
+        // Show success message or navigate to the new statement
+        console.log('Personal statement created successfully:', response);
+      }
+    } catch (err) {
+      console.error('Error creating personal statement:', err);
+      this.error = 'Failed to create personal statement. Please try again.';
+    } finally {
+      this.creating = false;
     }
   }
 }
