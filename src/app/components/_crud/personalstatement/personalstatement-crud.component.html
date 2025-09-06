@@ -202,104 +202,20 @@
           [(ngModel)]="name">
         </app-std-mdb-form-text>
         </div>
+        <!-- need hidden input value for businessCode-->
+        <input type="hidden" name="businessCode" [(ngModel)]="businessCode">
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="personalstatement" 
-          name="businessCode"
-          label="Business Code"
+        <app-std-mdb-form-textarea
+          prefix="personalstatement"
+          name="rawText"
+          label="Describe your professional dreams and goals"
           [required]="true"
-          [maxlength]="50"
-          [error]="error"
-          [(ngModel)]="businessCode">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="personalstatement" 
-          name="description"
-          label="Description"
           [maxlength]="1024"
           [error]="error"
-          [rows]="4"
-          [showCharCounter]="true"
-          [(ngModel)]="description">
-        </app-std-mdb-form-textarea>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="personalstatement" 
-          name="statementTypeCode"
-          label="Statement Type Code"
-          [maxlength]="50"
-          [error]="error"
-          [(ngModel)]="statementTypeCode">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="personalstatement" 
-          name="parentEntityId"
-          label="Parent Entity ID"
-          [required]="true"
-          [error]="error"
-          [(ngModel)]="parentEntityId">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="personalstatement" 
-          name="parentEntityType"
-          label="Parent Entity Type"
-          [maxlength]="50"
-          [error]="error"
-          [(ngModel)]="parentEntityType">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="personalstatement" 
-          name="parentEntityName"
-          label="Parent Entity Name"
-          [maxlength]="255"
-          [error]="error"
-          [(ngModel)]="parentEntityName">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="personalstatement" 
-          name="rawText"
-          label="Raw Text"
-          [required]="true"
-          [error]="error"
-          [rows]="6"
           [(ngModel)]="rawText">
         </app-std-mdb-form-textarea>
         </div>
-        <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="personalstatement" 
-          name="encodingText"
-          label="Encoding Text"
-          [required]="true"
-          [error]="error"
-          [rows]="6"
-          [(ngModel)]="encodingText">
-        </app-std-mdb-form-textarea>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="personalstatement" 
-          name="vocationEncodingId"
-          label="Vocation Encoding ID"
-          [error]="error"
-          [(ngModel)]="vocationEncodingId">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-          <label>Status:</label>
-          <input type="number" [(ngModel)]="status" name="status" class="form-control">
-        </div>
+
         </div>
       </form>
     </div>
@@ -333,7 +249,7 @@
           <label>Name :</label>
           <span>{{ name }}</span>  
         </div>
-        <div class="detail-group">
+        <!-- <div class="detail-group">
           <label>Business Code:</label>
           <span>{{ businessCode }}</span>
         </div>
@@ -344,11 +260,13 @@
         <div class="detail-group">
           <label>Statement Type Code:</label>
           <span>{{ statementTypeCode }}</span>
-        </div>
+        </div> 
         <div class="detail-group">
           <label>Parent Entity Name:</label>
           <span>{{ parentEntityName }}</span>
         </div>
+      -->
+
         <div class="detail-group">
           <label>Raw Text:</label>
           <span>{{ rawText }}</span>
@@ -357,42 +275,13 @@
           <label>Encoding Text:</label>
           <span>{{ encodingText }}</span>
         </div>
-        <div class="detail-group">
+        <!-- <div class="detail-group">
           <label>Status:</label>
           <span>{{ status }}</span>
-        </div>
+        </div> -->
   
-          <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-          <div class="detail-group">
-              <label>Date Created:</label>
-              <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-          </div>
-          
-  
-          <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-          <div class="detail-group">
-            <label>Vocation Encoding ID:</label>
-            <span>{{ vocationEncodingId }}</span>
-        </div>
+        <app-crud-internal-data [crudWrapper]="getCurrentEntity()"></app-crud-internal-data>
 
-      <!-- Only show these in "details" mode -->
-      <!-- **Always** use this block for these 4 fields in details mode.-->
-      <div class="detail-group">
-        <label>Date Created:</label>
-        <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
-      </div>
-      <div class="detail-group">
-        <label>Created By:</label>
-        <span><app-reference-data [data]="createdByInfo"></app-reference-data></span>
-      </div>
-      <div class="detail-group">
-        <label>Date Last Updated:</label>
-        <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
-      </div>
-      <div class="detail-group">
-        <label>Last Updated By:</label>
-        <span><app-reference-data [data]="lastUpdatedByInfo"> </app-reference-data></span>
-      </div>
     </div>
   </div>
 

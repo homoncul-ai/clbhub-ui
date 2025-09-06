@@ -23,6 +23,7 @@ import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata
 import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { CrudInternalDataComponent } from "@app/components/_global/crud-internal-data/crud-internal-data.component";
 
 @Component({
   selector: 'app-personalstatement-crud',
@@ -31,7 +32,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CrudInternalDataComponent],
   standalone: true
 })
 export class PersonalStatementCrudComponent extends AbstractCrudComponent<PersonalStatementCrudWrapper> implements OnInit, OnChanges {

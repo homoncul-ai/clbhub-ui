@@ -7,11 +7,13 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { Observable } from 'rxjs';
 import { DategetdataDisplayComponent } from "../../components/_global/dategetdata-display/dategetdata-display.component";
 import { AbstractListComponent } from '@app/components/_global';
+import { StdMdbFormTextareaComponent } from "../../components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component";
+import { StdMdbFormTextComponent } from "../../components/_global/std-mdb-form-text/std-mdb-form-text.component";
 
 @Component({
   selector: 'app-dash-student-courses',
   standalone: true,
-  imports: [CommonModule, FormsModule, DategetdataDisplayComponent],
+  imports: [CommonModule, FormsModule, DategetdataDisplayComponent, StdMdbFormTextareaComponent, StdMdbFormTextComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -110,24 +112,58 @@ import { AbstractListComponent } from '@app/components/_global';
           </div>
           <div class="modal-body">
             <form #createForm="ngForm" (ngSubmit)="createPersonalStatement(createForm)">
+              <!-- Hidden inputs for required fields -->
+              <input type="hidden" name="businessCode" [(ngModel)]="newStatement.businessCode">
+              <input type="hidden" name="statementTypeCode" [(ngModel)]="newStatement.statementTypeCode">
+              <input type="hidden" name="parentEntityId" [(ngModel)]="newStatement.parentEntityId">
+              <input type="hidden" name="parentEntityType" [(ngModel)]="newStatement.parentEntityType">
+              <input type="hidden" name="parentEntityName" [(ngModel)]="newStatement.parentEntityName">
+              <input type="hidden" name="encodingText" [(ngModel)]="newStatement.encodingText">
+              <input type="hidden" name="vocationEncodingId" [(ngModel)]="newStatement.vocationEncodingId">
+              <input type="hidden" name="status" [(ngModel)]="newStatement.status">
+              
+              <app-std-mdb-form-text 
+                prefix="personalstatement"
+                name="name"
+                label="Statement Name *"
+                [required]="true"
+                [maxlength]="255"
+                [error]="error"
+                [(ngModel)]="newStatement.name">
+              </app-std-mdb-form-text>
+              <!--
               <div class="mb-3">
                 <label for="statementName" class="form-label">Statement Name *</label>
                 <input type="text" class="form-control" id="statementName" name="statementName" 
                        [(ngModel)]="newStatement.name" required maxlength="255"
                        placeholder="Enter statement name">
               </div>
+              -->
+              <!--
               <div class="mb-3">
                 <label for="statementDescription" class="form-label">Description</label>
                 <textarea class="form-control" id="statementDescription" name="statementDescription" 
                           [(ngModel)]="newStatement.description" rows="3" maxlength="1024"
                           placeholder="Enter statement description"></textarea>
               </div> 
+              -->
+              <app-std-mdb-form-textarea
+                prefix="personalstatement"
+                name="rawText"
+                label="Describe your professional dreams and goals"
+                [required]="true"
+                [maxlength]="1024"
+                [error]="error"
+                [(ngModel)]="newStatement.rawText">
+              </app-std-mdb-form-textarea>
+              <!--
               <div class="mb-3">
-                <label for="statementRawText" class="form-label">Raw Text *</label>
+                <label for="statementRawText" class="form-label">Describe your professional dreams and goals *</label>
                 <textarea class="form-control" id="statementRawText" name="statementRawText" 
                           [(ngModel)]="newStatement.rawText" rows="6" required
                           placeholder="Enter your personal statement text"></textarea>
               </div>
+              -->
 <!--               
               <div class="mb-3">
                 <label for="statementTypeCode" class="form-label">Statement Type Code</label>
@@ -361,16 +397,16 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
    * Open the create personal statement modal
    */
   openCreateModal(): void {
-    // Reset form
+    // Reset form with default values for hidden fields
     this.newStatement = {
       name: '',
       description: '',
       rawText: '',
-      statementTypeCode: '',
-      businessCode: '',
+      statementTypeCode: 'student_vocation',
+      businessCode: 'autocalc',
       parentEntityId: '',
-      parentEntityType: '',
-      parentEntityName: '',
+      parentEntityType: 'HcclUserProfile',
+      parentEntityName: 'ParentEntityName',
       encodingText: '',
       vocationEncodingId: '',
       status: 0
@@ -410,18 +446,17 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
         return;
       }
 
-      const businessCode = "autocalc";
-      // Prepare the data for creation
+      // Prepare the data for creation using form values
       const postData: PersonalStatementPOSTData = {
         name: this.newStatement.name || '',
-        businessCode: businessCode,
+        businessCode: this.newStatement.businessCode || 'autocalc',
         description: this.newStatement.description || '',
-        statementTypeCode: 'student_vocation',
+        statementTypeCode: this.newStatement.statementTypeCode || 'student_vocation',
         parentEntityId: currentUserId,
-        parentEntityType: 'HcclUserProfile',
-        parentEntityName: 'ParentEntityName',
+        parentEntityType: this.newStatement.parentEntityType || 'HcclUserProfile',
+        parentEntityName: this.newStatement.parentEntityName || 'ParentEntityName',
         rawText: this.newStatement.rawText || '',
-        encodingText: '',
+        encodingText: this.newStatement.encodingText || '',
         vocationEncodingId: this.newStatement.vocationEncodingId || '',
         status: this.newStatement.status || 0
       };
