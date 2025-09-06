@@ -714,6 +714,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     return AbstractListComponent.routeToPath(this.router, routePath);
   }
 
+  public routeToPathNewTab(routePath: string[]) {
+    return AbstractListComponent.routeToPathNewTab(this.router, routePath);
+  }
+
   public availableValue(available: number | undefined): number {
     if (!available) {
       available = 0;

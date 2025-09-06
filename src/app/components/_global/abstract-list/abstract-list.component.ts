@@ -573,6 +573,19 @@ implements OnInit, AfterViewInit {
   public static routeToPath(router: Router, routePath: string[]) {
     window.location.href = router.createUrlTree(routePath).toString();
   }
+  public static routeToPathNewTab(router: Router, routePath: string[]) {
+    window.open(router.createUrlTree(routePath).toString(), '_blank');
+  }
+  public static openUrlInNewTab(url: string) {
+    // This app is hosted on a url prefix '/hccl' or on '/' - how can I figure out which is which?
+    if (window.location.pathname.startsWith('/hccl')) {
+      url = '/hccl' + url;
+    }
+    window.open(url, '_blank');
+  }
+
+  // Need a 
+
   protected formatDateTime(date: DateGETData | undefined): string {
     if (!date) {
       return '';

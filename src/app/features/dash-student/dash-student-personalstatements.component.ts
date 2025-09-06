@@ -6,6 +6,7 @@ import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, Perso
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { Observable } from 'rxjs';
 import { DategetdataDisplayComponent } from "../../components/_global/dategetdata-display/dategetdata-display.component";
+import { AbstractListComponent } from '@app/components/_global';
 
 @Component({
   selector: 'app-dash-student-courses',
@@ -307,7 +308,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
 
   openStatementDetails(statementId: string): void {
     const url = `/student-dashboard/personalstatements/${statementId}`;
-    window.open(url, '_blank');
+    AbstractListComponent.openUrlInNewTab(url);
   }
 
   getStatusClass(status?: number): string {
@@ -339,21 +340,20 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
   findMatchingJobs(statement: PersonalStatementGETData): void {
     if (statement.id) {
       const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=jobs`;
-      window.open(url, '_blank');
+      AbstractListComponent.openUrlInNewTab(url);
     }
   }
 
   findMatchingCourses(statement: PersonalStatementGETData): void {
     if (statement.id) {
       const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=courses`;
-      window.open(url, '_blank');
-    }
+      AbstractListComponent.openUrlInNewTab(url);    }
   }
 
   findMatchingEvents(statement: PersonalStatementGETData): void {
     if (statement.id) {
       const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=events`;
-      window.open(url, '_blank');
+      AbstractListComponent.openUrlInNewTab(url);
     }
   }
 
