@@ -46,11 +46,8 @@ Tickets and Participants
 
 # Sat Sep 6
 
-1. Fix routing 
-2. Display vocoding
 3. Modal for catalog entry display
 4. new student ticket
 5. Student ticket 
 6. Student interest.
 7. Fix ai call from QA 
-8. UPdate personal statement

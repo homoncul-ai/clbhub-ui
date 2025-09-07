@@ -6,6 +6,8 @@ import { HcclService } from '@app/restsvc/hccl.service';
 import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl.service';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
 
 @Component({
   selector: 'app-student-personalstatement-search',
@@ -17,6 +19,10 @@ import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl
 export class StudentPersonalStatementSearchComponent extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
   
   @Input() searchType: string = '';
+  
+  // Inject modal service
+  private modalService = inject(MdbModalService);
+  private modalRef: MdbModalRef<CatalogEntryModalComponent> | null = null;
   
   // Properties for dropdown and search functionality
   selectedSearchType: string = '';
@@ -126,4 +132,35 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
   onSearchClick(): void {
     this.performSearch();
   }
+
+  /**
+   * Open modal with the selected catalog entry
+   */
+  openModal(entryIndex: number): void {
+    if (!this.searchResults?.catalogEntries?.searchResults) {
+      return;
+    }
+
+    console.log('Opening modal with data:', {
+      entries: this.searchResults.catalogEntries.searchResults,
+      currentIndex: entryIndex,
+      entriesLength: this.searchResults.catalogEntries.searchResults.length
+    });
+
+    this.modalRef = this.modalService.open(CatalogEntryModalComponent, {
+      modalClass: 'modal-xl',
+      data: {
+        entries: this.searchResults.catalogEntries.searchResults,
+        currentIndex: entryIndex
+      }
+    }) as MdbModalRef<CatalogEntryModalComponent>;
+
+    // Handle modal close
+    if (this.modalRef?.onClose) {
+      this.modalRef.onClose.subscribe(() => {
+        this.modalRef = null;
+      });
+    }
+  }
+
 }

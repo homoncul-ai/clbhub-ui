@@ -54,7 +54,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let entry of searchResults.catalogEntries.searchResults">
+            <tr *ngFor="let entry of searchResults.catalogEntries.searchResults; let i = index" 
+                (click)="openModal(i)" 
+                style="cursor: pointer;">
               <td>{{ entry.entryCode }}</td>
               <td>{{ entry.title }}</td>
               <td>{{ entry.shortDescription }}</td>
@@ -71,4 +73,5 @@
        class="alert alert-info" role="alert">
     No results found for the selected search type.
   </div>
+
 </div>

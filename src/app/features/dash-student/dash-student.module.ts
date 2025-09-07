@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 // Components
 import { DashStudentComponent } from './dash-student.component';
@@ -9,6 +10,7 @@ import { DashStudentPersonalStatementsComponent } from './dash-student-personals
 import { DashStudentProgressComponent } from './dash-student-progress.component';
 import { DashStudentScheduleComponent } from './dash-student-schedule.component';
 import { StudentPersonalStatementGroupComponent } from './student-personalstatement-group.component';
+import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
 
 const routes: Routes = [
   {
@@ -30,12 +32,14 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    MdbModalModule,
     // Standalone components
     DashStudentComponent,
     DashStudentHomeComponent,
     DashStudentPersonalStatementsComponent,
     DashStudentProgressComponent,
     DashStudentScheduleComponent,
+    CatalogEntryModalComponent,
   ],
   declarations: [
     // Non-standalone components would go here
