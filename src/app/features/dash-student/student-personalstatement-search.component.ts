@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HcclService } from '@app/restsvc/hccl.service';
-import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
+import { PersonalStatementCrudWrapper, PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl.service';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -12,7 +12,7 @@ import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
 @Component({
   selector: 'app-student-personalstatement-search',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PersonalStatementCrudComponent],
   templateUrl: './student-personalstatement-search.component.html',
   styleUrl: '../../components/_global/abstract-crud/abstract-crud.component.scss'
 })
