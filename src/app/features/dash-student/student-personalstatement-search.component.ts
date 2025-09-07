@@ -144,14 +144,18 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
     console.log('Opening modal with data:', {
       entries: this.searchResults.catalogEntries.searchResults,
       currentIndex: entryIndex,
-      entriesLength: this.searchResults.catalogEntries.searchResults.length
+      entriesLength: this.searchResults.catalogEntries.searchResults.length,
+      personalStatementId: this.id,
+      userProfileId: this.entity?.getData()?.parentEntityId || ''
     });
 
     this.modalRef = this.modalService.open(CatalogEntryModalComponent, {
       modalClass: 'modal-xl',
       data: {
         entries: this.searchResults.catalogEntries.searchResults,
-        currentIndex: entryIndex
+        currentIndex: entryIndex,
+        personalStatementId: this.id,
+        userProfileId: this.entity?.getData()?.parentEntityId || ''
       }
     }) as MdbModalRef<CatalogEntryModalComponent>;
 

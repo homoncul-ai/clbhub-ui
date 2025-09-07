@@ -285,6 +285,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  createCatalogEntryInterest(body: CatalogEntryInterestPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryinterest",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCatalogEntryInterestById(id: string): Observable<CatalogEntryInterestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryinterest/" + id,
+      method: "GET",
+    };
+    return this.request<CatalogEntryInterestGETData>(request);
+  }
+
+  updateCatalogEntryInterestById(id: string, body: CatalogEntryInterestPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryinterest/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCatalogEntryInterestById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryinterest/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCatalogEntryInterests(body: CatalogEntryInterestCriteria): Observable<CatalogEntryInterestGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryinterest/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogEntryInterestGETDataSearchResults>(request);
+  }
+
+  showInterest(body: CatalogEntryInterestPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryinterest/show-interest",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
   createCatalogEntry(body: CatalogEntryPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentry",
@@ -2645,6 +2697,77 @@ export interface ServiceEventLogPUTData {
   parentId?: string;
 }
 
+export interface CatalogEntryInterestPOSTData {
+  catalogId: string;
+  catalogEntryId: string;
+  personalStatementId: string;
+  userProfileId: string;
+  interest: number;
+  notes?: string;
+}
+
+export interface BaseCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+}
+
+export interface CatalogEntryInterestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  catalogId?: string;
+  catalogEntryId?: string;
+  personalStatementId?: string;
+  userProfileId?: string;
+  interest?: number;
+  notes?: string;
+}
+
+export interface CatalogEntryInterestGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogEntryInterestGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface DCPageData {
+  totalRows?: number;
+  pageNumber?: number;
+  pageSize?: number;
+  startingOffset?: number;
+  totalPages?: number;
+  endingOffset?: number;
+  links?: string[];
+}
+
+export interface CatalogEntryInterestCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  catalogId?: string;
+  catalogEntryId?: string;
+  personalStatementId?: string;
+  userProfileId?: string;
+  interest?: number;
+  interestRangeMin?: number;
+  interestRangeMax?: number;
+}
+
+export interface CatalogEntryInterestPUTData {
+  catalogId: string;
+  catalogEntryId: string;
+  personalStatementId: string;
+  userProfileId: string;
+  interest: number;
+  notes?: string;
+}
+
 export interface CatalogEntryPOSTData {
   catalogId: string;
   entryCode: string;
@@ -2659,12 +2782,6 @@ export interface CatalogEntryPOSTData {
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
-}
-
-export interface BaseCriteria {
-  pageNumber?: number;
-  pageSize?: number;
-  isPaging?: boolean;
 }
 
 export interface CatalogEntryGETData {
@@ -2712,16 +2829,6 @@ export interface CatalogGETData {
   taxonomyEntryId?: string;
   urlPrefix?: string;
   url?: string;
-}
-
-export interface DCPageData {
-  totalRows?: number;
-  pageNumber?: number;
-  pageSize?: number;
-  startingOffset?: number;
-  totalPages?: number;
-  endingOffset?: number;
-  links?: string[];
 }
 
 export interface CatalogEntryCriteria {

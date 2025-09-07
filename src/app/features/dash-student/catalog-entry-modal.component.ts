@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
+import { HcclService, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-catalog-entry-modal',
@@ -66,10 +67,13 @@ export class CatalogEntryModalComponent implements OnInit {
   currentIndex: number = 0;
   componentKey: number = 0;
   showComponent: boolean = true;
+  personalStatementId: string = '';
+  userProfileId: string = '';
   
   constructor(
     public modalRef: MdbModalRef<CatalogEntryModalComponent>,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private hcclService: HcclService
   ) {}
 
   ngOnInit(): void {
@@ -77,10 +81,14 @@ export class CatalogEntryModalComponent implements OnInit {
     if (this.modalRef && (this.modalRef as any).data) {
       this.entries = (this.modalRef as any).data.entries || [];
       this.currentIndex = (this.modalRef as any).data.currentIndex || 0;
+      this.personalStatementId = (this.modalRef as any).data.personalStatementId || '';
+      this.userProfileId = (this.modalRef as any).data.userProfileId || '';
       console.log('Modal initialized with:', {
         entries: this.entries,
         currentIndex: this.currentIndex,
-        totalEntries: this.totalEntries
+        totalEntries: this.totalEntries,
+        personalStatementId: this.personalStatementId,
+        userProfileId: this.userProfileId
       });
     } else {
       console.log('No modal data found');
@@ -144,7 +152,8 @@ export class CatalogEntryModalComponent implements OnInit {
   markNotInterested(): void {
     const currentEntry = this.entries?.[this.currentIndex];
     console.log('Not Interested:', currentEntry?.title || 'Unknown entry');
-    
+    this.showInterest(currentEntry, 0);   
+
     if (this.currentIndex < this.totalEntries - 1) {
       this.goToNext();
     } else {
@@ -155,12 +164,34 @@ export class CatalogEntryModalComponent implements OnInit {
   markInterested(): void {
     const currentEntry = this.entries?.[this.currentIndex];
     console.log('Interested:', currentEntry?.title || 'Unknown entry');
+    this.showInterest(currentEntry, 10);    
     
     if (this.currentIndex < this.totalEntries - 1) {
       this.goToNext();
     } else {
       this.closeModal();
     }
+  }
+
+  showInterest(currentEntry, interest: number): void {
+
+    const interestData: CatalogEntryInterestPOSTData = {
+      catalogId: currentEntry?.catalogId || '',
+      catalogEntryId: currentEntry?.id || '',
+      personalStatementId: this.personalStatementId,
+      userProfileId: this.userProfileId,
+      interest: interest
+    };
+
+    alert(JSON.stringify(interestData));
+    this.hcclService.showInterest(interestData).subscribe({
+      next: (response) => {
+        console.log('Interest recorded successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error recording interest:', error);
+      }
+    });
   }
 
   closeModal(): void {
