@@ -398,6 +398,10 @@ export class MenuService {
     const personalStatementList = this.copyMenuItem(MENU_CONSTANTS.EA_PERSONALSTATEMENT_LIST);
     this.addChildMenuItem(vocodeGroup, personalStatementList);
 
+    // Add CatalogEntryInterest
+    const catalogentryinterestList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRYINTEREST_LIST);
+    this.addChildMenuItem(vocodeGroup, catalogentryinterestList);
+
     return menu;
   }
 
@@ -1380,6 +1384,15 @@ EA_PERSONALSTATEMENT_LIST: {
   "componentPath" : "src/app/components/_crud/personalstatement/personalstatement-list.component",
   "componentName" : "PersonalStatementListComponent",
   "icon" : "fas fa-file-alt"
+},
+
+EA_CATALOGENTRYINTEREST_LIST: {
+  "level" : 2,
+  "label" : "Catalog Entry Interests",
+  "route" : "/ecoadmin-dashboard/catalogentryinterests",
+  "componentPath" : "src/app/components/_crud/catalogentryinterest/catalogentryinterest-list.component",
+  "componentName" : "CatalogEntryInterestListComponent",
+  "icon" : "fas fa-heart"
 },
 
 EA_VOCATIONENCODINGINSTANCE_LIST: {

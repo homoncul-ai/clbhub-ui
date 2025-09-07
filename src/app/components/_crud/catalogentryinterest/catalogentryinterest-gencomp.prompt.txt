@@ -1,0 +1,321 @@
+# AI Component Generation Spec for CatalogEntryInterest
+
+## Overview
+
+Generate Angular components for `CatalogEntryInterest` entity following the established patterns and templates.
+
+**Reference Example:** `copyFromEntity="providertyperef"`
+
+## Entity Information
+
+- **entityName:** `CatalogEntryInterest`
+- **pluralEntityName:** `catalogentryinterests`
+- **routePath:** `catalogentryinterests`
+
+## Data Interfaces & Service Methods
+
+### Interfaces by Mode:
+- **Details:** `CatalogEntryInterestGETData` (getMode() === CRUD_MODES.DETAIL)
+- **Edit:** `CatalogEntryInterestPUTData` (getMode() === CRUD_MODES.EDIT)
+- **Create:** `CatalogEntryInterestPOSTData` (getMode() === CRUD_MODES.CREATE)
+
+### Service Methods:
+- **Get:** `HcclService.getCatalogEntryInterestById(id)`
+- **Create:** `HcclService.createCatalogEntryInterest(body)`
+- **Update:** `HcclService.updateCatalogEntryInterestById(id, body)`
+- **Search:** `HcclService.findCatalogEntryInterests(criteria)`
+
+## Field Analysis
+
+### CatalogEntryInterestGETData Fields:
+- `id?: string` - Hidden in create/edit, shown in details
+- `catalogId?: string` - Required FK to Catalog
+- `catalogEntryId?: string` - Required FK to CatalogEntry
+- `personalStatementId?: string` - Required FK to PersonalStatement
+- `userProfileId?: string` - Required FK to UserProfile
+- `interest?: number` - Numeric field (interest level)
+- `notes?: string` - Textarea (description-like field)
+- Audit fields: `createdByInfo`, `dateCreated`, `lastUpdatedByInfo`, `dateLastUpdated`
+
+### Foreign Keys:
+- `catalogId` → Catalog entity (FK relationship)
+- `catalogEntryId` → CatalogEntry entity (FK relationship)
+- `personalStatementId` → PersonalStatement entity (FK relationship)
+- `userProfileId` → UserProfile entity (FK relationship)
+
+## Component Specifications
+
+## 1. CRUD Component
+
+### Files to Generate:
+- `catalogentryinterest-crud.component.html` (use `./templates/template-crud.component.html`)
+- `catalogentryinterest-crud.component.ts` (use `./templates/template-crud.component.ts`)
+
+### Required Imports:
+```typescript
+import { CommonModule, FormsModule } from '@angular/forms';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
+import { EntityWrapper } from '@app/models/crud-entity-wrapper';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { CRUD_MODES } from '@app/@core/constants';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
+import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
+import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
+import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { StdMdbFormNumberComponent } from '@app/components/_global/std-mdb-form-number/std-mdb-form-number.component';
+
+// FK Component Imports
+import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud.component';
+import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
+import { PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
+import { UserProfileCrudComponent } from '@app/components/_crud/userprofile/userprofile-crud.component';
+```
+
+### Component Structure:
+- **Extend:** `AbstractCrudComponent<CatalogEntryInterestCrudWrapper>`
+- **Implement:** `OnInit, OnChanges`
+- **Wrapper Class:** Extends `EntityWrapper<CatalogEntryInterestGETData>`
+- **Constructor:** Only call `super()` - no additional services needed
+
+### Required Abstract Methods:
+- `loadEntityByIdCall()`
+- `createEntityDataCall()`
+- `updateEntityDataCall()`
+- `deleteEntityData()`
+- `newEmptyWrapper()`
+
+### Template Sections:
+
+#### Details Section:
+- Show all fields including FK components in FK mode
+- Display audit fields at the end
+
+#### Edit Section:
+- All editable fields with FK components in FK_MENU mode
+- Include form validation
+
+#### Create Section:
+- All addable fields with FK components in FK_MENU mode
+- Include form validation
+
+#### Section Mode:
+- Display read-only values for section display
+
+## 2. Group Component
+
+### Files to Generate:
+- `catalogentryinterest-group.component.html` (use `./templates/template-group.component.html`)
+- `catalogentryinterest-group.component.ts` (use `./templates/template-group.component.ts`)
+
+### Required Imports:
+```typescript
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
+import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { CatalogEntryInterestCrudComponent } from './catalogentryinterest-crud.component';
+```
+
+### Component Structure:
+- **Extend:** `AbstractEntityGroupComponent<CatalogEntryInterestCrudWrapper>`
+- **Implement:** `OnInit`
+- **Input:** `@Input() id!: string`
+- **Constructor:** Only inject `ActivatedRoute` - do NOT inject `Router` or `HcclService`
+
+### Required Abstract Methods:
+- `loadEntityById()`
+- `setupTabs()`
+
+## 3. List Component
+
+### Files to Generate:
+- `catalogentryinterest-list.component.ts` (use `./templates/template-list.component.ts`)
+- HTML templateUrl: `'../../_global/abstract-list/abstract-list.component.html'`
+- SCSS styleUrls: `['../../_global/abstract-list/abstract-list.component.scss']`
+
+### Required Imports:
+```typescript
+import { CommonModule } from '@angular/common';
+import { HcclService } from '@app/restsvc/hccl.service';
+import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Observable } from 'rxjs';
+import { CatalogEntryInterestGETData, CatalogEntryInterestCriteria, CatalogEntryInterestGETDataSearchResults } from '@app/restsvc/hccl.service';
+import { CatalogCrudWrapper } from '@app/components/_crud/catalog/catalog-crud.component';
+import { CatalogEntryCrudWrapper } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
+import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
+import { UserProfileCrudWrapper } from '@app/components/_crud/userprofile/userprofile-crud.component';
+```
+
+### Component Structure:
+- **Extend:** `AbstractListComponent<CatalogEntryInterestGETData, CatalogEntryInterestCriteria, CatalogEntryInterestGETDataSearchResults>`
+- **DO NOT** implement `OnInit, AfterViewInit` - use abstract base class
+- **Constructor:** Only call `super()` - no additional services needed
+
+### Grid Configuration:
+- Include all CatalogEntryInterest fields in grid columns
+- **Comment out audit fields:** id, createdByInfo, dateCreated, lastUpdatedByInfo
+- Add proper filtering and alignment for each column
+- Use plural route names for navigation
+
+### Required Abstract Methods:
+- `getGridColumns()`: Return grid column configuration
+- `createCriteria()`: Create search criteria with paging
+- `findEntities()`: Call `this.hcclService.findCatalogEntryInterests(criteria)`
+- `hasSearchResults()`: Check if response has search results
+- `getSearchResults()`: Extract search results from response
+- `formatEntityData()`: Format entity data for display
+- `onRowClick()`: Handle row click navigation
+- `onAdd()`: Handle add button click
+
+## Route Naming Convention
+
+### Pluralization Rules:
+- **Ends in "y":** Add "ies" (e.g., "entry" → "entries")
+- **Ends in "f":** Change to "ves" (e.g., "leaf" → "leaves")
+- **Default:** Add "s" (e.g., "catalog" → "catalogs")
+
+### Examples:
+- entityName = "catalogentryinterest" → route = "catalogentryinterests"
+
+### Route Structure:
+- **CRITICAL:** Never include package prefixes in routes
+- Use: `/ecoadmin-dashboard/catalogentryinterests` (not `/ecoadmin/catalogentryinterests`)
+
+## Module Integration
+
+### Routing Configuration
+Add to appropriate module (e.g., `dash-ecoadmin.module.ts`):
+```typescript
+{ path: 'catalogentryinterests', component: CatalogEntryInterestListComponent },
+{ path: 'catalogentryinterests/create', component: CatalogEntryInterestGroupComponent },
+{ path: 'catalogentryinterests/:id/:tabId', component: CatalogEntryInterestGroupComponent },
+{ path: 'catalogentryinterests/:id', redirectTo: 'catalogentryinterests/:id/details', pathMatch: 'full' }
+```
+
+### Module Imports
+```typescript
+imports: [
+  // ... existing imports
+  CatalogEntryInterestListComponent,
+  CatalogEntryInterestGroupComponent
+]
+```
+
+## Menu Integration
+
+### Menu Constants
+Add to `src/app/shell/services/menu.service.ts`:
+```typescript
+EA_CATALOGENTRYINTEREST_LIST: {
+  level: 1,
+  label: 'Catalog Entry Interests',
+  route: '/ecoadmin-dashboard/catalogentryinterests',
+  componentPath: 'src/app/components/_crud/catalogentryinterest/catalogentryinterest-list.component',
+  componentName: 'CatalogEntryInterestListComponent',
+  icon: 'fas fa-heart'
+}
+```
+
+### Menu Builder
+Update `buildEcoAdminMenu()` method:
+```typescript
+// Add catalogentryinterest
+const catalogentryinterest = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRYINTEREST_LIST);
+this.addMenuItem(menu, catalogentryinterest);
+```
+
+## Field Display Guidelines
+
+### Foreign Keys (`[fkentityName]Id`)
+- **Details:** `<app-[fkentityName]-crud id='this.[fkentityName]Id' [modeName]="CRUD_MODES.FK">`
+- **Edit/Create:** `<app-[fkentityName]-crud id='this.[fkentityName]Id' [modeName]="CRUD_MODES.FK_MENU">`
+- **List Display:**
+  ```typescript
+  var fkWrap = [FkEntityName]CrudWrapper.newInstance(this.[fkentityName]Id, this.hcclService);
+  var textToDisplayInGridCell = fkWrap.getDisplayText();
+  ```
+
+### String Values
+- **Textarea:** Use if MaxLength > 100 OR ends with "text", "description", "notes", "comments"
+  - Component: `<app-std-mdb-textarea>`
+- **Text Input:** Use for all other strings
+  - Component: `<app-std-mdb-text>`
+- **Parameters:** Include `required`, `maxLength` from swagger spec
+
+### Numeric Values
+- **Component:** `<app-std-mdb-form-number>`
+- **Parameters:** Include `required`, `min`, `max` from swagger spec
+
+### Date Values
+- **Display:** `<app-dategetdata>`
+- **Edit:** `<app-std-mdb-datepicker>`
+
+### Boolean Values
+- **Component:** `<app-std-mdb-boolean>` (default checkbox)
+
+### Available Field
+- **Component:** `<app-available-selector>`
+
+### Hidden Fields (Create/Update)
+- `id`, `dateLastUpdated`, `dateCreated`, `lastUpdatedBy`, `createdBy`
+
+## Common Issues & Solutions
+
+### Component Import Errors
+- Ensure all required components are imported in `@Component.imports` array
+- For date components, ensure `@Input() data: any` is declared
+- For menu controls, use: `<app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>`
+
+### Template Binding Errors
+- Ensure `@Input()` properties are declared in component classes
+- For available selector, ensure proper two-way binding with `[(ngModel)]`
+- Check that all form field bindings use correct property names
+
+### Routing Issues
+- **CRITICAL:** Ensure route paths match between module configuration and menu constants
+- Use consistent route naming: `/ecoadmin-dashboard/[routePath]` for eco-admin
+- Include proper redirects for default tab navigation
+
+### Constructor Dependencies
+- **CRUD Components:** Only call `super()` - no additional services needed
+- **Group Components:** Only inject `ActivatedRoute` in constructor
+- **List Components:** Only call `super()` - no additional services needed
+- Always call `super()` in constructor for components extending abstract classes
+
+### AbstractListComponent Integration
+- **CRITICAL:** List components MUST extend `AbstractListComponent` not implement `OnInit`
+- **DO NOT** include `declare const dhx: any;` - handled by abstract base class
+- **DO NOT** include manual DHTMLX grid initialization - handled by abstract base class
+- **DO NOT** create custom template or stylesheet files - use abstract list template
+
+## Idempotent Generation Rules
+
+1. **Template Copying:** Always copy complete structure from reference components or templates
+2. **Method Implementation:** Copy ALL methods from reference components, but don't create new ones
+3. **Import Requirements:** Include all necessary imports for components and services
+4. **Constructor Rules:** Follow strict constructor injection rules for each component type
+5. **Routing Consistency:** Ensure menu routes match actual app routing structure using plural entity names
+6. **Component Dependencies:** Declare all required `@Input()` properties
+7. **Error Handling:** Include proper error handling in data loading methods
+8. **List Component Rules:** MUST extend AbstractListComponent, use abstract list template, no custom template files
+9. **Route Naming:** Always use plural form of entityName for routes
+10. **No Package Prefixes:** Never include package prefixes in routes
+
+## Final Checklist
+
+Before generating components, ensure:
+- [ ] All required imports are specified
+- [ ] Constructor dependencies are correctly defined
+- [ ] Routing paths are consistent between module and menu
+- [ ] Template copying guidelines are followed
+- [ ] Common issues and solutions are addressed
+- [ ] Component structure matches reference components
+- [ ] All abstract methods are implemented
+- [ ] Error handling is included
+- [ ] DHTMLX integration is complete (for list components)
+- [ ] Menu integration uses correct route paths
+- [ ] Templates from `/tooling/prompt/templates/` are used as starting points

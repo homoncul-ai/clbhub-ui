@@ -62,6 +62,8 @@ import { OrgNonprofitGroupComponent } from './orgs/org-nonprofit-group.component
 import { OrgBusinessGroupComponent } from './orgs/org-business-group.component';
 import { PersonalStatementListComponent } from '../../components/_crud/personalstatement/personalstatement-list.component';
 import { PersonalStatementGroupComponent } from '../../components/_crud/personalstatement/personalstatement-group.component';
+import { CatalogEntryInterestListComponent } from '../../components/_crud/catalogentryinterest/catalogentryinterest-list.component';
+import { CatalogEntryInterestGroupComponent } from '../../components/_crud/catalogentryinterest/catalogentryinterest-group.component';
 
 const routes: Routes = [
   {
@@ -214,6 +216,12 @@ const routes: Routes = [
       { path: 'personalstatements/:id/:tabId', component: PersonalStatementGroupComponent },
       { path: 'personalstatements/:id', redirectTo: 'personalstatements/:id/details', pathMatch: 'full' },
       { path: 'personalstatements', component: PersonalStatementListComponent },
+      
+      // CatalogEntryInterest routes
+      { path: 'catalogentryinterests/create', component: CatalogEntryInterestGroupComponent },
+      { path: 'catalogentryinterests/:id/:tabId', component: CatalogEntryInterestGroupComponent },
+      { path: 'catalogentryinterests/:id', redirectTo: 'catalogentryinterests/:id/details', pathMatch: 'full' },
+      { path: 'catalogentryinterests', component: CatalogEntryInterestListComponent },
     ]
   }
 ];
@@ -276,6 +284,8 @@ const routes: Routes = [
     CatalogSearchResultEntryGroupComponent,
     PersonalStatementListComponent,
     PersonalStatementGroupComponent,
+    CatalogEntryInterestListComponent,
+    CatalogEntryInterestGroupComponent,
     OrgSchoolsGroupComponent
   ]
 })
