@@ -24,6 +24,7 @@ import { ReferenceDataComponent } from '@app/components/_global/reference-data/r
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { CrudInternalDataComponent } from "@app/components/_global/crud-internal-data/crud-internal-data.component";
+import { VocationEncodingDisplayComponent } from '../vocationencoding/vocationencoding-display.component';
 
 @Component({
   selector: 'app-personalstatement-crud',
@@ -32,7 +33,7 @@ import { CrudInternalDataComponent } from "@app/components/_global/crud-internal
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CrudInternalDataComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CrudInternalDataComponent, VocationEncodingDisplayComponent],
   standalone: true
 })
 export class PersonalStatementCrudComponent extends AbstractCrudComponent<PersonalStatementCrudWrapper> implements OnInit, OnChanges {

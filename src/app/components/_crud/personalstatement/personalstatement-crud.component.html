@@ -184,7 +184,7 @@
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <!-- Edit Mode Form : Make sure to use this control logic for submit and cancel buttons -->
-      <form (ngSubmit)="updateEntity(getCurrentEntity())">
+      <form (ngSubmit)="getCurrentEntity().getData().businessCode = 'autocode'; updateEntity(getCurrentEntity())">
         <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
           <button type="submit" class="btn btn-success">Save</button>
           <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
@@ -202,8 +202,7 @@
           [(ngModel)]="name">
         </app-std-mdb-form-text>
         </div>
-        <!-- need hidden input value for businessCode-->
-        <input type="hidden" name="businessCode" [(ngModel)]="businessCode">
+
         <div class="mb-4">
         <app-std-mdb-form-textarea
           prefix="personalstatement"
@@ -282,6 +281,7 @@
   
         <app-crud-internal-data [crudWrapper]="getCurrentEntity()"></app-crud-internal-data>
 
+        <app-vocationencoding-display [id]="vocationEncodingId"></app-vocationencoding-display>
     </div>
   </div>
 

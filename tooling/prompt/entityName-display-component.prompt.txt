@@ -1,0 +1,20 @@
+This prompt will use the .ts template ./templates/template-entityName-display-component.ts with a couple of arguments. 
+The goal is to create a way to display the "EntityNameGETData" object returned.
+
+We'll call this prompt with the following arguments : 
+
+[entityName] - the name of the json/java entity we're displaying.
+
+[componentClassName] - EntityNameDisplayComponent 
+[folderName] - _crud/[entityName]
+[componentTs] - [folderName]/[entityname]-display.compnent.ts
+
+
+Using the GETData object, create a neat display for the data.   
+-- Use styles from the style sheet.
+-- Use a 'tree' to display master-detail objects
+
+run these instructions for the following variables :  
+entityName = VocationEncoding
+
+
