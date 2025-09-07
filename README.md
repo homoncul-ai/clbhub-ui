@@ -49,3 +49,4 @@ Tickets and Participants
 4. new student ticket
 5. Student ticket 
 7. Fix ai call from QA 
+8. Fix logger.

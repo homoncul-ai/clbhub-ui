@@ -1,0 +1,11 @@
+ This application uses mdb and angular
+ Use the style sheets to have plainly named 
+
+Hidden variables - some variables will be hidden
+
+UI Inputs : 
+[entityName]Id - use the crud component <app-entityName-crud mode="fk_menu" id="entityNameId"></app-entityName-crud>
+inputname ends with 'Text' or 'Notes' or 'Json' : use <st-mdb-form-textarea></st-mdb-form-textarea>
+input is a string and not 'text': use <st-mdb-form-text></st-mdb-form-text>
+dates = use <st-mdb-datepicker>
+

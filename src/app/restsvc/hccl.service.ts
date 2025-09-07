@@ -1688,6 +1688,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.requestCreate<any>(request);
   }
 
+  createStudentTicket(id: string, body: CreateTicketPOSTData): Observable<WorkItemFormResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserprofile/" + id + "/new-student-request",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<WorkItemFormResponse>(request);
+  }
+
   getHcclUserProfileById(id: string): Observable<HcclUserProfileGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofile/" + id,
@@ -4659,6 +4668,79 @@ export interface HcclUserProfilePOSTData {
   externalUserName?: string;
 }
 
+export interface WorkItemFormContext {
+  workRequestId: string;
+  workRequestItemId?: string;
+  userProfileId?: string;
+  mapContextData?: any;
+  mapResultsData?: any;
+}
+
+export interface WorkItemFormResponse {
+  context?: WorkItemFormContext;
+  messages?: SimpleMessageList;
+  workItemData?: WorkRequestItemGETData;
+  workRequestData?: WorkRequestGETData;
+  actionFormData?: any;
+  mapFormElements?: any;
+}
+
+export interface WorkRequestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  workRequestTypeId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  workQueueId?: string;
+  initialWorkQueueId?: string;
+  clientUserProfileId?: string;
+  createdByTeamId?: string;
+  createdByUserId?: string;
+  createdByUserProfileId?: string;
+  createdByOrganizationId?: string;
+  acceptedByTeamId?: string;
+  acceptedByUserId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  parentWorkRequestItemId?: string;
+}
+
+export interface WorkRequestItemGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestId?: string;
+  nameText?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  description?: string;
+  acceptedByUserId?: string;
+  roleCode?: string;
+  actionCode?: string;
+  jsonData?: string;
+  commentText?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+}
+
+export interface CreateTicketPOSTData {
+  advocateUserProfileId?: string;
+  studentUserProfileId?: string;
+  queueId?: string;
+  workRequestTypeId?: string;
+  title?: string;
+  rawText?: string;
+}
+
 export interface HcclUserGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -5135,26 +5217,6 @@ export interface WorkRequestItemPOSTData {
   currentStateDateEntered?: string;
 }
 
-export interface WorkRequestItemGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  workRequestId?: string;
-  nameText?: string;
-  businessCode?: string;
-  sequenceOrder?: number;
-  description?: string;
-  acceptedByUserId?: string;
-  roleCode?: string;
-  actionCode?: string;
-  jsonData?: string;
-  commentText?: string;
-  currentStateCode?: string;
-  currentStateTransitionId?: string;
-}
-
 export interface WorkRequestItemGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkRequestItemGETData[];
@@ -5347,33 +5409,6 @@ export interface WorkRequestPOSTData {
   acceptedByTeamId?: string;
   acceptedByUserId?: string;
   dateAccepted?: string;
-  subjectEntityId?: string;
-  subjectEntityType?: string;
-  subjectEntityName?: string;
-  parentWorkRequestItemId?: string;
-}
-
-export interface WorkRequestGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  workRequestTypeId?: string;
-  currentStateCode?: string;
-  currentStateTransitionId?: string;
-  workQueueId?: string;
-  initialWorkQueueId?: string;
-  clientUserProfileId?: string;
-  createdByTeamId?: string;
-  createdByUserId?: string;
-  createdByUserProfileId?: string;
-  createdByOrganizationId?: string;
-  acceptedByTeamId?: string;
-  acceptedByUserId?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
@@ -5876,32 +5911,6 @@ export interface RoutingActionPOSTData {
   reasonId?: string;
   comments?: string;
   newQueueId?: string;
-}
-
-export interface CreateTicketPOSTData {
-  advocateUserProfileId?: string;
-  studentUserProfileId?: string;
-  queueId?: string;
-  workRequestTypeId?: string;
-  title?: string;
-  rawText?: string;
-}
-
-export interface WorkItemFormContext {
-  workRequestId: string;
-  workRequestItemId?: string;
-  userProfileId?: string;
-  mapContextData?: any;
-  mapResultsData?: any;
-}
-
-export interface WorkItemFormResponse {
-  context?: WorkItemFormContext;
-  messages?: SimpleMessageList;
-  workItemData?: WorkRequestItemGETData;
-  workRequestData?: WorkRequestGETData;
-  actionFormData?: any;
-  mapFormElements?: any;
 }
 
 export interface WorkItemFormRequest {

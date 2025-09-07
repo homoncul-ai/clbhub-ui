@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { GuidanceTicketModalComponent } from './guidance-ticket-modal.component';
+import { HcclContextService } from '@app/shell/services/hccl-context.service';
 
 @Component({
   selector: 'app-dash-student-guidance',
@@ -44,7 +47,7 @@ import { CommonModule } from '@angular/common';
                 </div>
               </div>
               
-              <div class="row mb-4">
+              <!-- <div class="row mb-4">
                 <div class="col-12">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5>My Support Tickets</h5>
@@ -54,7 +57,7 @@ import { CommonModule } from '@angular/common';
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> -->
               
               <div class="row">
                 <div class="col-md-6">
@@ -91,26 +94,26 @@ import { CommonModule } from '@angular/common';
                   <h5>Quick Actions</h5>
                   <div class="list-group">
                     <div class="list-group-item">
-                      <div class="d-flex w-100 justify-content-between">
+                      <!-- <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Schedule Meeting with Advisor</h6>
                         <button class="btn btn-sm btn-outline-primary">Schedule</button>
                       </div>
-                      <p class="mb-1">Book a one-on-one session with your academic advisor</p>
+                      <p class="mb-1">Book a one-on-one session with your academic advisor</p> -->
                     </div>
                     <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Career Counseling</h6>
-                        <button class="btn btn-sm btn-outline-success">Request</button>
+                        <button class="btn btn-sm btn-outline-success" (click)="openGuidanceTicketModal()">Request</button>
                       </div>
                       <p class="mb-1">Get guidance on career paths and job opportunities</p>
                     </div>
-                    <div class="list-group-item">
+                    <!-- <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Mental Health Support</h6>
                         <button class="btn btn-sm btn-outline-info">Connect</button>
                       </div>
                       <p class="mb-1">Access counseling and mental health resources</p>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -147,7 +150,53 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class DashStudentGuidanceComponent {
+  private modalRef: MdbModalRef<GuidanceTicketModalComponent> | null = null;
+  
+  // Inject services using inject() function for standalone components
+  private modalService = inject(MdbModalService);
+  private hcclContextService = inject(HcclContextService);
+  
   constructor() {
     console.log('DashStudentGuidanceComponent initialized');
+  }
+  
+  /**
+   * Open the guidance ticket modal
+   */
+  openGuidanceTicketModal(): void {
+    // Get current user profile ID from HCCL context service
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId();
+    
+    if (!userProfileId) {
+      console.warn('User profile ID not available - context may not be ready');
+      // TODO: Show user-friendly error message
+      return;
+    }
+    
+    this.modalRef = this.modalService.open(GuidanceTicketModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        userProfileId: userProfileId,
+        personalStatementId: '', // Will be selected in the modal
+        title: '',
+        notes: '',
+        dueDate: ''
+      }
+    }) as MdbModalRef<GuidanceTicketModalComponent>;
+    
+    // Handle modal close
+    if (this.modalRef?.onClose) {
+      this.modalRef.onClose.subscribe((result) => {
+        if (result && result.success) {
+          console.log('Guidance ticket submitted successfully:', result);
+          // TODO: Show success message to user
+          // TODO: Refresh ticket data if needed
+          alert(result.message || 'Guidance ticket submitted successfully!');
+        } else if (result) {
+          console.log('Guidance ticket submission cancelled or failed');
+        }
+        this.modalRef = null;
+      });
+    }
   }
 }

@@ -1,2 +1,0 @@
- This application uses mdb and angular
- Use the style sheets to have plainly named 

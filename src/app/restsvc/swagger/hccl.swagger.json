@@ -7200,6 +7200,56 @@
         }
       }
     },
+    "/hccl/teams/hccluserprofile/{id}/new-student-request": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "createStudentTicket_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemFormResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/teams/hccluserprofile/{id}": {
       "get": {
         "tags": [
@@ -18886,6 +18936,284 @@
           }
         }
       },
+      "SimpleMessage": {
+        "type": "object",
+        "properties": {
+          "messageCode": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "exceptionMessage": {
+            "type": "string"
+          },
+          "referenceCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SimpleMessageList": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleMessage"
+            }
+          },
+          "errorMessageAsString": {
+            "type": "string"
+          },
+          "firstErrorMessage": {
+            "$ref": "#/components/schemas/SimpleMessage"
+          }
+        }
+      },
+      "WorkItemFormContext": {
+        "required": [
+          "workRequestId"
+        ],
+        "type": "object",
+        "properties": {
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestItemId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapContextData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "mapResultsData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "WorkItemFormResponse": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/WorkItemFormContext"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "workItemData": {
+            "$ref": "#/components/schemas/WorkRequestItemGETData"
+          },
+          "workRequestData": {
+            "$ref": "#/components/schemas/WorkRequestGETData"
+          },
+          "actionFormData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "mapFormElements": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "WorkRequestGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "workRequestTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "initialWorkQueueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clientUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByTeamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByOrganizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "acceptedByTeamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "acceptedByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "parentWorkRequestItemId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "WorkRequestItemGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string"
+          },
+          "acceptedByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleCode": {
+            "type": "string"
+          },
+          "actionCode": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "commentText": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CreateTicketPOSTData": {
+        "type": "object",
+        "properties": {
+          "advocateUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "studentUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "queueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "rawText": {
+            "type": "string"
+          }
+        }
+      },
       "HcclUserGETData": {
         "type": "object",
         "properties": {
@@ -20602,67 +20930,6 @@
           }
         }
       },
-      "WorkRequestItemGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "workRequestId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "nameText": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "sequenceOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "description": {
-            "type": "string"
-          },
-          "acceptedByUserId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "roleCode": {
-            "type": "string"
-          },
-          "actionCode": {
-            "type": "string"
-          },
-          "jsonData": {
-            "type": "string"
-          },
-          "commentText": {
-            "type": "string"
-          },
-          "currentStateCode": {
-            "type": "string"
-          },
-          "currentStateTransitionId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
       "WorkRequestItemGETDataSearchResults": {
         "type": "object",
         "properties": {
@@ -21402,97 +21669,6 @@
           "subjectEntityName": {
             "maxLength": 255,
             "minLength": 1,
-            "type": "string"
-          },
-          "parentWorkRequestItemId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
-      "WorkRequestGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "workRequestTypeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "currentStateCode": {
-            "type": "string"
-          },
-          "currentStateTransitionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "workQueueId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "initialWorkQueueId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "clientUserProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByTeamId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByUserId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByUserProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByOrganizationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "acceptedByTeamId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "acceptedByUserId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "subjectEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "subjectEntityType": {
-            "type": "string"
-          },
-          "subjectEntityName": {
             "type": "string"
           },
           "parentWorkRequestItemId": {
@@ -23163,44 +23339,6 @@
           }
         }
       },
-      "SimpleMessage": {
-        "type": "object",
-        "properties": {
-          "messageCode": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "severity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "exceptionMessage": {
-            "type": "string"
-          },
-          "referenceCode": {
-            "type": "string"
-          }
-        }
-      },
-      "SimpleMessageList": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SimpleMessage"
-            }
-          },
-          "errorMessageAsString": {
-            "type": "string"
-          },
-          "firstErrorMessage": {
-            "$ref": "#/components/schemas/SimpleMessage"
-          }
-        }
-      },
       "HcclOrgSetupData": {
         "required": [
           "profileTypeMenu"
@@ -23296,94 +23434,6 @@
           "newQueueId": {
             "type": "string",
             "format": "uuid"
-          }
-        }
-      },
-      "CreateTicketPOSTData": {
-        "type": "object",
-        "properties": {
-          "advocateUserProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "studentUserProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "queueId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "workRequestTypeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "rawText": {
-            "type": "string"
-          }
-        }
-      },
-      "WorkItemFormContext": {
-        "required": [
-          "workRequestId"
-        ],
-        "type": "object",
-        "properties": {
-          "workRequestId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "workRequestItemId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "mapContextData": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
-          },
-          "mapResultsData": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
-          }
-        }
-      },
-      "WorkItemFormResponse": {
-        "type": "object",
-        "properties": {
-          "context": {
-            "$ref": "#/components/schemas/WorkItemFormContext"
-          },
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "workItemData": {
-            "$ref": "#/components/schemas/WorkRequestItemGETData"
-          },
-          "workRequestData": {
-            "$ref": "#/components/schemas/WorkRequestGETData"
-          },
-          "actionFormData": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
-          },
-          "mapFormElements": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
           }
         }
       },
