@@ -8,6 +8,7 @@ import { DashStudentComponent } from './dash-student.component';
 import { DashStudentHomeComponent } from './dash-student-home.component';
 import { DashStudentPersonalStatementsComponent } from './dash-student-personalstatements.component';
 import { DashStudentProgressComponent } from './dash-student-progress.component';
+import { DashStudentGuidanceComponent } from './dash-student-guidance.component';
 import { DashStudentScheduleComponent } from './dash-student-schedule.component';
 import { StudentPersonalStatementGroupComponent } from './student-personalstatement-group.component';
 import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'personalstatements/:id/:tabId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
       { path: 'progress', component: DashStudentProgressComponent },
+      { path: 'guidance', component: DashStudentGuidanceComponent },
       { path: 'schedule', component: DashStudentScheduleComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
@@ -38,6 +40,7 @@ const routes: Routes = [
     DashStudentHomeComponent,
     DashStudentPersonalStatementsComponent,
     DashStudentProgressComponent,
+    DashStudentGuidanceComponent,
     DashStudentScheduleComponent,
     CatalogEntryModalComponent,
   ],

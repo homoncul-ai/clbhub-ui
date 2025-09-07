@@ -241,12 +241,15 @@ export class MenuService {
     this.addMenuItem(menu, dashboard);
     
     // Add Courses with children
-    const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_COURSES);
+    const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
     
     // Add Progress with children
-    const progress = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROGRESS);
-    this.addMenuItem(menu, progress);
+    const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
+    this.addMenuItem(menu, guidance);
+    
+    // const progress = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROGRESS);
+    // this.addMenuItem(menu, progress);
     
     // Add Schedule with children
     const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
@@ -1476,7 +1479,7 @@ EA_ORGNONPROFITS_LIST: {
     componentName: 'dash-student-home',
     icon: 'fas fa-tachometer-alt'
   },
-  STUDENT_COURSES: {
+  STUDENT_PERSONALSTATEMENTS: {
     level: 1,
     label: 'My Personal Statements',
     route: '/student-dashboard/personalstatements',
@@ -1491,6 +1494,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-progress',
     icon: 'fas fa-chart-line'
+  },
+  STUDENT_GUIDANCE: {
+    level: 1,
+    label: 'Guidance',
+    route: '/student-dashboard/guidance',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-guidance',
+    icon: 'fas fa-life-ring'
   },
   STUDENT_SCHEDULE: {
     level: 1,

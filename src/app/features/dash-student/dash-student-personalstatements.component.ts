@@ -50,7 +50,7 @@ import { StdMdbFormTextComponent } from "../../components/_global/std-mdb-form-t
                   <div class="card statement-card">
                     <div class="card-body">
                       <h5 class="card-title">{{ statement.name || 'Untitled Statement' }}</h5>
-                      <p class="card-text">{{ statement.description || 'No description available' }}</p>
+                      <!-- <p class="card-text">{{ statement.description || 'No description available' }}</p> -->
                       <div class="status-badge mb-3">
                         <span class="badge" [ngClass]="getStatusClass(statement.status)">
                           {{ getStatusText(statement.status) }}
@@ -361,12 +361,14 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
   }
 
   getStatusText(status?: number): string {
+    //alert(status);
     switch (status) {
+      case 2: 
       case 1:
         return 'Active';
       case 0:
         return 'Draft';
-      case 2:
+      case 200:
         return 'Archived';
       default:
         return 'Unknown';

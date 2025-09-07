@@ -183,7 +183,7 @@ export class CatalogEntryModalComponent implements OnInit {
       interest: interest
     };
 
-    alert(JSON.stringify(interestData));
+    //alert(JSON.stringify(interestData));
     this.hcclService.showInterest(interestData).subscribe({
       next: (response) => {
         console.log('Interest recorded successfully:', response);
