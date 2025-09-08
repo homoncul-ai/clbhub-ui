@@ -8,11 +8,12 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
 import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl.service';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
+import { CatalogCrudComponent } from "@app/components/_crud/catalog/catalog-crud.component";
 
 @Component({
   selector: 'app-student-personalstatement-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, PersonalStatementCrudComponent],
+  imports: [CommonModule, FormsModule, PersonalStatementCrudComponent, CatalogCrudComponent],
   templateUrl: './student-personalstatement-search.component.html',
   styleUrl: '../../components/_global/abstract-crud/abstract-crud.component.scss'
 })

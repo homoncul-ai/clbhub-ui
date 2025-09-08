@@ -70,7 +70,7 @@ import { HcclService, PersonalStatementCriteria, MenuControlDataList, MenuContro
           </app-std-mdb-form-textarea>
         </div>
         
-        <!-- Due Date  -->
+        <!-- Due Date  
         <div class="mb-4">
           <app-std-mdb-datepicker
             prefix="guidanceTicket"
@@ -82,6 +82,7 @@ import { HcclService, PersonalStatementCriteria, MenuControlDataList, MenuContro
             [(ngModel)]="dueDate">
           </app-std-mdb-datepicker>
         </div>
+        -->
         
       </form>
     </div>

@@ -47,20 +47,22 @@
         <table class="table table-striped">
           <thead>
             <tr>
+              <th>Catalog</th>
               <th>Entry Code</th>
               <th>Title</th>
               <th>Short Description</th>
-              <th>Type</th>
+              <!-- <th>Type</th> -->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let entry of searchResults.catalogEntries.searchResults; let i = index" 
                 (click)="openModal(i)" 
                 style="cursor: pointer;">
+              <td [noWrap]="true"><app-catalog-crud [id]="entry.catalogId" [modeName]="'fk'"></app-catalog-crud></td>
               <td>{{ entry.entryCode }}</td>
               <td>{{ entry.title }}</td>
               <td>{{ entry.shortDescription }}</td>
-              <td>{{ entry.catalogTypeCode }}</td>
+              <!-- <td>{{ entry.catalogTypeCode }}</td> -->
             </tr>
           </tbody>
         </table>
