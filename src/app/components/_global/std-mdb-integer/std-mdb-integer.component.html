@@ -1,0 +1,34 @@
+<mdb-form-control>
+  <input 
+    type="number" 
+    [name]="fieldName" 
+    [id]="uniqueId" 
+    class="form-control validate" 
+    [value]="readonly ? displayValue : displayValue"
+    mdbInput
+    [disabled]="disabled || readonly"
+    [placeholder]="placeholder"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    (focus)="onFocus($event)"
+    (keydown)="onKeyDown($event)">
+  <label 
+    mdbLabel 
+    class="form-label" 
+    data-error="wrong" 
+    data-success="right" 
+    [for]="uniqueId">
+    <sup *ngIf="showRequiredIndicator && required" class="text-muted">† </sup>
+    <span *ngIf="showRequiredIndicator && required" class="requiredField">* </span>
+    {{ label | translate }}
+  </label>
+  <div *ngIf="showErrorIndicator && hasError" class="errorMessage">
+    <div class="invalid-feedback">{{ errorMessage }}</div>
+  </div>
+  <div *ngIf="helpText" class="field-help mt-n3 field-help-position">
+    {{ helpText | translate }}
+  </div>
+</mdb-form-control>

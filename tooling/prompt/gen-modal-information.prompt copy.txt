@@ -1,0 +1,44 @@
+# General 
+ This application uses mdb and angular, so pass variables in accordingly. 
+
+# Style 
+
+##  Large  modals 
+
+
+ Use the style sheets to have plainly named 
+
+
+
+## Field Display Guidelines
+
+### Foreign Keys (`[fkentityName]Id`)
+- **Details:** `<app-[fkentityName]-crud id='this.[fkentityName]Id' [modeName]="CRUD_MODES.FK">`
+- **Edit/Create:** `<app-[fkentityName]-crud id='this.[fkentityName]Id' [modeName]="CRUD_MODES.FK_MENU">`
+- **List Display:**
+  ```typescript
+  var fkWrap = [FkEntityName]CrudWrapper.newInstance(this.[fkentityName]Id, this.hcclService);
+  var textToDisplayInGridCell = fkWrap.getDisplayText();
+  ```
+
+### String Values
+- **Textarea:** Use if MaxLength > 100 OR ends with "text", "description", "notes", "comments"
+  - Component: `<app-std-mdb-textarea>`
+- **Text Input:** Use for all other strings
+  - Component: `<app-std-mdb-text>`
+- **Parameters:** Include `required`, `maxLength` from swagger spec
+
+### Date Values
+- **Display:** `<app-dategetdata>`
+- **Edit:** `<app-std-mdb-datepicker>`
+
+### Boolean Values
+- **Component:** `<app-std-mdb-boolean>` (default checkbox)
+
+### Available Field
+- **Component:** `<app-available-selector>`
+
+### Hidden Fields (Create/Update)
+- `id`, `dateLastUpdated`, `dateCreated`, `lastUpdatedBy`, `createdBy`
+
+---

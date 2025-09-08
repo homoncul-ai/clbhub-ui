@@ -1,0 +1,33 @@
+// Integer component specific styles
+:host {
+  display: block;
+}
+
+.form-control {
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+}
+
+.errorMessage {
+  .invalid-feedback {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+}
+
+.field-help {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.requiredField {
+  color: #dc3545;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}

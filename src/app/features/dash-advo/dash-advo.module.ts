@@ -15,6 +15,7 @@ import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.compon
 import { CreateTicketComponent } from './tickets/create-ticket.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
+import { UistarterFormComponent } from '../../views/uistarter/uistarter-form.component';
 import { OrgQueueListComponent } from '../../components/org-queue-list/org-queue-list.component';
 import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/org-queue-tix-list.component';
 
@@ -81,6 +82,7 @@ const routes: Routes = [
       { path: 'tickets/:id/:tabId', component: WorkRequestGroupComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
+      { path: 'uistarter/form-test', component: UistarterFormComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
       { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },
       
@@ -148,6 +150,7 @@ const routes: Routes = [
     CreateTicketComponent,
     UistarterHomeComponent,
     ListSearchStarterComponent,
+    UistarterFormComponent,
     OrgQueueListComponent,
     OrgQueueTixListComponent, 
     CLSchoolListComponent,  

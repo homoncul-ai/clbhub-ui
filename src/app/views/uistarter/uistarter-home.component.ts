@@ -103,6 +103,14 @@ export class UistarterHomeComponent {
       route: '/advocate-dashboard/uistarter/list-search-starter',
       componentPath: 'src/app/views/uistarter',
       componentName: 'list-search-starter'
+    },
+    {
+      menuItem: 'UI Starter Form Test',
+      link: '/advocate-dashboard/uistarter/form-test',
+      label: 'Input Components Test Form',
+      route: '/advocate-dashboard/uistarter/form-test',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'uistarter-form'
     }
   ];
 

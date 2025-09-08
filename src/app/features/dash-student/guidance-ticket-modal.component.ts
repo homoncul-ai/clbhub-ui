@@ -5,12 +5,13 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { StdMdbDatepickerComponent } from '@app/components/_global/std-mdb-datepicker/std-mdb-datepicker.component';
 import { HcclService, PersonalStatementCriteria, MenuControlDataList, MenuControlData, CreateTicketPOSTData, WorkItemFormResponse } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-guidance-ticket-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, MenuControlDataListComponent, StdMdbFormTextComponent, StdMdbFormTextareaComponent],
+  imports: [CommonModule, FormsModule, MenuControlDataListComponent, StdMdbFormTextComponent, StdMdbFormTextareaComponent, StdMdbDatepickerComponent],
   template: `
     <div class="modal-header">
       <h5 class="modal-title">
@@ -69,7 +70,7 @@ import { HcclService, PersonalStatementCriteria, MenuControlDataList, MenuContro
           </app-std-mdb-form-textarea>
         </div>
         
-        <!-- Due Date 
+        <!-- Due Date  -->
         <div class="mb-4">
           <app-std-mdb-datepicker
             prefix="guidanceTicket"
@@ -78,11 +79,10 @@ import { HcclService, PersonalStatementCriteria, MenuControlDataList, MenuContro
             [required]="false"
             placeholder="MM/DD/YYYY"
             helpText="When would you like to receive a response? (Optional)"
-            [error]="error"
             [(ngModel)]="dueDate">
           </app-std-mdb-datepicker>
         </div>
-        -->
+        
       </form>
     </div>
     
