@@ -15,7 +15,7 @@
         <label>Title:</label>
         <span>{{ getCurrentEntity().getData().title }}</span>
       </div>
-      <div class="detail-group">
+      <div *ngIf="getCurrentEntity().getData().shortDescription && getCurrentEntity().getData().shortDescription !== getCurrentEntity().getData().description " class="detail-group">
         <label>Short Description:</label>
         <span>{{ getCurrentEntity().getData().shortDescription }}</span>
       </div>
@@ -23,7 +23,7 @@
         <label>Description:</label>
         <span>{{ getCurrentEntity().getData().description }}</span>
       </div>
-      <div class="detail-group">
+      <div *ngIf="getCurrentEntity().getData().notes" class="detail-group">
         <label>Notes:</label>
         <span>{{ getCurrentEntity().getData().notes }}</span>
       </div>

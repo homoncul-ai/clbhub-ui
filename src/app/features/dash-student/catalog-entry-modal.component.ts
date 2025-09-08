@@ -1,3 +1,4 @@
+import { CRUD_MODES } from '@app/@core/constants';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -33,7 +34,7 @@ import { HcclService, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.ser
       <app-catalogentry-crud 
         *ngIf="showComponent"
         [id]="getCurrentEntryId()" 
-        mode="section">
+        [modeName]="'section'">
       </app-catalogentry-crud>
     </div>
     <div class="modal-footer">
@@ -110,7 +111,6 @@ export class CatalogEntryModalComponent implements OnInit {
     });
     return entryId;
   }
-
   goToPrevious(): void {
     console.log('goToPrevious called, currentIndex:', this.currentIndex, 'totalEntries:', this.totalEntries);
     if (this.currentIndex > 0) {
