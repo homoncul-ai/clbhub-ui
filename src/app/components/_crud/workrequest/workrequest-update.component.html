@@ -5,15 +5,10 @@
 <div *ngIf="isLoading()">Loading... </div>
 <div *ngIf="!isLoading()">
 <div *ngIf="!isTicketAccepted()">
-  <app-std-mdb-form-text 
-    prefix="workRequest" 
-    name="acceptText"
-    label="Accept Text"
-    [required]="true"
-    [error]="error"
-    [(ngModel)]="acceptText">
-  </app-std-mdb-form-text>
-    <button (click)="acceptTicket()" class="btn btn-primary">Accept Ticket</button>
+  <button (click)="openAcceptModal()" class="btn btn-primary">
+    <i class="fas fa-check me-2"></i>
+    Accept Ticket
+  </button>
 <hr/>
 </div>
 

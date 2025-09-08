@@ -1,16 +1,11 @@
 
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
-<div *ngIf="false && !isTicketAccepted()">
-  <app-std-mdb-form-text 
-    prefix="workRequest" 
-    name="acceptText"
-    label="Accept Text"
-    [required]="true"
-    [error]="error"
-    [(ngModel)]="acceptText">
-  </app-std-mdb-form-text>
-    <button (click)="acceptTicket()" class="btn btn-primary">Accept Ticket</button>
+<div *ngIf="!isTicketAccepted()">
+  <button (click)="openAcceptModal()" class="btn btn-primary">
+    <i class="fas fa-check me-2"></i>
+    Accept Ticket
+  </button>
 </div>
 <div *ngIf="isTicketAccepted()"><app-std-mdb-form-text 
   prefix="workRequest" 

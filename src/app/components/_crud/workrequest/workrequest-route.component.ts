@@ -2,7 +2,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CreateTicketSetupUIData, HcclService, RoutingActionPOSTData, SimpleRestActionResponse, WorkQueueGETData, WorkRequestGETData, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
-import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
+import { WorkRequestCrudWrapper } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
@@ -11,20 +11,18 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 import { CRUD_MODES } from '@app/@core/constants/app-settings';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
-import { WorkRequestItemEnqueueRFIComponent } from '@app/components/_crud/workrequestitem/workrequestitem-enqueuerfi.component';
-import { WorkRequestItemAttachRFIContentComponent } from '../workrequestitem/workrequestitem-attachrficontent.component';
-import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { StdMdbFormTextComponent } from "../../_global/std-mdb-form-text/std-mdb-form-text.component";
 import { MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
 
 
 @Component({
   selector: 'app-workrequest-route',
   standalone: true,
-  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule,
-    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentComponent,
-     WorkRequestItemListComponent, StdMdbFormTextComponent, MenuControlDataListComponent],
+  imports: [CommonModule, SimpleMessagesSectionComponent, FormsModule,
+    StdMdbFormTextComponent, MenuControlDataListComponent],
   templateUrl: './workrequest-route.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -34,6 +32,10 @@ export class WorkRequestRouteComponent extends AbstractMultimodeComponent<WorkRe
   acceptText: string = '';
   availableQueues: any[] = [];
   error: any = null;
+  
+  // Inject modal service
+  private modalService = inject(MdbModalService);
+  private modalRef: MdbModalRef<WorkRequestAcceptModalComponent> | null = null;
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
@@ -82,18 +84,16 @@ export class WorkRequestRouteComponent extends AbstractMultimodeComponent<WorkRe
     return this.entity?.getCurrentStateCode() === 'rerouted';
   }
   // Methods referenced in template
-  async acceptTicket(): Promise<void> {
-    var baseRoute = super.getBaseRoute();
-   
-    var data: RoutingActionPOSTData = {
-      comments: this.acceptText,
-      userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
-    };
-    this.hcclService.acceptTicket(this.id,data).subscribe(
-      (data: WorkRequestGETData) => {
-       this.router.navigate([baseRoute, this.id]);
+  openAcceptModal(): void {
+    const baseRoute = super.getBaseRoute();
+    
+    this.modalRef = this.modalService.open(WorkRequestAcceptModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        baseRoute: baseRoute
       }
-    );
+    });
   }
 
   rerouteTicket(selectedQueue?: any): void {

@@ -2,10 +2,9 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CreateTicketSetupUIData, HcclService, RoutingActionPOSTData, SimpleRestActionResponse, WorkQueueGETData, WorkRequestGETData, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
-import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
+import { WorkRequestCrudWrapper } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
-import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { FormsModule } from '@angular/forms';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { CRUD_MODES } from '@app/@core/constants/app-settings';
@@ -15,16 +14,17 @@ import { WorkRequestItemEnqueueRFIComponent } from '@app/components/_crud/workre
 import { WorkRequestItemAttachRFIContentComponent } from '../workrequestitem/workrequestitem-attachrficontent.component';
 import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
-import { StdMdbFormTextComponent } from "../../_global/std-mdb-form-text/std-mdb-form-text.component";
 import { MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
 
 
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
-  imports: [CommonModule, WorkRequestCrudComponent, SimpleMessagesSectionComponent, FormsModule,
+  imports: [CommonModule, SimpleMessagesSectionComponent, FormsModule,
     WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentComponent,
-     WorkRequestItemListComponent, StdMdbFormTextComponent, MenuControlDataListComponent],
+     WorkRequestItemListComponent],
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -34,6 +34,10 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   acceptText: string = '';
   availableQueues: any[] = [];
   error: any = null;
+  
+  // Inject modal service
+  private modalService = inject(MdbModalService);
+  private modalRef: MdbModalRef<WorkRequestAcceptModalComponent> | null = null;
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
@@ -85,6 +89,25 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     return this.entity?.getCurrentStateCode() === 'rerouted';
   }
   // Methods referenced in template
+  openAcceptModal(): void {
+    const baseRoute = this.getBaseRoute();
+    
+    this.modalRef = this.modalService.open(WorkRequestAcceptModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        baseRoute: baseRoute
+      }
+    });
+    
+    // Refresh entity after modal closes
+    this.modalRef.onClose.subscribe(() => {
+      WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
+        this.entity = x;
+      });
+    });
+  }
+
   async acceptTicket(): Promise<void> {
      
     var data: RoutingActionPOSTData = {
