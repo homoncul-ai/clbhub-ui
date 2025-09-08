@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { MdbModalModule, MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { MdbModalModule, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { TranslateModule } from '@ngx-translate/core';
 
 // Import all the std components
@@ -23,11 +23,21 @@ import { DategetdataDisplayComponent } from '../../components/_global/dategetdat
 import { MenuControlDataList, MenuControlData } from '../../restsvc/hccl.service';
 import { DateGETData } from '../../restsvc/common-request-service.model';
 
-// Import modal component
-import { UistarterFormModalComponent, FormModalData } from './uistarter-form-modal.component';
+export interface FormModalData {
+  name?: string;
+  description?: string;
+  birthDate?: string;
+  isActive?: boolean;
+  hasLicense?: boolean;
+  phone?: string;
+  age?: number | null;
+  country?: MenuControlData | null;
+  skills?: MenuControlData[];
+  available?: number;
+}
 
 @Component({
-  selector: 'app-uistarter-form',
+  selector: 'app-uistarter-form-modal',
   standalone: true,
   imports: [
     CommonModule,
@@ -48,12 +58,16 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
     DategetdataDisplayComponent
   ],
   template: `
-    <div class="form-container">
+    <div class="modal-header">
+      <h5 class="modal-title">Field Display Components Test Form (Modal)</h5>
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
       <div class="form-header">
-        <h2>Field Display Components Test Form</h2>
-        <p>Test all field types from field-display-guides-component.prompt.txt</p>
+        <p>Test all field types from field-display-guides-component.prompt.txt in a modal</p>
         <div class="required-info">
-          <h4>Required Fields for Form Submission:</h4>
+          <h6>Required Fields for Form Submission:</h6>
           <ul>
             <li><strong>Text Input:</strong> Name (required)</li>
             <li><strong>Integer:</strong> Age (required)</li>
@@ -68,11 +82,11 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
         
         <!-- String Values -->
         <div class="form-section">
-          <h3>String Values</h3>
+          <h6>String Values</h6>
           
           <div class="form-field">
             <app-std-mdb-form-text
-              prefix="test"
+              prefix="modal"
               name="name"
               label="Name *"
               [required]="true"
@@ -84,13 +98,13 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
           
           <div class="form-field">
             <app-std-mdb-form-textarea
-              prefix="test"
+              prefix="modal"
               name="description"
               label="Description"
               [required]="false"
               placeholder="Enter description (MaxLength > 100)"
               helpText="Textarea for longer text"
-              [rows]="4"
+              [rows]="3"
               [maxLength]="500"
               formControlName="description">
             </app-std-mdb-form-textarea>
@@ -99,11 +113,11 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
 
         <!-- Date Values -->
         <div class="form-section">
-          <h3>Date Values</h3>
+          <h6>Date Values</h6>
           
           <div class="form-field">
             <app-std-mdb-datepicker
-              prefix="test"
+              prefix="modal"
               name="birthDate"
               label="Birth Date *"
               [required]="true"
@@ -125,11 +139,11 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
 
         <!-- Boolean Values -->
         <div class="form-section">
-          <h3>Boolean Values</h3>
+          <h6>Boolean Values</h6>
           
           <div class="form-field">
             <app-std-boolean
-              prefix="test"
+              prefix="modal"
               name="isActive"
               label="Active Status *"
               [required]="true"
@@ -141,7 +155,7 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
           
           <div class="form-field">
             <app-std-boolean
-              prefix="test"
+              prefix="modal"
               name="hasLicense"
               label="Has License"
               [required]="false"
@@ -156,11 +170,11 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
 
         <!-- Phone Values -->
         <div class="form-section">
-          <h3>Phone Values</h3>
+          <h6>Phone Values</h6>
           
           <div class="form-field">
             <app-std-mdb-phone
-              prefix="test"
+              prefix="modal"
               name="phone"
               label="Phone Number"
               [required]="false"
@@ -173,11 +187,11 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
 
         <!-- Integer Values -->
         <div class="form-section">
-          <h3>Integer Values</h3>
+          <h6>Integer Values</h6>
           
           <div class="form-field">
             <app-std-mdb-integer
-              prefix="test"
+              prefix="modal"
               name="age"
               label="Age *"
               [required]="true"
@@ -192,7 +206,7 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
 
         <!-- Menus -->
         <div class="form-section">
-          <h3>Menus</h3>
+          <h6>Menus</h6>
           
           <div class="form-field">
             <label class="form-label">Country (Single Choice) *</label>
@@ -217,7 +231,7 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
 
         <!-- Available Field -->
         <div class="form-section">
-          <h3>Available Field</h3>
+          <h6>Available Field</h6>
           
           <div class="form-field">
             <app-available-selector
@@ -229,93 +243,82 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
           </div>
         </div>
 
-        <div class="form-actions">
-          <button type="button" class="btn btn-secondary" (click)="resetForm()">
-            Reset Form
-          </button>
-          <button type="button" class="btn btn-info" (click)="openModal()">
-            Open in Modal
-          </button>
-          <button type="submit" class="btn btn-primary" [disabled]="testForm.invalid">
-            Submit Form
-          </button>
+        <div class="form-status" *ngIf="formSubmitted">
+          <h6>Form Status</h6>
+          <div class="status-info">
+            <p><strong>Form Valid:</strong> {{ testForm.valid }}</p>
+            <p><strong>Form Touched:</strong> {{ testForm.touched }}</p>
+            <p><strong>Form Dirty:</strong> {{ testForm.dirty }}</p>
+          </div>
         </div>
       </form>
+    </div>
 
-      <div class="form-status" *ngIf="formSubmitted">
-        <h3>Form Status</h3>
-        <div class="status-info">
-          <p><strong>Form Valid:</strong> {{ testForm.valid }}</p>
-          <p><strong>Form Touched:</strong> {{ testForm.touched }}</p>
-          <p><strong>Form Dirty:</strong> {{ testForm.dirty }}</p>
-        </div>
-      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="resetForm()">
+        Reset Form
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">
+        Close
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="testForm.invalid || !selectedCountry">
+        Submit Form
+      </button>
     </div>
   `,
   styles: [`
-    .form-container {
-      max-width: 800px;
-      margin: 0 auto;
+    .modal-body {
+      max-height: 70vh;
+      overflow-y: auto;
       padding: 20px;
-      background-color: #f8f9fa;
-      min-height: 100vh;
     }
 
     .form-header {
       text-align: center;
-      margin-bottom: 30px;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .form-header h2 {
-      color: #333;
-      margin-bottom: 10px;
-      font-size: 2rem;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
     }
 
     .form-header p {
       color: #666;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
     }
 
     .required-info {
       text-align: left;
-      margin-top: 20px;
-      padding: 15px;
+      padding: 10px;
       background: #e3f2fd;
-      border-radius: 6px;
-      border-left: 4px solid #2196f3;
+      border-radius: 4px;
+      border-left: 3px solid #2196f3;
     }
 
-    .required-info h4 {
+    .required-info h6 {
       color: #1976d2;
-      margin-bottom: 10px;
-      font-size: 1.1rem;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
     }
 
     .required-info ul {
       margin: 0;
-      padding-left: 20px;
+      padding-left: 15px;
     }
 
     .required-info li {
-      margin-bottom: 5px;
+      margin-bottom: 3px;
       color: #424242;
+      font-size: 0.8rem;
     }
 
     .test-form {
       background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .form-section {
-      margin-bottom: 40px;
-      padding-bottom: 30px;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
       border-bottom: 1px solid #e9ecef;
     }
 
@@ -323,123 +326,58 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
       border-bottom: none;
     }
 
-    .form-section h3 {
+    .form-section h6 {
       color: #495057;
-      margin-bottom: 20px;
-      font-size: 1.3rem;
+      margin-bottom: 15px;
+      font-size: 1rem;
       font-weight: 600;
     }
 
     .form-field {
-      margin-bottom: 20px;
-    }
-
-    .form-actions {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid #e9ecef;
-    }
-
-    .btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      min-width: 120px;
-    }
-
-    .btn-primary {
-      background-color: #007bff;
-      color: white;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background-color: #0056b3;
-      transform: translateY(-1px);
-    }
-
-    .btn-primary:disabled {
-      background-color: #6c757d;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-secondary {
-      background-color: #6c757d;
-      color: white;
-    }
-
-    .btn-secondary:hover {
-      background-color: #545b62;
-      transform: translateY(-1px);
-    }
-
-    .form-status {
-      margin-top: 30px;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .form-status h3 {
-      color: #333;
       margin-bottom: 15px;
     }
 
+    .form-status {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+
+    .form-status h6 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
     .status-info p {
-      margin: 8px 0;
+      margin: 5px 0;
       color: #666;
+      font-size: 0.8rem;
     }
 
     .status-info strong {
       color: #333;
     }
 
-    /* Responsive design */
-    @media (max-width: 768px) {
-      .form-container {
-        padding: 10px;
-      }
-
-      .test-form {
-        padding: 20px;
-      }
-
-      .form-actions {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .btn {
-        width: 100%;
-        max-width: 200px;
-      }
-    }
-
     /* Component-specific styling */
     ::ng-deep .form-field {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     ::ng-deep .form-label {
       font-weight: 500;
       color: #495057;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       display: block;
+      font-size: 0.9rem;
     }
 
     ::ng-deep .form-control {
       border: 1px solid #ced4da;
       border-radius: 4px;
-      padding: 8px 12px;
-      font-size: 1rem;
+      padding: 6px 10px;
+      font-size: 0.9rem;
       transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
 
@@ -449,37 +387,46 @@ import { UistarterFormModalComponent, FormModalData } from './uistarter-form-mod
     }
 
     ::ng-deep .form-text {
-      font-size: 0.875rem;
+      font-size: 0.75rem;
       color: #6c757d;
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
     ::ng-deep .invalid-feedback {
       display: block;
       width: 100%;
       margin-top: 0.25rem;
-      font-size: 0.875rem;
+      font-size: 0.75rem;
       color: #dc3545;
     }
 
     ::ng-deep .form-check {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     ::ng-deep .form-check-input {
-      margin-right: 8px;
+      margin-right: 6px;
     }
 
     ::ng-deep .form-check-label {
       font-weight: 500;
       color: #495057;
+      font-size: 0.9rem;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #dee2e6;
+      padding: 15px 20px;
+    }
+
+    .modal-footer .btn {
+      margin-left: 8px;
     }
   `]
 })
-export class UistarterFormComponent {
+export class UistarterFormModalComponent implements OnInit {
   testForm: FormGroup;
   formSubmitted = false;
-  modalRef: MdbModalRef<UistarterFormModalComponent> | null = null;
 
   // Sample data for components
   sampleDateData: DateGETData = {
@@ -516,9 +463,13 @@ export class UistarterFormComponent {
   selectedCountry: MenuControlData | null = null;
   selectedSkills: MenuControlData[] = [];
 
+  @Input() initialData: FormModalData = {};
+  @Output() formDataSubmitted = new EventEmitter<any>();
+  @Output() modalClosed = new EventEmitter<void>();
+
   constructor(
     private fb: FormBuilder,
-    private modalService: MdbModalService
+    public modalRef: MdbModalRef<UistarterFormModalComponent>
   ) {
     this.testForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -529,6 +480,39 @@ export class UistarterFormComponent {
       phone: [''],
       age: [null, [Validators.required, Validators.min(0), Validators.max(120)]]
     });
+  }
+
+  ngOnInit(): void {
+    // Initialize form with data from parent component
+    if (this.initialData) {
+      this.testForm.patchValue({
+        name: this.initialData.name || '',
+        description: this.initialData.description || '',
+        birthDate: this.initialData.birthDate || '',
+        isActive: this.initialData.isActive || false,
+        hasLicense: this.initialData.hasLicense || false,
+        phone: this.initialData.phone || '',
+        age: this.initialData.age || null
+      });
+
+      // Set non-form values
+      this.selectedCountry = this.initialData.country || null;
+      this.selectedSkills = this.initialData.skills || [];
+      this.availableValue = this.initialData.available || 0;
+
+      // Update menu selections
+      if (this.selectedCountry) {
+        this.countryMenuData.menuItems?.forEach(item => {
+          item.selected = item.id === this.selectedCountry?.id;
+        });
+      }
+
+      if (this.selectedSkills.length > 0) {
+        this.skillsMenuData.menuItems?.forEach(item => {
+          item.selected = this.selectedSkills.some(skill => skill.id === item.id);
+        });
+      }
+    }
   }
 
   onCountrySelectionChange(selectedItem: MenuControlData | null): void {
@@ -553,53 +537,6 @@ export class UistarterFormComponent {
     this.testForm.get('available')?.setValue(value);
   }
 
-  openModal(): void {
-    // Prepare initial data from current form
-    const formData = this.testForm.value;
-    const initialData: FormModalData = {
-      name: formData.name,
-      description: formData.description,
-      birthDate: formData.birthDate,
-      isActive: formData.isActive,
-      hasLicense: formData.hasLicense,
-      phone: formData.phone,
-      age: formData.age,
-      country: this.selectedCountry,
-      skills: this.selectedSkills,
-      available: this.availableValue
-    };
-
-    // Open the modal
-    this.modalRef = this.modalService.open(UistarterFormModalComponent, {
-      data: { initialData },
-      modalClass: 'modal-lg',
-      backdrop: true,
-      keyboard: true,
-      ignoreBackdropClick: false
-    });
-
-    // Handle modal form submission
-    this.modalRef.onClose.subscribe((result) => {
-      if (result) {
-        console.log('Modal form submitted with result:', result);
-        // Optionally update the main form with modal data
-        this.testForm.patchValue({
-          name: result.name,
-          description: result.description,
-          birthDate: result.birthDate,
-          isActive: result.isActive,
-          hasLicense: result.hasLicense,
-          phone: result.phone,
-          age: result.age
-        });
-        
-        // Update non-form values
-        this.availableValue = result.available;
-        // Note: Country and skills would need to be updated based on IDs
-      }
-    });
-  }
-
   onSubmit(): void {
     this.formSubmitted = true;
     
@@ -622,10 +559,16 @@ export class UistarterFormComponent {
         available: this.availableValue
       };
 
-      // Alert the JSON data
-      alert('Form Data:\n\n' + JSON.stringify(cleanData, null, 2));
+      // Emit the form data
+      this.formDataSubmitted.emit(cleanData);
       
-      console.log('Form submitted with data:', cleanData);
+      // Alert the JSON data
+      alert('Modal Form Data:\n\n' + JSON.stringify(cleanData, null, 2));
+      
+      console.log('Modal form submitted with data:', cleanData);
+      
+      // Close the modal
+      this.closeModal();
     } else {
       const formData = this.testForm.value;
       const missingFields: string[] = [];
@@ -636,7 +579,7 @@ export class UistarterFormComponent {
       if (!this.selectedCountry) missingFields.push('Country');
       
       alert('Please fill in all required fields:\n\n' + missingFields.join('\n'));
-      console.log('Form is invalid:', this.testForm.errors);
+      console.log('Modal form is invalid:', this.testForm.errors);
     }
   }
 
@@ -646,6 +589,10 @@ export class UistarterFormComponent {
     this.selectedCountry = null;
     this.selectedSkills = [];
     this.availableValue = 0;
+    
+    // Reset menu selections
+    this.countryMenuData.menuItems?.forEach(item => item.selected = false);
+    this.skillsMenuData.menuItems?.forEach(item => item.selected = false);
     
     // Reset to initial values
     this.testForm.patchValue({
@@ -657,5 +604,10 @@ export class UistarterFormComponent {
       phone: '',
       age: null
     });
+  }
+
+  closeModal(): void {
+    this.modalClosed.emit();
+    this.modalRef.close();
   }
 }

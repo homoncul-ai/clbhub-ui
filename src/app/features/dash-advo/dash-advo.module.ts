@@ -16,6 +16,7 @@ import { CreateTicketComponent } from './tickets/create-ticket.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
 import { UistarterFormComponent } from '../../views/uistarter/uistarter-form.component';
+import { UistarterFormModalComponent } from '../../views/uistarter/uistarter-form-modal.component';
 import { OrgQueueListComponent } from '../../components/org-queue-list/org-queue-list.component';
 import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/org-queue-tix-list.component';
 
@@ -151,6 +152,7 @@ const routes: Routes = [
     UistarterHomeComponent,
     ListSearchStarterComponent,
     UistarterFormComponent,
+    UistarterFormModalComponent,
     OrgQueueListComponent,
     OrgQueueTixListComponent, 
     CLSchoolListComponent,  
