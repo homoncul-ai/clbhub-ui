@@ -22,6 +22,7 @@ import { HcclTeamLogListComponent } from '../hcclteamlog/hcclteamlog-list.compon
 import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-list.component';
 import { WorkRequestRouteComponent } from './workrequest-route.component';
 import { SimpleButtonBar } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
+import { ProviderRequestCrudComponent } from '../providerrequest/providerrequest-crud.component';
 
 @Component({
   selector: 'app-workrequest-group',
@@ -29,7 +30,7 @@ import { SimpleButtonBar } from '@app/components/_global/simple-buttonbar/simple
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
     WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent, 
-    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent],
+    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent, ProviderRequestCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -55,7 +56,19 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   protected setupTabs(): SimpleTab[] {
     var tabs = this.setupListDetailsTabs();
     var baseRoute = this.getBaseRoute();
-    var tab =  new SimpleTab('update', 'Update', '', 
+    var tab =  new SimpleTab('details-complete', 'More Details ...', '', 
+      () => {
+        //this.currentTabId = 'update';
+        this.router.navigate([baseRoute, this.id, 'details-complete']);
+       // alert("update");
+      },
+      () => {
+        return this.entity !== null;
+      }
+    );
+    tabs.push(tab) 
+
+    tab =  new SimpleTab('update', 'Update', '', 
       () => {
         //this.currentTabId = 'update';
         this.router.navigate([baseRoute, this.id, 'update']);

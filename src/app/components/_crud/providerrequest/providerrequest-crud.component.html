@@ -21,7 +21,19 @@
           <label>Request Type:</label>
           <app-providerrequesttyperef-crud [id]="requestTypeId" [modeName]="'fk'"></app-providerrequesttyperef-crud>
       </div>
-
+      <div class="detail-group">
+        <label>Requestor:</label>
+        <span>
+          <app-hccluserprofile-crud [id]="requesterUserId" [modeName]="'fk'"></app-hccluserprofile-crud>
+        </span>
+      </div>
+      <div class="detail-group">
+        <label>Advocate:</label>
+        <span>
+          <app-hccluserprofile-crud [id]="advocateUserId" [modeName]="'fk'"></app-hccluserprofile-crud>
+        </span>
+      </div>
+ 
 
         <!-- <div class="detail-group">
         <label>Name :</label>
@@ -35,19 +47,7 @@
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
-      <div class="detail-group">
-        <label>Requestor:</label>
-        <span>
-          <app-hccluserprofile-crud [id]="requesterUserId" [modeName]="'fk'"></app-hccluserprofile-crud>
-        </span>
-      </div>
-      <div class="detail-group">
-        <label>Advocate:</label>
-        <span>
-          <app-hccluserprofile-crud [id]="advocateUserId" [modeName]="'fk'"></app-hccluserprofile-crud>
-        </span>
-      </div>
-     <div class="detail-group">
+    <div class="detail-group">
         <app-vocationencoding-display [id]="vocationEncodingId" ></app-vocationencoding-display>
       </div> 
        

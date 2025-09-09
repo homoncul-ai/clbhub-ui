@@ -10,6 +10,20 @@
  
 </div>
 
+<div *ngIf="currentTabId === 'details-complete'">
+  <app-workrequest-crud [id]="id" [modeName]="'section'"></app-workrequest-crud> 
+  <hr/>
+
+  <div class="column-right">
+        
+    <div *ngIf="getCurrentEntity().getData().subjectEntityType == 'ProviderRequest'">
+       <app-providerrequest-crud [id]="getCurrentEntity().getData().subjectEntityId" [modeName]="'section'"></app-providerrequest-crud>
+    </div>
+
+  </div>
+</div>
+
+
 <div *ngIf="currentTabId === 'create'">
   <h1>Create</h1>
   <app-workrequest-crud [id]="id" modeName="create"></app-workrequest-crud>

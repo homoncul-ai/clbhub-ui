@@ -42,6 +42,9 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   protected abstract setupTabs(): SimpleTab[];
   protected currentTabId: string = '';
 
+  public getCurrentEntity(): T {
+    return this.entity || this.newCrudWrapperForCreate();
+  }
 
   ngOnInit(): void {
     this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';
