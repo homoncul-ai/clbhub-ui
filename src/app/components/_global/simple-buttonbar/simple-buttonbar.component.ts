@@ -22,7 +22,9 @@ export class SimpleButtonbarComponent implements OnInit {
 
   public selectButton(id: string): void {
     this.buttonSelected.emit(id);
-    alert(this.alertMsg + " " + id);
+    if (this.alertMsg !== '') {
+      alert(this.alertMsg + " " + id);
+    }
     this.buttonBar?.getButton(id)?.activate(null);
   }
 
