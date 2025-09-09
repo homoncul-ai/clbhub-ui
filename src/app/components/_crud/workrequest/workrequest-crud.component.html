@@ -9,33 +9,35 @@
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
 
     <div class="details-section">
-      <!-- Left Column --> 
       <div class="column-left">
+        <div class="detail-group">
+        <label>Work Request Type:</label>
+        <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
+      </div>
+      <div class="detail-group">
+        <label>Work Queue:</label>
+        <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK"></app-workqueue-crud>
+      </div>
+      <!-- Left Column --> 
         <div class="detail-group">
           <label>Name :</label>
           <span>{{ name }}</span>  
         </div>
+       
         <div class="detail-group">
           <label>Business Code:</label>
           <span>{{ businessCode }}</span>
         </div>
-        <div class="detail-group">
+        <!-- <div class="detail-group">
           <label>Description:</label>
           <span>{{ description }}</span>
-        </div>
+        </div> -->
         
       </div>
-
       <!-- Right Column -->
       <div class="column-right">
-        <div class="detail-group">
-          <label>Work Request Type:</label>
-          <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
-        </div>
-        <div class="detail-group">
-          <label>Work Queue:</label>
-          <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK"></app-workqueue-crud>
-        </div>
+        
+       
         <div class="detail-group">
           <label>Current State Code:</label>
           <span>{{ currentStateCode }}</span>

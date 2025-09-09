@@ -21,6 +21,7 @@ import { CatalogSearchResultCrudComponent } from "../catalogsearchresult/catalog
 import { HcclTeamLogListComponent } from '../hcclteamlog/hcclteamlog-list.component';
 import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-list.component';
 import { WorkRequestRouteComponent } from './workrequest-route.component';
+import { SimpleButtonBar } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 
 @Component({
   selector: 'app-workrequest-group',
@@ -64,7 +65,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
         return this.entity !== null;
       }
     );
-    tabs.push(tab) 
+    //tabs.push(tab) 
 
      tab =  new SimpleTab('items', 'Items', '', 
       () => {
@@ -141,5 +142,4 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     return criteria;
   }
 
-  
 } 

@@ -46,7 +46,15 @@ Tickets and Participants
 
 # Sat Sep 6
 
-4. new student ticket
-5. Student ticket 
 7. Fix ai call from QA 
 8. Fix logger.
+
+# Tue Sep 9
+1. Route page  fixing.  Show queue, modal route
+2. Change Item page to Action name.   Add instructions based on type.
+3. Update -> details.
+  ** Show prov section
+  ** 'Toggle full details' ? 
+  ** Close if all items are closed Popup. 
+  ** Change buttons to Actions dropdown. 
+  

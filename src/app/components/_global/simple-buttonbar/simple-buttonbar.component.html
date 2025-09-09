@@ -1,15 +1,15 @@
 <pre> buttonBar: {{ buttonBar.hidingButtonBar   }}</pre>
 <div *ngIf="!buttonBar.hidingButtonBar" class="buttonbar">
   <div class="button-bar" *ngIf="displayMode === 'buttons'">
-          <button 
-        mat-button
-        *ngFor="let button of buttonBar.buttons"
-        (click)="selectButton(button.id)"
-        class="button-item">
-        <ng-container *ngIf="button.showingButtonFunction()">
+          <ng-container *ngFor="let button of buttonBar.buttons">
+        <button 
+          mat-button
+          *ngIf="button.showingButtonFunction()"
+          (click)="selectButton(button.id)"
+          class="button-item">
           {{ button.label }}
-        </ng-container>
-      </button>
+        </button>
+      </ng-container>
   </div>
   
 </div>

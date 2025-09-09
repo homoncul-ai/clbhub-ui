@@ -17,13 +17,14 @@ import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
 import { WorkRequestAttachContentModalComponent } from './workrequest-attach-content-modal.component';
 import { WorkRequestEnqueueModalComponent } from './workrequest-enqueue-modal.component';
+import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 
 
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
   imports: [CommonModule, SimpleMessagesSectionComponent, FormsModule,
-    WorkRequestItemListComponent],
+    WorkRequestItemListComponent, SimpleButtonbarComponent],
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -177,4 +178,36 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     this.selectedWorkQueue = selectedItem;
   }
 
+  // Convert the 
+  
+  getSimpleButtonBar(): SimpleButtonBar {
+    var b : SimpleButtonBar = new SimpleButtonBar();
+    
+    // Accept Ticket button - only show when ticket is not accepted
+    const acceptButton = b.addButton('acceptTicket', 'Accept Ticket', () => {
+      this.openAcceptModal();
+    });
+    acceptButton.showingButtonFunction = () => !this.isTicketAccepted();
+    
+    // Attach RFI Content button - only show when ticket is accepted
+    const attachButton = b.addButton('attachContent', 'Attach RFI Content', () => {
+      this.openAttachContentModal();
+    });
+    attachButton.showingButtonFunction = () => this.isTicketAccepted();
+    
+    // Enqueue RFI button - only show when ticket is accepted
+    const enqueueButton = b.addButton('enqueueRFI', 'Enqueue RFI', () => {
+      this.openEnqueueModal();
+    });
+    enqueueButton.showingButtonFunction = () => this.isTicketAccepted();
+    
+    return b;
+  }
+  
+  onButtonSelected(buttonId: string): void {
+    const button = this.getSimpleButtonBar().getButton(buttonId);
+    if (button) {
+      button.activate();
+    }
+  }
 } 

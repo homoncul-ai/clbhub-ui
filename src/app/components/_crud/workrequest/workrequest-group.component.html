@@ -3,7 +3,9 @@
 <div *ngIf="!loading">
    
 <div *ngIf="currentTabId === 'details'">
-  <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud>
+  <app-workrequest-crud [id]="id" [modeName]="'section'"></app-workrequest-crud>   
+ <app-workrequest-update [id]="id" modeName="detail"></app-workrequest-update> 
+      <!-- <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud> -->
 
  
 </div>
@@ -15,7 +17,7 @@
 
 <div *ngIf="currentTabId === 'update'">
   <app-workrequest-crud [id]="id" [modeName]="'section'"></app-workrequest-crud> 
-  
+  <hr/>
  <app-workrequest-update [id]="id" modeName="detail"></app-workrequest-update> 
 </div>
 
