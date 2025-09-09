@@ -3,9 +3,10 @@ import { TeamMemberListComponent } from './../teammember/teammember-list.compone
 // This was generated using entityName = WorkRequest
 // Generate the new [entityName]-group.component.ts   files using this template 
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { HcclService, HcclTeamLogCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria } from '@app/restsvc/hccl.service';
@@ -21,7 +22,9 @@ import { CatalogSearchResultCrudComponent } from "../catalogsearchresult/catalog
 import { HcclTeamLogListComponent } from '../hcclteamlog/hcclteamlog-list.component';
 import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-list.component';
 import { WorkRequestRouteComponent } from './workrequest-route.component';
-import { SimpleButtonBar } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
+import { WorkRequestRouteTicketComponent } from './workrequest-route-ticket-modal.component';
+import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
+import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 import { ProviderRequestCrudComponent } from '../providerrequest/providerrequest-crud.component';
 
 @Component({
@@ -30,11 +33,16 @@ import { ProviderRequestCrudComponent } from '../providerrequest/providerrequest
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
     WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent, 
-    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent, ProviderRequestCrudComponent],
+    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent, 
+    SimpleButtonbarComponent, ProviderRequestCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
 export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<WorkRequestCrudWrapper> implements OnInit {  
+
+  // Inject modal service
+  private modalService = inject(MdbModalService);
+  private modalRef: MdbModalRef<any> | null = null;
 
   constructor() {
     super();    
@@ -155,13 +163,68 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     return criteria;
   }
 
-  getActionsForLogs(): SimpleButtonBar {
+  getWorkRequestActionsButtonBar(): SimpleButtonBar {
     var x: SimpleButtonBar = new SimpleButtonBar();
     
-    x.buttons = [
-      new SimpleButton('View', 'view'),
-      new SimpleButton('Edit', 'edit'),
-    ];
+    // Route Work Request action - only show when ticket is not complete
+    const routeAction = x.addButton('routeWorkRequest', 'Route Work Request', () => {
+      this.openRouteTicketModal();
+    });
+    routeAction.showingButtonFunction = () => !this.isTicketComplete() && this.hasValidRoutingDestinations();
+    
+    // Add more actions as needed
+    const acceptAction = x.addButton('acceptWorkRequest', 'Accept Work Request', () => {
+      this.openAcceptModal();
+    });
+    acceptAction.showingButtonFunction = () => !this.isTicketAccepted();
+    
     return x;
+  }
+
+  hasValidRoutingDestinations(): boolean {
+    return  false;
+  }
+
+  openAcceptModal(): void {
+    const baseRoute = this.getBaseRoute();
+    
+    this.modalRef = this.modalService.open(WorkRequestAcceptModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        baseRoute: baseRoute
+      }
+    });
+  }
+
+  isTicketAccepted(): boolean {
+    return this.entity?.isTicketAccepted() || false;
+  }
+
+  openRouteTicketModal(): void {
+    const baseRoute = this.getBaseRoute();
+    
+    this.modalRef = this.modalService.open(WorkRequestRouteTicketComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        baseRoute: baseRoute
+      }
+    });
+  }
+
+  isTicketComplete(): boolean {
+    // Check if ticket is in a completed state - you may need to adjust this based on your business logic
+    const stateCode = this.entity?.getCurrentStateCode();
+    return stateCode === 'completed' || stateCode === 'closed' || stateCode === 'finished';
+  }
+
+  onWorkRequestActionSelected(actionId: string): void {
+    // Handle the selected action from the dropdown
+    const buttonBar = this.getWorkRequestActionsButtonBar();
+    const button = buttonBar.getButton(actionId);
+    if (button) {
+      button.activate(null);
+    }
   }
 } 
