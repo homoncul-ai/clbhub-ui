@@ -104,7 +104,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     );
     tabs.push(tab)
 
-    tab =  new SimpleTab('logs', 'Routing Logs', '', 
+    tab =  new SimpleTab('logs', 'Logs', '', 
       () => {
         this.router.navigate([baseRoute, this.id, 'logs']);
         //this.currentTabId = 'workRequestItem';
@@ -155,4 +155,13 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     return criteria;
   }
 
+  getActionsForLogs(): SimpleButtonBar {
+    var x: SimpleButtonBar = new SimpleButtonBar();
+    
+    x.buttons = [
+      new SimpleButton('View', 'view'),
+      new SimpleButton('Edit', 'edit'),
+    ];
+    return x;
+  }
 } 
