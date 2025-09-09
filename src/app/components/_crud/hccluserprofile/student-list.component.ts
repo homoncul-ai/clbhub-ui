@@ -103,7 +103,6 @@ export class StudentListComponent extends AbstractListComponent<HcclUserProfileG
 
   protected createTicketForUser(userProfileId: string) {
     //alert('Creating ticket for user profile:' + userProfileId);
-    
     // Get the current user profile ID from context
     const userContext : HcclUserContextGETData = this.hcclContextService.getContext();
     const advocateUserProfileId = userContext?.currentUserProfileId;

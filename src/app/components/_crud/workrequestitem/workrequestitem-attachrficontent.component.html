@@ -21,7 +21,7 @@
     <button (click)="createItemViewPost()" class="btn btn-primary">Attach RFI Content</button>
 </div>
 
-<div *ngIf="!isLoading() && currentMode === 'createItemView'">
+<div *ngIf="false && !isLoading() && currentMode === 'createItemView'">
 <pre>currentMode: "{{ currentMode }}"</pre>
 <pre>currentMode type: {{ typeof currentMode }}</pre>
 <pre>currentMode length: {{ currentMode?.length }}</pre>
@@ -37,3 +37,4 @@
 
 {{ currentMode }} 
 {{ this.workItemFormResponse | json }}
+</div>

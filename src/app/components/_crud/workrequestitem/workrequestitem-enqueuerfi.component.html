@@ -37,7 +37,7 @@
 </div>
 
 
-<div *ngIf="!isLoading() && currentMode === 'createItemView'">
+<div *ngIf=" false && !isLoading() && currentMode === 'createItemView'">
 <pre>currentMode: "{{ currentMode }}"</pre>
 <pre>currentMode type: {{ typeof currentMode }}</pre>
 <pre>currentMode length: {{ currentMode?.length }}</pre>
@@ -50,6 +50,6 @@
 <pre>menuQueues: {{ menuQueues | json }}</pre>
 <pre>menuQueues.menuItems.length: {{ menuQueues?.menuItems?.length }}</pre>
 <pre>isLoading: {{ isLoading() }}</pre>
-
+</div>
 <!-- <pre>{{ entity.dump() }}</pre>  -->
  

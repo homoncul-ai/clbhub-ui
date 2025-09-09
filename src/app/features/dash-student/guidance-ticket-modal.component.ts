@@ -7,11 +7,12 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { StdMdbDatepickerComponent } from '@app/components/_global/std-mdb-datepicker/std-mdb-datepicker.component';
 import { HcclService, PersonalStatementCriteria, MenuControlDataList, MenuControlData, CreateTicketPOSTData, WorkItemFormResponse } from '@app/restsvc/hccl.service';
+import { HcclUserProfileCrudComponent } from "@app/components/_crud/hccluserprofile/hccluserprofile-crud.component";
 
 @Component({
   selector: 'app-guidance-ticket-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, MenuControlDataListComponent, StdMdbFormTextComponent, StdMdbFormTextareaComponent, StdMdbDatepickerComponent],
+  imports: [CommonModule, FormsModule, MenuControlDataListComponent, StdMdbFormTextComponent, StdMdbFormTextareaComponent, StdMdbDatepickerComponent, HcclUserProfileCrudComponent],
   template: `
     <div class="modal-header">
       <h5 class="modal-title">
@@ -26,6 +27,10 @@ import { HcclService, PersonalStatementCriteria, MenuControlDataList, MenuContro
         <!-- Hidden field for userProfileId -->
         <input type="hidden" name="userProfileId" [(ngModel)]="userProfileId">
         
+        <div class="detail-group">
+          <label>Requestor:</label>
+          <span><app-hccluserprofile-crud [id]="userProfileId" [modeName]="'fk'"></app-hccluserprofile-crud></span>
+        </div>
         <!-- Personal Statement Selection -->
         <div class="mb-4">
           <!-- <label class="form-label">

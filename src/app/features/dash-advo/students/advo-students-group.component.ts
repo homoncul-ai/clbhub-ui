@@ -114,7 +114,7 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
 
   onClickRowStudent(): OnRowClickBehavior {
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
-    x.alertMessage = 'Student';
+    //x.alertMessage = 'Student';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
       return ['/advocate-dashboard', 'students',  'student', id];
@@ -150,7 +150,7 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
   }
   onClickWorkRequestRow(): OnRowClickBehavior {
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
-    x.alertMessage = 'Ticket';
+    //x.alertMessage = 'Ticket';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
       return ['/advocate-dashboard', 'workrequests', id, 'update'];

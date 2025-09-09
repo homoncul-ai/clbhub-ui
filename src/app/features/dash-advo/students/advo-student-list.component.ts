@@ -266,11 +266,11 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
       const checkedRows = allData.filter((row: any) => row.select === true);
       console.log('Checked rows:', checkedRows);
       
-      if (checkedRows.length > 0) {
-        alert(`Selected ${checkedRows.length} user profile(s)`);
-      } else {
-        alert('No user profiles selected');
-      }
+      // if (checkedRows.length > 0) {
+      //   alert(`Selected ${checkedRows.length} user profile(s)`);
+      // } else {
+      //   alert('No user profiles selected');
+      // }
     }
   }
 

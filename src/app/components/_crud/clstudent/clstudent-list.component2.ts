@@ -40,7 +40,7 @@ export class CLStudentListComponent2 implements OnInit, AfterViewInit {
     this.route.params.subscribe(params => {
       const studentId = params['id'];
       if (studentId) {
-        alert('Student ID found: ' + studentId);
+       // alert('Student ID found: ' + studentId);
         this.selectedStudentId = studentId;
       } else {
         this.selectedStudentId = null;
@@ -265,25 +265,6 @@ export class CLStudentListComponent2 implements OnInit, AfterViewInit {
     });
   }
 
-  public onGoClick() {
-    alert('onGoClick called');
-    // if (this.grid) {
-    //   // DHTMLX Suite 8: get checked rows by 'select' column (checkbox)
-    //   // The checked state is stored in the 'select' property of each row
-    //   const allData = this.grid.data.serialize();
-    //   const checkedRows = allData.filter((row: any) => row.select === true);
-    //   console.log('Checked rows:', checkedRows);
-      
-    //   if (checkedRows.length > 0) {
-    //     // Route to the first selected student's details
-    //     const firstStudent = checkedRows[0];
-    //     const studentId = firstStudent.businessCode || firstStudent.id;
-    //     this.router.navigate(['/advocate-dashboard/integrations/students', studentId, 'details']);
-    //   } else {
-    //     alert('No students selected');
-    //   }
-    // }
-  }
 
   public onPromoteStudents() {
     if (this.grid) {

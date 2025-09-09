@@ -141,7 +141,7 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
     var o : OnRowClickBehavior = new OnRowClickBehavior();
     o.parentId = this.id;
     o.tabId = 'catalogentry'; 
-    o.alertMessage = 'Modal to show catalog entry';
+    //o.alertMessage = 'Modal to show catalog entry';
     o.doNotNavigate = true;
     return o;
   }

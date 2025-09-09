@@ -142,7 +142,7 @@ implements OnInit, AfterViewInit {
       this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
         console.log('Cell clicked:', row, col);
         // Don't trigger on checkbox column or if no row data
-        if (col && col.id !== 'select' && row && row.id) {
+        if (col && col.id !== 'select' && col.id !== 'action' && row && row.id) {
           console.log('Calling onRowClick with entityId:', row.id);
           this.onRowClick(row.id);
         }
