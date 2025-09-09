@@ -352,7 +352,7 @@ implements OnInit, AfterViewInit {
         console.log('Tuning entities:', entityIds);
         const baseRoute = this.getBaseRoute();
         if (this.onGoClickAction.alertMessage.length > 0) {
-          alert( this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
+          alert('OnGoClick: ' + this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
         }
         this.onGoClickAction.onGoClick(entityIds, baseRoute, this.router);
       }
