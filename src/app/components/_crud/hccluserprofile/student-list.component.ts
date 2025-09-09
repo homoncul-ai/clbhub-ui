@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { GuidanceTicketModalComponent } from '../../../features/dash-student/guidance-ticket-modal.component';
 import { HcclService, HcclUserContextGETData } from '../../../restsvc/hccl.service';
 import { HcclUserProfileGETData, HcclUserProfileCriteria, HcclUserProfileGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
@@ -19,6 +21,9 @@ import { Observable } from 'rxjs';
     imports: [CommonModule]
 })
 export class StudentListComponent extends AbstractListComponent<HcclUserProfileGETData, HcclUserProfileCriteria, HcclUserProfileGETDataSearchResults> {
+  
+  // Inject modal service
+  protected override modalService = inject(MdbModalService);
   
   constructor(   
   ) {
@@ -109,10 +114,43 @@ export class StudentListComponent extends AbstractListComponent<HcclUserProfileG
       return;
     }
 
-    // Navigate to create-ticket route with both advocate and client user profile IDs
-    this.router.navigate(['/advocate-dashboard/tickets/create',
-  advocateUserProfileId,
-  userProfileId]);
+    // Open guidance ticket modal instead of navigating to create-ticket route
+    this.openGuidanceTicketModal(userProfileId, advocateUserProfileId);
+  }
+
+  /**
+   * Open the guidance ticket modal
+   */
+  private openGuidanceTicketModal(clientUserProfileId: string, advocateUserProfileId: string): void {
+    const modalData = {
+      userProfileId: clientUserProfileId,
+      advocateUserProfileId: advocateUserProfileId
+    };
+
+    const modalRef: MdbModalRef<GuidanceTicketModalComponent> = this.modalService.open(
+      GuidanceTicketModalComponent,
+      {
+        data: modalData,
+        modalClass: 'modal-lg',
+        backdrop: true,
+        keyboard: true,
+        ignoreBackdropClick: false
+      }
+    );
+
+    // Handle modal result
+    modalRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Modal closed with result:', result);
+        if (result.success) {
+          // Handle successful ticket creation
+          console.log('Guidance ticket created successfully:', result.ticketId);
+          // You can add additional success handling here (e.g., show toast notification)
+        }
+      } else {
+        console.log('Modal closed without result');
+      }
+    });
   }
 
   

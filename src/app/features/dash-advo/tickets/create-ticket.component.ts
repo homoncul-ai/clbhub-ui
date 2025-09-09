@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NewWorkRequestComponent } from '../../../components/new-work-request/new-work-request.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { GuidanceTicketModalComponent } from '../../dash-student/guidance-ticket-modal.component';
 
 @Component({
   selector: 'app-create-ticket',
   standalone: true,
-  imports: [NewWorkRequestComponent],
+  imports: [],
   template: `
     <div class="create-ticket-container">
       <!-- Debug information 
@@ -16,10 +17,15 @@ import { NewWorkRequestComponent } from '../../../components/new-work-request/ne
       </div>
 	  -->
       
-      <app-new-work-request 
-          [advocateUserProfileId]="advocateUserProfileId"
-          [clientUserProfileId]="clientUserProfileId">
-        </app-new-work-request>
+      <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+        <button 
+          type="button" 
+          class="btn btn-primary btn-lg"
+          (click)="openGuidanceTicketModal()">
+          <i class="fas fa-life-ring me-2"></i>
+          Request Help from Guidance
+        </button>
+      </div>
     </div>
   `,
   styles: [`
@@ -37,6 +43,9 @@ export class CreateTicketComponent implements OnInit {
   @Input() advocateUserProfileId?: string;
   @Input() clientUserProfileId?: string;
 
+  // Inject modal service
+  private modalService = inject(MdbModalService);
+
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -44,6 +53,38 @@ export class CreateTicketComponent implements OnInit {
     this.clientUserProfileId = this.route.snapshot.paramMap.get('clientId') || undefined;
   }
 
-  // This component serves as a wrapper for the new-work-request component
-  // It can be extended later with additional functionality if needed
+  /**
+   * Open the guidance ticket modal
+   */
+  openGuidanceTicketModal(): void {
+    const modalData = {
+      userProfileId: this.clientUserProfileId || this.advocateUserProfileId || '',
+      // Pass any additional data needed for the modal
+    };
+
+    const modalRef: MdbModalRef<GuidanceTicketModalComponent> = this.modalService.open(
+      GuidanceTicketModalComponent,
+      {
+        data: modalData,
+        modalClass: 'modal-lg',
+        backdrop: true,
+        keyboard: true,
+        ignoreBackdropClick: false
+      }
+    );
+
+    // Handle modal result
+    modalRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Modal closed with result:', result);
+        if (result.success) {
+          // Handle successful ticket creation
+          console.log('Guidance ticket created successfully:', result.ticketId);
+          // You can add additional success handling here (e.g., show toast notification)
+        }
+      } else {
+        console.log('Modal closed without result');
+      }
+    });
+  }
 } 

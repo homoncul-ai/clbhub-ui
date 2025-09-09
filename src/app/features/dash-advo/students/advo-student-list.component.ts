@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { GuidanceTicketModalComponent } from '../../dash-student/guidance-ticket-modal.component';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { 
@@ -46,6 +48,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
   private hcclService = inject(HcclService);
   private router = inject(Router);
   private hcclContextService = inject(HcclContextService);
+  private modalService = inject(MdbModalService);
 
   async ngOnInit() {
     // Check if DHTMLX is loaded
@@ -165,10 +168,43 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Navigate to create-ticket route with both advocate and client user profile IDs
-    this.router.navigate(['/advocate-dashboard/tickets/create',
-  advocateUserProfileId,
-  userProfileId]);
+    // Open guidance ticket modal instead of navigating to create-ticket route
+    this.openGuidanceTicketModal(userProfileId, advocateUserProfileId);
+  }
+
+  /**
+   * Open the guidance ticket modal
+   */
+  private openGuidanceTicketModal(clientUserProfileId: string, advocateUserProfileId: string): void {
+    const modalData = {
+      userProfileId: clientUserProfileId,
+      advocateUserProfileId: advocateUserProfileId
+    };
+
+    const modalRef: MdbModalRef<GuidanceTicketModalComponent> = this.modalService.open(
+      GuidanceTicketModalComponent,
+      {
+        data: modalData,
+        modalClass: 'modal-lg',
+        backdrop: true,
+        keyboard: true,
+        ignoreBackdropClick: false
+      }
+    );
+
+    // Handle modal result
+    modalRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Modal closed with result:', result);
+        if (result.success) {
+          // Handle successful ticket creation
+          console.log('Guidance ticket created successfully:', result.ticketId);
+          // You can add additional success handling here (e.g., show toast notification)
+        }
+      } else {
+        console.log('Modal closed without result');
+      }
+    });
   }
 
   private getUserContext(): HcclUserContextGETData {
