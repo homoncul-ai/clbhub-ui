@@ -25,6 +25,8 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
 import { ProviderRequestTypeRefCrudComponent } from '@app/components/_crud/providerrequesttyperef/providerrequesttyperef-crud.component';
+import { HcclUserProfileCrudComponent } from "../hccluserprofile/hccluserprofile-crud.component";
+import { VocationEncodingDisplayComponent } from "../vocationencoding/vocationencoding-display.component";
 
 @Component({
   selector: 'app-providerrequest-crud',
@@ -33,7 +35,8 @@ import { ProviderRequestTypeRefCrudComponent } from '@app/components/_crud/provi
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, ProviderRequestTypeRefCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent,
+    ProviderRequestTypeRefCrudComponent, HcclUserProfileCrudComponent, ProviderRequestTypeRefCrudComponent, VocationEncodingDisplayComponent],
   standalone: true
 })
 export class ProviderRequestCrudComponent extends AbstractCrudComponent<ProviderRequestCrudWrapper> implements OnInit, OnChanges {

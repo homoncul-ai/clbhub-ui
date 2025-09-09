@@ -420,12 +420,12 @@ export class HcclUserProfileCrudWrapper extends EntityWrapper<HcclUserProfileGET
   
   getDisplayText(entity?: HcclUserProfileGETData): string {
     const data = entity || this.data;
-    const userCode = data.userCode || '';
+    const userEmail = data.userEmail || '';
     const profileTypeCode = data.profileTypeCode || '';
-    if (userCode && profileTypeCode) {
-      return `${userCode} (${profileTypeCode})`;
-    } else if (userCode) {
-      return userCode;
+    if (userEmail && profileTypeCode) {
+      return `${userEmail} ( ${profileTypeCode} )`;
+    } else if (userEmail) {
+      return userEmail;
     } else if (profileTypeCode) {
       return profileTypeCode;
     } else {

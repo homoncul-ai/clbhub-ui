@@ -9,8 +9,7 @@
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
 
     <div class="details-section">
-      <div class="column-left">
-        <div class="detail-group">
+      <div class="detail-group">
         <label>Work Request Type:</label>
         <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
       </div>
@@ -33,8 +32,17 @@
           <span>{{ description }}</span>
         </div> -->
         
-      </div>
+      
       <!-- Right Column -->
+
+      <div class="column-right">
+        
+        <div *ngIf="subjectEntityType == 'ProviderRequest'">
+           <app-providerrequest-crud [id]="subjectEntityId" [modeName]="'section'"></app-providerrequest-crud>
+        </div>
+
+      </div>
+
       <div class="column-right">
         
        

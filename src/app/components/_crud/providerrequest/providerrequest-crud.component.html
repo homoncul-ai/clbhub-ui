@@ -15,10 +15,18 @@
       <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
       <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
        <!-- Note all these attributes are only shown here as examples - only show the attributes that are relevant to this entity -->
-        <div class="detail-group">
+
+        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
+      <div class="detail-group">
+          <label>Request Type:</label>
+          <app-providerrequesttyperef-crud [id]="requestTypeId" [modeName]="'fk'"></app-providerrequesttyperef-crud>
+      </div>
+
+
+        <!-- <div class="detail-group">
         <label>Name :</label>
         <span>{{ name }}</span>  
-      </div>
+      </div> -->
       <div class="detail-group">
         <label>Business Code:</label>
         <span>{{ businessCode }}</span>
@@ -28,34 +36,21 @@
         <span>{{ description }}</span>
       </div>
       <div class="detail-group">
-        <label>Current State Code:</label>
-        <span>{{ currentStateCode }}</span>
+        <label>Requestor:</label>
+        <span>
+          <app-hccluserprofile-crud [id]="requesterUserId" [modeName]="'fk'"></app-hccluserprofile-crud>
+        </span>
       </div>
       <div class="detail-group">
-        <label>Raw Request Text:</label>
-        <span>{{ rawRequestText }}</span>
+        <label>Advocate:</label>
+        <span>
+          <app-hccluserprofile-crud [id]="advocateUserId" [modeName]="'fk'"></app-hccluserprofile-crud>
+        </span>
       </div>
-      <div class="detail-group">
-        <label>Requester User ID:</label>
-        <span>{{ requesterUserId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Advocate User ID:</label>
-        <span>{{ advocateUserId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Vocation Encoding Instance ID:</label>
-        <span>{{ vocationEncodingId }}</span>
-      </div>
-
-           
-
-        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-        <div class="detail-group">
-          <label>Request Type:</label>
-          <app-providerrequesttyperef-crud [id]="requestTypeId" [modeName]="CRUD_MODES.FK"></app-providerrequesttyperef-crud>
-      </div>
-
+     <div class="detail-group">
+        <app-vocationencoding-display [id]="vocationEncodingId" ></app-vocationencoding-display>
+      </div> 
+       
       <!-- End example Attributes -->
       
 

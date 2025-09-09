@@ -12,6 +12,7 @@ import { ProviderRequestGETData, ProviderRequestCriteria, ProviderRequestGETData
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
 import { ProviderRequestTypeRefCrudWrapper } from '@app/components/_crud/providerrequesttyperef/providerrequesttyperef-crud.component';
+import { HcclUserProfileCrudComponent } from '../hccluserprofile/hccluserprofile-crud.component';
 
 /**
  * Component for displaying and managing ProviderRequest data using HcclService
@@ -23,9 +24,10 @@ import { ProviderRequestTypeRefCrudWrapper } from '@app/components/_crud/provide
   standalone: true,
   templateUrl: '../../_global/abstract-list/abstract-list.component.html',
   styleUrls: ['../../_global/abstract-list/abstract-list.component.scss'],
-  imports: [CommonModule]
+  imports: [CommonModule, HcclUserProfileCrudComponent]
 })
-export class ProviderRequestListComponent extends AbstractListComponent<ProviderRequestGETData, ProviderRequestCriteria, ProviderRequestGETDataSearchResults> {
+export class ProviderRequestListComponent extends AbstractListComponent<ProviderRequestGETData, 
+ProviderRequestCriteria, ProviderRequestGETDataSearchResults> {
   
   constructor(   
   ) {
