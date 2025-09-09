@@ -109,6 +109,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     this.workItemFormResponse = wirsp;
    // alert('WorkRequestItemAttachRFIContentAddEntriesComponent ngOnInit ' + JSON.stringify(rsp));
     this.menuCatalogs = wirsp.mapFormElements.menu_catalogs;
+    this.catalogCode = wirsp.mapFormElements.catalogCode;
     this.catalogSearchResult = wirsp.mapFormElements.catalogSearchResult;
     this.catalogEntriesIdsToExclude = this.catalogSearchResult?.entries?.map
       (entry => entry.catalogEntryId).filter((id): id is string => id !== undefined) || [];
@@ -278,8 +279,15 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
   getSelectedActionsButtonBar(): SimpleButtonBar {
     var b : SimpleButtonBar = new SimpleButtonBar();
     b.addButton('remove', 'Remove Selected Items');
-    b.addButton('add', 'Add Selected Items');
+    b.addButton('add', 'Add Selected Items '  );
+        if (this.isStateCompleted()) {
+          b.hidingButtonBar = true;
+        }
     return b; 
+  }
+
+  isStateCompleted(): boolean {
+    return this.workRequestItem?.getCurrentStateCode() === 'completed';
   }
 
   // onButtonClick(id: string, entityIds: string[], button: SimpleButton) {

@@ -135,7 +135,7 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
       pageNumber: 1,
       pageSize: 50,
       isPaging: true,
-      profileTypeCode: 'Client',
+      profileTypeCode: 'Student',
       organizationId: this.hcclContextService.getCurrentUserProfile().organizationId || '' // Use the organization ID from current user profile
     };
     return criteria;

@@ -83,7 +83,7 @@ implements OnInit, AfterViewInit {
 
     // Check if DHTMLX is loaded
     this.checkDhtmlxLoaded();
-    this.showingButtonBar = this.hasButtonBarList();
+    this.showingButtonBar = this.hasButtonBarList()  ;
   }
 
   ngAfterViewInit() {
@@ -166,7 +166,8 @@ implements OnInit, AfterViewInit {
   protected setupGrid() {
     // Build columns array based on showingIdCheckbox state
     const columns: any[] = [];
-    
+    //this.showingIdCheckbox = this.getShowingIdCheckbox();
+    debugger
     // Add checkbox column only if showingIdCheckbox is true
     if (this.showingIdCheckbox) {
       columns.push({ id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 });
@@ -303,7 +304,7 @@ implements OnInit, AfterViewInit {
       };
       
       // Only add select property if checkbox is shown
-      if (this.showingIdCheckbox) {
+      if (this.getShowingIdCheckbox()) {
         data.select = false;
       }
       console.log('data:', data);
@@ -324,7 +325,7 @@ implements OnInit, AfterViewInit {
   }
 
   protected hasButtonBarList(): boolean {
-    return this.buttonBar != null && this.buttonBar.buttons.length > 0;
+    return this.buttonBar != null && this.buttonBar.buttons.length > 0 && !this.buttonBar.hidingButtonBar;
   }
   public getButtonBar(): SimpleButtonBar  {
     return this.buttonBar|| new SimpleButtonBar();
@@ -453,7 +454,11 @@ implements OnInit, AfterViewInit {
    * Get the current state of the checkbox visibility
    */
   public getShowingIdCheckbox(): boolean {
-    return this.showingIdCheckbox;
+    var x = this.showingIdCheckbox;
+    // if (this.buttonBar && this.buttonBar.hidingButtonBar == true) {
+    //   x = false;
+    // }
+    return x;
   }
 
   // Abstract methods that subclasses must implement

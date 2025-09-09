@@ -29,7 +29,7 @@ export class SimpleButtonbarComponent implements OnInit {
 
 export class SimpleButtonBar {
   public buttons: SimpleButton[] = [];
-  
+  public hidingButtonBar: boolean = false;
   removeButton(button: SimpleButton): void {
     if (this.buttons) {
       this.buttons = this.buttons.filter(b => b.id !== button.id);

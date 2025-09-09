@@ -1,4 +1,5 @@
-<div class="buttonbar">
+<pre> buttonBar: {{ buttonBar.hidingButtonBar   }}</pre>
+<div *ngIf="!buttonBar.hidingButtonBar" class="buttonbar">
   <div class="button-bar" *ngIf="displayMode === 'buttons'">
           <button 
         mat-button

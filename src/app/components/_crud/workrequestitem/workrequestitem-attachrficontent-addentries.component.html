@@ -1,5 +1,4 @@
-<!-- DEBUG: Attach RFI Content Component Loaded -->
-
+<!-- <pre> Loaded ATTACHRFI </pre> -->
 <div *ngIf="isLoading() === false">
 
     <div *ngIf="isWorkRequestItemInProcess() === true" class="detail-group">
@@ -13,7 +12,7 @@
     <div *ngIf="isWorkRequestItemComplete() == true">
         <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" 
         [showingSearchHeading]="true" 
-        [searchHeadingLabel]="'Selected Catalog Entries'"
+        [searchHeadingLabel]="'Selected Entries for ' + getCatalogCode()"
         [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="clickRowToShowEntry()"
         [otherData]="getCatalogEntryOtherData()"></app-catalogsearchresultentry-list> 
     </div>
@@ -23,9 +22,9 @@
     
     <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" 
     [showingSearch]="false" 
-    [showingSearchHeading]="true" 
-    [searchHeadingLabel]="'Selected Catalog Entries'"
-    [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="clickRowToShowEntry()"
+    [showingSearchHeading]="!this.isStateCompleted()" 
+    [searchHeadingLabel]="'Add selected Entries from catalog  ' + getCatalogCode()"
+    [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="!this.isStateCompleted()" [onRowClickBehavior]="clickRowToShowEntry()"
     [onGoClickAction]="getOnGoRemoveCatalogEntriesToRFI()" goButtonLabel="Remove Selected Items" 
     [buttonBar]="getSelectedActionsButtonBar()"
     [otherData]="getCatalogEntryOtherData()"></app-catalogsearchresultentry-list> 

@@ -12,6 +12,20 @@
 <hr/>
 </div>
 
+<div *ngIf="isTicketAccepted()">
+  <div class="d-flex gap-3 mb-3">
+    <button (click)="openAttachContentModal()" class="btn btn-outline-primary">
+      <i class="fas fa-paperclip me-2"></i>
+      Attach RFI Content
+    </button>
+    <button (click)="openEnqueueModal()" class="btn btn-outline-success">
+      <i class="fas fa-share me-2"></i>
+      Enqueue RFI
+    </button>
+  </div>
+</div>
+
+</div>
 
 
 <div id="items" *ngIf="true">
@@ -19,24 +33,6 @@
   [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
 </div>
 
-<!-- create a radio button to select the type of work request item to add -->
-<div>
-  <input type="radio" name="workRequestItemType" value="attachRFIContent" [checked]="showingAttachRFIContent" (click)="showingAttachRFIContent = true"> Attach RFI Content
-  <input type="radio" name="workRequestItemType" value="enqueueRFI" [checked]="!showingAttachRFIContent" (click)="showingAttachRFIContent = false"> Enqueue RFI
-</div>
-<hr/>
-<div *ngIf="isShowingEnqueueRFI() ">
-  <div id="enqueueRFI">  
-    <app-workrequestitem-enqueuerfi [id]="id"></app-workrequestitem-enqueuerfi>
-  </div>
-</div>
-
-<div *ngIf="isShowingAttachRFIContent() ">
-  <div id="attachRFIContent"> 
-    <app-workrequestitem-attachrficontent [id]="id"></app-workrequestitem-attachrficontent>
-  </div>
-</div>
-</div>
 
 <pre *ngIf="false">
     {{ entity.dump() }}</pre> 

@@ -10,21 +10,20 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 import { CRUD_MODES } from '@app/@core/constants/app-settings';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
-import { WorkRequestItemEnqueueRFIComponent } from '@app/components/_crud/workrequestitem/workrequestitem-enqueuerfi.component';
-import { WorkRequestItemAttachRFIContentComponent } from '../workrequestitem/workrequestitem-attachrficontent.component';
 import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
+import { WorkRequestAttachContentModalComponent } from './workrequest-attach-content-modal.component';
+import { WorkRequestEnqueueModalComponent } from './workrequest-enqueue-modal.component';
 
 
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
   imports: [CommonModule, SimpleMessagesSectionComponent, FormsModule,
-    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentComponent,
-     WorkRequestItemListComponent],
+    WorkRequestItemListComponent],
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -37,7 +36,9 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   
   // Inject modal service
   private modalService = inject(MdbModalService);
-  private modalRef: MdbModalRef<WorkRequestAcceptModalComponent> | null = null;
+  private acceptModalRef: MdbModalRef<WorkRequestAcceptModalComponent> | null = null;
+  private attachModalRef: MdbModalRef<WorkRequestAttachContentModalComponent> | null = null;
+  private enqueueModalRef: MdbModalRef<WorkRequestEnqueueModalComponent> | null = null;
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
@@ -45,23 +46,6 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     console.log('WorkrequestUpdateComponent ngOnInit');
      WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
       this.entity = x;
-      const queues = this.hcclContextService.getContext().dashQueues || [];
-
-      // First, inbound tickets 
-      this.menu_queues = {
-        menuItems: [],
-      }
-  
-      for (const queueT of queues) {
-        const queue: WorkQueueGETData = queueT as WorkQueueGETData;
-        var md : MenuControlData = {
-          id: queue.id,
-          name: queue.businessCode,
-          selected: false,
-        }
-        this.menu_queues?.menuItems?.push(md);      
-      }
-  
       this.localModes = ['accept', 'reroute'];
       this.loading = false;
      });
@@ -92,7 +76,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   openAcceptModal(): void {
     const baseRoute = this.getBaseRoute();
     
-    this.modalRef = this.modalService.open(WorkRequestAcceptModalComponent, {
+    this.acceptModalRef = this.modalService.open(WorkRequestAcceptModalComponent, {
       modalClass: 'modal-lg',
       data: {
         workRequestId: this.id,
@@ -101,7 +85,41 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     });
     
     // Refresh entity after modal closes
-    this.modalRef.onClose.subscribe(() => {
+    this.acceptModalRef.onClose.subscribe(() => {
+      WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
+        this.entity = x;
+      });
+    });
+  }
+
+  openAttachContentModal(): void {
+    this.attachModalRef = this.modalService.open(WorkRequestAttachContentModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
+      }
+    });
+    
+    // Refresh entity after modal closes
+    this.attachModalRef.onClose.subscribe(() => {
+      WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
+        this.entity = x;
+      });
+    });
+  }
+
+  openEnqueueModal(): void {
+    this.enqueueModalRef = this.modalService.open(WorkRequestEnqueueModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
+      }
+    });
+    
+    // Refresh entity after modal closes
+    this.enqueueModalRef.onClose.subscribe(() => {
       WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
         this.entity = x;
       });
@@ -139,16 +157,6 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     );
   }
 
-  menu_queues: MenuControlDataList | null = null; 
-  
-  showingAttachRFIContent: boolean = true;
-  public isShowingEnqueueRFI(): boolean {
-    return this.showingAttachRFIContent == false;
-  }
-  public isShowingAttachRFIContent(): boolean {
-    return this.showingAttachRFIContent == true;
-  }
-
   get itemsCriteria(): WorkRequestItemCriteria {
     var criteria: WorkRequestItemCriteria = {  
       workRequestId: this.id
@@ -163,7 +171,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     //x.alertMessage = 'Catalog Entry';
     return x;
   }
-   
+
   selectedWorkQueue: MenuControlData | null = null;
   onWorkQueueChange(selectedItem: MenuControlData | null): void {
     this.selectedWorkQueue = selectedItem;

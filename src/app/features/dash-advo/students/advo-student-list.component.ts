@@ -190,7 +190,7 @@ export class AdvoStudentListComponent implements OnInit, AfterViewInit {
       pageNumber: 1,
       pageSize: 50,
       isPaging: true,
-      profileTypeCode: 'Client',
+      profileTypeCode: 'Student',
       organizationId: organizationId // Use the organization ID from current user profile
     };
 
