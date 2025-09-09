@@ -70,3 +70,32 @@
   background-color: #fff;
   min-height: 200px;
 }
+
+.select-bar {
+  display: flex;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  
+  select {
+    width: auto;
+    min-width: 300px;
+    max-width: 450px;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #495057;
+    
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+    
+    option {
+      padding: 8px;
+    }
+  }
+}

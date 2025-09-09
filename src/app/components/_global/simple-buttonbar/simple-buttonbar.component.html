@@ -12,4 +12,20 @@
       </ng-container>
   </div>
   
+  <div class="select-bar" *ngIf="displayMode === 'select'">
+    <select 
+      class="form-select"
+      (change)="onDropdownChange($event)"
+      [value]="''">
+      <option value="" disabled>{{ placeholder }}</option>
+      <ng-container *ngFor="let button of buttonBar.buttons">
+        <option 
+          *ngIf="button.showingButtonFunction()"
+          [value]="button.id">
+          {{ button.label }}
+        </option>
+      </ng-container>
+    </select>
+  </div>
+  
 </div>

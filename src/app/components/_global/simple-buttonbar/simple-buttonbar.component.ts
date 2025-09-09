@@ -15,14 +15,25 @@ export class SimpleButtonbarComponent implements OnInit {
   }
 
   @Input() buttonBar: SimpleButtonBar = new SimpleButtonBar(); 
-  @Input() displayMode: string = 'buttons'; // 'buttons' or 'tabs'
+  @Input() displayMode: string = 'buttons'; // 'buttons', 'tabs', or 'select'
   @Input() alertMsg: string = '';
   @Output() buttonSelected = new EventEmitter<string>();
+  @Input() placeholder: string = 'Select an option...';
 
   public selectButton(id: string): void {
     this.buttonSelected.emit(id);
     alert(this.alertMsg + " " + id);
     this.buttonBar?.getButton(id)?.activate(null);
+  }
+
+  public onDropdownChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedId = target.value;
+    if (selectedId && selectedId !== '') {
+      this.selectButton(selectedId);
+      // Reset dropdown to placeholder
+      target.value = '';
+    }
   }
  
 }

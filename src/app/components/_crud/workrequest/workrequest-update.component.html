@@ -4,7 +4,12 @@
 
 <div *ngIf="isLoading()">Loading... </div>
 <div *ngIf="!isLoading()">
-<app-simple-buttonbar [buttonBar]="getSimpleButtonBar()" (buttonSelected)="onButtonSelected($event)"></app-simple-buttonbar>
+<app-simple-buttonbar 
+  [buttonBar]="getSimpleButtonBar()" 
+  [displayMode]="'select'"
+  [placeholder]="'Choose an action...'"
+  (buttonSelected)="onButtonSelected($event)">
+</app-simple-buttonbar>
 
 </div>
 
