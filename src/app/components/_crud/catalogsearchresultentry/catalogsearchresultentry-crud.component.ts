@@ -20,11 +20,9 @@ import { MenuControlDataListComponent } from '@app/components/_global/menu-contr
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
-import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
-import { CatalogSearchResultCrudComponent } from '@app/components/_crud/catalogsearchresult/catalogsearchresult-crud.component';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud.component';
 
@@ -33,10 +31,10 @@ import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud
   templateUrl: './catalogsearchresultentry-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
-    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
+    StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, 
-    CatalogSearchResultCrudComponent, CatalogEntryCrudComponent, CatalogCrudComponent],
+    DategetdataDisplayComponent, ReferenceDataComponent, 
+    CatalogEntryCrudComponent, CatalogCrudComponent],
   standalone: true
 })
 export class CatalogSearchResultEntryCrudComponent extends AbstractCrudComponent<CatalogSearchResultEntryCrudWrapper> implements OnInit, OnChanges {

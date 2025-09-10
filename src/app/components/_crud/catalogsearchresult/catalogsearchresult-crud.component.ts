@@ -17,7 +17,6 @@ import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
-import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
@@ -34,7 +33,7 @@ import { CatalogSearchResultEntryCrudComponent } from '../catalogsearchresultent
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CatalogCrudComponent, CatalogSearchResultEntryCrudComponent],
+    DategetdataDisplayComponent, ReferenceDataComponent, CatalogCrudComponent, CatalogSearchResultEntryCrudComponent],
   standalone: true
 })
 export class CatalogSearchResultCrudComponent extends AbstractCrudComponent<CatalogSearchResultCrudWrapper> implements OnInit, OnChanges {
@@ -160,6 +159,9 @@ export class CatalogSearchResultCrudComponent extends AbstractCrudComponent<Cata
       throw error;
     }
 
+  }
+  getEntries(): CatalogSearchResultEntryGETData[] {
+    return this.isLoading ? [] : this.getCurrentEntity()?.getData().entries || [];
   }
 
   protected override async updateEntityDataCall(entity: CatalogSearchResultCrudWrapper): Promise<void> {

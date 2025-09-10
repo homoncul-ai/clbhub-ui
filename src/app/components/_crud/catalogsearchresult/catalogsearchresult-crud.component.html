@@ -6,7 +6,7 @@
 <app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
 </div>
 
-<div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
+<div *ngIf="getMode() === CRUD_MODES.SECTION" class="section-mode">
     <div class="details-section">
       <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->
       <!-- If no section attributes, use the read-only values for 'edit' mode.  -->
@@ -23,18 +23,39 @@
         <label>Comments:</label>
         <span>{{ comments }}</span>
       </div>
-       <!--
-      <div *ngIf="catalogSearchResultEntries && catalogSearchResultEntries.length > 0" >
-        <div *ngFor="let catalogSearchResultEntry of catalogSearchResultEntries">
-        <app-catalogsearchresultentry-crud [id]="catalogSearchResultEntry.id" [modeName]="CRUD_MODES.FK"></app-catalogsearchresultentry-crud>
+     
+      <!-- <pre>{{ this.getCurrentEntity().getData() | json }}</pre> -->
+      <div *ngIf="this.getEntries() && this.getEntries().length > 0" >
+        <h6>Catalog Search Result Entries: {{ this.getEntries().length }}</h6>
+        
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th>Entry Code</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let catalogSearchResultEntry of this.getEntries()">
+                <td>
+                  <span class="fw-bold text-primary">{{ catalogSearchResultEntry.catalogEntry?.entryCode || 'N/A' }}</span>
+                </td>
+                <td>
+                  <span class="text-dark">{{ catalogSearchResultEntry.catalogEntry?.title || 'N/A' }}</span>
+                </td>
+                <td>
+                  <span class="text-muted">{{ catalogSearchResultEntry.catalogEntry?.description || 'N/A' }}</span>
+                </td>
+               
+              </tr>
+            </tbody>
+          </table>
+        </div> 
       </div>
-      </div>-->
-        <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-        <!-- Example FK component - replace with actual FK for this entity -->
-        <!-- <div class="detail-group">
-          <label>WorkType:</label>
-          <app-workrequesttyperef-crud [id]="workTypeRefId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
-      </div> -->
+
 
       <!-- End example Attributes -->
       

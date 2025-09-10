@@ -74,7 +74,7 @@
       <!-- Replace these with the attributes for creating according to the rules in the prompt-->
       <div class="form-group">
         <label>Catalog Search Result:</label>
-        <app-catalogsearchresult-crud [id]="catalogSearchResultId" [modeName]="CRUD_MODES.FK_MENU"></app-catalogsearchresult-crud>
+        <span class="form-control-plaintext">{{ catalogSearchResultId || 'N/A' }}</span>
       </div>
       <div class="form-group">
         <label>Catalog Entry:</label>
@@ -112,7 +112,7 @@
         <div class="form-group">
           <div class="mb-4">
             <label>Catalog Search Result:</label>
-            <app-catalogsearchresult-crud [id]="catalogSearchResultId" [modeName]="CRUD_MODES.FK_MENU"></app-catalogsearchresult-crud>
+            <span class="form-control-plaintext">{{ catalogSearchResultId || 'N/A' }}</span>
           </div>
         </div>
         <div class="form-group">
@@ -166,7 +166,7 @@
       <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
         <div class="detail-group">
           <label>Catalog Search Result:</label>
-          <app-catalogsearchresult-crud [id]="catalogSearchResultId" [modeName]="CRUD_MODES.FK"></app-catalogsearchresult-crud>
+          <span>{{ catalogSearchResultId || 'N/A' }}</span>
         </div>
         <div class="detail-group">
           <label>Catalog Entry:</label>
