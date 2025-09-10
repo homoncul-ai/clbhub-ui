@@ -199,11 +199,15 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     const enqueueButton = b.addButton('enqueueRFI', 'Enqueue RFI', () => {
       this.openEnqueueModal();
     });
-    enqueueButton.showingButtonFunction = () => this.isTicketAccepted();
+    enqueueButton.showingButtonFunction = () => this.isTicketAccepted() && !this.isEnqueuedTicket();
     
     return b;
   }
   
+  isEnqueuedTicket(): boolean {
+    return this.entity?.getData().parentWorkRequestItemId && this.entity?.getData().parentWorkRequestItemId !== '' || false;
+  }
+
   onButtonSelected(buttonId: string): void {
     const button = this.getSimpleButtonBar().getButton(buttonId);
     if (button) {
