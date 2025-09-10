@@ -68,6 +68,16 @@ export class SimpleButtonBar {
     return b;
   }
 
+  isHidingButtonBar(): boolean {
+    if ( this.hidingButtonBar) {
+      return true;
+    }
+    // if all buttons are not showing, return true
+    if (this.buttons.every(b => !b.showingButtonFunction())) {
+      return true;
+    }
+    return false;
+    }
   
 }
 

@@ -46,9 +46,11 @@ export class WorkRequestLogListComponent extends AbstractListComponent<WorkReque
     return [
       // id is commented out for now - not sure if we want to show this
       //{ id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'nameText', header: [{ text: 'Name Text', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'workRequestCode', header: [{ text: 'Item', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, maxWidth: 200, adjust: true },
+      { id: 'dateLastUpdated', header: [{ text: 'Date', align: 'center' }], minWidth: 120, adjust: true },
       { id: 'eventCode', header: [{ text: 'Event Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'nameText', header: [{ text: 'Name Text', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true }
       // { id: 'transactionReferenceId', header: [{ text: 'Transaction Reference ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       // { id: 'roleCode', header: [{ text: 'Role Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       // { id: 'actionSubCode', header: [{ text: 'Action Sub Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
@@ -56,13 +58,11 @@ export class WorkRequestLogListComponent extends AbstractListComponent<WorkReque
 
       // // Replace [prefix]Id with the displaytext of the crudwrapper - named [prefix]Str instead of [prefix]Id
       // { id: 'workRequestStr', header: [{ text: 'Work Request', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      // { id: 'workRequestItemStr', header: [{ text: 'Work Request Item', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-
+ 
       // Commented out for now - not sure if we want to show this
 //      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
-  //    { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
+//      { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
     //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
-      { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
     ];
   }
 
@@ -94,20 +94,22 @@ export class WorkRequestLogListComponent extends AbstractListComponent<WorkReque
   protected override async formatEntityDataAsync(entity: WorkRequestLogGETData): Promise<any> {
     // Every attribute of the form [prefix]Id is an "foreign key" and should be replaced with the displaytext of the crudwrapper
     const workRequestStr: string = entity.workRequestId == null ? 'unknown' : 
-       (await WorkRequestCrudWrapper.newInstance(entity.workRequestId, this.hcclService)).getDisplayText();
+       (await WorkRequestCrudWrapper.newInstance(entity.workRequestId, this.hcclService)).getBusinessCode();
 
-    const workRequestItemStr: string = entity.workRequestItemId == null ? 'unknown' : 
-       (await WorkRequestItemCrudWrapper.newInstance(entity.workRequestItemId, this.hcclService)).getDisplayText();
+    const workRequestItemStr: string = entity.workRequestItemId == null ? '' : 
+       (await WorkRequestItemCrudWrapper.newInstance(entity.workRequestItemId, this.hcclService)).getBusinessCode();
 
-       var dateLastUpdatedStr:string = super.formatDateTime(entity.dateLastUpdated);
-        
+    var dateLastUpdatedStr:string = super.formatDateTime(entity.dateLastUpdated);
+
+    const workRequestCode = (workRequestItemStr == '') ? workRequestStr :  workRequestItemStr;
       return {
         createdByInfo: entity.createdByInfo?.name || '',
         lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
         dateCreated: entity.dateCreated?.formattedDate || '',
         dateLastUpdated: dateLastUpdatedStr,
         workRequestStr: workRequestStr,
-        workRequestItemStr: workRequestItemStr
+        workRequestItemStr: workRequestItemStr,
+        workRequestCode: workRequestCode
       };
   }
 

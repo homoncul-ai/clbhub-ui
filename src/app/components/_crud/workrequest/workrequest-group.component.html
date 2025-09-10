@@ -39,7 +39,8 @@
   
   <div id="items" *ngIf="true">
   <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
-  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" 
+  [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
 </div>
  
 </div>
@@ -47,20 +48,24 @@
 <div *ngIf="currentTabId === 'workRequestItem'">
   <app-workrequestitem-crud [id]="childId" modeName="section"></app-workrequestitem-crud>
 
-   <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
-  <app-workrequestitem-attachrficontent-addentries [id]="id || ''" [childId]="childId || ''"></app-workrequestitem-attachrficontent-addentries>
+  <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
+    <h6> Show Enqueue RFI Content</h6>
   </div>
-  <div *ngIf="workRequestItem?.getCurrentStateCode() === 'completed' && this.workItemDeliverableId !== ''">
-    <hr/>
-    <app-workitemdeliverable-crud [id]="this.workItemDeliverableId" modeName="section"></app-workitemdeliverable-crud>
- </div>
 
+  <div *ngIf="workRequestItem?.getActionCode() === 'AttachRFIContent'">
+    <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
+      <app-workrequestitem-attachrficontent-addentries [id]="id || ''" [childId]="childId || ''"></app-workrequestitem-attachrficontent-addentries>
+    </div>
+    <div *ngIf="workRequestItem?.getCurrentStateCode() === 'completed' && this.workItemDeliverableId !== ''">
+      <hr/>
+      <app-workitemdeliverable-crud [id]="this.workItemDeliverableId" modeName="section"></app-workitemdeliverable-crud>
+    </div>
+  </div>
 </div>
 
 
 <div *ngIf="currentTabId === 'logs'">
   <div class="mb-3">
-    <label class="form-label">Work Request Actions</label>
     <app-simple-buttonbar 
       [buttonBar]="getWorkRequestActionsButtonBar()" 
       displayMode="select"
