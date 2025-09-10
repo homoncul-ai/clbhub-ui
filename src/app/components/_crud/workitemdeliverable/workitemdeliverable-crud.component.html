@@ -49,8 +49,10 @@
       </div>
 
       <!-- End example Attributes -->
-      
-
+      <div *ngIf="subjectEntityType === 'CatalogSearchResult'">
+        <label>Catalog Search Result: {{ subjectEntityId }}</label>
+        <app-catalogsearchresult-crud [id]="subjectEntityId" [modeName]="'section'"></app-catalogsearchresult-crud>
+      </div>
     </div>
 </div>
 

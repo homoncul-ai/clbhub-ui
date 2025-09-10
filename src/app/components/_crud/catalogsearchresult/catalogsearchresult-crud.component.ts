@@ -12,7 +12,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogSearchResultCriteria, CatalogSearchResultGETData, CatalogSearchResultPOSTData, CatalogSearchResultPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CatalogSearchResultCriteria, CatalogSearchResultGETData, CatalogSearchResultPOSTData, CatalogSearchResultPUTData, HcclService, MenuControlDataList, MenuControlData, CatalogSearchResultEntryGETData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -25,6 +25,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
 import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud.component';
+import { CatalogSearchResultEntryCrudComponent } from '../catalogsearchresultentry/catalogsearchresultentry-crud.component';
 
 @Component({
   selector: 'app-catalogsearchresult-crud',
@@ -33,7 +34,7 @@ import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CatalogCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CatalogCrudComponent, CatalogSearchResultEntryCrudComponent],
   standalone: true
 })
 export class CatalogSearchResultCrudComponent extends AbstractCrudComponent<CatalogSearchResultCrudWrapper> implements OnInit, OnChanges {
@@ -121,11 +122,13 @@ export class CatalogSearchResultCrudComponent extends AbstractCrudComponent<Cata
     super.ngOnInit();
   }
 
+  protected catalogSearchResultEntries: CatalogSearchResultEntryGETData[] = [];
   protected async loadEntityByIdCall(id: string): Promise<CatalogSearchResultCrudWrapper> {
     const catalogsearchresult = await this.hcclService.getCatalogSearchResultById(id).toPromise();
     if (!catalogsearchresult) {
       throw new Error('CatalogSearchResult not found');
     }
+
     return new CatalogSearchResultCrudWrapper(catalogsearchresult, this.hcclService);
   }
 

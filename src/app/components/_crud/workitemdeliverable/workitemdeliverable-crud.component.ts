@@ -22,6 +22,7 @@ import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata
 import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { CatalogSearchResultCrudComponent } from '../catalogsearchresult/catalogsearchresult-crud.component';
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
 // Note: No FK components needed for WorkItemDeliverable based on the interface
@@ -33,7 +34,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, CatalogSearchResultCrudComponent],
   standalone: true
 })
 export class WorkItemDeliverableCrudComponent extends AbstractCrudComponent<WorkItemDeliverableCrudWrapper> implements OnInit, OnChanges {

@@ -19,27 +19,16 @@
         <label>Catalog:</label>
         <app-catalog-crud [id]="catalogId" [modeName]="CRUD_MODES.FK"></app-catalog-crud>
       </div>
-      <!--
-      <div class="detail-group">
+      <div *ngIf="comments && comments.length > 0"  class="detail-group">
         <label>Comments:</label>
         <span>{{ comments }}</span>
       </div>
-      -->
-<!--       
-      <div class="detail-group">
-        <label>Subject Entity Name:</label>
-        <span>{{ subjectEntityName }}</span>
+       <!--
+      <div *ngIf="catalogSearchResultEntries && catalogSearchResultEntries.length > 0" >
+        <div *ngFor="let catalogSearchResultEntry of catalogSearchResultEntries">
+        <app-catalogsearchresultentry-crud [id]="catalogSearchResultEntry.id" [modeName]="CRUD_MODES.FK"></app-catalogsearchresultentry-crud>
       </div>
-      <div class="detail-group">
-        <label>Subject Entity Type:</label>
-        <span>{{ subjectEntityType }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Parent Work Request Item ID:</label>
-        <span>{{ parentWorkRequestItemId }}</span>
-      </div> -->
-     
-
+      </div>-->
         <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
         <!-- Example FK component - replace with actual FK for this entity -->
         <!-- <div class="detail-group">
