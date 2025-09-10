@@ -48,6 +48,12 @@
 <div *ngIf="currentTabId === 'workRequestItem'">
   <app-workrequestitem-crud [id]="childId" modeName="section"></app-workrequestitem-crud>
 
+<div *ngIf="canChangeWorkItemStateToComplete(this.workRequestItem) === true" class="detail-group">
+  <label>Current State Code:</label>
+  <span>{{ this.workRequestItem?.getCurrentStateCode() }} 
+  <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span>
+</div>
+
   <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
     <h6> Show Enqueue RFI Content</h6>
   </div>
@@ -56,7 +62,9 @@
     <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
       <app-workrequestitem-attachrficontent-addentries [id]="id || ''" [childId]="childId || ''"></app-workrequestitem-attachrficontent-addentries>
     </div>
+
     <div *ngIf="workRequestItem?.getCurrentStateCode() === 'completed' && this.workItemDeliverableId !== ''">
+      <h6>Showing Deliverable </h6>
       <hr/>
       <app-workitemdeliverable-crud [id]="this.workItemDeliverableId" modeName="section"></app-workitemdeliverable-crud>
     </div>

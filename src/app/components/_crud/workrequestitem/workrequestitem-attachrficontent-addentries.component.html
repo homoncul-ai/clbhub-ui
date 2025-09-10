@@ -1,25 +1,17 @@
-<!-- <pre> Loaded ATTACHRFI </pre> -->
+<!-- 
+This shows the catalog entries that are available to add to the RFI.
+The user can remove the selected entries from the RFI.
+The user can add the selected entries to the RFI.
+The user can close the RFI.
+The user can mark the RFI as completed.
+The user can mark the RFI as incomplete.
+The user can mark the RFI as in progress.
+The user can mark the RFI as not started.
+-->
+
+
 <div *ngIf="isLoading() === false">
-
-    <div *ngIf="isWorkRequestItemInProcess() === true" class="detail-group">
-        <label>Current State Code:</label>
-        <span>{{ this.workRequestItem?.getCurrentStateCode() }} <input type="button" value="Complete Item" (click)="changeWorRequestItemStateToComplete()"></span>
-    </div>
-
-    <app-catalogsearchresult-crud [id]="this.catalogSearchResult?.id" modeName="section"></app-catalogsearchresult-crud>
-    <hr>
-
-    <div *ngIf="isWorkRequestItemComplete() == true">
-        <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" [showingSearch]="false" 
-        [showingSearchHeading]="true" 
-        [searchHeadingLabel]="'Selected Entries for ' + getCatalogCode()"
-        [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="clickRowToShowEntry()"
-        [otherData]="getCatalogEntryOtherData()"></app-catalogsearchresultentry-list> 
-    </div>
-
-    <div *ngIf="isWorkRequestItemComplete() !== true">
-    <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
-    
+  
     <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" 
     [showingSearch]="false" 
     [showingSearchHeading]="!this.isStateCompleted()" 
@@ -29,7 +21,6 @@
     [buttonBar]="getSelectedActionsButtonBar()"
     [otherData]="getCatalogEntryOtherData()"></app-catalogsearchresultentry-list> 
     
-</div>
 
 </div>
 

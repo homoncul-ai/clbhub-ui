@@ -240,21 +240,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     return this.workRequestItem?.getCurrentStateCode() === 'complete';
   }
 
-  changeWorRequestItemStateToComplete() {
-   var request : WorkItemFormRequest = {
-      op: 'completeWorkItem',
-      context: this.workItemFormContext,
-      actionFormData: {
-        someData: 'someData',
-      }
-    } 
-   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
-    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
-    var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
-    AbstractListComponent.routeToPath(this.router, path);
-   });
-  }
+  
 
   openAttachRFIContentModal() {
     this.modalRef = this.modalService.open(WorkRequestItemAttachRFIContentModalComponent, {

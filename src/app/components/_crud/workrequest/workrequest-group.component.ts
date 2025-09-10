@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
-import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria, WorkItemFormResponse } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
@@ -24,9 +24,11 @@ import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-li
 import { WorkRequestRouteComponent } from './workrequest-route.component';
 import { WorkRequestRouteTicketComponent } from './workrequest-route-ticket-modal.component';
 import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
+import { WorkRequestItemCompleteModalComponent } from './workrequestitem-complete-modal.component';
 import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 import { ProviderRequestCrudComponent } from '../providerrequest/providerrequest-crud.component';
 import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from "../workitemdeliverable/workitemdeliverable-crud.component";
+import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-workrequest-group',
@@ -35,7 +37,7 @@ import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
     WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent,
     CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent,
-    SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent],
+    SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent, WorkRequestItemCompleteModalComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -250,4 +252,39 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
       button.activate(null);
     }
   }
+
+  protected canChangeWorkItemStateToComplete(workRequestItem?: WorkRequestItemCrudWrapper | null): boolean {
+    return workRequestItem?.getCurrentStateCode() === 'inprocess';
+  }
+
+  openCompleteWorkRequestItemModal(): void {
+    const baseRoute = this.getBaseRoute();
+    
+    this.modalRef = this.modalService.open(WorkRequestItemCompleteModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        workRequestItemId: this.childId,
+        baseRoute: baseRoute
+      }
+    });
+  }
+
+  changeWorRequestItemStateToComplete() {
+    var request : WorkItemFormRequest = {
+       op: 'completeWorkItem',
+       context: undefined, //this.workRequestItem?.getWorkItemFormContext(),
+       actionFormData: {
+         someData: 'someData',
+       }
+     } 
+    var actionCode = this.workRequestItem?.getActionCode() || '';
+    var rsp  =   this.hcclService.callWorkRequestUi(this.id, actionCode, request).toPromise().then(rsp => {
+     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
+     var wrid: string = wirsp.context?.workRequestItemId || '';
+     var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
+     AbstractListComponent.routeToPath(this.router, path);
+    });
+   }
+
 } 
