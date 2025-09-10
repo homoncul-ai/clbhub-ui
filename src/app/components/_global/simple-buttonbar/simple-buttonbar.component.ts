@@ -72,10 +72,16 @@ export class SimpleButtonBar {
     if ( this.hidingButtonBar) {
       return true;
     }
+
     // if all buttons are not showing, return true
-    if (this.buttons.every(b => !b.showingButtonFunction())) {
-      return true;
-    }
+    debugger;
+    var x = false;
+    this.buttons.forEach(element => {
+      if (element.showingButtonFunction()) {
+       x = true;
+      }
+    });
+    return x;
     return false;
     }
   
@@ -85,7 +91,7 @@ export class SimpleButton {
   id: string;
   label: string;
   activateFunction: (data: any) => void;
-  showingButtonFunction: () => boolean;
+  showingButtonFunction: () => boolean; 
 
   constructor(id: string, label: string,  activateFunction: (data?: any) => void, showingButtonFunction: () => boolean) {
     this.id = id;
