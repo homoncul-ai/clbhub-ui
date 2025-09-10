@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
-import { HcclService, HcclTeamLogCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
@@ -26,15 +26,16 @@ import { WorkRequestRouteTicketComponent } from './workrequest-route-ticket-moda
 import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
 import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 import { ProviderRequestCrudComponent } from '../providerrequest/providerrequest-crud.component';
+import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from "../workitemdeliverable/workitemdeliverable-crud.component";
 
 @Component({
   selector: 'app-workrequest-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
-    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent, 
-    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent, 
-    SimpleButtonbarComponent, ProviderRequestCrudComponent],
+    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent,
+    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent,
+    SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
@@ -51,11 +52,31 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     return WorkRequestCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+  protected workItemDeliverableId?: string = '';
   protected async loadEntityById(id: string): Promise<WorkRequestCrudWrapper> {
     var workRequest = await WorkRequestCrudWrapper.newInstance(id, this.hcclService);
     if (this.childId != null) {
-      this.workRequestItem = await WorkRequestItemCrudWrapper.newInstance(this.childId || '', this.hcclService);
+      this.workRequestItem = await WorkRequestItemCrudWrapper.newInstance(this.childId || '', this.hcclService).then(async x => {
+        this.workRequestItem = x;
+        
+        if (this.workRequestItem.getData().currentStateCode == 'completed') {
+          const workitemdeliverablecriteria : WorkItemDeliverableCriteria = {
+            pageNumber: 1,
+            pageSize: 50,
+            isPaging: true,
+            workRequestItemId: this.childId || ''
+          };
+     //     alert("childId " + this.childId);
+          WorkItemDeliverableCrudWrapper.newInstanceByCriteria(workitemdeliverablecriteria, this.hcclService).then(workitemdeliverable => {
+            this.workItemDeliverableId = workitemdeliverable.getData().id;
+       //     alert("workItemDeliverableId: " + this.workItemDeliverableId + " " + JSON.stringify(workitemdeliverable.getData()));
+          });
+        }
+        
+        return x;
+      });
     }
+   
     return workRequest;
   }
 
@@ -182,7 +203,9 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
 
   hasValidRoutingDestinations(): boolean {
-    return  false;
+    // Check if there are available work queues for routing
+    const queues = this.hcclContextService.getContext().dashQueues || [];
+    return queues.length > 0;
   }
 
   openAcceptModal(): void {

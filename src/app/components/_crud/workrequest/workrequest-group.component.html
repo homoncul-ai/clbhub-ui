@@ -46,8 +46,15 @@
 
 <div *ngIf="currentTabId === 'workRequestItem'">
   <app-workrequestitem-crud [id]="childId" modeName="section"></app-workrequestitem-crud>
- 
+
+   <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
   <app-workrequestitem-attachrficontent-addentries [id]="id || ''" [childId]="childId || ''"></app-workrequestitem-attachrficontent-addentries>
+  </div>
+  <div *ngIf="workRequestItem?.getCurrentStateCode() === 'completed' && this.workItemDeliverableId !== ''">
+    <hr/>
+    <app-workitemdeliverable-crud [id]="this.workItemDeliverableId" modeName="section"></app-workitemdeliverable-crud>
+ </div>
+
 </div>
 
 

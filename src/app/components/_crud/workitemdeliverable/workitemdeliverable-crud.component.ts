@@ -12,7 +12,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { WorkItemDeliverableCriteria, WorkItemDeliverableGETData, WorkItemDeliverablePOSTData, WorkItemDeliverablePUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { WorkItemDeliverableCriteria, WorkItemDeliverableGETData, WorkItemDeliverablePOSTData, WorkItemDeliverablePUTData, HcclService, MenuControlDataList, MenuControlData, WorkItemDeliverableGETDataSearchResults } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -37,11 +37,11 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
   standalone: true
 })
 export class WorkItemDeliverableCrudComponent extends AbstractCrudComponent<WorkItemDeliverableCrudWrapper> implements OnInit, OnChanges {
-
+   
   constructor() {
     super();
   }
-
+  
   // Error property for form validation
   public error: any = null;
 
@@ -181,7 +181,7 @@ export class WorkItemDeliverableCrudComponent extends AbstractCrudComponent<Work
     super.ngOnInit();
   }
 
-  protected async loadEntityByIdCall(id: string): Promise<WorkItemDeliverableCrudWrapper> {
+  protected async loadEntityByIdCall(id: string): Promise<WorkItemDeliverableCrudWrapper> {     
     const workitemdeliverable = await this.hcclService.getWorkItemDeliverableById(id).toPromise();
     if (!workitemdeliverable) {
       throw new Error('WorkItemDeliverable not found');
@@ -449,6 +449,25 @@ export class WorkItemDeliverableCrudWrapper extends EntityWrapper<WorkItemDelive
       throw new Error('WorkItemDeliverable not found');
     }
     return new WorkItemDeliverableCrudWrapper(data, hcclService);
+  }
+  public static async newInstanceByWorkRequestId(workRequestItemId: string, hcclService: HcclService): Promise<WorkItemDeliverableCrudWrapper> {
+    const criteria: WorkItemDeliverableCriteria = {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      workRequestItemId: workRequestItemId
+    };
+   return this.newInstanceByCriteria(criteria, hcclService);
+  }
+  
+  public static async newInstanceByCriteria(criteria: WorkItemDeliverableCriteria, hcclService: HcclService): Promise<WorkItemDeliverableCrudWrapper> {
+    const data = await hcclService.findWorkItemDeliverables(criteria).toPromise();
+    // cast data as WorkRequestItemGETDataSearchResults
+    const dataSearchResults = data as WorkItemDeliverableGETDataSearchResults;
+    if (!dataSearchResults.searchResults) {
+      throw new Error('WorkRequestItem not found');
+    }
+    return new WorkItemDeliverableCrudWrapper(dataSearchResults.searchResults[0], hcclService);
   }
 
   constructor(data: WorkItemDeliverableGETData, hcclService?: HcclService) {

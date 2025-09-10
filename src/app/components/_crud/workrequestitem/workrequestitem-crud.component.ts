@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { WorkRequestItemCriteria, WorkRequestItemGETData, WorkRequestItemPOSTData, WorkRequestItemPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { WorkRequestItemCriteria, WorkRequestItemGETData, WorkRequestItemPOSTData, WorkRequestItemPUTData, HcclService, MenuControlDataList, MenuControlData, WorkRequestItemGETDataSearchResults, WorkItemDeliverableCriteria } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -19,6 +19,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
 import { WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { HccluserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
+import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from '../workitemdeliverable/workitemdeliverable-crud.component';
 
 @Component({
   selector: 'app-workrequestitem-crud',
@@ -139,6 +140,7 @@ export class WorkRequestItemCrudComponent extends AbstractCrudComponent<WorkRequ
   override ngOnInit(): void {
     super.ngOnInit();
   }
+  public workItemDeliverableId?: string = '';
 
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestItemCrudWrapper> {
     const workrequestitem = await this.hcclService.getWorkRequestItemById(id).toPromise();
@@ -382,6 +384,16 @@ export class WorkRequestItemCrudWrapper extends EntityWrapper<WorkRequestItemGET
       throw new Error('WorkRequestItem not found');
     }
     return new WorkRequestItemCrudWrapper(data, hcclService);
+  }
+
+  public static async newInstanceByCriteria(criteria: WorkRequestItemCriteria, hcclService: HcclService): Promise<WorkRequestItemCrudWrapper> {
+    const data = await hcclService.findWorkRequestItems(criteria).toPromise();
+    // cast data as WorkRequestItemGETDataSearchResults
+    const dataSearchResults = data as WorkRequestItemGETDataSearchResults;
+    if (!dataSearchResults.searchResults) {
+      throw new Error('WorkRequestItem not found');
+    }
+    return new WorkRequestItemCrudWrapper(dataSearchResults.searchResults[0], hcclService);
   }
 
   constructor(data: WorkRequestItemGETData, hcclService?: HcclService) {
