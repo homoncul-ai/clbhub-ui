@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { GuidanceTicketModalComponent } from './guidance-ticket-modal.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { EntityStateStatGETData, HcclService, StudentDashGuidanceUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-dash-student-guidance',
@@ -20,29 +21,23 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
               </h3>
             </div>
             <div class="card-body">
-              <div class="row mb-4">
+              <div class="row mb-4">                 
                 <div class="col-md-3">
                   <div class="text-center">
-                    <div class="display-4 text-primary">5</div>
-                    <div class="text-muted">Open Tickets</div>
+                    <div class="display-4 text-success">{{ getStats('Open')?.itemCount }}</div>
+                    <div class="text-muted">{{ getStats('Open')?.stateLabel }}</div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="text-center">
-                    <div class="display-4 text-success">12</div>
-                    <div class="text-muted">Resolved</div>
+                    <div class="display-4 text-info">{{ getStats('Completed')?.itemCount }}</div>
+                    <div class="text-muted">{{ getStats('Completed')?.stateLabel }}</div>
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <div class="text-center">
-                    <div class="display-4 text-info">2</div>
-                    <div class="text-muted">In Progress</div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="text-center">
-                    <div class="display-4 text-warning">1</div>
-                    <div class="text-muted">Pending Review</div>
+                <div class="text-center">
+                    <div class="display-4 text-info">{{ getStats('Cancelled')?.itemCount }}</div>
+                    <div class="text-muted">{{ getStats('Cancelled')?.stateLabel }}</div>
                   </div>
                 </div>
               </div>
@@ -63,32 +58,18 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
                 <div class="col-md-6">
                   <h5>Recent Tickets</h5>
                   <div class="list-group">
-                    <div class="list-group-item">
+                    <div class="list-group-item" *ngFor="let ticket of recentTickets()">
                       <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">Course Registration Issue</h6>
-                        <span class="badge bg-warning">In Progress</span>
+                        <h6 class="mb-1">{{ ticket.businessCode }}</h6>
+                        <span class="badge bg-{{ ticket.currentStateCode === 'Open'
+                           ? 'warning' : ticket.currentStateCode === 'Completed' ? 'success' : 'primary' }}">{{ ticket.currentStateCode }}</span>
                       </div>
-                      <p class="mb-1">Unable to register for Advanced Algorithms course</p>
-                      <small class="text-muted">Created 2 days ago</small>
-                    </div>
-                    <div class="list-group-item">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">Academic Planning Help</h6>
-                        <span class="badge bg-success">Resolved</span>
-                      </div>
-                      <p class="mb-1">Need guidance on course selection for next semester</p>
-                      <small class="text-muted">Resolved 1 week ago</small>
-                    </div>
-                    <div class="list-group-item">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">Financial Aid Question</h6>
-                        <span class="badge bg-primary">Open</span>
-                      </div>
-                      <p class="mb-1">Questions about scholarship renewal process</p>
-                      <small class="text-muted">Created 3 days ago</small>
+                      <p class="mb-1">{{ ticket.description }}</p>
+                      <small class="text-muted">Created ... </small>
                     </div>
                   </div>
                 </div>
+                
                 
                 <div class="col-md-6">
                   <h5>Quick Actions</h5>
@@ -149,17 +130,24 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
     }
   `]
 })
-export class DashStudentGuidanceComponent {
+export class DashStudentGuidanceComponent implements OnInit {
   private modalRef: MdbModalRef<GuidanceTicketModalComponent> | null = null;
   
   // Inject services using inject() function for standalone components
   private modalService = inject(MdbModalService);
   private hcclContextService = inject(HcclContextService);
-  
+  private hcclService = inject(HcclService);
+  private guidanceUIData: StudentDashGuidanceUIGETData | null = null;
+  private loading: boolean = false;
   constructor() {
     console.log('DashStudentGuidanceComponent initialized');
+   
   }
-  
+  ngOnInit(): void {
+    this.loading = true;
+    this.loadInfo();
+    this.loading = false;
+  }
   /**
    * Open the guidance ticket modal
    */
@@ -198,5 +186,21 @@ export class DashStudentGuidanceComponent {
         this.modalRef = null;
       });
     }
+  }
+
+  protected getStats(stateCode: string) : EntityStateStatGETData | null {
+    return this.guidanceUIData?.mapStats?.[stateCode] || {itemCount: 0, stateCode: stateCode, stateLabel: stateCode};
+  }
+  pritect
+
+  protected recentTickets() : WorkRequestGETData[]  {
+    return this.guidanceUIData?.recentWorkRequests?.searchResults || [];
+  }
+  protected loadInfo() {
+    // call resolveGuidanceUIData
+    this.hcclService.resolveGuidanceUIData().subscribe((data) => {
+      console.log('Guidance UI data loaded:', data);
+      this.guidanceUIData = data;
+    });
   }
 }

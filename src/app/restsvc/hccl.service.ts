@@ -2516,6 +2516,14 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
+  resolveGuidanceUIData(): Observable<StudentDashGuidanceUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/dash-ui/guidance",
+      method: "GET",
+    };
+    return this.request<StudentDashGuidanceUIGETData>(request);
+  }
+
   acceptTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/" + tix_id + "/accept",
@@ -5924,6 +5932,17 @@ export interface SimpleRestActionResponse {
   mapFormElements?: any;
 }
 
+export interface EntityStateStatGETData {
+  itemCount?: number;
+  stateCode?: string;
+  stateLabel?: string;
+}
+
+export interface StudentDashGuidanceUIGETData {
+  recentWorkRequests?: WorkRequestGETDataSearchResults;
+  mapStats?: any;
+}
+
 export interface RoutingActionPOSTData {
   userProfileId?: string;
   reasonId?: string;
@@ -5945,9 +5964,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   closedState?: boolean;
   cancelledState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {
