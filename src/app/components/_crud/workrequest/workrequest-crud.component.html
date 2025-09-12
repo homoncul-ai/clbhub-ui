@@ -40,7 +40,7 @@
        
         <div class="detail-group">
           <label>Current State Code:</label>
-          <span>{{ currentStateCode }}</span>
+          <span>{{ currentStateCode }} <app-std-mdb-entitystate [entityName]="'WorkRequest'" [entityId]="getCurrentEntity().getId()"></app-std-mdb-entitystate></span>
         </div>
         <div class="detail-group" *ngIf="acceptedByUserId">
           <label>Accepted By :</label>

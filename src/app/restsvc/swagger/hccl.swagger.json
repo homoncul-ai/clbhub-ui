@@ -10896,6 +10896,95 @@
         }
       }
     },
+    "/hccl/tixui/state-change-go": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "callStateChangeGo",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/StateChangeFormRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/StateChangeFormResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tixui/state-change-setup/{entity-name}/{entity-id}": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "callStateChangeUISetup",
+        "parameters": [
+          {
+            "name": "entity-name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "entity-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/StateChangeFormResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/tixui/{tix-id}/workrequestitemui/{action-code}": {
       "post": {
         "tags": [
@@ -20256,6 +20345,9 @@
           "linkToDeliverableId": {
             "type": "string",
             "format": "uuid"
+          },
+          "catalogSearchResult": {
+            "$ref": "#/components/schemas/CatalogSearchResultGETData"
           }
         }
       },
@@ -23434,6 +23526,186 @@
           "newQueueId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "EntityState": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "stateCode": {
+            "type": "string"
+          },
+          "requiredRole": {
+            "type": "string"
+          },
+          "bgColor": {
+            "type": "string"
+          },
+          "fgColor": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "majorStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defaultInitialState": {
+            "type": "boolean"
+          },
+          "closeParentIfPossible": {
+            "type": "boolean"
+          },
+          "defaultReadyState": {
+            "type": "boolean"
+          },
+          "finalState": {
+            "type": "boolean"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextStates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "openState": {
+            "type": "boolean"
+          },
+          "closedState": {
+            "type": "boolean"
+          },
+          "cancelledState": {
+            "type": "boolean"
+          }
+        }
+      },
+      "EntityStateTransition": {
+        "type": "object",
+        "properties": {
+          "stateFrom": {
+            "$ref": "#/components/schemas/EntityState"
+          },
+          "stateTo": {
+            "$ref": "#/components/schemas/EntityState"
+          },
+          "stateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "logMessage": {
+            "type": "string"
+          },
+          "dateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "closeParentIfPossible": {
+            "type": "boolean"
+          },
+          "stateTransitionValid": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StateChangeFormContext": {
+        "required": [
+          "entityId"
+        ],
+        "type": "object",
+        "properties": {
+          "entityType": {
+            "type": "string"
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapContextData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "mapResultsData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "StateChangeFormResponse": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/StateChangeFormContext"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "nextStatesMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "mapStateTransitions": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/EntityStateTransition"
+            }
+          },
+          "actionFormData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "mapFormElements": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "StateChangeFormRequest": {
+        "type": "object",
+        "properties": {
+          "op": {
+            "type": "string"
+          },
+          "context": {
+            "$ref": "#/components/schemas/StateChangeFormContext"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "showingLegalTransitionsOnly": {
+            "type": "boolean"
+          },
+          "nextState": {
+            "$ref": "#/components/schemas/EntityStateTransition"
+          },
+          "actionFormData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
           }
         }
       },

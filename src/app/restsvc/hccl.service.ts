@@ -2534,6 +2534,23 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestGETData>(request);
   }
 
+  callStateChangeGo(body: StateChangeFormRequest): Observable<StateChangeFormResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/state-change-go",
+      method: "POST",
+      body: body,
+    };
+    return this.request<StateChangeFormResponse>(request);
+  }
+
+  callStateChangeUISetup(entity_name: string, entity_id: string): Observable<StateChangeFormResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/state-change-setup/" + entity_name + "/" + entity_id,
+      method: "POST",
+    };
+    return this.request<StateChangeFormResponse>(request);
+  }
+
   callWorkRequestUi(tix_id: string, action_code: string, body: WorkItemFormRequest): Observable<WorkItemFormResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/" + tix_id + "/workrequestitemui/" + action_code,
@@ -5037,6 +5054,7 @@ export interface WorkItemDeliverableGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   linkToDeliverableId?: string;
+  catalogSearchResult?: CatalogSearchResultGETData;
 }
 
 export interface WorkItemDeliverableGETDataSearchResults {
@@ -5911,6 +5929,62 @@ export interface RoutingActionPOSTData {
   reasonId?: string;
   comments?: string;
   newQueueId?: string;
+}
+
+export interface EntityState {
+  name?: string;
+  stateCode?: string;
+  requiredRole?: string;
+  bgColor?: string;
+  fgColor?: string;
+  icon?: string;
+  majorStatus?: number;
+  defaultInitialState?: boolean;
+  closeParentIfPossible?: boolean;
+  defaultReadyState?: boolean;
+  finalState?: boolean;
+  categories?: string[];
+  nextStates?: string[];
+  openState?: boolean;
+  closedState?: boolean;
+  cancelledState?: boolean;
+}
+
+export interface EntityStateTransition {
+  stateFrom?: EntityState;
+  stateTo?: EntityState;
+  stateTransitionId?: string;
+  logMessage?: string;
+  dateEntered?: string;
+  messages?: SimpleMessageList;
+  closeParentIfPossible?: boolean;
+  stateTransitionValid?: boolean;
+}
+
+export interface StateChangeFormContext {
+  entityType?: string;
+  entityId: string;
+  userProfileId?: string;
+  mapContextData?: any;
+  mapResultsData?: any;
+}
+
+export interface StateChangeFormResponse {
+  context?: StateChangeFormContext;
+  messages?: SimpleMessageList;
+  nextStatesMenu?: MenuControlDataList;
+  mapStateTransitions?: any;
+  actionFormData?: any;
+  mapFormElements?: any;
+}
+
+export interface StateChangeFormRequest {
+  op?: string;
+  context?: StateChangeFormContext;
+  comments?: string;
+  showingLegalTransitionsOnly?: boolean;
+  nextState?: EntityStateTransition;
+  actionFormData?: any;
 }
 
 export interface WorkItemFormRequest {

@@ -1,0 +1,78 @@
+<div class="std-mdb-entitystate-container">
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <span class="loading-text">Loading state changes...</span>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error && !isLoading" class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{ error }}
+    <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="refresh()">
+      <i class="fas fa-redo"></i> Retry
+    </button>
+  </div>
+
+  <!-- Menu items display -->
+  <div *ngIf="!isLoading && !error && hasMenuItems" class="menu-container">
+    <div class="menu-header">
+      <h6 class="menu-title">
+        <i class="fas fa-exchange-alt me-2"></i>
+        {{ menuControlDataList?.menuName || 'State Changes' }}
+      </h6>
+      <small class="text-muted">{{ menuItems.length }} available transition(s)</small>
+    </div>
+    
+    <div class="menu-items">
+      <div 
+        *ngFor="let item of menuItems" 
+        class="menu-item"
+        [class.disabled]="!item.allowedByRule"
+        (click)="onMenuItemSelected(item)"
+        [title]="item.helpText || item.name">
+        
+        <div class="menu-item-content">
+          <div class="menu-item-icon">
+            <i *ngIf="item.icon" [class]="'fas fa-' + item.icon"></i>
+            <i *ngIf="!item.icon" class="fas fa-arrow-right"></i>
+          </div>
+          
+          <div class="menu-item-text">
+            <div class="menu-item-name">{{ item.name }}</div>
+            <div *ngIf="item.helpText" class="menu-item-help">{{ item.helpText }}</div>
+          </div>
+          
+          <div class="menu-item-status">
+            <span *ngIf="item.active" class="badge bg-success">Active</span>
+            <span *ngIf="!item.allowedByRule" class="badge bg-secondary">Not Allowed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No menu items message -->
+  <div *ngIf="!isLoading && !error && !hasMenuItems" class="no-items-container">
+    <div class="text-center text-muted">
+      <i class="fas fa-info-circle fa-2x mb-3"></i>
+      <p>No state changes available for this entity.</p>
+      <button type="button" class="btn btn-outline-primary btn-sm" (click)="refresh()">
+        <i class="fas fa-redo"></i> Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Debug information (only show in development) -->
+  <div *ngIf="currentStateChangeResponse && !isLoading" class="debug-info mt-3">
+    <details class="debug-details">
+      <summary class="debug-summary">
+        <i class="fas fa-bug me-1"></i>
+        Debug Information
+      </summary>
+      <pre class="debug-content">{{ currentStateChangeResponse | json }}</pre>
+    </details>
+  </div>
+</div>

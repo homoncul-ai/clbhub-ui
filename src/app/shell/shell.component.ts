@@ -224,6 +224,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       if (element) localStorage.removeItem(element);
     }
 
+    // Clear userProfileId cookie on logout
+    this.hcclContextService.clearUserProfileIdCookie();
    
     this.appConstants.logout();
   }
@@ -240,6 +242,11 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('User profile changed to:', selectedProfile);
     
     if (selectedProfile) {
+      // Set the userProfileId in cookie when selected
+      if (selectedProfile.id) {
+        this.hcclContextService.setUserProfileIdCookie(selectedProfile.id);
+      }
+      
       // Here you can add logic to handle the profile change
       // For example, refresh the context with the new profile ID
       this.hcclContextService.initializeContext(selectedProfile.id || '').subscribe({

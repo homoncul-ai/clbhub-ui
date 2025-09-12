@@ -48,6 +48,68 @@ export class HcclContextService {
   }
 
   /**
+   * Cookie name for storing userProfileId
+   */
+  private static readonly USER_PROFILE_ID_COOKIE = 'hccl_user_profile_id';
+
+  /**
+   * Set userProfileId in browser cookie
+   * @param userProfileId - The user profile ID to store
+   */
+  public setUserProfileIdCookie(userProfileId: string): void {
+    if (userProfileId && userProfileId.trim() !== '') {
+      // Set cookie with 30 days expiration
+      const expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 30);
+      
+      document.cookie = `${HcclContextService.USER_PROFILE_ID_COOKIE}=${userProfileId}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Lax`;
+      this.logger.info('User profile ID cookie set', { userProfileId });
+    } else {
+      this.logger.warn('Attempted to set empty userProfileId cookie');
+    }
+  }
+
+  /**
+   * Get userProfileId from browser cookie
+   * @returns The user profile ID from cookie or empty string if not found
+   */
+  public getUserProfileIdFromCookie(): string {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === HcclContextService.USER_PROFILE_ID_COOKIE) {
+        this.logger.info('User profile ID retrieved from cookie', { userProfileId: value });
+        return value || '';
+      }
+    }
+    this.logger.info('No user profile ID cookie found');
+    return '';
+  }
+
+  /**
+   * Clear userProfileId cookie
+   */
+  public clearUserProfileIdCookie(): void {
+    document.cookie = `${HcclContextService.USER_PROFILE_ID_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    this.logger.info('User profile ID cookie cleared');
+  }
+
+  /**
+   * Static method to get userProfileId from cookie
+   * @returns The user profile ID from cookie or empty string if not found
+   */
+  public static getUserProfileIdFromCookie(): string {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === HcclContextService.USER_PROFILE_ID_COOKIE) {
+        return value || '';
+      }
+    }
+    return '';
+  }
+
+  /**
    * Initialize the HCCL context after Keycloak authentication is complete
    * @param userProfileId - Optional user profile ID, defaults to empty string
    * @returns Observable of the context data
@@ -59,6 +121,14 @@ export class HcclContextService {
       isLoading: true,
       error: null
     }));
+
+    // If no userProfileId provided, try to get it from cookie
+    if (!userProfileId || userProfileId.trim() === '') {
+      userProfileId = this.getUserProfileIdFromCookie();
+      if (userProfileId) {
+        this.logger.info('Using userProfileId from cookie for initialization', { userProfileId });
+      }
+    }
 
     this.logger.info('Initializing HCCL context', { userProfileId });
 
@@ -173,7 +243,7 @@ export class HcclContextService {
   public getCurrentUserProfileId(): string {
     if (!this.isReady()) {
       this.logger.warn('Attempting to get user profile ID before context is ready');
-      return '';
+      return '--not-set--';
     }
     return this.context()?.currentUserProfileId || '';
   }
