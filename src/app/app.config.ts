@@ -29,6 +29,7 @@ import { AppConstants } from './shell/services/config.service';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEvent } from 'keycloak-angular';
 import { HttpTokenInterceptor } from './@core/interceptors/http.token.interceptor';
 import { KeycloakInterceptor } from './@core/interceptors/keycloak.interceptor';
+import { HttpUserProfileIdInterceptor } from './restsvc/interceptors/http.userprofileid.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -70,6 +71,11 @@ export const appConfig: ApplicationConfig = {
     { 
       provide: HTTP_INTERCEPTORS, 
       useClass: KeycloakInterceptor, // Use your fixed Keycloak interceptor
+      multi: true 
+    },
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: HttpUserProfileIdInterceptor, // Add userProfileId to all requests
       multi: true 
     },
     provideHttpClient(withInterceptorsFromDi()),

@@ -243,7 +243,7 @@ export class HcclContextService {
   public getCurrentUserProfileId(): string {
     if (!this.isReady()) {
       this.logger.warn('Attempting to get user profile ID before context is ready');
-      return '--not-set--';
+      return '';
     }
     return this.context()?.currentUserProfileId || '';
   }
