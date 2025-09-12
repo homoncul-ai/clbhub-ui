@@ -191,7 +191,7 @@ export class DashStudentGuidanceComponent {
           console.log('Guidance ticket submitted successfully:', result);
           // TODO: Show success message to user
           // TODO: Refresh ticket data if needed
-          alert(result.message || 'Guidance ticket submitted successfully!');
+        //  alert(result.message || 'Guidance ticket submitted successfully!');
         } else if (result) {
           console.log('Guidance ticket submission cancelled or failed');
         }

@@ -333,9 +333,9 @@ implements OnInit, AfterViewInit {
 
   protected onGoClick() {
     this.actionCode = 'go';
-    //alert('onGoClick called');
+    //myAlert('onGoClick called');
     if (!this.showingIdCheckbox) {
-      alert('Please enable checkboxes first to select entities for tuning');
+      this.myAlert('Please enable checkboxes first to select entities for tuning');
       return;
     }
     if (this.grid) {
@@ -343,7 +343,7 @@ implements OnInit, AfterViewInit {
       const checkedRows = allData.filter((row: any) => row.select === true);
       
       if (checkedRows.length === 0) {
-        //alert('Please select at least one entity to tune');
+        //myAlert('Please select at least one entity to tune');
         return;
       }
 
@@ -352,7 +352,7 @@ implements OnInit, AfterViewInit {
         console.log('Tuning entities:', entityIds);
         const baseRoute = this.getBaseRoute();
         if (this.onGoClickAction.alertMessage.length > 0) {
-          alert('OnGoClick: ' + this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
+          this.myAlert('OnGoClick: ' + this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
         }
         this.onGoClickAction.onGoClick(entityIds, baseRoute, this.router);
       }
@@ -368,11 +368,11 @@ implements OnInit, AfterViewInit {
 
   protected __onButtonClick(id: string) {
     var button: SimpleButton | undefined = this.buttonBar?.getButton(id);
-    //alert('__onButtonClick ' + id + ' ' + button?.label);
+    //myAlert('__onButtonClick ' + id + ' ' + button?.label);
     if (button) {
       const entityIds = this.getSelectedEntityIds();
       if (this.onGoClickAction.alertMessage.length > 0) {
-        alert("id: " + id + ' ' + this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
+        this.myAlert("id: " + id + ' ' + this.onGoClickAction.alertMessage + ' ' + entityIds.join('/'));
       }
       this.onGoClickAction.onButtonClick(button.id, entityIds, button);
     }
@@ -668,7 +668,6 @@ export class OnGoClickActionBehavior  {
     // Default implementation - subclasses can override
     
   }
-
 
   
 };
