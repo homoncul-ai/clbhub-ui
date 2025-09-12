@@ -29,6 +29,7 @@ import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_glob
 import { ProviderRequestCrudComponent } from '../providerrequest/providerrequest-crud.component';
 import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from "../workitemdeliverable/workitemdeliverable-crud.component";
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-entitystate/std-mdb-entitystate.component';
 
 @Component({
   selector: 'app-workrequest-group',
@@ -37,7 +38,8 @@ import { AbstractListComponent } from '@app/components/_global/abstract-list/abs
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
     WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent,
     CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent,
-    SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent, WorkRequestItemCompleteModalComponent],
+    SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent,
+     WorkRequestItemCompleteModalComponent, StdMdbEntitystateComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })

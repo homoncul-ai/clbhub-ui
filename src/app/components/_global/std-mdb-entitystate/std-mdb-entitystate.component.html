@@ -7,7 +7,7 @@
     <span class="loading-text">Loading state changes...</span>
   </div>
 
-  <!-- Error message -->
+  <!-- Error message  
   <div *ngIf="error && !isLoading" class="alert alert-danger" role="alert">
     <i class="fas fa-exclamation-triangle me-2"></i>
     {{ error }}
@@ -15,43 +15,12 @@
       <i class="fas fa-redo"></i> Retry
     </button>
   </div>
-
+-->
   <!-- Menu items display -->
-  <div *ngIf="!isLoading && !error && hasMenuItems" class="menu-container">
-    <div class="menu-header">
-      <h6 class="menu-title">
-        <i class="fas fa-exchange-alt me-2"></i>
-        {{ menuControlDataList?.menuName || 'State Changes' }}
-      </h6>
-      <small class="text-muted">{{ menuItems.length }} available transition(s)</small>
-    </div>
-    
-    <div class="menu-items">
-      <div 
-        *ngFor="let item of menuItems" 
-        class="menu-item"
-        [class.disabled]="!item.allowedByRule"
-        (click)="onMenuItemSelected(item)"
-        [title]="item.helpText || item.name">
-        
-        <div class="menu-item-content">
-          <div class="menu-item-icon">
-            <i *ngIf="item.icon" [class]="'fas fa-' + item.icon"></i>
-            <i *ngIf="!item.icon" class="fas fa-arrow-right"></i>
-          </div>
-          
-          <div class="menu-item-text">
-            <div class="menu-item-name">{{ item.name }}</div>
-            <div *ngIf="item.helpText" class="menu-item-help">{{ item.helpText }}</div>
-          </div>
-          
-          <div class="menu-item-status">
-            <span *ngIf="item.active" class="badge bg-success">Active</span>
-            <span *ngIf="!item.allowedByRule" class="badge bg-secondary">Not Allowed</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div *ngIf="!isLoading" class="d-flex align-items-center">
+    <label class="me-3 mb-0">{{ currentStateCode }}</label>
+    <app-simple-buttonbar [buttonBar]="getSimpleButtonBar()" displayMode="select" placeholder="Transition to next state ... "></app-simple-buttonbar>
+    <!-- <app-menu-control-data-list [menuControlDataList]="menuControlDataList" (menuItemSelected)="onMenuItemSelected($event)"></app-menu-control-data-list> -->
   </div>
 
   <!-- No menu items message -->
@@ -66,7 +35,7 @@
   </div>
 
   <!-- Debug information (only show in development) -->
-  <div *ngIf="currentStateChangeResponse && !isLoading" class="debug-info mt-3">
+  <div *ngIf="currentStateChangeResponse && !isLoading && showingDebug" class="debug-info mt-3">
     <details class="debug-details">
       <summary class="debug-summary">
         <i class="fas fa-bug me-1"></i>

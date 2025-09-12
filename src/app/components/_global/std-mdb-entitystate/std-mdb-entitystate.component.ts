@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { HcclService, StateChangeFormResponse, StateChangeFormRequest, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import {  } from '../menu-control-data-list/menu-control-data-list.component';
+import { SimpleButtonBar, SimpleButtonbarComponent } from "../simple-buttonbar/simple-buttonbar.component";
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-std-mdb-entitystate',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SimpleButtonbarComponent],
   templateUrl: './std-mdb-entitystate.component.html',
   styleUrl: './std-mdb-entitystate.component.scss'
 })
@@ -15,6 +18,7 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
   @Input() entityName: string = '';
   @Input() entityId?: string = '';
   @Input() callChangeSetupUI: boolean = true;
+  @Input() currentStateCode: string = '';
   
   @Output() stateChangeResponse = new EventEmitter<StateChangeFormResponse>();
   @Output() menuItemSelected = new EventEmitter<MenuControlData>();
@@ -22,6 +26,7 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
   // Component state
+  showingDebug: boolean = false;
   isLoading: boolean = false;
   error: string | null = null;
   currentStateChangeResponse: StateChangeFormResponse | null = null;
@@ -82,18 +87,14 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
     // Create state change request
     const stateChangeRequest: StateChangeFormRequest = {
       op: 'changeState',
-      context: {
-        entityType: this.entityName,
-        entityId: this.entityId || ''
-      },
-      nextState: {
-        stateTransitionId: menuItem.id,
-        stateTo: {
-          name: menuItem.name
-        }
-      }
+      context: this.currentStateChangeResponse?.context || undefined,
+      nextState: this.currentStateChangeResponse?.mapStateTransitions?.[menuItem.id || ''] || undefined
     };
-    
+    if (stateChangeRequest.nextState == undefined) {
+      alert(JSON.stringify(stateChangeRequest));
+      this.error = 'No next state found for menu item';
+      return;
+    }
     // Call state change go
     this.callStateChangeGo(stateChangeRequest);
   }
@@ -113,6 +114,8 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
           this.menuControlDataList = response.nextStatesMenu || null;
           this.isLoading = false;
           this.stateChangeResponse.emit(response);
+          // force the parent page to refresh
+          window.location.reload();
         },
         error: (error: any) => {
           this.error = error?.message || 'Failed to change state';
@@ -141,5 +144,14 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
    */
   refresh(): void {
     this.loadStateChangeSetup();
+  }
+
+  getSimpleButtonBar(): SimpleButtonBar {
+    // Convert the menuControlDataList to a SimpleButtonBar
+    var b : SimpleButtonBar = new SimpleButtonBar();
+    this.menuItems.forEach(item => {
+      b.addButton(item.id || '', item.name || '', () => {this.onMenuItemSelected(item);});
+    });
+    return b;
   }
 }
