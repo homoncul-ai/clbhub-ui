@@ -146,6 +146,8 @@ export class HcclContextService {
           lastUpdated: new Date()
         }));
 
+        this.setUserProfileIdCookie(context.currentUserProfileId);
+
         // Update BehaviorSubject for backward compatibility
         this._contextSubject.next(context);
       }),

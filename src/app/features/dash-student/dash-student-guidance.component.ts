@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { GuidanceTicketModalComponent } from './guidance-ticket-modal.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { EntityStateStatGETData, HcclService, StudentDashGuidanceUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
+import { EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-dash-student-guidance',
@@ -137,7 +137,7 @@ export class DashStudentGuidanceComponent implements OnInit {
   private modalService = inject(MdbModalService);
   private hcclContextService = inject(HcclContextService);
   private hcclService = inject(HcclService);
-  private guidanceUIData: StudentDashGuidanceUIGETData | null = null;
+  private guidanceUIData: WorkRequestDashboardUIGETData | null = null;
   private loading: boolean = false;
   constructor() {
     console.log('DashStudentGuidanceComponent initialized');

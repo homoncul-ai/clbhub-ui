@@ -4190,6 +4190,564 @@
         }
       }
     },
+    "/hccl/pattern/pmbucketfolder": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMBucketFolder.",
+        "operationId": "createPMBucketFolder_1",
+        "requestBody": {
+          "description": "New PMBucketFolder data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMBucketFolderPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmbucketfolder/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMBucketFolderById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMBucketFolderGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMBucketFolder.",
+        "operationId": "updatePMBucketFolderById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMBucketFolder data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMBucketFolderPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMBucketFolder.",
+        "operationId": "deletePMBucketFolderById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmbucketfolder/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMBucketFolders.",
+        "operationId": "findPMBucketFolders_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMBucketFolderCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMBucketFolderGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfileblob": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMFileBlob.",
+        "operationId": "createPMFileBlob_1",
+        "requestBody": {
+          "description": "New PMFileBlob data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileBlobPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfileblob/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMFileBlobById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileBlobGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMFileBlob.",
+        "operationId": "updatePMFileBlobById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMFileBlob data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileBlobPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMFileBlob.",
+        "operationId": "deletePMFileBlobById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfileblob/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMFileBlobs.",
+        "operationId": "findPMFileBlobs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileBlobCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileBlobGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfile": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMFile.",
+        "operationId": "createPMFile_1",
+        "requestBody": {
+          "description": "New PMFile data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFilePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfile/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMFileById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMFile.",
+        "operationId": "updatePMFileById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMFile data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFilePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMFile.",
+        "operationId": "deletePMFileById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfile/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMFiles.",
+        "operationId": "findPMFiles_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/prov/provider": {
       "post": {
         "tags": [
@@ -10807,6 +11365,36 @@
         }
       }
     },
+    "/hccl/providers/dash-ui/tickets": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveProviderTicketUIData",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestDashboardUIGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/students/dash-ui/guidance": {
       "get": {
         "tags": [
@@ -10820,7 +11408,7 @@
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
-                  "$ref": "#/components/schemas/StudentDashGuidanceUIGETData"
+                  "$ref": "#/components/schemas/WorkRequestDashboardUIGETData"
                 }
               }
             }
@@ -12322,6 +12910,11 @@
           "description": {
             "type": "string"
           },
+          "tarotPrompt": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
           "notes": {
             "type": "string"
           },
@@ -12349,6 +12942,21 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateNotes": {
+            "type": "string"
+          },
+          "updatedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -12390,6 +12998,9 @@
           "description": {
             "type": "string"
           },
+          "tarotPrompt": {
+            "type": "string"
+          },
           "notes": {
             "type": "string"
           },
@@ -12413,6 +13024,21 @@
           },
           "integrationEntityName": {
             "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateNotes": {
+            "type": "string"
+          },
+          "updatedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
           },
           "catalogCode": {
             "type": "string"
@@ -12566,9 +13192,27 @@
           "integrationEntityName": {
             "type": "string"
           },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateNotes": {
+            "type": "string"
+          },
+          "updatedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "vocationEncodingId": {
             "type": "string",
             "format": "uuid"
+          },
+          "searchingForEditVersion": {
+            "type": "boolean"
           }
         }
       },
@@ -12673,6 +13317,11 @@
           "description": {
             "type": "string"
           },
+          "tarotPrompt": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
           "notes": {
             "type": "string"
           },
@@ -12700,6 +13349,21 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateNotes": {
+            "type": "string"
+          },
+          "updatedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -15780,6 +16444,702 @@
           "schoolId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "PMBucketFolderPOSTData": {
+        "required": [
+          "available",
+          "bucketFolder",
+          "bucketName",
+          "businessCode",
+          "description",
+          "nameText"
+        ],
+        "type": "object",
+        "properties": {
+          "nameText": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "bucketName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "bucketFolder": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMBucketFolderGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "bucketName": {
+            "type": "string"
+          },
+          "bucketFolder": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMBucketFolderGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMBucketFolderGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMBucketFolderCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "bucketName": {
+            "type": "string"
+          },
+          "bucketFolder": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMBucketFolderPUTData": {
+        "required": [
+          "available",
+          "bucketFolder",
+          "bucketName",
+          "businessCode",
+          "description",
+          "nameText"
+        ],
+        "type": "object",
+        "properties": {
+          "nameText": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "bucketName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "bucketFolder": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMFileBlobPOSTData": {
+        "required": [
+          "fileBlob",
+          "pathToFile"
+        ],
+        "type": "object",
+        "properties": {
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pathToFile": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileBlob": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "PMFileBlobGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pathToFile": {
+            "type": "string"
+          },
+          "fileBlob": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "PMFileBlobGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMFileBlobGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMFileBlobCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pathToFile": {
+            "type": "string"
+          }
+        }
+      },
+      "PMFileBlobPUTData": {
+        "required": [
+          "fileBlob",
+          "pathToFile"
+        ],
+        "type": "object",
+        "properties": {
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pathToFile": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileBlob": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "PMFilePOSTData": {
+        "required": [
+          "downloadAs",
+          "fileAccessCode",
+          "logicalPath",
+          "parentEntityId"
+        ],
+        "type": "object",
+        "properties": {
+          "downloadAs": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "logicalPath": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileAccessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pmbucketFolderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "copyFromPMFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inTrash": {
+            "type": "boolean"
+          },
+          "publicImage": {
+            "type": "boolean"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mimeType": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bucketStorageUuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bucketFolderPath": {
+            "type": "string"
+          },
+          "fileBlob": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "PMFileGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "downloadAs": {
+            "type": "string"
+          },
+          "logicalPath": {
+            "type": "string"
+          },
+          "fileAccessCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pmbucketFolderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "copyFromPMFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inTrash": {
+            "type": "boolean"
+          },
+          "publicImage": {
+            "type": "boolean"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mimeType": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bucketStorageUuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bucketFolderPath": {
+            "type": "string"
+          }
+        }
+      },
+      "PMFileGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMFileGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMFileCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "downloadAs": {
+            "type": "string"
+          },
+          "logicalPath": {
+            "type": "string"
+          },
+          "fileAccessCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pmbucketFolderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "copyFromPMFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inTrash": {
+            "type": "boolean"
+          },
+          "publicImage": {
+            "type": "boolean"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mimeType": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bucketStorageUuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bucketFolderPath": {
+            "type": "string"
+          }
+        }
+      },
+      "PMFilePUTData": {
+        "required": [
+          "downloadAs",
+          "fileAccessCode",
+          "logicalPath",
+          "parentEntityId"
+        ],
+        "type": "object",
+        "properties": {
+          "downloadAs": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "logicalPath": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileAccessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pmbucketFolderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "copyFromPMFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inTrash": {
+            "type": "boolean"
+          },
+          "publicImage": {
+            "type": "boolean"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mimeType": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bucketStorageUuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bucketFolderPath": {
+            "type": "string"
+          },
+          "fileBlob": {
+            "type": "string",
+            "format": "byte"
           }
         }
       },
@@ -19084,11 +20444,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "errorMessageAsString": {
-            "type": "string"
-          },
           "firstErrorMessage": {
             "$ref": "#/components/schemas/SimpleMessage"
+          },
+          "errorMessageAsString": {
+            "type": "string"
           }
         }
       },
@@ -23553,7 +24913,7 @@
           }
         }
       },
-      "StudentDashGuidanceUIGETData": {
+      "WorkRequestDashboardUIGETData": {
         "type": "object",
         "properties": {
           "recentWorkRequests": {

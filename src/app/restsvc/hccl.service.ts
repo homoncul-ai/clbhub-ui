@@ -991,6 +991,135 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLStudentGETDataSearchResults>(request);
   }
 
+  createPMBucketFolder(body: PMBucketFolderPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmbucketfolder",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMBucketFolderById(id: string): Observable<PMBucketFolderGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmbucketfolder/" + id,
+      method: "GET",
+    };
+    return this.request<PMBucketFolderGETData>(request);
+  }
+
+  updatePMBucketFolderById(id: string, body: PMBucketFolderPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmbucketfolder/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMBucketFolderById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmbucketfolder/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMBucketFolders(body: PMBucketFolderCriteria): Observable<PMBucketFolderGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmbucketfolder/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMBucketFolderGETDataSearchResults>(request);
+  }
+
+  createPMFileBlob(body: PMFileBlobPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfileblob",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMFileBlobById(id: string): Observable<PMFileBlobGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfileblob/" + id,
+      method: "GET",
+    };
+    return this.request<PMFileBlobGETData>(request);
+  }
+
+  updatePMFileBlobById(id: string, body: PMFileBlobPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfileblob/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMFileBlobById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfileblob/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMFileBlobs(body: PMFileBlobCriteria): Observable<PMFileBlobGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfileblob/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMFileBlobGETDataSearchResults>(request);
+  }
+
+  createPMFile(body: PMFilePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfile",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMFileById(id: string): Observable<PMFileGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfile/" + id,
+      method: "GET",
+    };
+    return this.request<PMFileGETData>(request);
+  }
+
+  updatePMFileById(id: string, body: PMFilePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfile/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMFileById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfile/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMFiles(body: PMFileCriteria): Observable<PMFileGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfile/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMFileGETDataSearchResults>(request);
+  }
+
   createProvider(body: ProviderPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider",
@@ -2516,12 +2645,20 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
-  resolveGuidanceUIData(): Observable<StudentDashGuidanceUIGETData> {
+  resolveProviderTicketUIData(): Observable<WorkRequestDashboardUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/providers/dash-ui/tickets",
+      method: "GET",
+    };
+    return this.request<WorkRequestDashboardUIGETData>(request);
+  }
+
+  resolveGuidanceUIData(): Observable<WorkRequestDashboardUIGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/dash-ui/guidance",
       method: "GET",
     };
-    return this.request<StudentDashGuidanceUIGETData>(request);
+    return this.request<WorkRequestDashboardUIGETData>(request);
   }
 
   acceptTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
@@ -2809,6 +2946,7 @@ export interface CatalogEntryPOSTData {
   catalogTypeCode: string;
   shortDescription: string;
   description: string;
+  tarotPrompt?: string;
   notes?: string;
   available: number;
   url?: string;
@@ -2816,6 +2954,10 @@ export interface CatalogEntryPOSTData {
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
+  version?: number;
+  updateNotes?: string;
+  updatedByUserProfileId?: string;
+  referenceId?: string;
 }
 
 export interface CatalogEntryGETData {
@@ -2830,6 +2972,7 @@ export interface CatalogEntryGETData {
   catalogTypeCode?: string;
   shortDescription?: string;
   description?: string;
+  tarotPrompt?: string;
   notes?: string;
   available?: number;
   url?: string;
@@ -2837,6 +2980,10 @@ export interface CatalogEntryGETData {
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
+  version?: number;
+  updateNotes?: string;
+  updatedByUserProfileId?: string;
+  referenceId?: string;
   catalogCode?: string;
   distance?: number;
   distanceFromCode?: string;
@@ -2884,7 +3031,12 @@ export interface CatalogEntryCriteria {
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
+  version?: number;
+  updateNotes?: string;
+  updatedByUserProfileId?: string;
+  referenceId?: string;
   vocationEncodingId?: string;
+  searchingForEditVersion?: boolean;
 }
 
 export interface VeiSearchResultsGETData {
@@ -2914,6 +3066,7 @@ export interface CatalogEntryPUTData {
   catalogTypeCode: string;
   shortDescription: string;
   description: string;
+  tarotPrompt?: string;
   notes?: string;
   available: number;
   url?: string;
@@ -2921,6 +3074,10 @@ export interface CatalogEntryPUTData {
   integrationEntityId?: string;
   integrationEntityType?: string;
   integrationEntityName?: string;
+  version?: number;
+  updateNotes?: string;
+  updatedByUserProfileId?: string;
+  referenceId?: string;
 }
 
 export interface CatalogEntryTagPOSTData {
@@ -3780,6 +3937,200 @@ export interface CLStudentPUTData {
   firstName: string;
   lastName: string;
   schoolId: string;
+}
+
+export interface PMBucketFolderPOSTData {
+  nameText: string;
+  businessCode: string;
+  bucketName: string;
+  bucketFolder: string;
+  description: string;
+  available: number;
+}
+
+export interface PMBucketFolderGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  nameText?: string;
+  businessCode?: string;
+  bucketName?: string;
+  bucketFolder?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface PMBucketFolderGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMBucketFolderGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMBucketFolderCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  nameText?: string;
+  businessCode?: string;
+  bucketName?: string;
+  bucketFolder?: string;
+  available?: number;
+}
+
+export interface PMBucketFolderPUTData {
+  nameText: string;
+  businessCode: string;
+  bucketName: string;
+  bucketFolder: string;
+  description: string;
+  available: number;
+}
+
+export interface PMFileBlobPOSTData {
+  pmfileId?: string;
+  pathToFile: string;
+  fileBlob: string;
+}
+
+export interface PMFileBlobGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  pmfileId?: string;
+  pathToFile?: string;
+  fileBlob?: string;
+}
+
+export interface PMFileBlobGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMFileBlobGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMFileBlobCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  pmfileId?: string;
+  pathToFile?: string;
+}
+
+export interface PMFileBlobPUTData {
+  pmfileId?: string;
+  pathToFile: string;
+  fileBlob: string;
+}
+
+export interface PMFilePOSTData {
+  downloadAs: string;
+  logicalPath: string;
+  fileAccessCode: string;
+  available?: number;
+  pmbucketFolderId?: string;
+  pmfileReferenceId?: string;
+  uploadReferenceId?: string;
+  uploadGroupReferenceId?: string;
+  parentEntityId: string;
+  copyFromPMFileId?: string;
+  inTrash?: boolean;
+  publicImage?: boolean;
+  fileSize?: number;
+  mimeType?: string;
+  version?: number;
+  bucketStorageUuid?: string;
+  bucketFolderPath?: string;
+  fileBlob?: string;
+}
+
+export interface PMFileGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  downloadAs?: string;
+  logicalPath?: string;
+  fileAccessCode?: string;
+  available?: number;
+  pmbucketFolderId?: string;
+  pmfileReferenceId?: string;
+  uploadReferenceId?: string;
+  uploadGroupReferenceId?: string;
+  parentEntityId?: string;
+  copyFromPMFileId?: string;
+  inTrash?: boolean;
+  publicImage?: boolean;
+  fileSize?: number;
+  mimeType?: string;
+  version?: number;
+  bucketStorageUuid?: string;
+  bucketFolderPath?: string;
+}
+
+export interface PMFileGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMFileGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMFileCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  downloadAs?: string;
+  logicalPath?: string;
+  fileAccessCode?: string;
+  available?: number;
+  pmbucketFolderId?: string;
+  pmfileReferenceId?: string;
+  uploadReferenceId?: string;
+  uploadGroupReferenceId?: string;
+  parentEntityId?: string;
+  copyFromPMFileId?: string;
+  inTrash?: boolean;
+  publicImage?: boolean;
+  fileSize?: number;
+  mimeType?: string;
+  version?: number;
+  bucketStorageUuid?: string;
+  bucketFolderPath?: string;
+}
+
+export interface PMFilePUTData {
+  downloadAs: string;
+  logicalPath: string;
+  fileAccessCode: string;
+  available?: number;
+  pmbucketFolderId?: string;
+  pmfileReferenceId?: string;
+  uploadReferenceId?: string;
+  uploadGroupReferenceId?: string;
+  parentEntityId: string;
+  copyFromPMFileId?: string;
+  inTrash?: boolean;
+  publicImage?: boolean;
+  fileSize?: number;
+  mimeType?: string;
+  version?: number;
+  bucketStorageUuid?: string;
+  bucketFolderPath?: string;
+  fileBlob?: string;
 }
 
 export interface ProviderPOSTData {
@@ -5938,7 +6289,7 @@ export interface EntityStateStatGETData {
   stateLabel?: string;
 }
 
-export interface StudentDashGuidanceUIGETData {
+export interface WorkRequestDashboardUIGETData {
   recentWorkRequests?: WorkRequestGETDataSearchResults;
   mapStats?: any;
 }
