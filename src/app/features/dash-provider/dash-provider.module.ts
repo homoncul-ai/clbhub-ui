@@ -20,7 +20,10 @@ const routes: Routes = [
       { path: 'dashboard', component: ProviderDashboardGroupComponent },
       { path: 'details', component: ProviderDetailsGroupComponent },
       { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
-      { path: 'catalog', component: ProviderCatalogGroupComponent }
+      { path: 'catalog', component: ProviderCatalogGroupComponent },
+      { path: 'details/:tabId', component: ProviderDetailsGroupComponent },
+      { path: 'details/:tabId/:childId', component: ProviderDetailsGroupComponent },
+     
     ]
   }
 ];

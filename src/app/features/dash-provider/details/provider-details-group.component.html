@@ -6,6 +6,16 @@
     <app-provider-details-tab-myschool [id]="getOrganizationId()" modeName="detail"></app-provider-details-tab-myschool>
   </div>
 
+
+  <div *ngIf="currentTabId === 'staff'">
+    <app-org-school-staff-list [criteria]="getCriteriaForStaff()" [onRowClickBehavior]="onClickOrgStaffRowBehavior()"></app-org-school-staff-list>
+  </div>
+  
+  
+  <div *ngIf="currentTabId === 'staffmember'">
+    <app-org-school-staff-crud [id]="childId" modeName="details" ></app-org-school-staff-crud>
+  </div>
+
   <div *ngIf="true">
     <li>CurrentId :{{currentTabId}}</li>
     <li>Id :{{id}}</li>

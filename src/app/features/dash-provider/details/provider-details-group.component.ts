@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclUserContextGETData, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
+import { HcclUserContextGETData, HcclUserProfileCriteria, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { ProviderDetailsTabMyschoolComponent } from './provider-details-tab-myschool.component';
-import { ProviderDetailsTabColleaguesComponent } from './provider-details-tab-colleagues.component';
 import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OrgSchoolStaffListComponent } from '@app/features/dash-ecoadmin/orgs/org-school-staff-list.component';
+import { OrgSchoolStaffCrudComponent } from '@app/features/dash-ecoadmin/orgs/org-school-staff-crud.component';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-provider-details-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, ProviderDetailsTabMyschoolComponent,ProviderDetailsTabColleaguesComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderDetailsTabMyschoolComponent,OrgSchoolStaffListComponent,OrgSchoolStaffCrudComponent,MdbModalModule],
   templateUrl: './provider-details-group.component.html',
   styleUrl: './provider-details-group.component.scss'
 })
@@ -62,9 +65,9 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
           return true;
         }
       ),
-      new SimpleTab('colleagues', 'Colleagues', '', 
+      new SimpleTab('staff', 'Staff', '', 
         () => {
-          this.router.navigate([baseRoute, 'colleagues']);
+          this.router.navigate([baseRoute, 'staff']);
         },
         () => {
           return this.entity !== null;
@@ -75,5 +78,26 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
 
   protected override getDefaultTabId(): string {
     return 'myschool';
+  }
+
+
+  protected getCriteriaForStaff(): HcclUserProfileCriteria {
+    var x: HcclUserProfileCriteria = { 
+      organizationId: this.id
+    };
+    return x;
+  }
+
+  onClickOrgStaffRowBehavior(): OnRowClickBehavior {
+    var o : OnRowClickBehavior = new OnRowClickBehavior();
+    o.parentId = this.id;
+    o.tabId = 'staffmember';     
+   // o.alertMessage = 'Modal to show catalog entry';
+    o.usingNavigateUrl = true;
+    //o.doNotNavigate = true;
+    o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {
+      return ['/provider-dashboard/details/staff', this.id, 'staffmember', entityId];
+    };
+    return o;
   }
 }
