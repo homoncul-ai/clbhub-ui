@@ -93,10 +93,13 @@ export class MenuService {
     switch (dashboardType) {
       case 'advocate':
   //    case 'nonprofit':
+        return 'advocate-dashboard';
       case 'service-provider':
+        return 'provider-dashboard';
       case 'ecoadmin':
+        return 'ecoadmin-dashboard';
       case 'student':
-        return dashboardType + '-dashboard';
+        return 'student-dashboard';
 
       default:
         alert('Unknown dashboard type:' + dashboardType);
@@ -109,7 +112,7 @@ export class MenuService {
   getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
-    } else if (route.startsWith('/service-provider-dashboard')) {
+    } else if (route.startsWith('/provider-dashboard')) {
       return 'service-provider';
     } else if (route.startsWith('/ecoadmin-dashboard')) {
       return 'ecoadmin';
@@ -326,26 +329,26 @@ export class MenuService {
   buildServiceProviderMenu(): MenuItem[] {
     const menu: MenuItem[] = [];
     
-
-    // Tickets
-
-    // Catalog management.
-    
-    
-    // Add Dashboard with children
-    const dashboard = this.copyMenuItem(MENU_CONSTANTS.SERVICE_DASHBOARD);
-    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.SERVICE_OVERVIEW));
+    // Add Provider Dashboard with children
+    const dashboard = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DASHBOARD);
+    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DASHBOARD_TAB_MYDASH));
     this.addMenuItem(menu, dashboard);
     
-    // Add Services with children
-    const services = this.copyMenuItem(MENU_CONSTANTS.SERVICE_SERVICES);
-    this.addChildMenuItem(services, this.copyMenuItem(MENU_CONSTANTS.SERVICE_SERVICE_DETAILS));
-    this.addMenuItem(menu, services);
+    // Add Provider Details with children
+    const details = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DETAILS);
+    this.addChildMenuItem(details, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DETAILS_TAB_MYSCHOOL));
+    this.addChildMenuItem(details, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DETAILS_TAB_COLLEAGUES));
+    this.addMenuItem(menu, details);
     
-    // Add Requests with children
-    const requests = this.copyMenuItem(MENU_CONSTANTS.SERVICE_REQUESTS);
-    this.addChildMenuItem(requests, this.copyMenuItem(MENU_CONSTANTS.SERVICE_REQUEST_DETAILS));
-    this.addMenuItem(menu, requests);
+    // Add Provider Work Request Dashboard with children
+    const workrequest = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST);
+    this.addChildMenuItem(workrequest, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST_TAB_DASH));
+    this.addMenuItem(menu, workrequest);
+    
+    // Add Provider Catalog Dashboard with children
+    const catalog = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG);
+    this.addChildMenuItem(catalog, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG_TAB_DASH));
+    this.addMenuItem(menu, catalog);
     
     return menu;
   }
@@ -698,54 +701,78 @@ export const MENU_CONSTANTS = {
     icon: 'fas fa-file-alt'
   },
 
-  // Service Provider Dashboard Menu Items
-  SERVICE_DASHBOARD: {
+  // Provider Dashboard Menu Items
+  PROVIDER_DASHBOARD: {
     level: 1,
-    label: 'Dashboard',
-    route: '/service-provider-dashboard',
-    componentPath: 'src/app/features/dash-service',
-    componentName: 'service-dashboard',
+    label: 'Provider Dashboard',
+    route: '/provider-dashboard/dashboard',
+    componentPath: 'src/app/features/dash-provider/dashboard',
+    componentName: 'provider-dashboard-group',
     icon: 'fas fa-tachometer-alt'
   },
-  SERVICE_OVERVIEW: {
+  PROVIDER_DASHBOARD_TAB_MYDASH: {
     level: 2,
-    label: 'Overview',
-    route: '/service-provider-dashboard/overview',
-    componentPath: 'src/app/features/dash-service/overview',
-    componentName: 'service-overview',
-    icon: 'fas fa-chart-line'
+    label: 'Dashboard',
+    route: '/provider-dashboard/dashboard',
+    componentPath: 'src/app/features/dash-provider/dashboard',
+    componentName: 'provider-dashboard-tab-mydash',
+    icon: 'fas fa-tachometer-alt'
   },
-  SERVICE_SERVICES: {
+  PROVIDER_DETAILS: {
     level: 1,
-    label: 'Services',
-    route: '/service-provider-dashboard/services',
-    componentPath: 'src/app/features/dash-service/services',
-    componentName: 'service-list',
-    icon: 'fas fa-cogs'
+    label: 'Provider Details',
+    route: '/provider-dashboard/details',
+    componentPath: 'src/app/features/dash-provider/details',
+    componentName: 'provider-details-group',
+    icon: 'fas fa-building'
   },
-  SERVICE_SERVICE_DETAILS: {
+  PROVIDER_DETAILS_TAB_MYSCHOOL: {
     level: 2,
-    label: 'Service Details',
-    route: '/service-provider-dashboard/services/:id',
-    componentPath: 'src/app/features/dash-service/services',
-    componentName: 'service-details',
-    icon: 'fas fa-info-circle'
+    label: 'My School',
+    route: '/provider-dashboard/details',
+    componentPath: 'src/app/features/dash-provider/details',
+    componentName: 'provider-details-tab-myschool',
+    icon: 'fas fa-school'
   },
-  SERVICE_REQUESTS: {
+  PROVIDER_DETAILS_TAB_COLLEAGUES: {
+    level: 2,
+    label: 'Colleagues',
+    route: '/provider-dashboard/details',
+    componentPath: 'src/app/features/dash-provider/details',
+    componentName: 'provider-details-tab-colleagues',
+    icon: 'fas fa-users'
+  },
+  PROVIDER_WORKREQUEST: {
     level: 1,
-    label: 'Requests',
-    route: '/service-provider-dashboard/requests',
-    componentPath: 'src/app/features/dash-service/requests',
-    componentName: 'service-request-list',
-    icon: 'fas fa-clipboard-list'
+    label: 'Provider Work Request Dashboard',
+    route: '/provider-dashboard/workrequest',
+    componentPath: 'src/app/features/dash-provider/workrequest',
+    componentName: 'provider-workrequest-group',
+    icon: 'fas fa-tasks'
   },
-  SERVICE_REQUEST_DETAILS: {
+  PROVIDER_WORKREQUEST_TAB_DASH: {
     level: 2,
-    label: 'Request Details',
-    route: '/service-provider-dashboard/requests/:id',
-    componentPath: 'src/app/features/dash-service/requests',
-    componentName: 'service-request-details',
-    icon: 'fas fa-clipboard-check'
+    label: 'Work Requests',
+    route: '/provider-dashboard/workrequest',
+    componentPath: 'src/app/features/dash-provider/workrequest',
+    componentName: 'provider-workrequest-tab-dash',
+    icon: 'fas fa-tasks'
+  },
+  PROVIDER_CATALOG: {
+    level: 1,
+    label: 'Catalog Dashboard',
+    route: '/provider-dashboard/catalog',
+    componentPath: 'src/app/features/dash-provider/catalog',
+    componentName: 'provider-catalog-group',
+    icon: 'fas fa-book'
+  },
+  PROVIDER_CATALOG_TAB_DASH: {
+    level: 2,
+    label: 'Catalogs',
+    route: '/provider-dashboard/catalog',
+    componentPath: 'src/app/features/dash-provider/catalog',
+    componentName: 'provider-catalog-tab-dash',
+    icon: 'fas fa-book'
   },
 
   // EcoAdmin Dashboard Menu Items

@@ -1,0 +1,55 @@
+
+in this doc, we'll create an outline of the "service-provider" menu that i want to create. 
+
+- all these components need will be under the folder 'src/dash-provider/'
+
+List of menu linked components
+
+| menu item name | component | page title | parent component  | 
+|  Provider Dashboard | app-provider-dashboard-group | Dashboard | copy AdvoDashGroupComponent |
+|  Provider Details| app-provider-details-group | Provider | copy AdvoDashGroupComponent |
+|  Provider Work Request Dashboard| app-provider-workrequest-group | Work Requests | copy AdvoDashGroupComponent |
+|  Catalog Dashboard | app-provider-catalogs-group | Catalogs | copy AdvoDashGroupComponent |
+
+
+List of TAB linked components
+
+| parent component | component | Tab title | parent component  | 
+|  app-provider-dashboard-group   | app-provider-dashboard-tab-mydash | Dashboard | copy AdvoHomeComponent |
+|  app-provider-details-group   | app-provider-details-tab-myschool | My School | copy AdvoHomeComponent |
+|  app-provider-details-group   | app-provider-details-tab-colleagues | Colleagues | copy AdvoHomeComponent |
+|  app-provider-workrequest-group   | app-provider-workrequest-tab-dash | Work Requests | copy AdvoHomeComponent |
+
+
+* app-provider-dashboard-group  -    
+ The tabset will have  these tabs : 
+   - tab 1 - app-provider-dashboard-tab-mydash :  Tiled dashboard with the following tabs. 
+	 a. Tile 1 - stats on number of "provider requests" - new, in-progress, closed 
+	 b. Tile 2 - pie chart of number of course catalog interests, by catalog.  
+	 c. Tile 3 - List of all the catalogs, with the number of entries.
+   
+
+ 
+* app-provider-details-group  - group show the information about the  organization  
+  The tabset will have these tabs :
+  - app-provider-details-tab-myschool - My school - name of school as the first tab. 
+  - app-provider-details-tab-myschool - Colleagues 
+ 
+* app-provider-workrequest-group 
+   The tabset will have  these tabs : 
+   - tab 1 - app-provider-workrequest-tab-dash  - A tiled dashboard with the following tiles
+     -  Tile 1 - Action required  (shows a short list of tickets - display each one usint <app-workrequest-crud multiMode='section'>
+     -  Tile 2 - 
+** (menu level 2) - Search - Build using the prompt "entityName-multimode" component
+  with a method to find the 'entityId' for an HCCL Organization.
+** (menu level 2) - Metrics -  Create an empty page using  using the prompt "entityName-multimode" component
+  with a method to find the 'entityId' for an HCCL Organization.
+
+
+* Catalog Dashboard - a tiled dashboard with a tile for each catalog displayed using component <app-catalog-crud>
+** (Menu level 2) - "title=Courses" - Create an empty page using  using the prompt "entityName-multimode" component
+  with a method to find the 'entityId' for an Catalog.
+  - Tab 1 - "title=Courses"  dashboard with tiles 
+    -- Tile 1 : Number of entries, 
+    -- Tile 2 : Interest 
+  - Tab 2 - "title=

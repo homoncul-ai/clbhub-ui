@@ -20,6 +20,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/dash-service/dash-service.module').then(m => m.DashServiceModule)
       },
       {
+        path: 'provider-dashboard',
+        loadChildren: () => import('./features/dash-provider/dash-provider.module').then(m => m.DashProviderModule)
+      },
+      {
         path: 'ecoadmin-dashboard',
         loadChildren: () => import('./features/dash-ecoadmin/dash-ecoadmin.module').then(m => m.DashEcoAdminModule)
       },
