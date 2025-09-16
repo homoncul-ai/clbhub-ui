@@ -286,6 +286,9 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
   getDescription(): string {
     return this.getData().description || '';
   }
+  getWebsiteUrl(): string {
+    return this.getData().websiteUrl || '';
+  }
 
   getAvailable(): number {
     return this.getData().available || 0;

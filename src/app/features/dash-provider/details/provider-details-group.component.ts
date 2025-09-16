@@ -72,6 +72,14 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
         () => {
           return this.entity !== null;
         }
+      ),
+      new SimpleTab('staffmember', 'Staff Member', '', 
+        () => {
+          this.router.navigate([baseRoute, 'staffmember']);
+        },
+        () => {
+          return this.entity !== null;
+        }
       )
     ];
   }
@@ -83,7 +91,9 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
 
   protected getCriteriaForStaff(): HcclUserProfileCriteria {
     var x: HcclUserProfileCriteria = { 
-      organizationId: this.id
+      organizationId: this.organizationId,
+      available: 1,
+      profileTypeCode: 'SchoolProvider'
     };
     return x;
   }
@@ -92,12 +102,17 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
     var o : OnRowClickBehavior = new OnRowClickBehavior();
     o.parentId = this.id;
     o.tabId = 'staffmember';     
-   // o.alertMessage = 'Modal to show catalog entry';
+  //  o.alertMessage = 'link to show staff entry';
     o.usingNavigateUrl = true;
     //o.doNotNavigate = true;
     o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {
-      return ['/provider-dashboard/details/staff', this.id, 'staffmember', entityId];
+ 
+      //var urlParts = [baseRoute, 'staffmember', entityId];
+      var urlParts = [baseRoute, 'staffmember', entityId];
+      
+      return urlParts
     };
     return o;
   }
+
 }

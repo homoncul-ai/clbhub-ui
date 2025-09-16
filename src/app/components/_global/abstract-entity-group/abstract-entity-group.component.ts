@@ -20,6 +20,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   @Input() childId?: string;
   @Input() tabId!: string;
   @Input() showingTabset: boolean = true;
+  @Input() showingDebug: boolean = false;
 
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
 
@@ -195,5 +196,9 @@ protected findTabById(tabs: SimpleTab[], tabId: string): SimpleTab | undefined {
 public getDetailsTabLabel(): string {
   return "Details";
 }
+
+  protected isShowingDebug(): boolean {
+    return this.showingDebug;
+  }
 
 }

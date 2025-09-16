@@ -31,25 +31,25 @@ import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofil
                         <h6 class="mb-1">School Name</h6>
                       </div>
                       
-                      <p class="mb-1"> {{ entity.getFullName() }}</p>
+                      <p class="mb-1"> {{ entity.getDisplayText() }}</p>
                     </div>
-                    <div class="list-group-item">
+                    <!-- <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Address</h6>
                       </div>
-                      <p class="mb-1">{{ getSchoolInfo() }}</p>
+                      <p class="mb-1"> ... </p>
                     </div>
                     <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Phone</h6>
                       </div>
-                      <p class="mb-1">{{ getSchoolInfo() }}</p>
-                    </div>
+                      <p class="mb-1">...</p>
+                    </div> -->
                     <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">Email</h6>
+                        <h6 class="mb-1">Website</h6>
                       </div>
-                      <p class="mb-1">{{ getSchoolInfo() }}</p>
+                      <p class="mb-1">{{ entity.getWebsiteUrl() }}</p>
                     </div>
                   </div>
                 </div>

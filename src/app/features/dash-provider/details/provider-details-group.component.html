@@ -8,15 +8,16 @@
 
 
   <div *ngIf="currentTabId === 'staff'">
+
     <app-org-school-staff-list [criteria]="getCriteriaForStaff()" [onRowClickBehavior]="onClickOrgStaffRowBehavior()"></app-org-school-staff-list>
   </div>
   
   
   <div *ngIf="currentTabId === 'staffmember'">
-    <app-org-school-staff-crud [id]="childId" modeName="details" ></app-org-school-staff-crud>
+   <app-org-school-staff-crud [id]="childId" modeName="details" ></app-org-school-staff-crud> 
   </div>
 
-  <div *ngIf="true">
+  <div *ngIf="this.isShowingDebug()">
     <li>CurrentId :{{currentTabId}}</li>
     <li>Id :{{id}}</li>
     <li>ChildId :{{childId}}</li>
@@ -24,5 +25,6 @@
     <li>ShowingTabset :{{showingTabset}}</li>
     <li>Tabs :{{tabs}}</li> 
     <li>OrganizationId :{{organizationId}}</li>
+    <li>Criteria :{{getCriteriaForStaff() | json}}</li>
   </div>
 </div>

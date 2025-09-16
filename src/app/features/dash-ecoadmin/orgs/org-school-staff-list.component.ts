@@ -71,7 +71,8 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
   
 
   protected findEntities(criteria: HcclUserProfileCriteria): Observable<HcclUserProfileGETDataSearchResults> {
-    return this.hcclService.findHcclUserProfiles(criteria);
+    debugger;
+   return this.hcclService.findHcclUserProfiles(criteria);
   }
 
   protected hasSearchResults(response: HcclUserProfileGETDataSearchResults): boolean {

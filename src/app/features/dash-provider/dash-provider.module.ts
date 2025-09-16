@@ -18,11 +18,11 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: ProviderDashboardGroupComponent },
+      { path: 'details/:tabId/:childId', component: ProviderDetailsGroupComponent },
+      { path: 'details/:tabId', component: ProviderDetailsGroupComponent },
       { path: 'details', component: ProviderDetailsGroupComponent },
       { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
       { path: 'catalog', component: ProviderCatalogGroupComponent },
-      { path: 'details/:tabId', component: ProviderDetailsGroupComponent },
-      { path: 'details/:tabId/:childId', component: ProviderDetailsGroupComponent },
      
     ]
   }
