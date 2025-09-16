@@ -20,6 +20,7 @@ export class ProviderDashboardGroupComponent extends AbstractEntityGroupComponen
     this.hcclContextService.refreshContext().subscribe(context => {
       this.defaultId = context.currentUserProfileId || '';
       this.id = this.defaultId;
+      this.organizationId = context.currentUserProfile.organizationId || '';
       // Call parent ngOnInit after setting the ID
       super.ngOnInit();
     });
@@ -52,8 +53,9 @@ export class ProviderDashboardGroupComponent extends AbstractEntityGroupComponen
     ];
   }
 
+  protected organizationId : string = '';
   protected getOrganizationId(): string {
-    return this.hcclContextService.getCurrentUserProfile().getCurrentOrganizationId();  
+    return this.organizationId;  
   }
 
   protected override getDefaultTabId(): string {

@@ -3,7 +3,7 @@
   
      
   <div *ngIf="currentTabId === 'mydash'">
-    <app-provider-dashboard-tab-mydash [id]="id" modeName="detail"></app-provider-dashboard-tab-mydash>
+    <app-provider-dashboard-tab-mydash [id]="getOrganizationId()" modeName="detail"></app-provider-dashboard-tab-mydash>
   </div>
 
   <div *ngIf="true">
@@ -13,6 +13,7 @@
     <li>Loading :{{loading}}</li>
     <li>ShowingTabset :{{showingTabset}}</li>
     <li>Tabs :{{tabs}}</li> 
+    <li>OrganizationId :{{organizationId}}</li>
   </div>
 </div>
 

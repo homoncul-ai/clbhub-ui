@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
+import { CatalogCriteria, CatalogGETData, EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
 import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org-school-staff-crud.component';
@@ -64,15 +64,15 @@ import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org
                 
                 <!-- Catalog List -->
                 <div class="col-md-6">
-                  <h5>Available Catalogs</h5>
+                  <h5>Available Catalogs {{ getCatalogs().length }}</h5>
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let catalog of getCatalogs()">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">{{ catalog.name }}</h6>
-                        <span class="badge bg-primary">{{ catalog.entryCount }}</span>
+                        <span class="badge bg-primary">entryies</span>
                       </div>
                       <p class="mb-1">{{ catalog.description }}</p>
-                      <small class="text-muted">Last updated: {{ catalog.lastUpdated }}</small>
+                      <small class="text-muted">Last updated:  </small>
                     </div>
                   </div>
                 </div>
@@ -115,11 +115,31 @@ export class ProviderDashboardTabMydashComponent extends AbstractMultimodeCompon
       console.log('ProviderDashboardTabMydashComponent');
   }
 
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.loadEntityById(this.id);
+    this.loading = false;
+  }
+
+  
   protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
       return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+  protected catalogList: CatalogGETData[] = [];
   protected async loadEntityById(id: string): Promise<HcclOrganizationCrudWrapper> {
+    const catalogcriteria : CatalogCriteria = {
+      organizationId: id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    }
+    
+    const catalogs  = await this.hcclService.findCatalogs(catalogcriteria).toPromise();
+    alert( 'catalogs.length: ' + catalogs?.searchResults?.length );
+    this.catalogList = catalogs?.searchResults || [];
+
       return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
   }  
 
@@ -128,19 +148,21 @@ export class ProviderDashboardTabMydashComponent extends AbstractMultimodeCompon
   }
 
   protected getCatalogCount(): number {
-    // Mock data for now - replace with actual service call
+    // Mock data for now - replace with actual service call    
     return 5;
   }
 
-  protected getCatalogs(): any[] {
-    // Mock data for now - replace with actual service call
-    return [
-      { name: 'Computer Science', description: 'Programming and software development courses', entryCount: 25, lastUpdated: '2024-01-15' },
-      { name: 'Business Administration', description: 'Management and business courses', entryCount: 18, lastUpdated: '2024-01-10' },
-      { name: 'Healthcare', description: 'Medical and healthcare related courses', entryCount: 32, lastUpdated: '2024-01-20' },
-      { name: 'Engineering', description: 'Engineering and technical courses', entryCount: 28, lastUpdated: '2024-01-18' },
-      { name: 'Arts & Design', description: 'Creative and design courses', entryCount: 15, lastUpdated: '2024-01-12' }
-    ];
+  protected getCatalogs(): CatalogGETData[] {
+    return this.catalogList;
+
+    // // Mock data for now - replace with actual service call
+    // return [
+    //   { name: 'Computer Science', description: 'Programming and software development courses', entryCount: 25, lastUpdated: '2024-01-15' },
+    //   { name: 'Business Administration', description: 'Management and business courses', entryCount: 18, lastUpdated: '2024-01-10' },
+    //   { name: 'Healthcare', description: 'Medical and healthcare related courses', entryCount: 32, lastUpdated: '2024-01-20' },
+    //   { name: 'Engineering', description: 'Engineering and technical courses', entryCount: 28, lastUpdated: '2024-01-18' },
+    //   { name: 'Arts & Design', description: 'Creative and design courses', entryCount: 15, lastUpdated: '2024-01-12' }
+    // ];
   }
 
   protected loadInfo() {
