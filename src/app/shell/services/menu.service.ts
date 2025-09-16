@@ -29,7 +29,7 @@ export class MenuService {
 
    * 
    */
-  private getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' {
+  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
       return 'advocate';
@@ -53,6 +53,7 @@ export class MenuService {
     
       case 'PROVIDER':
       case 'SERVICE_PROVIDER':
+      case 'SCHOOLPROVIDER':
       case 'EDU_SERVICE_PROVIDER':
         return 'service-provider';
      
@@ -69,6 +70,120 @@ export class MenuService {
         alert('Unknown profile type code, defaulting to advocate:' + profileTypeCode);
         return 'advocate';
     }
+  }
+
+  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): MenuItem[] {
+    switch (dashboardType) {
+      case 'advocate':
+          return this.buildAdvocateMenu();
+      case 'nonprofit':
+        return this.buildBrokerMenu(); // TODO: buildNonProfitMenu();
+      case 'service-provider':
+        return this.buildServiceProviderMenu();
+      case 'ecoadmin':
+        return this.buildEcoAdminMenu();
+      case 'student':
+        return this.buildStudentMenu();
+      default:
+        return [];
+    }
+  }
+
+  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): string {
+    switch (dashboardType) {
+      case 'advocate':
+  //    case 'nonprofit':
+      case 'service-provider':
+      case 'ecoadmin':
+      case 'student':
+        return dashboardType + '-dashboard';
+
+      default:
+        alert('Unknown dashboard type:' + dashboardType);
+        return 'advocate-dashboard';
+ 
+    }
+    return '';
+  }
+
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | null {
+    if (route.startsWith('/advocate-dashboard')) {
+      return 'advocate';
+    } else if (route.startsWith('/service-provider-dashboard')) {
+      return 'service-provider';
+    } else if (route.startsWith('/ecoadmin-dashboard')) {
+      return 'ecoadmin';
+    } else if (route.startsWith('/student-dashboard')) {
+      return 'student';
+    }
+    return null;
+  }
+
+  /**
+   * Get the first navigable menu item based on user context and redirect to it
+   * @param context - The HCCL context containing user profile information
+   * @param router - The Angular router service for navigation
+   * @returns The first navigable menu item or null if none found
+   */
+  getFirstNavigableMenuItem(context: any, router: Router): MenuItem | null {
+    console.log('Starting menu navigation process');
+    
+    // Get the first menu item based on user context or default to advocate
+    const dashboardType = this.getDashboardTypeFromContext(context);
+    console.log('Determined dashboard type:', dashboardType);
+    const menuItems = this.getMenuItems(dashboardType);
+    console.log('Retrieved menu items for dashboard type:', dashboardType, 'count:', menuItems.length);
+    
+    if (menuItems.length > 0) {
+      const firstMenuItem = this.findFirstNavigableMenuItem(menuItems);
+      if (firstMenuItem) {
+        console.log('Found first navigable menu item:', firstMenuItem.label, 'route:', firstMenuItem.route);
+        return firstMenuItem;
+      } else {
+        console.log('No navigable menu items found, staying on current route');
+      }
+    } else {
+      console.log('No menu items found for dashboard type:', dashboardType);
+    }
+    
+    return null;
+  }
+
+  /**
+   * Determine dashboard type from HCCL context
+   * @param context - The HCCL context containing user profile information
+   * @returns The dashboard type based on user profile
+   */
+  
+  /**
+   * Find the first menu item that has a route (navigable)
+   * @param menuItems - Array of menu items to search through
+   * @returns The first navigable menu item or null if none found
+   */
+  private findFirstNavigableMenuItem(menuItems: MenuItem[]): MenuItem | null {
+    console.log('Searching for first navigable menu item in:', menuItems);
+    
+    for (const item of menuItems) {
+      console.log('Checking menu item:', item.label, 'route:', item.route);
+      
+      // If this item has a route, return it
+      if (item.route) {
+        console.log('Found navigable menu item:', item.label, 'route:', item.route);
+        return item;
+      }
+      
+      // If this item has children, search them
+      if (item.children && item.children.length > 0) {
+        console.log('Checking children of:', item.label);
+        const childItem = this.findFirstNavigableMenuItem(item.children);
+        if (childItem) {
+          return childItem;
+        }
+      }
+    }
+    
+    console.log('No navigable menu items found');
+    return null;
   }
 
   /**
@@ -210,6 +325,12 @@ export class MenuService {
    */
   buildServiceProviderMenu(): MenuItem[] {
     const menu: MenuItem[] = [];
+    
+
+    // Tickets
+
+    // Catalog management.
+    
     
     // Add Dashboard with children
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.SERVICE_DASHBOARD);
@@ -406,327 +527,6 @@ export class MenuService {
     this.addChildMenuItem(vocodeGroup, catalogentryinterestList);
 
     return menu;
-  }
-
-/*
-  private advocateMenuItems: MenuItem[] = [
-    {
-      level: 1,
-      label: 'Dashboard',
-      route: '/advocate-dashboard',
-      componentPath: 'src/app/features/dash-advo',
-      componentName: 'advo-dashboard',
-      icon: 'fas fa-tachometer-alt',
-      children: [
-        {
-          level: 2,
-          label: 'Queues',
-          route: '/advocate-dashboard/org-queue-list',
-          componentPath: 'src/app/components/org-queue-list',
-          componentName: 'org-queue-list',
-          icon: 'fas fa-envelope'
-        },
-        {
-          level: 2,
-          label: 'Messages',
-          route: '/advocate-dashboard/messages',
-          componentPath: 'src/app/features/dash-advo/messages',
-          componentName: 'advo-messages',
-          icon: 'fas fa-envelope'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Students',
-      route: '/advocate-dashboard/students',
-      componentPath: 'src/app/features/dash-advo/students',
-      componentName: 'advo-student-list',
-      icon: 'fas fa-user-graduate',
-      children: [
-        {
-          level: 2,
-          label: 'Student Details',
-          route: '/advocate-dashboard/students/:id',
-          componentPath: 'src/app/features/dash-advo/students',
-          componentName: 'advo-student-details',
-          icon: 'fas fa-user'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Tickets',
-      route: '/advocate-dashboard/tickets',
-      componentPath: 'src/app/features/dash-advo/tickets',
-      componentName: 'advo-ticket-list',
-      icon: 'fas fa-ticket-alt',
-      children: [
-        {
-          level: 2,
-          label: 'Create Ticket',
-          route: '/advocate-dashboard/tickets/create',
-          componentPath: 'src/app/features/dash-advo/tickets',
-          componentName: 'create-ticket',
-          icon: 'fas fa-plus-circle'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Integrations',
-      route: '/advocate-dashboard/integrations',
-      componentPath: 'src/app/features/dash-advo/integrations',
-      componentName: 'integrations-home',
-      icon: 'fas fa-link',
-      children: [
-        {
-          level: 2,
-          label: 'CLSchools',
-          route: '/advocate-dashboard/integrations/schools',
-          componentPath: 'src/app/features/dash-advo/integrations/schools',
-          componentName: 'clschools-list',
-          icon: 'fas fa-school'
-        },{
-          level: 2,
-          label: 'CLStudents',
-          route: '/advocate-dashboard/integrations/students',
-          componentPath: 'src/app/features/dash-advo/integrations/students',
-          componentName: 'clstudents-list',
-          icon: 'fas fa-user-graduate'
-        },{
-          level: 2,
-          label: 'CLGuidance Counsellors',
-          route: '/advocate-dashboard/integrations/guidance',
-          componentPath: 'src/app/features/dash-advo/integrations/guidance',
-          componentName: 'clguidance-list',
-          icon: 'fas fa-user-tie'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Component Inventory',
-      route: '/advocate-dashboard/uistarter',
-      componentPath: 'src/app/views/uistarter',
-      componentName: 'uistarter-home',
-      icon: 'fas fa-ticket-alt'
-    }
-  ];
-
-  private brokerMenuItems: MenuItem[] = [
-    {
-      level: 1,
-      label: 'Dashboard',
-      route: '/broker-dashboard',
-      componentPath: 'src/app/features/dash-broker',
-      componentName: 'broker-dashboard',
-      icon: 'fas fa-tachometer-alt',
-      children: [
-        {
-          level: 2,
-          label: 'Overview',
-          route: '/broker-dashboard/overview',
-          componentPath: 'src/app/features/dash-broker/overview',
-          componentName: 'broker-overview',
-          icon: 'fas fa-chart-line'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Clients',
-      route: '/broker-dashboard/clients',
-      componentPath: 'src/app/features/dash-broker/clients',
-      componentName: 'broker-client-list',
-      icon: 'fas fa-users',
-      children: [
-        {
-          level: 2,
-          label: 'Client Details',
-          route: '/broker-dashboard/clients/:id',
-          componentPath: 'src/app/features/dash-broker/clients',
-          componentName: 'broker-client-details',
-          icon: 'fas fa-user'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Agreements',
-      route: '/broker-dashboard/agreements',
-      componentPath: 'src/app/features/dash-broker/agreements',
-      componentName: 'broker-agreement-list',
-      icon: 'fas fa-file-contract',
-      children: [
-        {
-          level: 2,
-          label: 'Agreement Details',
-          route: '/broker-dashboard/agreements/:id',
-          componentPath: 'src/app/features/dash-broker/agreements',
-          componentName: 'broker-agreement-details',
-          icon: 'fas fa-file-alt'
-        }
-      ]
-    }
-  ];
-  */
-
-  /*
-  private serviceProviderMenuItems: MenuItem[] = [
-    {
-      level: 1,
-      label: 'Dashboard',
-      route: '/service-provider-dashboard',
-      componentPath: 'src/app/features/dash-service',
-      componentName: 'service-dashboard',
-      icon: 'fas fa-tachometer-alt',
-      children: [
-        {
-          level: 2,
-          label: 'Overview',
-          route: '/service-provider-dashboard/overview',
-          componentPath: 'src/app/features/dash-service/overview',
-          componentName: 'service-overview',
-          icon: 'fas fa-chart-line'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Services',
-      route: '/service-provider-dashboard/services',
-      componentPath: 'src/app/features/dash-service/services',
-      componentName: 'service-list',
-      icon: 'fas fa-cogs',
-      children: [
-        {
-          level: 2,
-          label: 'Service Details',
-          route: '/service-provider-dashboard/services/:id',
-          componentPath: 'src/app/features/dash-service/services',
-          componentName: 'service-details',
-          icon: 'fas fa-info-circle'
-        }
-      ]
-    },
-    {
-      level: 1,
-      label: 'Requests',
-      route: '/service-provider-dashboard/requests',
-      componentPath: 'src/app/features/dash-service/requests',
-      componentName: 'service-request-list',
-      icon: 'fas fa-clipboard-list',
-      children: [
-        {
-          level: 2,
-          label: 'Request Details',
-          route: '/service-provider-dashboard/requests/:id',
-          componentPath: 'src/app/features/dash-service/requests',
-          componentName: 'service-request-details',
-          icon: 'fas fa-clipboard-check'
-        }
-      ]
-    }
-  ];
-*/
-  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): MenuItem[] {
-    switch (dashboardType) {
-      case 'advocate':
-          return this.buildAdvocateMenu();
-      case 'nonprofit':
-        return this.buildBrokerMenu(); // TODO: buildNonProfitMenu();
-      case 'service-provider':
-        return this.buildServiceProviderMenu();
-      case 'ecoadmin':
-        return this.buildEcoAdminMenu();
-      case 'student':
-        return this.buildStudentMenu();
-      default:
-        return [];
-    }
-  }
-
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | null {
-    if (route.startsWith('/advocate-dashboard')) {
-      return 'advocate';
-    } else if (route.startsWith('/broker-dashboard')) {
-      return 'nonprofit';
-    } else if (route.startsWith('/service-provider-dashboard')) {
-      return 'service-provider';
-    } else if (route.startsWith('/ecoadmin-dashboard')) {
-      return 'ecoadmin';
-    } else if (route.startsWith('/student-dashboard')) {
-      return 'student';
-    }
-    return null;
-  }
-
-  /**
-   * Get the first navigable menu item based on user context and redirect to it
-   * @param context - The HCCL context containing user profile information
-   * @param router - The Angular router service for navigation
-   * @returns The first navigable menu item or null if none found
-   */
-  getFirstNavigableMenuItem(context: any, router: Router): MenuItem | null {
-    console.log('Starting menu navigation process');
-    
-    // Get the first menu item based on user context or default to advocate
-    const dashboardType = this.getDashboardTypeFromContext(context);
-    console.log('Determined dashboard type:', dashboardType);
-    const menuItems = this.getMenuItems(dashboardType);
-    console.log('Retrieved menu items for dashboard type:', dashboardType, 'count:', menuItems.length);
-    
-    if (menuItems.length > 0) {
-      const firstMenuItem = this.findFirstNavigableMenuItem(menuItems);
-      if (firstMenuItem) {
-        console.log('Found first navigable menu item:', firstMenuItem.label, 'route:', firstMenuItem.route);
-        return firstMenuItem;
-      } else {
-        console.log('No navigable menu items found, staying on current route');
-      }
-    } else {
-      console.log('No menu items found for dashboard type:', dashboardType);
-    }
-    
-    return null;
-  }
-
-  /**
-   * Determine dashboard type from HCCL context
-   * @param context - The HCCL context containing user profile information
-   * @returns The dashboard type based on user profile
-   */
-  
-  /**
-   * Find the first menu item that has a route (navigable)
-   * @param menuItems - Array of menu items to search through
-   * @returns The first navigable menu item or null if none found
-   */
-  private findFirstNavigableMenuItem(menuItems: MenuItem[]): MenuItem | null {
-    console.log('Searching for first navigable menu item in:', menuItems);
-    
-    for (const item of menuItems) {
-      console.log('Checking menu item:', item.label, 'route:', item.route);
-      
-      // If this item has a route, return it
-      if (item.route) {
-        console.log('Found navigable menu item:', item.label, 'route:', item.route);
-        return item;
-      }
-      
-      // If this item has children, search them
-      if (item.children && item.children.length > 0) {
-        console.log('Checking children of:', item.label);
-        const childItem = this.findFirstNavigableMenuItem(item.children);
-        if (childItem) {
-          return childItem;
-        }
-      }
-    }
-    
-    console.log('No navigable menu items found');
-    return null;
   }
 
 } 

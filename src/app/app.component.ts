@@ -54,9 +54,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this._hcclContextService.initializeContext('').subscribe({
       next: (context) => {
         console.log('app.component.ts: HCCL context loaded successfully:', context);
-        
         // Check if we're already on a valid route
-        const currentUrl = this._router.url;
+        let currentUrl = this._router.url;
+        if (!currentUrl || currentUrl === '/') {
+          const dashboardType = this._menuService.getDashboardTypeFromContext(context);
+          currentUrl = this._menuService.getRouteFromDashboardType(dashboardType);         
+        }
+
         console.log('Current URL :', currentUrl);
         // Check if the current URL is empty, root, or contains auth-related parameters
         const shouldRedirect = !currentUrl || 
@@ -67,7 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
                               currentUrl === '/service-provider-dashboard' ||
                               currentUrl === '/ecoadmin-dashboard' || 
                               currentUrl === '/student-dashboard';
-        
+        debugger;
         if (shouldRedirect) {
           console.log('Current URL requires redirect, getting first menu item');
           // Get the first navigable menu item using the menu service

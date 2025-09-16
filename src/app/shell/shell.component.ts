@@ -99,6 +99,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     const rawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
     this.menuItems = this.convertMenuItemsToTreeFormat(rawMenu);
 
+
     if (environment.production) {
       Logger.enableProductionMode();
     }
@@ -254,7 +255,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           console.log('Current URL after profile change:', currentUrl);
 
           // Now, load the menu items for the new profile
-          const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
+          const dashboardType = this._menuService.getDashboardTypeFromContext(context);
+//          const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
           const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
           const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
 
@@ -282,7 +284,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
                                 currentUrl === '/advocate-dashboard' ||
                                 currentUrl === '/broker-dashboard' ||
                                 currentUrl === '/service-provider-dashboard' ||
-                                currentUrl === '/ecoadmin-dashboard';
+                                currentUrl === '/ecoadmin-dashboard' ||
+                                currentUrl === '/student-dashboard'
+                                ;
           
           if (shouldRedirect) {
             console.log('Current URL requires redirect after profile change, getting first menu item');
