@@ -3010,6 +3010,19 @@ export interface CatalogGETData {
   taxonomyEntryId?: string;
   urlPrefix?: string;
   url?: string;
+  stats?: CatalogStatsPOJO;
+}
+
+export interface CatalogStatsPOJO {
+  dateRange?: DateRangeGETData;
+  entryCount?: number;
+  interestCount?: number;
+}
+
+export interface DateRangeGETData {
+  theStart?: DateGETData;
+  theEnd?: DateGETData;
+  valid?: boolean;
 }
 
 export interface CatalogEntryCriteria {
@@ -3333,6 +3346,8 @@ export interface CatalogCriteria {
   taxonomyEntryId?: string;
   urlPrefix?: string;
   url?: string;
+  includingCatalogStats?: boolean;
+  statsDateRange?: DateRangeGETData;
 }
 
 export interface CatalogPUTData {
@@ -5491,12 +5506,22 @@ export interface WorkQueueGETData {
   available?: number;
   organizationId?: string;
   externalQueue?: number;
+  stats?: WorkQueueStatsPOJO;
 }
 
 export interface WorkQueueGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: WorkQueueGETData[];
   filter?: BaseCriteria;
+}
+
+export interface WorkQueueStatsPOJO {
+  dateRange?: DateRangeGETData;
+  entryCountBegin?: number;
+  entryCountEnd?: number;
+  createdCount?: number;
+  closedCount?: number;
+  cancelledCount?: number;
 }
 
 export interface WorkQueueCriteria {
@@ -5518,6 +5543,8 @@ export interface WorkQueueCriteria {
   externalQueue?: number;
   workQueueTypeCode?: string;
   organizationIdsToExclude?: string[];
+  includingStats?: boolean;
+  statsDateRange?: DateRangeGETData;
 }
 
 export interface WorkQueuePUTData {

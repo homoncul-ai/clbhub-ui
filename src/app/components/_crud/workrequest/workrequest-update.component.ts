@@ -43,13 +43,13 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
-    //alert("WorkrequestUpdateComponent ngOnInit " + this.id);
-    console.log('WorkrequestUpdateComponent ngOnInit');
-     WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
-      this.entity = x;
-      this.localModes = ['accept', 'reroute'];
-      this.loading = false;
-     });
+    // //alert("WorkrequestUpdateComponent ngOnInit " + this.id);
+    // console.log('WorkrequestUpdateComponent ngOnInit');
+    //  WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
+    //   this.entity = x;
+    //   this.localModes = ['accept', 'reroute'];
+    //   this.loading = false;
+    //  });
     //
 
    
@@ -213,5 +213,9 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     if (button) {
       button.activate();
     }
+  }
+
+  protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
+    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
   }
 } 

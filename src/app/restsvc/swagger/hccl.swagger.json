@@ -13117,6 +13117,39 @@
           },
           "url": {
             "type": "string"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/CatalogStatsPOJO"
+          }
+        }
+      },
+      "CatalogStatsPOJO": {
+        "type": "object",
+        "properties": {
+          "dateRange": {
+            "$ref": "#/components/schemas/DateRangeGETData"
+          },
+          "entryCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "interestCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DateRangeGETData": {
+        "type": "object",
+        "properties": {
+          "theStart": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "theEnd": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "valid": {
+            "type": "boolean"
           }
         }
       },
@@ -14245,6 +14278,12 @@
           },
           "url": {
             "type": "string"
+          },
+          "includingCatalogStats": {
+            "type": "boolean"
+          },
+          "statsDateRange": {
+            "$ref": "#/components/schemas/DateRangeGETData"
           }
         }
       },
@@ -22026,6 +22065,9 @@
           "externalQueue": {
             "type": "integer",
             "format": "int32"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/WorkQueueStatsPOJO"
           }
         }
       },
@@ -22043,6 +22085,34 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "WorkQueueStatsPOJO": {
+        "type": "object",
+        "properties": {
+          "dateRange": {
+            "$ref": "#/components/schemas/DateRangeGETData"
+          },
+          "entryCountBegin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "entryCountEnd": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "closedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cancelledCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -22122,6 +22192,12 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          "includingStats": {
+            "type": "boolean"
+          },
+          "statsDateRange": {
+            "$ref": "#/components/schemas/DateRangeGETData"
           }
         }
       },

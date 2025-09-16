@@ -1,1 +1,18 @@
-<app-simple-tabset [tabs]="tabs"></app-simple-tabset>
+<div *ngIf="!loading">
+    <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+  
+     
+  <div *ngIf="currentTabId === 'dash'">
+    <app-provider-catalog-tab-dash [id]="getOrganizationId()" modeName="detail"></app-provider-catalog-tab-dash>
+  </div>
+
+  <div *ngIf="true">
+    <li>CurrentId :{{currentTabId}}</li>
+    <li>Id :{{id}}</li>
+    <li>ChildId :{{childId}}</li>
+    <li>Loading :{{loading}}</li>
+    <li>ShowingTabset :{{showingTabset}}</li>
+    <li>Tabs :{{tabs}}</li> 
+    <li>OrganizationId :{{organizationId}}</li>
+  </div>
+</div>

@@ -17,7 +17,7 @@ export class AdvoHomeComponent extends AbstractMultimodeComponent<HcclUserProfil
         return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
     }
 
-    protected async loadEntityById(id: string): Promise<HcclUserProfileCrudWrapper> {
+    protected async loadEntityByIdCall(id: string): Promise<HcclUserProfileCrudWrapper> {
         return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
     }
 } 

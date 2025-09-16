@@ -1,7 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { CatalogCriteria, CatalogGETData, HcclService } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 
 @Component({
   selector: 'app-provider-catalog-tab-dash',
@@ -33,18 +35,18 @@ import { HcclService } from '@app/restsvc/hccl.service';
                       <p class="card-text">{{ catalog.description }}</p>
                       <div class="row text-center">
                         <div class="col-6">
-                          <div class="display-6 text-primary">{{ catalog.entryCount }}</div>
+                          <div class="display-6 text-primary">{{ catalog.stats?.entryCount }}</div>
                           <small class="text-muted">Entries</small>
                         </div>
                         <div class="col-6">
-                          <div class="display-6 text-success">{{ catalog.activeCount }}</div>
+                          <div class="display-6 text-success">{{ catalog.stats?.interestCount }}</div>
                           <small class="text-muted">Active</small>
                         </div>
                       </div>
                     </div>
                     <div class="card-footer">
                       <div class="d-flex justify-content-between">
-                        <small class="text-muted">Updated: {{ catalog.lastUpdated }}</small>
+                        <small class="text-muted">Updated: {{ catalog.dateLastUpdated?.formattedDate }}</small>
                         <div>
                           <button class="btn btn-sm btn-outline-primary me-1">View</button>
                           <button class="btn btn-sm btn-outline-success">Edit</button>
@@ -131,69 +133,42 @@ import { HcclService } from '@app/restsvc/hccl.service';
     }
   `]
 })
-export class ProviderCatalogTabDashComponent implements OnInit {
-  // Inject services using inject() function for standalone components
-  private hcclContextService = inject(HcclContextService);
-  private hcclService = inject(HcclService);
-
+export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent <HcclOrganizationCrudWrapper>{
   constructor() {
-    console.log('ProviderCatalogTabDashComponent initialized');
+      super();
+      console.log('ProviderDashboardTabMydashComponent');
   }
 
-  ngOnInit(): void {
-    this.loadCatalogData();
+
+  
+  protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
+      return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
-  protected getCatalogs(): any[] {
-    // Mock data for now - replace with actual service call
-    return [
-      { 
-        name: 'Computer Science', 
-        description: 'Programming and software development courses',
-        entryCount: 25,
-        activeCount: 22,
-        lastUpdated: '2024-01-15'
-      },
-      { 
-        name: 'Business Administration', 
-        description: 'Management and business courses',
-        entryCount: 18,
-        activeCount: 16,
-        lastUpdated: '2024-01-10'
-      },
-      { 
-        name: 'Healthcare', 
-        description: 'Medical and healthcare related courses',
-        entryCount: 32,
-        activeCount: 28,
-        lastUpdated: '2024-01-20'
-      },
-      { 
-        name: 'Engineering', 
-        description: 'Engineering and technical courses',
-        entryCount: 28,
-        activeCount: 25,
-        lastUpdated: '2024-01-18'
-      },
-      { 
-        name: 'Arts & Design', 
-        description: 'Creative and design courses',
-        entryCount: 15,
-        activeCount: 12,
-        lastUpdated: '2024-01-12'
-      },
-      { 
-        name: 'Mathematics', 
-        description: 'Mathematical concepts and applications',
-        entryCount: 20,
-        activeCount: 18,
-        lastUpdated: '2024-01-14'
-      }
-    ];
+  protected catalogList: CatalogGETData[] = [];
+  protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
+    const catalogcriteria : CatalogCriteria = {
+      organizationId: id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    }
+    
+    const catalogs  = await this.hcclService.findCatalogs(catalogcriteria).toPromise();
+
+    
+    this.catalogList = catalogs?.searchResults || [];
+
+      return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+  }  
+ 
+
+  protected getCatalogCount(): number {
+    // Mock data for now - replace with actual service call    
+    return 5;
   }
 
-  protected loadCatalogData() {
-    // TODO: Implement actual service call for catalog data
-    console.log('Loading catalog data...');
+  protected getCatalogs(): CatalogGETData[] {
+    return this.catalogList;
   }
 }

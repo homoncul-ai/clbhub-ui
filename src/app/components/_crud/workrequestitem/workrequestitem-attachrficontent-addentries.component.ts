@@ -276,9 +276,7 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
     return this.workRequestItem?.getCurrentStateCode() === 'completed';
   }
 
-  // onButtonClick(id: string, entityIds: string[], button: SimpleButton) {
-  //   if (id === 'remove') {
-  //     this.removeItemsFromRFI(entityIds);
-  //   }
-  // }
+  protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
+    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+  }
 } 

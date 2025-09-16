@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogCriteria, CatalogGETData, EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
 import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org-school-staff-crud.component';
+import { Chart, registerables } from 'chart.js';
 
 @Component({
   selector: 'app-provider-dashboard-tab-mydash',
@@ -53,11 +54,17 @@ import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org
               <div class="row">
                 <!-- Course Catalog Interests Chart -->
                 <div class="col-md-6">
-                  <h5>Course Catalog Interests</h5>
+                  <h5>Catalog Interests</h5>
                   <div class="card">
                     <div class="card-body">
-                      <canvas id="catalogInterestsChart" width="400" height="200"></canvas>
-                      <p class="text-muted mt-2">Distribution of interests across catalogs</p>
+                      <!-- Bar chart showing catalog interest counts with statsdaterange and business codes -->
+                      <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas #catalogInterestsChart></canvas>
+                      </div>
+                      <p class="text-muted mt-2">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Hover over bars to see business codes and date ranges
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -69,7 +76,7 @@ import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org
                     <div class="list-group-item" *ngFor="let catalog of getCatalogs()">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">{{ catalog.name }}</h6>
-                        <span class="badge bg-primary">entryies</span>
+                        <span class="badge bg-primary">{{ catalog.stats?.entryCount }}</span>
                       </div>
                       <p class="mb-1">{{ catalog.description }}</p>
                       <small class="text-muted">Last updated:  </small>
@@ -107,19 +114,27 @@ import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org
       padding: 0.25rem 0.5rem;
       font-size: 0.875rem;
     }
+    
+    .chart-container {
+      background-color: #f8f9fa;
+      border-radius: 0.375rem;
+      padding: 1rem;
+    }
   `]
 })
-export class ProviderDashboardTabMydashComponent extends AbstractMultimodeComponent<HcclOrganizationCrudWrapper>{
+export class ProviderDashboardTabMydashComponent extends AbstractMultimodeComponent<HcclOrganizationCrudWrapper> implements AfterViewInit {
+  @ViewChild('catalogInterestsChart', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
+  private chartInstance: Chart | null = null;
+
   constructor() {
       super();
       console.log('ProviderDashboardTabMydashComponent');
+      Chart.register(...registerables);
   }
 
 
-  override ngOnInit(): void {
-    super.ngOnInit();
-    this.loadEntityById(this.id);
-    this.loading = false;
+  ngAfterViewInit(): void {
+    // Chart will be created after data loads
   }
 
   
@@ -128,17 +143,25 @@ export class ProviderDashboardTabMydashComponent extends AbstractMultimodeCompon
   }
 
   protected catalogList: CatalogGETData[] = [];
-  protected async loadEntityById(id: string): Promise<HcclOrganizationCrudWrapper> {
+  protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
     const catalogcriteria : CatalogCriteria = {
       organizationId: id,
+      includingCatalogStats: true,
+      available: 1,
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
     }
     
     const catalogs  = await this.hcclService.findCatalogs(catalogcriteria).toPromise();
-    alert( 'catalogs.length: ' + catalogs?.searchResults?.length );
+
+    
     this.catalogList = catalogs?.searchResults || [];
+
+    // Create chart after data loads
+    setTimeout(() => {
+      this.createCatalogInterestsChart();
+    }, 100);
 
       return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
   }  
@@ -172,5 +195,104 @@ export class ProviderDashboardTabMydashComponent extends AbstractMultimodeCompon
     //   this.providerUIData = data;
     // });
     console.log('Loading provider dashboard data...');
+  }
+
+  private createCatalogInterestsChart(): void {
+    if (!this.chartCanvas || this.catalogList.length === 0) {
+      return;
+    }
+
+    // Destroy existing chart if it exists
+    if (this.chartInstance) {
+      this.chartInstance.destroy();
+    }
+
+    const ctx = this.chartCanvas.nativeElement.getContext('2d');
+    if (!ctx) {
+      return;
+    }
+
+    // Prepare chart data
+    const labels = this.catalogList.map(catalog => catalog.name || 'Unknown');
+    const interestCounts = this.catalogList.map(catalog => catalog.stats?.interestCount || 0);
+    const entryCounts = this.catalogList.map(catalog => catalog.stats?.entryCount || 0);
+    
+    // Get date range info
+    const dateRanges = this.catalogList.map(catalog => {
+      const dateRange = catalog.stats?.dateRange;
+      if (dateRange?.theStart && dateRange?.theEnd) {
+        return `${dateRange.theStart.formattedDate || 'N/A'} - ${dateRange.theEnd.formattedDate || 'N/A'}`;
+      }
+      return 'No date range';
+    });
+
+    this.chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Interest Count',
+            data: interestCounts,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Entry Count',
+            data: entryCounts,
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Catalog Interest and Entry Counts',
+            font: {
+              size: 16
+            }
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              afterLabel: (context: any) => {
+                const index = context.dataIndex;
+                const catalog = this.catalogList[index];
+                const businessCode = catalog?.businessCode || 'N/A';
+                const dateRange = dateRanges[index];
+                return [
+                  `Business Code: ${businessCode}`,
+                  `Date Range: ${dateRange}`
+                ];
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Count'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Catalogs'
+            }
+          }
+        }
+      }
+    });
   }
 }

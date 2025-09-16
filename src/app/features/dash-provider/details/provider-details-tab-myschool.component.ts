@@ -1,7 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { CatalogGETData, HcclOrganizationGETData, HcclService } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
+import { AbstractEntityGroupComponent, AbstractMultimodeComponent } from '@app/components/_global';
+import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 
 @Component({
   selector: 'app-provider-details-tab-myschool',
@@ -27,25 +30,26 @@ import { HcclService } from '@app/restsvc/hccl.service';
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">School Name</h6>
                       </div>
-                      <p class="mb-1">{{ getSchoolInfo().name }}</p>
+                      
+                      <p class="mb-1"> {{ entity.getFullName() }}</p>
                     </div>
                     <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Address</h6>
                       </div>
-                      <p class="mb-1">{{ getSchoolInfo().address }}</p>
+                      <p class="mb-1">{{ getSchoolInfo() }}</p>
                     </div>
                     <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Phone</h6>
                       </div>
-                      <p class="mb-1">{{ getSchoolInfo().phone }}</p>
+                      <p class="mb-1">{{ getSchoolInfo() }}</p>
                     </div>
                     <div class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">Email</h6>
                       </div>
-                      <p class="mb-1">{{ getSchoolInfo().email }}</p>
+                      <p class="mb-1">{{ getSchoolInfo() }}</p>
                     </div>
                   </div>
                 </div>
@@ -59,14 +63,7 @@ import { HcclService } from '@app/restsvc/hccl.service';
                         <button class="btn btn-sm btn-outline-primary">Edit</button>
                       </div>
                       <p class="mb-1">Update your school's contact details</p>
-                    </div>
-                    <div class="list-group-item">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">View School Profile</h6>
-                        <button class="btn btn-sm btn-outline-success">View</button>
-                      </div>
-                      <p class="mb-1">View your school's public profile</p>
-                    </div>
+                    </div>                     
                   </div>
                 </div>
               </div>
@@ -98,31 +95,29 @@ import { HcclService } from '@app/restsvc/hccl.service';
     }
   `]
 })
-export class ProviderDetailsTabMyschoolComponent implements OnInit {
-  // Inject services using inject() function for standalone components
-  private hcclContextService = inject(HcclContextService);
-  private hcclService = inject(HcclService);
-
+export class ProviderDetailsTabMyschoolComponent extends AbstractMultimodeComponent <HcclOrganizationCrudWrapper>{
   constructor() {
-    console.log('ProviderDetailsTabMyschoolComponent initialized');
+      super();
+      console.log('ProviderDashboardTabMydashComponent');
   }
 
-  ngOnInit(): void {
-    this.loadSchoolInfo();
+
+  override async ngOnInit(): Promise<void> {
+    super.ngOnInit();
+    return Promise.resolve();
   }
 
-  protected getSchoolInfo(): any {
-    // Mock data for now - replace with actual service call
-    return {
-      name: 'Example High School',
-      address: '123 Education Street, Learning City, LC 12345',
-      phone: '(555) 123-4567',
-      email: 'info@examplehighschool.edu'
-    };
+  
+  protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
+      return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
   }
-
-  protected loadSchoolInfo() {
-    // TODO: Implement actual service call for school information
-    console.log('Loading school information...');
+ 
+  protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> { 
+      return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+  }  
+  
+  protected getSchoolInfo(): HcclOrganizationGETData {
+   // alert(JSON.stringify(this.entity));
+    return this.entity.getData() || {};
   }
 }

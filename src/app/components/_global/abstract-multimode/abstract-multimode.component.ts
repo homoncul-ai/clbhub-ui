@@ -36,8 +36,13 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   protected currentMode: string = '';
   protected loading: boolean = false;
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loading = true;
+    this.loadEntityById(this.id).then((entity) => {
+      this.loading = false;
+      this.entity = entity;
+    });
+    return Promise.resolve();
   }
 
   
@@ -63,15 +68,15 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
     });
   }
 
-  // protected async loadEntityById(id: string): Promise<R> {
-  //   try {
-  //     return await this.loadEntityByIdCall(id);
-  //   } catch (error) {
-  //     console.error('Error loading ' + this.entity.getEntityType() + ' by ID:', error);
-  //     throw error;
-  //   }
-  // }
-  // protected abstract loadEntityByIdCall(id: string): Promise<R>;
+  protected async loadEntityById(id: string): Promise<R> {
+    try {
+      return await this.loadEntityByIdCall(id);
+    } catch (error) {
+      console.error('Error loading ' + this.entity.getEntityType() + ' by ID:', error);
+      throw error;
+    }
+  }
+  protected abstract loadEntityByIdCall(id: string): Promise<R>;
 
    
   protected  async prepareModeEntry(entity: R, mode: string): Promise<void> {

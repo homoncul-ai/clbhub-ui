@@ -141,4 +141,7 @@ export class WorkRequestRouteComponent extends AbstractMultimodeComponent<WorkRe
     this.selectedWorkQueue = selectedItem;
   }
 
+  protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
+    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+  }
 } 

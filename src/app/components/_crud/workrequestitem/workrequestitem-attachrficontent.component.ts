@@ -31,9 +31,7 @@ export class WorkRequestItemAttachRFIContentComponent extends AbstractMultimodeC
   // RFI is for enqueuing a new erquest.
   override async ngOnInit(): Promise<void> {
     console.log('WorkRequestItemAttachRFIContentComponent ngOnInit');
-    this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
-    //
-    this.localModes = ['createItemView', 'createItemViewPost'];
+      this.localModes = ['createItemView', 'createItemViewPost'];
     super.ngOnInit();
     this.enterMode('createItemView');
   }
@@ -45,6 +43,10 @@ export class WorkRequestItemAttachRFIContentComponent extends AbstractMultimodeC
     mapContextData: {},
     mapResultsData: {}
   };
+
+  protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
+    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+  }
 
   protected override async prepareModeEntry(entity: WorkRequestCrudWrapper, mode: string): Promise<void> {
     super.prepareModeEntry(entity, mode);

@@ -40,4 +40,8 @@ export class StudentPersonalStatementResearchComponent extends AbstractMultimode
       interestRangeMax: 11
     };
   }
+
+  protected async loadEntityByIdCall(id: string): Promise<PersonalStatementCrudWrapper> {
+    return PersonalStatementCrudWrapper.newInstance(id, this.hcclService);
+  }
 }

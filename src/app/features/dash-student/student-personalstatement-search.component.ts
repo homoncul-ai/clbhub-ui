@@ -168,4 +168,7 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
     }
   }
 
+  protected async loadEntityByIdCall(id: string): Promise<PersonalStatementCrudWrapper> {
+    return PersonalStatementCrudWrapper.newInstance(id, this.hcclService);
+  }
 }

@@ -2,6 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
+import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 
 @Component({
   selector: 'app-provider-details-tab-colleagues',
@@ -86,18 +88,27 @@ import { HcclService } from '@app/restsvc/hccl.service';
     }
   `]
 })
-export class ProviderDetailsTabColleaguesComponent implements OnInit {
-  // Inject services using inject() function for standalone components
-  private hcclContextService = inject(HcclContextService);
-  private hcclService = inject(HcclService);
-
+export class ProviderDetailsTabColleaguesComponent  extends AbstractMultimodeComponent <HcclOrganizationCrudWrapper>{
   constructor() {
-    console.log('ProviderDetailsTabColleaguesComponent initialized');
+      super();
+      console.log('ProviderDashboardTabMydashComponent');
   }
 
-  ngOnInit(): void {
-    this.loadColleagues();
+
+  override async ngOnInit(): Promise<void> {
+    super.ngOnInit();
+    return Promise.resolve();
   }
+
+  
+  protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
+      return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
+  }
+ 
+  protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> { 
+      return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+  }  
+  
 
   protected getColleagues(): any[] {
     // Mock data for now - replace with actual service call
@@ -110,8 +121,4 @@ export class ProviderDetailsTabColleaguesComponent implements OnInit {
     ];
   }
 
-  protected loadColleagues() {
-    // TODO: Implement actual service call for colleagues information
-    console.log('Loading colleagues information...');
-  }
 }

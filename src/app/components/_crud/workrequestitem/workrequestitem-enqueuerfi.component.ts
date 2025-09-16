@@ -31,11 +31,14 @@ export class WorkRequestItemEnqueueRFIComponent extends AbstractMultimodeCompone
   // RFI is for enqueuing a new erquest.
   override async ngOnInit(): Promise<void> {
     console.log('WorkrequestUpdateComponent ngOnInit');
-    this.entity = await WorkRequestCrudWrapper.newInstance(this.id, this.hcclService);
-    //
+     //
     this.localModes = ['createItemView', 'createItemViewPost'];
     super.ngOnInit();
     this.enterMode('createItemView');
+  }
+
+  protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
+    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
   }
 
   protected workItemFormContext : WorkItemFormContext = {

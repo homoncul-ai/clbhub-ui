@@ -6,11 +6,12 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
 import { HcclUserContextGETData, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { ProviderDetailsTabMyschoolComponent } from './provider-details-tab-myschool.component';
 import { ProviderDetailsTabColleaguesComponent } from './provider-details-tab-colleagues.component';
+import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
 
 @Component({
   selector: 'app-provider-details-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderDetailsTabMyschoolComponent,ProviderDetailsTabColleaguesComponent],
   templateUrl: './provider-details-group.component.html',
   styleUrl: './provider-details-group.component.scss'
 })
@@ -22,6 +23,7 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
       this.defaultId = context.currentUserProfileId || '';
       this.id = this.defaultId;
       // Call parent ngOnInit after setting the ID
+      this.organizationId = context.currentUserProfile.organizationId || '';
       super.ngOnInit();
     });
   }
@@ -31,18 +33,28 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
     return this.defaultId;
   }
 
+  protected organizationId : string = '';
+  protected getOrganizationId(): string {
+    return this.organizationId;  
+  }
+
   protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {
+
+    
     return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+  protected organization?: HcclOrganizationCrudWrapper;
   protected async loadEntityById(id: string): Promise<HcclUserProfileCrudWrapper> {
+    this.organization = await  HcclOrganizationCrudWrapper.newInstance(this.organizationId, this.hcclService);
+
     return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
   }
 
   protected setupTabs(): SimpleTab[] {
     const baseRoute = this.getBaseRoute();
     return [
-      new SimpleTab('myschool', 'My School', '', 
+      new SimpleTab('myschool', '' + this.organization?.getBusinessCode(), '', 
         () => {
           this.router.navigate([baseRoute]);
         },

@@ -9,7 +9,7 @@ import { ProviderCatalogTabDashComponent } from './provider-catalog-tab-dash.com
 @Component({
   selector: 'app-provider-catalog-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderCatalogTabDashComponent],
   templateUrl: './provider-catalog-group.component.html',
   styleUrl: './provider-catalog-group.component.scss'
 })
@@ -20,9 +20,15 @@ export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<
     this.hcclContextService.refreshContext().subscribe(context => {
       this.defaultId = context.currentUserProfileId || '';
       this.id = this.defaultId;
+      this.organizationId = context.currentUserProfile.organizationId || '';
       // Call parent ngOnInit after setting the ID
       super.ngOnInit();
     });
+  }
+
+  protected organizationId : string = '';
+  protected getOrganizationId(): string {
+    return this.organizationId;  
   }
 
   protected defaultId: string = '';
