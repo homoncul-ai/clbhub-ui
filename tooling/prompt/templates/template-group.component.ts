@@ -15,7 +15,7 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, HcclOrganizationCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
-  templateUrl: './hcclorganization-group.component.html',
+  template: './hcclorganization-group.component.html',
 })
 export class HcclOrganizationGroupComponent extends AbstractEntityGroupComponent<HcclOrganizationCrudWrapper> implements OnInit {  
 

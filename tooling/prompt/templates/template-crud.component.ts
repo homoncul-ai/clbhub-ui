@@ -28,7 +28,7 @@ import { HcclOrganizationTypeRefCrudComponent } from '@app/components/_crud/hccl
 
 @Component({
   selector: 'app-hcclorganization-crud',
-  templateUrl: './hcclorganization-crud.component.html',
+  template: './hcclorganization-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,

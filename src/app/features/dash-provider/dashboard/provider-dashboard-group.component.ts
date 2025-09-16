@@ -9,7 +9,7 @@ import { ProviderDashboardTabMydashComponent } from './provider-dashboard-tab-my
 @Component({
   selector: 'app-provider-dashboard-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderDashboardTabMydashComponent ],
   templateUrl: './provider-dashboard-group.component.html',
   styleUrl: './provider-dashboard-group.component.scss'
 })
@@ -50,6 +50,10 @@ export class ProviderDashboardGroupComponent extends AbstractEntityGroupComponen
         }
       )
     ];
+  }
+
+  protected getOrganizationId(): string {
+    return this.hcclContextService.getCurrentUserProfile().getCurrentOrganizationId();  
   }
 
   protected override getDefaultTabId(): string {

@@ -2,6 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
+import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
+import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org-school-staff-crud.component';
 
 @Component({
   selector: 'app-provider-dashboard-tab-mydash',
@@ -106,25 +109,22 @@ import { EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, Wor
     }
   `]
 })
-export class ProviderDashboardTabMydashComponent implements OnInit {
-  // Inject services using inject() function for standalone components
-  private hcclContextService = inject(HcclContextService);
-  private hcclService = inject(HcclService);
-  private providerUIData: WorkRequestDashboardUIGETData | null = null;
-  private loading: boolean = false;
-
+export class ProviderDashboardTabMydashComponent extends AbstractMultimodeComponent<HcclOrganizationCrudWrapper>{
   constructor() {
-    console.log('ProviderDashboardTabMydashComponent initialized');
+      super();
+      console.log('ProviderDashboardTabMydashComponent');
   }
 
-  ngOnInit(): void {
-    this.loading = true;
-    this.loadInfo();
-    this.loading = false;
+  protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
+      return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
   }
+
+  protected async loadEntityById(id: string): Promise<HcclOrganizationCrudWrapper> {
+      return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+  }  
 
   protected getProviderRequestStats(stateCode: string): EntityStateStatGETData | null {
-    return this.providerUIData?.mapStats?.[stateCode] || {itemCount: 0, stateCode: stateCode, stateLabel: stateCode};
+    return  {itemCount: 0, stateCode: stateCode, stateLabel: stateCode};
   }
 
   protected getCatalogCount(): number {
