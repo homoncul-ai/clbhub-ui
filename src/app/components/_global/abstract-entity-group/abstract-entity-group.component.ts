@@ -47,13 +47,17 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
     return this.entity || this.newCrudWrapperForCreate();
   }
 
+  protected populateFromParams(params: any): void {
+    this.id = params['id'];
+    this.childId = params['childId'];
+    this.tabId = params['tabId'];
+  }
   ngOnInit(): void {
     this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';
     this.route.params.subscribe(params => {
-      this. id = params['id'];
-      let tabId = params['tabId'];
-      this. childId = params['childId'];
-      
+    
+      this.populateFromParams(params)
+      let tabId = this.tabId;
 
       if (this.id === undefined || this.id === '') {
         this.id = this.getDefaultId();

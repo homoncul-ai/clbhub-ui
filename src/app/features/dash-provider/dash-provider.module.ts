@@ -10,6 +10,7 @@ import { ProviderDashboardGroupComponent } from './dashboard/provider-dashboard-
 import { ProviderDetailsGroupComponent } from './details/provider-details-group.component';
 import { ProviderWorkrequestGroupComponent } from './workrequest/provider-workrequest-group.component';
 import { ProviderCatalogGroupComponent } from './catalog/provider-catalog-group.component';
+import { ProviderWorkqueueGroupComponent } from './workqueues/provider-workqueue-group.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
       { path: 'workrequest/:tabId/:childId', component: ProviderWorkrequestGroupComponent },
       { path: 'workrequest/:tabId', component: ProviderWorkrequestGroupComponent },
       { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
+      { path: 'workqueues/:queueId/:tabId/:childId', component: ProviderWorkqueueGroupComponent },
+      { path: 'workqueues/:queueId/:tabId', component: ProviderWorkqueueGroupComponent },
+      { path: 'workqueues/:queueId', component: ProviderWorkqueueGroupComponent },
+      { path: 'workqueues', component: ProviderWorkqueueGroupComponent },
       { path: 'catalog/:tabId/:childId', component: ProviderCatalogGroupComponent },
       { path: 'catalog/:tabId', component: ProviderCatalogGroupComponent },
       { path: 'catalog', component: ProviderCatalogGroupComponent },

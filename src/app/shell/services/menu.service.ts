@@ -374,12 +374,12 @@ export class MenuService {
     
     // Add Provider Work Request Dashboard with children
     const workrequest = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST);
-    alert('queues: ' + this.queues.length);
+    //alert('queues: ' + this.queues.length);
     for (const queue of this.queues) {
       let menuItem =  {
         level: 2,
         label: '' + queue.businessCode,
-        route: '/provider-dashboard/workrequest/queue/' + queue.id,
+        route: '/provider-dashboard/workqueues/' + queue.id,
         componentPath: 'src/app/features/dash-provider/workrequest',
         componentName: 'provider-workrequest-tab-dash',
         icon: 'fas fa-ticket-alt'
@@ -791,7 +791,7 @@ export const MENU_CONSTANTS = {
     label: 'Provider Work Request Dashboard',
     route: '/provider-dashboard/workrequest',
     componentPath: 'src/app/features/dash-provider/workrequest',
-    componentName: 'provider-workrequest-group',
+    componentName: 'provider-workqueue-group',
     icon: 'fas fa-tasks'
   },
   PROVIDER_WORKREQUEST_TAB_DASH: {

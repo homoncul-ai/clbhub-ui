@@ -2,7 +2,8 @@
     <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
   
      
-  <div *ngIf="currentTabId === 'dash'">
+  <div *ngIf="currentTabId === 'queue'">
+  {{ getQueue() | json }}
     <!-- <app-provider-workrequest-tab-dash  [id]="getOrganizationId()" modeName="detail"></app-provider-workrequest-tab-dash> -->
   </div>
 
@@ -22,6 +23,8 @@
 
 <div *ngIf="true">
   <li>CurrentId :{{currentTabId}}</li>
+  <li>QueueId :{{queueId}}</li>
+  <li>Queue :{{getQueue() | json}}</li>
   <li>Id :{{id}}</li>
   <li>ChildId :{{childId}}</li>
   <li>Loading :{{loading}}</li>
