@@ -94,12 +94,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.currentRoute = this._router.url;
-
-    const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
-    const rawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
-    this.menuItems = this.convertMenuItemsToTreeFormat(rawMenu);
-
-
     if (environment.production) {
       Logger.enableProductionMode();
     }
@@ -118,6 +112,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     if (context) {
       this.userProfileMenu = context.userProfileMenu;
       console.log('User profile menu updated:', this.userProfileMenu + ' ' + context.currentUserProfileId);
+      this.updateUserProfile(context.currentUserProfileId || '');
     }
   });
 
@@ -243,10 +238,14 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('User profile changed to:', selectedProfile);
     
     if (selectedProfile) {
+      this.updateUserProfile(selectedProfile.id || '');
+    }
+  }
 
-      // Here you can add logic to handle the profile change
+  updateUserProfile(userProfileId: string): void {
+    {      // Here you can add logic to handle the profile change
       // For example, refresh the context with the new profile ID
-      this.hcclContextService.initializeContext(selectedProfile.id || '').subscribe({
+      this.hcclContextService.initializeContext(userProfileId).subscribe({
         next: (context) => {
           console.log('Context refreshed with new profile:', context);
 
