@@ -74,7 +74,7 @@ export class SimpleButtonBar {
     }
 
     // if all buttons are not showing, return true
-    debugger;
+   
     var x = false;
     this.buttons.forEach(element => {
       if (element.showingButtonFunction()) {

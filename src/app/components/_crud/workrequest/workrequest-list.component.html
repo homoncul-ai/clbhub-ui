@@ -1,0 +1,60 @@
+
+
+<div class="search-list-container">
+    <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
+ 
+  <form (submit)="onFormSubmit($event)">
+
+    <div *ngIf="showingButtonBar" class="search-list-button-bar"> 
+      <button 
+        mat-button
+        *ngFor="let button of buttonBar?.buttons"
+        (click)="__onButtonClick(button.id)"
+        class="button-item">
+        <ng-container *ngIf="button.showingButtonFunction()">
+          {{ button.label }}
+        </ng-container>
+      </button>
+    </div> 
+    <div *ngIf="showingSearch" class="search-list-search-bar" >
+      <div *ngIf="showingGoButton" class="search-list-button-bar">
+        <button mat-button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
+        &nbsp;
+      </div>
+        <input #searchInput type="text" class="search-list-input" [placeholder]="searchPlaceholder" (keydown.enter)="onFormSubmit($event)" />
+      <button mat-button type="submit" class="search-list-input-button">
+        <span class="material-icons" aria-label="Search">{{ searchButtonLabel }}</span>
+      </button>
+      <button mat-button *ngIf="showingAdvancedSearch" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
+        <span class="material-icons" aria-label="Advanced Search">(AdvSrch)</span>
+      </button>
+      <button mat-button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
+        <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
+      </button>
+    </div>
+
+    <div *ngIf="!showingSearch" class="search-list-search-bar" >
+      <div *ngIf="showingGoButton" class="search-list-button-bar">
+        <button mat-button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
+        &nbsp;
+      </div>
+  
+      <button mat-button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
+        <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
+      </button>
+    </div>
+    <div #gridContainer class="search-list-grid"></div>
+  </form>
+
+  <div *ngIf="false">
+    <pre>buttonBar: {{ buttonBar | json }}</pre>
+    <pre>{{ this.currentCriteria| json }}</pre>
+    <pre>showingAddButton: {{ showingAddButton }}</pre>
+    <pre>showingGoButton: {{ showingGoButton }}</pre>
+    <pre>showingSearchHeading: {{ showingSearchHeading }}</pre>
+    <pre>showingSearch: {{ showingSearch }}</pre>
+    <pre>showingAdvancedSearch: {{ showingAdvancedSearch }}</pre>
+    <pre>showingButtonBar: {{ showingButtonBar }}</pre>
+    <pre>showingDiagnostics: {{ showingDiagnostics }}</pre>
+    <pre>showingIdCheckbox: {{ showingIdCheckbox }}</pre>
+  </div>

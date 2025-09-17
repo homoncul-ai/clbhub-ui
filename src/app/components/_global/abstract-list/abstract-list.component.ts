@@ -167,7 +167,7 @@ implements OnInit, AfterViewInit {
     // Build columns array based on showingIdCheckbox state
     const columns: any[] = [];
     //this.showingIdCheckbox = this.getShowingIdCheckbox();
-    debugger
+  
     // Add checkbox column only if showingIdCheckbox is true
     if (this.showingIdCheckbox) {
       columns.push({ id: 'select', header: [{ text: '' }], type: 'boolean', editorType: 'checkbox', editable: true, width: 50 });

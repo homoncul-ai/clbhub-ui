@@ -71,7 +71,6 @@ export class AppComponent implements OnInit, OnDestroy {
                               currentUrl === '/service-provider-dashboard' ||
                               currentUrl === '/ecoadmin-dashboard' || 
                               currentUrl === '/student-dashboard';
-        debugger;
         if (shouldRedirect) {
           console.log('Current URL requires redirect, getting first menu item');
           // Get the first navigable menu item using the menu service

@@ -6,11 +6,13 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
 import { HcclUserContextGETData, WorkQueueCriteria, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { ProviderWorkrequestTabDashComponent } from './provider-workrequest-tab-dash.component';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-provider-workrequest-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, ProviderWorkrequestTabDashComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderWorkrequestTabDashComponent, WorkRequestListComponent],
   templateUrl: './provider-workrequest-group.component.html',
   styleUrl: './provider-workrequest-group.component.scss'
 })
@@ -99,5 +101,26 @@ export class ProviderWorkrequestGroupComponent extends AbstractEntityGroupCompon
 
   protected getQueueById(id: string): WorkQueueGETData | undefined {
     return this.workQueues.find(queue => queue.id === id);
+  }
+
+
+  onClickWorkRequestRow(): OnRowClickBehavior {
+    var x: OnRowClickBehavior =  new OnRowClickBehavior();
+    //x.alertMessage = 'Ticket';
+    x.usingNavigateUrl = true;
+    x.getNavigateUrl = (id: string) => {
+      return ['/provider-dashboard', 'workrequest', id, 'update'];
+    };
+    //x.alertMessage = 'Catalog Entry';
+    return x;
+  }
+
+  protected getWorkRequestCriteriaForQueue(queueId: string): WorkRequestCriteria {
+    return {
+      workQueueId: queueId,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
   }
 }

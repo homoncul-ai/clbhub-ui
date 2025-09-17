@@ -67,7 +67,6 @@ export class OnboardOrgUserModalComponent implements OnInit {
         profileTypeCode: formData.profileTypeCode,
         roles: formData.roles || []
       };
-      debugger
       this.hcclService.onboardOrgUser(onboardData).subscribe({
         next: (response) => {
           this.isLoading = false;

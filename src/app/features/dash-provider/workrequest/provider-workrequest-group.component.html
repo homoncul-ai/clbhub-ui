@@ -7,9 +7,10 @@
   </div>
 
   <div *ngFor="let queue of getWorkQueues()">
-  <div *ngIf="currentTabId === 'queue'">
-    <h3>{{getQueueById(currentTabId)?.businessCode}}</h3>
-  </div>
+  <div *ngIf="currentTabId === 'queue' && this.childId !== undefined">
+    <app-workrequest-list [criteria]="getWorkRequestCriteriaForQueue(this.childId)" [showingSearchHeading]="false" 
+    [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+    [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>  </div>
  </div>
 
 
