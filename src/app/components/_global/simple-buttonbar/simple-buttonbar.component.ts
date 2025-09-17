@@ -69,21 +69,19 @@ export class SimpleButtonBar {
   }
 
   isHidingButtonBar(): boolean {
-    if ( this.hidingButtonBar) {
+    if (this.hidingButtonBar) {
       return true;
     }
 
     // if all buttons are not showing, return true
-   
-    var x = false;
+    var hasVisibleButton = false;
     this.buttons.forEach(element => {
       if (element.showingButtonFunction()) {
-       x = true;
+        hasVisibleButton = true;
       }
     });
-    return x;
-    return false;
-    }
+    return !hasVisibleButton; // Hide button bar if no buttons are visible
+  }
   
 }
 

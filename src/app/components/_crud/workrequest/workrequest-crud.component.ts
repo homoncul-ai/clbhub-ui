@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
@@ -37,7 +37,7 @@ import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-enti
      ProviderRequestCrudComponent, ProviderRequestCrudComponent, StdMdbEntitystateComponent],
   standalone: true
 })
-export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestCrudWrapper> implements OnInit, OnChanges {
+export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestCrudWrapper> implements OnInit, OnChanges, OnDestroy {
 
   constructor() {
     super();
@@ -45,6 +45,12 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
 
   // Error property for form validation
   public error: any = null;
+  
+  // Cache for getCurrentEntity to prevent multiple calls
+  private _currentEntity: WorkRequestCrudWrapper | null = null;
+  
+  // Cache for entity ID to prevent multiple calls
+  private _entityId: string | null = null;
 
   // Validation methods
   private validateName(name: string): string | null {
@@ -141,6 +147,43 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
 
   override ngOnInit(): void {
     super.ngOnInit();
+  }
+
+  override ngOnChanges(changes: SimpleChanges): void {
+    super.ngOnChanges(changes);
+    // Clear cache when ID changes
+    if (changes['id']) {
+      this.clearEntityCache();
+    }
+  }
+
+  // Override getCurrentEntity to use caching
+  override getCurrentEntity(): WorkRequestCrudWrapper {
+    if (this._currentEntity) {
+      return this._currentEntity;
+    }
+    this._currentEntity = super.getCurrentEntity();
+    return this._currentEntity;
+  }
+
+  // Clear cache when entity changes
+  private clearEntityCache(): void {
+    this._currentEntity = null;
+    this._entityId = null;
+  }
+
+  // Getter for entity ID with caching
+  get entityId(): string {
+    if (this._entityId) {
+      return this._entityId;
+    }
+    this._entityId = this.getCurrentEntity()?.getId() || '';
+    return this._entityId;
+  }
+
+  ngOnDestroy(): void {
+    // Clear cache on destroy
+    this.clearEntityCache();
   }
 
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {

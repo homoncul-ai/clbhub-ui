@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CreateTicketSetupUIData, HcclService, RoutingActionPOSTData, SimpleRestActionResponse, WorkQueueGETData, WorkRequestGETData, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
@@ -18,6 +18,7 @@ import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.comp
 import { WorkRequestAttachContentModalComponent } from './workrequest-attach-content-modal.component';
 import { WorkRequestEnqueueModalComponent } from './workrequest-enqueue-modal.component';
 import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -28,36 +29,55 @@ import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_glob
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
-export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
+export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit, OnDestroy  {
   
   // Properties referenced in template
   acceptText: string = '';
   availableQueues: any[] = [];
   error: any = null;
   
+  // Cache the button bar to prevent recreation on every change detection
+  private _buttonBar: SimpleButtonBar | null = null;
+  
   // Inject modal service
   private modalService = inject(MdbModalService);
   private acceptModalRef: MdbModalRef<WorkRequestAcceptModalComponent> | null = null;
   private attachModalRef: MdbModalRef<WorkRequestAttachContentModalComponent> | null = null;
   private enqueueModalRef: MdbModalRef<WorkRequestEnqueueModalComponent> | null = null;
+  
+  // Subscription management
+  private subscriptions: Subscription[] = [];
 
   override async ngOnInit(): Promise<void> {
-    super.ngOnInit();
-    // //alert("WorkrequestUpdateComponent ngOnInit " + this.id);
-    // console.log('WorkrequestUpdateComponent ngOnInit');
-    //  WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
-    //   this.entity = x;
-    //   this.localModes = ['accept', 'reroute'];
-    //   this.loading = false;
-    //  });
-    //
+    await super.ngOnInit();
+    // Set up local modes for the component
+    this.localModes = ['accept', 'reroute'];
+    this.loading = false;
+  }
 
-   
+  ngOnDestroy(): void {
+    // Clean up all subscriptions
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = [];
+    
+    // Clear button bar cache
+    this._buttonBar = null;
+    
+    // Close any open modals
+    if (this.acceptModalRef) {
+      this.acceptModalRef.close();
+    }
+    if (this.attachModalRef) {
+      this.attachModalRef.close();
+    }
+    if (this.enqueueModalRef) {
+      this.enqueueModalRef.close();
+    }
   }
 
   protected override async prepareModeEntry(entity: WorkRequestCrudWrapper, mode: string): Promise<void> {
-    super.prepareModeEntry(entity, mode);
-    console.log('WorkrequestUpdateComponent ngOnInit ' + this.entity.dump);
+    await super.prepareModeEntry(entity, mode);
+    console.log('WorkrequestUpdateComponent prepareModeEntry ' + (entity?.dump || 'entity is null'));
     if (mode === 'accept') {
       // Create show a text area.
     } else if (mode === 'reroute') {
@@ -71,7 +91,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   }
 
   isTicketRerouted(): boolean {
-    return this.entity?.getCurrentStateCode() === 'rerouted';
+    return this.entity?.getCurrentStateCode() === 'rerouted' || false;
   }
   // Methods referenced in template
   openAcceptModal(): void {
@@ -86,11 +106,13 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     });
     
     // Refresh entity after modal closes
-    this.acceptModalRef.onClose.subscribe(() => {
+    const subscription = this.acceptModalRef.onClose.subscribe(() => {
       WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
         this.entity = x;
+        this.refreshButtonBar(); // Refresh button bar to update button visibility
       });
     });
+    this.subscriptions.push(subscription);
   }
 
   openAttachContentModal(): void {
@@ -103,11 +125,13 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     });
     
     // Refresh entity after modal closes
-    this.attachModalRef.onClose.subscribe(() => {
+    const subscription = this.attachModalRef.onClose.subscribe(() => {
       WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
         this.entity = x;
+        this.refreshButtonBar(); // Refresh button bar to update button visibility
       });
     });
+    this.subscriptions.push(subscription);
   }
 
   openEnqueueModal(): void {
@@ -120,11 +144,13 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     });
     
     // Refresh entity after modal closes
-    this.enqueueModalRef.onClose.subscribe(() => {
+    const subscription = this.enqueueModalRef.onClose.subscribe(() => {
       WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
         this.entity = x;
+        this.refreshButtonBar(); // Refresh button bar to update button visibility
       });
     });
+    this.subscriptions.push(subscription);
   }
 
   async acceptTicket(): Promise<void> {
@@ -181,27 +207,32 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   // Convert the 
   
   getSimpleButtonBar(): SimpleButtonBar {
-    var b : SimpleButtonBar = new SimpleButtonBar();
+    // Return cached button bar if it exists
+    if (this._buttonBar) {
+      return this._buttonBar;
+    }
+    
+    this._buttonBar = new SimpleButtonBar();
     
     // Accept Ticket button - only show when ticket is not accepted
-    const acceptButton = b.addButton('acceptTicket', 'Accept Ticket', () => {
+    const acceptButton = this._buttonBar.addButton('acceptTicket', 'Accept Ticket', () => {
       this.openAcceptModal();
     });
     acceptButton.showingButtonFunction = () => !this.isTicketAccepted();
     
     // Attach RFI Content button - only show when ticket is accepted
-    const attachButton = b.addButton('attachContent', 'Attach RFI Content', () => {
+    const attachButton = this._buttonBar.addButton('attachContent', 'Attach RFI Content', () => {
       this.openAttachContentModal();
     });
     attachButton.showingButtonFunction = () => this.isTicketAccepted();
     
     // Enqueue RFI button - only show when ticket is accepted
-    const enqueueButton = b.addButton('enqueueRFI', 'Enqueue RFI', () => {
+    const enqueueButton = this._buttonBar.addButton('enqueueRFI', 'Enqueue RFI', () => {
       this.openEnqueueModal();
     });
     enqueueButton.showingButtonFunction = () => this.isTicketAccepted() && !this.isEnqueuedTicket();
     
-    return b;
+    return this._buttonBar;
   }
   
   isEnqueuedTicket(): boolean {
@@ -213,6 +244,11 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     if (button) {
       button.activate();
     }
+  }
+
+  // Refresh button bar when entity changes
+  private refreshButtonBar(): void {
+    this._buttonBar = null; // Clear cache to force recreation
   }
 
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {

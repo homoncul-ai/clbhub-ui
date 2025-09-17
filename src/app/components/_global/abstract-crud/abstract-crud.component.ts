@@ -101,6 +101,9 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
           this.loadEntityById(this.id).then(entity => {
             this.entity = entity;
             this.setModeFromName(this.modeName);
+          }).catch(error => {
+            console.error('Error loading entity:', error);
+            this.switchToDetailMode();
           });
         } else {
           this.switchToDetailMode();

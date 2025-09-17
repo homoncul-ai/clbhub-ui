@@ -12,7 +12,7 @@
       </ng-container>
   </div>
   
-  <div class="select-bar" *ngIf="displayMode === 'select' && buttonBar.isHidingButtonBar()">
+  <div class="select-bar" *ngIf="displayMode === 'select' && !buttonBar.isHidingButtonBar()">
     <select 
       class="form-select"
       (change)="onDropdownChange($event)"

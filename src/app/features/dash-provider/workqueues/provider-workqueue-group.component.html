@@ -10,10 +10,9 @@
     
     
     <div *ngIf="currentTabId === 'ticket'">
-      {{ getTicket() | json }}
-      <!-- <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'"></app-workrequest-crud>   
-     <app-workrequest-update [id]="getTicketId()" modeName="detail"></app-workrequest-update>  -->
-          <!-- <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud> -->
+  
+   <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'"></app-workrequest-crud>   
+    <app-workrequest-update [id]="getTicketId()" modeName="detail"></app-workrequest-update>  
     
      
     </div>

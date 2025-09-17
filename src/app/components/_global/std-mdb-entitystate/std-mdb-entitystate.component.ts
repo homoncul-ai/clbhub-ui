@@ -32,6 +32,9 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
   currentStateChangeResponse: StateChangeFormResponse | null = null;
   menuControlDataList: MenuControlDataList | null = null;
   
+  // Cache for button bar to prevent recreation on every change detection
+  private _buttonBar: SimpleButtonBar | null = null;
+  
   constructor(private hcclService: HcclService) {}
   
   ngOnInit(): void {
@@ -43,12 +46,14 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this._buttonBar = null; // Clear button bar cache
   }
   
   /**
    * Load state change setup UI data
    */
   loadStateChangeSetup(): void {
+    debugger
     if (!this.entityName || !this.entityId) {
       this.error = 'Entity name and ID are required';
       return;
@@ -63,6 +68,7 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
         next: (response: StateChangeFormResponse) => {
           this.currentStateChangeResponse = response;
           this.menuControlDataList = response.nextStatesMenu || null;
+          this._buttonBar = null; // Clear button bar cache when menu items change
           this.isLoading = false;
           this.stateChangeResponse.emit(response);
         },
@@ -112,6 +118,7 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
         next: (response: StateChangeFormResponse) => {
           this.currentStateChangeResponse = response;
           this.menuControlDataList = response.nextStatesMenu || null;
+          this._buttonBar = null; // Clear button bar cache when menu items change
           this.isLoading = false;
           this.stateChangeResponse.emit(response);
           // force the parent page to refresh
@@ -147,11 +154,19 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
   }
 
   getSimpleButtonBar(): SimpleButtonBar {
-    // Convert the menuControlDataList to a SimpleButtonBar
-    var b : SimpleButtonBar = new SimpleButtonBar();
+    // Return cached button bar if it exists
+    if (this._buttonBar) {
+      return this._buttonBar;
+    }
+    
+    // Create new button bar
+    this._buttonBar = new SimpleButtonBar();
     this.menuItems.forEach(item => {
-      b.addButton(item.id || '', item.name || '', () => {this.onMenuItemSelected(item);});
+      this._buttonBar!.addButton(item.id || '', item.name || '', () => {
+        this.onMenuItemSelected(item);
+      });
     });
-    return b;
+    
+    return this._buttonBar;
   }
 }

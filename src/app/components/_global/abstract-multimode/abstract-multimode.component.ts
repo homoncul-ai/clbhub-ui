@@ -38,11 +38,14 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    this.loadEntityById(this.id).then((entity) => {
-      this.loading = false;
+    try {
+      const entity = await this.loadEntityById(this.id);
       this.entity = entity;
-    });
-    return Promise.resolve();
+    } catch (error) {
+      console.error('Error loading entity:', error);
+    } finally {
+      this.loading = false;
+    }
   }
 
   
@@ -60,12 +63,16 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   protected isLoading(): boolean {
     return this.loading;
   }
-  public enterMode(mode: string): void {
+  public async enterMode(mode: string): Promise<void> {
     this.loading = true;
-    this.prepareModeEntry(this.entity, mode).then(() => {
+    try {
+      await this.prepareModeEntry(this.entity, mode);
       this.currentMode = mode;
+    } catch (error) {
+      console.error('Error entering mode:', error);
+    } finally {
       this.loading = false;
-    });
+    }
   }
 
   protected async loadEntityById(id: string): Promise<R> {
