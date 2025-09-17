@@ -243,19 +243,20 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('User profile changed to:', selectedProfile);
     
     if (selectedProfile) {
-      
+
       // Here you can add logic to handle the profile change
       // For example, refresh the context with the new profile ID
       this.hcclContextService.initializeContext(selectedProfile.id || '').subscribe({
         next: (context) => {
           console.log('Context refreshed with new profile:', context);
-          
+
           // Check if we're already on a valid route
           const currentUrl = this._router.url;
           console.log('Current URL after profile change:', currentUrl);
 
           // Now, load the menu items for the new profile
           const dashboardType = this._menuService.getDashboardTypeFromContext(context);
+//          alert('Context refreshed with new profile:' + context.currentUserProfile.profileTypeCode + " " + dashboardType);
 //          const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
           const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
           const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
@@ -265,7 +266,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           do {
           // Get the first menu item, then compare it to the current URL, 
           // if they are the same, then stay on the current route, otherwise, navigate to the first menu item
-          const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newRawMenu);
           if (firstMenuItem) {
             console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
             this._router.navigate([firstMenuItem.route]);
@@ -291,7 +293,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           if (shouldRedirect) {
             console.log('Current URL requires redirect after profile change, getting first menu item');
             // Get the first navigable menu item using the menu service
-            const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+            //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+            const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newRawMenu);
             
             if (firstMenuItem) {
               console.log('Navigating to first menu item after profile change:', firstMenuItem.route);

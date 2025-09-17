@@ -163,10 +163,11 @@ export class MenuService {
    * @param menuItems - Array of menu items to search through
    * @returns The first navigable menu item or null if none found
    */
-  private findFirstNavigableMenuItem(menuItems: MenuItem[]): MenuItem | null {
+  public findFirstNavigableMenuItem(menuItems: MenuItem[]): MenuItem | null {
     console.log('Searching for first navigable menu item in:', menuItems);
     
-    for (const item of menuItems) {
+    let item: MenuItem;
+    for (item of menuItems) {
       console.log('Checking menu item:', item.label, 'route:', item.route);
       
       // If this item has a route, return it
