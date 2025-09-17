@@ -78,7 +78,7 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
           this.router.navigate([baseRoute, 'staffmember']);
         },
         () => {
-          return this.entity !== null;
+          return this.entity !== null && this.childId !== undefined;
         }
       )
     ];

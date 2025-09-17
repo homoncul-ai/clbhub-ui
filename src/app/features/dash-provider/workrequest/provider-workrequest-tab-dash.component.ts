@@ -1,7 +1,10 @@
+import { WorkQueueGETData, WorkQueueGETDataSearchResults } from './../../../restsvc/hccl.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclService, WorkQueueCriteria } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 
 @Component({
   selector: 'app-provider-workrequest-tab-dash',
@@ -12,30 +15,24 @@ import { HcclService } from '@app/restsvc/hccl.service';
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-tasks me-2"></i>
-                Work Request Dashboard
-              </h3>
-            </div>
             <div class="card-body">
               <!-- Action Required Tile -->
               <div class="row mb-4">
                 <div class="col-12">
-                  <h5>Action Required</h5>
+                  <h5> Queues </h5>
                   <div class="card">
                     <div class="card-body">
                       <div class="list-group">
-                        <div class="list-group-item" *ngFor="let ticket of getActionRequiredTickets()">
+                        <div class="list-group-item" *ngFor="let queue of getWorkQueues()">
                           <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">{{ ticket.businessCode }}</h6>
-                            <span class="badge bg-{{ ticket.priority === 'High' ? 'danger' : ticket.priority === 'Medium' ? 'warning' : 'info' }}">{{ ticket.priority }}</span>
+                            <h6 class="mb-1">{{ queue.businessCode }}</h6>
+                            <!-- <span class="badge bg-{{ ticket.priority === 'High' ? 'danger' : ticket.priority === 'Medium' ? 'warning' : 'info' }}">{{ ticket.priority }}</span> -->
                           </div>
-                          <p class="mb-1">{{ ticket.description }}</p>
-                          <small class="text-muted">Due: {{ ticket.dueDate }} | Assigned: {{ ticket.assignedTo }}</small>
+                          <p class="mb-1">{{ queue.description }}</p>
+                          <small class="text-muted">Active Tickets: {{ queue.stats?.openCount || 0 }} | Assigned: {{ queue.stats?.openCount || 0 }}</small>
                           <div class="mt-2">
-                            <button class="btn btn-sm btn-primary me-2">View Details</button>
-                            <button class="btn btn-sm btn-success">Take Action</button>
+                            <button class="btn btn-sm btn-primary me-2" (click)="viewWorkQueue(queue.id)">View Details</button>
+                            <button class="btn btn-sm btn-success" (click)="takeAction(queue.id)">Take Action</button>
                           </div>
                         </div>
                       </div>
@@ -139,18 +136,43 @@ import { HcclService } from '@app/restsvc/hccl.service';
     }
   `]
 })
-export class ProviderWorkrequestTabDashComponent implements OnInit {
-  // Inject services using inject() function for standalone components
-  private hcclContextService = inject(HcclContextService);
-  private hcclService = inject(HcclService);
-
+export class ProviderWorkrequestTabDashComponent extends AbstractMultimodeComponent <HcclOrganizationCrudWrapper>{
   constructor() {
-    console.log('ProviderWorkrequestTabDashComponent initialized');
+      super();
+      console.log('ProviderWorkrequestTabDashComponent');
   }
 
-  ngOnInit(): void {
-    this.loadWorkRequestData();
+
+  override async ngOnInit(): Promise<void> {
+    super.ngOnInit();
+    return Promise.resolve();
   }
+
+  
+  protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
+      return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
+  }
+  
+  protected workQueues: WorkQueueGETData[] = [];
+  protected getWorkQueues(): WorkQueueGETData[] {
+    return this.workQueues;
+  }
+  protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> { 
+    const workQueueCriteria : WorkQueueCriteria = {
+      organizationId: id,
+      externalQueue: 1,
+      includingStats: true,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
+    const workQueueRsp = await this.hcclService.findWorkQueues(workQueueCriteria).toPromise();
+    this. workQueues = workQueueRsp?.searchResults as WorkQueueGETData[] || [];
+
+    return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+
+  }  
+  
 
   protected getActionRequiredTickets(): any[] {
     // Mock data for now - replace with actual service call
@@ -195,5 +217,12 @@ export class ProviderWorkrequestTabDashComponent implements OnInit {
   protected loadWorkRequestData() {
     // TODO: Implement actual service call for work request data
     console.log('Loading work request data...');
+  }
+  protected viewWorkQueue(queueId: string | undefined) {
+    this.router.navigate([this.getBaseRoute(), 'queue', queueId]);
+    console.log('Viewing work queue: ' + queueId);
+  }
+  protected takeAction(queueId: string | undefined) {
+    console.log('Taking action for work queue: ' + queueId);
   }
 }

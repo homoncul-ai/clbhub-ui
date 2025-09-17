@@ -21,7 +21,11 @@ const routes: Routes = [
       { path: 'details/:tabId/:childId', component: ProviderDetailsGroupComponent },
       { path: 'details/:tabId', component: ProviderDetailsGroupComponent },
       { path: 'details', component: ProviderDetailsGroupComponent },
+      { path: 'workrequest/:tabId/:childId', component: ProviderWorkrequestGroupComponent },
+      { path: 'workrequest/:tabId', component: ProviderWorkrequestGroupComponent },
       { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
+      { path: 'catalog/:tabId/:childId', component: ProviderCatalogGroupComponent },
+      { path: 'catalog/:tabId', component: ProviderCatalogGroupComponent },
       { path: 'catalog', component: ProviderCatalogGroupComponent },
      
     ]

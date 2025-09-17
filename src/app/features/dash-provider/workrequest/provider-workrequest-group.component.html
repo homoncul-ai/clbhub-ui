@@ -1,1 +1,27 @@
-<app-simple-tabset [tabs]="tabs"></app-simple-tabset>
+<div *ngIf="!loading">
+    <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+  
+     
+  <div *ngIf="currentTabId === 'dash'">
+    <app-provider-workrequest-tab-dash  [id]="getOrganizationId()" modeName="detail"></app-provider-workrequest-tab-dash>
+  </div>
+
+  <div *ngFor="let queue of getWorkQueues()">
+  <div *ngIf="currentTabId === 'queue'">
+    <h3>{{getQueueById(currentTabId)?.businessCode}}</h3>
+  </div>
+ </div>
+
+
+</div>
+
+<div *ngIf="true">
+  <li>CurrentId :{{currentTabId}}</li>
+  <li>Id :{{id}}</li>
+  <li>ChildId :{{childId}}</li>
+  <li>Loading :{{loading}}</li>
+  <li>ShowingTabset :{{showingTabset}}</li>
+  <li>Tabs :{{tabs | json}}</li> 
+  <li>Tab: {{ tabId }}</li>
+  <li>OrganizationId :{{organizationId}}</li>
+    </div>

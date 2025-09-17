@@ -2921,6 +2921,7 @@ export interface CatalogEntryInterestCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   catalogId?: string;
   catalogEntryId?: string;
   personalStatementId?: string;
@@ -3033,6 +3034,7 @@ export interface CatalogEntryCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   catalogId?: string;
   entryCode?: string;
   title?: string;
@@ -3140,6 +3142,7 @@ export interface CatalogEntryTagCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   catalogId?: string;
   catalogEntryId?: string;
   tagId?: string;
@@ -3200,6 +3203,7 @@ export interface CatalogSearchResultEntryCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   catalogSearchResultId?: string;
   catalogEntryId?: string;
   catalogId?: string;
@@ -3252,6 +3256,7 @@ export interface CatalogSearchResultCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   catalogId?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
@@ -3301,6 +3306,7 @@ export interface CatalogSearchCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   searchName?: string;
   businessCode?: string;
   description?: string;
@@ -3339,6 +3345,7 @@ export interface CatalogCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -3398,6 +3405,7 @@ export interface CatalogTagRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   tagCode?: string;
   tagValueType?: string;
   tagMaxValue?: number;
@@ -3450,6 +3458,7 @@ export interface ExperienceLocationCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -3499,6 +3508,7 @@ export interface ExperienceRegRuleCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -3564,6 +3574,7 @@ export interface ExperienceCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -3631,6 +3642,7 @@ export interface ExperienceTypeCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -3690,6 +3702,7 @@ export interface CLCourseCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -3767,6 +3780,7 @@ export interface CLGuidanceCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -3845,6 +3859,7 @@ export interface CLSchoolCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -3923,6 +3938,7 @@ export interface CLStudentCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -3991,6 +4007,7 @@ export interface PMBucketFolderCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   nameText?: string;
   businessCode?: string;
   bucketName?: string;
@@ -4038,6 +4055,7 @@ export interface PMFileBlobCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   pmfileId?: string;
   pathToFile?: string;
 }
@@ -4108,6 +4126,7 @@ export interface PMFileCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   downloadAs?: string;
   logicalPath?: string;
   fileAccessCode?: string;
@@ -4189,6 +4208,7 @@ export interface ProviderCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4241,6 +4261,7 @@ export interface ProviderTypeRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4285,6 +4306,7 @@ export interface ProviderUserCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   userCode?: string;
 }
 
@@ -4340,6 +4362,7 @@ export interface ProviderRequestCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4401,6 +4424,7 @@ export interface ProviderRequestTypeRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4465,6 +4489,7 @@ export interface StateTransitionLogCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   nameText?: string;
   transactionReferenceId?: string;
   parentId?: string;
@@ -4536,6 +4561,7 @@ export interface TaxonomyEntryCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -4592,6 +4618,7 @@ export interface TaxonomyLevelCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -4644,6 +4671,7 @@ export interface TaxonomyCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -4706,6 +4734,7 @@ export interface HcclOrganizationCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4764,6 +4793,7 @@ export interface HcclOrganizationTypeRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4816,6 +4846,7 @@ export interface HcclTeamLogCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   nameText?: string;
   description?: string;
   teamId?: string;
@@ -4867,6 +4898,7 @@ export interface HcclTeamMemberRoleCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   teamId?: string;
   teamMemberId?: string;
   teamMemberRoleId?: string;
@@ -4917,6 +4949,7 @@ export interface HcclTeamMemberCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   teamId?: string;
   userId?: string;
   userProfileId?: string;
@@ -4977,6 +5010,7 @@ export interface HcclTeamCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5032,6 +5066,7 @@ export interface HcclUserProfileRoleCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   roleCode?: string;
   userProfileId?: string;
   organizationId?: string;
@@ -5183,6 +5218,7 @@ export interface HcclUserProfileCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   userId?: string;
   userCode?: string;
   organizationId?: string;
@@ -5237,6 +5273,7 @@ export interface HcclUserCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5289,6 +5326,7 @@ export interface TeamMemberRoleRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5333,6 +5371,7 @@ export interface TeamTypeMemberRoleRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   teamType?: RelationshipGETData;
   teamMemberRole?: RelationshipGETData;
   available?: number;
@@ -5377,6 +5416,7 @@ export interface TeamTypeRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5445,6 +5485,7 @@ export interface WorkItemDeliverableCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   workRequestId?: string;
   workRequestItemId?: string;
   nameText?: string;
@@ -5520,6 +5561,7 @@ export interface WorkQueueStatsPOJO {
   entryCountBegin?: number;
   entryCountEnd?: number;
   createdCount?: number;
+  openCount?: number;
   closedCount?: number;
   cancelledCount?: number;
 }
@@ -5532,6 +5574,7 @@ export interface WorkQueueCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5592,6 +5635,7 @@ export interface WorkQueueTypeRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5635,6 +5679,7 @@ export interface WorkRequestItemCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   workRequestId?: string;
   nameText?: string;
   businessCode?: string;
@@ -5717,6 +5762,7 @@ export interface WorkRequestLogCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   nameText?: string;
   description?: string;
   transactionReferenceId?: string;
@@ -5782,6 +5828,7 @@ export interface WorkRequestRoutingReasonCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5833,6 +5880,7 @@ export interface WorkRequestCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5919,6 +5967,7 @@ export interface WorkRequestTeamCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5973,6 +6022,7 @@ export interface WorkRequestTypeRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6035,6 +6085,7 @@ export interface PersonalStatementCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6101,6 +6152,7 @@ export interface VocationEncodingInstanceCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   vocationEncodingId?: string;
   encodingName?: string;
   vocationEncodingRefId?: string;
@@ -6147,6 +6199,7 @@ export interface VocationEncodingRefCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6213,6 +6266,7 @@ export interface VocationEncodingCriteria {
   idsToExclude?: string[];
   searchByText?: string;
   maxResults?: number;
+  orderByHint?: string;
   encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;

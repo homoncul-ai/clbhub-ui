@@ -55,7 +55,6 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
       this. childId = params['childId'];
       
 
-    //debugger
       if (this.id === undefined || this.id === '') {
         this.id = this.getDefaultId();
       }
@@ -80,6 +79,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
      } else if (!id ) {
         this.setupIfNoId();
      } else {
+        this.currentTabId = tabId;
         this.loadEntityById(id).then(entity => {
           this.entity = entity;
           this.tabs = this.setupTabs();
@@ -89,9 +89,9 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
             tabId = defaultTabId;
           }
 
-          // debugger
+          //debugger
           const finalTabId = tabId || defaultTabId;
-                    this.currentTabId = finalTabId;
+          this.currentTabId = finalTabId;
             
         }).catch(error => {
           console.error('Error loading :', error);
