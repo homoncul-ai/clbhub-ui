@@ -104,14 +104,6 @@ export class ProviderWorkrequestGroupComponent extends AbstractEntityGroupCompon
     return x;
   }
 
-  protected getWorkRequestCriteriaForQueue(queueId: string): WorkRequestCriteria {
-    return {
-      workQueueId: queueId,
-      pageNumber: 1,
-      pageSize: 50,
-      isPaging: true
-    };
-  }
 
   protected getWorkRequestCriteriaForMyTickets(): WorkRequestCriteria {
     return {

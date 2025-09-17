@@ -1,17 +1,25 @@
 <div *ngIf="!loading">
     <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
   
-     
+    
   <div *ngIf="currentTabId === 'queue'">
-  {{ getQueue() | json }}
-    <!-- <app-provider-workrequest-tab-dash  [id]="getOrganizationId()" modeName="detail"></app-provider-workrequest-tab-dash> -->
-  </div>
-
-
+    <app-workrequest-list [criteria]="getWorkRequestCriteriaForQueue()" [showingSearchHeading]="false" 
+      [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+      [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>  
+    </div>
+    
+    
+    <div *ngIf="currentTabId === 'ticket'">
+      <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'"></app-workrequest-crud>   
+     <app-workrequest-update [id]="getTicketId()" modeName="detail"></app-workrequest-update> 
+          <!-- <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud> -->
+    
+     
+    </div>
+        
+      
   <div *ngIf="currentTabId === 'mytickets'">
-    <app-workrequest-list [criteria]="getWorkRequestCriteriaForMyTickets()" [showingSearchHeading]="false" 
-    [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
-    [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>  
+    
   </div>
 
   <!-- <div *ngFor="let queue of getWorkQueues()">
@@ -24,9 +32,11 @@
 <div *ngIf="true">
   <li>CurrentId :{{currentTabId}}</li>
   <li>QueueId :{{queueId}}</li>
-  <li>Queue :{{getQueue() | json}}</li>
+  <li>Queue :{{getQueue()?.name }}</li>
   <li>Id :{{id}}</li>
   <li>ChildId :{{childId}}</li>
+  <li>TicketId :{{ticketId}}</li>
+  <li>Ticket :{{getTicket()?.name }}</li>
   <li>Loading :{{loading}}</li>
   <li>ShowingTabset :{{showingTabset}}</li>
   <li>Tabs :{{tabs | json}}</li> 

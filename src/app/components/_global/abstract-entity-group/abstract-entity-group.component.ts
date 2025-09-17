@@ -57,22 +57,32 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
     this.route.params.subscribe(params => {
     
       this.populateFromParams(params)
-      let tabId = this.tabId;
+      
 
       if (this.id === undefined || this.id === '') {
         this.id = this.getDefaultId();
       }
 
-      const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
-      if (urlSegments.length > 0) {
-        let tabIdT = urlSegments[urlSegments.length - 1];
-        if (tabIdT.includes('#')) {
-          tabIdT = tabIdT.split('#')[0];
-        }
-        if (this.tabs.find(tab => tab.id === tabIdT)) {
-          tabId = tabIdT;
-        }
+      this.calculateTabIds();
+      
+    });
+  }
+
+  protected calculateTabIdFromUrl(tabId_in: string): string {
+    let tabId = tabId_in;
+    const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+    if (urlSegments.length > 0) {
+      let tabIdT = urlSegments[urlSegments.length - 1];
+      if (tabIdT.includes('#')) {
+        tabIdT = tabIdT.split('#')[0];
       }
+      tabId = tabIdT;
+    }
+    return tabId;
+  }
+
+  protected calculateTabIds(): void {
+    let tabId = this.calculateTabIdFromUrl(this.tabId);
  
       var id = this.id;
      // debugger
@@ -101,9 +111,8 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
           console.error('Error loading :', error);
         });
       }
-    });
-  }
-
+    }
+  
   protected setupIfNoId(): void {
     this.currentTabId = 'create';
     this.showingTabset = true;

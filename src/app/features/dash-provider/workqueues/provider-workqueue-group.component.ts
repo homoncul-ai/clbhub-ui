@@ -3,22 +3,29 @@ import { CommonModule } from '@angular/common';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclUserContextGETData, WorkQueueCriteria, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
+import { HcclUserContextGETData, WorkQueueCriteria, WorkQueueGETData, WorkRequestCriteria, WorkRequestGETData } from '@app/restsvc/hccl.service';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { HttpParams } from '@angular/common/http';
+import { WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
+import { WorkrequestUpdateComponent } from '@app/components/_crud/workrequest/workrequest-update.component';
+import { ProviderRequestCrudComponent } from '@app/components/_crud/providerrequest/providerrequest-crud.component';
 
 @Component({
   selector: 'app-provider-workqueue-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, WorkRequestListComponent],
+  imports: [CommonModule, SimpleTabsetComponent, 
+    WorkRequestListComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
+    ProviderRequestCrudComponent],
   templateUrl: './provider-workqueue-group.component.html',
   styleUrl: './provider-workqueue-group.component.scss'
 })
 export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {
 
   @Input() queueId: string = '';
+  @Input() ticketId: string = '';
+ 
   override ngOnInit(): void {
     // For singleton behavior, always use current user profile ID
     this.hcclContextService.refreshContext().subscribe(context => {
@@ -30,11 +37,25 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
       super.ngOnInit();
     });
   }
-
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+    let tabId = this.queueId != null && this.queueId != '' ? 'queue' : tabId_in;
+    tabId = this.ticketId != null && this.ticketId != '' ? 'ticket' : tabId;
+    // const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+    // if (urlSegments.length > 0) {
+    //   let tabIdT = urlSegments[urlSegments.length - 1];
+    //   if (tabIdT.includes('#')) {
+    //     tabIdT = tabIdT.split('#')[0];
+    //   }
+    //   tabId = tabIdT;
+    // }
+    return tabId;
+  }
 
   protected override populateFromParams(params: any): void {
     super.populateFromParams(params);
     this.queueId = params['queueId'];
+    this.ticketId = params['ticketId'];
+    //alert('queueId: ' + this.queueId + ' ticketId: ' + this.ticketId);
   }
   protected defaultId: string = '';
   protected override getDefaultId(): string {
@@ -55,6 +76,10 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
   protected getQueue(): WorkQueueGETData | undefined {
     return this.queue;
   }
+  protected ticket: WorkRequestGETData | undefined;
+  protected getTicket(): WorkRequestGETData | undefined {
+    return this.ticket;
+  }
   protected async loadEntityById(id: string): Promise<HcclUserProfileCrudWrapper> { 
     let workQueueCriteria : WorkQueueCriteria = {
       organizationId: this.organizationId,
@@ -68,17 +93,27 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
         workQueueCriteria.ids = [this.queueId];
     }
 
-    if (this.queueId == null && this.queueId == '') {
         const workQueueRsp = await this.hcclService.findWorkQueues(workQueueCriteria).toPromise();
         this. workQueues = workQueueRsp?.searchResults as WorkQueueGETData[] || [];
         if (this.workQueues.length > 0) {
             this.queue = this.workQueues[0];
             this.queueId = this.queue?.id || '--none--';
-        }
-    }
-    this.tabId = 'queue';
+            this.tabId = 'queue';
     
+        }
+    
+    if (this.ticketId != null && this.ticketId != '') {
+        const tiketRsp = await this.hcclService.getWorkRequestById(this.ticketId).toPromise();
+        this.ticket = tiketRsp as WorkRequestGETData;
+        this.ticketId = this.ticket?.id || '--none--';
+        this.tabId = 'ticket';
+    }
+    //alert('ticketId: ' + this.ticketId + ' ticket: ' + this.getTicket()?.name);
     return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
+  }
+
+  protected getTicketId(): string {
+    return this.ticketId;
   }
 
   protected organizationId : string = '';
@@ -89,7 +124,7 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
   protected setupTabs(): SimpleTab[] {
     const baseRoute = this.getBaseRoute();
     var tabs: SimpleTab[] = [
-      new SimpleTab('queue', 'Queue', '', 
+      new SimpleTab('queue', '' + this.getQueue()?.name, '', 
         () => {
           this.router.navigate([baseRoute]);
         },
@@ -97,7 +132,16 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
           return true;
         }
       )];
-      
+      if (this.ticketId != null && this.ticketId != '') {
+        tabs.push(new SimpleTab('ticket', 'Ticket ' + this.getTicketId(), '', 
+          () => {
+            this.router.navigate([baseRoute, this.getTicketId()]);
+          },
+          () => {
+            return true;
+          }
+        ));
+      }
     //   tabs.push(new SimpleTab('mytickets', "My Open Tickets", '', 
     //     () => {
     //       this.router.navigate([baseRoute, 'mytickets']);
@@ -112,7 +156,7 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
   }
 
   protected override getDefaultTabId(): string {
-    return 'dash';
+    return 'queue';
   }
 
   protected getQueueById(id: string): WorkQueueGETData | undefined {
@@ -125,24 +169,26 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
     //x.alertMessage = 'Ticket';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
-      return ['/provider-dashboard', 'workrequest', 'mytickets', id];
+      return ['/provider-dashboard', 'workqueues', this.queueId, id];
     };
     //x.alertMessage = 'Catalog Entry';
     return x;
   }
-
-  protected getWorkRequestCriteriaForQueue(queueId: string): WorkRequestCriteria {
-    return {
-      workQueueId: queueId,
-      pageNumber: 1,
-      pageSize: 50,
-      isPaging: true
-    };
-  }
+ 
 
   protected getWorkRequestCriteriaForMyTickets(): WorkRequestCriteria {
     return {
       acceptedByUserId: this.hcclContextService.getCurrentUserProfile().id || ''
+    };
+  }
+
+
+  protected getWorkRequestCriteriaForQueue(): WorkRequestCriteria {
+    return {
+      workQueueId: this.queueId || '',
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 }
