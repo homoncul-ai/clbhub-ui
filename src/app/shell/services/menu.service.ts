@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HcclService, HcclUserContextGETData, WorkQueueGETData } from '@app/restsvc/hccl.service';
 
 export interface MenuItem {
   level: number;
@@ -17,6 +18,9 @@ export interface MenuItem {
   providedIn: 'root'
 })
 export class MenuService {
+  constructor(private hcclService: HcclService) {
+  }
+
 
   /**
    * 	String DASHBOARD_ECOADMIN = "EcoAdmin"; // 
@@ -29,6 +33,39 @@ export class MenuService {
 
    * 
    */
+  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): string {
+    switch (dashboardType) {
+      case 'advocate':
+  //    case 'nonprofit':
+        return 'advocate-dashboard';
+      case 'service-provider':
+        return 'provider-dashboard';
+      case 'ecoadmin':
+        return 'ecoadmin-dashboard';
+      case 'student':
+        return 'student-dashboard';
+
+      default:
+        alert('Unknown dashboard type:' + dashboardType);
+        return 'advocate-dashboard';
+ 
+    }
+    return '';
+  }
+
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | null {
+    if (route.startsWith('/advocate-dashboard')) {
+      return 'advocate';
+    } else if (route.startsWith('/provider-dashboard')) {
+      return 'service-provider';
+    } else if (route.startsWith('/ecoadmin-dashboard')) {
+      return 'ecoadmin';
+    } else if (route.startsWith('/student-dashboard')) {
+      return 'student';
+    }
+    return null;
+  }
+
   public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
@@ -71,6 +108,31 @@ export class MenuService {
         return 'advocate';
     }
   }
+  queues : WorkQueueGETData[] = [];
+  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): Promise<MenuItem[]> { 
+    switch (dashboardType) {
+      case 'service-provider':
+        const workQueueCriteria = {
+          organizationId: context.currentUserProfile.organizationId,
+          externalQueue: 1,
+          includingStats: true,
+          pageNumber: 1,
+          pageSize: 50,
+          isPaging: true
+        }
+        const queuRsp = await this.hcclService.findWorkQueues(workQueueCriteria).toPromise();
+        this.queues  = queuRsp?.searchResults as WorkQueueGETData[] || [];
+        break;
+      case 'advocate':
+      case 'nonprofit':
+      case 'ecoadmin':
+      case 'student':
+      default:
+        break;
+    }
+    return this.getMenuItems(dashboardType);
+  }
+
 
   getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): MenuItem[] {
     switch (dashboardType) {
@@ -89,38 +151,6 @@ export class MenuService {
     }
   }
 
-  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): string {
-    switch (dashboardType) {
-      case 'advocate':
-  //    case 'nonprofit':
-        return 'advocate-dashboard';
-      case 'service-provider':
-        return 'provider-dashboard';
-      case 'ecoadmin':
-        return 'ecoadmin-dashboard';
-      case 'student':
-        return 'student-dashboard';
-
-      default:
-        alert('Unknown dashboard type:' + dashboardType);
-        return 'advocate-dashboard';
- 
-    }
-    return '';
-  }
-
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | null {
-    if (route.startsWith('/advocate-dashboard')) {
-      return 'advocate';
-    } else if (route.startsWith('/provider-dashboard')) {
-      return 'service-provider';
-    } else if (route.startsWith('/ecoadmin-dashboard')) {
-      return 'ecoadmin';
-    } else if (route.startsWith('/student-dashboard')) {
-      return 'student';
-    }
-    return null;
-  }
 
   /**
    * Get the first navigable menu item based on user context and redirect to it
@@ -128,13 +158,13 @@ export class MenuService {
    * @param router - The Angular router service for navigation
    * @returns The first navigable menu item or null if none found
    */
-  getFirstNavigableMenuItem(context: any, router: Router): MenuItem | null {
+  async getFirstNavigableMenuItem(context: any, router: Router): Promise<MenuItem | null> {
     console.log('Starting menu navigation process');
     
     // Get the first menu item based on user context or default to advocate
     const dashboardType = this.getDashboardTypeFromContext(context);
     console.log('Determined dashboard type:', dashboardType);
-    const menuItems = this.getMenuItems(dashboardType);
+    const menuItems = await this.getMenuItemsAsyc(context, dashboardType);
     console.log('Retrieved menu items for dashboard type:', dashboardType, 'count:', menuItems.length);
     
     if (menuItems.length > 0) {
@@ -149,7 +179,8 @@ export class MenuService {
       console.log('No menu items found for dashboard type:', dashboardType);
     }
     
-    return null;
+    const firstMenuItem = menuItems[0];
+    return firstMenuItem;
   }
 
   /**
@@ -343,6 +374,18 @@ export class MenuService {
     
     // Add Provider Work Request Dashboard with children
     const workrequest = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST);
+    alert('queues: ' + this.queues.length);
+    for (const queue of this.queues) {
+      let menuItem =  {
+        level: 2,
+        label: '' + queue.businessCode,
+        route: '/provider-dashboard/workrequest/queue/' + queue.id,
+        componentPath: 'src/app/features/dash-provider/workrequest',
+        componentName: 'provider-workrequest-tab-dash',
+        icon: 'fas fa-ticket-alt'
+      };
+      this.addChildMenuItem(workrequest, menuItem);
+    }
     this.addChildMenuItem(workrequest, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST_TAB_DASH));
     this.addMenuItem(menu, workrequest);
     

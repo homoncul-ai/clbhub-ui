@@ -62,6 +62,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!event.url.includes('state=') && !event.url.includes('code=')) {
           this.currentRoute = event.url;
           console.log('Route changed:', this.currentRoute);
+
           if (this.menuItems.length == 0) {
             const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
             const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
@@ -255,8 +256,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
 
           // Now, load the menu items for the new profile
           const dashboardType = this._menuService.getDashboardTypeFromContext(context);
-
-          const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
+          //const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
+           this._menuService.getMenuItemsAsyc(context, dashboardType).then(newRawMenu => {
           const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
 
           this.menuItems = newMenuItems;
@@ -304,7 +305,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
             console.log('Current URL is valid after profile change, staying on route:', currentUrl);
             // Stay on the current route - no navigation needed
           }
+        
         } while (false);
+        });
         },
         error: (error) => {
           console.error('Failed to refresh context with new profile:', error);

@@ -74,17 +74,17 @@ export class AppComponent implements OnInit, OnDestroy {
         if (shouldRedirect) {
           console.log('Current URL requires redirect, getting first menu item');
           // Get the first navigable menu item using the menu service
-          const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
-          //const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newMenuItems);
-          
+           const firstMenuItem =  this._menuService.getFirstNavigableMenuItem(context, this._router)
+            .then(firstMenuItem => {
           if (firstMenuItem) {
             console.log('Redirecting to first menu item:', firstMenuItem.route);
             this._router.navigate([firstMenuItem.route]);
-          } else {
-            console.log('No navigable menu items found, redirecting to default dashboard');
-            // Fallback to default dashboard
-            this._router.navigate(['/advocate-dashboard']);
-          }
+            } else {
+              console.log('No navigable menu items found, redirecting to default dashboard');
+              // Fallback to default dashboard
+              this._router.navigate(['/advocate-dashboard']);
+            }
+          });
         } else {
           console.log('Current URL is valid, staying on route:', currentUrl);
           // Stay on the current route - no navigation needed
