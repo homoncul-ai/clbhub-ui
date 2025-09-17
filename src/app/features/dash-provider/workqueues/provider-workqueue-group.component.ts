@@ -124,7 +124,7 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
   protected setupTabs(): SimpleTab[] {
     const baseRoute = this.getBaseRoute();
     var tabs: SimpleTab[] = [
-      new SimpleTab('queue', '' + this.getQueue()?.name, '', 
+      new SimpleTab('queue', 'Queue: ' + this.getQueue()?.name, '', 
         () => {
           this.router.navigate([baseRoute]);
         },
@@ -132,8 +132,9 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
           return true;
         }
       )];
+
       if (this.ticketId != null && this.ticketId != '') {
-        tabs.push(new SimpleTab('ticket', 'Ticket ' + this.getTicketId(), '', 
+        tabs.push(new SimpleTab('ticket', '' + this.getTicket()?.businessCode, '', 
           () => {
             this.router.navigate([baseRoute, this.getTicketId()]);
           },

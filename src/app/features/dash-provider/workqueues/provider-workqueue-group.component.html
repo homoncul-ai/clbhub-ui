@@ -10,8 +10,9 @@
     
     
     <div *ngIf="currentTabId === 'ticket'">
-      <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'"></app-workrequest-crud>   
-     <app-workrequest-update [id]="getTicketId()" modeName="detail"></app-workrequest-update> 
+      {{ getTicket() | json }}
+      <!-- <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'"></app-workrequest-crud>   
+     <app-workrequest-update [id]="getTicketId()" modeName="detail"></app-workrequest-update>  -->
           <!-- <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud> -->
     
      
@@ -27,10 +28,9 @@
  </div> -->
 
 
-</div>
 
 <div *ngIf="true">
-  <li>CurrentId :{{currentTabId}}</li>
+  <li>CurrentTabId :{{currentTabId}}</li>
   <li>QueueId :{{queueId}}</li>
   <li>Queue :{{getQueue()?.name }}</li>
   <li>Id :{{id}}</li>
@@ -43,3 +43,5 @@
   <li>Tab: {{ tabId }}</li>
   <li>OrganizationId :{{organizationId}}</li>
     </div>
+
+  </div>
