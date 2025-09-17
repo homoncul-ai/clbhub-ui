@@ -62,12 +62,12 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!event.url.includes('state=') && !event.url.includes('code=')) {
           this.currentRoute = event.url;
           console.log('Route changed:', this.currentRoute);
-
-          const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
-          const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
-          const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
-
-          this.menuItems = newMenuItems;
+          if (this.menuItems.length == 0) {
+            const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
+            const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
+            const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
+            this.menuItems = newMenuItems;
+          }
 
           if (this.tree) {
             const openedIds = this.tree.getState().opened;
@@ -243,7 +243,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateUserProfile(userProfileId: string): void {
-    {      // Here you can add logic to handle the profile change
+        // Here you can add logic to handle the profile change
       // For example, refresh the context with the new profile ID
       this.hcclContextService.initializeContext(userProfileId).subscribe({
         next: (context) => {
@@ -255,8 +255,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
 
           // Now, load the menu items for the new profile
           const dashboardType = this._menuService.getDashboardTypeFromContext(context);
-//          alert('Context refreshed with new profile:' + context.currentUserProfile.profileTypeCode + " " + dashboardType);
-//          const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
+
           const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
           const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
 
@@ -311,6 +310,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           console.error('Failed to refresh context with new profile:', error);
         }
       });
-    }
+    
   }
 }

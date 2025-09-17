@@ -75,6 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
           console.log('Current URL requires redirect, getting first menu item');
           // Get the first navigable menu item using the menu service
           const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          //const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newMenuItems);
           
           if (firstMenuItem) {
             console.log('Redirecting to first menu item:', firstMenuItem.route);
