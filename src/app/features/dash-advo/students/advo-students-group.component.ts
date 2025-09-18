@@ -32,7 +32,10 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
     });
 
   }
- 
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+    let tabId = this.tabId;
+    return tabId;
+  }
 
   protected defaultId: string = '';
   protected override getDefaultId(): string {
