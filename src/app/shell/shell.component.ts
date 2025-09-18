@@ -260,7 +260,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       this.hcclContextService.initializeContext(userProfileId).subscribe({
         next: (context) => {
           console.log('Context refreshed with new profile:', context);
-
+          
           // Check if we're already on a valid route
           const currentUrl = this._router.url;
           console.log('Current URL after profile change:', currentUrl);

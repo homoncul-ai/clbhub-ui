@@ -11,6 +11,7 @@ import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import { effect } from '@angular/core';
 import { HcclContextService } from './shell/services/hccl-context.service';
 import { MenuService } from './shell/services/menu.service';
+import { routes } from './app.routes';
 
 @UntilDestroy()
 @Component({
@@ -51,16 +52,50 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   private initializeHcclContextAndRedirect(): void {
     console.log('Starting HCCL context initialization and redirect process ');
+   // alert('app.component.ts: Whoax:' + this._router.url + " " + this._hcclContextService.isInitialized());
+    if (this._router.url === '/') {
+      this._hcclContextService.initializeContext('').subscribe({
+        next: (context) => {
+          do {
+          console.log('app.component.ts: HCCL context loaded successfully:', context);
+          // Check if we're already on a valid route
+     
+            const dashboardType = this._menuService.getDashboardTypeFromContext(context);
+            var dashUrl = this._menuService.getRouteFromDashboardType(dashboardType);     
+            this._router.navigate(["/" + dashUrl]);    
+      
+           // alert('app.component.ts: Redirecting to dashboard:' + dashUrl);
+       
+        } while (false);
+        },
+      error: (error) => {
+        console.error('Failed to initialize HCCL context:', error);
+        // On error, redirect to default dashboard
+        this._router.navigate(['/advocate-dashboard']);
+      }
+    }
+    );
+    }
+  }
+ 
+  
+  private initializeHcclContextAndRedirectOrig(): void {
+ 
+  if (this._router.url === '/') 
     this._hcclContextService.initializeContext('').subscribe({
       next: (context) => {
+        do {
         console.log('app.component.ts: HCCL context loaded successfully:', context);
         // Check if we're already on a valid route
         let currentUrl = this._router.url;
-        if (!currentUrl || currentUrl === '/') {
+        if (!currentUrl || currentUrl === '/' || 
+          currentUrl === '/login') {
           const dashboardType = this._menuService.getDashboardTypeFromContext(context);
-          currentUrl = this._menuService.getRouteFromDashboardType(dashboardType);         
+          var dashUrl = this._menuService.getRouteFromDashboardType(dashboardType);     
+          this._router.navigate([dashUrl]);    
+          continue;
         }
-
+         
         console.log('Current URL :', currentUrl);
         // Check if the current URL is empty, root, or contains auth-related parameters
         const shouldRedirect = !currentUrl || 
@@ -92,6 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
           //debugger
 
         }
+        } while (false);
       },
       error: (error) => {
         console.error('Failed to initialize HCCL context:', error);
