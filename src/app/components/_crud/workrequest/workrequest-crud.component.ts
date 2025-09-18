@@ -17,7 +17,7 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
-import { WorkrequesttyperefCrudComponent } from '@app/components/_crud/workrequesttyperef/workrequesttyperef-crud.component';
+import { WorkrequesttyperefCrudComponent, WorkRequestTypeRefCrudWrapper } from '@app/components/_crud/workrequesttyperef/workrequesttyperef-crud.component';
 import { WorkqueueCrudComponent } from '@app/components/_crud/workqueue/workqueue-crud.component';
 import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
 import { HccluserCrudComponent } from '@app/components/_crud/hccluser/hccluser-crud.component';
@@ -186,10 +186,25 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
     this.clearEntityCache();
   }
 
+  public get workRequestTypeRefCrudWrapper(): WorkRequestTypeRefCrudWrapper | null {
+    return this._workRequestTypeRefCrudWrapper;
+  }
+
+  public set workRequestTypeRefCrudWrapper(value: WorkRequestTypeRefCrudWrapper | null) {
+    this._workRequestTypeRefCrudWrapper = value;
+  }
+
+  protected _workRequestTypeRefCrudWrapper: WorkRequestTypeRefCrudWrapper | null = null;
+  protected workRequestTypeCode: string | null = null;
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
-    const workrequest = await this.hcclService.getWorkRequestById(id).toPromise();
+    const workrequestRsp = await this.hcclService.getWorkRequestById(id).toPromise();
+    const workrequest = workrequestRsp as WorkRequestGETData;
     if (!workrequest) {
       throw new Error('WorkRequest not found');
+    }
+    if (this.modeName === CRUD_MODES.PARENT) {
+      this.workRequestTypeRefCrudWrapper = await WorkRequestTypeRefCrudWrapper.newInstance(workrequest.workRequestTypeId || '', this.hcclService);
+      this.workRequestTypeCode = this.workRequestTypeRefCrudWrapper?.getBusinessCode() || null;
     }
     return new WorkRequestCrudWrapper(workrequest, this.hcclService);
   }

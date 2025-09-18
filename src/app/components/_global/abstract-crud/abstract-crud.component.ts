@@ -206,7 +206,8 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     CRUD_MODES.HEADING,
     CRUD_MODES.FK,
     CRUD_MODES.FK_MENU,
-    CRUD_MODES.DEBUG
+    CRUD_MODES.DEBUG,
+    CRUD_MODES.PARENT
     ];
   protected currentMode: CrudModeType | null = null;
 
@@ -233,6 +234,9 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   }
   public get isFkMenuMode(): boolean {
     return this.currentMode === CRUD_MODES.FK_MENU;
+  }
+  public get isParentMode(): boolean {
+    return this.currentMode === CRUD_MODES.PARENT;
   }
   protected switchToCreateMode(): void {
     if (!this.entityNew) {

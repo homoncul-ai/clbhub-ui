@@ -55,6 +55,33 @@
 </div>
 
 
+
+<div *ngIf="!isLoading && getMode() === CRUD_MODES.PARENT" class="section-mode">
+
+  <div class="details-section">
+    <div class="detail-group">
+      <label>Work Request Type:</label>
+      <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
+    </div>
+    <!-- Left Column --> 
+      <div class="detail-group">
+        <label>Name :</label>
+        <span>{{ name }}</span>  
+      </div>
+     
+      <div class="detail-group">
+        <label>Business Code:</label>
+        <span>{{ businessCode }}</span>
+      </div>
+     
+      <div class="detail-group">
+        <label>Type of Work Request:</label>
+        <span>{{ workRequestTypeCode }}</span>
+      </div>
+  </div>
+</div>
+
+
 <div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
 <!-- Heading Mode -->
 <h3>{{ getCurrentEntity().getDisplayText() }}</h3>

@@ -14,7 +14,8 @@ export const CRUD_MODES = {
   HEADING: 'heading',
   FK: 'fk',
   FK_MENU: 'fk_menu',
-  DEBUG: 'debug'
+  DEBUG: 'debug',
+  PARENT: 'parent'
 } as const;
 
 export type CrudModeType = typeof CRUD_MODES[keyof typeof CRUD_MODES];
