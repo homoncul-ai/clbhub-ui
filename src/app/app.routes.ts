@@ -33,13 +33,13 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'advocate-dashboard',
+        redirectTo: 'advocate-dashboard-bungabunga',
         pathMatch: 'full'
       },
     ]
   },
   {
     path: '**',
-    redirectTo: 'advocate-dashboard'
+    redirectTo: 'advocate-dashboard-bungabunga2'
   }
 ];

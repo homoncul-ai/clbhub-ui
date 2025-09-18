@@ -62,7 +62,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
         //if (true ||!event.url.includes('state=') && !event.url.includes('code=')) {
           this.currentRoute = event.url;
           console.log('Route changed:', this.currentRoute);
-
+          //alert('Route changed:' + this.currentRoute);
           if (this.menuItems.length == 0) {
             const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
             const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
@@ -105,7 +105,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     if (environment.production) {
       Logger.enableProductionMode();
     }
-
+    const currentUrl = this._router.url;
     this._i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
     this.userDetails = this.appConstants.userDetails();
@@ -113,17 +113,18 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loggedInUserInitials = this.user.match(/\b(\w)/g)?.join('');
 
     // Subscribe to HCCL context changes to update user profile menu
-   // if (this.hcclContextService.isInitialized() == false) {
-    this.hcclContextService.initializeContext();
-    this.hcclContextService.waitForReady().then(() => { 
-    const context = this.hcclContextService.getContext();
-    //alert('User profile menu updated:' + JSON.stringify(context));
-    if (context) {
-      this.userProfileMenu = context.userProfileMenu;
-      console.log('User profile menu updated:', this.userProfileMenu + ' ' + context.currentUserProfileId);
-      //this.updateUserProfile(context.currentUserProfileId || '');
+    if (this.hcclContextService.isInitialized() == false) {
+        this.hcclContextService.initializeContext();
+        this.hcclContextService.waitForReady().then(() => { 
+          const context = this.hcclContextService.getContext();
+           // alert('shell.component.ts: User profile menu updated: ' +  context?.currentUserProfileId + ' ' + currentUrl);
+           
+          this.userProfileMenu = context.userProfileMenu;
+          this.setupForUserProfileContext(context, currentUrl);
+            //this.updateUserProfile(context.currentUserProfileId || '');
+         
+        });
     }
-  });
 
     const onNavigationEnd = this._router.events.pipe(filter(event => event instanceof NavigationEnd));
     merge(this._translateService.onLangChange, onNavigationEnd)
@@ -251,82 +252,95 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  public setupForUserProfileContext(context: HcclUserContextGETData, currentUrl_in: string): void {
+        
+    // Check if we're already on a valid route
+    const currentUrl = currentUrl_in || this._router.url;
+    //alert('shell.component.ts: setupForUserProfileContext Current URL1: ' + currentUrl);
+    // Now, load the menu items for the new profile
+    const dashboardType = this._menuService.getDashboardTypeFromContext(context);
+    //const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
+     this._menuService.getMenuItemsAsyc(context, dashboardType).then(newRawMenu => {
+      var routePath : string[] = [currentUrl];
+      do {
+        const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
+        this.menuItems = newMenuItems;
+        this.updateTree();
+        //alert('shell.component.ts: setupForUserProfileContext Current URL: ' + currentUrl);
+   
+        debugger;
+
+        const firstMenuItem : MenuItem | null = this._menuService.findFirstNavigableMenuItem(newRawMenu);
+          
+        var defaultRoute = "/" + this._menuService.getRouteFromDashboardType(dashboardType);
+        // Get the first menu item, then compare it to the current URL, 
+        // if they are the same, then stay on the current route, otherwise, navigate to the first menu item
+         //var defaultRoute = currentUrl; //"/ecoadmin-dashboard/providertyperefs"
+        if ( !currentUrl.startsWith(defaultRoute)) {
+          console.log('Navigating to first menu item after profile change:', defaultRoute);
+          //alert("Profile Chanage :" + firstMenuItem?.route + " Yyyyyyyyyyy  " + currentUrl);
+          routePath = [firstMenuItem?.route || ''];
+           // this._router.navigate([firstMenuItem.route]);
+          continue;
+        } else {
+          console.log('No navigable menu items found after profile change, staying on current route');
+        }
+
+        
+        // Check if the current URL is empty, root, or contains auth-related parameters
+        const shouldRedirect = !currentUrl || 
+                              currentUrl === '/' || 
+                              currentUrl === '/login'
+                              //  || 
+                              // currentUrl.includes('state=') || 
+                              // currentUrl.includes('code=') ||
+                              // currentUrl === '/advocate-dashboard' ||
+                              // currentUrl === '/broker-dashboard' ||
+                              // currentUrl === '/service-provider-dashboard' ||
+                              // currentUrl === '/ecoadmin-dashboard' ||
+                              // currentUrl === '/student-dashboard'
+                              ;
+        
+        if (shouldRedirect) {
+          console.log('Current URL requires redirect after profile change, getting first menu item');
+          // Get the first navigable menu item using the menu service
+          //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+          
+          if (firstMenuItem) {
+            console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
+            //alert("ShouldRedirect:" + firstMenuItem.route + " Yyyyyyyyyyy  " + defaultRoute);
+            // this._router.navigate([firstMenuItem.route]);
+            routePath = [firstMenuItem.route];
+            //this.updateTree();
+          continue;
+          } 
+        }
+        
+        console.log('Current URL is valid after profile change, staying on route:', currentUrl);
+        //alert('Current URL is valid after profile change, staying on route:' +currentUrl);
+          // Stay on the current route - no navigation needed
+          //this._router.navigate([currentUrl]);
+          routePath = [currentUrl];
+          //this.updateTree();
+      } while (false);
+
+      //alert("Navigating to " + routePath + " \n" + currentUrl);
+      debugger;
+      this._router.navigate(routePath);
+  });
+  }
+
   updateUserProfile(userProfileId: string): void {
         // Here you can add logic to handle the profile change
       // For example, refresh the context with the new profile ID
+
       if (this.hcclUserContext) {
+        
         return;
       }
       this.hcclContextService.initializeContext(userProfileId).subscribe({
         next: (context) => {
-          console.log('Context refreshed with new profile:', context);
-          
-          // Check if we're already on a valid route
-          const currentUrl = this._router.url;
-          console.log('Current URL after profile change:', currentUrl);
-
-          // Now, load the menu items for the new profile
-          const dashboardType = this._menuService.getDashboardTypeFromContext(context);
-          //const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
-           this._menuService.getMenuItemsAsyc(context, dashboardType).then(newRawMenu => {
-          const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
-
-          this.menuItems = newMenuItems;
-
-          do {
-            // Get the first menu item, then compare it to the current URL, 
-            // if they are the same, then stay on the current route, otherwise, navigate to the first menu item
-            //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
-            const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newRawMenu);
-            var defaultRoute = currentUrl; //"/ecoadmin-dashboard/providertyperefs"
-            if (firstMenuItem  && firstMenuItem.route &&  !currentUrl.startsWith(firstMenuItem.route)) {
-              console.log('Navigating to first menu item after profile change:', defaultRoute);
-              //alert("Profile Chanage :" + firstMenuItem.route + " Yyyyyyyyyyy  " + currentUrl);
-              this._router.navigate([firstMenuItem.route]);
-              this.updateTree();
-              continue;
-            } else {
-              console.log('No navigable menu items found after profile change, staying on current route');
-            }
-
-            
-            // Check if the current URL is empty, root, or contains auth-related parameters
-            const shouldRedirect = !currentUrl || 
-                                  currentUrl === '/' || 
-                                  currentUrl === '/login'
-                                  //  || 
-                                  // currentUrl.includes('state=') || 
-                                  // currentUrl.includes('code=') ||
-                                  // currentUrl === '/advocate-dashboard' ||
-                                  // currentUrl === '/broker-dashboard' ||
-                                  // currentUrl === '/service-provider-dashboard' ||
-                                  // currentUrl === '/ecoadmin-dashboard' ||
-                                  // currentUrl === '/student-dashboard'
-                                  ;
-            
-            if (shouldRedirect) {
-              console.log('Current URL requires redirect after profile change, getting first menu item');
-              // Get the first navigable menu item using the menu service
-              //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
-              const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newRawMenu);
-              
-              if (firstMenuItem) {
-                console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
-                //alert("ShouldRedirect:" + firstMenuItem.route + " Yyyyyyyyyyy  " + defaultRoute);
-                this._router.navigate([firstMenuItem.route]);
-                this.updateTree();
-               continue;
-              } 
-            }
-            
-            console.log('Current URL is valid after profile change, staying on route:', currentUrl);
-             //alert('Current URL is valid after profile change, staying on route:' +currentUrl);
-              // Stay on the current route - no navigation needed
-              debugger;
-              this._router.navigate([currentUrl]);
-              this.updateTree();
-          } while (false);
-        });
+          this.setupForUserProfileContext(context, this._router.url);
         },
         error: (error) => {
           console.error('Failed to refresh context with new profile:', error);
