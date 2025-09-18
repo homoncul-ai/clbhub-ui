@@ -31,6 +31,21 @@ import { HcclUserProfileCrudComponent } from "@app/components/_crud/hccluserprof
           <label>Requestor:</label>
           <span><app-hccluserprofile-crud [id]="userProfileId" [modeName]="'fk'"></app-hccluserprofile-crud></span>
         </div>
+        
+        <!-- Title -->
+        <div class="mb-4">
+          <app-std-mdb-form-text
+            prefix="guidanceTicket"
+            name="title"
+            label="Instructions"
+            [required]="true"
+            [maxlength]="255"
+            placeholder="Enter how guidance can help you."
+            helpText="..."
+            [error]="error"
+            [(ngModel)]="title">
+          </app-std-mdb-form-text>
+        </div>
         <!-- Personal Statement Selection -->
         <div class="mb-4">
           <!-- <label class="form-label">
@@ -44,21 +59,6 @@ import { HcclUserProfileCrudComponent } from "@app/components/_crud/hccluserprof
             (selectionChange)="onPersonalStatementChange($event)">
           </app-menu-control-data-list>
         </div>
-        <!-- Title -->
-        <div class="mb-4">
-          <app-std-mdb-form-text
-            prefix="guidanceTicket"
-            name="title"
-            label="Title"
-            [required]="true"
-            [maxlength]="255"
-            placeholder="I'd like more information about careers."
-            helpText="Title will be auto-populated from personal statement name. You can modify it if needed."
-            [error]="error"
-            [(ngModel)]="title">
-          </app-std-mdb-form-text>
-        </div>
-        
         <!-- Notes/Description -->
         <div class="mb-4">
           <app-std-mdb-form-textarea
@@ -69,7 +69,7 @@ import { HcclUserProfileCrudComponent } from "@app/components/_crud/hccluserprof
             [rows]="6"
             [maxlength]="1024"
             [showCharCounter]="true"
-            helpText="Personal statement content will be auto-populated. You can modify or add additional notes for your guidance request."
+            helpText="Choose a personal statement content to auto-populated. You can modify or add additional notes ."
             [error]="error"
             [(ngModel)]="notes">
           </app-std-mdb-form-textarea>
@@ -249,7 +249,7 @@ export class GuidanceTicketModalComponent implements OnInit {
       
       if (personalStatement) {
         // Set the notes field to the personal statement's encoding text
-        this.notes = personalStatement.encodingText || personalStatement.rawText || '';
+        this.notes = (personalStatement.encodingText || personalStatement.rawText || '');
         console.log('Personal statement loaded:', {
           id: personalStatement.id,
           name: personalStatement.name,
