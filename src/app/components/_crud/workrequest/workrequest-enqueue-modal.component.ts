@@ -3,16 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { Router } from '@angular/router';
-import { HcclService, HcclUserContextGETData, MenuControlData, MenuControlDataList, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse } from '@app/restsvc/hccl.service';
+import { HcclService, HcclUserContextGETData, MenuControlData, MenuControlDataList, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse, WorkQueueCriteria } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { ProviderWorkQueueListComponent } from "../workqueue/provider-workqueue-list.component";
+import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-workrequest-enqueue-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, StdMdbFormTextComponent, MenuControlDataListComponent, WorkRequestItemEnqueueRFIComponent],
+  imports: [CommonModule, FormsModule, StdMdbFormTextComponent, MenuControlDataListComponent, WorkRequestItemEnqueueRFIComponent, SimpleMessagesSectionComponent, ProviderWorkQueueListComponent],
   template: `
     <div class="modal-header">
       <h5 class="modal-title">
@@ -23,7 +26,38 @@ import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workreque
     </div>
     
     <div class="modal-body">
-    <app-workrequestitem-enqueuerfi [id]="workRequestId"></app-workrequestitem-enqueuerfi>
+
+    
+    <!-- <app-workrequestitem-enqueuerfi [id]="workRequestId"></app-workrequestitem-enqueuerfi> -->
+    <!-- <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section> -->
+ 
+    <h3>Send request to a provider </h3>
+
+<!-- 
+    <app-menu-control-data-list
+              [menuControlDataList]="this.menuQueues || null"
+              placeholder="Select work queue..."
+              (selectionChange)="onWorkQueueChange($event)">
+            </app-menu-control-data-list>
+
+  -->
+  <app-std-mdb-form-text 
+  prefix="workRequest" 
+  name="comments"
+  label="Provider Instructions"
+  [required]="true"
+  [error]="false"
+  [(ngModel)]="comments">
+</app-std-mdb-form-text>
+
+<app-provider-workqueue-list  [showingSearch]="true" [showingSearchHeading]="true" 
+  [searchHeadingLabel]="'Choose Providers to Asssist'"
+  [criteria]="getCriteriaForProviders()"
+  [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="onClickProviderRow()"
+  [onGoClickAction]="getOnGoAddProvidersToRFI()" goButtonLabel="Create Tickets for Providers" ></app-provider-workqueue-list>
+
+<!-- <button (click)="createItemViewPost()" class="btn btn-primary">Send Provider Requests</button>
+   -->
 
      
     </div>
@@ -209,4 +243,61 @@ export class WorkRequestEnqueueModalComponent implements OnInit {
   closeModal(): void {
     this.modalRef.close();
   }
+
+  protected providerIds: string[] = [];
+  getCriteriaForProviders(): WorkQueueCriteria {
+    let idsToExclude : string[] = [];
+    if (this.providerIds.length > 0) {
+      idsToExclude = this.providerIds;
+    }
+    var criteria : WorkQueueCriteria = {
+      //externalQueue: 1,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      idsToExclude: idsToExclude
+    };
+    return criteria;
+  }
+
+  onClickProviderRow(): OnRowClickBehavior {
+    var o : OnRowClickBehavior = new OnRowClickBehavior();
+    o.parentId = this.workRequestId;
+    o.tabId = 'catalogentry'; 
+    //o.alertMessage = 'Modal to show catalog entry';
+    o.doNotNavigate = true;
+    return o;
+  }
+
+  getOnGoAddProvidersToRFI(): OnGoClickActionBehavior {
+    var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
+    o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
+      this.addProvidersToRFI(entityIds);
+    }
+    o.alertMessage = 'Go with entity ids:';
+    return o;
+  }
+ 
+  addProvidersToRFI(entityIds: string[]) { 
+    var request : WorkItemFormRequest = {
+      op: 'createItemViewPost',
+      context: this.workItemFormContext,
+      actionFormData: {
+        queueCode: this.queueId,
+        comments: this.comments,
+        providerQueueIds: entityIds
+      }
+    };
+   var rsp  =   this.hcclService.callWorkRequestUi(this.workRequestId, 'EnqueueRFI', request).toPromise().then(rsp => {
+    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
+    var wrid: string = wirsp.context?.workRequestItemId || '';
+    //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+    //var path : string[] = [this.getBaseRoute(), this.workRequestId, 'update'];
+    //alert(this.modeName + ' ' + path.join('/'));
+    //this.routeToPath(path);
+//    this.enterMode('createItemViewPost'); 
+   });
+  }
+
+
 }

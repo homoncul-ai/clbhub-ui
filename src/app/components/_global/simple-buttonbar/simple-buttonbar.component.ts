@@ -25,7 +25,7 @@ export class SimpleButtonbarComponent implements OnInit {
     if (this.alertMsg !== '') {
       alert(this.alertMsg + " " + id);
     }
-    this.buttonBar?.getButton(id)?.activate(null);
+    // Removed direct activate() call - let parent component handle activation through buttonSelected event
   }
 
   public onDropdownChange(event: Event): void {

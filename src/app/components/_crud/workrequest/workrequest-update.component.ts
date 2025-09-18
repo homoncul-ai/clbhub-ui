@@ -228,7 +228,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     
     // Enqueue RFI button - only show when ticket is accepted
     const enqueueButton = this._buttonBar.addButton('enqueueRFI', 'Enqueue RFI', () => {
-      this.openEnqueueModal();
+       this.openEnqueueModal();
     });
     enqueueButton.showingButtonFunction = () => this.isTicketAccepted() && !this.isEnqueuedTicket();
     
