@@ -98,6 +98,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   // User profile menu properties
   userProfileMenu: any = null;
   selectedUserProfile: MenuControlData | null = null;
+  hcclUserContext: HcclUserContextGETData | null = null;
 
   ngOnInit() {
     this.currentRoute = this._router.url;
@@ -112,6 +113,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loggedInUserInitials = this.user.match(/\b(\w)/g)?.join('');
 
     // Subscribe to HCCL context changes to update user profile menu
+   // if (this.hcclContextService.isInitialized() == false) {
     this.hcclContextService.initializeContext();
     this.hcclContextService.waitForReady().then(() => { 
     const context = this.hcclContextService.getContext();
@@ -119,7 +121,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     if (context) {
       this.userProfileMenu = context.userProfileMenu;
       console.log('User profile menu updated:', this.userProfileMenu + ' ' + context.currentUserProfileId);
-      this.updateUserProfile(context.currentUserProfileId || '');
+      //this.updateUserProfile(context.currentUserProfileId || '');
     }
   });
 
@@ -252,6 +254,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   updateUserProfile(userProfileId: string): void {
         // Here you can add logic to handle the profile change
       // For example, refresh the context with the new profile ID
+      if (this.hcclUserContext) {
+        return;
+      }
       this.hcclContextService.initializeContext(userProfileId).subscribe({
         next: (context) => {
           console.log('Context refreshed with new profile:', context);
@@ -309,16 +314,17 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
                 console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
                 //alert("ShouldRedirect:" + firstMenuItem.route + " Yyyyyyyyyyy  " + defaultRoute);
                 this._router.navigate([firstMenuItem.route]);
-              } else {
-                console.log('No navigable menu items found after profile change, staying on current route');
-              }
-            } else {
-              console.log('Current URL is valid after profile change, staying on route:', currentUrl);
+                this.updateTree();
+               continue;
+              } 
+            }
+            
+            console.log('Current URL is valid after profile change, staying on route:', currentUrl);
              //alert('Current URL is valid after profile change, staying on route:' +currentUrl);
               // Stay on the current route - no navigation needed
+              debugger;
               this._router.navigate([currentUrl]);
-            }
-          
+              this.updateTree();
           } while (false);
         });
         },

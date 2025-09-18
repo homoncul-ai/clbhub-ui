@@ -87,7 +87,10 @@ export class AppComponent implements OnInit, OnDestroy {
           });
         } else {
           console.log('Current URL is valid, staying on route:', currentUrl);
-          // Stay on the current route - no navigation needed
+          //this._router.navigate([currentUrl]);
+          //alert('app.component.ts: Current URL is valid, staying on route:' + currentUrl);
+          //debugger
+
         }
       },
       error: (error) => {
