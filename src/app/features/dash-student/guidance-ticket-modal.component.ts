@@ -52,7 +52,7 @@ import { HcclUserProfileCrudComponent } from "@app/components/_crud/hccluserprof
             label="Title"
             [required]="true"
             [maxlength]="255"
-            placeholder="Enter a title for your guidance request"
+            placeholder="I'd like more information about careers."
             helpText="Title will be auto-populated from personal statement name. You can modify it if needed."
             [error]="error"
             [(ngModel)]="title">
@@ -229,7 +229,7 @@ export class GuidanceTicketModalComponent implements OnInit {
       console.log('Personal Statement selected:', selectedItem);
       
       // Set title to personal statement name
-      this.title = selectedItem.name || '';
+      //this.title = selectedItem.name || '';
       
       // Load the selected personal statement and populate notes
       this.loadPersonalStatementData(selectedItem.id);
