@@ -59,7 +59,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     this._router.events
       .pipe(filter(event => event instanceof NavigationEnd), untilDestroyed(this))
       .subscribe((event: any) => {
-        if (!event.url.includes('state=') && !event.url.includes('code=')) {
+        //if (true ||!event.url.includes('state=') && !event.url.includes('code=')) {
           this.currentRoute = event.url;
           console.log('Route changed:', this.currentRoute);
 
@@ -70,19 +70,25 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
             this.menuItems = newMenuItems;
           }
 
-          if (this.tree) {
-            const openedIds = this.tree.getState().opened;
-
-            this.tree.data.removeAll();
-            this.tree.data.parse(this.menuItems);
-
-            // Restore open state
-            if (Array.isArray(openedIds)) {
-              openedIds.forEach(id => this.tree.open(id));
-            }
-          }
-        }
+          this.updateTree();
+        //  }
       });
+  }
+
+
+  updateTree() {
+    if (this.tree) {
+      //alert("Tree updated:" + this.menuItems.length);
+      const openedIds = this.tree.getState().opened;
+
+      this.tree.data.removeAll();
+      this.tree.data.parse(this.menuItems);
+
+      // Restore open state
+      if (Array.isArray(openedIds)) {
+        openedIds.forEach(id => this.tree.open(id));
+      }
+    }
   }
 
   userDetails: any = null;
@@ -263,50 +269,57 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           this.menuItems = newMenuItems;
 
           do {
-          // Get the first menu item, then compare it to the current URL, 
-          // if they are the same, then stay on the current route, otherwise, navigate to the first menu item
-          //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
-          const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newRawMenu);
-          if (firstMenuItem) {
-            console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
-            this._router.navigate([firstMenuItem.route]);
-            continue;
-          } else {
-            console.log('No navigable menu items found after profile change, staying on current route');
-          }
-
-          
-          // Check if the current URL is empty, root, or contains auth-related parameters
-          const shouldRedirect = !currentUrl || 
-                                currentUrl === '/' || 
-                                currentUrl === '/login' || 
-                                currentUrl.includes('state=') || 
-                                currentUrl.includes('code=') ||
-                                currentUrl === '/advocate-dashboard' ||
-                                currentUrl === '/broker-dashboard' ||
-                                currentUrl === '/service-provider-dashboard' ||
-                                currentUrl === '/ecoadmin-dashboard' ||
-                                currentUrl === '/student-dashboard'
-                                ;
-          
-          if (shouldRedirect) {
-            console.log('Current URL requires redirect after profile change, getting first menu item');
-            // Get the first navigable menu item using the menu service
+            // Get the first menu item, then compare it to the current URL, 
+            // if they are the same, then stay on the current route, otherwise, navigate to the first menu item
             //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
             const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newRawMenu);
-            
-            if (firstMenuItem) {
-              console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
+            var defaultRoute = currentUrl; //"/ecoadmin-dashboard/providertyperefs"
+            if (firstMenuItem  && firstMenuItem.route &&  !currentUrl.startsWith(firstMenuItem.route)) {
+              console.log('Navigating to first menu item after profile change:', defaultRoute);
+              //alert("Profile Chanage :" + firstMenuItem.route + " Yyyyyyyyyyy  " + currentUrl);
               this._router.navigate([firstMenuItem.route]);
+              this.updateTree();
+              continue;
             } else {
               console.log('No navigable menu items found after profile change, staying on current route');
             }
-          } else {
-            console.log('Current URL is valid after profile change, staying on route:', currentUrl);
-            // Stay on the current route - no navigation needed
-          }
-        
-        } while (false);
+
+            
+            // Check if the current URL is empty, root, or contains auth-related parameters
+            const shouldRedirect = !currentUrl || 
+                                  currentUrl === '/' || 
+                                  currentUrl === '/login'
+                                  //  || 
+                                  // currentUrl.includes('state=') || 
+                                  // currentUrl.includes('code=') ||
+                                  // currentUrl === '/advocate-dashboard' ||
+                                  // currentUrl === '/broker-dashboard' ||
+                                  // currentUrl === '/service-provider-dashboard' ||
+                                  // currentUrl === '/ecoadmin-dashboard' ||
+                                  // currentUrl === '/student-dashboard'
+                                  ;
+            
+            if (shouldRedirect) {
+              console.log('Current URL requires redirect after profile change, getting first menu item');
+              // Get the first navigable menu item using the menu service
+              //const firstMenuItem = this._menuService.getFirstNavigableMenuItem(context, this._router);
+              const firstMenuItem = this._menuService.findFirstNavigableMenuItem(newRawMenu);
+              
+              if (firstMenuItem) {
+                console.log('Navigating to first menu item after profile change:', firstMenuItem.route);
+                //alert("ShouldRedirect:" + firstMenuItem.route + " Yyyyyyyyyyy  " + defaultRoute);
+                this._router.navigate([firstMenuItem.route]);
+              } else {
+                console.log('No navigable menu items found after profile change, staying on current route');
+              }
+            } else {
+              console.log('Current URL is valid after profile change, staying on route:', currentUrl);
+             //alert('Current URL is valid after profile change, staying on route:' +currentUrl);
+              // Stay on the current route - no navigation needed
+              this._router.navigate([currentUrl]);
+            }
+          
+          } while (false);
         });
         },
         error: (error) => {
