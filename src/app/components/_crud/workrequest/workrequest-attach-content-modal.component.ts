@@ -8,11 +8,15 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { WorkRequestItemAttachRFIContentComponent } from '../workrequestitem/workrequestitem-attachrficontent.component';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
+import { WorkRequestCrudWrapper } from './workrequest-crud.component';
 
 @Component({
   selector: 'app-workrequest-attach-content-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, StdMdbFormTextComponent, MenuControlDataListComponent, WorkRequestItemAttachRFIContentComponent],
+  imports: [CommonModule, FormsModule, StdMdbFormTextComponent, MenuControlDataListComponent, 
+    WorkRequestItemAttachRFIContentComponent, SimpleMessagesSectionComponent],
   template: `
     <div class="modal-header">
       <h5 class="modal-title">
@@ -24,9 +28,27 @@ import { WorkRequestItemAttachRFIContentComponent } from '../workrequestitem/wor
     
     <div class="modal-body">
     
-    <div id="attachRFIContent"> 
-    <app-workrequestitem-attachrficontent [id]="workRequestId"></app-workrequestitem-attachrficontent>
-  </div>  
+    <!-- <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section> -->
+
+<div *ngIf="!isLoading()">
+
+    <h3>Select Catalog and Attach Entries  </h3>
+    <app-std-mdb-form-text 
+    prefix="workRequest" 
+    name="speaker_notes"
+    label="Notes"
+    [required]="true"
+    [error]="false"
+    [(ngModel)]="notes">
+  </app-std-mdb-form-text>
+
+    <app-menu-control-data-list
+              [menuControlDataList]="this.menuCatalogs || null"
+              placeholder="Select catalog..."
+              (selectionChange)="onCatalogChange($event)">
+            </app-menu-control-data-list>
+    
+</div>
 
     </div>
     
@@ -194,11 +216,11 @@ export class WorkRequestAttachContentModalComponent implements OnInit {
       const workItemFormResponse: WorkItemFormResponse = response as WorkItemFormResponse;
       
       const workRequestItemId: string = workItemFormResponse.context?.workRequestItemId || '';
-      const path: string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', workRequestItemId];
+//      const path: string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', workRequestItemId];
       
       // Close modal and navigate
       this.closeModal();
-      this.router.navigate(path);
+  //    this.router.navigate(path);
     } catch (error) {
       console.error('Error attaching RFI content:', error);
       this.error = error;
@@ -211,4 +233,74 @@ export class WorkRequestAttachContentModalComponent implements OnInit {
   closeModal(): void {
     this.modalRef.close();
   }
+  protected messages: SimpleMessage[] = [];
+  protected loading: boolean = false;
+  protected isLoading(): boolean {
+    return this.loading;
+  } 
+
+  protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
+    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+  }
+ 
+  protected async setupCreateItemView() {
+    var x : HcclUserContextGETData = this.hcclContextService.getContext();
+
+    if (this.workItemFormContext.workRequestId === '') {
+      this.workItemFormContext.workRequestId = this.id;
+      this.workItemFormContext.workRequestItemId = undefined;
+      this.workItemFormContext.userProfileId = x.currentUserProfileId
+      this.workItemFormContext.mapContextData = {};
+      this.workItemFormContext.mapResultsData = {};
+    }
+    
+     
+    var request : WorkItemFormRequest = {
+      op: 'createItemView',
+      context: this.workItemFormContext,
+      actionFormData: {}
+    }
+    this.workItemFormRequest = request;
+    
+    console.log('WorkRequestItemAttachRFIContentComponent ngOnInit ' + JSON.stringify(this.workItemFormContext));
+    //debugger;
+    var rsp  =  await this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise();
+
+    
+    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
+    this.workItemFormResponse = wirsp;
+    console.log('WorkRequestItemAttachRFIContentComponent ngOnInit ' + JSON.stringify(rsp));
+    this.menuCatalogs = wirsp.mapFormElements.menu_catalogs;
+    this.workItemFormContext = wirsp.context as WorkItemFormContext;
+  } 
+
+  protected workItemFormResponse : WorkItemFormResponse | null = null;
+  protected workItemFormRequest : WorkItemFormRequest | null = null;
+
+  protected selectedWorkQueue : MenuControlData | null = null;
+ 
+  protected id: string = '';
+  protected messagesList: SimpleMessage[] = [];
+
+  createItemViewPost() { 
+    var request : WorkItemFormRequest = {
+      op: 'createItemViewPost',
+      context: this.workItemFormContext,
+      actionFormData: {
+        catalogCode: this.catalogCode,
+        notes: this.notes
+      }
+    }
+   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
+    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
+    var wrid: string = wirsp.context?.workRequestItemId || '';
+    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+    //alert(this.modeName + ' ' + path.join('/'));
+    this.router.navigate(path)
+    //this.enterMode('createItemViewPost'); 
+   });
+
+
+  }
+
 }

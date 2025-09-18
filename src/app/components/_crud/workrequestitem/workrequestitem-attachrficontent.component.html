@@ -4,20 +4,22 @@
 
 <div *ngIf="!isLoading()">
 
-    <h3>Attach Catalog Entries  </h3>
+    <h3>Select Catalog and Attach Entries  </h3>
+    <app-std-mdb-form-text 
+    prefix="workRequest" 
+    name="speaker_notes"
+    label="Notes"
+    [required]="true"
+    [error]="false"
+    [(ngModel)]="notes">
+  </app-std-mdb-form-text>
+
     <app-menu-control-data-list
               [menuControlDataList]="this.menuCatalogs || null"
               placeholder="Select catalog..."
               (selectionChange)="onCatalogChange($event)">
             </app-menu-control-data-list>
-    <app-std-mdb-form-text 
-        prefix="workRequest" 
-        name="speaker_notes"
-        label="Notes"
-        [required]="true"
-        [error]="false"
-        [(ngModel)]="notes">
-      </app-std-mdb-form-text>
+   
     <button (click)="createItemViewPost()" class="btn btn-primary">Attach RFI Content</button>
 </div>
 

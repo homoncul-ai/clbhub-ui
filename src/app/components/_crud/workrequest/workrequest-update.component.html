@@ -1,7 +1,9 @@
 
 
 
-<pre> Update component {{ isLoading() }}</pre>
+<pre> workrequest-update  component loading {{ isLoading() }}</pre>
+<div *ngIf="isLoading()">Loading... </div>
+<div *ngIf="!isLoading()">
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
 <div *ngIf="isLoading()">Loading... </div>
@@ -24,3 +26,5 @@
 
 <pre *ngIf="false">
     {{ entity.dump() }}</pre> 
+
+  </div>
