@@ -22,6 +22,7 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
   
   @Output() stateChangeResponse = new EventEmitter<StateChangeFormResponse>();
   @Output() menuItemSelected = new EventEmitter<MenuControlData>();
+  @Output() stateChangeComplete = new EventEmitter<void>();
   
   private destroy$ = new Subject<void>();
   
@@ -132,8 +133,9 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
           this._buttonBar = null; // Clear button bar cache when menu items change
           this.isLoading = false;
           this.stateChangeResponse.emit(response);
-          // force the parent page to refresh
-          window.location.reload();
+          // Emit state change complete event to trigger parent refresh
+          this.stateChangeComplete.emit();
+          this.ngOnInit();
         },
         error: (error: any) => {
           this.error = error?.message || 'Failed to change state';

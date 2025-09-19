@@ -3,7 +3,7 @@ import { TeamMemberListComponent } from './../teammember/teammember-list.compone
 // This was generated using entityName = WorkRequest
 // Generate the new [entityName]-group.component.ts   files using this template 
 
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -48,6 +48,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   // Inject modal service
   private modalService = inject(MdbModalService);
   private modalRef: MdbModalRef<any> | null = null;
+  protected override cdr = inject(ChangeDetectorRef);
 
   constructor() {
     super();    
@@ -87,6 +88,21 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   protected override calculateTabIdFromUrl(tabId_in: string): string {
     let tabId = this.tabId;
     return tabId;
+  }
+
+  /**
+   * Override the refresh method to handle WorkRequest-specific refresh logic
+   */
+  protected override refreshComponent(): void {
+    // Reset WorkRequest-specific state
+    this.workRequestItem = null;
+    this.workItemDeliverableId = '';
+    
+    // Call parent refresh method
+    super.refreshComponent();
+    
+    // Trigger change detection
+    this.cdr.detectChanges();
   }
 
 
@@ -295,4 +311,5 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     });
    }
 
+  
 } 

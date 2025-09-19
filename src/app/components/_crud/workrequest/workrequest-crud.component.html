@@ -38,7 +38,8 @@
       <div class="column-left">
         <div class="detail-group">
           <label>Current State Code:</label>
-          <app-std-mdb-entitystate [currentStateCode]="currentStateCode" [entityName]="'WorkRequest'" [entityId]="entityId"></app-std-mdb-entitystate> 
+          <app-std-mdb-entitystate [currentStateCode]="currentStateCode" [entityName]="'WorkRequest'" [entityId]="entityId"
+          (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
         </div>
         <div class="detail-group" *ngIf="acceptedByUserId">
           <label>Accepted By :</label>

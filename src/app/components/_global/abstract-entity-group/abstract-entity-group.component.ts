@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, ChangeDetectorRef } from '@angular/core';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { SimpleTab } from '../simple-tabset/simple-tabset.component';
 import { HcclService } from '@app/restsvc/hccl.service';
@@ -26,6 +26,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
+  protected cdr = inject(ChangeDetectorRef);
 
   protected entity: T | null = null;
   protected loading: boolean = false;
@@ -56,7 +57,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
     this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';
     this.route.params.subscribe(params => {
     
-      this.populateFromParams(params)
+    this.populateFromParams(params)
       
 
       if (this.id === undefined || this.id === '') {
@@ -213,5 +214,65 @@ public getDetailsTabLabel(): string {
   protected isShowingDebug(): boolean {
     return this.showingDebug;
   }
+/**
+   * Handle state change complete event from std-mdb-entitystate component
+   * This triggers a refresh of the parent component data
+   */
+onStateChangeComplete(): void {
+  // Trigger ngOnInit to refresh the component data
+  //alert('onStateChangeComplete');
+  this.ngOnInit();
+}
 
+/**
+ * Complete refresh method that resets all component state and reloads data
+ * This is the Angular way to refresh a component with all new data
+ */
+componentRequiresRefresh(): void {
+  this.refreshComponent();
+}
+
+/**
+ * Refresh the component by resetting state and reloading data
+ */
+protected refreshComponent(): void {
+  // Reset all component state
+  this.resetComponentState();
+  
+  // Reload the entity data
+  this.reloadEntityData();
+  
+  // Trigger change detection to update the UI
+  this.cdr.detectChanges();
+}
+
+/**
+ * Reset all component state to initial values
+ */
+protected resetComponentState(): void {
+  this.entity = null;
+  this.loading = false;
+  this.error = '';
+  this.success = false;
+  this.tabs = [];
+  this.currentTabId = '';
+}
+
+/**
+ * Reload entity data based on current route parameters
+ */
+protected reloadEntityData(): void {
+  if (this.id) {
+    this.loadEntityById(this.id).then(entity => {
+      this.entity = entity;
+      this.tabs = this.setupTabs();
+      this.currentTabId = this.calculateTabIdFromUrl(this.tabId);
+    }).catch(error => {
+      console.error('Error reloading entity:', error);
+      this.error = 'Failed to reload data';
+    });
+  } else {
+    this.setupIfNoId();
+  }
+}
 }

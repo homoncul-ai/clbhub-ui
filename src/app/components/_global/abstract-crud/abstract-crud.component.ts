@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
 import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList } from '../../../restsvc/hccl.service';
@@ -46,6 +46,61 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   @Input() modeName: string = 'detail';
   @Input() menuCreationHint?: string = '';
   @Input() entityForCreate?: R;
+
+  @Output() crudComponentRequiresRefresh = new EventEmitter<void>();
+
+  protected onStateChangeComplete(): void {
+    this.refreshParentComponent();
+  }
+
+  protected refreshParentComponent(): void {
+   // Emit crudComponentRequiresRefresh event
+   this.crudComponentRequiresRefresh.emit();
+  }
+
+  /**
+   * Refresh this CRUD component by resetting state and reloading data
+   */
+  protected refreshCrudComponent(): void {
+    this.resetCrudState();
+    this.reloadCrudData();
+    this.cdr.detectChanges();
+  }
+
+  /**
+   * Reset CRUD component state to initial values
+   */
+  protected resetCrudState(): void {
+    this.entity = null;
+    this.entityNew = null;
+    this.loading = false;
+    this.messages = { messages: [] };
+    this.success = false;
+    this.currentMode = null;
+  }
+
+  /**
+   * Reload CRUD component data based on current mode and ID
+   */
+  protected reloadCrudData(): void {
+    if (this.id && this.modeName) {
+      this.loadEntityById(this.id).then(entity => {
+        this.entity = entity;
+        this.setModeFromName(this.modeName);
+      }).catch(error => {
+        console.error('Error reloading CRUD entity:', error);
+        this.switchToDetailMode();
+      });
+    } else if (this.modeName === CRUD_MODES.CREATE) {
+      this.switchToCreateMode();
+    } else {
+      this.switchToDetailMode();
+    }
+  }
+
+  protected handleCrudComponentRequiresRefresh(): void {
+    this.refreshParentComponent();
+  }
 
   protected ngOnInitInternal(): void {
     this.ngOnInit()
@@ -149,6 +204,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
   protected hcclContextService = inject(HcclContextService);
+  protected cdr = inject(ChangeDetectorRef);
 
 
   // Properties

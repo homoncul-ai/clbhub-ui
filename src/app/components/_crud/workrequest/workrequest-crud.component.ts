@@ -550,4 +550,5 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
     const workrequests = await this.getWorkRequests();
     return this.getMenuControlDataList("workrequests", this.getEntityType() + " Menu", workrequests, data);
   }
+
 } 
