@@ -21,7 +21,15 @@
       </div>
       <div *ngIf="comments && comments.length > 0"  class="detail-group">
         <label>Comments:</label>
-        <span>{{ comments }}</span>
+        <span><app-std-mdb-form-textarea 
+        prefix="workitemdeliverable" 
+        name="comments"
+        label="Comments"
+        [maxLength]="1024"
+        [error]="error"
+        [readonly]="true"
+        [(ngModel)]="comments">
+      </app-std-mdb-form-textarea></span>
       </div>
 
         
