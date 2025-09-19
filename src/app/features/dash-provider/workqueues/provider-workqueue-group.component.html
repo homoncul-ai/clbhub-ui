@@ -1,3 +1,4 @@
+Yah Mon
 <div *ngIf="!loading">
     <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
   
@@ -10,25 +11,69 @@
     
     
     <div *ngIf="currentTabId === 'ticket'">
-  
-   <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-crud>   
-    <app-workrequest-update [id]="getTicketId()" modeName="detail" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-update>  
-    
-     
+      <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-crud>   
+      <app-workrequest-update [id]="getTicketId()" [modeName]="'detail'" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-update>  
     </div>
-        
-      
-  <div *ngIf="currentTabId === 'mytickets'">
     
+
+<!-- Copied from workqueue-group.component.html -->
+<div *ngIf="currentTabId === 'details-complete'">
+  <app-workrequest-crud [id]="id" [modeName]="'section'"></app-workrequest-crud> 
+  <hr/>
+
+  <div class="column-right">
+    <div *ngIf="this.ticket?.subjectEntityType == 'ProviderRequest'">
+      <app-providerrequest-crud [id]="this.ticket?.subjectEntityId" [modeName]="'section'"></app-providerrequest-crud>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="currentTabId === 'logs'">
+  <!-- <div class="mb-3">
+    <app-simple-buttonbar 
+      [buttonBar]="getWorkRequestActionsButtonBar()" 
+      displayMode="select"
+      placeholder="Select an action..."
+      (buttonSelected)="onWorkRequestActionSelected($event)">
+    </app-simple-buttonbar>
+  </div> -->
+  <hr/>
+  <app-workrequestlog-list     [criteria]="getLogsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
+    [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"></app-workrequestlog-list>
+</div>
+
+<div *ngIf="currentTabId === 'items'">
+  <div id="items" *ngIf="true">
+    <app-workrequestitem-list [criteria]="getTicketItemsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
+      [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" 
+      [onRowClickBehavior]="myOnWorkRequestItemRowClickBehavior()"></app-workrequestitem-list>
+  </div>
+</div>
+
+<div *ngIf="currentTabId === 'workRequestItem' && this.workRequestItem !== null"> 
+  <app-workrequestitem-crud [id]="this.workRequestItemId" modeName="section"></app-workrequestitem-crud>
+
+  <div class="detail-group" *ngIf="this.workRequestItem !== null">
+    <label>Current State Code:</label>
+    <app-std-mdb-entitystate [currentStateCode]="this.workRequestItem?.getCurrentStateCode() || ''" 
+      [entityName]="'WorkRequestItem'" [entityId]="this.workRequestItemId"
+      (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
+  </div> 
+  <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
+    <h6> Show Enqueue RFI Content</h6>  
   </div>
 
-  <!-- <div *ngFor="let queue of getWorkQueues()">
-  <div *ngIf="currentTabId === 'queue' && this.childId !== undefined">
- </div> -->
+  <div *ngIf="workRequestItem?.getActionCode() === 'AttachRFIContent'">
+    <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
+      <app-workrequestitem-attachrficontent-addentries [id]="this.ticketId || ''" [childId]="this.workRequestItemId || ''"></app-workrequestitem-attachrficontent-addentries>
+    </div>
 
-
-
-<div *ngIf="true">
+    <div *ngIf="workRequestItem?.getCurrentStateCode() === 'completed' && this.workItemDeliverableId !== ''">
+      <app-workitemdeliverable-crud [id]="this.workItemDeliverableId" modeName="section"></app-workitemdeliverable-crud>
+    </div>
+  </div>
+</div>
+<div *ngIf="false">
   <li>CurrentTabId :{{currentTabId}}</li>
   <li>QueueId :{{queueId}}</li>
   <li>Queue :{{getQueue()?.name }}</li>
@@ -36,6 +81,8 @@
   <li>ChildId :{{childId}}</li>
   <li>TicketId :{{ticketId}}</li>
   <li>Ticket :{{getTicket()?.name }}</li>
+  <li>WorkRequestItemId :{{workRequestItemId}}</li>
+  <li>WorkRequestItem :{{getWorkRequestItem()?.getFullName() }}</li>
   <li>Loading :{{loading}}</li>
   <li>ShowingTabset :{{showingTabset}}</li>
   <li>Tabs :{{tabs | json}}</li> 

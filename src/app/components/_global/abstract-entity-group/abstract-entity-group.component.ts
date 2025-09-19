@@ -276,6 +276,6 @@ protected reloadEntityData(): void {
   }
 }
 protected closeModal(): void {
- // this.modalRef.close();
+ this.refreshComponent();
 }
 }

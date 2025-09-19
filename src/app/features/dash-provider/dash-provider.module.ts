@@ -25,9 +25,9 @@ const routes: Routes = [
       { path: 'workrequest/:tabId/:childId', component: ProviderWorkrequestGroupComponent },
       { path: 'workrequest/:tabId', component: ProviderWorkrequestGroupComponent },
       { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
-      { path: 'workqueues/:queueId/:ticketId/:tabId/:childId', component: ProviderWorkqueueGroupComponent },
+      { path: 'workqueues/:queueId/:ticketId/:tabId/:workRequestItemId', component: ProviderWorkqueueGroupComponent },
       { path: 'workqueues/:queueId/:ticketId/:tabId', component: ProviderWorkqueueGroupComponent },
-      { path: 'workqueues/:queueId/:ticketId', component: ProviderWorkqueueGroupComponent },
+      { path: 'workqueues/:queueId/:ticketId', redirectTo: 'workqueues/:queueId/:ticketId/ticket', pathMatch: 'full' },
       { path: 'workqueues/:queueId', component: ProviderWorkqueueGroupComponent },
       { path: 'workqueues', component: ProviderWorkqueueGroupComponent },
       { path: 'catalog/:tabId/:childId', component: ProviderCatalogGroupComponent },
@@ -37,7 +37,7 @@ const routes: Routes = [
     ]
   }
 ];
-
+// { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
 @NgModule({
   imports: [
     CommonModule,

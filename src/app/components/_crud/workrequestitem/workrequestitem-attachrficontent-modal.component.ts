@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { FormsModule } from '@angular/forms';
@@ -28,6 +28,8 @@ import { SimpleButton, SimpleButtonBar } from '@app/components/_global/simple-bu
   styleUrl: './workrequestitem-attachrficontent-modal.component.scss'
 })
 export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
+  @Output() crudComponentRequiresRefresh = new EventEmitter<void>();
+  
   workRequestItem: WorkRequestItemCrudWrapper | null = null;
   workRequestId: string = '';
   
@@ -184,6 +186,7 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
     var rsp  =   this.hcclService.callWorkRequestUi(this.workRequestId, 'AttachRFIContent', request).toPromise().then(rsp => {
       var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
       var wrid: string = wirsp.context?.workRequestItemId || '';
+      this.crudComponentRequiresRefresh.emit();
       var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
       AbstractListComponent.routeToPath(this.router, path);
     });
@@ -220,6 +223,7 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
       //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
      // AbstractListComponent.routeToPath(this.router, path);
      //alert('addItemsToRFI ' + JSON.stringify(wirsp));
+     this.crudComponentRequiresRefresh.emit();
      this.modalRef.close(true); // Pass true to indicate refresh is needed
      
     });
@@ -256,13 +260,8 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
   }
 
   closeModal() {
-    // var wrid: string = this.workRequestItemEntity?.getData()?.id || '';
-    // var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
-    //   AbstractListComponent.routeToPath(this.router, path);
-      //this.closeModal();
-
-      // how do we handle this?
-      this.modalRef.close(true); // Pass true to indicate refresh is needed
+    this.crudComponentRequiresRefresh.emit();
+    this.modalRef.close(true);
   }
 
   isLoading(): boolean {

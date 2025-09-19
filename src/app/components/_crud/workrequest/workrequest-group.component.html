@@ -20,17 +20,17 @@
       </div>
     </div>
   </div>
-
+<!-- 
   <div *ngIf="currentTabId === 'create'">
     <h1>Create</h1>
     <app-workrequest-crud [id]="id" modeName="create"></app-workrequest-crud>
-  </div>
+  </div> -->
 
-  <div *ngIf="currentTabId === 'update'">
+  <!-- <div *ngIf="currentTabId === 'update'">
     <app-workrequest-crud [id]="id" [modeName]="'section'"></app-workrequest-crud> 
     <hr/>
     <app-workrequest-update [id]="id" modeName="detail"></app-workrequest-update> 
-  </div>
+  </div> -->
 
   <div *ngIf="currentTabId === 'items'">
     <div id="items" *ngIf="true">
@@ -41,6 +41,7 @@
   </div>
 
   <div *ngIf="currentTabId === 'workRequestItem'">
+    Kawabunge
     <app-workrequestitem-crud [id]="childId" modeName="section"></app-workrequestitem-crud>
 
     <div *ngIf="canChangeWorkItemStateToComplete(this.workRequestItem) === true" class="detail-group">

@@ -1,5 +1,5 @@
 import { HcclUserContextGETData, MenuControlData, MenuControlDataList, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse } from './../../../restsvc/hccl.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { WorkRequestItemCrudComponent } from './workrequestitem-crud.component';
@@ -23,6 +23,8 @@ import { ProviderWorkQueueListComponent } from '../workqueue/provider-workqueue-
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
 export class WorkRequestItemAttachRFIContentComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit  {
+  
+  @Output() crudComponentRequiresRefresh = new EventEmitter<void>();
   
   // Properties referenced in template
   acceptText: string = '';
@@ -121,10 +123,8 @@ export class WorkRequestItemAttachRFIContentComponent extends AbstractMultimodeC
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-    //alert(this.modeName + ' ' + path.join('/'));
-    this.router.navigate(path)
-    this.enterMode('createItemViewPost'); 
+    this.crudComponentRequiresRefresh.emit();
+    
    });
 
 

@@ -796,4 +796,19 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     }
     return available;
   }
+
+  /**
+ * Complete refresh method that resets all component state and reloads data
+ * This is the Angular way to refresh a component with all new data
+ */
+componentRequiresRefresh(): void {
+  this.refreshComponent();
+}
+
+/**
+ * Refresh the component by resetting state and reloading data
+ */
+protected refreshComponent(): void {
+  this.refreshCrudComponent();
+}
 }
