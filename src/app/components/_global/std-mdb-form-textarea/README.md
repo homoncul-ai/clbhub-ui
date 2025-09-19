@@ -24,6 +24,7 @@ A reusable Angular component for MDB form textarea fields with validation suppor
 - `label`: string - Translation key for the label
 - `required`: boolean - Whether the field is required (default: false)
 - `disabled`: boolean - Whether the field is disabled (default: false)
+- `readonly`: boolean - Whether the field is read-only (default: false)
 - `rows`: number - Number of rows for the textarea (default: 4)
 - `maxlength`: number | null - Maximum length for the input (default: null)
 - `placeholder`: string - Placeholder text (default: "")
@@ -49,6 +50,7 @@ A reusable Angular component for MDB form textarea fields with validation suppor
 - ControlValueAccessor implementation for form integration
 - Unique ID generation for accessibility
 - Disabled state support
+- Read-only state support
 - Configurable rows and maxlength
 - Vertical resize support
 

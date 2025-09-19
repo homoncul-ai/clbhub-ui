@@ -8,9 +8,25 @@
     [attr.maxlength]="maxLength"
     [placeholder]="placeholder"
     [disabled]="disabled"
+    [readonly]="readonly"
     [value]="value"
     mdbInput
     mdbCharCounter
+    (input)="onInput($event)"
+    (blur)="onBlur()">
+  </textarea>
+  <textarea
+    *ngIf="!showCharCounter"
+    [name]="fieldName"
+    [id]="uniqueId"
+    class="form-control"
+    [rows]="rows"
+    [attr.maxlength]="maxLength"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [value]="value"
+    mdbInput
     (input)="onInput($event)"
     (blur)="onBlur()">
   </textarea>
