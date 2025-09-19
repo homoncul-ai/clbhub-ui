@@ -8,14 +8,13 @@
 
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
     <div class="details-section">
-      <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->
-      <!-- If no section attributes, use the read-only values for 'edit' mode.  -->
+      <!-- Display the deliverable results in a nice way. -->
 
       <!-- In general, if not special use the form {{ attributeName }} to display the attribute value -->
       <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
       <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
        <!-- Note all these attributes are only shown here as examples - only show the attributes that are relevant to this entity -->
-        <div class="detail-group">
+      <!-- <div class="detail-group">
         <label>Name Text :</label>
         <span>{{ nameText }}</span>  
       </div>
@@ -26,31 +25,26 @@
       <div class="detail-group">
         <label>Description:</label>
         <span>{{ description }}</span>
+      </div> -->
+     
+      <div class="detail-group">
+        <label>Comments:</label>
+        <span><app-std-mdb-form-textarea 
+        prefix="workitemdeliverable" 
+        name="comments"
+        label="Comments"
+        [maxLength]="1024"
+        [error]="error"
+        readonly="true"
+        [(ngModel)]="comments">
+      </app-std-mdb-form-textarea></span>
       </div>
       <div class="detail-group">
         <label>Delivery Type Code:</label>
         <span>{{ delivTypeCode }}</span>
       </div>
-      <div class="detail-group">
-        <label>Comments:</label>
-        <span>{{ comments }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Type:</label>
-        <span>{{ subjectEntityType }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Subject Entity Name:</label>
-        <span>{{ subjectEntityName }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Current State Code:</label>
-        <span>{{ currentStateCode }}</span>
-      </div>
-
-      <!-- End example Attributes -->
-      <div *ngIf="subjectEntityType === 'CatalogSearchResult'">
-        <label>Catalog Search Result: {{ subjectEntityId }}</label>
+      <!-- Now, show the  -->
+      <div *ngIf="delivTypeCode === 'CatalogSearchResults'">
         <app-catalogsearchresult-crud [id]="subjectEntityId" [modeName]="'section'"></app-catalogsearchresult-crud>
       </div>
     </div>

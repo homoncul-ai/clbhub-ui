@@ -57,10 +57,7 @@ import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstra
   [onRowClickBehavior]="onClickProviderRow()"
   (selectedIdsChanged)="onProviderSelectionChanged($event)"></app-provider-workqueue-list>
 
-<!-- <button (click)="createItemViewPost()" class="btn btn-primary">Send Provider Requests</button>
-   -->
 
-     
     </div>
     
     <div class="modal-footer">

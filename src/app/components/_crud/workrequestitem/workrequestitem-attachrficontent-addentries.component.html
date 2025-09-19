@@ -11,7 +11,8 @@ The user can mark the RFI as not started.
 
 
 <div *ngIf="isLoading() === false">
-  
+  {{ this.catalogSearchResult?.entries?.length }}
+  {{ this.catalogSearchResult?.id }}
     <app-catalogsearchresultentry-list [criteria]="this.getCriteriaForEntries()" 
     [showingSearch]="false" 
     [showingSearchHeading]="!this.isStateCompleted()" 

@@ -219,7 +219,9 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
       var wrid: string = wirsp.context?.workRequestItemId || '';
       //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
      // AbstractListComponent.routeToPath(this.router, path);
+     //alert('addItemsToRFI ' + JSON.stringify(wirsp));
      this.modalRef.close(true); // Pass true to indicate refresh is needed
+     
     });
   }
 
