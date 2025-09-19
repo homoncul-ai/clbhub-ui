@@ -11,8 +11,8 @@
     
     <div *ngIf="currentTabId === 'ticket'">
   
-   <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'"></app-workrequest-crud>   
-    <app-workrequest-update [id]="getTicketId()" modeName="detail"></app-workrequest-update>  
+   <app-workrequest-crud [id]="getTicketId()" [modeName]="'section'" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-crud>   
+    <app-workrequest-update [id]="getTicketId()" modeName="detail" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-update>  
     
      
     </div>

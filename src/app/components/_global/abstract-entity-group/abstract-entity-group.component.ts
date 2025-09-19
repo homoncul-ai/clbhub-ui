@@ -275,4 +275,7 @@ protected reloadEntityData(): void {
     this.setupIfNoId();
   }
 }
+protected closeModal(): void {
+ // this.modalRef.close();
+}
 }

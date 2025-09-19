@@ -214,10 +214,7 @@ export class WorkRequestAttachContentModalComponent implements OnInit {
       
       const response = await this.hcclService.callWorkRequestUi(this.workRequestId, 'AttachRFIContent', request).toPromise();
       const workItemFormResponse: WorkItemFormResponse = response as WorkItemFormResponse;
-      
-      const workRequestItemId: string = workItemFormResponse.context?.workRequestItemId || '';
-//      const path: string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', workRequestItemId];
-      
+            
       // Close modal and navigate
       this.closeModal();
   //    this.router.navigate(path);
@@ -294,10 +291,7 @@ export class WorkRequestAttachContentModalComponent implements OnInit {
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-    //alert(this.modeName + ' ' + path.join('/'));
-    //this.router.navigate(path)
-    //this.enterMode('createItemViewPost'); 
+    
    });
 
 

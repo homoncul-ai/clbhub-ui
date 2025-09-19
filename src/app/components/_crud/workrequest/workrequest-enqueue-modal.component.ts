@@ -234,11 +234,7 @@ export class WorkRequestEnqueueModalComponent implements OnInit {
       const workItemFormResponse: WorkItemFormResponse = response as WorkItemFormResponse;
       
       const workRequestItemId: string = workItemFormResponse.context?.workRequestItemId || '';
-      const path: string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', workRequestItemId];
-      
-      // Close modal with success result (opener will handle refresh)
-      this.modalRef.close(true); // Pass true to indicate refresh is needed
-      this.router.navigate(path);
+      this.closeModal();
     } catch (error) {
       console.error('Error enqueuing RFI:', error);
       this.error = error;

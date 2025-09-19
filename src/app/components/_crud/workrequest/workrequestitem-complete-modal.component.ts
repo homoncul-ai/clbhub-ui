@@ -185,11 +185,7 @@ export class WorkRequestItemCompleteModalComponent implements OnInit {
           this.isSubmitting = false;
           const workItemResponse: WorkItemFormResponse = response as WorkItemFormResponse;
           const workRequestItemId: string = workItemResponse.context?.workRequestItemId || this.workRequestItemId;
-          
-          // Navigate to the updated work request item
-          const path: string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', workRequestItemId];
-          AbstractListComponent.routeToPath(this.router, path);
-          
+                   
           // Close the modal
           this.closeModal();
         },

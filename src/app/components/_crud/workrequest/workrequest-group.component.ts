@@ -306,8 +306,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     var rsp  =   this.hcclService.callWorkRequestUi(this.id, actionCode, request).toPromise().then(rsp => {
      var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
      var wrid: string = wirsp.context?.workRequestItemId || '';
-     var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
-     AbstractListComponent.routeToPath(this.router, path);
+     this.closeModal();
     });
    }
 
