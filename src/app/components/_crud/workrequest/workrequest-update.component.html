@@ -6,14 +6,14 @@
 <div *ngIf="!isLoading()">
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
-  <div *ngIf="isTicketCompleted()">
+  <div *ngIf="isTicketCompleted() && !isTicketCancelled()">
   <h4>Deliverables : {{ this.deliverables.length }}</h4>
   <div *ngFor="let deliverable of this.deliverables">
     <app-workitemdeliverable-crud  [id]="deliverable.id" [modeName]="CRUD_MODES.SECTION"></app-workitemdeliverable-crud>
   </div>
   </div>
 
-  <div *ngIf="!isTicketCompleted()">
+  <div *ngIf="!isTicketCompleted() && !isTicketCancelled() && !isReadonly()">
   
   <app-simple-buttonbar 
     [buttonBar]="getSimpleButtonBar()" 

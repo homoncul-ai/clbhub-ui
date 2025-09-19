@@ -169,7 +169,8 @@ export class StudentWorkRequestsComponent extends AbstractEntityGroupComponent<H
       if (this.ticketId != null && this.ticketId != '') {
         tabs.push(new SimpleTab('ticket', '' + this.getTicket()?.businessCode, '', 
           () => {
-            this.router.navigate([baseRoute, this.getTicketId()]);
+            var path =   ['/student-dashboard/guidance', 'workrequests', this.ticketId, 'ticket'];
+            this.router.navigate(path);
           },
           () => {
             return true;
@@ -179,7 +180,7 @@ export class StudentWorkRequestsComponent extends AbstractEntityGroupComponent<H
     //tabs.push(tab) 
     var tab: SimpleTab =  new SimpleTab('logs', 'Logs X', '', 
       () => {
-         var path =   ['/student-dashboard/guidance', 'workrequests', this.queueId, this.ticketId, 'logs'];
+         var path =   ['/student-dashboard/guidance', 'workrequests', this.ticketId, 'logs'];
          this.router.navigate(path);
         //this.router.navigate([baseRoute, this.ticketId, 'logs']);
         //this.currentTabId = 'workRequestItem';
@@ -194,7 +195,7 @@ export class StudentWorkRequestsComponent extends AbstractEntityGroupComponent<H
      tab =  new SimpleTab('items', 'Items', '', 
       () => {
         //this.currentTabId = 'items';
-        var path =   ['/student-dashboard/guidance', 'workrequests', this.queueId, this.ticketId, 'items'];
+        var path =   ['/student-dashboard/guidance', 'workrequests', this.ticketId, 'items'];
         this.router.navigate(path);
         
       },
@@ -206,7 +207,7 @@ export class StudentWorkRequestsComponent extends AbstractEntityGroupComponent<H
     
     tab =  new SimpleTab('workRequestItem', 'Item', '', 
       () => {
-        var path =   ['/student-dashboard/guidance', 'workrequests', this.queueId, this.ticketId, 'workRequestItem', this.workRequestItemId];
+        var path =   ['/student-dashboard/guidance', 'workrequests',  this.ticketId, 'workRequestItem', this.workRequestItemId];
         this.router.navigate(path);
         //this.currentTabId = 'workRequestItem';
         
@@ -234,7 +235,7 @@ export class StudentWorkRequestsComponent extends AbstractEntityGroupComponent<H
     //x.alertMessage = 'Ticket';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
-      return ['/student-dashboard/guidance', 'workrequests', this.queueId, id];
+      return ['/student-dashboard/guidance', 'workrequests', id];
     };
     //x.alertMessage = 'Catalog Entry';
     return x;
@@ -267,8 +268,12 @@ export class StudentWorkRequestsComponent extends AbstractEntityGroupComponent<H
   protected myOnWorkRequestItemRowClickBehavior(): OnRowClickBehavior {
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.usingNavigateUrl = true;
+    x.doNotNavigate = true;
     x.getNavigateUrl = (id: string) => {
-      return ['/student-dashboard/guidance', 'workrequests', this.queueId, this.ticketId, 'workRequestItem', id];
+       
+      var path = ['/student-dashboard/guidance', 'workrequests', this.ticketId, 'workRequestItem', id];
+      //alert('clicked ccc' + id + ' ' + path.join('/'))
+      return path;
     };
     return x;
   }

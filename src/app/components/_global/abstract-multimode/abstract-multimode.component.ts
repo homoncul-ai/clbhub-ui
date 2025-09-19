@@ -19,11 +19,11 @@ import { AbstractListComponent } from '../abstract-list/abstract-list.component'
   styleUrl: './abstract-multimode.component.scss'
 })
 export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> implements OnInit {
-  
   @Input() id!: string;
   @Input() childId!: string;
   @Input() modeName!: string;
-
+  @Input() readonly: boolean = false;
+ 
   protected entity!: R ;
 
   protected CRUD_MODES = CRUD_MODES;
@@ -48,7 +48,9 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
     }
   }
 
-  
+  protected isReadonly(): boolean {
+    return this.readonly;
+  }
   
   public canEnterMode(mode: string): boolean {  
     if (this.isValidMode(mode)) {

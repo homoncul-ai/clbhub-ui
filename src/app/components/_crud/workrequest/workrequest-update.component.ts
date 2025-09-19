@@ -96,7 +96,11 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   }
 
   isTicketCompleted(): boolean {
-    return this.entity?.getCurrentStateCode() === 'completed' || false;
+    return this.entity?.getCurrentStateCode() === 'completed'|| false;
+  }
+
+  isTicketCancelled(): boolean {
+    return this.entity?.getCurrentStateCode() === 'cancelled' || false;
   }
   // Methods referenced in template
   openAcceptModal(): void {
