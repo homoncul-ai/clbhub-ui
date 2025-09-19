@@ -19,7 +19,7 @@
   <!-- Menu items display -->
   <div *ngIf="!isLoading" class="d-flex align-items-center">
     <label class="me-3 mb-0">{{ currentStateCode }}</label>
-    <app-simple-buttonbar [buttonBar]="getSimpleButtonBar()" displayMode="select" placeholder="Transition to next state ... "></app-simple-buttonbar>
+    <app-simple-buttonbar [buttonBar]="getSimpleButtonBar()" displayMode="select" placeholder="Transition to next state ... " (buttonSelected)="onButtonSelected($event)"></app-simple-buttonbar>
     <!-- <app-menu-control-data-list [menuControlDataList]="menuControlDataList" (menuItemSelected)="onMenuItemSelected($event)"></app-menu-control-data-list> -->
   </div>
 

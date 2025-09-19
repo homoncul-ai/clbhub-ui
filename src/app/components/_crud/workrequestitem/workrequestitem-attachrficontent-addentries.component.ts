@@ -192,40 +192,41 @@ export class WorkRequestItemAttachRFIContentAddEntriesComponent extends Abstract
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
+    //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
     //this.router.navigate(path)  
-    AbstractListComponent.routeToPath(this.router, path);
+    //AbstractListComponent.routeToPath(this.router, path);
+    this.ngOnInit();
    });
   }
-  getOnGoAddCatalogEntriesToRFI(): OnGoClickActionBehavior {
-    var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
-    o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
-      this.addItemsToRFI(entityIds);
-    }
-    //o.alertMessage = 'Go with entity ids:';
-    return o;
-  }
+  // getOnGoAddCatalogEntriesToRFI(): OnGoClickActionBehavior {
+  //   var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
+  //   o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
+  //     this.addItemsToRFI(entityIds);
+  //   }
+  //   //o.alertMessage = 'Go with entity ids:';
+  //   return o;
+  // }
 
-  addItemsToRFI(entityIds: string[]) { 
-    var request : WorkItemFormRequest = {
-      op: 'contentAddPost',
-      context: this.workItemFormContext,
-      actionFormData: {
-        catalogEntryIds: entityIds,
-      }
-    } 
-   var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
-    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
-    var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
-    AbstractListComponent.routeToPath(this.router, path);
+  // addItemsToRFI(entityIds: string[]) { 
+  //   var request : WorkItemFormRequest = {
+  //     op: 'contentAddPost',
+  //     context: this.workItemFormContext,
+  //     actionFormData: {
+  //       catalogEntryIds: entityIds,
+  //     }
+  //   } 
+  //  var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
+  //   var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
+  //   var wrid: string = wirsp.context?.workRequestItemId || '';
+  //   var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid ];
+  //   AbstractListComponent.routeToPath(this.router, path);
     
-  //   var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-  //  // alert('addItemsToRFI called with entityIds:' + entityIds );
-  //   this.router.navigate(path)
-  //   this.enterMode('createItemViewPost'); 
-   });
-  }
+  // //   var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+  // //  // alert('addItemsToRFI called with entityIds:' + entityIds );
+  // //   this.router.navigate(path)
+  // //   this.enterMode('createItemViewPost'); 
+  //  });
+  // }
 
   getCatalogEntryOtherData(): any {
     return {

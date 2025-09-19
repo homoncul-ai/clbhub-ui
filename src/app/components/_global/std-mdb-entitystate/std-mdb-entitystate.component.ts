@@ -81,9 +81,20 @@ export class StdMdbEntitystateComponent implements OnInit, OnDestroy {
   }
   
   /**
+   * Handle button selection from simple button bar
+   */
+  onButtonSelected(buttonId: string): void {
+    const menuItem = this.menuItems.find(item => item.id === buttonId);
+    if (menuItem) {
+      this.onMenuItemSelected(menuItem);
+    }
+  }
+
+  /**
    * Handle menu item selection
    */
   onMenuItemSelected(menuItem: MenuControlData): void {
+    debugger
     if (!menuItem || !this.currentStateChangeResponse) {
       return;
     }
