@@ -46,6 +46,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   @Input() modeName: string = 'detail';
   @Input() menuCreationHint?: string = '';
   @Input() entityForCreate?: R;
+  @Input() readonly: boolean = false;
 
   @Output() crudComponentRequiresRefresh = new EventEmitter<void>();
 
@@ -67,6 +68,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     this.cdr.detectChanges();
   }
 
+  protected isReadonly(): boolean {
+    return this.readonly;
+  }
+  
   /**
    * Reset CRUD component state to initial values
    */

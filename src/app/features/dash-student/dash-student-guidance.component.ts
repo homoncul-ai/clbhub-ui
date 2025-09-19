@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { GuidanceTicketModalComponent } from './guidance-ticket-modal.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
@@ -58,7 +59,7 @@ import { EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, Wor
                 <div class="col-md-6">
                   <h5>Recent Tickets</h5>
                   <div class="list-group">
-                    <div class="list-group-item" *ngFor="let ticket of recentTickets()">
+                    <div class="list-group-item" *ngFor="let ticket of recentTickets()" (click)="onClickTicket(ticket)" style="cursor: pointer;">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">{{ ticket.businessCode }}</h6>
                         <span class="badge bg-{{ ticket.currentStateCode === 'Open'
@@ -137,6 +138,7 @@ export class DashStudentGuidanceComponent implements OnInit {
   private modalService = inject(MdbModalService);
   private hcclContextService = inject(HcclContextService);
   private hcclService = inject(HcclService);
+  private router = inject(Router);
   private guidanceUIData: WorkRequestDashboardUIGETData | null = null;
   private loading: boolean = false;
   constructor() {
@@ -191,7 +193,6 @@ export class DashStudentGuidanceComponent implements OnInit {
   protected getStats(stateCode: string) : EntityStateStatGETData | null {
     return this.guidanceUIData?.mapStats?.[stateCode] || {itemCount: 0, stateCode: stateCode, stateLabel: stateCode};
   }
-  pritect
 
   protected recentTickets() : WorkRequestGETData[]  {
     return this.guidanceUIData?.recentWorkRequests?.searchResults || [];
@@ -202,5 +203,14 @@ export class DashStudentGuidanceComponent implements OnInit {
       console.log('Guidance UI data loaded:', data);
       this.guidanceUIData = data;
     });
+  }
+
+  /**
+   * Handle click on guidance ticket
+   * @param ticket The clicked ticket
+   */
+  onClickTicket(ticket: WorkRequestGETData): void {
+    console.log('Ticket clicked:', ticket); 
+    this.router.navigate(['/student-dashboard/guidance/workrequests', ticket.id,'ticket']);
   }
 }

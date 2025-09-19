@@ -11,8 +11,8 @@ import { DashStudentProgressComponent } from './dash-student-progress.component'
 import { DashStudentGuidanceComponent } from './dash-student-guidance.component';
 import { DashStudentScheduleComponent } from './dash-student-schedule.component';
 import { StudentPersonalStatementGroupComponent } from './student-personalstatement-group.component';
-import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
-
+import { CatalogEntryModalComponent } from './catalog-entry-modal.component';  
+import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
 const routes: Routes = [
   {
     path: '',
@@ -25,6 +25,18 @@ const routes: Routes = [
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
       { path: 'schedule', component: DashStudentScheduleComponent },
+
+      { path: 'guidance/workrequests/:ticketId/:tabId', component:StudentWorkRequestsComponent },
+      { path: 'guidance/workrequests/:ticketId', redirectTo: 'guidance/workrequests/:ticketId/ticket', pathMatch: 'full' },
+      { path: 'guidance/workrequests', component:StudentWorkRequestsComponent },
+     
+      // { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
+      // { path: 'workqueues/:queueId/:ticketId/:tabId/:workRequestItemId', component: ProviderWorkqueueGroupComponent },
+      // { path: 'workqueues/:queueId/:ticketId/:tabId', component: ProviderWorkqueueGroupComponent },
+      // { path: 'workqueues/:queueId/:ticketId', redirectTo: 'workqueues/:queueId/:ticketId/ticket', pathMatch: 'full' },
+      // { path: 'workqueues/:queueId', component: ProviderWorkqueueGroupComponent },
+      // { path: 'workqueues', component: ProviderWorkqueueGroupComponent },
+        
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }
