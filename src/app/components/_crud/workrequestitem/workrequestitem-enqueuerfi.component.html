@@ -27,12 +27,15 @@
 </app-std-mdb-form-text>
 
 <app-provider-workqueue-list [showingSearch]="true" [showingSearchHeading]="true" 
-  [searchHeadingLabel]="'Choose Providers to Asssist'"
+  [searchHeadingLabel]="'Choose Providers to Assist'"
   [criteria]="getCriteriaForProviders()"
-  [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="onClickProviderRow()"
-  [onGoClickAction]="getOnGoAddProvidersToRFI()" goButtonLabel="Create Tickets for Providers" ></app-provider-workqueue-list>
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="true" [hideInternalButtons]="true"
+  [onRowClickBehavior]="onClickProviderRow()"
+  (selectedIdsChanged)="onProviderSelectionChanged($event)"></app-provider-workqueue-list>
 
-<button (click)="createItemViewPost()" class="btn btn-primary">Send Provider Requests</button>
+<button (click)="createItemViewPost()" class="btn btn-primary" [disabled]="providerIds.length === 0">
+  Send to {{ providerIds.length }} Provider{{ providerIds.length !== 1 ? 's' : '' }}
+</button>
   
 </div>
 

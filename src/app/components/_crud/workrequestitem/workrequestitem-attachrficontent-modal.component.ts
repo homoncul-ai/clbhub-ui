@@ -31,12 +31,14 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
   workRequestItem: WorkRequestItemCrudWrapper | null = null;
   workRequestId: string = '';
   
-  public modalRef!: MdbModalRef<WorkRequestItemAttachRFIContentModalComponent>;
-  
   // Injected services
   private hcclService = inject(HcclService);
   private hcclContextService = inject(HcclContextService);
   private router = inject(Router);
+  
+  constructor(
+    public modalRef: MdbModalRef<WorkRequestItemAttachRFIContentModalComponent>
+  ) {}
   
   // Properties referenced in template
   acceptText: string = '';
@@ -193,14 +195,14 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
       this.addItemsToRFI(entityIds);
     }
     o.onButtonClick = async (id: string, entityIds: string[], button: SimpleButton) => {
-      alert('onButtonClick ' + id + ' ' + entityIds.join(','));
+     // alert('onButtonClick ' + id + ' ' + entityIds.join(','));
       if (id === 'add') {
         this.addItemsToRFI(entityIds);
       } else if (id === 'cancel') {
         this.closeModal();
       }
     }
-    o.alertMessage = 'Go with access ids:';
+    //o.alertMessage = 'Go with access ids:';
     return o;
   }
 
@@ -215,8 +217,9 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
     var rsp  =   this.hcclService.callWorkRequestUi(this.workRequestId, 'AttachRFIContent', request).toPromise().then(rsp => {
       var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
       var wrid: string = wirsp.context?.workRequestItemId || '';
-      var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
-      AbstractListComponent.routeToPath(this.router, path);
+      //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
+     // AbstractListComponent.routeToPath(this.router, path);
+     this.modalRef.close(true); // Pass true to indicate refresh is needed
     });
   }
 
@@ -251,9 +254,13 @@ export class WorkRequestItemAttachRFIContentModalComponent implements OnInit {
   }
 
   closeModal() {
-    var wrid: string = this.workRequestItemEntity?.getData()?.id || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
-      AbstractListComponent.routeToPath(this.router, path);
+    // var wrid: string = this.workRequestItemEntity?.getData()?.id || '';
+    // var path : string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', wrid ];
+    //   AbstractListComponent.routeToPath(this.router, path);
+      //this.closeModal();
+
+      // how do we handle this?
+      this.modalRef.close(true); // Pass true to indicate refresh is needed
   }
 
   isLoading(): boolean {

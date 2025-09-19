@@ -294,9 +294,9 @@ export class WorkRequestAttachContentModalComponent implements OnInit {
    var rsp  =   this.hcclService.callWorkRequestUi(this.id, 'AttachRFIContent', request).toPromise().then(rsp => {
     var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
     var wrid: string = wirsp.context?.workRequestItemId || '';
-    var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
+    //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
     //alert(this.modeName + ' ' + path.join('/'));
-    this.router.navigate(path)
+    //this.router.navigate(path)
     //this.enterMode('createItemViewPost'); 
    });
 

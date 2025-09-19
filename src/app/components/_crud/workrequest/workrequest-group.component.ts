@@ -84,6 +84,12 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     return workRequest;
   }
 
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+    let tabId = this.tabId;
+    return tabId;
+  }
+
+
   protected workRequestItem: WorkRequestItemCrudWrapper | null = null;
 
   protected setupTabs(): SimpleTab[] {

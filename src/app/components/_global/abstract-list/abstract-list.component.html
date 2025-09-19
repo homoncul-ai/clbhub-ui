@@ -3,7 +3,7 @@
 <div class="search-list-container">
     <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
     <form *ngIf="showingSearch" class="search-list-search-bar" (submit)="onFormSubmit($event)">
-      <div *ngIf="showingGoButton" class="search-list-button-bar">
+      <div *ngIf="showingGoButton && !hideInternalButtons" class="search-list-button-bar">
         <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
@@ -14,17 +14,17 @@
       <button *ngIf="showingAdvancedSearch" type="button" class="search-list-input-button" (click)="onAdvancedSearch()">
         <span class="material-icons" aria-label="Advanced Search">(AdvSrch)</span>
       </button>
-      <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
+      <button *ngIf="showingAddButton && !hideInternalButtons" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
     </form>
 
     <form *ngIf="!showingSearch" class="search-list-search-bar" >
-      <div *ngIf="showingGoButton" class="search-list-button-bar">
+      <div *ngIf="showingGoButton && !hideInternalButtons" class="search-list-button-bar">
         <button type="button" class="search-list-button-bar-button btn-primary" (click)="onGoClick()">{{ goButtonLabel }}</button> 
         &nbsp;
       </div>
-      <button *ngIf="showingAddButton" type="button" class="search-list-input-button" (click)="onAdd()">
+      <button *ngIf="showingAddButton && !hideInternalButtons" type="button" class="search-list-input-button" (click)="onAdd()">
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
     </form>

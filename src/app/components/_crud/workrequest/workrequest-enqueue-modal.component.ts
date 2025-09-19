@@ -10,7 +10,7 @@ import { MenuControlDataListComponent } from '@app/components/_global/menu-contr
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { ProviderWorkQueueListComponent } from "../workqueue/provider-workqueue-list.component";
-import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-workrequest-enqueue-modal',
@@ -51,10 +51,11 @@ import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_gl
 </app-std-mdb-form-text>
 
 <app-provider-workqueue-list  [showingSearch]="true" [showingSearchHeading]="true" 
-  [searchHeadingLabel]="'Choose Providers to Asssist'"
+  [searchHeadingLabel]="'Choose Providers to Assist'"
   [criteria]="getCriteriaForProviders()"
-  [showingGoButton]="true" [showingAddButton]="false" [showingIdCheckbox]="true" [onRowClickBehavior]="onClickProviderRow()"
-  [onGoClickAction]="getOnGoAddProvidersToRFI()" goButtonLabel="Create Tickets for Providers" ></app-provider-workqueue-list>
+  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="true" [hideInternalButtons]="true"
+  [onRowClickBehavior]="onClickProviderRow()"
+  (selectedIdsChanged)="onProviderSelectionChanged($event)"></app-provider-workqueue-list>
 
 <!-- <button (click)="createItemViewPost()" class="btn btn-primary">Send Provider Requests</button>
    -->
@@ -68,7 +69,7 @@ import { OnGoClickActionBehavior, OnRowClickBehavior } from '@app/components/_gl
       </button>
       <button type="button" class="btn btn-success" (click)="onSubmit()" [disabled]="!isFormValid()">
         <i class="fas fa-share me-2"></i>
-        Enqueue RFI
+        Send to {{ providerIds.length }} Provider{{ providerIds.length !== 1 ? 's' : '' }}
       </button>
     </div>
   `,
@@ -198,10 +199,18 @@ export class WorkRequestEnqueueModalComponent implements OnInit {
   }
   
   /**
+   * Handle provider selection changes from the list component
+   */
+  onProviderSelectionChanged(selectedIds: string[]): void {
+    this.providerIds = selectedIds;
+    console.log('Provider selection changed:', selectedIds);
+  }
+
+  /**
    * Check if form is valid
    */
   isFormValid(): boolean {
-    return !!(this.comments && this.comments.trim().length > 0 && this.queueId);
+    return !!(this.comments && this.comments.trim().length > 0 && this.providerIds.length > 0);
   }
   
   /**
@@ -213,12 +222,14 @@ export class WorkRequestEnqueueModalComponent implements OnInit {
     }
     
     try {
+      // collect the provider ids
       const request: WorkItemFormRequest = {
         op: 'createItemViewPost',
         context: this.workItemFormContext,
         actionFormData: {
           queueCode: this.queueId,
-          comments: this.comments
+          comments: this.comments,
+          providerQueueIds: this.providerIds
         }
       };
       
@@ -228,8 +239,8 @@ export class WorkRequestEnqueueModalComponent implements OnInit {
       const workRequestItemId: string = workItemFormResponse.context?.workRequestItemId || '';
       const path: string[] = ['/ecoadmin-dashboard/workrequests', this.workRequestId, 'workRequestItem', workRequestItemId];
       
-      // Close modal and navigate
-      this.closeModal();
+      // Close modal with success result (opener will handle refresh)
+      this.modalRef.close(true); // Pass true to indicate refresh is needed
       this.router.navigate(path);
     } catch (error) {
       console.error('Error enqueuing RFI:', error);
@@ -241,7 +252,7 @@ export class WorkRequestEnqueueModalComponent implements OnInit {
    * Close the modal
    */
   closeModal(): void {
-    this.modalRef.close();
+    this.modalRef.close(false); // Pass false to indicate no refresh needed (user cancelled)
   }
 
   protected providerIds: string[] = [];
@@ -269,35 +280,6 @@ export class WorkRequestEnqueueModalComponent implements OnInit {
     return o;
   }
 
-  getOnGoAddProvidersToRFI(): OnGoClickActionBehavior {
-    var o : OnGoClickActionBehavior = new OnGoClickActionBehavior();
-    o.onGoClick = async (entityIds: string[], baseRoute: string, router: Router) => {
-      this.addProvidersToRFI(entityIds);
-    }
-    o.alertMessage = 'Go with entity ids:';
-    return o;
-  }
- 
-  addProvidersToRFI(entityIds: string[]) { 
-    var request : WorkItemFormRequest = {
-      op: 'createItemViewPost',
-      context: this.workItemFormContext,
-      actionFormData: {
-        queueCode: this.queueId,
-        comments: this.comments,
-        providerQueueIds: entityIds
-      }
-    };
-   var rsp  =   this.hcclService.callWorkRequestUi(this.workRequestId, 'EnqueueRFI', request).toPromise().then(rsp => {
-    var wirsp : WorkItemFormResponse = rsp as WorkItemFormResponse;
-    var wrid: string = wirsp.context?.workRequestItemId || '';
-    //var path : string[] = ['/ecoadmin-dashboard/workrequests', this.id, 'workRequestItem', wrid];
-    //var path : string[] = [this.getBaseRoute(), this.workRequestId, 'update'];
-    //alert(this.modeName + ' ' + path.join('/'));
-    //this.routeToPath(path);
-//    this.enterMode('createItemViewPost'); 
-   });
-  }
 
 
 }

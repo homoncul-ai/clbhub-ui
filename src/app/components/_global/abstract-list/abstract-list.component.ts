@@ -1,5 +1,5 @@
 import { BaseCriteria } from '../../../restsvc/hccl.service';
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,10 +41,17 @@ implements OnInit, AfterViewInit {
   @Input() showingAddButton: boolean = false;
   @Input() addButtonLabel: string = 'Add';
   @Input() showingIdCheckbox: boolean = false;
+  @Input() hideInternalButtons: boolean = false; // When true, hides Go and Add buttons for external control
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
   @Input() otherData: any = {};
   @Input() showingDiagnostics: boolean = false;
+
+  // CSV values to control checkbox selection externally
+  @Input() selectedIdsCsv: string = '';
+  
+  // Event emitter for when selected IDs change
+  @Output() selectedIdsChanged = new EventEmitter<string[]>();
 
   // This is a list of button names and their labels that will be displayed in the button bar.
   @Input() buttonBar: SimpleButtonBar | null = null;
@@ -161,6 +168,16 @@ implements OnInit, AfterViewInit {
   protected addGridEventListeners(grid: any) {
     // Default implementation - subclasses can override
     console.log('addGridEventListeners called');
+    
+    // Add checkbox change event listener
+    if (this.getShowingIdCheckbox()) {
+      grid.events.on('cellClick', (row: any, col: any, e: any) => {
+        if (col && col.id === 'select') {
+          // Checkbox was clicked, emit the change
+          this.emitSelectedIdsChange();
+        }
+      });
+    }
   }
 
   protected setupGrid() {
@@ -305,7 +322,8 @@ implements OnInit, AfterViewInit {
       
       // Only add select property if checkbox is shown
       if (this.getShowingIdCheckbox()) {
-        data.select = false;
+        const entityId = this.extractId(entity);
+        data.select = this.isIdSelected(entityId);
       }
       console.log('data:', data);
       
@@ -597,6 +615,44 @@ implements OnInit, AfterViewInit {
     }
     var dx : Date = new Date(date.dateMilliseconds || 0);
     return dx.toLocaleString();
+  }
+
+  /**
+   * Check if an ID is selected based on CSV values
+   */
+  private isIdSelected(entityId: string): boolean {
+    if (!this.selectedIdsCsv || this.selectedIdsCsv.trim() === '') {
+      return false;
+    }
+    const selectedIds = this.selectedIdsCsv.split(',').map(id => id.trim());
+    return selectedIds.includes(entityId);
+  }
+
+  /**
+   * Emit selected IDs change event
+   */
+  private emitSelectedIdsChange(): void {
+    const selectedIds = this.getSelectedEntityIds();
+    this.selectedIdsChanged.emit(selectedIds);
+  }
+
+  /**
+   * Get selected IDs as CSV string
+   */
+  public getSelectedIdsAsCsv(): string {
+    const selectedIds = this.getSelectedEntityIds();
+    return selectedIds.join(',');
+  }
+
+  /**
+   * Update selected IDs from external CSV
+   */
+  public updateSelectedIdsFromCsv(csvString: string): void {
+    this.selectedIdsCsv = csvString;
+    if (this.grid && this.getShowingIdCheckbox()) {
+      // Refresh the grid to update checkbox states
+      this.refreshGrid();
+    }
   }
 
   

@@ -143,12 +143,14 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       }
     });
     
-    // Refresh entity after modal closes
-    const subscription = this.enqueueModalRef.onClose.subscribe(() => {
-      WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
-        this.entity = x;
-        this.refreshButtonBar(); // Refresh button bar to update button visibility
-      });
+    // Refresh entity after modal closes with success result
+    const subscription = this.enqueueModalRef.onClose.subscribe((result: boolean) => {
+      if (result) {
+        WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
+          this.entity = x;
+          this.refreshButtonBar(); // Refresh button bar to update button visibility
+        });
+      }
     });
     this.subscriptions.push(subscription);
   }
