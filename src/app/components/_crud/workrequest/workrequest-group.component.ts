@@ -118,6 +118,17 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
       }
     );
     //tabs.push(tab) 
+    tab =  new SimpleTab('logs', 'Logs', '', 
+      () => {
+        this.router.navigate([baseRoute, this.id, 'logs']);
+        //this.currentTabId = 'workRequestItem';
+        
+      },
+      () => {
+        return true;
+      }
+    );
+    tabs.push(tab)
 
      tab =  new SimpleTab('items', 'Items', '', 
       () => {
@@ -143,18 +154,7 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
     );
     tabs.push(tab)
 
-    tab =  new SimpleTab('logs', 'Logs', '', 
-      () => {
-        this.router.navigate([baseRoute, this.id, 'logs']);
-        //this.currentTabId = 'workRequestItem';
-        
-      },
-      () => {
-        return true;
-      }
-    );
-    tabs.push(tab)
-
+    
     // var tabD: SimpleTab | undefined = this.findTabById(tabs, 'details');
     // if (tabD) {
     //   //alert('found tabD');
