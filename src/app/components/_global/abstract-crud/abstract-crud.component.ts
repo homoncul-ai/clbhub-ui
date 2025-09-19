@@ -144,6 +144,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
       case CRUD_MODES.DELETE:
         this.switchToDeleteMode();
         break;  
+
+      case CRUD_MODES.PARENT:
+        this.switchToParentMode();
+        break; 
       case CRUD_MODES.SECTION:
       case CRUD_MODES.HEADING:
       case CRUD_MODES.FK:
@@ -356,16 +360,19 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     await this.prepareMenus(entity);
     return Promise.resolve();
   }
-  protected switchToDeleteMode(): void {
-    this.setMode(this.CRUD_MODES.DELETE);
+    protected switchToDeleteMode(): void {
+      this.setMode(this.CRUD_MODES.DELETE);
+    }
+  protected switchToParentMode(): void {
+    this.setMode(this.CRUD_MODES.PARENT);
   }
   protected switchToDetailMode(): void {  
     if (this.id == null) {
       this.router.navigate([this.getBaseRoute()]);
     }
     this.prepareDetailMode().then(() => {
-    this.setMode(this.CRUD_MODES.DETAIL);
-  });
+      this.setMode(this.CRUD_MODES.DETAIL);
+    });
   }
   
   protected async prepareDetailMode(): Promise<void> {

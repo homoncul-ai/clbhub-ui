@@ -5,6 +5,11 @@
 <app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
 </div>
 
+
+<div *ngIf="!isLoading && getMode() === CRUD_MODES.PARENT" class="section-mode">
+  BUBA?  What to show. Link 
+</div>
+
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
     <div class="details-section">
       <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->

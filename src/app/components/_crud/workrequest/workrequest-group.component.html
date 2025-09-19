@@ -5,6 +5,7 @@
     <app-workrequest-crud [id]="id" [modeName]="'section'"
       (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-crud>   
     <hr/>
+    
     <app-workrequest-update [id]="id" [modeName]="'detail'" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-update> 
     <!-- <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud> -->
   </div>
@@ -64,8 +65,6 @@
       </div>
 
       <div *ngIf="workRequestItem?.getCurrentStateCode() === 'completed' && this.workItemDeliverableId !== ''">
-        <h6>Showing Deliverable </h6>
-        <hr/>
         <app-workitemdeliverable-crud [id]="this.workItemDeliverableId" modeName="section"></app-workitemdeliverable-crud>
       </div>
     </div>
@@ -96,7 +95,7 @@
   </div> 
 </div>
 
-<div *ngIf="true">
+<div *ngIf="false">
   <li>CurrentId :{{currentTabId}}</li>
   <li>Id :{{id}}</li>
   <li>ChildId :{{childId}}</li>

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { CreateTicketSetupUIData, HcclService, RoutingActionPOSTData, SimpleRestActionResponse, WorkQueueGETData, WorkRequestGETData, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
+import { CreateTicketSetupUIData, HcclService, RoutingActionPOSTData, SimpleRestActionResponse, WorkItemDeliverableCriteria, WorkItemDeliverableGETData, WorkItemDeliverableGETDataSearchResults, WorkQueueGETData, WorkRequestGETData, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
 import { WorkRequestCrudWrapper } from '@app/components/_crud/workrequest/workrequest-crud.component';
 import { SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -19,13 +19,14 @@ import { WorkRequestAttachContentModalComponent } from './workrequest-attach-con
 import { WorkRequestEnqueueModalComponent } from './workrequest-enqueue-modal.component';
 import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 import { Subscription } from 'rxjs';
+import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from '../workitemdeliverable/workitemdeliverable-crud.component';
 
 
 @Component({
   selector: 'app-workrequest-update',
   standalone: true,
   imports: [CommonModule, SimpleMessagesSectionComponent, FormsModule,
-    WorkRequestItemListComponent, SimpleButtonbarComponent],
+    WorkRequestItemListComponent, SimpleButtonbarComponent, WorkItemDeliverableCrudComponent  ],
   templateUrl: './workrequest-update.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -92,6 +93,10 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
 
   isTicketRerouted(): boolean {
     return this.entity?.getCurrentStateCode() === 'rerouted' || false;
+  }
+
+  isTicketCompleted(): boolean {
+    return this.entity?.getCurrentStateCode() === 'completed' || false;
   }
   // Methods referenced in template
   openAcceptModal(): void {
@@ -253,7 +258,20 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     this._buttonBar = null; // Clear cache to force recreation
   }
 
+  deliverables: WorkItemDeliverableGETData[] = [];
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
-    return WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+    const entityRsp = await WorkRequestCrudWrapper.newInstance(id, this.hcclService);
+    this. entity = entityRsp as WorkRequestCrudWrapper;
+    if (this.isTicketCompleted()) {
+      // Load deliverables
+      const delivCrit : WorkItemDeliverableCriteria = {
+        workRequestId: this.entity.getId()
+      }
+      const delivsRsp = await this.hcclService.findWorkItemDeliverables(delivCrit).toPromise();
+      const delivs : WorkItemDeliverableGETDataSearchResults = delivsRsp as WorkItemDeliverableGETDataSearchResults;
+      this.deliverables = delivs.searchResults || [];
+    
+    }
+    return entityRsp;
   }
 } 

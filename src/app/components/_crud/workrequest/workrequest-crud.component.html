@@ -6,9 +6,23 @@
 <app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
 </div>
 
+
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
 
     <div class="details-section">
+      <div class="detail-group">
+        <label>Code:</label>
+        <span>{{ businessCode }}</span>
+      </div>
+      <div *ngIf="parentWorkRequestItemId" class="detail-group">
+        <label>Parent Work Request:</label>
+        <app-workrequestitem-crud [id]="parentWorkRequestItemId" [modeName]="CRUD_MODES.PARENT"></app-workrequestitem-crud>
+      </div>
+      <div class="detail-group">
+        <label>Description:</label>
+        <span>{{ description }}</span>
+      </div>
+
       <div class="detail-group">
         <label>Work Request Type:</label>
         <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
@@ -23,10 +37,6 @@
           <span>{{ name }}</span>  
         </div>
        
-        <div class="detail-group">
-          <label>Business Code:</label>
-          <span>{{ businessCode }}</span>
-        </div>
         <!-- <div class="detail-group">
           <label>Description:</label>
           <span>{{ description }}</span>

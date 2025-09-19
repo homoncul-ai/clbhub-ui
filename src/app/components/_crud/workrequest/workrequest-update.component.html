@@ -1,30 +1,37 @@
 
 
 
-<pre> workrequest-update  component loading {{ isLoading() }}</pre>
+<!-- <pre> workrequest-update  component loading {{ isLoading() }}</pre> -->
 <div *ngIf="isLoading()">Loading... </div>
 <div *ngIf="!isLoading()">
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
-<div *ngIf="isLoading()">Loading... </div>
-<div *ngIf="!isLoading()">
-<app-simple-buttonbar 
-  [buttonBar]="getSimpleButtonBar()" 
-  [displayMode]="'select'"
-  [placeholder]="'Choose an action...'"
-  (buttonSelected)="onButtonSelected($event)">
-</app-simple-buttonbar>
-
-</div>
-
-
-<div id="items" *ngIf="true">
-  <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
-  [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
-</div>
-
-
-<pre *ngIf="false">
-    {{ entity.dump() }}</pre> 
-
+  <div *ngIf="isTicketCompleted()">
+  <h4>Deliverables : {{ this.deliverables.length }}</h4>
+  <div *ngFor="let deliverable of this.deliverables">
+    <app-workitemdeliverable-crud  [id]="deliverable.id" [modeName]="CRUD_MODES.SECTION"></app-workitemdeliverable-crud>
   </div>
+  </div>
+
+  <div *ngIf="!isTicketCompleted()">
+  
+  <app-simple-buttonbar 
+    [buttonBar]="getSimpleButtonBar()" 
+    [displayMode]="'select'"
+    [placeholder]="'Choose an action...'"
+    (buttonSelected)="onButtonSelected($event)">
+  </app-simple-buttonbar>
+
+
+  <div id="items" *ngIf="true">
+    <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
+    [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
+  </div>
+
+
+</div>
+
+  <pre *ngIf="false">
+      {{ entity.dump() }}</pre> 
+
+</div>
