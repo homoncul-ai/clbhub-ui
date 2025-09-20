@@ -28,15 +28,6 @@
 </div>
 
 <div *ngIf="currentTabId === 'logs'">
-  <!-- <div class="mb-3">
-    <app-simple-buttonbar 
-      [buttonBar]="getWorkRequestActionsButtonBar()" 
-      displayMode="select"
-      placeholder="Select an action..."
-      (buttonSelected)="onWorkRequestActionSelected($event)">
-    </app-simple-buttonbar>
-  </div> -->
-  <hr/>
   <app-workrequestlog-list     [criteria]="getLogsCriteria()" [showingSearch]="false" [showingSearchHeading]="false" 
     [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"></app-workrequestlog-list>
 </div>
