@@ -1120,6 +1120,178 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PMFileGETDataSearchResults>(request);
   }
 
+  createPMessageAttachment(body: PMessageAttachmentPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageattachment",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMessageAttachmentById(id: string): Observable<PMessageAttachmentGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageattachment/" + id,
+      method: "GET",
+    };
+    return this.request<PMessageAttachmentGETData>(request);
+  }
+
+  updatePMessageAttachmentById(id: string, body: PMessageAttachmentPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageattachment/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMessageAttachmentById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageattachment/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMessageAttachments(body: PMessageAttachmentCriteria): Observable<PMessageAttachmentGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageattachment/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMessageAttachmentGETDataSearchResults>(request);
+  }
+
+  createPMessageEntry(body: PMessageEntryPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageentry",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMessageEntryById(id: string): Observable<PMessageEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageentry/" + id,
+      method: "GET",
+    };
+    return this.request<PMessageEntryGETData>(request);
+  }
+
+  updatePMessageEntryById(id: string, body: PMessageEntryPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageentry/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMessageEntryById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageentry/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMessageEntrys(body: PMessageEntryCriteria): Observable<PMessageEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageentry/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMessageEntryGETDataSearchResults>(request);
+  }
+
+  createPMessageParticipant(body: PMessageParticipantPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageparticipant",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMessageParticipantById(id: string): Observable<PMessageParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageparticipant/" + id,
+      method: "GET",
+    };
+    return this.request<PMessageParticipantGETData>(request);
+  }
+
+  updatePMessageParticipantById(id: string, body: PMessageParticipantPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageparticipant/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMessageParticipantById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageparticipant/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMessageParticipants(body: PMessageParticipantCriteria): Observable<PMessageParticipantGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessageparticipant/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMessageParticipantGETDataSearchResults>(request);
+  }
+
+  createPMessage(body: PMessagePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessage",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMessageById(id: string): Observable<PMessageGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessage/" + id,
+      method: "GET",
+    };
+    return this.request<PMessageGETData>(request);
+  }
+
+  updatePMessageById(id: string, body: PMessagePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessage/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMessageById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessage/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMessages(body: PMessageCriteria): Observable<PMessageGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmessage/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMessageGETDataSearchResults>(request);
+  }
+
   createProvider(body: ProviderPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider",
@@ -2609,6 +2781,22 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  downloadClientDocument(record_id: string, file_name: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/download/" + record_id + "/" + file_name,
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  downloadClientDocumentPublic(record_id: string, salt: string, security_digest: string, file_name: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/dsig/" + record_id + "/" + salt + "/" + security_digest + "/" + file_name,
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
   getEntityMapForFK(entity_type: string, body: any): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/mapfk/" + entity_type,
@@ -2643,6 +2831,94 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<SimpleRestActionResponse>(request);
+  }
+
+  getMessageEntryAttachments(entryId: string): Observable<PMessageAttachmentGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/entries/" + entryId + "/attachments",
+      method: "GET",
+    };
+    return this.request<PMessageAttachmentGETDataSearchResults>(request);
+  }
+
+  addAttachmentToEntry(entryId: string, body: PMessageAttachmentPOSTData): Observable<PMessageAttachmentGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/entries/" + entryId + "/attachments",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMessageAttachmentGETData>(request);
+  }
+
+  addEntry(messageId: string, body: PMessageEntryPOSTData): Observable<PMessageEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/messages/" + messageId + "/entries",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMessageEntryGETData>(request);
+  }
+
+  addMentionToEntry(entryId: string, mentionedUserId: string, mentionText: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/entries/" + entryId + "/mention",
+      method: "PUT",
+      params: { mentionedUserId: this.convertToString(mentionedUserId), mentionText: this.convertToString(mentionText) },
+    };
+    return this.request<any>(request);
+  }
+
+  createChannel(body: PMessagePOSTData): Observable<PMessageGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/channels",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<PMessageGETData>(request);
+  }
+
+  createNewMessage(body: PMessagePOSTData): Observable<PMessageGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/messages",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<PMessageGETData>(request);
+  }
+
+  editMessageEntry(entryId: string, body: PMessageEntryPUTData): Observable<PMessageEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/entries/" + entryId,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<PMessageEntryGETData>(request);
+  }
+
+  findMessagesWithUnreadEntries(userId: string): Observable<PMessageEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/users/" + userId + "/unread-entries",
+      method: "GET",
+    };
+    return this.request<PMessageEntryGETDataSearchResults>(request);
+  }
+
+  getMessagesByUser(userId: string, limit: number): Observable<PMessageEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/users/" + userId + "/messages",
+      method: "GET",
+      params: { limit: this.convertToString(limit) },
+    };
+    return this.request<PMessageEntryGETDataSearchResults>(request);
+  }
+
+  updateMessage(messageId: string, body: PMessagePUTData): Observable<PMessageGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmessage/messages/" + messageId,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<PMessageGETData>(request);
   }
 
   resolveProviderTicketUIData(): Observable<WorkRequestDashboardUIGETData> {
@@ -2759,6 +3035,14 @@ export class HcclService extends CommonRequestServiceCaller {
   checkApplicationHealth(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/application",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  downloadClientDocumentGet(record_id: string, file_name: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/download/" + record_id + "/" + file_name,
       method: "GET",
     };
     return this.request<any>(request);
@@ -4027,6 +4311,7 @@ export interface PMBucketFolderPUTData {
 export interface PMFileBlobPOSTData {
   pmfileId?: string;
   pathToFile: string;
+  md5Hash?: string;
   fileBlob: string;
 }
 
@@ -4038,6 +4323,7 @@ export interface PMFileBlobGETData {
   dateLastUpdated?: DateGETData;
   pmfileId?: string;
   pathToFile?: string;
+  md5Hash?: string;
   fileBlob?: string;
 }
 
@@ -4058,33 +4344,39 @@ export interface PMFileBlobCriteria {
   orderByHint?: string;
   pmfileId?: string;
   pathToFile?: string;
+  md5Hash?: string;
 }
 
 export interface PMFileBlobPUTData {
   pmfileId?: string;
   pathToFile: string;
+  md5Hash?: string;
   fileBlob: string;
 }
 
 export interface PMFilePOSTData {
   downloadAs: string;
-  logicalPath: string;
+  folderPath: string;
   fileAccessCode: string;
-  available?: number;
+  available?: boolean;
   pmbucketFolderId?: string;
   pmfileReferenceId?: string;
   uploadReferenceId?: string;
   uploadGroupReferenceId?: string;
   parentEntityId: string;
+  parentEntityName?: string;
+  parentEntityType: string;
+  md5Hash?: string;
   copyFromPMFileId?: string;
-  inTrash?: boolean;
   publicImage?: boolean;
   fileSize?: number;
   mimeType?: string;
   version?: number;
   bucketStorageUuid?: string;
   bucketFolderPath?: string;
+  inTrash?: boolean;
   fileBlob?: string;
+  blobMetadata?: any;
 }
 
 export interface PMFileGETData {
@@ -4094,22 +4386,26 @@ export interface PMFileGETData {
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
   downloadAs?: string;
-  logicalPath?: string;
+  folderPath?: string;
   fileAccessCode?: string;
-  available?: number;
+  available?: boolean;
   pmbucketFolderId?: string;
   pmfileReferenceId?: string;
   uploadReferenceId?: string;
   uploadGroupReferenceId?: string;
   parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  md5Hash?: string;
   copyFromPMFileId?: string;
-  inTrash?: boolean;
   publicImage?: boolean;
   fileSize?: number;
   mimeType?: string;
   version?: number;
   bucketStorageUuid?: string;
   bucketFolderPath?: string;
+  inTrash?: boolean;
+  downloadFileUrl?: string;
 }
 
 export interface PMFileGETDataSearchResults {
@@ -4128,43 +4424,257 @@ export interface PMFileCriteria {
   maxResults?: number;
   orderByHint?: string;
   downloadAs?: string;
-  logicalPath?: string;
+  folderPath?: string;
   fileAccessCode?: string;
-  available?: number;
+  available?: boolean;
   pmbucketFolderId?: string;
   pmfileReferenceId?: string;
   uploadReferenceId?: string;
   uploadGroupReferenceId?: string;
   parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  md5Hash?: string;
   copyFromPMFileId?: string;
-  inTrash?: boolean;
   publicImage?: boolean;
   fileSize?: number;
   mimeType?: string;
   version?: number;
   bucketStorageUuid?: string;
   bucketFolderPath?: string;
+  inTrash?: boolean;
+  showingPublicUrl?: boolean;
 }
 
 export interface PMFilePUTData {
   downloadAs: string;
-  logicalPath: string;
+  folderPath: string;
   fileAccessCode: string;
-  available?: number;
+  available?: boolean;
   pmbucketFolderId?: string;
   pmfileReferenceId?: string;
   uploadReferenceId?: string;
   uploadGroupReferenceId?: string;
   parentEntityId: string;
+  parentEntityName?: string;
+  parentEntityType: string;
+  md5Hash?: string;
   copyFromPMFileId?: string;
-  inTrash?: boolean;
   publicImage?: boolean;
   fileSize?: number;
   mimeType?: string;
   version?: number;
   bucketStorageUuid?: string;
   bucketFolderPath?: string;
+  inTrash?: boolean;
   fileBlob?: string;
+}
+
+export interface PMessageAttachmentPOSTData {
+  pmessageId?: string;
+  pmessageEntryId?: string;
+  attachmentEntityId: string;
+  attachmentEntityName?: string;
+  attachmentEntityType: string;
+}
+
+export interface PMessageAttachmentGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  pmessageId?: string;
+  pmessageEntryId?: string;
+  attachmentEntityId?: string;
+  attachmentEntityName?: string;
+  attachmentEntityType?: string;
+}
+
+export interface PMessageAttachmentGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMessageAttachmentGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMessageAttachmentCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  pmessageId?: string;
+  pmessageEntryId?: string;
+  attachmentEntityId?: string;
+  attachmentEntityName?: string;
+  attachmentEntityType?: string;
+}
+
+export interface PMessageAttachmentPUTData {
+  pmessageId?: string;
+  pmessageEntryId?: string;
+  attachmentEntityId: string;
+  attachmentEntityName?: string;
+  attachmentEntityType: string;
+}
+
+export interface PMessageEntryPOSTData {
+  pmessageId?: string;
+  authorUserProfileId?: string;
+  messageParticipantId?: string;
+  body: string;
+  bodyFormatCode: string;
+}
+
+export interface PMessageEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  pmessageId?: string;
+  authorUserProfileId?: string;
+  messageParticipantId?: string;
+  body?: string;
+  bodyFormatCode?: string;
+}
+
+export interface PMessageEntryGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMessageEntryGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMessageEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  pmessageId?: string;
+  authorUserProfileId?: string;
+  messageParticipantId?: string;
+  body?: string;
+  bodyFormatCode?: string;
+  dateLastRead?: string;
+}
+
+export interface PMessageEntryPUTData {
+  pmessageId?: string;
+  authorUserProfileId?: string;
+  messageParticipantId?: string;
+  body: string;
+  bodyFormatCode: string;
+}
+
+export interface PMessageParticipantPOSTData {
+  pmessageId?: string;
+  userProfileId?: string;
+  dateLastViewed?: string;
+  importance?: number;
+}
+
+export interface PMessageParticipantGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  pmessageId?: string;
+  userProfileId?: string;
+  importance?: number;
+}
+
+export interface PMessageParticipantGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMessageParticipantGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMessageParticipantCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  pmessageId?: string;
+  userProfileId?: string;
+  dateLastViewed?: string;
+  importance?: number;
+}
+
+export interface PMessageParticipantPUTData {
+  pmessageId?: string;
+  userProfileId?: string;
+  dateLastViewed?: string;
+  importance?: number;
+}
+
+export interface PMessagePOSTData {
+  authorUserProfileId?: string;
+  title: string;
+  description: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  dateLastEntry?: string;
+}
+
+export interface PMessageGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  authorUserProfileId?: string;
+  title?: string;
+  description?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+}
+
+export interface PMessageGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMessageGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMessageCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  authorUserProfileId?: string;
+  title?: string;
+  description?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  dateLastEntry?: string;
+}
+
+export interface PMessagePUTData {
+  authorUserProfileId?: string;
+  title: string;
+  description: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  dateLastEntry?: string;
 }
 
 export interface ProviderPOSTData {

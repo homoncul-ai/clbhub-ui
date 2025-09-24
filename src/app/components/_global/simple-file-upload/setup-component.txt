@@ -1,0 +1,15 @@
+-  in this folder I want to create a set of components for uploading files.
+-- SimpleFileUploadComponent - a component with a dropzone that uploads a file to a rest endpoint, and handles the results
+-- SimpleFileListComponent - lists files using a criteria - extends on abstract-list component
+
+
+-- SimpleFileUploadComponent - 
+  open a modal pane 
+  Need to have input args 
+  entityName:string, entityId: string, uploadGroupId: some uuid, 
+  Present a panel with 2 buttons (choose files) and ( upload files )
+  The workflow will be : 
+  1. Click choose files button - uses browser file control - click to choose files.
+  2. files selected should show the list of files to be uploaded (in a modal).
+  3. Click - send the files - calls service  PMFilePOSTData 
+  4. 

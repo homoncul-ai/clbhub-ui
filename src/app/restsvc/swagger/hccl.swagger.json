@@ -4748,6 +4748,750 @@
         }
       }
     },
+    "/hccl/pattern/pmessageattachment": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMessageAttachment.",
+        "operationId": "createPMessageAttachment_1",
+        "requestBody": {
+          "description": "New PMessageAttachment data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageAttachmentPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageattachment/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMessageAttachmentById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageAttachmentGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMessageAttachment.",
+        "operationId": "updatePMessageAttachmentById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMessageAttachment data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageAttachmentPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMessageAttachment.",
+        "operationId": "deletePMessageAttachmentById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageattachment/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMessageAttachments.",
+        "operationId": "findPMessageAttachments_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageAttachmentCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageAttachmentGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageentry": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMessageEntry.",
+        "operationId": "createPMessageEntry_1",
+        "requestBody": {
+          "description": "New PMessageEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageEntryPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageentry/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMessageEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageEntryGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMessageEntry.",
+        "operationId": "updatePMessageEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMessageEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageEntryPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMessageEntry.",
+        "operationId": "deletePMessageEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageentry/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMessageEntrys.",
+        "operationId": "findPMessageEntrys_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageEntryCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageEntryGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageparticipant": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMessageParticipant.",
+        "operationId": "createPMessageParticipant_1",
+        "requestBody": {
+          "description": "New PMessageParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageParticipantPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageparticipant/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMessageParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMessageParticipant.",
+        "operationId": "updatePMessageParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMessageParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageParticipantPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMessageParticipant.",
+        "operationId": "deletePMessageParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessageparticipant/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMessageParticipants.",
+        "operationId": "findPMessageParticipants_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageParticipantCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageParticipantGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessage": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMessage.",
+        "operationId": "createPMessage_1",
+        "requestBody": {
+          "description": "New PMessage data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessagePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessage/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMessageById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMessage.",
+        "operationId": "updatePMessageById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMessage data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessagePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMessage.",
+        "operationId": "deletePMessageById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmessage/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMessages.",
+        "operationId": "findPMessages_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/prov/provider": {
       "post": {
         "tags": [
@@ -11186,6 +11930,106 @@
         }
       }
     },
+    "/hccl/public/download/{record-id}/{file-name}": {
+      "get": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Gets the document contents.",
+        "operationId": "downloadClientDocument",
+        "parameters": [
+          {
+            "name": "record-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "file-name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/dsig/{record-id}/{salt}/{security-digest}/{file-name}": {
+      "get": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Gets the document contents.",
+        "operationId": "downloadClientDocumentPublic",
+        "parameters": [
+          {
+            "name": "record-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "salt",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "security-digest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "file-name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/intg/mapfk/{entity-type}": {
       "post": {
         "tags": [
@@ -11365,11 +12209,415 @@
         }
       }
     },
+    "/hccl/pmessage/entries/{entryId}/attachments": {
+      "get": {
+        "summary": "Get attachments for a message entry",
+        "operationId": "getMessageEntryAttachments",
+        "parameters": [
+          {
+            "name": "entryId",
+            "in": "path",
+            "description": "Entry ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageAttachmentGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add attachment to a message entry",
+        "operationId": "addAttachmentToEntry",
+        "parameters": [
+          {
+            "name": "entryId",
+            "in": "path",
+            "description": "Entry ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageAttachmentPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageAttachmentGETData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/messages/{messageId}/entries": {
+      "post": {
+        "summary": "Add entry to a message",
+        "operationId": "addEntry",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "Message ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageEntryPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageEntryGETData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/entries/{entryId}/mention": {
+      "put": {
+        "summary": "Add mention to a message entry",
+        "operationId": "addMentionToEntry",
+        "parameters": [
+          {
+            "name": "entryId",
+            "in": "path",
+            "description": "Entry ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "mentionedUserId",
+            "in": "query",
+            "description": "Mentioned User ID",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "mentionText",
+            "in": "query",
+            "description": "Mention Text",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "Entry not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/channels": {
+      "post": {
+        "summary": "Create a new message channel",
+        "operationId": "createChannel",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessagePOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/messages": {
+      "post": {
+        "summary": "Create a new message (legacy method)",
+        "operationId": "createNewMessage",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessagePOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/entries/{entryId}": {
+      "put": {
+        "summary": "Edit a message entry",
+        "operationId": "editMessageEntry",
+        "parameters": [
+          {
+            "name": "entryId",
+            "in": "path",
+            "description": "Entry ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessageEntryPUTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageEntryGETData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/users/{userId}/unread-entries": {
+      "get": {
+        "summary": "Find messages with unread entries for a user",
+        "operationId": "findMessagesWithUnreadEntries",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageEntryGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/users/{userId}/messages": {
+      "get": {
+        "summary": "Get messages by a specific user",
+        "operationId": "getMessagesByUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Message limit",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageEntryGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmessage/messages/{messageId}": {
+      "put": {
+        "summary": "Update a message",
+        "operationId": "updateMessage",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "Message ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMessagePUTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMessageGETData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/providers/dash-ui/tickets": {
       "get": {
-        "tags": [
-          "/options"
-        ],
         "summary": "Load the guidance UI. ",
         "operationId": "resolveProviderTicketUIData",
         "responses": {
@@ -11921,6 +13169,48 @@
         "responses": {
           "200": {
             "description": "Ok"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/download/{record-id}/{file-name}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Gets the document contents.",
+        "operationId": "downloadClientDocument_1",
+        "parameters": [
+          {
+            "name": "record-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "file-name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
           },
           "500": {
             "description": "System Error"
@@ -16556,17 +17846,17 @@
             "type": "string"
           },
           "bucketName": {
-            "maxLength": 255,
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
           },
           "bucketFolder": {
-            "maxLength": 50,
+            "maxLength": 255,
             "minLength": 1,
             "type": "string"
           },
           "description": {
-            "maxLength": 50,
+            "maxLength": 1024,
             "minLength": 1,
             "type": "string"
           },
@@ -16711,17 +18001,17 @@
             "type": "string"
           },
           "bucketName": {
-            "maxLength": 255,
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
           },
           "bucketFolder": {
-            "maxLength": 50,
+            "maxLength": 255,
             "minLength": 1,
             "type": "string"
           },
           "description": {
-            "maxLength": 50,
+            "maxLength": 1024,
             "minLength": 1,
             "type": "string"
           },
@@ -16744,6 +18034,11 @@
           },
           "pathToFile": {
             "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "md5Hash": {
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
           },
@@ -16777,6 +18072,9 @@
             "format": "uuid"
           },
           "pathToFile": {
+            "type": "string"
+          },
+          "md5Hash": {
             "type": "string"
           },
           "fileBlob": {
@@ -16846,6 +18144,9 @@
           },
           "pathToFile": {
             "type": "string"
+          },
+          "md5Hash": {
+            "type": "string"
           }
         }
       },
@@ -16865,6 +18166,11 @@
             "minLength": 1,
             "type": "string"
           },
+          "md5Hash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "fileBlob": {
             "type": "string",
             "format": "byte"
@@ -16875,8 +18181,9 @@
         "required": [
           "downloadAs",
           "fileAccessCode",
-          "logicalPath",
-          "parentEntityId"
+          "folderPath",
+          "parentEntityId",
+          "parentEntityType"
         ],
         "type": "object",
         "properties": {
@@ -16885,8 +18192,8 @@
             "minLength": 1,
             "type": "string"
           },
-          "logicalPath": {
-            "maxLength": 255,
+          "folderPath": {
+            "maxLength": 512,
             "minLength": 1,
             "type": "string"
           },
@@ -16896,8 +18203,7 @@
             "type": "string"
           },
           "available": {
-            "type": "integer",
-            "format": "int32"
+            "type": "boolean"
           },
           "pmbucketFolderId": {
             "type": "string",
@@ -16919,12 +18225,24 @@
             "type": "string",
             "format": "uuid"
           },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "md5Hash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "copyFromPMFileId": {
             "type": "string",
             "format": "uuid"
-          },
-          "inTrash": {
-            "type": "boolean"
           },
           "publicImage": {
             "type": "boolean"
@@ -16949,9 +18267,18 @@
           "bucketFolderPath": {
             "type": "string"
           },
+          "inTrash": {
+            "type": "boolean"
+          },
           "fileBlob": {
             "type": "string",
             "format": "byte"
+          },
+          "blobMetadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       },
@@ -16977,15 +18304,14 @@
           "downloadAs": {
             "type": "string"
           },
-          "logicalPath": {
+          "folderPath": {
             "type": "string"
           },
           "fileAccessCode": {
             "type": "string"
           },
           "available": {
-            "type": "integer",
-            "format": "int32"
+            "type": "boolean"
           },
           "pmbucketFolderId": {
             "type": "string",
@@ -17007,12 +18333,18 @@
             "type": "string",
             "format": "uuid"
           },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "md5Hash": {
+            "type": "string"
+          },
           "copyFromPMFileId": {
             "type": "string",
             "format": "uuid"
-          },
-          "inTrash": {
-            "type": "boolean"
           },
           "publicImage": {
             "type": "boolean"
@@ -17033,6 +18365,12 @@
             "format": "uuid"
           },
           "bucketFolderPath": {
+            "type": "string"
+          },
+          "inTrash": {
+            "type": "boolean"
+          },
+          "downloadFileUrl": {
             "type": "string"
           }
         }
@@ -17095,15 +18433,14 @@
           "downloadAs": {
             "type": "string"
           },
-          "logicalPath": {
+          "folderPath": {
             "type": "string"
           },
           "fileAccessCode": {
             "type": "string"
           },
           "available": {
-            "type": "integer",
-            "format": "int32"
+            "type": "boolean"
           },
           "pmbucketFolderId": {
             "type": "string",
@@ -17125,12 +18462,18 @@
             "type": "string",
             "format": "uuid"
           },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "md5Hash": {
+            "type": "string"
+          },
           "copyFromPMFileId": {
             "type": "string",
             "format": "uuid"
-          },
-          "inTrash": {
-            "type": "boolean"
           },
           "publicImage": {
             "type": "boolean"
@@ -17152,6 +18495,12 @@
           },
           "bucketFolderPath": {
             "type": "string"
+          },
+          "inTrash": {
+            "type": "boolean"
+          },
+          "showingPublicUrl": {
+            "type": "boolean"
           }
         }
       },
@@ -17159,8 +18508,9 @@
         "required": [
           "downloadAs",
           "fileAccessCode",
-          "logicalPath",
-          "parentEntityId"
+          "folderPath",
+          "parentEntityId",
+          "parentEntityType"
         ],
         "type": "object",
         "properties": {
@@ -17169,8 +18519,8 @@
             "minLength": 1,
             "type": "string"
           },
-          "logicalPath": {
-            "maxLength": 255,
+          "folderPath": {
+            "maxLength": 512,
             "minLength": 1,
             "type": "string"
           },
@@ -17180,8 +18530,7 @@
             "type": "string"
           },
           "available": {
-            "type": "integer",
-            "format": "int32"
+            "type": "boolean"
           },
           "pmbucketFolderId": {
             "type": "string",
@@ -17203,12 +18552,24 @@
             "type": "string",
             "format": "uuid"
           },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "md5Hash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "copyFromPMFileId": {
             "type": "string",
             "format": "uuid"
-          },
-          "inTrash": {
-            "type": "boolean"
           },
           "publicImage": {
             "type": "boolean"
@@ -17233,9 +18594,720 @@
           "bucketFolderPath": {
             "type": "string"
           },
+          "inTrash": {
+            "type": "boolean"
+          },
           "fileBlob": {
             "type": "string",
             "format": "byte"
+          }
+        }
+      },
+      "PMessageAttachmentPOSTData": {
+        "required": [
+          "attachmentEntityId",
+          "attachmentEntityType"
+        ],
+        "type": "object",
+        "properties": {
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmessageEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "attachmentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "PMessageAttachmentGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmessageEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityName": {
+            "type": "string"
+          },
+          "attachmentEntityType": {
+            "type": "string"
+          }
+        }
+      },
+      "PMessageAttachmentGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMessageAttachmentGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMessageAttachmentCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmessageEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityName": {
+            "type": "string"
+          },
+          "attachmentEntityType": {
+            "type": "string"
+          }
+        }
+      },
+      "PMessageAttachmentPUTData": {
+        "required": [
+          "attachmentEntityId",
+          "attachmentEntityType"
+        ],
+        "type": "object",
+        "properties": {
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmessageEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attachmentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "attachmentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "PMessageEntryPOSTData": {
+        "required": [
+          "body",
+          "bodyFormatCode"
+        ],
+        "type": "object",
+        "properties": {
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageParticipantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "body": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "bodyFormatCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "PMessageEntryGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageParticipantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "body": {
+            "type": "string"
+          },
+          "bodyFormatCode": {
+            "type": "string"
+          }
+        }
+      },
+      "PMessageEntryGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMessageEntryGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMessageEntryCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageParticipantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "body": {
+            "type": "string"
+          },
+          "bodyFormatCode": {
+            "type": "string"
+          },
+          "dateLastRead": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PMessageEntryPUTData": {
+        "required": [
+          "body",
+          "bodyFormatCode"
+        ],
+        "type": "object",
+        "properties": {
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageParticipantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "body": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "bodyFormatCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "PMessageParticipantPOSTData": {
+        "type": "object",
+        "properties": {
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateLastViewed": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMessageParticipantGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMessageParticipantGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMessageParticipantGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMessageParticipantCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateLastViewed": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMessageParticipantPUTData": {
+        "type": "object",
+        "properties": {
+          "pmessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateLastViewed": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMessagePOSTData": {
+        "required": [
+          "description",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dateLastEntry": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PMessageGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          }
+        }
+      },
+      "PMessageGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMessageGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMessageCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "dateLastEntry": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PMessagePUTData": {
+        "required": [
+          "description",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dateLastEntry": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
