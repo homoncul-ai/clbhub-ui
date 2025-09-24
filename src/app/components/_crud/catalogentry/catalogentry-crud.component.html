@@ -6,34 +6,44 @@
 </div>
 
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
-    <div class="details-section">
-      <div class="detail-group">
-        <label>Entry Code:</label>
-        <span>{{ getCurrentEntity().getData().entryCode }}</span>
+    <div class="details-section" style="display: flex; gap: 20px; align-items: flex-start;">
+      <!-- Image on the left -->
+      <div class="image-container" style="flex-shrink: 0;">
+        <img [src]="getCatalogEntryImageUrl()" 
+             alt="Catalog Entry Image" 
+             style="max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
       </div>
-      <div class="detail-group">
-        <label>Title:</label>
-        <span>{{ getCurrentEntity().getData().title }}</span>
-      </div>
-      <div *ngIf="getCurrentEntity().getData().shortDescription && getCurrentEntity().getData().shortDescription !== getCurrentEntity().getData().description " class="detail-group">
-        <label>Short Description:</label>
-        <span>{{ getCurrentEntity().getData().shortDescription }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Description:</label>
-        <span>{{ getCurrentEntity().getData().description }}</span>
-      </div>
-      <div *ngIf="getCurrentEntity().getData().notes" class="detail-group">
-        <label>Notes:</label>
-        <span>{{ getCurrentEntity().getData().notes }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Available:</label>
-        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
-      </div>
-      <div class="detail-group">
-        <label>URL:</label>
-        <span>{{ getCurrentEntity().getData().url }}</span>
+      
+      <!-- Attributes on the right -->
+      <div class="attributes-container" style="flex: 1;">
+        <div class="detail-group">
+          <label>Entry Code:</label>
+          <span>{{ getCurrentEntity().getData().entryCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Title:</label>
+          <span>{{ getCurrentEntity().getData().title }}</span>
+        </div>
+        <div *ngIf="getCurrentEntity().getData().shortDescription && getCurrentEntity().getData().shortDescription !== getCurrentEntity().getData().description " class="detail-group">
+          <label>Short Description:</label>
+          <span>{{ getCurrentEntity().getData().shortDescription }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Description:</label>
+          <span>{{ getCurrentEntity().getData().description }}</span>
+        </div>
+        <div *ngIf="getCurrentEntity().getData().notes" class="detail-group">
+          <label>Notes:</label>
+          <span>{{ getCurrentEntity().getData().notes }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Available:</label>
+          <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
+        </div>
+        <div class="detail-group">
+          <label>URL:</label>
+          <span>{{ getCurrentEntity().getData().url }}</span>
+        </div>
       </div>
     </div>
 </div>

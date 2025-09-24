@@ -1,0 +1,137 @@
+<div class="pmessage-container">
+  <!-- Header -->
+  <div class="pmessage-header">
+    <h2>{{ pmessage?.subjectEntityName || 'Message Thread' }}</h2>
+    <div class="pmessage-meta" *ngIf="pmessage">
+      <span class="created-date">Created: {{ formatDate(pmessage.dateCreated) }}</span>
+      <span class="last-updated" *ngIf="pmessage.dateLastUpdated">
+        Last Updated: {{ formatDate(pmessage.dateLastUpdated) }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading message thread...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <div class="error-message">
+      <i class="error-icon">⚠️</i>
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!loading && !error && pmessage" class="pmessage-content">
+    <!-- Tab Navigation -->
+    <app-simple-tabset 
+      *ngIf="showingTabset" 
+      [tabs]="tabs" 
+      [currentTabId]="currentTabId"
+      (tabSelected)="onTabSelected($event)">
+    </app-simple-tabset>
+
+    <!-- Messages Tab -->
+    <div *ngIf="currentTabId === 'messages'" class="messages-tab">
+      <!-- Message Input -->
+      <div class="message-input-section" *ngIf="!readonly">
+        <div class="input-container">
+          <textarea 
+            [(ngModel)]="newMessageText"
+            placeholder="Type your message here..."
+            rows="3"
+            class="message-input"
+            [disabled]="postingMessage">
+          </textarea>
+          <div class="input-actions">
+            <button 
+              (click)="postMessage()"
+              [disabled]="!newMessageText.trim() || postingMessage"
+              class="btn btn-primary post-button">
+              <span *ngIf="postingMessage">Posting...</span>
+              <span *ngIf="!postingMessage">Post Message</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages List -->
+      <div class="messages-list">
+        <div *ngIf="messageEntries.length === 0" class="no-messages">
+          <p>No messages yet. Be the first to post!</p>
+        </div>
+        
+        <div *ngFor="let entry of messageEntries" class="message-entry">
+          <div class="message-header">
+            <span class="author-name">{{ getMessageAuthorName(entry) }}</span>
+            <span class="message-date">{{ formatDate(entry.dateCreated) }}</span>
+          </div>
+          <div class="message-body">
+            <pre class="message-text">{{ entry.body }}</pre>
+          </div>
+          <div class="message-footer" *ngIf="entry.dateLastUpdated && entry.dateLastUpdated !== entry.dateCreated">
+            <small class="edited-indicator">Edited: {{ formatDate(entry.dateLastUpdated) }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attachments Tab -->
+    <div *ngIf="currentTabId === 'attachments'" class="attachments-tab">
+      <div *ngIf="attachments.length === 0" class="no-attachments">
+        <p>No attachments in this message thread.</p>
+      </div>
+      
+      <div *ngFor="let attachment of attachments" class="attachment-item">
+        <div class="attachment-info">
+          <div class="attachment-header">
+            <span class="attachment-name">{{ attachment.attachmentEntityName || 'Unnamed Attachment' }}</span>
+            <span class="attachment-type">{{ attachment.attachmentEntityType }}</span>
+          </div>
+          <div class="attachment-meta">
+            <span class="attachment-id">ID: {{ attachment.attachmentEntityId }}</span>
+            <span class="attachment-date">Added: {{ formatDate(attachment.dateCreated) }}</span>
+          </div>
+        </div>
+        <div class="attachment-actions">
+          <button class="btn btn-sm btn-outline-primary">View</button>
+          <button class="btn btn-sm btn-outline-secondary">Download</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Participants Tab -->
+    <div *ngIf="currentTabId === 'participants'" class="participants-tab">
+      <div *ngIf="participants.length === 0" class="no-participants">
+        <p>No participants found in this message thread.</p>
+      </div>
+      
+      <div *ngFor="let participant of participants" class="participant-item">
+        <div class="participant-info">
+          <div class="participant-header">
+            <span class="participant-name">{{ participant.createdByInfo?.name || 'Unknown Participant' }}</span>
+            <span class="participant-role">Participant</span>
+          </div>
+          <div class="participant-meta">
+            <span class="participant-date">Joined: {{ formatDate(participant.dateCreated) }}</span>
+          </div>
+        </div>
+        <div class="participant-profile">
+          <app-hccl-user-profile-details 
+            [userProfileId]="getParticipantUserProfileId(participant)"
+            [title]="'Participant Profile'"
+            [brevity]="1">
+          </app-hccl-user-profile-details>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data State -->
+  <div *ngIf="!loading && !error && !pmessage" class="no-data">
+    <p>No message thread found.</p>
+  </div>
+</div>
