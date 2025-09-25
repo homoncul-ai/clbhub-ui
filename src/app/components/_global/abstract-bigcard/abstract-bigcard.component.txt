@@ -1,0 +1,5 @@
+
+1. want to create a big "card" that is the basis for a configurable dashboard. 
+2. Inputs : 
+@Input geometry: string ;  "1x3", "1x1" 
+

@@ -12,6 +12,8 @@ import { DashStudentGuidanceComponent } from './dash-student-guidance.component'
 import { DashStudentScheduleComponent } from './dash-student-schedule.component';
 import { StudentPersonalStatementGroupComponent } from './student-personalstatement-group.component';
 import { CatalogEntryModalComponent } from './catalog-entry-modal.component';  
+import { DashStudentMessagesComponent } from './dash-student-messages.component';
+import { DashStudentInterestsComponent } from './dash-student-interests.component';
 import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
 const routes: Routes = [
   {
@@ -24,7 +26,8 @@ const routes: Routes = [
       { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
-      { path: 'schedule', component: DashStudentScheduleComponent },
+      { path: 'messages', component: DashStudentMessagesComponent },
+      { path: 'interests', component: DashStudentInterestsComponent },
 
       { path: 'guidance/workrequests/:ticketId/:tabId', component:StudentWorkRequestsComponent },
       { path: 'guidance/workrequests/:ticketId', redirectTo: 'guidance/workrequests/:ticketId/ticket', pathMatch: 'full' },
@@ -53,7 +56,8 @@ const routes: Routes = [
     DashStudentPersonalStatementsComponent,
     DashStudentProgressComponent,
     DashStudentGuidanceComponent,
-    DashStudentScheduleComponent,
+    DashStudentMessagesComponent,
+    DashStudentInterestsComponent,
     CatalogEntryModalComponent,
   ],
   declarations: [

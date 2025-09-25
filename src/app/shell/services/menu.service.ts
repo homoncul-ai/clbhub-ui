@@ -408,6 +408,13 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.STUDENT_DASHBOARD);
     this.addMenuItem(menu, dashboard);
     
+
+    const messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
+    this.addMenuItem(menu, messages);
+
+    const interests = this.copyMenuItem(MENU_CONSTANTS.STUDENT_INTERESTS);
+    this.addMenuItem(menu, interests);
+
     // Add Courses with children
     const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
@@ -1373,6 +1380,22 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-guidance',
     icon: 'fas fa-life-ring'
+  },
+  STUDENT_MESSAGES: {
+    level: 1,
+    label: 'Messages',
+    route: '/student-dashboard/messages',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-messages',
+    icon: 'fas fa-envelope'
+  },
+  STUDENT_INTERESTS: {
+    level: 1,
+    label: 'Interests',
+    route: '/student-dashboard/interests',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-interests',
+    icon: 'fas fa-heart'
   },
   STUDENT_SCHEDULE: {
     level: 1,

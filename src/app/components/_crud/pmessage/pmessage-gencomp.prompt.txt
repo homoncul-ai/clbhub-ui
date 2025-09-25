@@ -1,0 +1,133 @@
+# PMessage Component Generation Specification
+
+## Entity Information
+- **Entity Name:** PMessage
+- **Plural Route Name:** pmessages
+- **Reference Example:** Based on HcclOrganization template
+
+## Generated Components
+
+### 1. CRUD Component (`pmessage-crud.component.ts` & `pmessage-crud.component.html`)
+- **Purpose:** Display, edit, and add PMessage data
+- **Extends:** `AbstractCrudComponent<PMessageCrudWrapper>`
+- **Wrapper Class:** `PMessageCrudWrapper extends EntityWrapper<PMessageGETData>`
+
+#### Key Attributes:
+- `authorUserProfileId` (FK to HcclUserProfile)
+- `title` (string, required)
+- `description` (string, textarea)
+- `subjectEntityId` (string)
+- `subjectEntityType` (string)
+- `subjectEntityName` (string, read-only)
+- `dateLastEntry` (date)
+
+#### Service Methods Used:
+- `HcclService.getPMessageById(id)`
+- `HcclService.createPMessage(body)`
+- `HcclService.updatePMessageById(id, body)`
+- `HcclService.findPMessages(criteria)`
+
+#### Foreign Key Handling:
+- **Author User Profile:** Uses `<app-hccluserprofile-crud>` component for FK display
+
+### 2. Group Component (`pmessage-group.component.ts` & `pmessage-group.component.html`)
+- **Purpose:** Router target to group all tabs for PMessage (details, list)
+- **Extends:** `AbstractEntityGroupComponent<PMessageCrudWrapper>`
+- **Tabs:** Details and Create tabs
+
+### 3. List Component (`pmessage-list.component.ts`)
+- **Purpose:** Router target to search and list PMessageGETData
+- **Extends:** `AbstractListComponent<PMessageGETData, PMessageCriteria, PMessageGETDataSearchResults>`
+- **Template:** Uses abstract list template (no custom template file)
+
+#### Grid Columns:
+- Title (filterable)
+- Description (filterable)
+- Subject Entity Name (filterable)
+- Subject Entity Type (filterable)
+- Author User Profile (FK display)
+- Date Last Updated
+
+#### Foreign Key Formatting:
+- `authorUserProfileStr`: Displays HcclUserProfile display text
+
+## Data Interfaces
+
+### PMessageGETData
+```typescript
+{
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  authorUserProfileId?: string;
+  title?: string;
+  description?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+}
+```
+
+### PMessagePOSTData
+```typescript
+{
+  authorUserProfileId?: string;
+  title: string;
+  description: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  dateLastEntry?: string;
+}
+```
+
+### PMessagePUTData
+```typescript
+{
+  authorUserProfileId?: string;
+  title?: string;
+  description?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  dateLastEntry?: string;
+}
+```
+
+## Route Configuration
+- **List Route:** `/ecoadmin-dashboard/pmessages`
+- **Create Route:** `/ecoadmin-dashboard/pmessages/create`
+- **Details Route:** `/ecoadmin-dashboard/pmessages/:id/:tabId`
+- **Default Redirect:** `/ecoadmin-dashboard/pmessages/:id` → `/ecoadmin-dashboard/pmessages/:id/details`
+
+## Menu Integration
+- **Menu Constant:** `EA_PMESSAGE_LIST`
+- **Route:** `/ecoadmin-dashboard/pmessages`
+- **Component Path:** `src/app/components/_crud/pmessage/pmessage-list.component`
+- **Component Name:** `PMessageListComponent`
+- **Icon:** `fas fa-list`
+
+## Module Updates Required
+- Add routes to `dash-ecoadmin.module.ts`
+- Import `PMessageListComponent` and `PMessageGroupComponent`
+- Add menu constant to `menu.service.ts`
+- Update `buildEcoAdminMenu()` method
+
+## File Structure
+```
+src/app/components/_crud/pmessage/
+├── pmessage-crud.component.ts
+├── pmessage-crud.component.html
+├── pmessage-group.component.ts
+├── pmessage-group.component.html
+├── pmessage-list.component.ts
+└── pmessage-gencomp.prompt.txt (this file)
+```
+
+## Notes
+- All components follow the established patterns from the HcclOrganization template
+- Foreign key relationships are properly handled with appropriate CRUD components
+- List component uses abstract list template for consistency
+- All components are standalone and properly import required dependencies
+- Error handling and validation follow project standards
