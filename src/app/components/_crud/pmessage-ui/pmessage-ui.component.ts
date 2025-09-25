@@ -17,12 +17,14 @@ import {
 } from '../../../restsvc/hccl.service';
 import { SimpleTabsetComponent, SimpleTab } from '../../_global/simple-tabset/simple-tabset.component';
 import { HcclUserProfileDetailsComponent } from '../../hccl-user-profile-details/hccl-user-profile-details.component';
+import { StdMdbFormTextareaComponent } from '../../_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-pmessage-ui',
   standalone: true,
-  imports: [CommonModule, FormsModule, SimpleTabsetComponent, HcclUserProfileDetailsComponent],
+  imports: [CommonModule, FormsModule, SimpleTabsetComponent, 
+    HcclUserProfileDetailsComponent, StdMdbFormTextareaComponent],
   templateUrl: './pmessage-ui.component.html',
   styleUrl: './pmessage-ui.component.scss'
 })
@@ -153,6 +155,10 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
       });
   }
 
+  protected isEdited(entry: PMessageEntryGETData): boolean {
+    return  false;
+  }
+
   private loadAttachments(): void {
     if (!this.id) return;
     
@@ -166,6 +172,14 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
       .subscribe({
         next: (results) => {
           this.attachments = results.searchResults || [];
+          // collate attachments by entry id - attachemtns are type PMessageAttachmentGETData
+          this.attachments.forEach((attachment: PMessageAttachmentGETData) => {
+            if (this.mapEntryIdToAttachments.has(attachment.pmessageEntryId || '')) {
+              this.mapEntryIdToAttachments.get(attachment.pmessageEntryId || '')?.push(attachment);
+            } else {
+              this.mapEntryIdToAttachments.set(attachment.pmessageEntryId || '', [attachment]);
+            }
+            });
         },
         error: (err) => {
           this.error = 'Failed to load attachments: ' + (err.message || 'Unknown error');
@@ -191,6 +205,15 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
           this.error = 'Failed to load participants: ' + (err.message || 'Unknown error');
         }
       });
+  }
+
+  private mapEntryIdToAttachments: Map<string, PMessageAttachmentGETData[]> = new Map();
+
+  protected getAttachmentsForEntry(entry: PMessageEntryGETData): PMessageAttachmentGETData[] {
+    return this.mapEntryIdToAttachments.get(entry.id || '') || [];
+  }
+  protected hasAttachmentsForEntry(entry: PMessageEntryGETData): boolean {
+    return this.mapEntryIdToAttachments.has(entry.id || '');
   }
 
   postMessage(): void {

@@ -1,12 +1,22 @@
 <div class="pmessage-container">
   <!-- Header -->
-  <div class="pmessage-header">
-    <h2>{{ pmessage?.subjectEntityName || 'Message Thread' }}</h2>
+  <div class="pmessage-header">    
+    <h2>{{ pmessage?.title || 'Message Thread' }}</h2>
     <div class="pmessage-meta" *ngIf="pmessage">
       <span class="created-date">Created: {{ formatDate(pmessage.dateCreated) }}</span>
       <span class="last-updated" *ngIf="pmessage.dateLastUpdated">
         Last Updated: {{ formatDate(pmessage.dateLastUpdated) }}
       </span>
+      <div class="description-container">
+       <app-std-mdb-form-textarea 
+         prefix="pmessage" 
+         name="description" 
+         label="Description" 
+         [readonly]="true" 
+         [rows]="3"
+         [(ngModel)]="pmessage.description">
+       </app-std-mdb-form-textarea>
+      </div>
     </div>
   </div>
 
@@ -46,14 +56,19 @@
         
         <div *ngFor="let entry of messageEntries" class="message-entry">
           <div class="message-header">
+            <span class="message-date">{{ formatDate(entry.dateCreated) }} 
+              <span class="message-edited" *ngIf="this.isEdited(entry)">Edited: {{ formatDate(entry.dateLastUpdated) }}</span> 
+            </span>
             <span class="author-name">{{ getMessageAuthorName(entry) }}</span>
-            <span class="message-date">{{ formatDate(entry.dateCreated) }}</span>
+          <span class="message-body">
+            {{ entry.body }}
+          </span>
           </div>
-          <div class="message-body">
-            <pre class="message-text">{{ entry.body }}</pre>
-          </div>
-          <div class="message-footer" *ngIf="entry.dateLastUpdated && entry.dateLastUpdated !== entry.dateCreated">
-            <small class="edited-indicator">Edited: {{ formatDate(entry.dateLastUpdated) }}</small>
+          <div class="message-entry-attachments" *ngIf="this.hasAttachmentsForEntry(entry)">
+            <div *ngFor="let attachment of this.getAttachmentsForEntry(entry)" class="attachment-item">
+              <span class="attachment-name">{{ attachment.attachmentEntityName || 'Unnamed Attachment' }}</span>
+              <span class="attachment-type">{{ attachment.attachmentEntityType }}</span>
+            </div>
           </div>
         </div>
       </div>
