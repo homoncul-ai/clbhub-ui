@@ -133,6 +133,8 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
           this.loading = false;
           // Load initial tab content
           this.showMessagesTab();
+          this.loadAttachments();
+          this.loadParticipants();
         },
         error: (err) => {
           this.error = 'Failed to load message: ' + (err.message || 'Unknown error');
