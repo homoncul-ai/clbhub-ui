@@ -1,7 +1,16 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
-<div *ngIf="currentTabId === 'details'">
-  <app-hccluserprofile-crud [id]="id" modeName="detail"></app-hccluserprofile-crud>
+
+<div *ngIf="currentTabId === 'messages'">
+    <app-pmessage-list [criteria]="getPMessageCriteria()" 
+    [onRowClickBehavior]="onMessageRowClickBehavior()"
+    [showingSearch]="false" [showingSearchHeading]="false" [showingGoButton]="false" 
+    [showingAddButton]="false" [showingIdCheckbox]="false"></app-pmessage-list>
+</div>
+  
+
+<div *ngIf="currentTabId === 'message'">
+  <app-pmessage-ui [id]="messageId" ></app-pmessage-ui>
 </div>
 
 <div *ngIf="currentTabId === 'create'">
@@ -21,3 +30,13 @@
   <app-hccluserprofile-crud [id]="id" modeName="fk_menu"></app-hccluserprofile-crud>
 </div>
 -->
+
+
+<div *ngIf="true">
+    <li>CurrentId :{{currentTabId}}</li>
+    <li>Id :{{id}}</li>
+    <li>ChildId :{{childId}}</li>
+    <li>Loading :{{loading}}</li>
+    <li>ShowingTabset :{{showingTabset}}</li>
+    <li>Tabs :{{tabs}}</li> 
+  </div>

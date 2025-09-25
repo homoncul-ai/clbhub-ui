@@ -10,19 +10,59 @@ import { HcclUserProfileCrudWrapper, HcclUserProfileCrudComponent } from '@app/c
 import { HcclService, PMessageCriteria } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { PMessageListComponent } from '@app/components/_crud/pmessage/pmessage-list.component';
+import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
 
 @Component({
   selector: 'app-dash-student-messages',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, HcclUserProfileCrudComponent],
+  imports: [CommonModule, SimpleTabsetComponent, HcclUserProfileCrudComponent,
+     PMessageListComponent, PMessageUiComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './dash-student-messages.component.html',
 })
 export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
 
+  @Input() messageId: string = '';
+
   constructor() {
     super();    
   }
+
+  override ngOnInit(): void {
+    
+    // For singleton behavior, always use current user profile ID
+    this.hcclContextService.refreshContext().subscribe(context => {
+      this.defaultId = context.currentUserProfileId || '';
+      this.id = this.defaultId;
+      this.organizationId = context.currentUserProfile.organizationId || '';
+      // Call parent ngOnInit after setting the ID
+      super.ngOnInit();
+    });
+  }
+
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+
+    let tabId = tabId_in;
+    tabId = this.tabId;
+  
+    return tabId;
+  }
+  protected override populateFromParams(params: any): void {
+    super.populateFromParams(params);
+    this.messageId = this.route.snapshot.params['messageId'];
+  }
+
+  protected organizationId : string = '';
+  protected getOrganizationId(): string {
+    return this.organizationId;  
+  }
+
+  protected defaultId: string = '';
+  protected override getDefaultId(): string {
+    return this.defaultId;
+  }
+
 
   protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {
     return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
@@ -33,18 +73,44 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
   }
 
   protected setupTabs(): SimpleTab[] {
-    return this.setupListDetailsTabs();
+    const baseRoute = this.getBaseRoute();
+    var tabs: SimpleTab[] = [
+      new SimpleTab('messages', 'Messages', '', 
+        () => {
+          this.router.navigate([baseRoute]);
+        },
+        () => {
+          return true;
+        }
+      )];
+      
+      tabs.push(new SimpleTab('message', "Message", '', 
+        () => {
+          this.router.navigate(['student-dashboard', 'messages', this.messageId, 'message']);
+        },
+        () => {
+          return this.messageId !== null;
+        }
+      ));
+      
+   
+    return tabs;
   }
 
   protected override getDefaultTabId(): string {
-    return 'details';
+    return 'messages';
   }
 
-  protected myOnRowClickBehavior(): OnRowClickBehavior   {
+  protected onMessageRowClickBehavior(): OnRowClickBehavior   {
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.parentId = this.id;
-    x.tabId = 'HcclUserProfileItem';
-    //x.alertMessage = 'HCCL User Profile';
+    x.tabId = 'message';
+    x.alertMessage = 'Message';
+
+    x.getNavigateUrl = (id: string) => {
+      //return [this.getBaseRoute(),  id, 'message'];
+      return ['student-dashboard', 'messages', id, 'message'];
+    };
     return x;
   }
    

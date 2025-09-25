@@ -26,13 +26,21 @@ const routes: Routes = [
       { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
-      { path: 'messages', component: DashStudentMessagesComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
 
       { path: 'guidance/workrequests/:ticketId/:tabId', component:StudentWorkRequestsComponent },
       { path: 'guidance/workrequests/:ticketId', redirectTo: 'guidance/workrequests/:ticketId/ticket', pathMatch: 'full' },
       { path: 'guidance/workrequests', component:StudentWorkRequestsComponent },
-     
+  
+      { path: 'messages/:messageId/:tabId', component:DashStudentMessagesComponent },
+      { path: 'messages/:messageId', redirectTo: 'messages/:messageId/message', pathMatch: 'full' },
+      { path: 'messages', component:DashStudentMessagesComponent },
+
+      { path: 'interests/:interestId/:tabId', component:DashStudentMessagesComponent },
+      { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
+      { path: 'interests', component:DashStudentMessagesComponent },
+
+
       // { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
       // { path: 'workqueues/:queueId/:ticketId/:tabId/:workRequestItemId', component: ProviderWorkqueueGroupComponent },
       // { path: 'workqueues/:queueId/:ticketId/:tabId', component: ProviderWorkqueueGroupComponent },

@@ -55,6 +55,7 @@ export class PMessageUiComponent implements OnInit, OnChanges {
   constructor(private hcclService: HcclService) {}
 
   ngOnInit(): void {
+    alert('ngOnInit ' + this.id);
     this.initializeTabs();
     if (this.id) {
       this.loadPMessage();

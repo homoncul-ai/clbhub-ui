@@ -23,6 +23,21 @@ export class HcclOrganizationGroupComponent extends AbstractEntityGroupComponent
     super();    
   }
 
+  /**
+  
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+    let tabId = tabId_in;
+    tabId = this.tabId;
+    return tabId;
+  }
+
+  protected override populateFromParams(params: any): void {
+    super.populateFromParams(params);
+    this.messageId = this.route.snapshot.params['messageId'];
+    alert('messageId: ' + this.messageId);
+  }
+
+   */
   protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
     return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
   }
