@@ -4376,6 +4376,7 @@ export interface PMFilePOSTData {
   bucketFolderPath?: string;
   inTrash?: boolean;
   fileBlob?: string;
+  fileBlobBase64?: string;
   blobMetadata?: any;
 }
 

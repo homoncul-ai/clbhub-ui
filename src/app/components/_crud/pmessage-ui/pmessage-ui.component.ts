@@ -13,7 +13,8 @@ import {
   PMessageEntryPOSTData,
   PMessageEntryCriteria,
   PMessageAttachmentCriteria,
-  PMessageParticipantCriteria
+  PMessageParticipantCriteria,
+  PMFilePOSTData
 } from '../../../restsvc/hccl.service';
 import { SimpleTabsetComponent, SimpleTab } from '../../_global/simple-tabset/simple-tabset.component';
 import { HcclUserProfileDetailsComponent } from '../../hccl-user-profile-details/hccl-user-profile-details.component';
@@ -57,6 +58,7 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
   selectedFiles: File[] = [];
   uploading = false;
   uploadProgress = 0;
+  uploadedAttachments: PMFilePOSTData[] = [];
   
   // Pagination for messages
   private destroy$ = new Subject<void>();
@@ -230,7 +232,8 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
     const newEntry: PMessageEntryPOSTData = {
       pmessageId: this.id,
       body: this.newMessageText.trim(),
-      bodyFormatCode: 'PLAINTEXT'
+      bodyFormatCode: 'PLAINTEXT',
+      attachments: this.uploadedAttachments.length > 0 ? this.uploadedAttachments : undefined
     };
     
     this.hcclService.createPMessageEntry(newEntry)
@@ -239,6 +242,7 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
         next: () => {
           this.newMessageText = '';
           this.postingMessage = false;
+          this.uploadedAttachments = []; // Clear uploaded attachments after posting
           this.loadMessageEntries(); // Refresh messages
           this.shouldScrollToBottom = true; // Scroll to bottom after posting new message
         },
@@ -298,6 +302,7 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
     this.selectedFiles = [];
     this.uploadProgress = 0;
     this.uploading = false;
+    // Note: uploadedAttachments array is preserved for the next message post
   }
 
   onFileSelected(event: any): void {
@@ -319,29 +324,104 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
+  generateMD5Hash(input: string): string {
+    // Simple hash function for demo purposes
+    // In production, you'd want to use a proper MD5 library
+    let hash = 0;
+    if (input.length === 0) return hash.toString();
+    for (let i = 0; i < input.length; i++) {
+      const char = input.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash).toString(16);
+  }
+
   uploadFiles(): void {
     if (this.selectedFiles.length === 0 || !this.id) return;
     
     this.uploading = true;
     this.uploadProgress = 0;
     
-    // Simulate file upload progress
-    const uploadInterval = setInterval(() => {
-      this.uploadProgress += 10;
-      if (this.uploadProgress >= 100) {
-        clearInterval(uploadInterval);
-        this.uploading = false;
-        this.uploadProgress = 100;
+    // Process files asynchronously
+    this.processFilesAsync();
+  }
+
+  private async processFilesAsync(): Promise<void> {
+    try {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        const file = this.selectedFiles[i];
         
-        // Show success message for each file
-        this.selectedFiles.forEach(file => {
-          alert(`File uploaded: ${file.name} (${this.formatFileSize(file.size)})`);
-        });
+        // Read file content as ArrayBuffer
+        const arrayBuffer = await this.readFileAsArrayBuffer(file);
         
-        // Close modal and refresh attachments
-        this.closeAttachmentModal();
-        this.loadAttachments();
+        // Convert ArrayBuffer to Base64 string for JSON transmission
+        const base64String = await this.arrayBufferToBase64(arrayBuffer);
+        
+        // Create PMFilePOSTData entry
+        const pmFileData: PMFilePOSTData = {
+          downloadAs: file.name,
+          folderPath: '/pmessage-attachments',
+          fileAccessCode: 'PUBLIC',
+          available: true,
+          parentEntityId: this.id!,
+          parentEntityName: this.pmessage?.title || 'Message Thread',
+          parentEntityType: 'PMESSAGE',
+          fileBlobBase64: base64String, // Base64 encoded string that Java can decode to byte[]
+          md5Hash: this.generateMD5Hash(file.name + file.size),
+          fileSize: file.size,
+          mimeType: file.type || 'application/octet-stream'
+        };
+
+        console.log(`File prepared: ${file.name}, Size: ${file.size}, Base64 length: ${base64String.length}`);
+
+        this.uploadedAttachments.push(pmFileData);
+        console.log(`File prepared for upload: ${file.name} (${this.formatFileSize(file.size)})`);
+        
+        // Update progress
+        this.uploadProgress = Math.round(((i + 1) / this.selectedFiles.length) * 100);
       }
-    }, 200);
+      
+      this.uploading = false;
+      
+      // Show success message
+      alert(`${this.selectedFiles.length} file(s) prepared for attachment to message`);
+      
+      // Close modal
+      this.closeAttachmentModal();
+      
+    } catch (error) {
+      console.error('Error processing files:', error);
+      this.error = 'Failed to process files: ' + (error as Error).message;
+      this.uploading = false;
+    }
+  }
+
+  private readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as ArrayBuffer);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  private arrayBufferToBase64(arrayBuffer: ArrayBuffer): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = (reader.result as string).split(',')[1]; // Remove data:application/octet-stream;base64, prefix
+        resolve(base64);
+      };
+      reader.onerror = () => reject(reader.error);
+      
+      // Create a Blob from ArrayBuffer and read as DataURL
+      const blob = new Blob([arrayBuffer]);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  clearUploadedAttachments(): void {
+    this.uploadedAttachments = [];
   }
 }

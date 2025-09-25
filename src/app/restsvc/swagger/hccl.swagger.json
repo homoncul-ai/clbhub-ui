@@ -18274,6 +18274,9 @@
             "type": "string",
             "format": "byte"
           },
+          "fileBlobBase64": {
+            "type": "string"
+          },
           "blobMetadata": {
             "type": "object",
             "additionalProperties": {

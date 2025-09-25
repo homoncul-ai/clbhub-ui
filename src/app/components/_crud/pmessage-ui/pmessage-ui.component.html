@@ -87,6 +87,7 @@
                   class="btn btn-outline-secondary attachment-button me-2">
                   <i class="fas fa-paperclip me-1"></i>
                   Add Attachment
+                  <span *ngIf="uploadedAttachments.length > 0" class="badge bg-success ms-1">{{ uploadedAttachments.length }}</span>
                 </button>
                 <button 
                   (click)="postMessage()"
@@ -94,7 +95,26 @@
                   class="btn btn-primary post-button">
                   <span *ngIf="postingMessage">Posting...</span>
                   <span *ngIf="!postingMessage">Post Message</span>
+                  <span *ngIf="uploadedAttachments.length > 0" class="badge bg-light text-dark ms-1">{{ uploadedAttachments.length }}</span>
                 </button>
+              </div>
+              
+              <!-- Show uploaded attachments preview -->
+              <div *ngIf="uploadedAttachments.length > 0" class="uploaded-attachments-preview mt-2">
+                <small class="text-muted">Attachments ready to post:</small>
+                <div class="attachment-preview-list">
+                  <span *ngFor="let attachment of uploadedAttachments" class="badge bg-secondary me-1 mb-1">
+                    <i class="fas fa-file me-1"></i>
+                    {{ attachment.downloadAs }}
+                  </span>
+                  <button 
+                    type="button" 
+                    class="btn btn-sm btn-outline-danger ms-2"
+                    (click)="clearUploadedAttachments()">
+                    <i class="fas fa-times"></i>
+                    Clear All
+                  </button>
+                </div>
               </div>
             </div>
           </div>
