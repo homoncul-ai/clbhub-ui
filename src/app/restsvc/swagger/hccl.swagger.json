@@ -18779,6 +18779,35 @@
           }
         }
       },
+      "EntityTuple": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityName": {
+            "type": "string"
+          },
+          "entityOrgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityIdStr": {
+            "type": "string"
+          },
+          "serviceCode": {
+            "type": "string"
+          },
+          "entityDisplayText": {
+            "type": "string"
+          }
+        }
+      },
       "PMessageEntryPOSTData": {
         "required": [
           "body",
@@ -18807,6 +18836,18 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMFilePOSTData"
+            }
+          },
+          "attachmentTuples": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityTuple"
+            }
           }
         }
       },
@@ -27307,13 +27348,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "closedState": {
             "type": "boolean"
           },
           "cancelledState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

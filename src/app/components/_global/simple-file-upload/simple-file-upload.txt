@@ -11,5 +11,6 @@
   The workflow will be : 
   1. Click choose files button - uses browser file control - click to choose files.
   2. files selected should show the list of files to be uploaded (in a modal).
-  3. Click - send the files - calls service  PMFilePOSTData 
-  4. 
+  3. Click - send the files - calls a method that shows an alert of each file name and the file size .
+    Keep all the files in an array so we can post them in the next step
+  

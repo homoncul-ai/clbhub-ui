@@ -4521,12 +4521,24 @@ export interface PMessageAttachmentPUTData {
   attachmentEntityType: string;
 }
 
+export interface EntityTuple {
+  tenantId?: string;
+  entityName?: string;
+  entityOrgId?: string;
+  entityId?: string;
+  entityIdStr?: string;
+  serviceCode?: string;
+  entityDisplayText?: string;
+}
+
 export interface PMessageEntryPOSTData {
   pmessageId?: string;
   authorUserProfileId?: string;
   messageParticipantId?: string;
   body: string;
   bodyFormatCode: string;
+  attachments?: PMFilePOSTData[];
+  attachmentTuples?: EntityTuple[];
 }
 
 export interface PMessageEntryGETData {
@@ -6906,9 +6918,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   closedState?: boolean;
   cancelledState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
