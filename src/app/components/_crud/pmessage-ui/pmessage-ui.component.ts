@@ -52,6 +52,12 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
   newMessageText = '';
   postingMessage = false;
   
+  // File upload
+  showAttachmentModal = false;
+  selectedFiles: File[] = [];
+  uploading = false;
+  uploadProgress = 0;
+  
   // Pagination for messages
   private destroy$ = new Subject<void>();
   private shouldScrollToBottom = false;
@@ -278,5 +284,64 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
       const element = this.messagesContainer.nativeElement;
       element.scrollTop = element.scrollHeight;
     }
+  }
+
+  // File upload methods
+  openAttachmentModal(): void {
+    this.showAttachmentModal = true;
+    this.selectedFiles = [];
+    this.uploadProgress = 0;
+  }
+
+  closeAttachmentModal(): void {
+    this.showAttachmentModal = false;
+    this.selectedFiles = [];
+    this.uploadProgress = 0;
+    this.uploading = false;
+  }
+
+  onFileSelected(event: any): void {
+    const files = event.target.files;
+    if (files) {
+      this.selectedFiles = Array.from(files);
+    }
+  }
+
+  removeFile(index: number): void {
+    this.selectedFiles.splice(index, 1);
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  uploadFiles(): void {
+    if (this.selectedFiles.length === 0 || !this.id) return;
+    
+    this.uploading = true;
+    this.uploadProgress = 0;
+    
+    // Simulate file upload progress
+    const uploadInterval = setInterval(() => {
+      this.uploadProgress += 10;
+      if (this.uploadProgress >= 100) {
+        clearInterval(uploadInterval);
+        this.uploading = false;
+        this.uploadProgress = 100;
+        
+        // Show success message for each file
+        this.selectedFiles.forEach(file => {
+          alert(`File uploaded: ${file.name} (${this.formatFileSize(file.size)})`);
+        });
+        
+        // Close modal and refresh attachments
+        this.closeAttachmentModal();
+        this.loadAttachments();
+      }
+    }, 200);
   }
 }

@@ -60,9 +60,7 @@
               <span class="message-edited" *ngIf="this.isEdited(entry)">Edited: {{ formatDate(entry.dateLastUpdated) }}</span> 
             </span>
             <span class="author-name">{{ getMessageAuthorName(entry) }}</span>
-          <span class="message-body">
-            {{ entry.body }}
-          </span>
+            <span class="message-body">{{ entry.body }}</span>
           </div>
           <div class="message-entry-attachments" *ngIf="this.hasAttachmentsForEntry(entry)">
             <div *ngFor="let attachment of this.getAttachmentsForEntry(entry)" class="attachment-item">
@@ -84,6 +82,12 @@
                 [disabled]="postingMessage">
               </textarea>
               <div class="input-actions">
+                <button 
+                  (click)="openAttachmentModal()"
+                  class="btn btn-outline-secondary attachment-button me-2">
+                  <i class="fas fa-paperclip me-1"></i>
+                  Add Attachment
+                </button>
                 <button 
                   (click)="postMessage()"
                   [disabled]="!newMessageText.trim() || postingMessage"
@@ -152,3 +156,72 @@
     <p>No message thread found.</p>
   </div>
 </div>
+
+<!-- File Upload Modal -->
+<div *ngIf="showAttachmentModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="attachmentModalLabel" aria-hidden="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="attachmentModalLabel">
+          <i class="fas fa-paperclip me-2"></i>
+          Add Attachments
+        </h5>
+        <button type="button" class="btn-close" (click)="closeAttachmentModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- File Selection -->
+        <div class="file-selection-section mb-3">
+          <label for="fileInput" class="form-label">Choose Files</label>
+          <input 
+            type="file" 
+            id="fileInput" 
+            class="form-control" 
+            multiple 
+            (change)="onFileSelected($event)"
+            accept="*/*">
+          <div class="form-text">Select one or more files to upload</div>
+        </div>
+
+        <!-- Selected Files List -->
+        <div *ngIf="selectedFiles.length > 0" class="selected-files-section">
+          <h6>Selected Files:</h6>
+          <div class="file-list">
+            <div *ngFor="let file of selectedFiles; let i = index" class="file-item">
+              <div class="file-info">
+                <i class="fas fa-file me-2"></i>
+                <span class="file-name">{{ file.name }}</span>
+                <span class="file-size">({{ formatFileSize(file.size) }})</span>
+              </div>
+              <button 
+                type="button" 
+                class="btn btn-sm btn-outline-danger"
+                (click)="removeFile(i)">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Progress -->
+        <div *ngIf="uploading" class="upload-progress-section">
+          <div class="progress mb-2">
+            <div class="progress-bar" role="progressbar" [style.width.%]="uploadProgress"></div>
+          </div>
+          <p class="text-center">Uploading files...</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeAttachmentModal()">Cancel</button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="uploadFiles()"
+          [disabled]="selectedFiles.length === 0 || uploading">
+          <span *ngIf="uploading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+          {{ uploading ? 'Uploading...' : 'Upload Files' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showAttachmentModal" class="modal-backdrop fade show"></div>
