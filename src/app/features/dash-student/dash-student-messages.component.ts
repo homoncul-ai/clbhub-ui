@@ -105,7 +105,7 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.parentId = this.id;
     x.tabId = 'message';
-    x.alertMessage = 'Message';
+  //  x.alertMessage = 'Message';
 
     x.getNavigateUrl = (id: string) => {
       //return [this.getBaseRoute(),  id, 'message'];

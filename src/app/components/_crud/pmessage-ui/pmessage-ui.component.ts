@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HcclService } from '../../../restsvc/hccl.service';
@@ -26,9 +26,10 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './pmessage-ui.component.html',
   styleUrl: './pmessage-ui.component.scss'
 })
-export class PMessageUiComponent implements OnInit, OnChanges {
+export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() id!: string;
   @Input() readonly: boolean = false;
+  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 
   // Component state
   pmessage: PMessageGETData | null = null;
@@ -51,11 +52,11 @@ export class PMessageUiComponent implements OnInit, OnChanges {
   
   // Pagination for messages
   private destroy$ = new Subject<void>();
+  private shouldScrollToBottom = false;
 
   constructor(private hcclService: HcclService) {}
 
   ngOnInit(): void {
-    alert('ngOnInit ' + this.id);
     this.initializeTabs();
     if (this.id) {
       this.loadPMessage();
@@ -71,6 +72,13 @@ export class PMessageUiComponent implements OnInit, OnChanges {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.shouldScrollToBottom && this.messagesContainer) {
+      this.scrollToBottom();
+      this.shouldScrollToBottom = false;
+    }
   }
 
   private initializeTabs(): void {
@@ -129,7 +137,7 @@ export class PMessageUiComponent implements OnInit, OnChanges {
     const criteria: PMessageEntryCriteria = {
       pmessageId: this.id,
       maxResults: 50,
-      orderByHint: 'dateCreated DESC'
+      orderByHint: 'pmessageUIEntryOrder'
     };
     
     this.hcclService.findPMessageEntrys(criteria)
@@ -137,6 +145,7 @@ export class PMessageUiComponent implements OnInit, OnChanges {
       .subscribe({
         next: (results) => {
           this.messageEntries = results.searchResults || [];
+          this.shouldScrollToBottom = true; // Trigger scroll to bottom after loading
         },
         error: (err) => {
           this.error = 'Failed to load messages: ' + (err.message || 'Unknown error');
@@ -202,6 +211,7 @@ export class PMessageUiComponent implements OnInit, OnChanges {
           this.newMessageText = '';
           this.postingMessage = false;
           this.loadMessageEntries(); // Refresh messages
+          this.shouldScrollToBottom = true; // Scroll to bottom after posting new message
         },
         error: (err) => {
           this.error = 'Failed to post message: ' + (err.message || 'Unknown error');
@@ -238,5 +248,12 @@ export class PMessageUiComponent implements OnInit, OnChanges {
     // Extract user profile ID from participant data
     // This might need adjustment based on actual data structure
     return participant.id || '';
+  }
+
+  private scrollToBottom(): void {
+    if (this.messagesContainer) {
+      const element = this.messagesContainer.nativeElement;
+      element.scrollTop = element.scrollHeight;
+    }
   }
 }

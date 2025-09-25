@@ -36,30 +36,10 @@
 
     <!-- Messages Tab -->
     <div *ngIf="currentTabId === 'messages'" class="messages-tab">
-      <!-- Message Input -->
-      <div class="message-input-section" *ngIf="!readonly">
-        <div class="input-container">
-          <textarea 
-            [(ngModel)]="newMessageText"
-            placeholder="Type your message here..."
-            rows="3"
-            class="message-input"
-            [disabled]="postingMessage">
-          </textarea>
-          <div class="input-actions">
-            <button 
-              (click)="postMessage()"
-              [disabled]="!newMessageText.trim() || postingMessage"
-              class="btn btn-primary post-button">
-              <span *ngIf="postingMessage">Posting...</span>
-              <span *ngIf="!postingMessage">Post Message</span>
-            </button>
-          </div>
-        </div>
-      </div>
+ 
 
       <!-- Messages List -->
-      <div class="messages-list">
+      <div class="messages-list" #messagesContainer>
         <div *ngIf="messageEntries.length === 0" class="no-messages">
           <p>No messages yet. Be the first to post!</p>
         </div>
@@ -77,6 +57,28 @@
           </div>
         </div>
       </div>
+
+           <!-- Message Input -->
+           <div class="message-input-section" *ngIf="!readonly">
+            <div class="input-container">
+              <textarea 
+                [(ngModel)]="newMessageText"
+                placeholder="Type your message here..."
+                rows="3"
+                class="message-input"
+                [disabled]="postingMessage">
+              </textarea>
+              <div class="input-actions">
+                <button 
+                  (click)="postMessage()"
+                  [disabled]="!newMessageText.trim() || postingMessage"
+                  class="btn btn-primary post-button">
+                  <span *ngIf="postingMessage">Posting...</span>
+                  <span *ngIf="!postingMessage">Post Message</span>
+                </button>
+              </div>
+            </div>
+          </div>
     </div>
 
     <!-- Attachments Tab -->
