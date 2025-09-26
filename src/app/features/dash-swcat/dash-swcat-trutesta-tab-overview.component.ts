@@ -4,7 +4,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global';
 
 @Component({
   selector: 'app-swcat-trutesta-tab-overview',
-  template: `<div>Trutesta Overview</div>`,
+  templateUrl: './dash-swcat-trutesta-tab-overview.component.html',
   standalone: true
 })
 export class DashSwcatTrutestaTabOverviewComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper>{

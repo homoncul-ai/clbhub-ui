@@ -4,7 +4,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global';
 
 @Component({
   selector: 'app-swcat-assets-tab-overview',
-  template: `<div>Software Assets Overview</div>`,
+  templateUrl: './dash-swcat-assets-tab-overview.component.html',
   standalone: true
 })
 export class DashSwcatAssetsTabOverviewComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper>{

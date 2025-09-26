@@ -4,7 +4,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global';
 
 @Component({
   selector: 'app-swcat-assets-tab-graphs',
-  template: `<div>Software Assets Graphs</div>`,
+  templateUrl: './dash-swcat-assets-tab-graphs.component.html',
   standalone: true
 })
 export class DashSwcatAssetsTabGraphsComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper>{

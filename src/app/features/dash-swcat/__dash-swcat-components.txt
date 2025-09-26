@@ -1,4 +1,3 @@
-
 I want to update the dashboard for  user profile type : swcat
 
 New menu items 
@@ -32,6 +31,3 @@ List of TAB linked components
 | parent component | component | Route | Tab title | parent component  | 
 |  app-swcat-sematree-group-component   | app-swcat-sematree-tab-overview | /swcat-dash/sematree/overview | Overview | copy AdvoHomeComponent |
 |  app-swcat-sematree-group-component   | app-swcat-sematree-tab-usage | /swcat-dash/sematree/usage | Software Usage | copy AdvoHomeComponent |
-
-
-

@@ -4,7 +4,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global';
 
 @Component({
   selector: 'app-swcat-sematree-tab-overview',
-  template: `<div>SemaTree Overview</div>`,
+  templateUrl: './dash-swcat-sematree-tab-overview.component.html',
   standalone: true
 })
 export class DashSwcatSematreeTabOverviewComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper>{
