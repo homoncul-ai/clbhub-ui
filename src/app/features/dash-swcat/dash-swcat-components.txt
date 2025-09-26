@@ -8,22 +8,30 @@ New menu items
 New menu items  
 
 | menu item name | component | page title | parent component  | 
-|  Assets | app-swcat-assets-component | Software Assets | copy DashSwcatHomeComponent |
-|  Trutesta | app-swcat-trutesta-group | Trutesta  | copy DashSwcatHomeComponent |
-|  SemaTree | app-swcat-sematree-group | SemaTree  | copy DashSwcatHomeComponent |
+|  Assets | app-swcat-assets-group-component | Software Assets | copy DashSwcatHomeGroupComponent |
+|  Trutesta | app-swcat-trutesta-group-component | Trutesta  | copy DashSwcatHomeGroupComponent |
+|  SemaTree | app-swcat-sematree-group-component | SemaTree  | copy DashSwcatHomeGroupComponent |
 
 
 List of TAB linked components
+ - Add these tabs to the "list of tabs in setupTabs()"
+ - add the routes 
+ - update the title of the html to be the title.
+ - the "overview" tab should be default.
 
-| parent component | component | Tab title | parent component  | 
-|  app-provider-dashboard-group   | app-provider-dashboard-tab-mydash | Dashboard | copy AdvoHomeComponent |
-|  app-provider-details-group   | app-provider-details-tab-myschool | My School | copy AdvoHomeComponent |
-|  app-provider-details-group   | app-provider-details-tab-colleagues | Colleagues | copy AdvoHomeComponent |
-|  app-provider-workrequest-group   | app-provider-workrequest-tab-dash | Work Requests | copy AdvoHomeComponent |
-|  app-provider-catalog-group   | app-provider-catalog-tab-dash | Work Requests | copy AdvoHomeComponent |
+| parent component | component | Route | Tab title | parent component  | 
+|  app-swcat-assets-group-component   | app-swcat-assets-tab-overview | /swcat-dash/assets/overview | Overview | copy AdvoHomeComponent |
+|  app-swcat-assets-group-component   | app-swcat-assets-tab-graphs | /swcat-dash/assets/graphs | Graphs | copy AdvoHomeComponent |
+|  app-swcat-assets-group-component   | app-swcat-assets-tab-contracts | /swcat-dash/assets/contracts  | Contracts  | copy AdvoHomeComponent |
+
+
+| parent component | component | Route | Tab title | parent component  | 
+|  app-swcat-trutesta-group-component   | app-swcat-trutesta-tab-overview | /swcat-dash/trutesta/overview | Overview | copy AdvoHomeComponent |
+|  app-swcat-trutesta-group-component   | app-swcat-trutesta-tab-usage | /swcat-dash/trutesta/usage | Software Usage | copy AdvoHomeComponent |
+
+| parent component | component | Route | Tab title | parent component  | 
+|  app-swcat-sematree-group-component   | app-swcat-sematree-tab-overview | /swcat-dash/sematree/overview | Overview | copy AdvoHomeComponent |
+|  app-swcat-sematree-group-component   | app-swcat-sematree-tab-usage | /swcat-dash/sematree/usage | Software Usage | copy AdvoHomeComponent |
 
 
 
-dashboard
-* Tab - "Financials" - 
-* Tab - "Graphs" - Service Revenue, Custom Revenue, 

@@ -1,0 +1,25 @@
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+
+<div *ngIf="currentTabId === 'overview'">
+  <h1>Software Assets - Overview</h1>
+  <app-swcat-assets-tab-overview></app-swcat-assets-tab-overview>
+</div>
+
+<div *ngIf="currentTabId === 'graphs'">
+  <h1>Software Assets - Graphs</h1>
+  <app-swcat-assets-tab-graphs></app-swcat-assets-tab-graphs>
+</div>
+
+<div *ngIf="currentTabId === 'contracts'">
+  <h1>Software Assets - Contracts</h1>
+  <app-swcat-assets-tab-contracts></app-swcat-assets-tab-contracts>
+</div>
+
+<div *ngIf="true">
+    <li>CurrentId :{{currentTabId}}</li>
+    <li>Id :{{id}}</li>
+    <li>ChildId :{{childId}}</li>
+    <li>Loading :{{loading}}</li>
+    <li>ShowingTabset :{{showingTabset}}</li>
+    <li>Tabs :{{tabs}}</li> 
+  </div>

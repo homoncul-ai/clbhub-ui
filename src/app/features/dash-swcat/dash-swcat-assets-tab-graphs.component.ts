@@ -1,0 +1,23 @@
+import { Component } from '@angular/core';
+import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
+import { AbstractMultimodeComponent } from '@app/components/_global';
+
+@Component({
+  selector: 'app-swcat-assets-tab-graphs',
+  template: `<div>Software Assets Graphs</div>`,
+  standalone: true
+})
+export class DashSwcatAssetsTabGraphsComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper>{
+    constructor() {
+        super();
+        console.log('DashSwcatAssetsTabGraphsComponent');
+    }
+
+    protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {
+        return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
+    }
+
+    protected async loadEntityByIdCall(id: string): Promise<HcclUserProfileCrudWrapper> {
+        return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
+    }
+}

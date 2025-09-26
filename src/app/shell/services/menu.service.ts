@@ -454,6 +454,18 @@ export class MenuService {
     const home = this.copyMenuItem(MENU_CONSTANTS.SWCAT_HOME);
     this.addMenuItem(menu, home);
     
+    // Add Assets
+    const assets = this.copyMenuItem(MENU_CONSTANTS.SWCAT_ASSETS);
+    this.addMenuItem(menu, assets);
+    
+    // Add Trutesta
+    const trutesta = this.copyMenuItem(MENU_CONSTANTS.SWCAT_TRUTESTA);
+    this.addMenuItem(menu, trutesta);
+    
+    // Add SemaTree
+    const sematree = this.copyMenuItem(MENU_CONSTANTS.SWCAT_SEMATREE);
+    this.addMenuItem(menu, sematree);
+    
     return menu;
   }
 
@@ -1437,5 +1449,29 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-swcat',
     componentName: 'dash-swcat-home-group',
     icon: 'fas fa-home'
+  },
+  SWCAT_ASSETS: {
+    level: 1,
+    label: 'Assets',
+    route: '/swcat-dashboard/assets',
+    componentPath: 'src/app/features/dash-swcat',
+    componentName: 'dash-swcat-assets-group',
+    icon: 'fas fa-cube'
+  },
+  SWCAT_TRUTESTA: {
+    level: 1,
+    label: 'Trutesta',
+    route: '/swcat-dashboard/trutesta',
+    componentPath: 'src/app/features/dash-swcat',
+    componentName: 'dash-swcat-trutesta-group',
+    icon: 'fas fa-chart-line'
+  },
+  SWCAT_SEMATREE: {
+    level: 1,
+    label: 'SemaTree',
+    route: '/swcat-dashboard/sematree',
+    componentPath: 'src/app/features/dash-swcat',
+    componentName: 'dash-swcat-sematree-group',
+    icon: 'fas fa-tree'
   }
 };
