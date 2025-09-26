@@ -66,6 +66,8 @@ export class DashSwcatAssetsGroupComponent extends AbstractEntityGroupComponent<
 
 
   protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {
+
+
     return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 

@@ -2,12 +2,12 @@
 
 <div *ngIf="currentTabId === 'overview'">
   <h1>Trutesta - Overview</h1>
-  <app-swcat-trutesta-tab-overview></app-swcat-trutesta-tab-overview>
+  <app-swcat-trutesta-tab-overview [id]="this.id"></app-swcat-trutesta-tab-overview>
 </div>
 
 <div *ngIf="currentTabId === 'usage'">
   <h1>Trutesta - Software Usage</h1>
-  <app-swcat-trutesta-tab-usage></app-swcat-trutesta-tab-usage>
+  <app-swcat-trutesta-tab-usage [id]="this.id"></app-swcat-trutesta-tab-usage>
 </div>
 
 <div *ngIf="true">

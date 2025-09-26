@@ -2,12 +2,12 @@
 
 <div *ngIf="currentTabId === 'overview'">
   <h1>SemaTree - Overview</h1>
-  <app-swcat-sematree-tab-overview></app-swcat-sematree-tab-overview>
+  <app-swcat-sematree-tab-overview [id]="this.id"></app-swcat-sematree-tab-overview>
 </div>
 
 <div *ngIf="currentTabId === 'usage'">
   <h1>SemaTree - Software Usage</h1>
-  <app-swcat-sematree-tab-usage></app-swcat-sematree-tab-usage>
+  <app-swcat-sematree-tab-usage [id]="this.id"></app-swcat-sematree-tab-usage>
 </div>
 
 <div *ngIf="true">

@@ -267,8 +267,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
         this.menuItems = newMenuItems;
         this.updateTree();
         //alert('shell.component.ts: setupForUserProfileContext Current URL: ' + currentUrl);
-   
-        debugger;
 
         const firstMenuItem : MenuItem | null = this._menuService.findFirstNavigableMenuItem(newRawMenu);
           

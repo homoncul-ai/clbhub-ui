@@ -2175,6 +2175,7 @@ export class HcclService extends CommonRequestServiceCaller {
       url: "/hccl/teams/hccluserprofile/" + id,
       method: "GET",
     };
+    debugger;
     return this.request<HcclUserProfileGETData>(request);
   }
 

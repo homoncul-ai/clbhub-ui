@@ -2,17 +2,17 @@
 
 <div *ngIf="currentTabId === 'overview'">
   <h1>Software Assets - Overview</h1>
-  <app-swcat-assets-tab-overview></app-swcat-assets-tab-overview>
+  <app-swcat-assets-tab-overview [id]="this.id"></app-swcat-assets-tab-overview>
 </div>
 
 <div *ngIf="currentTabId === 'graphs'">
   <h1>Software Assets - Graphs</h1>
-  <app-swcat-assets-tab-graphs></app-swcat-assets-tab-graphs>
+  <app-swcat-assets-tab-graphs [id]="this.id"></app-swcat-assets-tab-graphs>
 </div>
 
 <div *ngIf="currentTabId === 'contracts'">
   <h1>Software Assets - Contracts</h1>
-  <app-swcat-assets-tab-contracts></app-swcat-assets-tab-contracts>
+  <app-swcat-assets-tab-contracts [id]="this.id"></app-swcat-assets-tab-contracts>
 </div>
 
 <div *ngIf="true">
@@ -22,4 +22,6 @@
     <li>Loading :{{loading}}</li>
     <li>ShowingTabset :{{showingTabset}}</li>
     <li>Tabs :{{tabs}}</li> 
+    <li>OrganizationId :{{organizationId}}</li>
+    <li>context :{{hcclContext   | json}}</li>
   </div>
