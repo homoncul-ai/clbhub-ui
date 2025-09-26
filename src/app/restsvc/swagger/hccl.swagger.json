@@ -12238,6 +12238,192 @@
         }
       }
     },
+    "/hccl/utilmon/utilmonstat": {
+      "post": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Create a new UtilmonStat.",
+        "operationId": "createUtilmonStat_1",
+        "requestBody": {
+          "description": "New UtilmonStat data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonStatPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/utilmon/utilmonstat/{id}": {
+      "get": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getUtilmonStatById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilmonStatGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Updates and existing UtilmonStat.",
+        "operationId": "updateUtilmonStatById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated UtilmonStat data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonStatPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Deletes an existing UtilmonStat.",
+        "operationId": "deleteUtilmonStatById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/utilmon/utilmonstat/query": {
+      "post": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Fetches all UtilmonStats.",
+        "operationId": "findUtilmonStats_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonStatCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilmonStatGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/vocode/personalstatement": {
       "post": {
         "tags": [
@@ -28385,10 +28571,13 @@
         "required": [
           "applicationCode",
           "dateYearMo",
+          "eventTypeCode",
           "month",
           "numLogins",
           "orgId",
           "orgName",
+          "quarter",
+          "realmName",
           "userEmail",
           "year",
           "yearmo"
@@ -28404,7 +28593,17 @@
             "type": "string",
             "format": "uuid"
           },
+          "realmName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "orgName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventTypeCode": {
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
@@ -28433,6 +28632,10 @@
             "format": "int32"
           },
           "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quarter": {
             "type": "integer",
             "format": "int32"
           },
@@ -28468,7 +28671,13 @@
             "type": "string",
             "format": "uuid"
           },
+          "realmName": {
+            "type": "string"
+          },
           "orgName": {
+            "type": "string"
+          },
+          "eventTypeCode": {
             "type": "string"
           },
           "userEmail": {
@@ -28489,6 +28698,10 @@
             "format": "int32"
           },
           "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quarter": {
             "type": "integer",
             "format": "int32"
           }
@@ -28556,7 +28769,13 @@
             "type": "string",
             "format": "uuid"
           },
+          "realmName": {
+            "type": "string"
+          },
           "orgName": {
+            "type": "string"
+          },
+          "eventTypeCode": {
             "type": "string"
           },
           "userEmail": {
@@ -28580,6 +28799,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "quarter": {
+            "type": "integer",
+            "format": "int32"
+          },
           "dateYearMo": {
             "type": "string",
             "format": "date-time"
@@ -28590,10 +28813,13 @@
         "required": [
           "applicationCode",
           "dateYearMo",
+          "eventTypeCode",
           "month",
           "numLogins",
           "orgId",
           "orgName",
+          "quarter",
+          "realmName",
           "userEmail",
           "year",
           "yearmo"
@@ -28609,7 +28835,17 @@
             "type": "string",
             "format": "uuid"
           },
+          "realmName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "orgName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventTypeCode": {
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
@@ -28638,6 +28874,10 @@
             "format": "int32"
           },
           "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quarter": {
             "type": "integer",
             "format": "int32"
           },
@@ -28669,8 +28909,9 @@
             "type": "string"
           },
           "realmName": {
-            "type": "string",
-            "format": "uuid"
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           },
           "applicationCode": {
             "maxLength": 50,
@@ -28746,8 +28987,7 @@
             "type": "string"
           },
           "realmName": {
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           },
           "applicationCode": {
             "type": "string"
@@ -28847,8 +29087,7 @@
             "type": "string"
           },
           "realmName": {
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           },
           "applicationCode": {
             "type": "string"
@@ -28912,8 +29151,9 @@
             "type": "string"
           },
           "realmName": {
-            "type": "string",
-            "format": "uuid"
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           },
           "applicationCode": {
             "maxLength": 50,
@@ -28960,6 +29200,338 @@
           "dateEventFinished": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "UtilmonStatPOSTData": {
+        "required": [
+          "amount",
+          "applicationCode",
+          "count",
+          "dataValue0",
+          "dateYearMo",
+          "eventTypeCode",
+          "month",
+          "orgName",
+          "quarter",
+          "realmName",
+          "year",
+          "yearmo"
+        ],
+        "type": "object",
+        "properties": {
+          "yearmo": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "quarter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dataValue0": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "applicationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subSystemCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "realmName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateYearMo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UtilmonStatGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "yearmo": {
+            "type": "string"
+          },
+          "quarter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "type": "string"
+          },
+          "dataValue0": {
+            "type": "string"
+          },
+          "applicationCode": {
+            "type": "string"
+          },
+          "subSystemCode": {
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "type": "string"
+          },
+          "realmName": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UtilmonStatGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UtilmonStatGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "UtilmonStatCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "yearmo": {
+            "type": "string"
+          },
+          "quarter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "type": "string"
+          },
+          "dataValue0": {
+            "type": "string"
+          },
+          "applicationCode": {
+            "type": "string"
+          },
+          "subSystemCode": {
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "type": "string"
+          },
+          "realmName": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateYearMo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UtilmonStatPUTData": {
+        "required": [
+          "amount",
+          "applicationCode",
+          "count",
+          "dataValue0",
+          "dateYearMo",
+          "eventTypeCode",
+          "month",
+          "orgName",
+          "quarter",
+          "realmName",
+          "year",
+          "yearmo"
+        ],
+        "type": "object",
+        "properties": {
+          "yearmo": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "quarter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dataValue0": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "applicationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subSystemCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "realmName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateYearMo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

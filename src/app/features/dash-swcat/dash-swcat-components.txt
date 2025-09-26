@@ -1,10 +1,29 @@
 
-I want to create a new dashboard for a new class of user profile type : swcat
+I want to update the dashboard for  user profile type : swcat
 
-- similar to dash-student
-- Create the "Home" page and menu item copying dash-student-messages.component.* to dash-swcat-home.component.*
-  extending : extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {
-  
-- update menu.service to recognize the new profileTypeCode "swcat" 
- - Create a new menu tree and add the SWCAT_HOME to the menu.service menu, pointing the the page above.
- 
+New menu items 
+
+- all these components need will be under the folder 'src/feature/swcat-dash/'
+
+New menu items  
+
+| menu item name | component | page title | parent component  | 
+|  Assets | app-swcat-assets-component | Software Assets | copy DashSwcatHomeComponent |
+|  Trutesta | app-swcat-trutesta-group | Trutesta  | copy DashSwcatHomeComponent |
+|  SemaTree | app-swcat-sematree-group | SemaTree  | copy DashSwcatHomeComponent |
+
+
+List of TAB linked components
+
+| parent component | component | Tab title | parent component  | 
+|  app-provider-dashboard-group   | app-provider-dashboard-tab-mydash | Dashboard | copy AdvoHomeComponent |
+|  app-provider-details-group   | app-provider-details-tab-myschool | My School | copy AdvoHomeComponent |
+|  app-provider-details-group   | app-provider-details-tab-colleagues | Colleagues | copy AdvoHomeComponent |
+|  app-provider-workrequest-group   | app-provider-workrequest-tab-dash | Work Requests | copy AdvoHomeComponent |
+|  app-provider-catalog-group   | app-provider-catalog-tab-dash | Work Requests | copy AdvoHomeComponent |
+
+
+
+dashboard
+* Tab - "Financials" - 
+* Tab - "Graphs" - Service Revenue, Custom Revenue, 

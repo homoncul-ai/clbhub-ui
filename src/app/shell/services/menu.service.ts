@@ -1435,7 +1435,7 @@ EA_ORGNONPROFITS_LIST: {
     label: 'Home',
     route: '/swcat-dashboard/home',
     componentPath: 'src/app/features/dash-swcat',
-    componentName: 'dash-swcat-home',
+    componentName: 'dash-swcat-home-group',
     icon: 'fas fa-home'
   }
 };

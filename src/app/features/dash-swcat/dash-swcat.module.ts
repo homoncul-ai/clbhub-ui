@@ -5,16 +5,16 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 // Import components
 import { DashSwcatComponent } from './dash-swcat.component';
-import { DashSwcatHomeComponent } from './dash-swcat-home.component';
+import { DashSwcatHomeGroupComponent } from './dash-swcat-home-group.component';
 
 const routes: Routes = [
   {
     path: '',
     component: DashSwcatComponent,
     children: [
-      { path: 'home', component: DashSwcatHomeComponent },
-      { path: 'home/:tabId', component: DashSwcatHomeComponent },
-      { path: 'home/:tabId/:childId', component: DashSwcatHomeComponent },
+      { path: 'home', component: DashSwcatHomeGroupComponent },
+      { path: 'home/:tabId', component: DashSwcatHomeGroupComponent },
+      { path: 'home/:tabId/:childId', component: DashSwcatHomeGroupComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }
@@ -27,7 +27,7 @@ const routes: Routes = [
     MdbModalModule,
     // Standalone components
     DashSwcatComponent,
-    DashSwcatHomeComponent,
+    DashSwcatHomeGroupComponent,
   ],
   declarations: [
     // Non-standalone components would go here

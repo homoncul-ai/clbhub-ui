@@ -2849,6 +2849,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<UtilmonReportingEventGETDataSearchResults>(request);
   }
 
+  createUtilmonStat(body: UtilmonStatPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonstat",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getUtilmonStatById(id: string): Observable<UtilmonStatGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonstat/" + id,
+      method: "GET",
+    };
+    return this.request<UtilmonStatGETData>(request);
+  }
+
+  updateUtilmonStatById(id: string, body: UtilmonStatPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonstat/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteUtilmonStatById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonstat/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findUtilmonStats(body: UtilmonStatCriteria): Observable<UtilmonStatGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonstat/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<UtilmonStatGETDataSearchResults>(request);
+  }
+
   createPersonalStatement(body: PersonalStatementPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/personalstatement",
@@ -7132,13 +7175,16 @@ export interface WorkRequestTypeRefPUTData {
 export interface UtilmonLoginYearmoPOSTData {
   yearmo: string;
   orgId: string;
+  realmName: string;
   orgName: string;
+  eventTypeCode: string;
   userEmail: string;
   applicationCode: string;
   subSystemCode?: string;
   numLogins: number;
   year: number;
   month: number;
+  quarter: number;
   dateYearMo: string;
 }
 
@@ -7150,13 +7196,16 @@ export interface UtilmonLoginYearmoGETData {
   dateLastUpdated?: DateGETData;
   yearmo?: string;
   orgId?: string;
+  realmName?: string;
   orgName?: string;
+  eventTypeCode?: string;
   userEmail?: string;
   applicationCode?: string;
   subSystemCode?: string;
   numLogins?: number;
   year?: number;
   month?: number;
+  quarter?: number;
 }
 
 export interface UtilmonLoginYearmoGETDataSearchResults {
@@ -7176,26 +7225,32 @@ export interface UtilmonLoginYearmoCriteria {
   orderByHint?: string;
   yearmo?: string;
   orgId?: string;
+  realmName?: string;
   orgName?: string;
+  eventTypeCode?: string;
   userEmail?: string;
   applicationCode?: string;
   subSystemCode?: string;
   numLogins?: number;
   year?: number;
   month?: number;
+  quarter?: number;
   dateYearMo?: string;
 }
 
 export interface UtilmonLoginYearmoPUTData {
   yearmo: string;
   orgId: string;
+  realmName: string;
   orgName: string;
+  eventTypeCode: string;
   userEmail: string;
   applicationCode: string;
   subSystemCode?: string;
   numLogins: number;
   year: number;
   month: number;
+  quarter: number;
   dateYearMo: string;
 }
 
@@ -7283,6 +7338,92 @@ export interface UtilmonReportingEventPUTData {
   extraInfoJson?: string;
   durationMs: number;
   dateEventFinished: string;
+}
+
+export interface UtilmonStatPOSTData {
+  yearmo: string;
+  quarter: number;
+  orgId?: string;
+  orgName: string;
+  dataValue0: string;
+  applicationCode: string;
+  subSystemCode?: string;
+  eventTypeCode: string;
+  realmName: string;
+  year: number;
+  month: number;
+  dateYearMo: string;
+  amount: number;
+  count: number;
+}
+
+export interface UtilmonStatGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  yearmo?: string;
+  quarter?: number;
+  orgId?: string;
+  orgName?: string;
+  dataValue0?: string;
+  applicationCode?: string;
+  subSystemCode?: string;
+  eventTypeCode?: string;
+  realmName?: string;
+  year?: number;
+  month?: number;
+  amount?: number;
+  count?: number;
+}
+
+export interface UtilmonStatGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: UtilmonStatGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface UtilmonStatCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  yearmo?: string;
+  quarter?: number;
+  orgId?: string;
+  orgName?: string;
+  dataValue0?: string;
+  applicationCode?: string;
+  subSystemCode?: string;
+  eventTypeCode?: string;
+  realmName?: string;
+  year?: number;
+  month?: number;
+  dateYearMo?: string;
+  amount?: number;
+  count?: number;
+}
+
+export interface UtilmonStatPUTData {
+  yearmo: string;
+  quarter: number;
+  orgId?: string;
+  orgName: string;
+  dataValue0: string;
+  applicationCode: string;
+  subSystemCode?: string;
+  eventTypeCode: string;
+  realmName: string;
+  year: number;
+  month: number;
+  dateYearMo: string;
+  amount: number;
+  count: number;
 }
 
 export interface PersonalStatementPOSTData {

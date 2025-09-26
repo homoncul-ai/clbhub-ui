@@ -14,14 +14,14 @@ import { PMessageListComponent } from '@app/components/_crud/pmessage/pmessage-l
 import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
 
 @Component({
-  selector: 'app-dash-swcat-home',
+  selector: 'app-dash-swcat-home-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent,
      PMessageListComponent, PMessageUiComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
-  templateUrl: './dash-swcat-home.component.html',
+  templateUrl: './dash-swcat-home-group.component.html',
 })
-export class DashSwcatHomeComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
+export class DashSwcatHomeGroupComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
 
   @Input() messageId: string = '';
 
