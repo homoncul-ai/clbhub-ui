@@ -33,7 +33,7 @@ export class MenuService {
 
    * 
    */
-  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): string {
+  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): string {
     switch (dashboardType) {
       case 'advocate':
   //    case 'nonprofit':
@@ -44,6 +44,8 @@ export class MenuService {
         return 'ecoadmin-dashboard';
       case 'student':
         return 'student-dashboard';
+      case 'swcat':
+        return 'swcat-dashboard';
 
       default:
         alert('Unknown dashboard type:' + dashboardType);
@@ -53,7 +55,7 @@ export class MenuService {
     return '';
   }
 
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | null {
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
     } else if (route.startsWith('/provider-dashboard')) {
@@ -62,11 +64,13 @@ export class MenuService {
       return 'ecoadmin';
     } else if (route.startsWith('/student-dashboard')) {
       return 'student';
+    } else if (route.startsWith('/swcat-dashboard')) {
+      return 'swcat';
     }
     return null;
   }
 
-  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' {
+  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
       return 'advocate';
@@ -102,6 +106,9 @@ export class MenuService {
       case 'STUDENT':
         return 'student';
 
+      case 'SWCAT':
+        return 'swcat';
+
       default:
         console.log('Unknown profile type code, defaulting to advocate:', profileTypeCode);
         alert('Unknown profile type code, defaulting to advocate:' + profileTypeCode);
@@ -109,7 +116,7 @@ export class MenuService {
     }
   }
   queues : WorkQueueGETData[] = [];
-  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): Promise<MenuItem[]> { 
+  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
     switch (dashboardType) {
       case 'service-provider':
         const workQueueCriteria = {
@@ -127,6 +134,7 @@ export class MenuService {
       case 'nonprofit':
       case 'ecoadmin':
       case 'student':
+      case 'swcat':
       default:
         break;
     }
@@ -134,7 +142,7 @@ export class MenuService {
   }
 
 
-  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student'): MenuItem[] {
+  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
           return this.buildAdvocateMenu();
@@ -146,6 +154,8 @@ export class MenuService {
         return this.buildEcoAdminMenu();
       case 'student':
         return this.buildStudentMenu();
+      case 'swcat':
+        return this.buildSwcatMenu();
       default:
         return [];
     }
@@ -429,6 +439,20 @@ export class MenuService {
     // Add Schedule with children
     const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
     this.addMenuItem(menu, schedule);
+    
+    return menu;
+  }
+
+  /**
+   * Builds the swcat menu dynamically using the constants and helper methods
+   * @returns Array of MenuItem objects for the swcat dashboard
+   */
+  buildSwcatMenu(): MenuItem[] {
+    const menu: MenuItem[] = [];
+    
+    // Add Home with children
+    const home = this.copyMenuItem(MENU_CONSTANTS.SWCAT_HOME);
+    this.addMenuItem(menu, home);
     
     return menu;
   }
@@ -1404,5 +1428,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-schedule',
     icon: 'fas fa-calendar'
+  },
+  // SWCAT Dashboard Menu Items
+  SWCAT_HOME: {
+    level: 1,
+    label: 'Home',
+    route: '/swcat-dashboard/home',
+    componentPath: 'src/app/features/dash-swcat',
+    componentName: 'dash-swcat-home',
+    icon: 'fas fa-home'
   }
 };

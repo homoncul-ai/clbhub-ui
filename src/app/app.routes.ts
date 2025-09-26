@@ -32,6 +32,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/dash-student/dash-student.module').then(m => m.DashStudentModule)
       },
       {
+        path: 'swcat-dashboard',
+        loadChildren: () => import('./features/dash-swcat/dash-swcat.module').then(m => m.DashSwcatModule)
+      },
+      {
         path: '',
         redirectTo: 'advocate-dashboard-bungabunga',
         pathMatch: 'full'

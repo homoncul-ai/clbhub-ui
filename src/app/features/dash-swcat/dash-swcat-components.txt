@@ -1,0 +1,10 @@
+
+I want to create a new dashboard for a new class of user profile type : swcat
+
+- similar to dash-student
+- Create the "Home" page and menu item copying dash-student-messages.component.* to dash-swcat-home.component.*
+  extending : extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {
+  
+- update menu.service to recognize the new profileTypeCode "swcat" 
+ - Create a new menu tree and add the SWCAT_HOME to the menu.service menu, pointing the the page above.
+ 

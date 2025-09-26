@@ -285,6 +285,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  createCatalogEntryGroupRef(body: CatalogEntryGroupRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrygroupref",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCatalogEntryGroupRefById(id: string): Observable<CatalogEntryGroupRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrygroupref/" + id,
+      method: "GET",
+    };
+    return this.request<CatalogEntryGroupRefGETData>(request);
+  }
+
+  updateCatalogEntryGroupRefById(id: string, body: CatalogEntryGroupRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrygroupref/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCatalogEntryGroupRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrygroupref/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCatalogEntryGroupRefs(body: CatalogEntryGroupRefCriteria): Observable<CatalogEntryGroupRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrygroupref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogEntryGroupRefGETDataSearchResults>(request);
+  }
+
   createCatalogEntryInterest(body: CatalogEntryInterestPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentryinterest",
@@ -1077,6 +1120,92 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PMFileBlobGETDataSearchResults>(request);
   }
 
+  createPMFileGroupEntry(body: PMFileGroupEntryPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroupentry",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMFileGroupEntryById(id: string): Observable<PMFileGroupEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroupentry/" + id,
+      method: "GET",
+    };
+    return this.request<PMFileGroupEntryGETData>(request);
+  }
+
+  updatePMFileGroupEntryById(id: string, body: PMFileGroupEntryPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroupentry/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMFileGroupEntryById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroupentry/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMFileGroupEntrys(body: PMFileGroupEntryCriteria): Observable<PMFileGroupEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroupentry/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMFileGroupEntryGETDataSearchResults>(request);
+  }
+
+  createPMFileGroup(body: PMFileGroupPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroup",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMFileGroupById(id: string): Observable<PMFileGroupGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroup/" + id,
+      method: "GET",
+    };
+    return this.request<PMFileGroupGETData>(request);
+  }
+
+  updatePMFileGroupById(id: string, body: PMFileGroupPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroup/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMFileGroupById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroup/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMFileGroups(body: PMFileGroupCriteria): Observable<PMFileGroupGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pmfilegroup/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMFileGroupGETDataSearchResults>(request);
+  }
+
   createPMFile(body: PMFilePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pmfile",
@@ -1548,6 +1677,49 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<StateTransitionLogGETDataSearchResults>(request);
+  }
+
+  createSwWorkProduct(body: SwWorkProductPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/swcat/swworkproduct",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getSwWorkProductById(id: string): Observable<SwWorkProductGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/swcat/swworkproduct/" + id,
+      method: "GET",
+    };
+    return this.request<SwWorkProductGETData>(request);
+  }
+
+  updateSwWorkProductById(id: string, body: SwWorkProductPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/swcat/swworkproduct/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteSwWorkProductById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/swcat/swworkproduct/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findSwWorkProducts(body: SwWorkProductCriteria): Observable<SwWorkProductGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/swcat/swworkproduct/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SwWorkProductGETDataSearchResults>(request);
   }
 
   createTaxonomyEntry(body: TaxonomyEntryPOSTData): Observable<any> {
@@ -2591,6 +2763,92 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestTypeRefGETDataSearchResults>(request);
   }
 
+  createUtilmonLoginYearmo(body: UtilmonLoginYearmoPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonloginyearmo",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getUtilmonLoginYearmoById(id: string): Observable<UtilmonLoginYearmoGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonloginyearmo/" + id,
+      method: "GET",
+    };
+    return this.request<UtilmonLoginYearmoGETData>(request);
+  }
+
+  updateUtilmonLoginYearmoById(id: string, body: UtilmonLoginYearmoPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonloginyearmo/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteUtilmonLoginYearmoById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonloginyearmo/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findUtilmonLoginYearmos(body: UtilmonLoginYearmoCriteria): Observable<UtilmonLoginYearmoGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonloginyearmo/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<UtilmonLoginYearmoGETDataSearchResults>(request);
+  }
+
+  createUtilmonReportingEvent(body: UtilmonReportingEventPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonreportingevent",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getUtilmonReportingEventById(id: string): Observable<UtilmonReportingEventGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonreportingevent/" + id,
+      method: "GET",
+    };
+    return this.request<UtilmonReportingEventGETData>(request);
+  }
+
+  updateUtilmonReportingEventById(id: string, body: UtilmonReportingEventPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonreportingevent/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteUtilmonReportingEventById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonreportingevent/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findUtilmonReportingEvents(body: UtilmonReportingEventCriteria): Observable<UtilmonReportingEventGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/utilmon/utilmonreportingevent/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<UtilmonReportingEventGETDataSearchResults>(request);
+  }
+
   createPersonalStatement(body: PersonalStatementPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/personalstatement",
@@ -3152,6 +3410,68 @@ export interface ServiceEventLogPUTData {
   parentId?: string;
 }
 
+export interface CatalogEntryGroupRefPOSTData {
+  businessCode: string;
+  nameText: string;
+  description: string;
+  available: number;
+}
+
+export interface BaseCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+}
+
+export interface CatalogEntryGroupRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  businessCode?: string;
+  nameText?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface CatalogEntryGroupRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogEntryGroupRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface DCPageData {
+  totalRows?: number;
+  pageNumber?: number;
+  pageSize?: number;
+  startingOffset?: number;
+  totalPages?: number;
+  endingOffset?: number;
+  links?: string[];
+}
+
+export interface CatalogEntryGroupRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  businessCode?: string;
+  nameText?: string;
+  available?: number;
+}
+
+export interface CatalogEntryGroupRefPUTData {
+  businessCode: string;
+  nameText: string;
+  description: string;
+  available: number;
+}
+
 export interface CatalogEntryInterestPOSTData {
   catalogId: string;
   catalogEntryId: string;
@@ -3159,12 +3479,6 @@ export interface CatalogEntryInterestPOSTData {
   userProfileId: string;
   interest: number;
   notes?: string;
-}
-
-export interface BaseCriteria {
-  pageNumber?: number;
-  pageSize?: number;
-  isPaging?: boolean;
 }
 
 export interface CatalogEntryInterestGETData {
@@ -3185,16 +3499,6 @@ export interface CatalogEntryInterestGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CatalogEntryInterestGETData[];
   filter?: BaseCriteria;
-}
-
-export interface DCPageData {
-  totalRows?: number;
-  pageNumber?: number;
-  pageSize?: number;
-  startingOffset?: number;
-  totalPages?: number;
-  endingOffset?: number;
-  links?: string[];
 }
 
 export interface CatalogEntryInterestCriteria {
@@ -3229,12 +3533,23 @@ export interface CatalogEntryPOSTData {
   entryCode: string;
   title: string;
   catalogTypeCode: string;
+  entryGroupCode?: string;
   shortDescription: string;
   description: string;
+  businessNeed?: string;
+  businessSponsor?: string;
+  entryPrice?: number;
+  entryCost?: number;
   tarotPrompt?: string;
   notes?: string;
   available: number;
+  dateUnavailable?: string;
   url?: string;
+  tarotFileId?: string;
+  tarotFileUrl?: string;
+  dateFirstOffered?: string;
+  dateStart?: string;
+  dateEnd?: string;
   vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;
@@ -3243,6 +3558,9 @@ export interface CatalogEntryPOSTData {
   updateNotes?: string;
   updatedByUserProfileId?: string;
   referenceId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
 }
 
 export interface CatalogEntryGETData {
@@ -3255,12 +3573,19 @@ export interface CatalogEntryGETData {
   entryCode?: string;
   title?: string;
   catalogTypeCode?: string;
+  entryGroupCode?: string;
   shortDescription?: string;
   description?: string;
+  businessNeed?: string;
+  businessSponsor?: string;
+  entryPrice?: number;
+  entryCost?: number;
   tarotPrompt?: string;
   notes?: string;
   available?: number;
   url?: string;
+  tarotFileId?: string;
+  tarotFileUrl?: string;
   vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;
@@ -3269,6 +3594,9 @@ export interface CatalogEntryGETData {
   updateNotes?: string;
   updatedByUserProfileId?: string;
   referenceId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
   catalogCode?: string;
   distance?: number;
   distanceFromCode?: string;
@@ -3323,9 +3651,20 @@ export interface CatalogEntryCriteria {
   entryCode?: string;
   title?: string;
   catalogTypeCode?: string;
+  entryGroupCode?: string;
   shortDescription?: string;
+  businessNeed?: string;
+  businessSponsor?: string;
+  entryPrice?: number;
+  entryCost?: number;
   available?: number;
+  dateUnavailable?: string;
   url?: string;
+  tarotFileId?: string;
+  tarotFileUrl?: string;
+  dateFirstOffered?: string;
+  dateStart?: string;
+  dateEnd?: string;
   vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;
@@ -3334,6 +3673,9 @@ export interface CatalogEntryCriteria {
   updateNotes?: string;
   updatedByUserProfileId?: string;
   referenceId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
   vocationEncodingId?: string;
   searchingForEditVersion?: boolean;
 }
@@ -3363,12 +3705,23 @@ export interface CatalogEntryPUTData {
   entryCode: string;
   title: string;
   catalogTypeCode: string;
+  entryGroupCode?: string;
   shortDescription: string;
   description: string;
+  businessNeed?: string;
+  businessSponsor?: string;
+  entryPrice?: number;
+  entryCost?: number;
   tarotPrompt?: string;
   notes?: string;
   available: number;
+  dateUnavailable?: string;
   url?: string;
+  tarotFileId?: string;
+  tarotFileUrl?: string;
+  dateFirstOffered?: string;
+  dateStart?: string;
+  dateEnd?: string;
   vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;
@@ -3377,6 +3730,9 @@ export interface CatalogEntryPUTData {
   updateNotes?: string;
   updatedByUserProfileId?: string;
   referenceId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
 }
 
 export interface CatalogEntryTagPOSTData {
@@ -4354,6 +4710,104 @@ export interface PMFileBlobPUTData {
   fileBlob: string;
 }
 
+export interface PMFileGroupEntryPOSTData {
+  pmfileGroupId: string;
+  pmfileId: string;
+}
+
+export interface PMFileGroupEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  pmfileGroupId?: string;
+  pmfileId?: string;
+}
+
+export interface PMFileGroupEntryGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMFileGroupEntryGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMFileGroupEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  pmfileGroupId?: string;
+  pmfileId?: string;
+}
+
+export interface PMFileGroupEntryPUTData {
+  pmfileGroupId: string;
+  pmfileId: string;
+}
+
+export interface PMFileGroupPOSTData {
+  title: string;
+  instructions: string;
+  available?: boolean;
+  uploadGroupReferenceId?: string;
+  parentEntityId: string;
+  parentEntityName?: string;
+  parentEntityType: string;
+}
+
+export interface PMFileGroupGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  title?: string;
+  instructions?: string;
+  available?: boolean;
+  uploadGroupReferenceId?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+}
+
+export interface PMFileGroupGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMFileGroupGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMFileGroupCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  title?: string;
+  instructions?: string;
+  available?: boolean;
+  uploadGroupReferenceId?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+}
+
+export interface PMFileGroupPUTData {
+  title: string;
+  instructions: string;
+  available?: boolean;
+  uploadGroupReferenceId?: string;
+  parentEntityId: string;
+  parentEntityName?: string;
+  parentEntityType: string;
+}
+
 export interface PMFilePOSTData {
   downloadAs: string;
   folderPath: string;
@@ -5039,6 +5493,120 @@ export interface StateTransitionLogPUTData {
   userInRoleCode?: string;
   extendedJson?: string;
   actionDataId?: string;
+}
+
+export interface SwWorkProductPOSTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  availableForPricing: number;
+  softwareCategoryCode?: string;
+  businessNeedCode?: string;
+  businessNeed?: string;
+  productTypeCode: string;
+  ipOwnershipCode: string;
+  complexityCode: string;
+  hostingCode: string;
+  lifecycleCode: string;
+  slaCode: string;
+  linkWiki?: string;
+  numberOfUniqueUsersPerYear: number;
+  importance: number;
+  revenuePerYear: number;
+  recordCount: number;
+  developmentHours: number;
+  costPerMonth: number;
+}
+
+export interface SwWorkProductGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  availableForPricing?: number;
+  softwareCategoryCode?: string;
+  businessNeedCode?: string;
+  businessNeed?: string;
+  productTypeCode?: string;
+  ipOwnershipCode?: string;
+  complexityCode?: string;
+  hostingCode?: string;
+  lifecycleCode?: string;
+  slaCode?: string;
+  linkWiki?: string;
+  numberOfUniqueUsersPerYear?: number;
+  importance?: number;
+  revenuePerYear?: number;
+  recordCount?: number;
+  developmentHours?: number;
+  costPerMonth?: number;
+}
+
+export interface SwWorkProductGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: SwWorkProductGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface SwWorkProductCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  availableForPricing?: number;
+  softwareCategoryCode?: string;
+  businessNeedCode?: string;
+  businessNeed?: string;
+  productTypeCode?: string;
+  ipOwnershipCode?: string;
+  complexityCode?: string;
+  hostingCode?: string;
+  lifecycleCode?: string;
+  slaCode?: string;
+  linkWiki?: string;
+  numberOfUniqueUsersPerYear?: number;
+  importance?: number;
+  revenuePerYear?: number;
+  recordCount?: number;
+  developmentHours?: number;
+  costPerMonth?: number;
+}
+
+export interface SwWorkProductPUTData {
+  name: string;
+  businessCode: string;
+  description: string;
+  available: number;
+  availableForPricing: number;
+  softwareCategoryCode?: string;
+  businessNeedCode?: string;
+  businessNeed?: string;
+  productTypeCode: string;
+  ipOwnershipCode: string;
+  complexityCode: string;
+  hostingCode: string;
+  lifecycleCode: string;
+  slaCode: string;
+  linkWiki?: string;
+  numberOfUniqueUsersPerYear: number;
+  importance: number;
+  revenuePerYear: number;
+  recordCount: number;
+  developmentHours: number;
+  costPerMonth: number;
 }
 
 export interface TaxonomyEntryPOSTData {
@@ -6561,6 +7129,162 @@ export interface WorkRequestTypeRefPUTData {
   available: number;
 }
 
+export interface UtilmonLoginYearmoPOSTData {
+  yearmo: string;
+  orgId: string;
+  orgName: string;
+  userEmail: string;
+  applicationCode: string;
+  subSystemCode?: string;
+  numLogins: number;
+  year: number;
+  month: number;
+  dateYearMo: string;
+}
+
+export interface UtilmonLoginYearmoGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  yearmo?: string;
+  orgId?: string;
+  orgName?: string;
+  userEmail?: string;
+  applicationCode?: string;
+  subSystemCode?: string;
+  numLogins?: number;
+  year?: number;
+  month?: number;
+}
+
+export interface UtilmonLoginYearmoGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: UtilmonLoginYearmoGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface UtilmonLoginYearmoCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  yearmo?: string;
+  orgId?: string;
+  orgName?: string;
+  userEmail?: string;
+  applicationCode?: string;
+  subSystemCode?: string;
+  numLogins?: number;
+  year?: number;
+  month?: number;
+  dateYearMo?: string;
+}
+
+export interface UtilmonLoginYearmoPUTData {
+  yearmo: string;
+  orgId: string;
+  orgName: string;
+  userEmail: string;
+  applicationCode: string;
+  subSystemCode?: string;
+  numLogins: number;
+  year: number;
+  month: number;
+  dateYearMo: string;
+}
+
+export interface UtilmonReportingEventPOSTData {
+  subject: string;
+  eventTypeCode: string;
+  realmName: string;
+  applicationCode: string;
+  subSystemCode?: string;
+  referenceId?: string;
+  referenceGroupId?: string;
+  eventData?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  extraInfoJson?: string;
+  durationMs: number;
+  dateEventFinished: string;
+}
+
+export interface UtilmonReportingEventGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  subject?: string;
+  eventTypeCode?: string;
+  realmName?: string;
+  applicationCode?: string;
+  subSystemCode?: string;
+  referenceId?: string;
+  referenceGroupId?: string;
+  eventData?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  extraInfoJson?: string;
+  durationMs?: number;
+}
+
+export interface UtilmonReportingEventGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: UtilmonReportingEventGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface UtilmonReportingEventCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  subject?: string;
+  eventTypeCode?: string;
+  realmName?: string;
+  applicationCode?: string;
+  subSystemCode?: string;
+  referenceId?: string;
+  referenceGroupId?: string;
+  eventData?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  extraInfoJson?: string;
+  durationMs?: number;
+  dateEventFinished?: string;
+}
+
+export interface UtilmonReportingEventPUTData {
+  subject: string;
+  eventTypeCode: string;
+  realmName: string;
+  applicationCode: string;
+  subSystemCode?: string;
+  referenceId?: string;
+  referenceGroupId?: string;
+  eventData?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  extraInfoJson?: string;
+  durationMs: number;
+  dateEventFinished: string;
+}
+
 export interface PersonalStatementPOSTData {
   name: string;
   businessCode: string;
@@ -6919,9 +7643,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   closedState?: boolean;
   cancelledState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

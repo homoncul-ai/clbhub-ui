@@ -1138,6 +1138,192 @@
         }
       }
     },
+    "/hccl/catalog/catalogentrygroupref": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new CatalogEntryGroupRef.",
+        "operationId": "createCatalogEntryGroupRef_1",
+        "requestBody": {
+          "description": "New CatalogEntryGroupRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryGroupRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogentrygroupref/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCatalogEntryGroupRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryGroupRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing CatalogEntryGroupRef.",
+        "operationId": "updateCatalogEntryGroupRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CatalogEntryGroupRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryGroupRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing CatalogEntryGroupRef.",
+        "operationId": "deleteCatalogEntryGroupRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogentrygroupref/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all CatalogEntryGroupRefs.",
+        "operationId": "findCatalogEntryGroupRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryGroupRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryGroupRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/catalog/catalogentryinterest": {
       "post": {
         "tags": [
@@ -4562,6 +4748,378 @@
         }
       }
     },
+    "/hccl/pattern/pmfilegroupentry": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMFileGroupEntry.",
+        "operationId": "createPMFileGroupEntry_1",
+        "requestBody": {
+          "description": "New PMFileGroupEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileGroupEntryPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfilegroupentry/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMFileGroupEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileGroupEntryGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMFileGroupEntry.",
+        "operationId": "updatePMFileGroupEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMFileGroupEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileGroupEntryPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMFileGroupEntry.",
+        "operationId": "deletePMFileGroupEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfilegroupentry/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMFileGroupEntrys.",
+        "operationId": "findPMFileGroupEntrys_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileGroupEntryCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileGroupEntryGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfilegroup": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PMFileGroup.",
+        "operationId": "createPMFileGroup_1",
+        "requestBody": {
+          "description": "New PMFileGroup data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileGroupPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfilegroup/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMFileGroupById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileGroupGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PMFileGroup.",
+        "operationId": "updatePMFileGroupById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMFileGroup data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileGroupPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PMFileGroup.",
+        "operationId": "deletePMFileGroupById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pmfilegroup/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PMFileGroups.",
+        "operationId": "findPMFileGroups_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMFileGroupCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMFileGroupGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pattern/pmfile": {
       "post": {
         "tags": [
@@ -6589,6 +7147,192 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/StateTransitionLogGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/swcat/swworkproduct": {
+      "post": {
+        "tags": [
+          "/swcat"
+        ],
+        "summary": "Create a new SwWorkProduct.",
+        "operationId": "createSwWorkProduct_1",
+        "requestBody": {
+          "description": "New SwWorkProduct data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SwWorkProductPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/swcat/swworkproduct/{id}": {
+      "get": {
+        "tags": [
+          "/swcat"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getSwWorkProductById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SwWorkProductGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/swcat"
+        ],
+        "summary": "Updates and existing SwWorkProduct.",
+        "operationId": "updateSwWorkProductById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated SwWorkProduct data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SwWorkProductPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/swcat"
+        ],
+        "summary": "Deletes an existing SwWorkProduct.",
+        "operationId": "deleteSwWorkProductById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/swcat/swworkproduct/query": {
+      "post": {
+        "tags": [
+          "/swcat"
+        ],
+        "summary": "Fetches all SwWorkProducts.",
+        "operationId": "findSwWorkProducts_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SwWorkProductCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SwWorkProductGETDataSearchResults"
                 }
               }
             }
@@ -11122,6 +11866,378 @@
         }
       }
     },
+    "/hccl/utilmon/utilmonloginyearmo": {
+      "post": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Create a new UtilmonLoginYearmo.",
+        "operationId": "createUtilmonLoginYearmo_1",
+        "requestBody": {
+          "description": "New UtilmonLoginYearmo data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonLoginYearmoPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/utilmon/utilmonloginyearmo/{id}": {
+      "get": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getUtilmonLoginYearmoById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilmonLoginYearmoGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Updates and existing UtilmonLoginYearmo.",
+        "operationId": "updateUtilmonLoginYearmoById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated UtilmonLoginYearmo data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonLoginYearmoPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Deletes an existing UtilmonLoginYearmo.",
+        "operationId": "deleteUtilmonLoginYearmoById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/utilmon/utilmonloginyearmo/query": {
+      "post": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Fetches all UtilmonLoginYearmos.",
+        "operationId": "findUtilmonLoginYearmos_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonLoginYearmoCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilmonLoginYearmoGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/utilmon/utilmonreportingevent": {
+      "post": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Create a new UtilmonReportingEvent.",
+        "operationId": "createUtilmonReportingEvent_1",
+        "requestBody": {
+          "description": "New UtilmonReportingEvent data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonReportingEventPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/utilmon/utilmonreportingevent/{id}": {
+      "get": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getUtilmonReportingEventById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilmonReportingEventGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Updates and existing UtilmonReportingEvent.",
+        "operationId": "updateUtilmonReportingEventById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated UtilmonReportingEvent data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonReportingEventPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Deletes an existing UtilmonReportingEvent.",
+        "operationId": "deleteUtilmonReportingEventById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/utilmon/utilmonreportingevent/query": {
+      "post": {
+        "tags": [
+          "/utilmon"
+        ],
+        "summary": "Fetches all UtilmonReportingEvents.",
+        "operationId": "findUtilmonReportingEvents_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilmonReportingEventCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilmonReportingEventGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/vocode/personalstatement": {
       "post": {
         "tags": [
@@ -13914,6 +15030,218 @@
           }
         }
       },
+      "CatalogEntryGroupRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "nameText"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "nameText": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BaseCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CatalogEntryGroupRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CatalogEntryGroupRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogEntryGroupRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "DCPageData": {
+        "type": "object",
+        "properties": {
+          "totalRows": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startingOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endingOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CatalogEntryGroupRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CatalogEntryGroupRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "nameText"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "nameText": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "CatalogEntryInterestPOSTData": {
         "required": [
           "catalogEntryId",
@@ -13946,22 +15274,6 @@
           },
           "notes": {
             "type": "string"
-          }
-        }
-      },
-      "BaseCriteria": {
-        "type": "object",
-        "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isPaging": {
-            "type": "boolean"
           }
         }
       },
@@ -14023,41 +15335,6 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
-          }
-        }
-      },
-      "DCPageData": {
-        "type": "object",
-        "properties": {
-          "totalRows": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "startingOffset": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "endingOffset": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "links": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           }
         }
       },
@@ -14195,6 +15472,11 @@
             "minLength": 1,
             "type": "string"
           },
+          "entryGroupCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "shortDescription": {
             "maxLength": 1024,
             "minLength": 1,
@@ -14202,6 +15484,22 @@
           },
           "description": {
             "type": "string"
+          },
+          "businessNeed": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessSponsor": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "entryPrice": {
+            "type": "number"
+          },
+          "entryCost": {
+            "type": "number"
           },
           "tarotPrompt": {
             "maxLength": 1024,
@@ -14215,8 +15513,31 @@
             "type": "integer",
             "format": "int32"
           },
+          "dateUnavailable": {
+            "type": "string",
+            "format": "date-time"
+          },
           "url": {
             "type": "string"
+          },
+          "tarotFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tarotFileUrl": {
+            "type": "string"
+          },
+          "dateFirstOffered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
           },
           "vocodeInstanceId": {
             "type": "string",
@@ -14250,6 +15571,20 @@
           "referenceId": {
             "type": "string",
             "format": "uuid"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
           }
         }
       },
@@ -14285,11 +15620,26 @@
           "catalogTypeCode": {
             "type": "string"
           },
+          "entryGroupCode": {
+            "type": "string"
+          },
           "shortDescription": {
             "type": "string"
           },
           "description": {
             "type": "string"
+          },
+          "businessNeed": {
+            "type": "string"
+          },
+          "businessSponsor": {
+            "type": "string"
+          },
+          "entryPrice": {
+            "type": "number"
+          },
+          "entryCost": {
+            "type": "number"
           },
           "tarotPrompt": {
             "type": "string"
@@ -14302,6 +15652,13 @@
             "format": "int32"
           },
           "url": {
+            "type": "string"
+          },
+          "tarotFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tarotFileUrl": {
             "type": "string"
           },
           "vocodeInstanceId": {
@@ -14332,6 +15689,16 @@
           "referenceId": {
             "type": "string",
             "format": "uuid"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
           },
           "catalogCode": {
             "type": "string"
@@ -14497,15 +15864,53 @@
           "catalogTypeCode": {
             "type": "string"
           },
+          "entryGroupCode": {
+            "type": "string"
+          },
           "shortDescription": {
             "type": "string"
+          },
+          "businessNeed": {
+            "type": "string"
+          },
+          "businessSponsor": {
+            "type": "string"
+          },
+          "entryPrice": {
+            "type": "number"
+          },
+          "entryCost": {
+            "type": "number"
           },
           "available": {
             "type": "integer",
             "format": "int32"
           },
+          "dateUnavailable": {
+            "type": "string",
+            "format": "date-time"
+          },
           "url": {
             "type": "string"
+          },
+          "tarotFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tarotFileUrl": {
+            "type": "string"
+          },
+          "dateFirstOffered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
           },
           "vocodeInstanceId": {
             "type": "string",
@@ -14535,6 +15940,16 @@
           "referenceId": {
             "type": "string",
             "format": "uuid"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
           },
           "vocationEncodingId": {
             "type": "string",
@@ -14638,6 +16053,11 @@
             "minLength": 1,
             "type": "string"
           },
+          "entryGroupCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
           "shortDescription": {
             "maxLength": 1024,
             "minLength": 1,
@@ -14645,6 +16065,22 @@
           },
           "description": {
             "type": "string"
+          },
+          "businessNeed": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessSponsor": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "entryPrice": {
+            "type": "number"
+          },
+          "entryCost": {
+            "type": "number"
           },
           "tarotPrompt": {
             "maxLength": 1024,
@@ -14658,8 +16094,31 @@
             "type": "integer",
             "format": "int32"
           },
+          "dateUnavailable": {
+            "type": "string",
+            "format": "date-time"
+          },
           "url": {
             "type": "string"
+          },
+          "tarotFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tarotFileUrl": {
+            "type": "string"
+          },
+          "dateFirstOffered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
           },
           "vocodeInstanceId": {
             "type": "string",
@@ -14693,6 +16152,20 @@
           "referenceId": {
             "type": "string",
             "format": "uuid"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
           }
         }
       },
@@ -18177,6 +19650,342 @@
           }
         }
       },
+      "PMFileGroupEntryPOSTData": {
+        "required": [
+          "pmfileGroupId",
+          "pmfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "pmfileGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PMFileGroupEntryGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "pmfileGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PMFileGroupEntryGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMFileGroupEntryGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMFileGroupEntryCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "pmfileGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PMFileGroupEntryPUTData": {
+        "required": [
+          "pmfileGroupId",
+          "pmfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "pmfileGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PMFileGroupPOSTData": {
+        "required": [
+          "instructions",
+          "parentEntityId",
+          "parentEntityType",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "instructions": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "PMFileGroupGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "title": {
+            "type": "string"
+          },
+          "instructions": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          }
+        }
+      },
+      "PMFileGroupGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMFileGroupGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMFileGroupCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "instructions": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          }
+        }
+      },
+      "PMFileGroupPUTData": {
+        "required": [
+          "instructions",
+          "parentEntityId",
+          "parentEntityType",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "instructions": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
       "PMFilePOSTData": {
         "required": [
           "downloadAs",
@@ -20627,6 +22436,453 @@
           "actionDataId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "SwWorkProductPOSTData": {
+        "required": [
+          "available",
+          "availableForPricing",
+          "businessCode",
+          "complexityCode",
+          "costPerMonth",
+          "description",
+          "developmentHours",
+          "hostingCode",
+          "importance",
+          "ipOwnershipCode",
+          "lifecycleCode",
+          "name",
+          "numberOfUniqueUsersPerYear",
+          "productTypeCode",
+          "recordCount",
+          "revenuePerYear",
+          "slaCode"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "availableForPricing": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softwareCategoryCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessNeedCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessNeed": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "productTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ipOwnershipCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "complexityCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "hostingCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lifecycleCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "slaCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "linkWiki": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "numberOfUniqueUsersPerYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "revenuePerYear": {
+            "type": "number"
+          },
+          "recordCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "developmentHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "costPerMonth": {
+            "type": "number"
+          }
+        }
+      },
+      "SwWorkProductGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "availableForPricing": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softwareCategoryCode": {
+            "type": "string"
+          },
+          "businessNeedCode": {
+            "type": "string"
+          },
+          "businessNeed": {
+            "type": "string"
+          },
+          "productTypeCode": {
+            "type": "string"
+          },
+          "ipOwnershipCode": {
+            "type": "string"
+          },
+          "complexityCode": {
+            "type": "string"
+          },
+          "hostingCode": {
+            "type": "string"
+          },
+          "lifecycleCode": {
+            "type": "string"
+          },
+          "slaCode": {
+            "type": "string"
+          },
+          "linkWiki": {
+            "type": "string"
+          },
+          "numberOfUniqueUsersPerYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "revenuePerYear": {
+            "type": "number"
+          },
+          "recordCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "developmentHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "costPerMonth": {
+            "type": "number"
+          }
+        }
+      },
+      "SwWorkProductGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SwWorkProductGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "SwWorkProductCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "availableForPricing": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softwareCategoryCode": {
+            "type": "string"
+          },
+          "businessNeedCode": {
+            "type": "string"
+          },
+          "businessNeed": {
+            "type": "string"
+          },
+          "productTypeCode": {
+            "type": "string"
+          },
+          "ipOwnershipCode": {
+            "type": "string"
+          },
+          "complexityCode": {
+            "type": "string"
+          },
+          "hostingCode": {
+            "type": "string"
+          },
+          "lifecycleCode": {
+            "type": "string"
+          },
+          "slaCode": {
+            "type": "string"
+          },
+          "linkWiki": {
+            "type": "string"
+          },
+          "numberOfUniqueUsersPerYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "revenuePerYear": {
+            "type": "number"
+          },
+          "recordCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "developmentHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "costPerMonth": {
+            "type": "number"
+          }
+        }
+      },
+      "SwWorkProductPUTData": {
+        "required": [
+          "available",
+          "availableForPricing",
+          "businessCode",
+          "complexityCode",
+          "costPerMonth",
+          "description",
+          "developmentHours",
+          "hostingCode",
+          "importance",
+          "ipOwnershipCode",
+          "lifecycleCode",
+          "name",
+          "numberOfUniqueUsersPerYear",
+          "productTypeCode",
+          "recordCount",
+          "revenuePerYear",
+          "slaCode"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "availableForPricing": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softwareCategoryCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessNeedCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessNeed": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "productTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ipOwnershipCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "complexityCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "hostingCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lifecycleCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "slaCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "linkWiki": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "numberOfUniqueUsersPerYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "revenuePerYear": {
+            "type": "number"
+          },
+          "recordCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "developmentHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "costPerMonth": {
+            "type": "number"
           }
         }
       },
@@ -26125,6 +28381,588 @@
           }
         }
       },
+      "UtilmonLoginYearmoPOSTData": {
+        "required": [
+          "applicationCode",
+          "dateYearMo",
+          "month",
+          "numLogins",
+          "orgId",
+          "orgName",
+          "userEmail",
+          "year",
+          "yearmo"
+        ],
+        "type": "object",
+        "properties": {
+          "yearmo": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userEmail": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "applicationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subSystemCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "numLogins": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateYearMo": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UtilmonLoginYearmoGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "yearmo": {
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "type": "string"
+          },
+          "userEmail": {
+            "type": "string"
+          },
+          "applicationCode": {
+            "type": "string"
+          },
+          "subSystemCode": {
+            "type": "string"
+          },
+          "numLogins": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UtilmonLoginYearmoGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UtilmonLoginYearmoGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "UtilmonLoginYearmoCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "yearmo": {
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "type": "string"
+          },
+          "userEmail": {
+            "type": "string"
+          },
+          "applicationCode": {
+            "type": "string"
+          },
+          "subSystemCode": {
+            "type": "string"
+          },
+          "numLogins": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateYearMo": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UtilmonLoginYearmoPUTData": {
+        "required": [
+          "applicationCode",
+          "dateYearMo",
+          "month",
+          "numLogins",
+          "orgId",
+          "orgName",
+          "userEmail",
+          "year",
+          "yearmo"
+        ],
+        "type": "object",
+        "properties": {
+          "yearmo": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userEmail": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "applicationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subSystemCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "numLogins": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateYearMo": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UtilmonReportingEventPOSTData": {
+        "required": [
+          "applicationCode",
+          "dateEventFinished",
+          "durationMs",
+          "eventTypeCode",
+          "realmName",
+          "subject"
+        ],
+        "type": "object",
+        "properties": {
+          "subject": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "realmName": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subSystemCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eventData": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "extraInfoJson": {
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateEventFinished": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UtilmonReportingEventGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "type": "string"
+          },
+          "realmName": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationCode": {
+            "type": "string"
+          },
+          "subSystemCode": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eventData": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "extraInfoJson": {
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UtilmonReportingEventGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UtilmonReportingEventGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "UtilmonReportingEventCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "type": "string"
+          },
+          "realmName": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationCode": {
+            "type": "string"
+          },
+          "subSystemCode": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eventData": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "extraInfoJson": {
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateEventFinished": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UtilmonReportingEventPUTData": {
+        "required": [
+          "applicationCode",
+          "dateEventFinished",
+          "durationMs",
+          "eventTypeCode",
+          "realmName",
+          "subject"
+        ],
+        "type": "object",
+        "properties": {
+          "subject": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "realmName": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subSystemCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eventData": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "extraInfoJson": {
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateEventFinished": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "PersonalStatementPOSTData": {
         "required": [
           "businessCode",
@@ -27351,13 +30189,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "closedState": {
             "type": "boolean"
           },
           "cancelledState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }
