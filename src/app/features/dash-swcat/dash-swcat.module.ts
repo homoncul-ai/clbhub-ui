@@ -16,6 +16,7 @@ import { DashSwcatTrutestaTabOverviewComponent } from './dash-swcat-trutesta-tab
 import { DashSwcatTrutestaTabUsageComponent } from './dash-swcat-trutesta-tab-usage.component';
 import { DashSwcatSematreeTabOverviewComponent } from './dash-swcat-sematree-tab-overview.component';
 import { DashSwcatSematreeTabUsageComponent } from './dash-swcat-sematree-tab-usage.component';
+import { SwcatEntryModalComponent } from './modals/swcat-entry-modal.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,7 @@ const routes: Routes = [
     DashSwcatTrutestaTabUsageComponent,
     DashSwcatSematreeTabOverviewComponent,
     DashSwcatSematreeTabUsageComponent,
+    SwcatEntryModalComponent,
   ],
   declarations: [
     // Non-standalone components would go here

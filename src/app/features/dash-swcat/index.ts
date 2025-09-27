@@ -10,4 +10,5 @@ export * from './dash-swcat-trutesta-tab-overview.component';
 export * from './dash-swcat-trutesta-tab-usage.component';
 export * from './dash-swcat-sematree-tab-overview.component';
 export * from './dash-swcat-sematree-tab-usage.component';
+export * from './modals/swcat-entry-modal.component';
 export * from './dash-swcat.module';

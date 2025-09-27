@@ -1,1 +1,86 @@
-<div>Trutesta Overview</div>
+<div class="container mt-4">
+  <h1>Search for Trutesta Software Types</h1>
+  
+  <!-- Debug Info -->
+  <div class="alert alert-info">
+    <p>Debug: searchTypes length = {{ searchTypes.length || 0 }}</p>
+    <p>Debug: selectedSearchType = {{ selectedSearchType || 'none' }}</p>
+    <p>Debug: loading = {{ loading }}</p>
+  </div>
+  
+  <!-- Search Form -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="form-group">
+        <!-- <label for="searchType" class="form-label">Search Type *</label> -->
+        <select 
+          id="searchType" 
+          class="form-select" 
+          [(ngModel)]="selectedSearchType"
+          (change)="onSearchTypeChange()"
+          [class.is-invalid]="error && !selectedSearchType">
+          <option value="">Select search type...</option>
+          <option *ngFor="let type of searchTypes" [value]="type.value">
+            {{ type.label }}
+          </option>
+        </select>
+        <div *ngIf="error && !selectedSearchType" class="invalid-feedback">
+          Please select a search type
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 d-flex align-items-end">
+      <button 
+        type="button" 
+        class="btn btn-primary" 
+        (click)="onSearchClick()"
+        [disabled]="loading || !selectedSearchType">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+        {{ loading ? 'Searching...' : 'Search' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Display -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="searchResults && searchResults.searchResults">
+    <h3>Search Results</h3>
+    <div *ngIf="searchResults.searchResults && searchResults.searchResults.length > 0">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Catalog</th>
+              <th>Entry Code</th>
+              <th>Title</th>
+              <th>Short Description</th>
+              <!-- <th>Type</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entry of searchResults.searchResults; let i = index" 
+                (click)="openModal(i)" 
+                style="cursor: pointer;">
+              <td [noWrap]="true"><app-catalog-crud [id]="entry.catalogId" [modeName]="'fk'"></app-catalog-crud></td>
+              <td>{{ entry.entryCode }}</td>
+              <td>{{ entry.title }}</td>
+              <td>{{ entry.shortDescription }}</td>
+              <!-- <td>{{ entry.catalogTypeCode }}</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results Message -->
+  <div *ngIf="searchResults && (!searchResults || searchResults.searchResults?.length === 0)" 
+       class="alert alert-info" role="alert">
+    No results found for the selected search type.
+  </div>
+
+</div>
