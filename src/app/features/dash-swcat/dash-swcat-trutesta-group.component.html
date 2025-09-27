@@ -1,7 +1,6 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
 <div *ngIf="currentTabId === 'overview'">
-  <h1>Trutesta - Overview</h1>
   <app-swcat-trutesta-tab-overview [id]="this.id"></app-swcat-trutesta-tab-overview>
 </div>
 

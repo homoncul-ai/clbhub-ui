@@ -19,7 +19,7 @@ import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofil
 })
 export class DashSwcatTrutestaTabOverviewComponent extends AbstractMultimodeComponent<HcclUserProfileCrudWrapper> implements OnInit  {
   
-  @Input() searchType: string = '';
+  @Input() searchType: string = 'Trutesta Licensed';
   
   // Inject modal service
   private modalService = inject(MdbModalService);
@@ -33,8 +33,8 @@ export class DashSwcatTrutestaTabOverviewComponent extends AbstractMultimodeComp
 
   // Search type options
   searchTypes = [
-    { value: 'Legacy GBS', label: 'GBS' },
-    { value: 'Intertek Cloud Custom', label: 'Intertek Cloud Custom' },
+//    { value: 'Legacy GBS', label: 'GBS' },
+ //   { value: 'Intertek Cloud Custom', label: 'Intertek Cloud Custom' },
     { value: 'Trutesta Licensed', label: 'Trutesta Licensed' }
   ];
 
