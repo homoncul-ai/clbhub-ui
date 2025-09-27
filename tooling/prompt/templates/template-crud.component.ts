@@ -52,11 +52,8 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
   }
 
   protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
-    const hcclorganization = await this.hcclService.getHcclOrganizationById(id).toPromise();
-    if (!hcclorganization) {
-      throw new Error('HcclOrganization not found');
-    }
-    return new HcclOrganizationCrudWrapper(hcclorganization, this.hcclService);
+    const hcclorganization = await HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+    return hcclorganization;
   }
 
   protected override async createEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<any> {

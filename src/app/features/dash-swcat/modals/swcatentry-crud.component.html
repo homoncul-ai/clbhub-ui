@@ -13,7 +13,7 @@
              alt="SWCAT Entry Image" 
              style="max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
       </div>
-      
+<!--       
       <!-- Attributes on the right -->
       <div class="attributes-container" style="flex: 1;">
         <div class="detail-group">
@@ -41,8 +41,94 @@
           <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
         </div>
         <div class="detail-group">
-          <label>URL:</label>
-          <span>{{ getCurrentEntity().getData().url }}</span>
+          <label>URLx:</label>
+          <span>{{ getCurrentEntity().getData().url }} </span>
+          
+        </div> -->
+
+        <!-- SW Work Product fields -->
+        <div *ngIf="getCurrentEntity().swWorkProduct" class="sw-work-product-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #dee2e6;">
+          <h4 style="color: #495057; margin-bottom: 15px;">Software Work Product Details</h4>
+          <div class="detail-group">
+            <label>Name:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.name }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Business Code:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.businessCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Description:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.description }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Available:</label>
+            <span><app-available-selector [available]="getCurrentEntity().swWorkProduct?.available || 0" [readonly]="true"></app-available-selector></span>
+          </div>
+          <div class="detail-group">
+            <label>Available for Pricing:</label>
+            <span><app-available-selector [available]="getCurrentEntity().swWorkProduct?.availableForPricing || 0" [readonly]="true"></app-available-selector></span>
+          </div>
+          <div class="detail-group">
+            <label>Software Category:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.softwareCategoryCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Business Need:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.businessNeed }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Product Type:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.productTypeCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>IP Ownership:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.ipOwnershipCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Complexity:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.complexityCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Hosting:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.hostingCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Lifecycle:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.lifecycleCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>SLA:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.slaCode }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Wiki Link:</label>
+            <span><a [href]="getCurrentEntity().swWorkProduct?.linkWiki" target="_blank" *ngIf="getCurrentEntity().swWorkProduct?.linkWiki">{{ getCurrentEntity().swWorkProduct?.linkWiki }}</a></span>
+          </div>
+          <div class="detail-group">
+            <label>Unique Users/Year:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.numberOfUniqueUsersPerYear }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Importance:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.importance }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Revenue/Year:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.revenuePerYear | currency }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Record Count:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.recordCount }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Development Hours:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.developmentHours }}</span>
+          </div>
+          <div class="detail-group">
+            <label>Cost/Month:</label>
+            <span>{{ getCurrentEntity().swWorkProduct?.costPerMonth | currency }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -51,7 +137,7 @@
 
 <div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
 <!-- Heading Mode -->
-<h3>{{ getCurrentEntity().getDisplayText() }}</h3>
+<h3>{{ getCurrentEntity().getEnhancedDisplayText() }}</h3>
 </div>
 
 <div *ngIf="isCrudModeCUD()" class="crud-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
@@ -358,6 +444,107 @@
         <label>Last Updated By:</label>
         <span>{{ getCurrentEntity().getData().lastUpdatedByInfo?.name }}</span>
       </div>
+
+      <!-- SW Work Product fields in detail mode -->
+      <div *ngIf="getCurrentEntity().swWorkProduct" class="sw-work-product-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #dee2e6;">
+        <h4 style="color: #495057; margin-bottom: 15px;">Software Work Product Details</h4>
+        <div class="detail-group">
+          <label>Name:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.name }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Business Code:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.businessCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Description:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.description }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Available:</label>
+          <span><app-available-selector [available]="getCurrentEntity().swWorkProduct?.available || 0" [readonly]="true"></app-available-selector></span>
+        </div>
+        <div class="detail-group">
+          <label>Available for Pricing:</label>
+          <span><app-available-selector [available]="getCurrentEntity().swWorkProduct?.availableForPricing || 0" [readonly]="true"></app-available-selector></span>
+        </div>
+        <div class="detail-group">
+          <label>Software Category:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.softwareCategoryCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Business Need:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.businessNeed }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Product Type:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.productTypeCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>IP Ownership:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.ipOwnershipCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Complexity:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.complexityCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Hosting:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.hostingCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Lifecycle:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.lifecycleCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>SLA:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.slaCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Wiki Link:</label>
+          <span><a [href]="getCurrentEntity().swWorkProduct?.linkWiki" target="_blank" *ngIf="getCurrentEntity().swWorkProduct?.linkWiki">{{ getCurrentEntity().swWorkProduct?.linkWiki }}</a></span>
+        </div>
+        <div class="detail-group">
+          <label>Unique Users/Year:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.numberOfUniqueUsersPerYear }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Importance:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.importance }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Revenue/Year:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.revenuePerYear | currency }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Record Count:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.recordCount }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Development Hours:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.developmentHours }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Cost/Month:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.costPerMonth | currency }}</span>
+        </div>
+        <div class="detail-group">
+          <label>SW Work Product Date Created:</label>
+          <app-dategetdata-display [data]="getCurrentEntity().swWorkProduct?.dateCreated"></app-dategetdata-display>
+        </div>
+        <div class="detail-group">
+          <label>SW Work Product Created By:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.createdByInfo?.name }}</span>
+        </div>
+        <div class="detail-group">
+          <label>SW Work Product Date Last Updated:</label>
+          <app-dategetdata-display [data]="getCurrentEntity().swWorkProduct?.dateLastUpdated"></app-dategetdata-display>
+        </div>
+        <div class="detail-group">
+          <label>SW Work Product Last Updated By:</label>
+          <span>{{ getCurrentEntity().swWorkProduct?.lastUpdatedByInfo?.name }}</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -366,7 +553,7 @@
     <h3>Delete SWCAT Entry</h3>
     <div class="delete-confirmation">
       <p>Are you sure you want to delete this SWCAT Entry?</p>
-      <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
+      <h4>{{ getCurrentEntity().getEnhancedDisplayText() }}</h4>
       <p>This action cannot be undone.</p>
       <div class="delete-actions">
         <button *ngIf="canDelete" (click)="deleteEntity(getCurrentEntity().getId() || '')" class="btn btn-danger">Delete</button>

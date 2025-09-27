@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogEntryCriteria, CatalogEntryGETData, CatalogEntryPOSTData, CatalogEntryPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CatalogEntryCriteria, CatalogEntryGETData, CatalogEntryPOSTData, CatalogEntryPUTData, HcclService, MenuControlDataList, MenuControlData, SwWorkProductGETData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -153,11 +153,8 @@ export class SwcatEntryCrudComponent extends AbstractCrudComponent<SwcatEntryCru
 
 
   protected async loadEntityByIdCall(id: string): Promise<SwcatEntryCrudWrapper> {
-    const catalogEntry = await this.hcclService.getCatalogEntryById(id).toPromise();
-      if (catalogEntry) {
-        return new SwcatEntryCrudWrapper(catalogEntry, this.hcclService);
-      }
-      throw new Error('SWCAT Entry not found');
+    const catalogEntry = await SwcatEntryCrudWrapper.newInstance(id, this.hcclService);
+    return catalogEntry;
   }
   
 
@@ -386,6 +383,87 @@ export class SwcatEntryCrudComponent extends AbstractCrudComponent<SwcatEntryCru
     var data = super.getEntityForSet();
     data.getData().catalogTypeCode = value;
   }
+
+  // Getter methods for swWorkProduct fields
+  public get swWorkProductName(): string {
+    return this.getCurrentEntity().swWorkProduct?.name || '';
+  }
+
+  public get swWorkProductBusinessCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.businessCode || '';
+  }
+
+  public get swWorkProductDescription(): string {
+    return this.getCurrentEntity().swWorkProduct?.description || '';
+  }
+
+  public get swWorkProductAvailable(): number {
+    return this.getCurrentEntity().swWorkProduct?.available || 0;
+  }
+
+  public get swWorkProductAvailableForPricing(): number {
+    return this.getCurrentEntity().swWorkProduct?.availableForPricing || 0;
+  }
+
+  public get swWorkProductSoftwareCategoryCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.softwareCategoryCode || '';
+  }
+
+  public get swWorkProductBusinessNeed(): string {
+    return this.getCurrentEntity().swWorkProduct?.businessNeed || '';
+  }
+
+  public get swWorkProductProductTypeCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.productTypeCode || '';
+  }
+
+  public get swWorkProductIpOwnershipCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.ipOwnershipCode || '';
+  }
+
+  public get swWorkProductComplexityCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.complexityCode || '';
+  }
+
+  public get swWorkProductHostingCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.hostingCode || '';
+  }
+
+  public get swWorkProductLifecycleCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.lifecycleCode || '';
+  }
+
+  public get swWorkProductSlaCode(): string {
+    return this.getCurrentEntity().swWorkProduct?.slaCode || '';
+  }
+
+  public get swWorkProductLinkWiki(): string {
+    return this.getCurrentEntity().swWorkProduct?.linkWiki || '';
+  }
+
+  public get swWorkProductNumberOfUniqueUsersPerYear(): number {
+    return this.getCurrentEntity().swWorkProduct?.numberOfUniqueUsersPerYear || 0;
+  }
+
+  public get swWorkProductImportance(): number {
+    return this.getCurrentEntity().swWorkProduct?.importance || 0;
+  }
+
+  public get swWorkProductRevenuePerYear(): number {
+    return this.getCurrentEntity().swWorkProduct?.revenuePerYear || 0;
+  }
+
+  public get swWorkProductRecordCount(): number {
+    return this.getCurrentEntity().swWorkProduct?.recordCount || 0;
+  }
+
+  public get swWorkProductDevelopmentHours(): number {
+    return this.getCurrentEntity().swWorkProduct?.developmentHours || 0;
+  }
+
+  public get swWorkProductCostPerMonth(): number {
+    return this.getCurrentEntity().swWorkProduct?.costPerMonth || 0;
+  }
   /**
    * Create a wrapper from CatalogEntryGETData
    * @param catalogEntryData The CatalogEntryGETData to wrap
@@ -421,6 +499,8 @@ export class SwcatEntryCrudComponent extends AbstractCrudComponent<SwcatEntryCru
 
 export class SwcatEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> {
 
+  public swWorkProduct: SwWorkProductGETData | null = null;
+
   public static  newInstanceForCreate( hcclService: HcclService, entityIn?: CatalogEntryGETData | null): SwcatEntryCrudWrapper {
     const entity = entityIn || {
       id: '0',
@@ -443,7 +523,9 @@ export class SwcatEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> {
   public static async newInstance(id: string, hcclService: HcclService): Promise<SwcatEntryCrudWrapper> {
     const catalogEntry = await hcclService.getCatalogEntryById(id).toPromise();
     if (catalogEntry) {
-      return new SwcatEntryCrudWrapper(catalogEntry, hcclService);
+        let wrapper  = new SwcatEntryCrudWrapper(catalogEntry, hcclService);
+        wrapper.swWorkProduct = await hcclService.getSwWorkProductById(catalogEntry.subjectEntityId || '').toPromise() || null;
+        return wrapper;
     }
     throw new Error('SWCAT Entry not found');
   }
@@ -544,5 +626,116 @@ export class SwcatEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> {
       } as MenuControlData;
     });
     return { menuItems: menuItems } as MenuControlDataList;
+  }
+
+  // Methods for swWorkProduct
+  getSwWorkProduct(): SwWorkProductGETData | null {
+    return this.swWorkProduct;
+  }
+
+  hasSwWorkProduct(): boolean {
+    return this.swWorkProduct !== null && this.swWorkProduct !== undefined;
+  }
+
+  getSwWorkProductName(): string {
+    return this.swWorkProduct?.name || '';
+  }
+
+  getSwWorkProductBusinessCode(): string {
+    return this.swWorkProduct?.businessCode || '';
+  }
+
+  getSwWorkProductDescription(): string {
+    return this.swWorkProduct?.description || '';
+  }
+
+  getSwWorkProductAvailable(): number {
+    return this.swWorkProduct?.available || 0;
+  }
+
+  getSwWorkProductAvailableForPricing(): number {
+    return this.swWorkProduct?.availableForPricing || 0;
+  }
+
+  getSwWorkProductSoftwareCategoryCode(): string {
+    return this.swWorkProduct?.softwareCategoryCode || '';
+  }
+
+  getSwWorkProductBusinessNeed(): string {
+    return this.swWorkProduct?.businessNeed || '';
+  }
+
+  getSwWorkProductProductTypeCode(): string {
+    return this.swWorkProduct?.productTypeCode || '';
+  }
+
+  getSwWorkProductIpOwnershipCode(): string {
+    return this.swWorkProduct?.ipOwnershipCode || '';
+  }
+
+  getSwWorkProductComplexityCode(): string {
+    return this.swWorkProduct?.complexityCode || '';
+  }
+
+  getSwWorkProductHostingCode(): string {
+    return this.swWorkProduct?.hostingCode || '';
+  }
+
+  getSwWorkProductLifecycleCode(): string {
+    return this.swWorkProduct?.lifecycleCode || '';
+  }
+
+  getSwWorkProductSlaCode(): string {
+    return this.swWorkProduct?.slaCode || '';
+  }
+
+  getSwWorkProductLinkWiki(): string {
+    return this.swWorkProduct?.linkWiki || '';
+  }
+
+  getSwWorkProductNumberOfUniqueUsersPerYear(): number {
+    return this.swWorkProduct?.numberOfUniqueUsersPerYear || 0;
+  }
+
+  getSwWorkProductImportance(): number {
+    return this.swWorkProduct?.importance || 0;
+  }
+
+  getSwWorkProductRevenuePerYear(): number {
+    return this.swWorkProduct?.revenuePerYear || 0;
+  }
+
+  getSwWorkProductRecordCount(): number {
+    return this.swWorkProduct?.recordCount || 0;
+  }
+
+  getSwWorkProductDevelopmentHours(): number {
+    return this.swWorkProduct?.developmentHours || 0;
+  }
+
+  getSwWorkProductCostPerMonth(): number {
+    return this.swWorkProduct?.costPerMonth || 0;
+  }
+
+  // Enhanced display text that includes swWorkProduct info
+  getEnhancedDisplayText(entity?: CatalogEntryGETData): string {
+    const data = entity || this.data;
+    const title = data.title || '';
+    const entryCode = data.entryCode || '';
+    const swWorkProductName = this.swWorkProduct?.name || '';
+    
+    if (swWorkProductName && title && entryCode) {
+      return `${swWorkProductName} - ${title} (${entryCode})`;
+    } else if (swWorkProductName && title) {
+      return `${swWorkProductName} - ${title}`;
+    } else if (title && entryCode) {
+      return `${title} (${entryCode})`;
+    } else if (title) {
+      return title;
+    } else if (entryCode) {
+      return entryCode;
+    } else {
+      return 'Unnamed SWCAT Entry';
+    }
   }
 }
