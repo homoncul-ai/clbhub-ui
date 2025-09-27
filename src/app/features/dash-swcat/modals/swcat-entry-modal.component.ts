@@ -2,13 +2,13 @@ import { CRUD_MODES } from '@app/@core/constants';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
+import { SwcatEntryCrudComponent } from './swcatentry-crud.component';
 import { HcclService, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-swcat-entry-modal',
   standalone: true,
-  imports: [CommonModule, CatalogEntryCrudComponent],
+  imports: [CommonModule, SwcatEntryCrudComponent],
   template: `
     <div class="modal-header">
       <h5 class="modal-title">SWCAT Entry Details</h5>
@@ -30,16 +30,16 @@ import { HcclService, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.ser
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-      <!-- Catalog Entry CRUD Component -->
-      <app-catalogentry-crud 
+      <!-- SWCAT Entry CRUD Component -->
+      <app-swcatentry-crud 
         *ngIf="showComponent"
         [id]="getCurrentEntryId()" 
         [modeName]="'section'">
-      </app-catalogentry-crud>
+      </app-swcatentry-crud>
     </div>
     <div class="modal-footer">
       <!-- Action buttons -->
-      <button type="button" 
+      <!-- <button type="button" 
               class="btn btn-outline-danger" 
               (click)="markNotInterested()">
         Not Interested
@@ -48,12 +48,29 @@ import { HcclService, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.ser
               class="btn btn-success" 
               (click)="markInterested()">
         Interested
-      </button>
+      </button> -->
+      <button type="button" 
+                class="btn btn-outline-secondary btn-sm me-2" 
+                (click)="goToPrevious()"
+                [disabled]="currentIndex <= 0">
+          <i class="fas fa-chevron-left"></i> Prev
+        </button>
+        <button type="button" 
+                class="btn btn-outline-secondary btn-sm" 
+                (click)="goToNext()"
+                [disabled]="currentIndex >= totalEntries - 1">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
       <button type="button" 
               class="btn btn-secondary" 
               (click)="closeModal()">
         Cancel
       </button>
+    </div>
+
+    <div >
+
+
     </div>
   `,
   styles: [`
