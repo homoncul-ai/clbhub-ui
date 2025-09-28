@@ -1,1 +1,106 @@
 <div>Trutesta Software Usage</div>
+<div class="trutesta-usage-container" style="padding: 20px;">
+  <h3>Trutesta Software Usage Analytics</h3>
+  <p class="text-muted">Quarterly login data for top software entries (2023-2025)</p>
+  
+  <!-- Chart Container -->
+  <div class="chart-container" style="background: white; border-radius: 8px; padding: 20px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h4>Quarterly Login Trends</h4>
+    <div class="chart-wrapper" style="position: relative; height: 400px; width: 100%;">
+      <canvas #usageChart style="width: 100%; height: 100%;"></canvas>
+    </div>
+  </div>
+
+  <!-- Software Entries List -->
+  <div class="software-entries" style="margin-top: 30px;">
+    <h4>Top Software Entries</h4>
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let entry of softwareEntries; let i = index">
+        <div class="card" style="height: 100%;">
+          <div class="card-body">
+            <h6 class="card-title">{{ entry.name }}</h6>
+            <p class="card-text text-muted small">{{ entry.description }}</p>
+            <div class="usage-stats">
+              <div class="stat-item">
+                <span class="stat-label">Current Users:</span>
+                <span class="stat-value">{{ entry.currentUsers | number }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Growth Rate:</span>
+                <span class="stat-value text-success">+{{ entry.growthRate }}%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Last Quarter:</span>
+                <span class="stat-value">{{ entry.lastQuarterLogins | number }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Statistics -->
+  <div class="summary-stats" style="margin-top: 30px;">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="stat-card text-center" style="background: #e3f2fd; padding: 20px; border-radius: 8px;">
+          <h3 class="text-primary">{{ totalUsers | number }}</h3>
+          <p class="text-muted">Total Active Users</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card text-center" style="background: #f3e5f5; padding: 20px; border-radius: 8px;">
+          <h3 class="text-purple">{{ averageGrowth | number:'1.1-1' }}%</h3>
+          <p class="text-muted">Average Growth Rate</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card text-center" style="background: #e8f5e8; padding: 20px; border-radius: 8px;">
+          <h3 class="text-success">{{ totalLogins | number }}</h3>
+          <p class="text-muted">Total Quarterly Logins</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card text-center" style="background: #fff3e0; padding: 20px; border-radius: 8px;">
+          <h3 class="text-warning">{{ softwareEntries.length }}</h3>
+          <p class="text-muted">Active Software</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
+.stat-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.text-purple {
+  color: #9c27b0 !important;
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+</style>
+
+
