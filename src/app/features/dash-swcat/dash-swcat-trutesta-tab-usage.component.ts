@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { CommonModule } from '@angular/common';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global';
+import { UtilmonStatGraphCriteria, UtilmonStatGraphPOJO } from '@app/restsvc/hccl.service';
 
 interface SoftwareEntry {
   id: string;
@@ -33,9 +34,15 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
     console.log('DashSwcatTrutestaTabUsageComponent');
   }
 
+  protected graphData: UtilmonStatGraphPOJO | null = null;
   override async ngOnInit(): Promise<void> {
     await super.ngOnInit();
-    this.generateFakeData();
+    var criteria = {
+        topCount: 5,
+      yearmoCrit: {}
+    } as UtilmonStatGraphCriteria ;
+    this.graphData = await this.hcclService.createTrutestaUsageGraph(criteria).toPromise() || null;
+    this.processGraphData();
     this.calculateSummaryStats();
   }
 
@@ -43,6 +50,45 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
     setTimeout(() => {
       this.createChart();
     }, 100);
+  }
+
+  private processGraphData(): void {
+    console.log('Processing graph data:', this.graphData);
+    
+    if (!this.graphData || !this.graphData.data || this.graphData.data.length === 0) {
+      console.log('No graph data available, using fake data');
+      // Fallback to fake data if no real data available
+      this.generateFakeData();
+      return;
+    }
+
+    // Update quarters from service data
+    if (this.graphData.quarters && this.graphData.quarters.length > 0) {
+      this.quarters = this.graphData.quarters;
+      console.log('Updated quarters from service:', this.quarters);
+    }
+
+    this.softwareEntries = this.graphData.data.map((item, index) => {
+      const quarterlyData = item.dataPoints || [];
+      console.log(`Processing item ${index}:`, item.name, 'dataPoints:', quarterlyData);
+      
+      const currentUsers = quarterlyData.length > 0 ? quarterlyData[quarterlyData.length - 1] : 0;
+      const firstUsers = quarterlyData.length > 0 ? quarterlyData[0] : 0;
+      const growthRate = firstUsers > 0 ? Math.round(((currentUsers - firstUsers) / firstUsers) * 100) : 0;
+      const lastQuarterLogins = Math.floor(currentUsers * 0.8); // 80% of users login quarterly
+
+      return {
+        id: item.id || `sw-${index + 1}`,
+        name: item.name || `Software ${index + 1}`,
+        description: item.swWorkProduct?.description || item.catalogEntry?.description || 'Software application',
+        currentUsers,
+        growthRate,
+        lastQuarterLogins,
+        quarterlyData
+      };
+    });
+    
+    console.log('Processed software entries:', this.softwareEntries);
   }
 
   private generateFakeData(): void {
@@ -143,7 +189,17 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
 
     
     // Find max value for scaling with some padding
-    const maxValue = Math.max(...this.softwareEntries.flatMap(entry => entry.quarterlyData)) * 1.1;
+    const allDataPoints = this.softwareEntries.flatMap(entry => entry.quarterlyData);
+    console.log('All data points for scaling:', allDataPoints);
+    
+    let maxValue: number;
+    if (allDataPoints.length === 0 || allDataPoints.every(val => val === 0)) {
+      console.log('No valid data points found, using default max value');
+      maxValue = 1000; // Default max value
+    } else {
+      maxValue = Math.max(...allDataPoints) * 1.1;
+      console.log('Calculated max value:', maxValue);
+    }
 
     // Colors for different software
     const colors = [
@@ -198,8 +254,10 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
     }
 
     // Draw data lines for each software
+    console.log('Drawing chart for', this.softwareEntries.length, 'entries');
     this.softwareEntries.forEach((entry, entryIndex) => {
       const color = colors[entryIndex % colors.length];
+      console.log(`Drawing entry ${entryIndex}: ${entry.name}, data:`, entry.quarterlyData);
       
       // Draw line
       ctx.strokeStyle = color;
@@ -210,6 +268,8 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
       entry.quarterlyData.forEach((value, quarterIndex) => {
         const x = margin.left + (chartWidth / (this.quarters.length - 1)) * quarterIndex;
         const y = height - margin.bottom - (value / maxValue) * chartHeight;
+        
+        console.log(`  Point ${quarterIndex}: value=${value}, x=${x}, y=${y}`);
 
         if (firstPoint) {
           ctx.moveTo(x, y);
@@ -314,5 +374,17 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
 
   protected async loadEntityByIdCall(id: string): Promise<HcclUserProfileCrudWrapper> {
     return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
+  }
+
+  getDebugJson(): string {
+    const debugData = {
+      graphData: this.graphData,
+      softwareEntries: this.softwareEntries,
+      quarters: this.quarters,
+      totalUsers: this.totalUsers,
+      averageGrowth: this.averageGrowth,
+      totalLogins: this.totalLogins
+    };
+    return JSON.stringify(debugData, null, 2);
   }
 }

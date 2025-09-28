@@ -2175,7 +2175,6 @@ export class HcclService extends CommonRequestServiceCaller {
       url: "/hccl/teams/hccluserprofile/" + id,
       method: "GET",
     };
-    debugger;
     return this.request<HcclUserProfileGETData>(request);
   }
 
@@ -3237,6 +3236,23 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "GET",
     };
     return this.request<WorkRequestDashboardUIGETData>(request);
+  }
+
+  createTrutestaUsageGraph(body: UtilmonStatGraphCriteria): Observable<UtilmonStatGraphPOJO> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/swcat/ttusage",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<UtilmonStatGraphPOJO>(request);
+  }
+
+  getDefaultUsageGraph(): Observable<UtilmonStatGraphPOJO> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/swcat/ttusage0",
+      method: "GET",
+    };
+    return this.request<UtilmonStatGraphPOJO>(request);
   }
 
   acceptTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
@@ -7237,6 +7253,10 @@ export interface UtilmonLoginYearmoCriteria {
   month?: number;
   quarter?: number;
   dateYearMo?: string;
+  yearStart?: number;
+  yearEnd?: number;
+  quarterStart?: number;
+  quarterEnd?: number;
 }
 
 export interface UtilmonLoginYearmoPUTData {
@@ -7762,6 +7782,28 @@ export interface EntityStateStatGETData {
 export interface WorkRequestDashboardUIGETData {
   recentWorkRequests?: WorkRequestGETDataSearchResults;
   mapStats?: any;
+}
+
+export interface UtilStatGraphDataPOJO {
+  id?: string;
+  name?: string;
+  businessCode?: string;
+  catalogEntry?: CatalogEntryGETData;
+  swWorkProduct?: SwWorkProductGETData;
+  dataPoints?: number[];
+  mapDatapoints?: any;
+  countTotal?: number;
+}
+
+export interface UtilmonStatGraphPOJO {
+  quarters?: string[];
+  data?: UtilStatGraphDataPOJO[];
+  mapData?: any;
+}
+
+export interface UtilmonStatGraphCriteria {
+  topCount?: number;
+  yearmoCrit?: UtilmonLoginYearmoCriteria;
 }
 
 export interface RoutingActionPOSTData {
