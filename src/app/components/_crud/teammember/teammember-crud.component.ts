@@ -107,6 +107,7 @@ export class TeamMemberCrudComponent extends AbstractCrudComponent<HcclTeamMembe
 
   protected override async createEntityDataCall(entity: HcclTeamMemberCrudWrapper): Promise<any> {
     const postData: HcclTeamMemberPOSTData = {
+      name: entity.getData().name || '',
       teamId: entity.getData().teamId || '',
       userId: entity.getData().userId || '',
       userProfileId: entity.getData().userProfileId,
@@ -133,6 +134,7 @@ export class TeamMemberCrudComponent extends AbstractCrudComponent<HcclTeamMembe
 
   protected override async updateEntityDataCall(entity: HcclTeamMemberCrudWrapper): Promise<void> {
     const putData: HcclTeamMemberPUTData = {
+      name: entity.getData().name || '', 
       teamId: entity.getData().teamId || '',
       userId: entity.getData().userId || '',
       userProfileId: entity.getData().userProfileId,

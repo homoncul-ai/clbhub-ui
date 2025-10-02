@@ -13,6 +13,7 @@ import { AbstractListComponent } from '@app/components/_global/abstract-list/abs
 import { Observable } from 'rxjs';
 import { HcclTeamCrudWrapper } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
 import { HcclTeamMemberCrudWrapper } from '@app/components/_crud/teammember/teammember-crud.component';
+import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org-school-staff-crud.component';
 
 /**
  * Component for displaying and managing HcclTeamLog data using HcclService
@@ -91,8 +92,8 @@ export class HcclTeamLogListComponent extends AbstractListComponent<HcclTeamLogG
     const teamStr: string = entity.teamId == null ? 'unknown' : 
        (await HcclTeamCrudWrapper.newInstance(entity.teamId, this.hcclService)).getDisplayText();
 
-    const teamMemberStr: string = entity.teamMemberId == null ? 'unknown' : 
-       (await HcclTeamMemberCrudWrapper.newInstance(entity.teamMemberId, this.hcclService)).getDisplayText();
+    const userProfileStr: string = entity.userProfileId == null ? 'unknown' : 
+       (await HcclUserProfileCrudWrapper.newInstance(entity.userProfileId, this.hcclService)).getDisplayText();
 
       return {
         createdByInfo: entity.createdByInfo?.name || '',
@@ -100,7 +101,7 @@ export class HcclTeamLogListComponent extends AbstractListComponent<HcclTeamLogG
         dateCreated: entity.dateCreated?.formattedDate || '',
         dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
         teamStr: teamStr,
-        teamMemberStr: teamMemberStr
+        userProfileStr: userProfileStr
       };
     }
   } 

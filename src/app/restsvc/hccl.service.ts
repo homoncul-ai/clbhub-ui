@@ -2505,6 +2505,92 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkQueueTypeRefGETDataSearchResults>(request);
   }
 
+  createWorkRequestDeliverableSection(body: WorkRequestDeliverableSectionPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverablesection",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getWorkRequestDeliverableSectionById(id: string): Observable<WorkRequestDeliverableSectionGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverablesection/" + id,
+      method: "GET",
+    };
+    return this.request<WorkRequestDeliverableSectionGETData>(request);
+  }
+
+  updateWorkRequestDeliverableSectionById(id: string, body: WorkRequestDeliverableSectionPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverablesection/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteWorkRequestDeliverableSectionById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverablesection/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findWorkRequestDeliverableSections(body: WorkRequestDeliverableSectionCriteria): Observable<WorkRequestDeliverableSectionGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverablesection/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestDeliverableSectionGETDataSearchResults>(request);
+  }
+
+  createWorkRequestDeliverable(body: WorkRequestDeliverablePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverable",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getWorkRequestDeliverableById(id: string): Observable<WorkRequestDeliverableGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverable/" + id,
+      method: "GET",
+    };
+    return this.request<WorkRequestDeliverableGETData>(request);
+  }
+
+  updateWorkRequestDeliverableById(id: string, body: WorkRequestDeliverablePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverable/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteWorkRequestDeliverableById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverable/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findWorkRequestDeliverables(body: WorkRequestDeliverableCriteria): Observable<WorkRequestDeliverableGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverable/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestDeliverableGETDataSearchResults>(request);
+  }
+
   createWorkRequestItem(body: WorkRequestItemPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestitem",
@@ -3230,7 +3316,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestDashboardUIGETData>(request);
   }
 
-  resolveGuidanceUIData(): Observable<WorkRequestDashboardUIGETData> {
+  resolveStudentDashData(): Observable<WorkRequestDashboardUIGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/dash-ui/guidance",
       method: "GET",
@@ -3520,6 +3606,7 @@ export interface CatalogEntryGroupRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   businessCode?: string;
   nameText?: string;
   available?: number;
@@ -3570,6 +3657,7 @@ export interface CatalogEntryInterestCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   catalogId?: string;
   catalogEntryId?: string;
   personalStatementId?: string;
@@ -3707,6 +3795,7 @@ export interface CatalogEntryCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   catalogId?: string;
   entryCode?: string;
   title?: string;
@@ -3843,6 +3932,7 @@ export interface CatalogEntryTagCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   catalogId?: string;
   catalogEntryId?: string;
   tagId?: string;
@@ -3904,6 +3994,7 @@ export interface CatalogSearchResultEntryCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   catalogSearchResultId?: string;
   catalogEntryId?: string;
   catalogId?: string;
@@ -3957,6 +4048,7 @@ export interface CatalogSearchResultCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   catalogId?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
@@ -4007,6 +4099,7 @@ export interface CatalogSearchCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   searchName?: string;
   businessCode?: string;
   description?: string;
@@ -4046,6 +4139,7 @@ export interface CatalogCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4106,6 +4200,7 @@ export interface CatalogTagRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   tagCode?: string;
   tagValueType?: string;
   tagMaxValue?: number;
@@ -4159,6 +4254,7 @@ export interface ExperienceLocationCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4209,6 +4305,7 @@ export interface ExperienceRegRuleCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4275,6 +4372,7 @@ export interface ExperienceCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4343,6 +4441,7 @@ export interface ExperienceTypeCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4403,6 +4502,7 @@ export interface CLCourseCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4481,6 +4581,7 @@ export interface CLGuidanceCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4560,6 +4661,7 @@ export interface CLSchoolCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4639,6 +4741,7 @@ export interface CLStudentCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4708,6 +4811,7 @@ export interface PMBucketFolderCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   nameText?: string;
   businessCode?: string;
   bucketName?: string;
@@ -4758,6 +4862,7 @@ export interface PMFileBlobCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   pmfileId?: string;
   pathToFile?: string;
   md5Hash?: string;
@@ -4800,6 +4905,7 @@ export interface PMFileGroupEntryCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   pmfileGroupId?: string;
   pmfileId?: string;
 }
@@ -4849,6 +4955,7 @@ export interface PMFileGroupCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   title?: string;
   instructions?: string;
   available?: boolean;
@@ -4938,6 +5045,7 @@ export interface PMFileCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   downloadAs?: string;
   folderPath?: string;
   fileAccessCode?: string;
@@ -5021,6 +5129,7 @@ export interface PMessageAttachmentCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   pmessageId?: string;
   pmessageEntryId?: string;
   attachmentEntityId?: string;
@@ -5067,6 +5176,7 @@ export interface PMessageEntryGETData {
   messageParticipantId?: string;
   body?: string;
   bodyFormatCode?: string;
+  attachments?: PMessageAttachmentGETData[];
 }
 
 export interface PMessageEntryGETDataSearchResults {
@@ -5084,6 +5194,7 @@ export interface PMessageEntryCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   pmessageId?: string;
   authorUserProfileId?: string;
   messageParticipantId?: string;
@@ -5107,6 +5218,45 @@ export interface PMessageParticipantPOSTData {
   importance?: number;
 }
 
+export interface HcclUserGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available?: number;
+}
+
+export interface HcclUserProfileGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userId?: string;
+  userCode?: string;
+  messageHandle?: string;
+  organizationId?: string;
+  profileTypeCode?: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  description?: string;
+  available?: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  roles?: string[];
+  theUser?: HcclUserGETData;
+}
+
 export interface PMessageParticipantGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -5116,6 +5266,7 @@ export interface PMessageParticipantGETData {
   pmessageId?: string;
   userProfileId?: string;
   importance?: number;
+  userProfile?: HcclUserProfileGETData;
 }
 
 export interface PMessageParticipantGETDataSearchResults {
@@ -5133,10 +5284,12 @@ export interface PMessageParticipantCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   pmessageId?: string;
   userProfileId?: string;
   dateLastViewed?: string;
   importance?: number;
+  userProfileIds?: string[];
 }
 
 export interface PMessageParticipantPUTData {
@@ -5148,6 +5301,7 @@ export interface PMessageParticipantPUTData {
 
 export interface PMessagePOSTData {
   authorUserProfileId?: string;
+  teamId?: string;
   title: string;
   description: string;
   subjectEntityId?: string;
@@ -5163,11 +5317,14 @@ export interface PMessageGETData {
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
   authorUserProfileId?: string;
+  teamId?: string;
   title?: string;
   description?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
+  participants?: PMessageParticipantGETData[];
+  unreadMessageCount?: number;
 }
 
 export interface PMessageGETDataSearchResults {
@@ -5185,17 +5342,21 @@ export interface PMessageCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   authorUserProfileId?: string;
+  teamId?: string;
   title?: string;
   description?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
   dateLastEntry?: string;
+  teamIds?: string[];
 }
 
 export interface PMessagePUTData {
   authorUserProfileId?: string;
+  teamId?: string;
   title: string;
   description: string;
   subjectEntityId?: string;
@@ -5246,6 +5407,7 @@ export interface ProviderCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5299,6 +5461,7 @@ export interface ProviderTypeRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5344,6 +5507,7 @@ export interface ProviderUserCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   userCode?: string;
 }
 
@@ -5400,6 +5564,7 @@ export interface ProviderRequestCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5462,6 +5627,7 @@ export interface ProviderRequestTypeRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5527,6 +5693,7 @@ export interface StateTransitionLogCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   nameText?: string;
   transactionReferenceId?: string;
   parentId?: string;
@@ -5623,6 +5790,7 @@ export interface SwWorkProductCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -5713,6 +5881,7 @@ export interface TaxonomyEntryCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -5770,6 +5939,7 @@ export interface TaxonomyLevelCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -5823,6 +5993,7 @@ export interface TaxonomyCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -5886,6 +6057,7 @@ export interface HcclOrganizationCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5945,6 +6117,7 @@ export interface HcclOrganizationTypeRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5962,7 +6135,7 @@ export interface HcclTeamLogPOSTData {
   nameText: string;
   description: string;
   teamId: string;
-  teamMemberId?: string;
+  userProfileId?: string;
   roleCode: string;
   actionCode: string;
   commentText?: string;
@@ -5977,7 +6150,7 @@ export interface HcclTeamLogGETData {
   nameText?: string;
   description?: string;
   teamId?: string;
-  teamMemberId?: string;
+  userProfileId?: string;
   roleCode?: string;
   actionCode?: string;
   commentText?: string;
@@ -5998,10 +6171,11 @@ export interface HcclTeamLogCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   nameText?: string;
   description?: string;
   teamId?: string;
-  teamMemberId?: string;
+  userProfileId?: string;
   roleCode?: string;
   actionCode?: string;
 }
@@ -6010,7 +6184,7 @@ export interface HcclTeamLogPUTData {
   nameText: string;
   description: string;
   teamId: string;
-  teamMemberId?: string;
+  userProfileId?: string;
   roleCode: string;
   actionCode: string;
   commentText?: string;
@@ -6050,6 +6224,7 @@ export interface HcclTeamMemberRoleCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   teamId?: string;
   teamMemberId?: string;
   teamMemberRoleId?: string;
@@ -6066,6 +6241,7 @@ export interface HcclTeamMemberRolePUTData {
 }
 
 export interface HcclTeamMemberPOSTData {
+  name: string;
   teamId: string;
   userId: string;
   userProfileId?: string;
@@ -6079,11 +6255,13 @@ export interface HcclTeamMemberGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  name?: string;
   teamId?: string;
   userId?: string;
   userProfileId?: string;
   dateAdded?: DateGETData;
   dateRemoved?: DateGETData;
+  userProfile?: HcclUserProfileGETData;
 }
 
 export interface HcclTeamMemberGETDataSearchResults {
@@ -6101,14 +6279,18 @@ export interface HcclTeamMemberCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
+  name?: string;
   teamId?: string;
   userId?: string;
   userProfileId?: string;
   dateAdded?: string;
   dateRemoved?: string;
+  teamIds?: string[];
 }
 
 export interface HcclTeamMemberPUTData {
+  name: string;
   teamId: string;
   userId: string;
   userProfileId?: string;
@@ -6162,9 +6344,11 @@ export interface HcclTeamCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
+  teamTypeId?: string;
   organizationId?: string;
   teamParentId?: string;
   teamParentEntityType?: string;
@@ -6218,6 +6402,7 @@ export interface HcclUserProfileRoleCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   roleCode?: string;
   userProfileId?: string;
   organizationId?: string;
@@ -6233,12 +6418,14 @@ export interface HcclUserProfileRolePUTData {
 export interface HcclUserProfilePOSTData {
   userId: string;
   userCode: string;
+  messageHandle: string;
   organizationId: string;
   profileTypeCode: string;
   jsonData?: string;
   userEmail?: string;
   cellPhoneNumber?: string;
   workPhoneNumber?: string;
+  description?: string;
   available: number;
   externalUserId?: string;
   externalUserEntityType?: string;
@@ -6287,6 +6474,8 @@ export interface WorkRequestGETData {
   subjectEntityType?: string;
   subjectEntityName?: string;
   parentWorkRequestItemId?: string;
+  clientFacingMessageId?: string;
+  internalFacingMessageId?: string;
 }
 
 export interface WorkRequestItemGETData {
@@ -6318,43 +6507,6 @@ export interface CreateTicketPOSTData {
   rawText?: string;
 }
 
-export interface HcclUserGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  externalUserId?: string;
-  externalUserEntityType?: string;
-  externalUserName?: string;
-  available?: number;
-}
-
-export interface HcclUserProfileGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  userId?: string;
-  userCode?: string;
-  organizationId?: string;
-  profileTypeCode?: string;
-  jsonData?: string;
-  userEmail?: string;
-  cellPhoneNumber?: string;
-  workPhoneNumber?: string;
-  available?: number;
-  externalUserId?: string;
-  externalUserEntityType?: string;
-  externalUserName?: string;
-  roles?: string[];
-  theUser?: HcclUserGETData;
-}
-
 export interface HcclUserProfileGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclUserProfileGETData[];
@@ -6370,13 +6522,16 @@ export interface HcclUserProfileCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   userId?: string;
   userCode?: string;
+  messageHandle?: string;
   organizationId?: string;
   profileTypeCode?: string;
   userEmail?: string;
   cellPhoneNumber?: string;
   workPhoneNumber?: string;
+  description?: string;
   available?: number;
   externalUserId?: string;
   externalUserEntityType?: string;
@@ -6387,12 +6542,14 @@ export interface HcclUserProfileCriteria {
 export interface HcclUserProfilePUTData {
   userId: string;
   userCode: string;
+  messageHandle: string;
   organizationId: string;
   profileTypeCode: string;
   jsonData?: string;
   userEmail?: string;
   cellPhoneNumber?: string;
   workPhoneNumber?: string;
+  description?: string;
   available: number;
   externalUserId?: string;
   externalUserEntityType?: string;
@@ -6425,6 +6582,7 @@ export interface HcclUserCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6478,6 +6636,7 @@ export interface TeamMemberRoleRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6523,6 +6682,7 @@ export interface TeamTypeMemberRoleRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   teamType?: RelationshipGETData;
   teamMemberRole?: RelationshipGETData;
   available?: number;
@@ -6568,6 +6728,7 @@ export interface TeamTypeRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6584,6 +6745,7 @@ export interface TeamTypeRefPUTData {
 export interface WorkItemDeliverablePOSTData {
   workRequestId: string;
   workRequestItemId?: string;
+  parentDeliverableId?: string;
   nameText: string;
   businessCode: string;
   description?: string;
@@ -6597,6 +6759,7 @@ export interface WorkItemDeliverablePOSTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   linkToDeliverableId?: string;
+  fileGroupId?: string;
 }
 
 export interface WorkItemDeliverableGETData {
@@ -6607,6 +6770,7 @@ export interface WorkItemDeliverableGETData {
   dateLastUpdated?: DateGETData;
   workRequestId?: string;
   workRequestItemId?: string;
+  parentDeliverableId?: string;
   nameText?: string;
   businessCode?: string;
   description?: string;
@@ -6619,6 +6783,7 @@ export interface WorkItemDeliverableGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   linkToDeliverableId?: string;
+  fileGroupId?: string;
   catalogSearchResult?: CatalogSearchResultGETData;
 }
 
@@ -6637,13 +6802,14 @@ export interface WorkItemDeliverableCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   workRequestId?: string;
   workRequestItemId?: string;
+  parentDeliverableId?: string;
   nameText?: string;
   businessCode?: string;
   description?: string;
   delivTypeCode?: string;
-  comments?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
@@ -6651,11 +6817,13 @@ export interface WorkItemDeliverableCriteria {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   linkToDeliverableId?: string;
+  fileGroupId?: string;
 }
 
 export interface WorkItemDeliverablePUTData {
   workRequestId: string;
   workRequestItemId?: string;
+  parentDeliverableId?: string;
   nameText: string;
   businessCode: string;
   description?: string;
@@ -6669,6 +6837,7 @@ export interface WorkItemDeliverablePUTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   linkToDeliverableId?: string;
+  fileGroupId?: string;
 }
 
 export interface WorkQueuePOSTData {
@@ -6726,6 +6895,7 @@ export interface WorkQueueCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6787,6 +6957,7 @@ export interface WorkQueueTypeRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6798,6 +6969,133 @@ export interface WorkQueueTypeRefPUTData {
   businessCode: string;
   description: string;
   available: number;
+}
+
+export interface WorkRequestDeliverableSectionPOSTData {
+  workRequestDeliverableId?: string;
+  sequenceOrder: number;
+  workRequestId: string;
+  workRequestItemId?: string;
+  itemActionCode: string;
+  title: string;
+  comments?: string;
+  markdown?: string;
+  workItemDeliverableId?: string;
+}
+
+export interface WorkRequestDeliverableSectionGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestDeliverableId?: string;
+  sequenceOrder?: number;
+  workRequestId?: string;
+  workRequestItemId?: string;
+  itemActionCode?: string;
+  title?: string;
+  comments?: string;
+  markdown?: string;
+  workItemDeliverableId?: string;
+}
+
+export interface WorkRequestDeliverableSectionGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestDeliverableSectionGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestDeliverableSectionCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  workRequestDeliverableId?: string;
+  sequenceOrder?: number;
+  workRequestId?: string;
+  workRequestItemId?: string;
+  itemActionCode?: string;
+  title?: string;
+  workItemDeliverableId?: string;
+}
+
+export interface WorkRequestDeliverableSectionPUTData {
+  workRequestDeliverableId?: string;
+  sequenceOrder: number;
+  workRequestId: string;
+  workRequestItemId?: string;
+  itemActionCode: string;
+  title: string;
+  comments?: string;
+  markdown?: string;
+  workItemDeliverableId?: string;
+}
+
+export interface WorkRequestDeliverablePOSTData {
+  workRequestId: string;
+  nameText: string;
+  comments?: string;
+  markdown?: string;
+  pmfileGroupId?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface WorkRequestDeliverableGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  workRequestId?: string;
+  nameText?: string;
+  comments?: string;
+  markdown?: string;
+  pmfileGroupId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+}
+
+export interface WorkRequestDeliverableGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: WorkRequestDeliverableGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface WorkRequestDeliverableCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  workRequestId?: string;
+  nameText?: string;
+  pmfileGroupId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface WorkRequestDeliverablePUTData {
+  workRequestId: string;
+  nameText: string;
+  comments?: string;
+  markdown?: string;
+  pmfileGroupId?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
 }
 
 export interface WorkRequestItemPOSTData {
@@ -6831,6 +7129,7 @@ export interface WorkRequestItemCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   workRequestId?: string;
   nameText?: string;
   businessCode?: string;
@@ -6914,6 +7213,7 @@ export interface WorkRequestLogCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   nameText?: string;
   description?: string;
   transactionReferenceId?: string;
@@ -6980,6 +7280,7 @@ export interface WorkRequestRoutingReasonCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7015,6 +7316,8 @@ export interface WorkRequestPOSTData {
   subjectEntityType?: string;
   subjectEntityName?: string;
   parentWorkRequestItemId?: string;
+  clientFacingMessageId?: string;
+  internalFacingMessageId?: string;
 }
 
 export interface WorkRequestGETDataSearchResults {
@@ -7032,6 +7335,7 @@ export interface WorkRequestCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7053,6 +7357,8 @@ export interface WorkRequestCriteria {
   subjectEntityType?: string;
   subjectEntityName?: string;
   parentWorkRequestItemId?: string;
+  clientFacingMessageId?: string;
+  internalFacingMessageId?: string;
 }
 
 export interface WorkRequestPUTData {
@@ -7077,6 +7383,8 @@ export interface WorkRequestPUTData {
   subjectEntityType?: string;
   subjectEntityName?: string;
   parentWorkRequestItemId?: string;
+  clientFacingMessageId?: string;
+  internalFacingMessageId?: string;
 }
 
 export interface WorkRequestTeamPOSTData {
@@ -7119,6 +7427,7 @@ export interface WorkRequestTeamCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7174,6 +7483,7 @@ export interface WorkRequestTypeRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7240,6 +7550,7 @@ export interface UtilmonLoginYearmoCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   yearmo?: string;
   orgId?: string;
   realmName?: string;
@@ -7328,6 +7639,7 @@ export interface UtilmonReportingEventCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   subject?: string;
   eventTypeCode?: string;
   realmName?: string;
@@ -7414,6 +7726,7 @@ export interface UtilmonStatCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   yearmo?: string;
   quarter?: number;
   orgId?: string;
@@ -7495,6 +7808,7 @@ export interface PersonalStatementCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7562,6 +7876,7 @@ export interface VocationEncodingInstanceCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   vocationEncodingId?: string;
   encodingName?: string;
   vocationEncodingRefId?: string;
@@ -7609,6 +7924,7 @@ export interface VocationEncodingRefCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7676,6 +7992,7 @@ export interface VocationEncodingCriteria {
   searchByText?: string;
   maxResults?: number;
   orderByHint?: string;
+  optionalDataHint?: string;
   encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;
@@ -7827,8 +8144,8 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  closedState?: boolean;
   cancelledState?: boolean;
+  closedState?: boolean;
   openState?: boolean;
 }
 

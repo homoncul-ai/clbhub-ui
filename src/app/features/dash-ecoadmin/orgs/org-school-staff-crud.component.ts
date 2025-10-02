@@ -201,6 +201,7 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
     const postData: HcclUserProfilePOSTData = {
       userId: data.userId || '',
       userCode: data.userCode || '',
+      messageHandle: data.messageHandle || '',
       organizationId: data.organizationId || '',
       profileTypeCode: data.profileTypeCode || '',
       userEmail: data.userEmail,
@@ -220,6 +221,7 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
     const putData: HcclUserProfilePUTData = {
       userId: data.userId || '',
       userCode: data.userCode || '',
+      messageHandle: data.messageHandle || '',
       organizationId: data.organizationId || '',
       profileTypeCode: data.profileTypeCode || '',
       userEmail: data.userEmail,

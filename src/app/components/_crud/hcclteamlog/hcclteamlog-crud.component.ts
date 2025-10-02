@@ -24,8 +24,8 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
-import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-crud.component';
-import { TeamMemberCrudComponent } from '@app/components/_crud/teammember/teammember-crud.component';
+import { HcclTeamCrudComponent } from '@app/components/_crud/hcclteam/hcclteam-crud.component';import { TeamMemberCrudComponent } from '@app/components/_crud/teammember/teammember-crud.component';
+import { HcclUserProfileCrudComponent } from '../hccluserprofile/hccluserprofile-crud.component';
 
 @Component({
   selector: 'app-hcclteamlog-crud',
@@ -34,7 +34,7 @@ import { TeamMemberCrudComponent } from '@app/components/_crud/teammember/teamme
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, HcclTeamCrudComponent, TeamMemberCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, HcclTeamCrudComponent, HcclUserProfileCrudComponent],
   standalone: true
 })
 export class HcclTeamLogCrudComponent extends AbstractCrudComponent<HcclTeamLogCrudWrapper> implements OnInit, OnChanges {
@@ -147,7 +147,7 @@ export class HcclTeamLogCrudComponent extends AbstractCrudComponent<HcclTeamLogC
       nameText: entity.getData().nameText || '',
       description: entity.getData().description || '',
       teamId: entity.getData().teamId || '',
-      teamMemberId: entity.getData().teamMemberId,
+      userProfileId: entity.getData().userProfileId,
       roleCode: entity.getData().roleCode || '',
       actionCode: entity.getData().actionCode || '',
       commentText: entity.getData().commentText
@@ -178,7 +178,7 @@ export class HcclTeamLogCrudComponent extends AbstractCrudComponent<HcclTeamLogC
       nameText: entity.getData().nameText || '',
       description: entity.getData().description || '',
       teamId: entity.getData().teamId || '',
-      teamMemberId: entity.getData().teamMemberId,
+      userProfileId: entity.getData().userProfileId,
       roleCode: entity.getData().roleCode || '',
       actionCode: entity.getData().actionCode || '',
       commentText: entity.getData().commentText
@@ -238,13 +238,13 @@ export class HcclTeamLogCrudComponent extends AbstractCrudComponent<HcclTeamLogC
     }
   }
 
-  public get teamMemberId(): string {
-    return this.getCurrentEntity()?.getData()?.teamMemberId || '';
+  public get userProfileId(): string {
+    return this.getCurrentEntity()?.getData()?.userProfileId || '';
   }
 
-  public set teamMemberId(value: string) {
+  public set userProfileId(value: string) {
     if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().teamMemberId = value;
+      this.getCurrentEntity()!.getData().userProfileId = value;
     }
   }
 
@@ -343,8 +343,8 @@ export class HcclTeamLogCrudWrapper extends EntityWrapper<HcclTeamLogGETData> {
     return this.getData().teamId || '';
   }
 
-  getTeamMemberId(): string {
-    return this.getData().teamMemberId || '';
+  getUserProfileId(): string {
+    return this.getData().userProfileId || '';
   }
 
   getRoleCode(): string {

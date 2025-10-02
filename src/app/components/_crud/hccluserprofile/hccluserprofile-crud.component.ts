@@ -196,6 +196,7 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
   protected override async createEntityDataCall(entity: HcclUserProfileCrudWrapper): Promise<any> {
     const data = entity.getData();
     const postData: HcclUserProfilePOSTData = {
+      messageHandle: data.messageHandle || '',
       userId: data.userId || '',
       userCode: data.userCode || '',
       organizationId: data.organizationId || '',
@@ -215,6 +216,7 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
   protected override async updateEntityDataCall(entity: HcclUserProfileCrudWrapper): Promise<void> {
     const data = entity.getData();
     const putData: HcclUserProfilePUTData = {
+      messageHandle: data.messageHandle || '',
       userId: data.userId || '',
       userCode: data.userCode || '',
       organizationId: data.organizationId || '',
@@ -259,6 +261,16 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
   public set userCode(value: string) {
     if (this.entity) {
       this.entity.getData().userCode = value;
+    }
+  }
+
+  public get messageHandle(): string {
+    return this.entity?.getData().messageHandle || '';
+  }
+
+  public set messageHandle(value: string) {
+    if (this.entity) {
+      this.entity.getData().messageHandle = value;
     }
   }
 
@@ -479,6 +491,9 @@ export class HcclUserProfileCrudWrapper extends EntityWrapper<HcclUserProfileGET
 
   isActive(): boolean {
     return this.data.available === 1;
+  }
+  getMessageHandle(): string {
+    return this.data.messageHandle || '';
   }
 
   getFkMenuCriteria(): HcclUserProfileCriteria {
