@@ -37,17 +37,21 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
   protected graphData: UtilmonStatGraphPOJO | null = null;
   override async ngOnInit(): Promise<void> {
     await super.ngOnInit();
-    var criteria = {
-        topCount: 5,
-      yearmoCrit: {}
-    } as UtilmonStatGraphCriteria ;
-    this.graphData = await this.hcclService.createTrutestaUsageGraph(criteria).toPromise() || null;
-    this.processGraphData();
-    this.calculateSummaryStats();
+   
   }
 
-  ngAfterViewInit(): void {
+    async ngAfterViewInit(): Promise<void> {
+        this.loading = true;
+        var criteria = {
+            topCount: 10,
+          yearmoCrit: {}
+        } as UtilmonStatGraphCriteria ;
+        this.graphData = await this.hcclService.createTrutestaUsageGraph(criteria).toPromise() || null;
     setTimeout(() => {
+        debugger;
+        this.processGraphData();
+        this.calculateSummaryStats();
+        this.loading = false;
       this.createChart();
     }, 100);
   }
@@ -88,6 +92,7 @@ export class DashSwcatTrutestaTabUsageComponent extends AbstractMultimodeCompone
       };
     });
     
+  //  alert('Processed software entries:' + this.softwareEntries.length);
     console.log('Processed software entries:', this.softwareEntries);
   }
 
