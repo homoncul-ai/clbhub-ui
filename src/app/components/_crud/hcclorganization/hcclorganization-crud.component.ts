@@ -351,6 +351,10 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
     return this.getData().name || '';
   }
 
+  getWebsiteUrl(): string {
+    return this.getData().websiteUrl || '';
+  }
+
   getBusinessCode(): string {
     return this.getData().businessCode || '';
   }

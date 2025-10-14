@@ -43,15 +43,12 @@
 <div *ngIf=" false && !isLoading() && currentMode === 'createItemView'">
 <pre>currentMode: "{{ currentMode }}"</pre>
 <pre>currentMode type: {{ typeof currentMode }}</pre>
-<pre>currentMode length: {{ currentMode?.length }}</pre>
 <pre>currentMode === 'createItemView': {{ currentMode === 'createItemView' }}</pre>
 <pre>currentMode === "createItemView": {{ currentMode === "createItemView" }}</pre>
 <pre>currentMode == 'createItemView': {{ currentMode == 'createItemView' }}</pre>
-<pre>currentMode.trim() === 'createItemView': {{ currentMode?.trim() === 'createItemView' }}</pre>
 <pre *ngIf="!isLoading() && currentMode === 'createItemView'">{{ currentMode }} enqueue rfi</pre>
 <pre> See! {{ currentMode }}</pre>
 <pre>menuQueues: {{ menuQueues | json }}</pre>
-<pre>menuQueues.menuItems.length: {{ menuQueues?.menuItems?.length }}</pre>
 <pre>isLoading: {{ isLoading() }}</pre>
 </div>
 <!-- <pre>{{ entity.dump() }}</pre>  -->
