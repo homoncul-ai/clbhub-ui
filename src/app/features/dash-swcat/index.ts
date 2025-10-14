@@ -8,6 +8,7 @@ export * from './dash-swcat-assets-tab-graphs.component';
 export * from './dash-swcat-assets-tab-contracts.component';
 export * from './dash-swcat-trutesta-tab-overview.component';
 export * from './dash-swcat-trutesta-tab-usage.component';
+export * from './dash-swcat-trutesta-tab-usageorg.component';
 export * from './dash-swcat-sematree-tab-overview.component';
 export * from './dash-swcat-sematree-tab-usage.component';
 export * from './modals/swcat-entry-modal.component';

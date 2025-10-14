@@ -14,6 +14,7 @@ import { DashSwcatAssetsTabGraphsComponent } from './dash-swcat-assets-tab-graph
 import { DashSwcatAssetsTabContractsComponent } from './dash-swcat-assets-tab-contracts.component';
 import { DashSwcatTrutestaTabOverviewComponent } from './dash-swcat-trutesta-tab-overview.component';
 import { DashSwcatTrutestaTabUsageComponent } from './dash-swcat-trutesta-tab-usage.component';
+import { DashSwcatTrutestaTabUsageorgComponent } from './dash-swcat-trutesta-tab-usageorg.component';
 import { DashSwcatSematreeTabOverviewComponent } from './dash-swcat-sematree-tab-overview.component';
 import { DashSwcatSematreeTabUsageComponent } from './dash-swcat-sematree-tab-usage.component';
 import { SwcatEntryModalComponent } from './modals/swcat-entry-modal.component';
@@ -61,6 +62,7 @@ const routes: Routes = [
     DashSwcatAssetsTabContractsComponent,
     DashSwcatTrutestaTabOverviewComponent,
     DashSwcatTrutestaTabUsageComponent,
+    DashSwcatTrutestaTabUsageorgComponent,
     DashSwcatSematreeTabOverviewComponent,
     DashSwcatSematreeTabUsageComponent,
     SwcatEntryModalComponent,

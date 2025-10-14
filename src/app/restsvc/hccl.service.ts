@@ -3772,6 +3772,7 @@ export interface CatalogGETData {
   urlPrefix?: string;
   url?: string;
   stats?: CatalogStatsPOJO;
+  organization?: HcclOrganizationGETData;
 }
 
 export interface CatalogStatsPOJO {
@@ -3784,6 +3785,24 @@ export interface DateRangeGETData {
   theStart?: DateGETData;
   theEnd?: DateGETData;
   valid?: boolean;
+}
+
+export interface HcclOrganizationGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  jsonData?: string;
+  websiteUrl?: string;
+  organizationTypeId?: string;
+  parentEntityId?: string;
+  parentEntityEntityType?: string;
+  parentEntityName?: string;
 }
 
 export interface CatalogEntryCriteria {
@@ -4029,6 +4048,8 @@ export interface CatalogSearchResultGETData {
   subjectEntityType?: string;
   subjectEntityName?: string;
   parentWorkRequestItemId?: string;
+  catalog?: CatalogGETData;
+  author?: HcclUserProfileGETData;
   entries?: CatalogSearchResultEntryGETData[];
   entryIds?: string[];
 }
@@ -4037,6 +4058,45 @@ export interface CatalogSearchResultGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CatalogSearchResultGETData[];
   filter?: BaseCriteria;
+}
+
+export interface HcclUserGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  available?: number;
+}
+
+export interface HcclUserProfileGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userId?: string;
+  userCode?: string;
+  messageHandle?: string;
+  organizationId?: string;
+  profileTypeCode?: string;
+  jsonData?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  description?: string;
+  available?: number;
+  externalUserId?: string;
+  externalUserEntityType?: string;
+  externalUserName?: string;
+  roles?: string[];
+  theUser?: HcclUserGETData;
 }
 
 export interface CatalogSearchResultCriteria {
@@ -5218,45 +5278,6 @@ export interface PMessageParticipantPOSTData {
   importance?: number;
 }
 
-export interface HcclUserGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  externalUserId?: string;
-  externalUserEntityType?: string;
-  externalUserName?: string;
-  available?: number;
-}
-
-export interface HcclUserProfileGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  userId?: string;
-  userCode?: string;
-  messageHandle?: string;
-  organizationId?: string;
-  profileTypeCode?: string;
-  jsonData?: string;
-  userEmail?: string;
-  cellPhoneNumber?: string;
-  workPhoneNumber?: string;
-  description?: string;
-  available?: number;
-  externalUserId?: string;
-  externalUserEntityType?: string;
-  externalUserName?: string;
-  roles?: string[];
-  theUser?: HcclUserGETData;
-}
-
 export interface PMessageParticipantGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -6024,24 +6045,6 @@ export interface HcclOrganizationPOSTData {
   organizationTypeCode: string;
 }
 
-export interface HcclOrganizationGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  available?: number;
-  jsonData?: string;
-  websiteUrl?: string;
-  organizationTypeId?: string;
-  parentEntityId?: string;
-  parentEntityEntityType?: string;
-  parentEntityName?: string;
-}
-
 export interface HcclOrganizationGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclOrganizationGETData[];
@@ -6784,6 +6787,7 @@ export interface WorkItemDeliverableGETData {
   currentStateTransitionId?: string;
   linkToDeliverableId?: string;
   fileGroupId?: string;
+  author?: HcclUserProfileGETData;
   catalogSearchResult?: CatalogSearchResultGETData;
 }
 
@@ -6998,6 +7002,7 @@ export interface WorkRequestDeliverableSectionGETData {
   comments?: string;
   markdown?: string;
   workItemDeliverableId?: string;
+  workItemDeliverable?: WorkItemDeliverableGETData;
 }
 
 export interface WorkRequestDeliverableSectionGETDataSearchResults {
@@ -7061,6 +7066,7 @@ export interface WorkRequestDeliverableGETData {
   pmfileGroupId?: string;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  sections?: WorkRequestDeliverableSectionGETData[];
 }
 
 export interface WorkRequestDeliverableGETDataSearchResults {
@@ -8121,6 +8127,7 @@ export interface UtilmonStatGraphPOJO {
 export interface UtilmonStatGraphCriteria {
   topCount?: number;
   yearmoCrit?: UtilmonLoginYearmoCriteria;
+  graphDataCode?: string;
 }
 
 export interface RoutingActionPOSTData {

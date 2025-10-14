@@ -12,12 +12,13 @@ import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { DashSwcatTrutestaTabOverviewComponent } from './dash-swcat-trutesta-tab-overview.component';
 import { DashSwcatTrutestaTabUsageComponent } from './dash-swcat-trutesta-tab-usage.component';
+import { DashSwcatTrutestaTabUsageorgComponent } from './dash-swcat-trutesta-tab-usageorg.component';
 
 @Component({
   selector: 'app-swcat-trutesta-group-component',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent,
-     DashSwcatTrutestaTabOverviewComponent, DashSwcatTrutestaTabUsageComponent],
+     DashSwcatTrutestaTabOverviewComponent, DashSwcatTrutestaTabUsageComponent, DashSwcatTrutestaTabUsageorgComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './dash-swcat-trutesta-group.component.html',
 })
@@ -86,6 +87,14 @@ export class DashSwcatTrutestaGroupComponent extends AbstractEntityGroupComponen
       new SimpleTab('usage', 'Software Usage', '', 
         () => {
           this.router.navigate([baseRoute, 'usage']);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('usageorg', 'Usage by Organization', '', 
+        () => {
+          this.router.navigate([baseRoute, 'usageorg']);
         },
         () => {
           return true;

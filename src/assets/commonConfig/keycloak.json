@@ -1,5 +1,6 @@
 {
-  "realm": "Intertek",
+  "realm": "replaced",
+  "realmintertek": "Intertek",
   "url": "${keycloakUrlPrefix}/auth",
   "ssl-required": "external",
   "clientId": "trutesta",

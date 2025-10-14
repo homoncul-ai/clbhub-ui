@@ -16413,6 +16413,9 @@
           },
           "stats": {
             "$ref": "#/components/schemas/CatalogStatsPOJO"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
           }
         }
       },
@@ -16443,6 +16446,60 @@
           },
           "valid": {
             "type": "boolean"
+          }
+        }
+      },
+      "HcclOrganizationGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "websiteUrl": {
+            "type": "string"
+          },
+          "organizationTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
           }
         }
       },
@@ -17304,6 +17361,12 @@
             "type": "string",
             "format": "uuid"
           },
+          "catalog": {
+            "$ref": "#/components/schemas/CatalogGETData"
+          },
+          "author": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
           "entries": {
             "type": "array",
             "items": {
@@ -17333,6 +17396,126 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "HcclUserGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "externalUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalUserEntityType": {
+            "type": "string"
+          },
+          "externalUserName": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "HcclUserProfileGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userCode": {
+            "type": "string"
+          },
+          "messageHandle": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "profileTypeCode": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "userEmail": {
+            "type": "string"
+          },
+          "cellPhoneNumber": {
+            "type": "string"
+          },
+          "workPhoneNumber": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "externalUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalUserEntityType": {
+            "type": "string"
+          },
+          "externalUserName": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "theUser": {
+            "$ref": "#/components/schemas/HcclUserGETData"
           }
         }
       },
@@ -21538,126 +21721,6 @@
           }
         }
       },
-      "HcclUserGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "externalUserId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "externalUserEntityType": {
-            "type": "string"
-          },
-          "externalUserName": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "HcclUserProfileGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userCode": {
-            "type": "string"
-          },
-          "messageHandle": {
-            "type": "string"
-          },
-          "organizationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "profileTypeCode": {
-            "type": "string"
-          },
-          "jsonData": {
-            "type": "string"
-          },
-          "userEmail": {
-            "type": "string"
-          },
-          "cellPhoneNumber": {
-            "type": "string"
-          },
-          "workPhoneNumber": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "externalUserId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "externalUserEntityType": {
-            "type": "string"
-          },
-          "externalUserName": {
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "theUser": {
-            "$ref": "#/components/schemas/HcclUserGETData"
-          }
-        }
-      },
       "PMessageParticipantGETData": {
         "type": "object",
         "properties": {
@@ -24440,60 +24503,6 @@
           }
         }
       },
-      "HcclOrganizationGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "jsonData": {
-            "type": "string"
-          },
-          "websiteUrl": {
-            "type": "string"
-          },
-          "organizationTypeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityEntityType": {
-            "type": "string"
-          },
-          "parentEntityName": {
-            "type": "string"
-          }
-        }
-      },
       "HcclOrganizationGETDataSearchResults": {
         "type": "object",
         "properties": {
@@ -25927,11 +25936,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "firstErrorMessage": {
-            "$ref": "#/components/schemas/SimpleMessage"
-          },
           "errorMessageAsString": {
             "type": "string"
+          },
+          "firstErrorMessage": {
+            "$ref": "#/components/schemas/SimpleMessage"
           }
         }
       },
@@ -27171,6 +27180,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "author": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
           "catalogSearchResult": {
             "$ref": "#/components/schemas/CatalogSearchResultGETData"
           }
@@ -27944,6 +27956,9 @@
           "workItemDeliverableId": {
             "type": "string",
             "format": "uuid"
+          },
+          "workItemDeliverable": {
+            "$ref": "#/components/schemas/WorkItemDeliverableGETData"
           }
         }
       },
@@ -28164,6 +28179,12 @@
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkRequestDeliverableSectionGETData"
+            }
           }
         }
       },
@@ -32025,6 +32046,9 @@
           },
           "yearmoCrit": {
             "$ref": "#/components/schemas/UtilmonLoginYearmoCriteria"
+          },
+          "graphDataCode": {
+            "type": "string"
           }
         }
       },

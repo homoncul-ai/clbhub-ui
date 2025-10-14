@@ -25,7 +25,11 @@
   "realmsNotes": "Use this to try new realms",
   "realms": {
     "default": ["Intertek", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
-    "localhost": ["Intertek", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
+    "localhostd": ["demo", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
+    "localhosth": ["hccl-TKalZ", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
+    "localhost": ["bam-PKwT5", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
+    "localhosti": ["Intertek", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
+    
     "general-demo.trutesta.io": [
       "GenDemo",
       "00000000-0000-0000-0000-000000000000"

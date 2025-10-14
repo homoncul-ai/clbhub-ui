@@ -9,6 +9,11 @@
   <app-swcat-trutesta-tab-usage [id]="this.id"></app-swcat-trutesta-tab-usage>
 </div>
 
+<div *ngIf="currentTabId === 'usageorg'">
+  <h1>Trutesta - Usage by Organization</h1>
+  <app-swcat-trutesta-tab-usageorg [id]="this.id"></app-swcat-trutesta-tab-usageorg>
+</div>
+
 <div *ngIf="true">
     <li>CurrentId :{{currentTabId}}</li>
     <li>Id :{{id}}</li>

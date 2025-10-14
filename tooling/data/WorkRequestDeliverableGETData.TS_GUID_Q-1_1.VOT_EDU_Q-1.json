@@ -1,0 +1,625 @@
+{
+  "id" : "411ce882-5e82-4bf3-994e-4d9c1e1d5c15",
+  "createdByInfo" : {
+    "name" : "administrator",
+    "link" : null
+  },
+  "dateCreated" : {
+    "date" : 1759881997093,
+    "dateMilliseconds" : 1759881997093,
+    "dateFormat" : "MMM-dd-yyyy",
+    "formattedDate" : "Oct-08-2025",
+    "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+    "year" : 2025,
+    "month" : 10,
+    "dayOfMonth" : 8,
+    "monthName" : "October",
+    "convertToLocalTimezone" : true
+  },
+  "lastUpdatedByInfo" : {
+    "name" : null,
+    "link" : null
+  },
+  "dateLastUpdated" : {
+    "date" : 1759881997093,
+    "dateMilliseconds" : 1759881997093,
+    "dateFormat" : "MMM-dd-yyyy",
+    "formattedDate" : "Oct-08-2025",
+    "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+    "year" : 2025,
+    "month" : 10,
+    "dayOfMonth" : 8,
+    "monthName" : "October",
+    "convertToLocalTimezone" : true
+  },
+  "workRequestId" : "c7b0fffc-3afe-4c56-a59c-6ea43084a68c",
+  "nameText" : "empty deliv for ",
+  "comments" : " ",
+  "currentStateCode" : "inprocess",
+  "currentStateTransitionId" : "04b57eb0-9674-4a2d-9fcb-4ab365b49bfc",
+  "sections" : [ {
+    "id" : "7b1f3453-cc9c-4e2a-8836-263bbf03130d",
+    "createdByInfo" : {
+      "name" : "administrator",
+      "link" : null
+    },
+    "dateCreated" : {
+      "date" : 1759881999624,
+      "dateMilliseconds" : 1759881999624,
+      "dateFormat" : "MMM-dd-yyyy",
+      "formattedDate" : "Oct-08-2025",
+      "formattedDateTime" : "Oct-08-2025T00:06:39UTC",
+      "year" : 2025,
+      "month" : 10,
+      "dayOfMonth" : 8,
+      "monthName" : "October",
+      "convertToLocalTimezone" : true
+    },
+    "lastUpdatedByInfo" : {
+      "name" : null,
+      "link" : null
+    },
+    "dateLastUpdated" : {
+      "date" : 1759881999624,
+      "dateMilliseconds" : 1759881999624,
+      "dateFormat" : "MMM-dd-yyyy",
+      "formattedDate" : "Oct-08-2025",
+      "formattedDateTime" : "Oct-08-2025T00:06:39UTC",
+      "year" : 2025,
+      "month" : 10,
+      "dayOfMonth" : 8,
+      "monthName" : "October",
+      "convertToLocalTimezone" : true
+    },
+    "workRequestDeliverableId" : "411ce882-5e82-4bf3-994e-4d9c1e1d5c15",
+    "sequenceOrder" : 1,
+    "workRequestId" : "c7b0fffc-3afe-4c56-a59c-6ea43084a68c",
+    "workRequestItemId" : "3ea95923-bc9c-4a47-a8fe-a909b534a5ac",
+    "itemActionCode" : "AttachRFIContent",
+    "title" : "AttachRFIContent",
+    "comments" : "Blah blah",
+    "workItemDeliverableId" : "f521c780-7720-490d-b611-48c6349c9512",
+    "workItemDeliverable" : {
+      "id" : "f521c780-7720-490d-b611-48c6349c9512",
+      "createdByInfo" : {
+        "name" : "administrator",
+        "link" : null
+      },
+      "dateCreated" : {
+        "date" : 1759881997115,
+        "dateMilliseconds" : 1759881997115,
+        "dateFormat" : "MMM-dd-yyyy",
+        "formattedDate" : "Oct-08-2025",
+        "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+        "year" : 2025,
+        "month" : 10,
+        "dayOfMonth" : 8,
+        "monthName" : "October",
+        "convertToLocalTimezone" : true
+      },
+      "lastUpdatedByInfo" : {
+        "name" : "administrator",
+        "link" : null
+      },
+      "dateLastUpdated" : {
+        "date" : 1759881999620,
+        "dateMilliseconds" : 1759881999620,
+        "dateFormat" : "MMM-dd-yyyy",
+        "formattedDate" : "Oct-08-2025",
+        "formattedDateTime" : "Oct-08-2025T00:06:39UTC",
+        "year" : 2025,
+        "month" : 10,
+        "dayOfMonth" : 8,
+        "monthName" : "October",
+        "convertToLocalTimezone" : true
+      },
+      "workRequestId" : "c7b0fffc-3afe-4c56-a59c-6ea43084a68c",
+      "workRequestItemId" : "3ea95923-bc9c-4a47-a8fe-a909b534a5ac",
+      "nameText" : "Search Results from WRVTHS-PERS_CLASSES",
+      "businessCode" : "TS_GUID_Q-1_1.VOT_EDU_Q-1_1-WRVTHS-PERS_CLASSES",
+      "description" : "Here, we'll create a PDF for the search Results",
+      "delivTypeCode" : "CatalogSearchResults",
+      "comments" : "Blah blah",
+      "subjectEntityId" : "ad23d80e-4d25-4439-b33f-4b3be343ca36",
+      "subjectEntityType" : "CatalogSearchResult",
+      "subjectEntityName" : "CatalogSearchResult@1eae998e[]",
+      "currentStateCode" : "completed",
+      "currentStateTransitionId" : "fe3b82d4-d441-400b-9697-1e65102d53f5",
+      "author" : {
+        "id" : "db04d84b-36a4-47a2-a5c0-86c180cc5142",
+        "createdByInfo" : {
+          "name" : "administrator",
+          "link" : null
+        },
+        "dateCreated" : {
+          "date" : 1759881994960,
+          "dateMilliseconds" : 1759881994960,
+          "dateFormat" : "MMM-dd-yyyy",
+          "formattedDate" : "Oct-08-2025",
+          "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+          "year" : 2025,
+          "month" : 10,
+          "dayOfMonth" : 8,
+          "monthName" : "October",
+          "convertToLocalTimezone" : true
+        },
+        "lastUpdatedByInfo" : {
+          "name" : null,
+          "link" : null
+        },
+        "dateLastUpdated" : {
+          "date" : 1759881994960,
+          "dateMilliseconds" : 1759881994960,
+          "dateFormat" : "MMM-dd-yyyy",
+          "formattedDate" : "Oct-08-2025",
+          "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+          "year" : 2025,
+          "month" : 10,
+          "dayOfMonth" : 8,
+          "monthName" : "October",
+          "convertToLocalTimezone" : true
+        },
+        "userId" : "ba212313-df37-4769-8811-68a5daf3707f",
+        "userCode" : "WRVTHS-1",
+        "messageHandle" : "WRVTHS-1",
+        "organizationId" : "08da89bb-bc59-469a-aca8-a1b573fc925e",
+        "profileTypeCode" : "SchoolProvider",
+        "userEmail" : "paula.pipette@SchoolProvider.WRVTHS.edu",
+        "cellPhoneNumber" : "999 999 9999",
+        "workPhoneNumber" : "998 888 8888",
+        "available" : 1,
+        "roles" : [ ],
+        "theUser" : {
+          "id" : "ba212313-df37-4769-8811-68a5daf3707f",
+          "createdByInfo" : {
+            "name" : "administrator",
+            "link" : null
+          },
+          "dateCreated" : {
+            "date" : 1759881994959,
+            "dateMilliseconds" : 1759881994959,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "lastUpdatedByInfo" : {
+            "name" : null,
+            "link" : null
+          },
+          "dateLastUpdated" : {
+            "date" : 1759881994959,
+            "dateMilliseconds" : 1759881994959,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "name" : "paula pipette",
+          "businessCode" : "paula.pipette@SchoolProvider.WRVTHS.edu",
+          "description" : "User profile for paula.pipette@SchoolProvider.WRVTHS.edu",
+          "available" : 1
+        }
+      },
+      "catalogSearchResult" : {
+        "id" : "ad23d80e-4d25-4439-b33f-4b3be343ca36",
+        "createdByInfo" : {
+          "name" : "administrator",
+          "link" : null
+        },
+        "dateCreated" : {
+          "date" : 1759881997122,
+          "dateMilliseconds" : 1759881997122,
+          "dateFormat" : "MMM-dd-yyyy",
+          "formattedDate" : "Oct-08-2025",
+          "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+          "year" : 2025,
+          "month" : 10,
+          "dayOfMonth" : 8,
+          "monthName" : "October",
+          "convertToLocalTimezone" : true
+        },
+        "lastUpdatedByInfo" : {
+          "name" : null,
+          "link" : null
+        },
+        "dateLastUpdated" : {
+          "date" : 1759881997122,
+          "dateMilliseconds" : 1759881997122,
+          "dateFormat" : "MMM-dd-yyyy",
+          "formattedDate" : "Oct-08-2025",
+          "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+          "year" : 2025,
+          "month" : 10,
+          "dayOfMonth" : 8,
+          "monthName" : "October",
+          "convertToLocalTimezone" : true
+        },
+        "catalogId" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+        "comments" : "Blah blah",
+        "parentWorkRequestItemId" : "3ea95923-bc9c-4a47-a8fe-a909b534a5ac",
+        "catalog" : {
+          "id" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+          "createdByInfo" : {
+            "name" : "administrator",
+            "link" : null
+          },
+          "dateCreated" : {
+            "date" : 1759881994974,
+            "dateMilliseconds" : 1759881994974,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "lastUpdatedByInfo" : {
+            "name" : null,
+            "link" : null
+          },
+          "dateLastUpdated" : {
+            "date" : 1759881994974,
+            "dateMilliseconds" : 1759881994974,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "organizationId" : "08da89bb-bc59-469a-aca8-a1b573fc925e",
+          "name" : "Voctech Personal Classes",
+          "businessCode" : "WRVTHS-PERS_CLASSES",
+          "description" : "-",
+          "available" : 1,
+          "urlPrefix" : ""
+        },
+        "author" : {
+          "id" : "db04d84b-36a4-47a2-a5c0-86c180cc5142",
+          "createdByInfo" : {
+            "name" : "administrator",
+            "link" : null
+          },
+          "dateCreated" : {
+            "date" : 1759881994960,
+            "dateMilliseconds" : 1759881994960,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "lastUpdatedByInfo" : {
+            "name" : null,
+            "link" : null
+          },
+          "dateLastUpdated" : {
+            "date" : 1759881994960,
+            "dateMilliseconds" : 1759881994960,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "userId" : "ba212313-df37-4769-8811-68a5daf3707f",
+          "userCode" : "WRVTHS-1",
+          "messageHandle" : "WRVTHS-1",
+          "organizationId" : "08da89bb-bc59-469a-aca8-a1b573fc925e",
+          "profileTypeCode" : "SchoolProvider",
+          "userEmail" : "paula.pipette@SchoolProvider.WRVTHS.edu",
+          "cellPhoneNumber" : "999 999 9999",
+          "workPhoneNumber" : "998 888 8888",
+          "available" : 1,
+          "roles" : [ ],
+          "theUser" : {
+            "id" : "ba212313-df37-4769-8811-68a5daf3707f",
+            "createdByInfo" : {
+              "name" : "administrator",
+              "link" : null
+            },
+            "dateCreated" : {
+              "date" : 1759881994959,
+              "dateMilliseconds" : 1759881994959,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "lastUpdatedByInfo" : {
+              "name" : null,
+              "link" : null
+            },
+            "dateLastUpdated" : {
+              "date" : 1759881994959,
+              "dateMilliseconds" : 1759881994959,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:34UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "name" : "paula pipette",
+            "businessCode" : "paula.pipette@SchoolProvider.WRVTHS.edu",
+            "description" : "User profile for paula.pipette@SchoolProvider.WRVTHS.edu",
+            "available" : 1
+          }
+        },
+        "entries" : [ {
+          "id" : "b06690c2-426b-47de-9443-8bd5386a4d70",
+          "createdByInfo" : {
+            "name" : "administrator",
+            "link" : null
+          },
+          "dateCreated" : {
+            "date" : 1759881997124,
+            "dateMilliseconds" : 1759881997124,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "lastUpdatedByInfo" : {
+            "name" : null,
+            "link" : null
+          },
+          "dateLastUpdated" : {
+            "date" : 1759881997124,
+            "dateMilliseconds" : 1759881997124,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "catalogSearchResultId" : "ad23d80e-4d25-4439-b33f-4b3be343ca36",
+          "catalogEntryId" : "5ec30ac2-9420-4133-a10e-e639a48ffb20",
+          "catalogId" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+          "catalogEntry" : {
+            "id" : "5ec30ac2-9420-4133-a10e-e639a48ffb20",
+            "createdByInfo" : {
+              "name" : "administrator",
+              "link" : null
+            },
+            "dateCreated" : {
+              "date" : 1759881995022,
+              "dateMilliseconds" : 1759881995022,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:35UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "lastUpdatedByInfo" : {
+              "name" : "administrator",
+              "link" : null
+            },
+            "dateLastUpdated" : {
+              "date" : 1759881995030,
+              "dateMilliseconds" : 1759881995030,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:35UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "catalogId" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+            "entryCode" : "BEEK01",
+            "title" : "Beekeeping Essentials Spring 2025",
+            "catalogTypeCode" : "course",
+            "shortDescription" : "A comprehensive beekeeping course for beginners covering bee biology, hive management, and practical beekeeping techniques.",
+            "description" : "A comprehensive beekeeping course for beginners covering bee biology, hive management, and practical beekeeping techniques.",
+            "available" : 1,
+            "url" : "/personal-enrichment-courses/intro-beekeeping",
+            "vocodeInstanceId" : "8721997b-6639-4916-a21f-100999ee0b92",
+            "version" : 1
+          }
+        }, {
+          "id" : "bdb455cf-032d-4f0f-9e7b-b5d301d2b273",
+          "createdByInfo" : {
+            "name" : "administrator",
+            "link" : null
+          },
+          "dateCreated" : {
+            "date" : 1759881997125,
+            "dateMilliseconds" : 1759881997125,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "lastUpdatedByInfo" : {
+            "name" : null,
+            "link" : null
+          },
+          "dateLastUpdated" : {
+            "date" : 1759881997125,
+            "dateMilliseconds" : 1759881997125,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "catalogSearchResultId" : "ad23d80e-4d25-4439-b33f-4b3be343ca36",
+          "catalogEntryId" : "d6661d35-5d81-4516-8de0-64fc22b86424",
+          "catalogId" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+          "catalogEntry" : {
+            "id" : "d6661d35-5d81-4516-8de0-64fc22b86424",
+            "createdByInfo" : {
+              "name" : "administrator",
+              "link" : null
+            },
+            "dateCreated" : {
+              "date" : 1759881995048,
+              "dateMilliseconds" : 1759881995048,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:35UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "lastUpdatedByInfo" : {
+              "name" : "administrator",
+              "link" : null
+            },
+            "dateLastUpdated" : {
+              "date" : 1759881995055,
+              "dateMilliseconds" : 1759881995055,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:35UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "catalogId" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+            "entryCode" : "PLUM01",
+            "title" : "Introduction to Plumbing Spring 2025",
+            "catalogTypeCode" : "course",
+            "shortDescription" : "A hands-on plumbing course covering basic tools, materials, and fixtures used in plumbing systems.",
+            "description" : "A hands-on plumbing course covering basic tools, materials, and fixtures used in plumbing systems.",
+            "available" : 1,
+            "url" : "/personal-enrichment-courses/plumbing",
+            "vocodeInstanceId" : "b84f7e96-baeb-40db-bd16-29d54feccd46",
+            "version" : 1
+          }
+        }, {
+          "id" : "f3777fc4-615f-42d7-922c-0cb139282766",
+          "createdByInfo" : {
+            "name" : "administrator",
+            "link" : null
+          },
+          "dateCreated" : {
+            "date" : 1759881997124,
+            "dateMilliseconds" : 1759881997124,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "lastUpdatedByInfo" : {
+            "name" : null,
+            "link" : null
+          },
+          "dateLastUpdated" : {
+            "date" : 1759881997124,
+            "dateMilliseconds" : 1759881997124,
+            "dateFormat" : "MMM-dd-yyyy",
+            "formattedDate" : "Oct-08-2025",
+            "formattedDateTime" : "Oct-08-2025T00:06:37UTC",
+            "year" : 2025,
+            "month" : 10,
+            "dayOfMonth" : 8,
+            "monthName" : "October",
+            "convertToLocalTimezone" : true
+          },
+          "catalogSearchResultId" : "ad23d80e-4d25-4439-b33f-4b3be343ca36",
+          "catalogEntryId" : "9f38cf93-dfad-4f5a-b864-41cade29ec35",
+          "catalogId" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+          "catalogEntry" : {
+            "id" : "9f38cf93-dfad-4f5a-b864-41cade29ec35",
+            "createdByInfo" : {
+              "name" : "administrator",
+              "link" : null
+            },
+            "dateCreated" : {
+              "date" : 1759881995013,
+              "dateMilliseconds" : 1759881995013,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:35UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "lastUpdatedByInfo" : {
+              "name" : "administrator",
+              "link" : null
+            },
+            "dateLastUpdated" : {
+              "date" : 1759881995020,
+              "dateMilliseconds" : 1759881995020,
+              "dateFormat" : "MMM-dd-yyyy",
+              "formattedDate" : "Oct-08-2025",
+              "formattedDateTime" : "Oct-08-2025T00:06:35UTC",
+              "year" : 2025,
+              "month" : 10,
+              "dayOfMonth" : 8,
+              "monthName" : "October",
+              "convertToLocalTimezone" : true
+            },
+            "catalogId" : "b2cb6127-3876-4e26-89d3-848179fa82f4",
+            "entryCode" : "WOOD01",
+            "title" : "Basic Woodworking Spring 2025",
+            "catalogTypeCode" : "course",
+            "shortDescription" : "A comprehensive woodworking course covering fundamentals of carpentry, hand tools, and power tools with hands-on project work.",
+            "description" : "A comprehensive woodworking course covering fundamentals of carpentry, hand tools, and power tools with hands-on project work.",
+            "available" : 1,
+            "url" : "/personal-enrichment-courses/basicwoodworking",
+            "vocodeInstanceId" : "8bc206ca-7c13-4f19-8481-f51111ceb27f",
+            "version" : 1
+          }
+        } ],
+        "entryIds" : [ "b06690c2-426b-47de-9443-8bd5386a4d70", "bdb455cf-032d-4f0f-9e7b-b5d301d2b273", "f3777fc4-615f-42d7-922c-0cb139282766" ]
+      }
+    }
+  } ]
+}
