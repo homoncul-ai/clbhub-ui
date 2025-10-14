@@ -5,7 +5,7 @@ import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofil
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { HcclUserContextGETData, HcclUserProfileCriteria, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { ProviderDetailsTabMyschoolComponent } from './provider-details-tab-myschool.component';
-import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
+import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { OrgSchoolStaffListComponent } from '@app/features/dash-ecoadmin/orgs/org-school-staff-list.component';
 import { OrgSchoolStaffCrudComponent } from '@app/features/dash-ecoadmin/orgs/org-school-staff-crud.component';
