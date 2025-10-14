@@ -26,6 +26,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
 import { HcclOrganizationTypeRefCrudComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 
+/**
 @Component({
   selector: 'app-hcclorganization-crud',
   template: './hcclorganization-crud.component.html',
@@ -316,3 +317,4 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
     return this.getMenuControlDataList("hcclorganizations", this.getEntityType() + " Menu", hcclorganizations, data);
   }
 } 
+*/
