@@ -2,10 +2,11 @@ import { Component, inject, OnInit, AfterViewInit, ElementRef, ViewChild } from 
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogCriteria, CatalogGETData, EntityStateStatGETData, HcclService, WorkRequestDashboardUIGETData, WorkRequestGETData } from '@app/restsvc/hccl.service';
-import { HcclOrganizationCrudWrapper } from 'tooling/prompt/templates/template-crud.component';
+
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { HcclUserProfileCrudWrapper } from '@app/features/dash-ecoadmin/orgs/org-school-staff-crud.component';
 import { Chart, registerables } from 'chart.js';
+import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 
 @Component({
   selector: 'app-provider-dashboard-tab-mydash',

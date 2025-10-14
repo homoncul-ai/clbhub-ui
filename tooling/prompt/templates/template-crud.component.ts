@@ -1,5 +1,5 @@
 // This template is for generating a CRUD component for an entity that has a FK Menu
-// This was generated using entityName = HcclOrganization
+// This was generated using entityName = EntityName
 // Generate the new [entityName]-crud.component.ts   files using this template
 // Of course, the code related to the attribtutes of the entity shoule be changed to match the entityName
 // Review the HTML after the generation is complete and maker sure all the imports required are included.
@@ -12,7 +12,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { HcclOrganizationCriteria, HcclOrganizationGETData, HcclOrganizationPOSTData, HcclOrganizationPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { EntityNameCriteria, EntityNameGETData, EntityNamePOSTData, EntityNamePUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -24,20 +24,20 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 
 // Import are all the FK Menus for the UI to use <app-entityNameFk-crud>
-import { HcclOrganizationTypeRefCrudComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
+import { EntityNameTypeRefCrudComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 
-/**
+
 @Component({
   selector: 'app-hcclorganization-crud',
   template: './hcclorganization-crud.component.html',
-  styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
+  styleUrl: './template-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, HcclOrganizationTypeRefCrudComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent, EntityNameTypeRefCrudComponent],
   standalone: true
 })
-export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrganizationCrudWrapper> implements OnInit, OnChanges {
+export class EntityNameCrudComponent extends AbstractCrudComponent<EntityNameCrudWrapper> implements OnInit, OnChanges {
 
   constructor() {
     super();
@@ -52,13 +52,13 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
     super.ngOnInit();
   }
 
-  protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
-    const hcclorganization = await HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+  protected async loadEntityByIdCall(id: string): Promise<EntityNameCrudWrapper> {
+    const hcclorganization = await EntityNameCrudWrapper.newInstance(id, this.hcclService);
     return hcclorganization;
   }
 
-  protected override async createEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<any> {
-    const postData: HcclOrganizationPOSTData = {
+  protected override async createEntityDataCall(entity: EntityNameCrudWrapper): Promise<any> {
+    const postData: EntityNamePOSTData = {
       name: entity.getData().name || '',
       businessCode: entity.getData().businessCode || '',
       description: entity.getData().description || '',
@@ -75,7 +75,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
     // This is important - the requestCreate method returns { id: string, status: 201 }
     try {
       // The requestCreate method returns { id: string, status: 201 }
-      const response = await this.hcclService.createHcclOrganization(postData);
+      const response = await this.hcclService.createEntityName(postData);
       console.log('Create response:', response);
       return response;
     } catch (error) {
@@ -85,8 +85,8 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
 
   }
 
-  protected override async updateEntityDataCall(entity: HcclOrganizationCrudWrapper): Promise<void> {
-    const putData: HcclOrganizationPUTData = {
+  protected override async updateEntityDataCall(entity: EntityNameCrudWrapper): Promise<void> {
+    const putData: EntityNamePUTData = {
       name: entity.getData().name || '',
       businessCode: entity.getData().businessCode || '',
       description: entity.getData().description || '',
@@ -99,21 +99,21 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       parentEntityName: entity.getData().parentEntityName
     };
 
-    await this.hcclService.updateHcclOrganizationById(entity.getData().id!, putData).toPromise();
+    await this.hcclService.updateEntityNameById(entity.getData().id!, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
     try {
-      await this.hcclService.deleteHcclOrganizationById(id).toPromise();
+      await this.hcclService.deleteEntityNameById(id).toPromise();
       return true;
     } catch (error) {
-      console.error('Error deleting HcclOrganization:', error);
+      console.error('Error deleting EntityName:', error);
       return false;
     }
   }
 
-  public override newEmptyWrapper(): HcclOrganizationCrudWrapper {
-    return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
+  public override newEmptyWrapper(): EntityNameCrudWrapper {
+    return EntityNameCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
   // Getter and setter methods for form binding
@@ -217,11 +217,11 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
     }
   }
 
-  public createWrapper(hcclorganizationData: HcclOrganizationGETData): HcclOrganizationCrudWrapper {
-    return new HcclOrganizationCrudWrapper(hcclorganizationData, this.hcclService);
+  public createWrapper(hcclorganizationData: EntityNameGETData): EntityNameCrudWrapper {
+    return new EntityNameCrudWrapper(hcclorganizationData, this.hcclService);
   }
 
-  getHcclOrganizationFkMenuCriteria(): HcclOrganizationCriteria {
+  getEntityNameFkMenuCriteria(): EntityNameCriteria {
     return {
       pageNumber: 1,
       pageSize: 50,
@@ -230,39 +230,39 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
   }
 
   protected hcclorganizationMenu: MenuControlDataList | null = null;
-  protected override async prepareMenus(entity: HcclOrganizationCrudWrapper): Promise<void> {
-    const criteria = this.getHcclOrganizationFkMenuCriteria();
-    const results = await this.hcclService.findHcclOrganizations(criteria).toPromise();
+  protected override async prepareMenus(entity: EntityNameCrudWrapper): Promise<void> {
+    const criteria = this.getEntityNameFkMenuCriteria();
+    const results = await this.hcclService.findEntityNames(criteria).toPromise();
     this.hcclorganizationMenu =await entity.getFkMenu("hcclorganizations", this.id);
   }
 }
 
-export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationGETData> {
+export class EntityNameCrudWrapper extends EntityWrapper<EntityNameGETData> {
 
-  public static newInstanceForCreate(hcclService: HcclService, entityIn?: HcclOrganizationGETData | null): HcclOrganizationCrudWrapper {
-    const emptyData: HcclOrganizationGETData = {
+  public static newInstanceForCreate(hcclService: HcclService, entityIn?: EntityNameGETData | null): EntityNameCrudWrapper {
+    const emptyData: EntityNameGETData = {
       name: '',
       businessCode: '',
       description: '',
       available: 0,
       organizationTypeId: ''
     };
-    return new HcclOrganizationCrudWrapper(entityIn || emptyData, hcclService);
+    return new EntityNameCrudWrapper(entityIn || emptyData, hcclService);
   }
 
-  public static async newInstance(id: string, hcclService: HcclService): Promise<HcclOrganizationCrudWrapper> {
-    const data = await hcclService.getHcclOrganizationById(id).toPromise();
+  public static async newInstance(id: string, hcclService: HcclService): Promise<EntityNameCrudWrapper> {
+    const data = await hcclService.getEntityNameById(id).toPromise();
     if (!data) {
-      throw new Error('HcclOrganization not found');
+      throw new Error('EntityName not found');
     }
-    return new HcclOrganizationCrudWrapper(data, hcclService);
+    return new EntityNameCrudWrapper(data, hcclService);
   }
 
-  constructor(data: HcclOrganizationGETData, hcclService?: HcclService) {
+  constructor(data: EntityNameGETData, hcclService?: HcclService) {
     super(data, hcclService);
   }
 
-  getDisplayText(entity?: HcclOrganizationGETData): string {
+  getDisplayText(entity?: EntityNameGETData): string {
     const data = entity || this.getData();
     if (data.name) {
       return data.name;
@@ -270,7 +270,7 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
     if (data.businessCode) {
       return data.businessCode;
     }
-    return data.id || 'Unknown HcclOrganization';
+    return data.id || 'Unknown EntityName';
   }
 
   getFullName(): string {
@@ -296,7 +296,7 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
     return this.getData().available === 1;
   }
 
-  getFkMenuCriteria(): HcclOrganizationCriteria {
+  getFkMenuCriteria(): EntityNameCriteria {
     return {
       pageNumber: 1,
       pageSize: 50,
@@ -304,17 +304,16 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
     };
   }
 
-  async getHcclOrganizations(criteria?: HcclOrganizationCriteria): Promise<HcclOrganizationGETData[]> {
+  async getEntityNames(criteria?: EntityNameCriteria): Promise<EntityNameGETData[]> {
     if (!this.hcclService) {
       throw new Error('HcclService not available');
     }
-    const results = await this.hcclService.findHcclOrganizations(criteria || this.getFkMenuCriteria()).toPromise();
+    const results = await this.hcclService.findEntityNames(criteria || this.getFkMenuCriteria()).toPromise();
     return results?.searchResults || [];
   }
 
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
-    const hcclorganizations = await this.getHcclOrganizations();
+    const hcclorganizations = await this.getEntityNames();
     return this.getMenuControlDataList("hcclorganizations", this.getEntityType() + " Menu", hcclorganizations, data);
   }
 } 
-*/
