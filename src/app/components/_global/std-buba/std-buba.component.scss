@@ -102,7 +102,12 @@
   }
 }
 
-.buba-tooltip {
+.buba-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.buba-popup {
   position: absolute;
   top: 100%;
   left: 0;
@@ -110,22 +115,50 @@
   margin-top: 0.25rem;
   pointer-events: none;
   
-  .buba-tooltip-content {
-    background-color: #212529;
-    color: #fff;
-    padding: 0.5rem 0.75rem;
+  .buba-popup-content {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
     border-radius: 0.375rem;
+    padding: 1rem;
     font-size: 0.875rem;
     line-height: 1.4;
-    max-width: 300px;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    max-width: 400px;
+    min-width: 250px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     
-    pre {
-      margin: 0;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      font-family: inherit;
-      font-size: inherit;
+    h4 {
+      margin: 0 0 0.75rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 0.5rem;
+    }
+    
+    .buba-properties {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .buba-property {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      
+      .property-name {
+        font-weight: 600;
+        color: #6c757d;
+        flex-shrink: 0;
+        min-width: 100px;
+      }
+      
+      .property-value {
+        color: #495057;
+        word-break: break-word;
+        text-align: right;
+      }
     }
     
     // Arrow pointing up
@@ -134,8 +167,17 @@
       position: absolute;
       bottom: 100%;
       left: 1rem;
-      border: 0.25rem solid transparent;
-      border-bottom-color: #212529;
+      border: 0.5rem solid transparent;
+      border-bottom-color: #fff;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 0.875rem;
+      border: 0.625rem solid transparent;
+      border-bottom-color: #dee2e6;
     }
   }
 }

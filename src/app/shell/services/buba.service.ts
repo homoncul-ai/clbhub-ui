@@ -18,7 +18,15 @@ export interface BubaResult {
   name: string;
   icon: string;
   routePath: string;
-  tooltip?: string;
+  entityData?: any;
+}
+
+export interface EntityMetadata {
+  iconTemplate: string | null;
+  routePathTemplate: string | null;
+  nameTemplate: string | null;
+  htmlTemplate: string | null;
+  htmlTemplateFilename: string | null;
 }
 
 @Injectable({
@@ -46,18 +54,18 @@ export class BubaService {
       context: this.hcclContextService.waitForReady$()
     }).pipe(
       map(({ entityData, template, context }) => {
-        const routePath = this.calculateRoutePath(bubaData, context);
-        const name = this.calculateName(entityData, bubaData);
-        const icon = this.calculateIcon(entityData, bubaData);
+        const metadata = this.loadEntityMetadata(entityData);
+        const routePath = this.calculateRoutePath(bubaData, context, metadata);
+        const name = this.calculateName(entityData, bubaData, metadata);
+        const icon = this.calculateIcon(entityData, bubaData, metadata);
         const html = this.mergeTemplateWithData(template, entityData, bubaData);
-        const tooltip = this.generateTooltip(entityData, bubaData);
 
         return {
           html,
           name,
           icon,
           routePath,
-          tooltip
+          entityData
         };
       }),
       catchError((error) => {
@@ -68,7 +76,7 @@ export class BubaService {
           name: `${bubaData.entityName} ${bubaData.entityId}`,
           icon: 'fas fa-question-circle',
           routePath: '#',
-          tooltip: `Entity: ${bubaData.entityName}, ID: ${bubaData.entityId}`
+          entityData: { entityName: bubaData.entityName, entityId: bubaData.entityId }
         });
       })
     );
@@ -121,29 +129,124 @@ export class BubaService {
   }
 
   /**
+   * Load entity metadata for the given entity data
+   * @param entityData - The entity data
+   * @returns EntityMetadata object
+   */
+  private loadEntityMetadata(entityData: any): EntityMetadata {
+    const entityName = entityData.entityType || entityData.entityName || 'unknown';
+    
+    // Define metadata for each entity type
+    const metadataMap: { [key: string]: EntityMetadata } = {
+      'advocate': {
+        iconTemplate: 'fas fa-user-tie',
+        routePathTemplate: '/{dashboardType}/advocate/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'advocate.html'
+      },
+      'broker': {
+        iconTemplate: 'fas fa-handshake',
+        routePathTemplate: '/{dashboardType}/broker/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'broker.html'
+      },
+      'catalog': {
+        iconTemplate: 'fas fa-book',
+        routePathTemplate: '/{dashboardType}/catalog/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'catalog.html'
+      },
+      'catalogentry': {
+        iconTemplate: 'fas fa-book-open',
+        routePathTemplate: '/{dashboardType}/catalogentry/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'catalogentry.html'
+      },
+      'profile': {
+        iconTemplate: 'fas fa-id-card',
+        routePathTemplate: '/{dashboardType}/profile/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'profile.html'
+      },
+      'provider': {
+        iconTemplate: 'fas fa-hospital',
+        routePathTemplate: '/{dashboardType}/provider/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'provider.html'
+      },
+      'school': {
+        iconTemplate: 'fas fa-school',
+        routePathTemplate: '/{dashboardType}/school/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'school.html'
+      },
+      'student': {
+        iconTemplate: 'fas fa-user-graduate',
+        routePathTemplate: '/{dashboardType}/student/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'student.html'
+      },
+      'user': {
+        iconTemplate: 'fas fa-user',
+        routePathTemplate: '/{dashboardType}/user/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'user.html'
+      },
+      'workrequest': {
+        iconTemplate: 'fas fa-tasks',
+        routePathTemplate: '/{dashboardType}/workrequest/{entityId}',
+        nameTemplate: '{displayName}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'workrequest.html'
+      }
+    };
+
+    return metadataMap[entityName.toLowerCase()] || {
+      iconTemplate: 'fas fa-cube',
+      routePathTemplate: '/{dashboardType}/{entityName}/{entityId}',
+      nameTemplate: '{entityName} {entityId}',
+      htmlTemplate: null,
+      htmlTemplateFilename: 'default.html'
+    };
+  }
+
+  /**
    * Calculate the route path for the entity
    * @param bubaData - The entity data
    * @param context - The HCCL context
+   * @param metadata - The entity metadata
    * @returns The calculated route path
    */
-  private calculateRoutePath(bubaData: BubaData, context: any): string {
+  private calculateRoutePath(bubaData: BubaData, context: any, metadata: EntityMetadata): string {
     // Get the current dashboard type from context or default
     const dashboardType = context?.dashboardType || 'ecoadmin-dashboard';
     
-    // Build the route path based on entity type and ID
-    let routePath = `/${dashboardType}/${bubaData.entityName.toLowerCase()}`;
+    // Use metadata template to build route path
+    let routePath = (metadata.routePathTemplate || '/{dashboardType}/{entityName}/{entityId}')
+      .replace('{dashboardType}', dashboardType)
+      .replace('{entityName}', bubaData.entityName.toLowerCase())
+      .replace('{entityId}', bubaData.entityId);
     
-    if (bubaData.entityId) {
-      routePath += `/${bubaData.entityId}`;
-    }
-    
+    // Add query parameters if present
+    const queryParams: string[] = [];
     if (bubaData.profileTypeCode) {
-      routePath += `?profileTypeCode=${bubaData.profileTypeCode}`;
+      queryParams.push(`profileTypeCode=${bubaData.profileTypeCode}`);
+    }
+    if (bubaData.aspect) {
+      queryParams.push(`aspect=${bubaData.aspect}`);
     }
     
-    if (bubaData.aspect) {
-      const separator = bubaData.profileTypeCode ? '&' : '?';
-      routePath += `${separator}aspect=${bubaData.aspect}`;
+    if (queryParams.length > 0) {
+      routePath += `?${queryParams.join('&')}`;
     }
     
     return routePath;
@@ -153,44 +256,29 @@ export class BubaService {
    * Calculate the display name for the buba
    * @param entityData - The fetched entity data
    * @param bubaData - The original buba data
+   * @param metadata - The entity metadata
    * @returns The calculated name
    */
-  private calculateName(entityData: any, bubaData: BubaData): string {
-    // Use displayName if available, otherwise construct from entity data
-    if (entityData.displayName) {
-      return entityData.displayName;
-    }
+  private calculateName(entityData: any, bubaData: BubaData, metadata: EntityMetadata): string {
+    // Use metadata template to build name
+    let name = (metadata.nameTemplate || '{displayName}')
+      .replace('{displayName}', entityData.displayName || entityData.name || `${bubaData.entityName} ${bubaData.entityId}`)
+      .replace('{name}', entityData.name || `${bubaData.entityName} ${bubaData.entityId}`)
+      .replace('{entityName}', bubaData.entityName)
+      .replace('{entityId}', bubaData.entityId);
     
-    if (entityData.name) {
-      return entityData.name;
-    }
-    
-    // Fallback to constructed name
-    return `${bubaData.entityName} ${bubaData.entityId}`;
+    return name;
   }
 
   /**
    * Calculate the icon for the buba
    * @param entityData - The fetched entity data
    * @param bubaData - The original buba data
+   * @param metadata - The entity metadata
    * @returns The icon class name
    */
-  private calculateIcon(entityData: any, bubaData: BubaData): string {
-    // Map entity types to appropriate icons
-    const iconMap: { [key: string]: string } = {
-      'student': 'fas fa-user-graduate',
-      'school': 'fas fa-school',
-      'provider': 'fas fa-hospital',
-      'broker': 'fas fa-handshake',
-      'advocate': 'fas fa-user-tie',
-      'workrequest': 'fas fa-tasks',
-      'catalog': 'fas fa-book',
-      'user': 'fas fa-user',
-      'profile': 'fas fa-id-card'
-    };
-    
-    const entityType = bubaData.entityName.toLowerCase();
-    return iconMap[entityType] || 'fas fa-cube';
+  private calculateIcon(entityData: any, bubaData: BubaData, metadata: EntityMetadata): string {
+    return metadata.iconTemplate || 'fas fa-cube';
   }
 
   /**
@@ -204,11 +292,12 @@ export class BubaService {
     let html = template;
     
     // Replace template variables with actual data
+    const metadata = this.loadEntityMetadata(entityData);
     const replacements: { [key: string]: string } = {
-      '{{name}}': this.calculateName(entityData, bubaData),
+      '{{name}}': this.calculateName(entityData, bubaData, metadata),
       '{{entityId}}': bubaData.entityId,
       '{{entityName}}': bubaData.entityName,
-      '{{icon}}': this.calculateIcon(entityData, bubaData),
+      '{{icon}}': this.calculateIcon(entityData, bubaData, metadata),
       '{{description}}': entityData.description || '',
       '{{status}}': entityData.status || 'unknown',
       '{{displayName}}': entityData.displayName || entityData.name || `${bubaData.entityName} ${bubaData.entityId}`
@@ -222,30 +311,4 @@ export class BubaService {
     return html;
   }
 
-  /**
-   * Generate tooltip text for the buba
-   * @param entityData - The entity data
-   * @param bubaData - The original buba data
-   * @returns The tooltip text
-   */
-  private generateTooltip(entityData: any, bubaData: BubaData): string {
-    const parts = [
-      `Entity: ${bubaData.entityName}`,
-      `ID: ${bubaData.entityId}`
-    ];
-    
-    if (entityData.description) {
-      parts.push(`Description: ${entityData.description}`);
-    }
-    
-    if (bubaData.profileTypeCode) {
-      parts.push(`Profile: ${bubaData.profileTypeCode}`);
-    }
-    
-    if (bubaData.aspect) {
-      parts.push(`Aspect: ${bubaData.aspect}`);
-    }
-    
-    return parts.join('\n');
-  }
 }

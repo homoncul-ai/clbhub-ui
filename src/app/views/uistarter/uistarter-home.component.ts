@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BubaDemoComponent } from '../../components/_global/std-buba/buba-demo.component';
 
 interface StarterComponent {
   menuItem: string;
@@ -9,6 +10,7 @@ interface StarterComponent {
   route: string;
   componentPath: string;
   componentName: string;
+  
 }
 
 @Component({
@@ -48,6 +50,8 @@ interface StarterComponent {
           </tbody>
         </table>
       </div>
+
+      <app-buba-demo></app-buba-demo>
       
       <div class="mt-4">
         <div class="alert alert-info">
@@ -92,7 +96,7 @@ interface StarterComponent {
     }
   `],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, BubaDemoComponent]
 })
 export class UistarterHomeComponent {
   starterComponents: StarterComponent[] = [

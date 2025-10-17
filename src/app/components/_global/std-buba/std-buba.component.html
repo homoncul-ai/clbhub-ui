@@ -1,9 +1,4 @@
-<div 
-  class="buba-wrapper"
-  [class]="getBubaClasses()"
-  (mouseenter)="onMouseEnter()"
-  (mouseleave)="onMouseLeave()"
->
+<div class="buba-wrapper" [class]="getBubaClasses()">
   <!-- Loading state -->
   <div *ngIf="loading" class="buba-loading-state">
     <i class="fas fa-spinner fa-spin"></i>
@@ -18,43 +13,36 @@
 
   <!-- Buba content -->
   <div *ngIf="bubaResult && !loading && !error" class="buba-content">
-    <!-- Clickable link -->
+    <!-- Icon with popup -->
+    <div class="buba-icon-container" 
+         (mouseenter)="onIconMouseEnter()" 
+         (mouseleave)="onIconMouseLeave()">
+      <i *ngIf="showIcon" [class]="bubaResult.icon" class="buba-icon"></i>
+      
+      <!-- Popup window -->
+      <div *ngIf="showPopup" class="buba-popup">
+        <div class="buba-popup-content">
+          {{ bubaResult.html }} 
+        </div>
+      </div>
+    </div>
+
+    <!-- Link -->
     <a 
       *ngIf="bubaResult.routePath && bubaResult.routePath !== '#'"
       [href]="bubaResult.routePath"
       (click)="onBubaClick($event)"
       class="buba-link"
-      [title]="bubaResult.tooltip"
     >
-      <i *ngIf="showIcon" [class]="bubaResult.icon" class="buba-icon"></i>
-      <span class="buba-name">{{ bubaResult.name }}</span>
+      {{ bubaResult.name }}
     </a>
 
-    <!-- Non-clickable span -->
+    <!-- Non-clickable text -->
     <span 
       *ngIf="!bubaResult.routePath || bubaResult.routePath === '#'"
       class="buba-text"
-      [title]="bubaResult.tooltip"
     >
-      <i *ngIf="showIcon" [class]="bubaResult.icon" class="buba-icon"></i>
-      <span class="buba-name">{{ bubaResult.name }}</span>
+      {{ bubaResult.name }}
     </span>
-
-    <!-- Custom HTML content -->
-    <div 
-      *ngIf="bubaResult.html"
-      class="buba-custom-html"
-      [innerHTML]="bubaResult.html"
-    ></div>
-  </div>
-
-  <!-- Tooltip -->
-  <div 
-    *ngIf="showTooltipContent && bubaResult?.tooltip"
-    class="buba-tooltip"
-  >
-    <div class="buba-tooltip-content">
-      <pre>{{ bubaResult?.tooltip }}</pre>
-    </div>
   </div>
 </div>

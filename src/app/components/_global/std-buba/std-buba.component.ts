@@ -22,11 +22,11 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   private bubaService = inject(BubaService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
-
+  
   bubaResult: BubaResult | null = null;
   loading: boolean = false;
   error: string | null = null;
-  showTooltipContent: boolean = false;
+  showPopup: boolean = false;
 
   ngOnInit(): void {
     if (this.entityName && this.entityId) {
@@ -79,19 +79,40 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Show tooltip on mouse enter
+   * Show popup on icon mouse enter
    */
-  onMouseEnter(): void {
-    if (this.showTooltip && this.bubaResult?.tooltip) {
-      this.showTooltipContent = true;
+  onIconMouseEnter(): void {
+    if (this.bubaResult?.entityData) {
+      this.showPopup = true;
     }
   }
 
   /**
-   * Hide tooltip on mouse leave
+   * Hide popup on mouse leave
    */
-  onMouseLeave(): void {
-    this.showTooltipContent = false;
+  onIconMouseLeave(): void {
+    this.showPopup = false;
+  }
+
+  /**
+   * Get entity properties for popup display
+   */
+  getEntityProperties(): { [key: string]: any } {
+    if (!this.bubaResult?.entityData) {
+      return {};
+    }
+    
+    const props: { [key: string]: any } = {};
+    const entityData = this.bubaResult.entityData;
+    
+    // Add all properties from entityData
+    Object.keys(entityData).forEach(key => {
+      if (entityData[key] !== null && entityData[key] !== undefined) {
+        props[key] = entityData[key];
+      }
+    });
+    
+    return props;
   }
 
   /**
@@ -115,3 +136,4 @@ export class StdBubaComponent implements OnInit, OnDestroy {
     return classes.join(' ');
   }
 }
+

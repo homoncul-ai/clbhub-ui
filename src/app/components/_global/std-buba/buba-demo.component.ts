@@ -11,61 +11,15 @@ import { StdBubaComponent } from './std-buba.component';
       <h2>Buba Component Demo</h2>
       
       <div class="demo-section">
-        <h3>Student Buba</h3>
+        <h3>Catalog Buba</h3>
         <app-std-buba 
-          entityName="Student" 
-          entityId="12345"
-          profileTypeCode="STUDENT_PROFILE"
+          entityName="Catalog" 
+          entityId="{{ this.UUID_SENTINEL }}"
+          profileTypeCode="this.getProfileTypeCode()"
           aspect="academic">
         </app-std-buba>
       </div>
 
-      <div class="demo-section">
-        <h3>School Buba</h3>
-        <app-std-buba 
-          entityName="School" 
-          entityId="SCH001"
-          cssClass="custom-school-buba">
-        </app-std-buba>
-      </div>
-
-      <div class="demo-section">
-        <h3>Provider Buba</h3>
-        <app-std-buba 
-          entityName="Provider" 
-          entityId="PROV789"
-          profileTypeCode="HEALTHCARE_PROVIDER">
-        </app-std-buba>
-      </div>
-
-      <div class="demo-section">
-        <h3>Work Request Buba</h3>
-        <app-std-buba 
-          entityName="WorkRequest" 
-          entityId="WR-2024-001"
-          showIcon="true"
-          showTooltip="true">
-        </app-std-buba>
-      </div>
-
-      <div class="demo-section">
-        <h3>Buba without Icon</h3>
-        <app-std-buba 
-          entityName="Catalog" 
-          entityId="CAT-001"
-          [showIcon]="false">
-        </app-std-buba>
-      </div>
-
-      <div class="demo-section">
-        <h3>Buba without Tooltip</h3>
-        <app-std-buba 
-          entityName="User" 
-          entityId="USER-456"
-          [showTooltip]="false">
-        </app-std-buba>
-      </div>
-    </div>
   `,
   styles: [`
     .buba-demo {
@@ -96,4 +50,10 @@ import { StdBubaComponent } from './std-buba.component';
   `]
 })
 export class BubaDemoComponent {
+
+  public readonly UUID_SENTINEL = '00000000-0000-0000-0000-000000000000';
+  
+  public getProfileTypeCode(): string {
+    return 'STUDENT_PROFILE';
+  }
 }
