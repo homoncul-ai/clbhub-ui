@@ -36,6 +36,11 @@ export class AppComponent implements OnInit, OnDestroy {
     // Setup Keycloak event listener
     effect(() => {
       const keycloakEvent = this.keycloakSignal();
+      // if (true || keycloakEvent.type === KeycloakEventType.AuthSuccess ) {         
+      //  //  alert('app.component.ts: Keycloak event AuthSuccess');
+      //  // Need to learn about the event listener.  this is being called all the time.
+      //   this.initializeHcclContextAndRedirect();
+      // }
       if (true || keycloakEvent.type === KeycloakEventType.Ready ) {         
           this.initializeHcclContextAndRedirect();
       }
@@ -61,9 +66,11 @@ export class AppComponent implements OnInit, OnDestroy {
      
             const dashboardType = this._menuService.getDashboardTypeFromContext(context);
             var dashUrl = "/" + this._menuService.getRouteFromDashboardType(dashboardType);     
-           // alert('app.component.ts: NOT navigating to dashboard:' + dashUrl);
-           // this._router.navigate([dashUrl]);    
-      
+
+            // Not working correctly.
+            //alert('app.component.ts: Navigating to dashboard:' + dashboardType + ' ' + dashUrl);
+            //this._router.navigate([dashUrl]);    
+            break;  
            
        
         } while (false);

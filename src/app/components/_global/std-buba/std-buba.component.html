@@ -1,0 +1,60 @@
+<div 
+  class="buba-wrapper"
+  [class]="getBubaClasses()"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <!-- Loading state -->
+  <div *ngIf="loading" class="buba-loading-state">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Loading...</span>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="buba-error-state">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Buba content -->
+  <div *ngIf="bubaResult && !loading && !error" class="buba-content">
+    <!-- Clickable link -->
+    <a 
+      *ngIf="bubaResult.routePath && bubaResult.routePath !== '#'"
+      [href]="bubaResult.routePath"
+      (click)="onBubaClick($event)"
+      class="buba-link"
+      [title]="bubaResult.tooltip"
+    >
+      <i *ngIf="showIcon" [class]="bubaResult.icon" class="buba-icon"></i>
+      <span class="buba-name">{{ bubaResult.name }}</span>
+    </a>
+
+    <!-- Non-clickable span -->
+    <span 
+      *ngIf="!bubaResult.routePath || bubaResult.routePath === '#'"
+      class="buba-text"
+      [title]="bubaResult.tooltip"
+    >
+      <i *ngIf="showIcon" [class]="bubaResult.icon" class="buba-icon"></i>
+      <span class="buba-name">{{ bubaResult.name }}</span>
+    </span>
+
+    <!-- Custom HTML content -->
+    <div 
+      *ngIf="bubaResult.html"
+      class="buba-custom-html"
+      [innerHTML]="bubaResult.html"
+    ></div>
+  </div>
+
+  <!-- Tooltip -->
+  <div 
+    *ngIf="showTooltipContent && bubaResult?.tooltip"
+    class="buba-tooltip"
+  >
+    <div class="buba-tooltip-content">
+      <pre>{{ bubaResult?.tooltip }}</pre>
+    </div>
+  </div>
+</div>

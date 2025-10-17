@@ -3451,6 +3451,92 @@ export class HcclService extends CommonRequestServiceCaller {
     };
     return this.request<any>(request);
   }
+
+  entityActionCheck(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/check",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  entityActionDoc(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/doc",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  entityActionRun(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/run",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  entityActionUi(body: SLEntityActionUiDefnRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/entityaction/ui",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  fetchBubbleContents(entity_type: string, id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/bubble/" + entity_type + "/" + id,
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  fetchMenu(entity_type: string, id: string, menu_code: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/menu/" + entity_type + "/" + id + "/" + menu_code,
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getFeatures(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/features",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  loadMergePayload(body: MergePayloadRequest): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/payload",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  loadMergePayloadGet(entity_type: string, id: string, datasets: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/payload/" + entity_type + "/" + id,
+      method: "GET",
+      params: { datasets: this.convertToString(datasets) },
+    };
+    return this.request<any>(request);
+  }
+
+  loadServiceMetadata(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/servicelib/metadata",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
 }
 
 export interface JobProcessLogGETData {
@@ -8075,11 +8161,14 @@ export interface HcclOrgSetupData {
 
 export interface OnboardOrgUserPOSTData {
   organizationId?: string;
+  firstName?: string;
+  lastName?: string;
   name?: string;
   userName?: string;
   emailAddress?: string;
   workPhone?: string;
   cellPhone?: string;
+  initialPassword?: string;
   roles?: string[];
   profileTypeCode?: string;
 }
@@ -8151,9 +8240,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
@@ -8204,5 +8293,104 @@ export interface CreateTicketSetupUIData {
   queuesMenu?: MenuControlDataList;
   workRequestTypesMenu?: MenuControlDataList;
   currentUserProfile?: HcclUserProfileGETData;
+}
+
+export interface GenericFormUI {
+  formUiType?: string;
+  title?: string;
+  description?: string;
+  schema?: any;
+  ui?: any;
+  data?: any;
+}
+
+export interface SLEntityActionUiDefnResponse {
+  ui?: GenericFormUI;
+  checkMessages?: SimpleMessageList;
+  actionMessages?: SimpleMessageList;
+  responseData?: any;
+  status?: number;
+  message?: string;
+}
+
+export interface SLEntityActionUiDefnRequest {
+  id?: string;
+  entityActionCode?: string;
+  formData?: any;
+}
+
+export interface SLControlProperty {
+  name?: string;
+  value?: any;
+  comment?: string;
+}
+
+export interface SLFeature {
+  property?: string;
+  name?: string;
+  enabled?: boolean;
+  status?: string;
+  statusInfo?: string;
+  ctrlProps?: any;
+  messages?: SimpleMessageList;
+}
+
+export interface SLFeatures {
+  features?: SLFeature[];
+}
+
+export interface MergeFieldInsertImage {
+  classUrl?: string;
+  webUrl?: string;
+  imageFileName?: string;
+  barcodeType?: string;
+  barcodeText?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageUnit?: number;
+  byteArray?: string;
+}
+
+export interface MergePayloadData {
+  datasets?: any;
+  images?: any;
+  watermarks?: any;
+}
+
+export interface MergePayloadRequest {
+  payloadName?: string;
+  entityTuples?: EntityTuple[];
+  datasets?: string[];
+  languageCode?: string;
+  usingJsonData?: boolean;
+  aspect?: string;
+}
+
+export interface MergePayloadResponse {
+  messages?: SimpleMessageList;
+  request?: MergePayloadRequest;
+  payloads?: MergePayloadData[];
+}
+
+export interface MergeWatermark {
+  watermarkText?: string;
+}
+
+export interface SLEntityDataset {
+  name?: string;
+  descrip?: string;
+  status?: number;
+}
+
+export interface SLEntityDefnGETData {
+  entityName?: string;
+  supportingMergeData?: boolean;
+  datasets?: SLEntityDataset[];
+}
+
+export interface SLServiceMetaData {
+  serviceCode?: string;
+  descrip?: string;
+  entities?: SLEntityDefnGETData[];
 }
 
