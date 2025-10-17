@@ -5,6 +5,8 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { HcclContextService } from './hccl-context.service';
 import { Logger } from '@core/services';
+import { MergePayloadResponse } from '@app/restsvc/hccl.service';
+import { MergePayloadData } from '@app/restsvc/hccl.service';
 
 export interface BubaData {
   entityName: string;
@@ -49,24 +51,27 @@ export class BubaService {
     this.logger.info('Generating buba for entity', bubaData);
 
     return forkJoin({
-      entityData: this.fetchEntityData(bubaData),
+      mergePayloadResponse: this.fetchEntityData(bubaData),
       template: this.loadTemplate(bubaData.entityName),
       context: this.hcclContextService.waitForReady$()
     }).pipe(
-      map(({ entityData, template, context }) => {
-        const metadata = this.loadEntityMetadata(entityData);
-        const routePath = this.calculateRoutePath(bubaData, context, metadata);
+      map(({ mergePayloadResponse, template, context }) => {
+        const entityData = mergePayloadResponse.payloads?.[0]?.datasets?.['d'];
+      
+        const metadata = this.loadEntityMetadata(bubaData.entityName);
+ 
+        const routePath = this.calculateRoutePath(entityData, bubaData, metadata, context);
         const name = this.calculateName(entityData, bubaData, metadata);
         const icon = this.calculateIcon(entityData, bubaData, metadata);
         const html = this.mergeTemplateWithData(template, entityData, bubaData);
-
-        return {
+        var result = {
           html,
           name,
           icon,
           routePath,
           entityData
         };
+        return result;
       }),
       catchError((error) => {
         this.logger.error('Error generating buba', error);
@@ -87,22 +92,13 @@ export class BubaService {
    * @param bubaData - The entity data to fetch
    * @returns Observable of entity data
    */
-  private fetchEntityData(bubaData: BubaData): Observable<any> {
+  private fetchEntityData(bubaData: BubaData): Observable<MergePayloadResponse> {
     // For now, we'll create a mock entity data structure
     // In a real implementation, this would call the appropriate HCCL service method
-    const mockEntityData = {
-      id: bubaData.entityId,
-      name: `${bubaData.entityName} ${bubaData.entityId}`,
-      displayName: `${bubaData.entityName} ${bubaData.entityId}`,
-      entityType: bubaData.entityName,
-      description: `Description for ${bubaData.entityName} ${bubaData.entityId}`,
-      status: 'active',
-      createdDate: new Date().toISOString(),
-      profileTypeCode: bubaData.profileTypeCode,
-      aspect: bubaData.aspect
-    };
 
-    return of(mockEntityData);
+    const entityData =  this.hcclService.loadMergePayloadGet(bubaData.entityName, bubaData.entityId, "");  
+    
+    return entityData;
   }
 
   /**
@@ -133,8 +129,7 @@ export class BubaService {
    * @param entityData - The entity data
    * @returns EntityMetadata object
    */
-  private loadEntityMetadata(entityData: any): EntityMetadata {
-    const entityName = entityData.entityType || entityData.entityName || 'unknown';
+  private loadEntityMetadata(entityName: string): EntityMetadata {
     
     // Define metadata for each entity type
     const metadataMap: { [key: string]: EntityMetadata } = {
@@ -155,7 +150,7 @@ export class BubaService {
       'catalog': {
         iconTemplate: 'fas fa-book',
         routePathTemplate: '/{dashboardType}/catalog/{entityId}',
-        nameTemplate: '{displayName}',
+        nameTemplate: '{name} {organization.name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'catalog.html'
       },
@@ -226,7 +221,7 @@ export class BubaService {
    * @param metadata - The entity metadata
    * @returns The calculated route path
    */
-  private calculateRoutePath(bubaData: BubaData, context: any, metadata: EntityMetadata): string {
+  private calculateRoutePath(entityData: any, bubaData: BubaData,  metadata: EntityMetadata, context: any): string {
     // Get the current dashboard type from context or default
     const dashboardType = context?.dashboardType || 'ecoadmin-dashboard';
     
@@ -236,18 +231,18 @@ export class BubaService {
       .replace('{entityName}', bubaData.entityName.toLowerCase())
       .replace('{entityId}', bubaData.entityId);
     
-    // Add query parameters if present
-    const queryParams: string[] = [];
-    if (bubaData.profileTypeCode) {
-      queryParams.push(`profileTypeCode=${bubaData.profileTypeCode}`);
-    }
-    if (bubaData.aspect) {
-      queryParams.push(`aspect=${bubaData.aspect}`);
-    }
+    // // Add query parameters if present
+    // const queryParams: string[] = [];
+    // if (bubaData.profileTypeCode) {
+    //   queryParams.push(`profileTypeCode=${bubaData.profileTypeCode}`);
+    // }
+    // if (bubaData.aspect) {
+    //   queryParams.push(`aspect=${bubaData.aspect}`);
+    // }
     
-    if (queryParams.length > 0) {
-      routePath += `?${queryParams.join('&')}`;
-    }
+    // if (queryParams.length > 0) {
+    //   routePath += `?${queryParams.join('&')}`;
+    // }
     
     return routePath;
   }
@@ -261,13 +256,38 @@ export class BubaService {
    */
   private calculateName(entityData: any, bubaData: BubaData, metadata: EntityMetadata): string {
     // Use metadata template to build name
-    let name = (metadata.nameTemplate || '{displayName}')
-      .replace('{displayName}', entityData.displayName || entityData.name || `${bubaData.entityName} ${bubaData.entityId}`)
-      .replace('{name}', entityData.name || `${bubaData.entityName} ${bubaData.entityId}`)
-      .replace('{entityName}', bubaData.entityName)
-      .replace('{entityId}', bubaData.entityId);
+    let name = metadata.nameTemplate || '{name}';
+    alert(entityData.name + " " + entityData.organization.name + " " + metadata.nameTemplate);
+     // Replace all template variables with actual data
+    name = name.replace(/\{([^}]+)\}/g, (match, path) => {
+      return this.resolveNestedProperty(entityData, path) || 
+             match; // Keep original if not found
+    });
     
     return name;
+  }
+
+  /**
+   * Resolve nested property from object using dot notation
+   * @param obj - The object to resolve from
+   * @param path - The dot notation path (e.g., 'organization.name')
+   * @returns The resolved value or null if not found
+   */
+  private resolveNestedProperty(obj: any, path: string): string | null {
+    if (!obj || !path) return null;
+    
+    const parts = path.split('.');
+    let current = obj;
+    
+    for (const part of parts) {
+      if (current && typeof current === 'object' && part in current) {
+        current = current[part];
+      } else {
+        return null;
+      }
+    }
+    
+    return current != null ? String(current) : null;
   }
 
   /**
@@ -292,7 +312,7 @@ export class BubaService {
     let html = template;
     
     // Replace template variables with actual data
-    const metadata = this.loadEntityMetadata(entityData);
+    const metadata = this.loadEntityMetadata(bubaData.entityName);
     const replacements: { [key: string]: string } = {
       '{{name}}': this.calculateName(entityData, bubaData, metadata),
       '{{entityId}}': bubaData.entityId,

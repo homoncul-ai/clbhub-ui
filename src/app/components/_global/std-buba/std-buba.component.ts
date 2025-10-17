@@ -22,7 +22,7 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   private bubaService = inject(BubaService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
-  
+
   bubaResult: BubaResult | null = null;
   loading: boolean = false;
   error: string | null = null;
@@ -94,26 +94,7 @@ export class StdBubaComponent implements OnInit, OnDestroy {
     this.showPopup = false;
   }
 
-  /**
-   * Get entity properties for popup display
-   */
-  getEntityProperties(): { [key: string]: any } {
-    if (!this.bubaResult?.entityData) {
-      return {};
-    }
-    
-    const props: { [key: string]: any } = {};
-    const entityData = this.bubaResult.entityData;
-    
-    // Add all properties from entityData
-    Object.keys(entityData).forEach(key => {
-      if (entityData[key] !== null && entityData[key] !== undefined) {
-        props[key] = entityData[key];
-      }
-    });
-    
-    return props;
-  }
+
 
   /**
    * Get the CSS classes for the buba container
