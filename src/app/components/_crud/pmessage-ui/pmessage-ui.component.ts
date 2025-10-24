@@ -34,6 +34,7 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
   @Input() id!: string;
   @Input() readonly: boolean = false;
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
+  @ViewChild('messageInputSection') messageInputSection!: ElementRef;
 
   // Component state
   pmessage: PMessageGETData | null = null;
@@ -94,9 +95,9 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
 
   private initializeTabs(): void {
     this.tabs = [
-      this.createTab('messages', 'Messages', '', () => this.showMessagesTab(), () => true),
+      this.createTab('messages', 'Conversation', '', () => this.showMessagesTab(), () => true),
       this.createTab('attachments', 'Attachments', '', () => this.showAttachmentsTab(), () => true),
-      this.createTab('participants', 'Participants', '', () => this.showParticipantsTab(), () => true)
+      this.createTab('participants', 'About', '', () => this.showParticipantsTab(), () => true)
     ];
   }
 
@@ -159,6 +160,8 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
         next: (results) => {
           this.messageEntries = results.searchResults || [];
           this.shouldScrollToBottom = true; // Trigger scroll to bottom after loading
+          // Also scroll to message input after a short delay to ensure DOM is updated
+          setTimeout(() => this.scrollToMessageInput(), 100);
         },
         error: (err) => {
           this.error = 'Failed to load messages: ' + (err.message || 'Unknown error');
@@ -250,6 +253,8 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
           this.uploadedAttachments = []; // Clear uploaded attachments after posting
           this.loadMessageEntries(); // Refresh messages
           this.shouldScrollToBottom = true; // Scroll to bottom after posting new message
+          // Scroll to message input after posting
+          setTimeout(() => this.scrollToMessageInput(), 200);
         },
         error: (err) => {
           this.error = 'Failed to post message: ' + (err.message || 'Unknown error');
@@ -295,6 +300,15 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
     if (this.messagesContainer) {
       const element = this.messagesContainer.nativeElement;
       element.scrollTop = element.scrollHeight;
+    }
+  }
+
+  private scrollToMessageInput(): void {
+    if (this.messageInputSection) {
+      this.messageInputSection.nativeElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
     }
   }
 
