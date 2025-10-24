@@ -285,7 +285,7 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
   getParticipantUserProfileId(participant: PMessageParticipantGETData): string {
     // Extract user profile ID from participant data
     // This might need adjustment based on actual data structure
-    return participant.id || '';
+    return participant.userProfileId || '';
   }
 
   private scrollToBottom(): void {

@@ -323,7 +323,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       } while (false);
 
       //alert("Navigating to " + routePath + " \n" + currentUrl);
-      debugger;
+      //debugger;
       this._router.navigate(routePath);
   });
   }

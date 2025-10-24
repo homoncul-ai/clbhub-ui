@@ -60,7 +60,8 @@ export class HcclUserProfileDetailsComponent implements OnInit, OnDestroy {
             this.userProfile = response.searchResults[0];
             this.loadOrganizationName();
           } else {
-            this.error = 'User profile not found';
+            console.error('findHcclUserProfiles: User profile not found', JSON.stringify(criteria));
+            this.error = 'findHcclUserProfiles: User profile not found' ;
           }
         },
         error: (err) => {
