@@ -183,6 +183,8 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
       .subscribe({
         next: (results) => {
           this.attachments = results.searchResults || [];
+          // Clear the map before repopulating to avoid duplicates
+          this.mapEntryIdToAttachments.clear();
           // collate attachments by entry id - attachemtns are type PMessageAttachmentGETData
           this.attachments.forEach((attachment: PMessageAttachmentGETData) => {
             if (this.mapEntryIdToAttachments.has(attachment.pmessageEntryId || '')) {
