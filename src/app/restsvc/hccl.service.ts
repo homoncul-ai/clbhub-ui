@@ -862,6 +862,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ExperienceTypeGETDataSearchResults>(request);
   }
 
+  createParticipant(body: ParticipantPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/participant",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getParticipantById(id: string): Observable<ParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/participant/" + id,
+      method: "GET",
+    };
+    return this.request<ParticipantGETData>(request);
+  }
+
+  updateParticipantById(id: string, body: ParticipantPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/participant/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteParticipantById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/participant/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findParticipants(body: ParticipantCriteria): Observable<ParticipantGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/participant/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ParticipantGETDataSearchResults>(request);
+  }
+
   createCLCourse(body: CLCoursePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clcourse",
@@ -3712,6 +3755,7 @@ export interface CatalogEntryInterestPOSTData {
   userProfileId: string;
   interest: number;
   notes?: string;
+  messageId?: string;
 }
 
 export interface CatalogEntryInterestGETData {
@@ -3726,6 +3770,7 @@ export interface CatalogEntryInterestGETData {
   userProfileId?: string;
   interest?: number;
   notes?: string;
+  messageId?: string;
 }
 
 export interface CatalogEntryInterestGETDataSearchResults {
@@ -3749,6 +3794,7 @@ export interface CatalogEntryInterestCriteria {
   personalStatementId?: string;
   userProfileId?: string;
   interest?: number;
+  messageId?: string;
   interestRangeMin?: number;
   interestRangeMax?: number;
 }
@@ -3760,6 +3806,7 @@ export interface CatalogEntryInterestPUTData {
   userProfileId: string;
   interest: number;
   notes?: string;
+  messageId?: string;
 }
 
 export interface CatalogEntryPOSTData {
@@ -4469,13 +4516,13 @@ export interface ExperiencePOSTData {
   businessCode: string;
   description: string;
   available: number;
-  exprienceType: RelationshipGETData;
+  exprienceTypeId: string;
+  catalogEntryId?: string;
+  currentStateCode: string;
   currentStateTransitionId?: string;
-  currentState?: string;
   currentStateDateEntered?: string;
-  voctechTaxonomy: RelationshipGETData;
-  location: RelationshipGETData;
-  registrationRules?: RelationshipGETData;
+  dateStart?: string;
+  dateEnd?: string;
   dateRegistrationStart?: string;
   dateRegistrationEnd?: string;
   maxParticipants?: number;
@@ -4493,12 +4540,10 @@ export interface ExperienceGETData {
   businessCode?: string;
   description?: string;
   available?: number;
-  exprienceType?: RelationshipGETData;
+  exprienceTypeId?: string;
+  catalogEntryId?: string;
+  currentStateCode?: string;
   currentStateTransitionId?: string;
-  currentState?: string;
-  voctechTaxonomy?: RelationshipGETData;
-  location?: RelationshipGETData;
-  registrationRules?: RelationshipGETData;
   maxParticipants?: number;
   minParticipants?: number;
 }
@@ -4522,9 +4567,13 @@ export interface ExperienceCriteria {
   name?: string;
   businessCode?: string;
   available?: number;
+  exprienceTypeId?: string;
+  catalogEntryId?: string;
+  currentStateCode?: string;
   currentStateTransitionId?: string;
-  currentState?: string;
   currentStateDateEntered?: string;
+  dateStart?: string;
+  dateEnd?: string;
   dateRegistrationStart?: string;
   dateRegistrationEnd?: string;
   maxParticipants?: number;
@@ -4537,13 +4586,13 @@ export interface ExperiencePUTData {
   businessCode: string;
   description: string;
   available: number;
-  exprienceType: RelationshipGETData;
+  exprienceTypeId: string;
+  catalogEntryId?: string;
+  currentStateCode: string;
   currentStateTransitionId?: string;
-  currentState?: string;
   currentStateDateEntered?: string;
-  voctechTaxonomy: RelationshipGETData;
-  location: RelationshipGETData;
-  registrationRules?: RelationshipGETData;
+  dateStart?: string;
+  dateEnd?: string;
   dateRegistrationStart?: string;
   dateRegistrationEnd?: string;
   maxParticipants?: number;
@@ -4557,6 +4606,7 @@ export interface ExperienceTypePOSTData {
   description: string;
   available: number;
   statePolicyCode: string;
+  experiencePolicyCode: string;
 }
 
 export interface ExperienceTypeGETData {
@@ -4570,6 +4620,7 @@ export interface ExperienceTypeGETData {
   description?: string;
   available?: number;
   statePolicyCode?: string;
+  experiencePolicyCode?: string;
 }
 
 export interface ExperienceTypeGETDataSearchResults {
@@ -4592,6 +4643,7 @@ export interface ExperienceTypeCriteria {
   businessCode?: string;
   available?: number;
   statePolicyCode?: string;
+  experiencePolicyCode?: string;
 }
 
 export interface ExperienceTypePUTData {
@@ -4600,6 +4652,91 @@ export interface ExperienceTypePUTData {
   description: string;
   available: number;
   statePolicyCode: string;
+  experiencePolicyCode: string;
+}
+
+export interface ParticipantPOSTData {
+  userProfileId: string;
+  catalogEntryInterestId?: string;
+  catalogEntryId?: string;
+  experienceId?: string;
+  messageId?: string;
+  name: string;
+  businessCode: string;
+  sequenceOrder: number;
+  comments?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  dateStart?: string;
+  dateEnd?: string;
+}
+
+export interface ParticipantGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userProfileId?: string;
+  catalogEntryInterestId?: string;
+  catalogEntryId?: string;
+  experienceId?: string;
+  messageId?: string;
+  name?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  comments?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+}
+
+export interface ParticipantGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ParticipantGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ParticipantCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  userProfileId?: string;
+  catalogEntryInterestId?: string;
+  catalogEntryId?: string;
+  experienceId?: string;
+  messageId?: string;
+  name?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  dateStart?: string;
+  dateEnd?: string;
+}
+
+export interface ParticipantPUTData {
+  userProfileId: string;
+  catalogEntryInterestId?: string;
+  catalogEntryId?: string;
+  experienceId?: string;
+  messageId?: string;
+  name: string;
+  businessCode: string;
+  sequenceOrder: number;
+  comments?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  dateStart?: string;
+  dateEnd?: string;
 }
 
 export interface CLCoursePOSTData {
@@ -5174,6 +5311,7 @@ export interface PMFileGETData {
   bucketFolderPath?: string;
   inTrash?: boolean;
   downloadFileUrl?: string;
+  downloadInternalFileUrl?: string;
 }
 
 export interface PMFileGETDataSearchResults {
@@ -8240,9 +8378,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

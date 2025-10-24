@@ -17,6 +17,7 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   @Input() aspect?: string;
   @Input() showIcon: boolean = true;
   @Input() showTooltip: boolean = true;
+  @Input() showLink: boolean = true;
   @Input() cssClass: string = '';
 
   private bubaService = inject(BubaService);
@@ -94,7 +95,26 @@ export class StdBubaComponent implements OnInit, OnDestroy {
     this.showPopup = false;
   }
 
-
+  /**
+   * Get entity properties for popup display
+   */
+  getEntityProperties(): { [key: string]: any } {
+    if (!this.bubaResult?.entityData) {
+      return {};
+    }
+    
+    const props: { [key: string]: any } = {};
+    const entityData = this.bubaResult.entityData;
+    
+    // Add all properties from entityData
+    Object.keys(entityData).forEach(key => {
+      if (entityData[key] !== null && entityData[key] !== undefined) {
+        props[key] = entityData[key];
+      }
+    });
+    
+    return props;
+  }
 
   /**
    * Get the CSS classes for the buba container

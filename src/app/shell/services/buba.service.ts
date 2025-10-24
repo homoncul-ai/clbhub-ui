@@ -257,7 +257,7 @@ export class BubaService {
   private calculateName(entityData: any, bubaData: BubaData, metadata: EntityMetadata): string {
     // Use metadata template to build name
     let name = metadata.nameTemplate || '{name}';
-    alert(entityData.name + " " + entityData.organization.name + " " + metadata.nameTemplate);
+   // alert(entityData.name + " " + entityData.organization.name + " " + metadata.nameTemplate);
      // Replace all template variables with actual data
     name = name.replace(/\{([^}]+)\}/g, (match, path) => {
       return this.resolveNestedProperty(entityData, path) || 
@@ -311,21 +311,11 @@ export class BubaService {
   private mergeTemplateWithData(template: string, entityData: any, bubaData: BubaData): string {
     let html = template;
     
-    // Replace template variables with actual data
-    const metadata = this.loadEntityMetadata(bubaData.entityName);
-    const replacements: { [key: string]: string } = {
-      '{{name}}': this.calculateName(entityData, bubaData, metadata),
-      '{{entityId}}': bubaData.entityId,
-      '{{entityName}}': bubaData.entityName,
-      '{{icon}}': this.calculateIcon(entityData, bubaData, metadata),
-      '{{description}}': entityData.description || '',
-      '{{status}}': entityData.status || 'unknown',
-      '{{displayName}}': entityData.displayName || entityData.name || `${bubaData.entityName} ${bubaData.entityId}`
-    };
-    
-    // Apply all replacements
-    Object.keys(replacements).forEach(key => {
-      html = html.replace(new RegExp(key, 'g'), replacements[key]);
+    // Replace all template variables with actual data using nested property resolution
+    html = html.replace(/\{\{([^}]+)\}\}/g, (match, path) => {
+      return this.resolveNestedProperty(entityData, path) || 
+             this.resolveNestedProperty(bubaData, path) || 
+             match; // Keep original if not found
     });
     
     return html;

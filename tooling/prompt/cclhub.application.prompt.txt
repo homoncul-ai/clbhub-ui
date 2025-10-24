@@ -1,0 +1,54 @@
+Here's a description of an application:
+HCCL Application Description
+
+Overview:
+CCLHub is an application designed to create an ecosystem within a city, connecting entities that require services or resources with those that can supply them. The primary objective is to assist students seeking vocational training and apprenticeships, particularly those who may not gain admission to traditional vocational schools. The application aims to bridge this gap by fostering a more intimate community where participants can understand and address each other's needs.
+
+Key Entities and Roles:
+Organizations:
+School: Educational institutions.
+Non-Profit: Organizations providing student services.
+Business: Entities offering employment and other opportunities.
+HcclUserProfile (Users with Login): Each user profile is associated with an organization.
+Student: Seeks classes or opportunities.
+Guidance: Advocates for students.
+Parent: Guardian of a student.
+Provider: Employee responsible for catalogs and facilitating opportunities.
+Catalog Schema:
+Catalog: Searchable collections of opportunities, owned by organizations.
+CatalogEntry: Descriptions of opportunities, categorized as:
+Class: A course offered by a school.
+Job: Employment opportunities.
+Event: Seminars, talks, fairs, concerts, etc.
+Each entry is encoded with "vocational codes" for searchability.
+HcclTeam: Groups of people.
+HcclTeamMember: An individual on a team.
+HcclTeamMemberRole: A person's specific role within the team.
+WorkRequest Schema:
+WorkRequest: Any unit of work, such as curating search results (CatalogSearch) or creating a request for another person.
+WorkRequestItem: A single, measurable unit of work within a WorkRequest. A WorkRequest is complete when all its items are completed.
+WorkItemDeliverable: Results from a single WorkRequestItem.
+WorkRequestDeliverable: Curated, collated, and described results of a WorkRequest, used to deliver news about opportunities to students.
+PersonalStatement: Captures a student's goals and desires (e.g., "I want to be a plumber"). These statements are used to search catalogs and are encoded for this purpose. Each PersonalStatement is associated with a PMessage.
+PMessage: Emulates a communication channel (like Slack). The current idea is to have one PMessage per type of Personal Statement (e.g., one for "plumber," one for "photographer"). This allows all related search results, discussions, and opportunities to roll up under a single thread. Guidance counselors can be looped into these threads, and interested parties can be added. PMessages are linked to WorkRequests, and WorkRequest deliverables are sent to students via PMessage attachments.
+Organizational Structure and Responsibilities:
+Schools: Employ "Providers" (for courses) and "Guidance" (for student advocacy).
+Businesses: Employ "Providers."
+Non-Profits: Employ "Providers" (for services, seminars, jobs) and "Advocates" (for matching people with resources).
+Organizations own and maintain the catalogs and their entries.
+Student-Centric Functionality:
+Students can search for and save opportunities.
+A "Feed" will allow students to browse opportunities.
+Guidance counselors can be requested for help in collating search results and providing information.
+Students can submit job requests to a general queue visible to employers. Employers can choose to respond and chat directly with the student. A mechanism for retracting requests upon acceptance is needed. The roles of Guidance and Parents in this process require further definition.
+
+
+Please use this description and come up with a site-map outline for a student that captures all the use cases described above.  Please ask for any clarification.     I want you to act as an experienced product developer with an eye for UI detail.   We need simplicity.
+
+For each page in the site-map I want 
+1. Page Title
+2. Use cases that the page covers
+3. Rough outline of what the page will look like.
+4. Any open questions you might have about the design you came up with .   
+
+There should be less than 15 pages in total.  Good luck

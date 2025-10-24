@@ -3632,6 +3632,192 @@
         }
       }
     },
+    "/hccl/experience/participant": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Create a new Participant.",
+        "operationId": "createParticipant_1",
+        "requestBody": {
+          "description": "New Participant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ParticipantPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/participant/{id}": {
+      "get": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Updates and existing Participant.",
+        "operationId": "updateParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated Participant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ParticipantPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Deletes an existing Participant.",
+        "operationId": "deleteParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/participant/query": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches all Participants.",
+        "operationId": "findParticipants_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ParticipantCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParticipantGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/integration_edu/clcourse": {
       "post": {
         "tags": [
@@ -16253,6 +16439,10 @@
           },
           "notes": {
             "type": "string"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -16297,6 +16487,10 @@
           },
           "notes": {
             "type": "string"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -16378,6 +16572,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "interestRangeMin": {
             "type": "integer",
             "format": "int32"
@@ -16420,6 +16618,10 @@
           },
           "notes": {
             "type": "string"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -18842,11 +19044,10 @@
         "required": [
           "available",
           "businessCode",
+          "currentStateCode",
           "description",
-          "exprienceType",
-          "location",
-          "name",
-          "voctechTaxonomy"
+          "exprienceTypeId",
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -18867,28 +19068,34 @@
             "type": "integer",
             "format": "int32"
           },
-          "exprienceType": {
-            "$ref": "#/components/schemas/RelationshipGETData"
+          "exprienceTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           },
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
           },
-          "currentState": {
-            "type": "string"
-          },
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
           },
-          "voctechTaxonomy": {
-            "$ref": "#/components/schemas/RelationshipGETData"
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
           },
-          "location": {
-            "$ref": "#/components/schemas/RelationshipGETData"
-          },
-          "registrationRules": {
-            "$ref": "#/components/schemas/RelationshipGETData"
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
           },
           "dateRegistrationStart": {
             "type": "string",
@@ -18944,24 +19151,20 @@
             "type": "integer",
             "format": "int32"
           },
-          "exprienceType": {
-            "$ref": "#/components/schemas/RelationshipGETData"
+          "exprienceTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "type": "string"
           },
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
-          },
-          "currentState": {
-            "type": "string"
-          },
-          "voctechTaxonomy": {
-            "$ref": "#/components/schemas/RelationshipGETData"
-          },
-          "location": {
-            "$ref": "#/components/schemas/RelationshipGETData"
-          },
-          "registrationRules": {
-            "$ref": "#/components/schemas/RelationshipGETData"
           },
           "maxParticipants": {
             "type": "integer",
@@ -19041,14 +19244,30 @@
             "type": "integer",
             "format": "int32"
           },
+          "exprienceTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
           },
-          "currentState": {
-            "type": "string"
-          },
           "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
             "type": "string",
             "format": "date-time"
           },
@@ -19078,11 +19297,10 @@
         "required": [
           "available",
           "businessCode",
+          "currentStateCode",
           "description",
-          "exprienceType",
-          "location",
-          "name",
-          "voctechTaxonomy"
+          "exprienceTypeId",
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -19103,28 +19321,34 @@
             "type": "integer",
             "format": "int32"
           },
-          "exprienceType": {
-            "$ref": "#/components/schemas/RelationshipGETData"
+          "exprienceTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           },
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
           },
-          "currentState": {
-            "type": "string"
-          },
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
           },
-          "voctechTaxonomy": {
-            "$ref": "#/components/schemas/RelationshipGETData"
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
           },
-          "location": {
-            "$ref": "#/components/schemas/RelationshipGETData"
-          },
-          "registrationRules": {
-            "$ref": "#/components/schemas/RelationshipGETData"
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
           },
           "dateRegistrationStart": {
             "type": "string",
@@ -19153,6 +19377,7 @@
           "available",
           "businessCode",
           "description",
+          "experiencePolicyCode",
           "name",
           "statePolicyCode"
         ],
@@ -19176,6 +19401,11 @@
             "format": "int32"
           },
           "statePolicyCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "experiencePolicyCode": {
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
@@ -19215,6 +19445,9 @@
             "format": "int32"
           },
           "statePolicyCode": {
+            "type": "string"
+          },
+          "experiencePolicyCode": {
             "type": "string"
           }
         }
@@ -19289,6 +19522,9 @@
           },
           "statePolicyCode": {
             "type": "string"
+          },
+          "experiencePolicyCode": {
+            "type": "string"
           }
         }
       },
@@ -19297,6 +19533,7 @@
           "available",
           "businessCode",
           "description",
+          "experiencePolicyCode",
           "name",
           "statePolicyCode"
         ],
@@ -19323,6 +19560,321 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "experiencePolicyCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "ParticipantPOSTData": {
+        "required": [
+          "businessCode",
+          "currentStateCode",
+          "name",
+          "sequenceOrder",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ParticipantGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ParticipantGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "ParticipantCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ParticipantPUTData": {
+        "required": [
+          "businessCode",
+          "currentStateCode",
+          "name",
+          "sequenceOrder",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -21405,6 +21957,9 @@
             "type": "boolean"
           },
           "downloadFileUrl": {
+            "type": "string"
+          },
+          "downloadInternalFileUrl": {
             "type": "string"
           }
         }
@@ -32479,13 +33034,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

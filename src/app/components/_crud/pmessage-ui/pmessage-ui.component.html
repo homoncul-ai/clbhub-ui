@@ -64,8 +64,13 @@
           </div>
           <div class="message-entry-attachments" *ngIf="this.hasAttachmentsForEntry(entry)">
             <div *ngFor="let attachment of this.getAttachmentsForEntry(entry)" class="attachment-item">
-              <span class="attachment-name">{{ attachment.attachmentEntityName || 'Unnamed Attachment' }}</span>
-              <span class="attachment-type">{{ attachment.attachmentEntityType }}</span>
+              <div class="attachment-info" *ngIf="attachment.attachmentEntityType === 'PMFile'">
+                <app-std-bubfile [entityId]="attachment.attachmentEntityId || ''"></app-std-bubfile>
+              </div>
+              <div *ngIf="attachment.attachmentEntityType !== 'PMFile'">
+                <span class="attachment-name">{{ attachment.attachmentEntityName || 'Unnamed Attachment' }}</span>
+                <span class="attachment-type">{{ attachment.attachmentEntityType }}</span>
+              </div>
             </div>
           </div>
         </div>

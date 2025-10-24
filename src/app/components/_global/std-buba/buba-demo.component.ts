@@ -16,7 +16,8 @@ import { StdBubaComponent } from './std-buba.component';
           entityName="Catalog" 
           entityId="{{ this.UUID_SENTINEL }}"
           profileTypeCode="this.getProfileTypeCode()"
-          aspect="academic">
+          aspect="academic"
+          [showLink]="false">
         </app-std-buba>
       </div>
 

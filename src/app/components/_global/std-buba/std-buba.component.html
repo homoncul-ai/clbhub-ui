@@ -22,14 +22,15 @@
       <!-- Popup window -->
       <div *ngIf="showPopup" class="buba-popup">
         <div class="buba-popup-content">
-          {{ bubaResult.html }} 
+          <!-- Render the HTML template -->
+          <div class="buba-html-content" [innerHTML]="bubaResult.html"></div>
         </div>
       </div>
     </div>
 
     <!-- Link -->
     <a 
-      *ngIf="bubaResult.routePath && bubaResult.routePath !== '#'"
+      *ngIf="showLink && bubaResult.routePath && bubaResult.routePath !== '#'"
       [href]="bubaResult.routePath"
       (click)="onBubaClick($event)"
       class="buba-link"
@@ -39,7 +40,7 @@
 
     <!-- Non-clickable text -->
     <span 
-      *ngIf="!bubaResult.routePath || bubaResult.routePath === '#'"
+      *ngIf="!showLink || !bubaResult.routePath || bubaResult.routePath === '#'"
       class="buba-text"
     >
       {{ bubaResult.name }}

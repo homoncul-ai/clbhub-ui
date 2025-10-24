@@ -1,0 +1,54 @@
+<div class="bubfile-wrapper" [class]="getBubfileClasses()">
+  <!-- Loading state -->
+  <div *ngIf="loading" class="bubfile-loading-state">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Loading...</span>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="bubfile-error-state">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- File content -->
+  <div *ngIf="pmFile && !loading && !error" class="bubfile-content">
+    <!-- Icon with popup -->
+    <div class="bubfile-icon-container" 
+         (mouseenter)="onIconMouseEnter()" 
+         (mouseleave)="onIconMouseLeave()">
+      <img *ngIf="showIcon" [src]="getFileIcon()" [alt]="pmFile.downloadAs" class="bubfile-icon">
+      
+      <!-- Popup window -->
+      <div *ngIf="showPopup" class="bubfile-popup">
+        <div class="bubfile-popup-content">
+          <h4>{{ pmFile.downloadAs }}</h4>
+          <div class="bubfile-properties">
+            <div *ngFor="let prop of getFileProperties() | keyvalue" class="bubfile-property">
+              <span class="property-name">{{ prop.key }}:</span>
+              <span class="property-value">{{ prop.value }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Link -->     
+    <a 
+      *ngIf="showLink && getFileUrl() && getFileUrl() !== '#'"
+      [href]="getFileUrl()"
+      (click)="onFileClick($event)"
+      class="bubfile-link"
+    >
+      {{ pmFile.downloadAs }}
+    </a>
+
+    <!-- Non-clickable text -->
+    <span 
+      *ngIf="!showLink || !getFileUrl() || getFileUrl() === '#'"
+      class="bubfile-text"
+    > 
+      {{ pmFile.downloadAs }}
+    </span>
+  </div>
+</div>  

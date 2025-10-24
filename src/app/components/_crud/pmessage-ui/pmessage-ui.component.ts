@@ -20,12 +20,13 @@ import { SimpleTabsetComponent, SimpleTab } from '../../_global/simple-tabset/si
 import { HcclUserProfileDetailsComponent } from '../../hccl-user-profile-details/hccl-user-profile-details.component';
 import { StdMdbFormTextareaComponent } from '../../_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { Subject, takeUntil } from 'rxjs';
+import { StdBubfileComponent } from '@app/components/_global/std-bubfile/std-bubfile.component';
 
 @Component({
   selector: 'app-pmessage-ui',
   standalone: true,
   imports: [CommonModule, FormsModule, SimpleTabsetComponent, 
-    HcclUserProfileDetailsComponent, StdMdbFormTextareaComponent],
+    HcclUserProfileDetailsComponent, StdMdbFormTextareaComponent, StdBubfileComponent],
   templateUrl: './pmessage-ui.component.html',
   styleUrl: './pmessage-ui.component.scss'
 })
