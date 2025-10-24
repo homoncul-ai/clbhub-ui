@@ -276,8 +276,11 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
   }
 
   getMessageAuthorName(entry: PMessageEntryGETData): string {
-    if (entry.createdByInfo?.name) {
-      return entry.createdByInfo.name;
+   // alert('entry ' + entry.messageParticipantId + ' participant count : ' + this.participants.length);
+    if (entry.authorUserProfileId) {
+     // alert('participant count : ' + this.participants.length);
+      const participant = this.participants.find(p => p.userProfileId === entry.authorUserProfileId);
+      return participant?.userProfile?.messageHandle || '';
     }
     return 'Unknown User';
   }

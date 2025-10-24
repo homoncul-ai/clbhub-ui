@@ -161,20 +161,20 @@
       <div *ngFor="let participant of participants" class="participant-item">
         <div class="participant-info">
           <div class="participant-header">
-            <span class="participant-name">{{ participant.createdByInfo?.name || 'Unknown Participant' }}</span>
+            <span class="participant-name">{{ participant.userProfile?.messageHandle || ' -- No User Found --' }}</span>
             <span class="participant-role">Participant</span>
           </div>
           <div class="participant-meta">
             <span class="participant-date">Joined: {{ formatDate(participant.dateCreated) }}</span>
           </div>
         </div>
-        <div class="participant-profile">
+        <!-- <div class="participant-profile">
           <app-hccl-user-profile-details 
             [userProfileId]="getParticipantUserProfileId(participant)"
             [title]="'Participant Profile'"
             [brevity]="1">
           </app-hccl-user-profile-details>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
