@@ -109,7 +109,7 @@ export class StdBubfileComponent implements OnInit, OnDestroy {
    */
   onFileClick(event: Event): void {
     const fileUrl = this.getFileUrl();
-    alert("clicking on file url: " + JSON.stringify(this.pmFile));
+    //alert("clicking on file url: " + JSON.stringify(this.pmFile));
     if (fileUrl && fileUrl !== '#') {
       event.preventDefault();
       window.open(fileUrl, '_blank');
