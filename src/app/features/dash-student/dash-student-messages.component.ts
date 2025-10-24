@@ -2,16 +2,17 @@
 // This was generated using entityName = HcclUserProfile
 // Generate the new [entityName]-group.component.ts   files using this template 
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper, HcclUserProfileCrudComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
-import { HcclService, PMessageCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, PMessageCriteria, PMessageGETData } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { PMessageListComponent } from '@app/components/_crud/pmessage/pmessage-list.component';
 import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dash-student-messages',
@@ -21,12 +22,26 @@ import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './dash-student-messages.component.html',
 })
-export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
+export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit, OnDestroy, OnChanges {  
 
   @Input() messageId: string = '';
+  private messageTab: SimpleTab | undefined;
+  private pmessage: PMessageGETData | null = null;
+  private destroy$ = new Subject<void>();
 
   constructor() {
     super();    
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['messageId'] && changes['messageId'].currentValue && this.messageTab) {
+      this.loadMessageData();
+    }
   }
 
   override ngOnInit(): void {
@@ -84,15 +99,20 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
         }
       )];
       
-      tabs.push(new SimpleTab('message', "Message", '', 
+      this.messageTab = new SimpleTab('message', "Message", '', 
         () => {
           this.router.navigate(['student-dashboard', 'messages', this.messageId, 'message']);
         },
         () => {
           return this.messageId !== null;
         }
-      ));
+      );
+      tabs.push(this.messageTab);
       
+      // Load message data if messageId is available
+      if (this.messageId) {
+        this.loadMessageData();
+      }
    
     return tabs;
   }
@@ -125,5 +145,27 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
       pageSize: 50,
       isPaging: true
     };
+  }
+
+  private loadMessageData(): void {
+    if (!this.messageId) return;
+    
+    this.hcclService.getPMessageById(this.messageId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.pmessage = data;
+          this.updateMessageTabLabel();
+        },
+        error: (err) => {
+          console.error('Failed to load message:', err);
+        }
+      });
+  }
+
+  private updateMessageTabLabel(): void {
+    if (this.messageTab && this.pmessage?.title) {
+      this.messageTab.label = this.pmessage.title;
+    }
   }
 }
