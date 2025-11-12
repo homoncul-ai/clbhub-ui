@@ -15,6 +15,7 @@ import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
 import { DashStudentMessagesComponent } from './dash-student-messages.component';
 import { DashStudentInterestsComponent } from './dash-student-interests.component';
 import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
+import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +41,7 @@ const routes: Routes = [
       { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
       { path: 'interests', component:DashStudentMessagesComponent },
 
+      { path: 'uistarter', component: UistarterHomeComponent },
 
       // { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
       // { path: 'workqueues/:queueId/:ticketId/:tabId/:workRequestItemId', component: ProviderWorkqueueGroupComponent },
@@ -67,6 +69,7 @@ const routes: Routes = [
     DashStudentMessagesComponent,
     DashStudentInterestsComponent,
     CatalogEntryModalComponent,
+    UistarterHomeComponent,
   ],
   declarations: [
     // Non-standalone components would go here

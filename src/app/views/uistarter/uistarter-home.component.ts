@@ -103,10 +103,74 @@ export class UistarterHomeComponent {
     {
       menuItem: 'UI Starter List Search',
       link: '/advocate-dashboard/uistarter/list-search-starter',
-      label: 'UIStarter List Search',
+      label: 'List with Searchbar',
       route: '/advocate-dashboard/uistarter/list-search-starter',
       componentPath: 'src/app/views/uistarter',
       componentName: 'list-search-starter'
+    },
+    {
+      menuItem: 'UI Starter List',
+      link: '/advocate-dashboard/uistarter/list-starter',
+      label: 'Basic List',
+      route: '/advocate-dashboard/uistarter/list-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'list-starter'
+    },
+    {
+      menuItem: 'UI Starter Details',
+      link: '/advocate-dashboard/uistarter/details-starter',
+      label: 'Basic Details',
+      route: '/advocate-dashboard/uistarter/details-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'details-starter'
+    },
+    {
+      menuItem: 'UI Starter Details 2 Column',
+      link: '/advocate-dashboard/uistarter/details-2col-starter',
+      label: 'Details 2 Column',
+      route: '/advocate-dashboard/uistarter/details-2col-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'details-2col-starter'
+    },
+    {
+      menuItem: 'UI Starter Details Accordion',
+      link: '/advocate-dashboard/uistarter/details-accordion-starter',
+      label: 'Details Accordion',
+      route: '/advocate-dashboard/uistarter/details-accordion-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'details-accordion-starter'
+    },
+    {
+      menuItem: 'UI Starter Details All Elements',
+      link: '/advocate-dashboard/uistarter/details-all-elements-starter',
+      label: 'Details All Elements',
+      route: '/advocate-dashboard/uistarter/details-all-elements-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'details-all-elements-starter'
+    },
+    {
+      menuItem: 'UI Starter Edit',
+      link: '/advocate-dashboard/uistarter/edit-starter',
+      label: 'Basic Edit Form',
+      route: '/advocate-dashboard/uistarter/edit-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'edit-starter'
+    },
+    {
+      menuItem: 'UI Starter Edit 2 Column',
+      link: '/advocate-dashboard/uistarter/edit-2col-starter',
+      label: 'Edit Form 2 Column',
+      route: '/advocate-dashboard/uistarter/edit-2col-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'edit-2col-starter'
+    },
+    {
+      menuItem: 'UI Starter Edit All Elements',
+      link: '/advocate-dashboard/uistarter/edit-all-elements-starter',
+      label: 'Edit Form All Elements',
+      route: '/advocate-dashboard/uistarter/edit-all-elements-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'edit-all-elements-starter'
     },
     {
       menuItem: 'UI Starter Form Test',
@@ -115,6 +179,14 @@ export class UistarterHomeComponent {
       route: '/advocate-dashboard/uistarter/form-test',
       componentPath: 'src/app/views/uistarter',
       componentName: 'uistarter-form'
+    },
+    {
+      menuItem: 'UI Starter Dashboard Cardlist',
+      link: '/advocate-dashboard/uistarter/dash-cardlist-starter',
+      label: 'Dashboard Cardlist (Kanban)',
+      route: '/advocate-dashboard/uistarter/dash-cardlist-starter',
+      componentPath: 'src/app/views/uistarter',
+      componentName: 'dash-cardlist-starter'
     }
   ];
 

@@ -15,8 +15,17 @@ import { AdvoTicketDetailsComponent } from './tickets/advo-ticket-details.compon
 import { CreateTicketComponent } from './tickets/create-ticket.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { ListSearchStarterComponent } from '../../views/uistarter/list-search-starter.component';
+import { ListStarterComponent } from '../../views/uistarter/list-starter.component';
 import { UistarterFormComponent } from '../../views/uistarter/uistarter-form.component';
 import { UistarterFormModalComponent } from '../../views/uistarter/uistarter-form-modal.component';
+import { DetailsStarterComponent } from '../../views/uistarter/details-starter.component';
+import { Details2colStarterComponent } from '../../views/uistarter/details-2col-starter.component';
+import { DetailsAccordionStarterComponent } from '../../views/uistarter/details-accordion-starter.component';
+import { DetailsAllElementsStarterComponent } from '../../views/uistarter/details-all-elements-starter.component';
+import { EditStarterComponent } from '../../views/uistarter/edit-starter.component';
+import { Edit2colStarterComponent } from '../../views/uistarter/edit-2col-starter.component';
+import { EditAllElementsStarterComponent } from '../../views/uistarter/edit-all-elements-starter.component';
+import { DashCardlistStarterComponent } from '../../views/uistarter/dash-cardlist-starter.component';
 import { OrgQueueListComponent } from '../../components/org-queue-list/org-queue-list.component';
 import { OrgQueueTixListComponent } from '../../components/org-queue-tix-list/org-queue-tix-list.component';
 
@@ -83,7 +92,16 @@ const routes: Routes = [
       { path: 'tickets/:id/:tabId', component: WorkRequestGroupComponent },
       { path: 'uistarter', component: UistarterHomeComponent },
       { path: 'uistarter/list-search-starter', component: ListSearchStarterComponent },
+      { path: 'uistarter/list-starter', component: ListStarterComponent },
       { path: 'uistarter/form-test', component: UistarterFormComponent },
+      { path: 'uistarter/details-starter', component: DetailsStarterComponent },
+      { path: 'uistarter/details-2col-starter', component: Details2colStarterComponent },
+      { path: 'uistarter/details-accordion-starter', component: DetailsAccordionStarterComponent },
+      { path: 'uistarter/details-all-elements-starter', component: DetailsAllElementsStarterComponent },
+      { path: 'uistarter/edit-starter', component: EditStarterComponent },
+      { path: 'uistarter/edit-2col-starter', component: Edit2colStarterComponent },
+      { path: 'uistarter/edit-all-elements-starter', component: EditAllElementsStarterComponent },
+      { path: 'uistarter/dash-cardlist-starter', component: DashCardlistStarterComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
       { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },
       
@@ -151,8 +169,17 @@ const routes: Routes = [
     CreateTicketComponent,
     UistarterHomeComponent,
     ListSearchStarterComponent,
+    ListStarterComponent,
     UistarterFormComponent,
     UistarterFormModalComponent,
+    DetailsStarterComponent,
+    Details2colStarterComponent,
+    DetailsAccordionStarterComponent,
+    DetailsAllElementsStarterComponent,
+    EditStarterComponent,
+    Edit2colStarterComponent,
+    EditAllElementsStarterComponent,
+    DashCardlistStarterComponent,
     OrgQueueListComponent,
     OrgQueueTixListComponent, 
     CLSchoolListComponent,  

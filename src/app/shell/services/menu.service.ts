@@ -440,6 +440,10 @@ export class MenuService {
     const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
     this.addMenuItem(menu, schedule);
     
+    // Add UI Starter
+    const uistarter = this.copyMenuItem(MENU_CONSTANTS.STUDENT_UISTARTER);
+    this.addMenuItem(menu, uistarter);
+    
     return menu;
   }
 
@@ -1440,6 +1444,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-schedule',
     icon: 'fas fa-calendar'
+  },
+  STUDENT_UISTARTER: {
+    level: 1,
+    label: 'UI Starter',
+    route: '/student-dashboard/uistarter',
+    componentPath: 'src/app/views/uistarter',
+    componentName: 'uistarter-home',
+    icon: 'fas fa-palette'
   },
   // SWCAT Dashboard Menu Items
   SWCAT_HOME: {

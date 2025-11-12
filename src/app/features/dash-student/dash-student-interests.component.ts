@@ -10,15 +10,19 @@ import { HcclUserProfileCrudWrapper, HcclUserProfileCrudComponent } from '@app/c
 import { HcclService, CatalogEntryInterestCriteria } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { CatalogEntryInterestListComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-list.component';
+import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component';
 
 @Component({
   selector: 'app-dash-student-interests',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, HcclUserProfileCrudComponent, CatalogEntryInterestListComponent],
+  imports: [CommonModule, SimpleTabsetComponent, 
+    HcclUserProfileCrudComponent, CatalogEntryInterestListComponent,
+    CatalogEntryInterestCrudComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './dash-student-interests.component.html',
 })
-export class DashStudentInterestsComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
+export class DashStudentInterestsComponent 
+extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
 
   constructor() {
     super();    

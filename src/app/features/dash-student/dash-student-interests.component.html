@@ -1,3 +1,5 @@
+
+BOOMER
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
 <div *ngIf="currentTabId === 'details'">
@@ -11,6 +13,7 @@
   <app-hccluserprofile-crud [id]="id" modeName="create"></app-hccluserprofile-crud>
 </div>
 
+
 <!--
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
@@ -23,3 +26,14 @@
   <app-hccluserprofile-crud [id]="id" modeName="fk_menu"></app-hccluserprofile-crud>
 </div>
 -->
+
+
+
+<div *ngIf="true">
+  <li>CurrentId :{{currentTabId}}</li>
+  <li>Id :{{id}}</li>
+  <li>ChildId :{{childId}} stop_screen_share  </li>
+  <li>Loading :{{loading}}</li>
+  <li>ShowingTabset :{{showingTabset}}</li>
+  <li>Tabs :{{tabs}}</li> 
+</div>
