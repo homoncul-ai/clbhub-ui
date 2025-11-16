@@ -5055,6 +5055,7 @@ export interface ResumeEntryPOSTData {
   available: number;
   dateStart?: string;
   dateEnd?: string;
+  theResumeEntryPojo?: ResumeEntryPOJO;
 }
 
 export interface ResumeEntryGETData {
@@ -5070,6 +5071,7 @@ export interface ResumeEntryGETData {
   entryMdEdited?: string;
   entryJson?: string;
   available?: number;
+  theResumeEntryPojo?: ResumeEntryPOJO;
 }
 
 export interface ResumeEntryGETDataSearchResults {

@@ -21150,6 +21150,9 @@
           "dateEnd": {
             "type": "string",
             "format": "date-time"
+          },
+          "theResumeEntryPojo": {
+            "$ref": "#/components/schemas/ResumeEntryPOJO"
           }
         }
       },
@@ -21195,6 +21198,9 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "theResumeEntryPojo": {
+            "$ref": "#/components/schemas/ResumeEntryPOJO"
           }
         }
       },

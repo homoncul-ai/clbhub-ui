@@ -1,0 +1,150 @@
+<div class="resume-builder-container">
+  <div *ngIf="isLoading" class="text-center py-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2 text-muted">Loading resume...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    <strong>Error:</strong> {{ error.message || 'Failed to load resume' }}
+  </div>
+
+  <div *ngIf="!isLoading && !error && resume">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>{{ resume.title }}</h3>
+      <button 
+        class="btn btn-primary" 
+        (click)="saveAllSections()" 
+        [disabled]="isSaving">
+        <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2"></span>
+        {{ isSaving ? 'Saving...' : 'Save All Sections' }}
+      </button>
+    </div>
+
+    <mdb-accordion [multiple]="true">
+      <div cdkDropList (cdkDropListDropped)="onSectionDrop($event)">
+        <mdb-accordion-item 
+          *ngFor="let section of sections; let i = index" 
+          cdkDrag
+          [class.cdk-drag-disabled]="!section.included"
+          [class.section-disabled]="!section.included">
+          
+          <ng-template mdbAccordionItemHeader>
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="d-flex align-items-center">
+                <span class="drag-handle me-2" cdkDragHandle>
+                  <i class="fas fa-grip-vertical"></i>
+                </span>
+                <span>{{ getSectionTag(section) }}</span>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    [id]="'included_' + section.sectionCode"
+                    [checked]="section.included !== false"
+                    (change)="section.included = !section.included">
+                  <label class="form-check-label ms-2" [for]="'included_' + section.sectionCode">
+                    Include
+                  </label>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template mdbAccordionItemBody>
+            <div class="resume-section-content">
+              <!-- Regular sections with markdown editing -->
+              <div *ngIf="!isEntriesSection(section)">
+                <div class="mb-3">
+                  <label class="form-label">Markdown Content</label>
+                  <app-std-mdb-form-textarea
+                    prefix="resumeSection"
+                    [name]="'markdown_' + section.sectionCode"
+                    [label]="'Content'"
+                    [rows]="10"
+                    [(ngModel)]="section.markdown">
+                  </app-std-mdb-form-textarea>
+                </div>
+              </div>
+
+              <!-- Entries section with special handling -->
+              <div *ngIf="isEntriesSection(section)">
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                  <h5>Resume Entries</h5>
+                  <button 
+                    class="btn btn-sm btn-primary" 
+                    (click)="openFindEntriesModal(section)">
+                    <i class="fas fa-plus me-1"></i>Find Entries
+                  </button>
+                </div>
+
+                <div 
+                  *ngIf="section.resumeEntries && section.resumeEntries.length > 0"
+                  cdkDropList
+                  (cdkDropListDropped)="onEntryDrop(section, $event)">
+                  
+                  <div 
+                    *ngFor="let entry of section.resumeEntries; let entryIndex = index"
+                    class="entry-item mb-3 p-3 border rounded"
+                    cdkDrag>
+                    
+                    <div class="d-flex align-items-start">
+                      <span class="drag-handle me-2" cdkDragHandle>
+                        <i class="fas fa-grip-vertical"></i>
+                      </span>
+                      <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <h6 class="mb-1">{{ entry.title || 'Untitled Entry' }}</h6>
+                            <p class="text-muted mb-1" *ngIf="entry.organizationName">
+                              {{ entry.organizationName }}
+                            </p>
+                            <p class="text-muted mb-1" *ngIf="entry.position">
+                              {{ entry.position }}
+                            </p>
+                            <p class="text-muted small mb-1" *ngIf="entry.dateStart || entry.dateEnd">
+                              <span *ngIf="entry.dateStart">{{ formatDate(entry.dateStart) }}</span>
+                              <span *ngIf="!entry.dateStart && entry.dateEnd">Start: Unknown</span>
+                              <span *ngIf="entry.dateStart || entry.dateEnd"> - </span>
+                              <span *ngIf="entry.dateEnd">{{ formatDate(entry.dateEnd) }}</span>
+                              <span *ngIf="!entry.dateEnd && entry.dateStart">Present</span>
+                            </p>
+                            <p class="mb-1" *ngIf="entry.description">{{ entry.description }}</p>
+                            <p class="mb-0" *ngIf="entry.resumeText">{{ entry.resumeText }}</p>
+                          </div>
+                          <button 
+                            class="btn btn-sm btn-danger"
+                            (click)="removeEntry(section, entryIndex)">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="!section.resumeEntries || section.resumeEntries.length === 0" class="text-muted text-center py-3">
+                  No entries added yet. Click "Find Entries" to add entries.
+                </div>
+
+                <div class="mt-3">
+                  <button 
+                    class="btn btn-success" 
+                    (click)="saveEntriesSection(section)"
+                    [disabled]="isSaving">
+                    <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ isSaving ? 'Saving...' : 'Save Entries' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </mdb-accordion-item>
+      </div>
+    </mdb-accordion>
+  </div>
+</div>
+

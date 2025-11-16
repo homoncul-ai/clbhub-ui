@@ -33,10 +33,7 @@
 </div>
 
 <div *ngIf="currentTabId === 'resume'">
-  <div *ngIf="resume">
-    <h3>{{ resume.title }}</h3>
-    <!-- Resume detail view will be built here -->
-  </div>
+  <app-student-personalstatement-resume [resumeId]="childId || ''"></app-student-personalstatement-resume>
 </div>
 
 <!--
