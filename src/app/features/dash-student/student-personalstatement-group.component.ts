@@ -96,6 +96,29 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     return entity;
   }
 
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+    // Check if we're on a resume route by examining URL segments
+    const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+    
+    // If the second-to-last segment is 'resume', we're on the resume tab
+    // URL structure: /baseRoute/personalStatementId/resume/resumeId
+    if (urlSegments.length >= 2) {
+      const secondToLast = urlSegments[urlSegments.length - 2];
+      if (secondToLast === 'resume') {
+        // Extract the resume ID (childId) from the last segment
+        const resumeId = urlSegments[urlSegments.length - 1];
+        if (resumeId && resumeId !== 'resume') {
+          this.childId = resumeId;
+        }
+       // alert("resume :" + this.childId + " " + this.router.url);
+        return 'resume';
+      }
+    }
+    
+    // Otherwise use the default logic
+    return super.calculateTabIdFromUrl(tabId_in);
+  }
+
   protected override calculateTabIds(): void {
     let tabId = this.calculateTabIdFromUrl(this.tabId);
  
@@ -174,6 +197,7 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     const o = new OnRowClickBehavior();
     o.parentId = this.id;
     o.tabId = 'resume';
+    //o.alertMessage = 'Resume list: onRowClick called with resumeId: ' + this.id + ' ' + this.router.url;
     o.usingNavigateUrl = true;
     o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {
       return [baseRoute, this.id, 'resume', entityId];

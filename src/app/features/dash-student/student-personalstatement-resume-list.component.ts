@@ -62,5 +62,16 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
     };
   }
+
+  /**
+   * Override onRowClick to ensure resume navigation works correctly
+   * This will be called when clicking on any cell in a row (except select/action columns)
+   */
+  protected override onRowClick(entityId: string): void {
+    //alert('Resume list: onRowClick called with resumeId: ' + entityId + ' ' + this.router.url);
+    // Call parent implementation which uses onRowClickBehavior
+    super.onRowClick(entityId);
+  }
+
 }
 

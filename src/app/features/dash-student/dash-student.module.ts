@@ -23,6 +23,7 @@ const routes: Routes = [
     children: [
       { path: 'home', component: DashStudentHomeComponent },
       { path: 'personalstatements', component: DashStudentPersonalStatementsComponent },
+      { path: 'personalstatements/:id/:tabId/:childId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id/:tabId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
       { path: 'progress', component: DashStudentProgressComponent },
