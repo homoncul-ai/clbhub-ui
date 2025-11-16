@@ -20894,6 +20894,9 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "theResumePojo": {
+            "$ref": "#/components/schemas/ResumePOJO"
           }
         }
       },
@@ -20911,6 +20914,95 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "ResumeEntryPOJO": {
+        "type": "object",
+        "properties": {
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resumeText": {
+            "maxLength": 300,
+            "minLength": 1,
+            "type": "string"
+          },
+          "position": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResumePOJO": {
+        "type": "object",
+        "properties": {
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResumeSectionPOJO"
+            }
+          }
+        }
+      },
+      "ResumeSectionPOJO": {
+        "type": "object",
+        "properties": {
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "markdown": {
+            "type": "string"
+          },
+          "sectionCode": {
+            "type": "string"
+          },
+          "included": {
+            "type": "boolean"
+          },
+          "resumeEntries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResumeEntryPOJO"
+            }
           }
         }
       },
@@ -34611,95 +34703,6 @@
           }
         }
       },
-      "ResumeEntryPOJO": {
-        "type": "object",
-        "properties": {
-          "subjectEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "subjectEntityType": {
-            "type": "string"
-          },
-          "subjectEntityName": {
-            "type": "string"
-          },
-          "sequenceOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "entityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "maxLength": 256,
-            "minLength": 1,
-            "type": "string"
-          },
-          "description": {
-            "maxLength": 1000,
-            "minLength": 1,
-            "type": "string"
-          },
-          "resumeText": {
-            "maxLength": 300,
-            "minLength": 1,
-            "type": "string"
-          },
-          "position": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "organizationName": {
-            "type": "string"
-          },
-          "dateStart": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateEnd": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "ResumePOJO": {
-        "type": "object",
-        "properties": {
-          "sections": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResumeSectionPOJO"
-            }
-          }
-        }
-      },
-      "ResumeSectionPOJO": {
-        "type": "object",
-        "properties": {
-          "sequenceOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "markdown": {
-            "type": "string"
-          },
-          "sectionCode": {
-            "type": "string"
-          },
-          "included": {
-            "type": "boolean"
-          },
-          "resumeEntries": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ResumeEntryPOJO"
-            }
-          }
-        }
-      },
       "UtilStatGraphDataPOJO": {
         "type": "object",
         "properties": {
@@ -34846,13 +34849,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

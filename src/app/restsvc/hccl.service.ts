@@ -4982,12 +4982,40 @@ export interface PersonalStatementResumeGETData {
   resumeMdEdited?: string;
   resumeJson?: string;
   available?: number;
+  theResumePojo?: ResumePOJO;
 }
 
 export interface PersonalStatementResumeGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: PersonalStatementResumeGETData[];
   filter?: BaseCriteria;
+}
+
+export interface ResumeEntryPOJO {
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  sequenceOrder?: number;
+  entityId?: string;
+  title?: string;
+  description?: string;
+  resumeText?: string;
+  position?: string;
+  organizationName?: string;
+  dateStart?: string;
+  dateEnd?: string;
+}
+
+export interface ResumePOJO {
+  sections?: ResumeSectionPOJO[];
+}
+
+export interface ResumeSectionPOJO {
+  sequenceOrder?: number;
+  markdown?: string;
+  sectionCode?: string;
+  included?: boolean;
+  resumeEntries?: ResumeEntryPOJO[];
 }
 
 export interface PersonalStatementResumeCriteria {
@@ -8793,33 +8821,6 @@ export interface ResumeUpdateEntryPOSTData {
   entryJson?: string;
 }
 
-export interface ResumeEntryPOJO {
-  subjectEntityId?: string;
-  subjectEntityType?: string;
-  subjectEntityName?: string;
-  sequenceOrder?: number;
-  entityId?: string;
-  title?: string;
-  description?: string;
-  resumeText?: string;
-  position?: string;
-  organizationName?: string;
-  dateStart?: string;
-  dateEnd?: string;
-}
-
-export interface ResumePOJO {
-  sections?: ResumeSectionPOJO[];
-}
-
-export interface ResumeSectionPOJO {
-  sequenceOrder?: number;
-  markdown?: string;
-  sectionCode?: string;
-  included?: boolean;
-  resumeEntries?: ResumeEntryPOJO[];
-}
-
 export interface UtilStatGraphDataPOJO {
   id?: string;
   name?: string;
@@ -8864,9 +8865,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {
