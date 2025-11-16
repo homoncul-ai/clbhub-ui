@@ -17,6 +17,28 @@
   <app-student-personalstatement-research [id]="id"></app-student-personalstatement-research>
 </div>
 
+<div *ngIf="currentTabId === 'resumes'">
+  <div class="mb-3">
+    <button class="btn btn-primary" (click)="openCreateResumeModal()">Create New Resume</button>
+  </div>
+  <app-student-personalstatement-resume-list 
+    [criteria]="getResumeCriteria()" 
+    [onRowClickBehavior]="getResumeRowClickBehavior()"
+    [showingSearch]="false" 
+    [showingSearchHeading]="false" 
+    [showingGoButton]="false" 
+    [showingAddButton]="false" 
+    [showingIdCheckbox]="false">
+  </app-student-personalstatement-resume-list>
+</div>
+
+<div *ngIf="currentTabId === 'resume'">
+  <div *ngIf="resume">
+    <h3>{{ resume.title }}</h3>
+    <!-- Resume detail view will be built here -->
+  </div>
+</div>
+
 <!--
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
