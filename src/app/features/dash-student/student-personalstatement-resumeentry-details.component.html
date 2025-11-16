@@ -1,0 +1,132 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <!-- Loading state -->
+      <div *ngIf="isLoading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading resume entry...</p>
+      </div>
+
+      <!-- Error state -->
+      <div *ngIf="error && !isLoading" class="alert alert-danger">
+        <strong>Error:</strong> {{ error.message || 'Failed to load resume entry' }}
+      </div>
+
+      <!-- Resume Entry Details -->
+      <div *ngIf="!isLoading && !error && resumeEntry" class="card">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <i class="fas fa-file-alt me-2"></i>
+            Resume Entry Details
+          </h4>
+        </div>
+        <div class="card-body">
+          <!-- Title -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Title</label>
+            <div class="form-control-plaintext">
+              {{ resumeEntry.title || 'Untitled Entry' }}
+            </div>
+          </div>
+
+          <!-- Organization Name -->
+          <div class="mb-3" *ngIf="getOrganizationName()">
+            <label class="form-label fw-bold">Organization</label>
+            <div class="form-control-plaintext">
+              {{ getOrganizationName() }}
+            </div>
+          </div>
+
+          <!-- Position -->
+          <div class="mb-3" *ngIf="getPosition()">
+            <label class="form-label fw-bold">Position</label>
+            <div class="form-control-plaintext">
+              {{ getPosition() }}
+            </div>
+          </div>
+
+          <!-- Date Range -->
+          <div class="mb-3" *ngIf="getDateStart() || getDateEnd()">
+            <label class="form-label fw-bold">Date Range</label>
+            <div class="form-control-plaintext">
+              <span *ngIf="getDateStart()">{{ getDateStart() }}</span>
+              <span *ngIf="!getDateStart() && getDateEnd()">Start: Unknown</span>
+              <span *ngIf="getDateStart() || getDateEnd()"> - </span>
+              <span *ngIf="getDateEnd()">{{ getDateEnd() }}</span>
+              <span *ngIf="!getDateEnd() && getDateStart()">Present</span>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3" *ngIf="getDescription()">
+            <label class="form-label fw-bold">Description</label>
+            <div class="form-control-plaintext">
+              {{ getDescription() }}
+            </div>
+          </div>
+
+          <!-- Resume Text -->
+          <div class="mb-3" *ngIf="getResumeText()">
+            <label class="form-label fw-bold">Resume Text</label>
+            <div class="form-control-plaintext">
+              {{ getResumeText() }}
+            </div>
+          </div>
+
+          <!-- Entry Markdown (if available) -->
+          <div class="mb-3" *ngIf="resumeEntry.entryMd">
+            <label class="form-label fw-bold">Entry Markdown</label>
+            <app-std-mdb-form-textarea 
+              prefix="resumeEntry"
+              name="entryMd"
+              [ngModel]="resumeEntry.entryMd" 
+              [readonly]="true"
+              [rows]="10">
+            </app-std-mdb-form-textarea>
+          </div>
+
+          <!-- Metadata -->
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-2">
+                <label class="form-label fw-bold small">Created By</label>
+                <div class="form-control-plaintext small">
+                  {{ resumeEntry.createdByInfo?.name || 'N/A' }}
+                </div>
+              </div>
+              <div class="mb-2">
+                <label class="form-label fw-bold small">Date Created</label>
+                <div class="form-control-plaintext small">
+                  <app-dategetdata-display [data]="resumeEntry.dateCreated"></app-dategetdata-display>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-2">
+                <label class="form-label fw-bold small">Last Updated By</label>
+                <div class="form-control-plaintext small">
+                  {{ resumeEntry.lastUpdatedByInfo?.name || 'N/A' }}
+                </div>
+              </div>
+              <div class="mb-2">
+                <label class="form-label fw-bold small">Date Last Updated</label>
+                <div class="form-control-plaintext small">
+                  <app-dategetdata-display [data]="resumeEntry.dateLastUpdated"></app-dategetdata-display>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div *ngIf="!isLoading && !error && !resumeEntry" class="alert alert-info">
+        No resume entry data available.
+      </div>
+    </div>
+  </div>
+</div>
+

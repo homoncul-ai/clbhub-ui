@@ -429,6 +429,10 @@ export class MenuService {
     const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
     
+    // Add Resume Entries as a child of Personal Statements
+    const resumeEntries = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
+    this.addChildMenuItem(courses, resumeEntries);
+    
     // Add Progress with children
     const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
     this.addMenuItem(menu, guidance);
@@ -1452,6 +1456,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/views/uistarter',
     componentName: 'uistarter-home',
     icon: 'fas fa-palette'
+  },
+  STUDENT_RESUME_ENTRIES: {
+    level: 2,
+    label: 'Resume Entries',
+    route: '/student-dashboard/resumeentries',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'student-personalstatement-resumeentry-group',
+    icon: 'fas fa-list'
   },
   // SWCAT Dashboard Menu Items
   SWCAT_HOME: {
