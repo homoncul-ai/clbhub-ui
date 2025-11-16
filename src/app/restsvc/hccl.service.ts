@@ -905,6 +905,135 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<ParticipantGETDataSearchResults>(request);
   }
 
+  createPersonalStatementResume(body: PersonalStatementResumePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/personalstatementresume",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPersonalStatementResumeById(id: string): Observable<PersonalStatementResumeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/personalstatementresume/" + id,
+      method: "GET",
+    };
+    return this.request<PersonalStatementResumeGETData>(request);
+  }
+
+  updatePersonalStatementResumeById(id: string, body: PersonalStatementResumePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/personalstatementresume/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePersonalStatementResumeById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/personalstatementresume/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPersonalStatementResumes(body: PersonalStatementResumeCriteria): Observable<PersonalStatementResumeGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/personalstatementresume/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PersonalStatementResumeGETDataSearchResults>(request);
+  }
+
+  createResumeEntry(body: ResumeEntryPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeentry",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getResumeEntryById(id: string): Observable<ResumeEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeentry/" + id,
+      method: "GET",
+    };
+    return this.request<ResumeEntryGETData>(request);
+  }
+
+  updateResumeEntryById(id: string, body: ResumeEntryPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeentry/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteResumeEntryById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeentry/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findResumeEntrys(body: ResumeEntryCriteria): Observable<ResumeEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeentry/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ResumeEntryGETDataSearchResults>(request);
+  }
+
+  createResumeUserInfo(body: ResumeUserInfoPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeuserinfo",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getResumeUserInfoById(id: string): Observable<ResumeUserInfoGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeuserinfo/" + id,
+      method: "GET",
+    };
+    return this.request<ResumeUserInfoGETData>(request);
+  }
+
+  updateResumeUserInfoById(id: string, body: ResumeUserInfoPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeuserinfo/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteResumeUserInfoById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeuserinfo/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findResumeUserInfos(body: ResumeUserInfoCriteria): Observable<ResumeUserInfoGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/experience/resumeuserinfo/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ResumeUserInfoGETDataSearchResults>(request);
+  }
+
   createCLCourse(body: CLCoursePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/integration_edu/clcourse",
@@ -1279,6 +1408,14 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pmfile/" + id,
       method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  downloadClientDocument(record_id: string, file_name: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/download/" + record_id + "/" + file_name,
+      method: "GET",
     };
     return this.request<any>(request);
   }
@@ -3211,7 +3348,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  downloadClientDocument(record_id: string, file_name: string): Observable<any> {
+  downloadClientDocumentGet(record_id: string, file_name: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/download/" + record_id + "/" + file_name,
       method: "GET",
@@ -3219,9 +3356,9 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  downloadClientDocumentPublic(record_id: string, salt: string, security_digest: string, file_name: string): Observable<any> {
+  downloadClientDocumentPublic(realm: string, record_id: string, salt: string, security_digest: string, file_name: string): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/public/dsig/" + record_id + "/" + salt + "/" + security_digest + "/" + file_name,
+      url: "/hccl/public/dsig/" + realm + "/" + record_id + "/" + salt + "/" + security_digest + "/" + file_name,
       method: "GET",
     };
     return this.request<any>(request);
@@ -3236,7 +3373,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserContextGETData>(request);
   }
 
-  getOrgSetupData(hccl_org_id: string, userId?: string): Observable<HcclOrgSetupData> {
+  getOrgSetupData(hccl_org_id: string, userId: string): Observable<HcclOrgSetupData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/onboard/" + hccl_org_id + "/setupdata",
       method: "GET",
@@ -3357,6 +3494,74 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "GET",
     };
     return this.request<WorkRequestDashboardUIGETData>(request);
+  }
+
+  addResumeEntries(id: string, body: ResumeAddEntriesPOSTData): Observable<PersonalStatementResumeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/add-entries",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PersonalStatementResumeGETData>(request);
+  }
+
+  getAvailableEntries(id: string): Observable<ResumeEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/entries/available",
+      method: "GET",
+    };
+    return this.request<ResumeEntryGETData>(request);
+  }
+
+  getFinalMarkdown(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/markdown/final",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getMarkdown(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/markdown",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
+  getResume(id: string): Observable<PersonalStatementResumeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id,
+      method: "GET",
+    };
+    return this.request<PersonalStatementResumeGETData>(request);
+  }
+
+  reorderEntries(id: string, body: ResumeReorderEntriesPOSTData): Observable<PersonalStatementResumeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/reorder-entries",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PersonalStatementResumeGETData>(request);
+  }
+
+  updateEntry(id: string, body: ResumeUpdateEntryPOSTData): Observable<PersonalStatementResumeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/update-entry",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PersonalStatementResumeGETData>(request);
+  }
+
+  updateResume(id: string, body: ResumePOJO): Observable<PersonalStatementResumeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/update",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PersonalStatementResumeGETData>(request);
   }
 
   resolveStudentDashData(): Observable<WorkRequestDashboardUIGETData> {
@@ -3482,14 +3687,6 @@ export class HcclService extends CommonRequestServiceCaller {
   checkApplicationHealth(): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/healthchecks/application",
-      method: "GET",
-    };
-    return this.request<any>(request);
-  }
-
-  downloadClientDocumentGet(record_id: string, file_name: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/pattern/download/" + record_id + "/" + file_name,
       method: "GET",
     };
     return this.request<any>(request);
@@ -3736,9 +3933,16 @@ export interface CatalogEntryGroupRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   businessCode?: string;
   nameText?: string;
   available?: number;
+}
+
+export interface CriteriaPredicateHint {
+  matchingCase?: boolean;
+  matchingLike?: boolean;
+  matchingAddWildcard?: boolean;
 }
 
 export interface CatalogEntryGroupRefPUTData {
@@ -3789,6 +3993,7 @@ export interface CatalogEntryInterestCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   catalogId?: string;
   catalogEntryId?: string;
   personalStatementId?: string;
@@ -3948,6 +4153,7 @@ export interface CatalogEntryCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   catalogId?: string;
   entryCode?: string;
   title?: string;
@@ -4085,6 +4291,7 @@ export interface CatalogEntryTagCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   catalogId?: string;
   catalogEntryId?: string;
   tagId?: string;
@@ -4147,6 +4354,7 @@ export interface CatalogSearchResultEntryCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   catalogSearchResultId?: string;
   catalogEntryId?: string;
   catalogId?: string;
@@ -4242,6 +4450,7 @@ export interface CatalogSearchResultCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   catalogId?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
@@ -4293,6 +4502,7 @@ export interface CatalogSearchCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   searchName?: string;
   businessCode?: string;
   description?: string;
@@ -4333,6 +4543,7 @@ export interface CatalogCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4394,6 +4605,7 @@ export interface CatalogTagRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   tagCode?: string;
   tagValueType?: string;
   tagMaxValue?: number;
@@ -4448,6 +4660,7 @@ export interface ExperienceLocationCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4499,6 +4712,7 @@ export interface ExperienceRegRuleCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4528,6 +4742,7 @@ export interface ExperiencePOSTData {
   maxParticipants?: number;
   minParticipants?: number;
   dateRegistrationClosed?: string;
+  metadataJson: string;
 }
 
 export interface ExperienceGETData {
@@ -4546,6 +4761,7 @@ export interface ExperienceGETData {
   currentStateTransitionId?: string;
   maxParticipants?: number;
   minParticipants?: number;
+  metadataJson?: string;
 }
 
 export interface ExperienceGETDataSearchResults {
@@ -4564,6 +4780,7 @@ export interface ExperienceCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4598,6 +4815,7 @@ export interface ExperiencePUTData {
   maxParticipants?: number;
   minParticipants?: number;
   dateRegistrationClosed?: string;
+  metadataJson: string;
 }
 
 export interface ExperienceTypePOSTData {
@@ -4639,6 +4857,7 @@ export interface ExperienceTypeCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -4707,6 +4926,7 @@ export interface ParticipantCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   userProfileId?: string;
   catalogEntryInterestId?: string;
   catalogEntryId?: string;
@@ -4737,6 +4957,180 @@ export interface ParticipantPUTData {
   currentStateDateEntered?: string;
   dateStart?: string;
   dateEnd?: string;
+}
+
+export interface PersonalStatementResumePOSTData {
+  userProfileId: string;
+  personalStatmentId: string;
+  title: string;
+  resumeMd: string;
+  resumeMdEdited?: string;
+  resumeJson: string;
+  available: number;
+}
+
+export interface PersonalStatementResumeGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userProfileId?: string;
+  personalStatmentId?: string;
+  title?: string;
+  resumeMd?: string;
+  resumeMdEdited?: string;
+  resumeJson?: string;
+  available?: number;
+}
+
+export interface PersonalStatementResumeGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PersonalStatementResumeGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PersonalStatementResumeCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  userProfileId?: string;
+  personalStatmentId?: string;
+  title?: string;
+  available?: number;
+}
+
+export interface PersonalStatementResumePUTData {
+  userProfileId: string;
+  personalStatmentId: string;
+  title: string;
+  resumeMd: string;
+  resumeMdEdited?: string;
+  resumeJson: string;
+  available: number;
+}
+
+export interface ResumeEntryPOSTData {
+  userProfileId: string;
+  participantId?: string;
+  title: string;
+  entryMd: string;
+  entryMdEdited: string;
+  entryJson: string;
+  available: number;
+  dateStart?: string;
+  dateEnd?: string;
+}
+
+export interface ResumeEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userProfileId?: string;
+  participantId?: string;
+  title?: string;
+  entryMd?: string;
+  entryMdEdited?: string;
+  entryJson?: string;
+  available?: number;
+}
+
+export interface ResumeEntryGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ResumeEntryGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ResumeEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  userProfileId?: string;
+  participantId?: string;
+  title?: string;
+  available?: number;
+  dateStart?: string;
+  dateEnd?: string;
+}
+
+export interface ResumeEntryPUTData {
+  userProfileId: string;
+  participantId?: string;
+  title: string;
+  entryMd: string;
+  entryMdEdited: string;
+  entryJson: string;
+  available: number;
+  dateStart?: string;
+  dateEnd?: string;
+}
+
+export interface ResumeUserInfoPOSTData {
+  userProfileId: string;
+  headerMd: string;
+  eduMd: string;
+  skillsMd: string;
+  projectsMd: string;
+  otherMd: string;
+}
+
+export interface ResumeUserInfoGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userProfileId?: string;
+  headerMd?: string;
+  eduMd?: string;
+  skillsMd?: string;
+  projectsMd?: string;
+  otherMd?: string;
+}
+
+export interface ResumeUserInfoGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: ResumeUserInfoGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface ResumeUserInfoCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  userProfileId?: string;
+}
+
+export interface ResumeUserInfoPUTData {
+  userProfileId: string;
+  headerMd: string;
+  eduMd: string;
+  skillsMd: string;
+  projectsMd: string;
+  otherMd: string;
 }
 
 export interface CLCoursePOSTData {
@@ -4786,6 +5180,7 @@ export interface CLCourseCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4865,6 +5260,7 @@ export interface CLGuidanceCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4945,6 +5341,7 @@ export interface CLSchoolCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -5025,6 +5422,7 @@ export interface CLStudentCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -5095,6 +5493,7 @@ export interface PMBucketFolderCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   nameText?: string;
   businessCode?: string;
   bucketName?: string;
@@ -5146,6 +5545,7 @@ export interface PMFileBlobCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   pmfileId?: string;
   pathToFile?: string;
   md5Hash?: string;
@@ -5189,6 +5589,7 @@ export interface PMFileGroupEntryCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   pmfileGroupId?: string;
   pmfileId?: string;
 }
@@ -5239,6 +5640,7 @@ export interface PMFileGroupCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   title?: string;
   instructions?: string;
   available?: boolean;
@@ -5330,6 +5732,7 @@ export interface PMFileCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   downloadAs?: string;
   folderPath?: string;
   fileAccessCode?: string;
@@ -5414,6 +5817,7 @@ export interface PMessageAttachmentCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   pmessageId?: string;
   pmessageEntryId?: string;
   attachmentEntityId?: string;
@@ -5479,6 +5883,7 @@ export interface PMessageEntryCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   pmessageId?: string;
   authorUserProfileId?: string;
   messageParticipantId?: string;
@@ -5530,6 +5935,7 @@ export interface PMessageParticipantCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   pmessageId?: string;
   userProfileId?: string;
   dateLastViewed?: string;
@@ -5588,6 +5994,7 @@ export interface PMessageCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   authorUserProfileId?: string;
   teamId?: string;
   title?: string;
@@ -5653,6 +6060,7 @@ export interface ProviderCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5707,6 +6115,7 @@ export interface ProviderTypeRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5753,6 +6162,7 @@ export interface ProviderUserCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   userCode?: string;
 }
 
@@ -5810,6 +6220,7 @@ export interface ProviderRequestCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5873,6 +6284,7 @@ export interface ProviderRequestTypeRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5939,6 +6351,7 @@ export interface StateTransitionLogCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   nameText?: string;
   transactionReferenceId?: string;
   parentId?: string;
@@ -6036,6 +6449,7 @@ export interface SwWorkProductCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -6127,6 +6541,7 @@ export interface TaxonomyEntryCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -6185,6 +6600,7 @@ export interface TaxonomyLevelCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -6239,6 +6655,7 @@ export interface TaxonomyCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -6285,6 +6702,7 @@ export interface HcclOrganizationCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6345,6 +6763,7 @@ export interface HcclOrganizationTypeRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6399,6 +6818,7 @@ export interface HcclTeamLogCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   nameText?: string;
   description?: string;
   teamId?: string;
@@ -6452,6 +6872,7 @@ export interface HcclTeamMemberRoleCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   teamId?: string;
   teamMemberId?: string;
   teamMemberRoleId?: string;
@@ -6507,6 +6928,7 @@ export interface HcclTeamMemberCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   teamId?: string;
   userId?: string;
@@ -6572,6 +6994,7 @@ export interface HcclTeamCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6630,6 +7053,7 @@ export interface HcclUserProfileRoleCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   roleCode?: string;
   userProfileId?: string;
   organizationId?: string;
@@ -6750,6 +7174,7 @@ export interface HcclUserProfileCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   userId?: string;
   userCode?: string;
   messageHandle?: string;
@@ -6810,6 +7235,7 @@ export interface HcclUserCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6864,6 +7290,7 @@ export interface TeamMemberRoleRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6910,6 +7337,7 @@ export interface TeamTypeMemberRoleRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   teamType?: RelationshipGETData;
   teamMemberRole?: RelationshipGETData;
   available?: number;
@@ -6956,6 +7384,7 @@ export interface TeamTypeRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7031,6 +7460,7 @@ export interface WorkItemDeliverableCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   workRequestId?: string;
   workRequestItemId?: string;
   parentDeliverableId?: string;
@@ -7124,6 +7554,7 @@ export interface WorkQueueCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7186,6 +7617,7 @@ export interface WorkQueueTypeRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7245,6 +7677,7 @@ export interface WorkRequestDeliverableSectionCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   workRequestDeliverableId?: string;
   sequenceOrder?: number;
   workRequestId?: string;
@@ -7309,6 +7742,7 @@ export interface WorkRequestDeliverableCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   workRequestId?: string;
   nameText?: string;
   pmfileGroupId?: string;
@@ -7360,6 +7794,7 @@ export interface WorkRequestItemCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   workRequestId?: string;
   nameText?: string;
   businessCode?: string;
@@ -7444,6 +7879,7 @@ export interface WorkRequestLogCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   nameText?: string;
   description?: string;
   transactionReferenceId?: string;
@@ -7511,6 +7947,7 @@ export interface WorkRequestRoutingReasonCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7566,6 +8003,7 @@ export interface WorkRequestCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7658,6 +8096,7 @@ export interface WorkRequestTeamCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7714,6 +8153,7 @@ export interface WorkRequestTypeRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7781,6 +8221,7 @@ export interface UtilmonLoginYearmoCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   yearmo?: string;
   orgId?: string;
   realmName?: string;
@@ -7870,6 +8311,7 @@ export interface UtilmonReportingEventCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   subject?: string;
   eventTypeCode?: string;
   realmName?: string;
@@ -7957,6 +8399,7 @@ export interface UtilmonStatCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   yearmo?: string;
   quarter?: number;
   orgId?: string;
@@ -8039,6 +8482,7 @@ export interface PersonalStatementCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8107,6 +8551,7 @@ export interface VocationEncodingInstanceCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   vocationEncodingId?: string;
   encodingName?: string;
   vocationEncodingRefId?: string;
@@ -8155,6 +8600,7 @@ export interface VocationEncodingRefCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8223,6 +8669,7 @@ export interface VocationEncodingCriteria {
   maxResults?: number;
   orderByHint?: string;
   optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
   encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;
@@ -8334,6 +8781,45 @@ export interface WorkRequestDashboardUIGETData {
   mapStats?: any;
 }
 
+export interface ResumeAddEntriesPOSTData {
+  entryIds?: string[];
+}
+
+export interface ResumeReorderEntriesPOSTData {
+  entryIds?: string[];
+}
+
+export interface ResumeUpdateEntryPOSTData {
+  entryJson?: string;
+}
+
+export interface ResumeEntryPOJO {
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  sequenceOrder?: number;
+  entityId?: string;
+  title?: string;
+  description?: string;
+  resumeText?: string;
+  position?: string;
+  organizationName?: string;
+  dateStart?: string;
+  dateEnd?: string;
+}
+
+export interface ResumePOJO {
+  sections?: ResumeSectionPOJO[];
+}
+
+export interface ResumeSectionPOJO {
+  sequenceOrder?: number;
+  markdown?: string;
+  sectionCode?: string;
+  included?: boolean;
+  resumeEntries?: ResumeEntryPOJO[];
+}
+
 export interface UtilStatGraphDataPOJO {
   id?: string;
   name?: string;
@@ -8378,9 +8864,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {

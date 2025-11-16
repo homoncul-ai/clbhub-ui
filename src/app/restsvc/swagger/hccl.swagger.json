@@ -3818,6 +3818,564 @@
         }
       }
     },
+    "/hccl/experience/personalstatementresume": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Create a new PersonalStatementResume.",
+        "operationId": "createPersonalStatementResume_1",
+        "requestBody": {
+          "description": "New PersonalStatementResume data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalStatementResumePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/personalstatementresume/{id}": {
+      "get": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPersonalStatementResumeById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Updates and existing PersonalStatementResume.",
+        "operationId": "updatePersonalStatementResumeById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PersonalStatementResume data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalStatementResumePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Deletes an existing PersonalStatementResume.",
+        "operationId": "deletePersonalStatementResumeById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/personalstatementresume/query": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches all PersonalStatementResumes.",
+        "operationId": "findPersonalStatementResumes_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalStatementResumeCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/resumeentry": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Create a new ResumeEntry.",
+        "operationId": "createResumeEntry_1",
+        "requestBody": {
+          "description": "New ResumeEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeEntryPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/resumeentry/{id}": {
+      "get": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getResumeEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeEntryGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Updates and existing ResumeEntry.",
+        "operationId": "updateResumeEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated ResumeEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeEntryPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Deletes an existing ResumeEntry.",
+        "operationId": "deleteResumeEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/resumeentry/query": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches all ResumeEntrys.",
+        "operationId": "findResumeEntrys_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeEntryCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeEntryGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/resumeuserinfo": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Create a new ResumeUserInfo.",
+        "operationId": "createResumeUserInfo_1",
+        "requestBody": {
+          "description": "New ResumeUserInfo data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeUserInfoPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/resumeuserinfo/{id}": {
+      "get": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getResumeUserInfoById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeUserInfoGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Updates and existing ResumeUserInfo.",
+        "operationId": "updateResumeUserInfoById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated ResumeUserInfo data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeUserInfoPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Deletes an existing ResumeUserInfo.",
+        "operationId": "deleteResumeUserInfoById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/experience/resumeuserinfo/query": {
+      "post": {
+        "tags": [
+          "/experience"
+        ],
+        "summary": "Fetches all ResumeUserInfos.",
+        "operationId": "findResumeUserInfos_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeUserInfoCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeUserInfoGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/integration_edu/clcourse": {
       "post": {
         "tags": [
@@ -5438,6 +5996,48 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/download/{record-id}/{file-name}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Gets the document contents.",
+        "operationId": "downloadClientDocument_2",
+        "parameters": [
+          {
+            "name": "record-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "file-name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
           "204": {
             "description": "No Content"
           },
@@ -13796,7 +14396,7 @@
           "/public"
         ],
         "summary": "Gets the document contents.",
-        "operationId": "downloadClientDocument",
+        "operationId": "downloadClientDocument_1",
         "parameters": [
           {
             "name": "record-id",
@@ -13832,7 +14432,7 @@
         }
       }
     },
-    "/hccl/public/dsig/{record-id}/{salt}/{security-digest}/{file-name}": {
+    "/hccl/public/dsig/{realm}/{record-id}/{salt}/{security-digest}/{file-name}": {
       "get": {
         "tags": [
           "/public"
@@ -13840,6 +14440,14 @@
         "summary": "Gets the document contents.",
         "operationId": "downloadClientDocumentPublic",
         "parameters": [
+          {
+            "name": "realm",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "record-id",
             "in": "path",
@@ -14503,6 +15111,308 @@
         }
       }
     },
+    "/hccl/resume/{id}/add-entries": {
+      "post": {
+        "summary": "Add resume entries to a resume",
+        "operationId": "addResumeEntries",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeAddEntriesPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/resume/{id}/entries/available": {
+      "get": {
+        "summary": "Get available resume entries that can be added (not already in resume)",
+        "operationId": "getAvailableEntries",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeEntryGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/resume/{id}/markdown/final": {
+      "get": {
+        "summary": "Get the final markdown with HTML wrapper for a resume",
+        "operationId": "getFinalMarkdown",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/resume/{id}/markdown": {
+      "get": {
+        "summary": "Get the generated markdown for a resume",
+        "operationId": "getMarkdown",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/resume/{id}": {
+      "get": {
+        "summary": "Get a resume by ID",
+        "operationId": "getResume",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/resume/{id}/reorder-entries": {
+      "post": {
+        "summary": "Reorder or remove entries in a resume",
+        "operationId": "reorderEntries",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeReorderEntriesPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/resume/{id}/update-entry": {
+      "post": {
+        "summary": "Update a specific entry in a resume",
+        "operationId": "updateEntry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumeUpdateEntryPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/resume/{id}/update": {
+      "post": {
+        "summary": "Update a resume with new ResumePOJO",
+        "operationId": "updateResume",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ResumePOJO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/students/dash-ui/guidance": {
       "get": {
         "tags": [
@@ -15098,48 +16008,6 @@
         "responses": {
           "200": {
             "description": "Ok"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/pattern/download/{record-id}/{file-name}": {
-      "get": {
-        "tags": [
-          "/pattern"
-        ],
-        "summary": "Gets the document contents.",
-        "operationId": "downloadClientDocument_1",
-        "parameters": [
-          {
-            "name": "record-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "file-name",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
           },
           "500": {
             "description": "System Error"
@@ -16365,6 +17233,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "businessCode": {
             "type": "string"
           },
@@ -16374,6 +17245,20 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "CriteriaPredicateHint": {
+        "type": "object",
+        "properties": {
+          "matchingCase": {
+            "type": "boolean"
+          },
+          "matchingLike": {
+            "type": "boolean"
+          },
+          "matchingAddWildcard": {
+            "type": "boolean"
           }
         }
       },
@@ -16551,6 +17436,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "catalogId": {
             "type": "string",
@@ -17095,6 +17983,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -17584,6 +18475,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -17796,6 +18690,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "catalogSearchResultId": {
             "type": "string",
@@ -18111,6 +19008,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -18282,6 +19182,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "searchName": {
             "type": "string"
           },
@@ -18423,6 +19326,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "organizationId": {
             "type": "string",
@@ -18635,6 +19541,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "tagCode": {
             "type": "string"
           },
@@ -18824,6 +19733,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -19000,6 +19912,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -19047,6 +19962,7 @@
           "currentStateCode",
           "description",
           "exprienceTypeId",
+          "metadataJson",
           "name"
         ],
         "type": "object",
@@ -19116,6 +20032,9 @@
           "dateRegistrationClosed": {
             "type": "string",
             "format": "date-time"
+          },
+          "metadataJson": {
+            "type": "string"
           }
         }
       },
@@ -19173,6 +20092,9 @@
           "minParticipants": {
             "type": "integer",
             "format": "int32"
+          },
+          "metadataJson": {
+            "type": "string"
           }
         }
       },
@@ -19233,6 +20155,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -19300,6 +20225,7 @@
           "currentStateCode",
           "description",
           "exprienceTypeId",
+          "metadataJson",
           "name"
         ],
         "type": "object",
@@ -19369,6 +20295,9 @@
           "dateRegistrationClosed": {
             "type": "string",
             "format": "date-time"
+          },
+          "metadataJson": {
+            "type": "string"
           }
         }
       },
@@ -19509,6 +20438,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -19757,6 +20689,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -19875,6 +20810,603 @@
           "dateEnd": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "PersonalStatementResumePOSTData": {
+        "required": [
+          "available",
+          "personalStatmentId",
+          "resumeJson",
+          "resumeMd",
+          "title",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personalStatmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resumeMd": {
+            "type": "string"
+          },
+          "resumeMdEdited": {
+            "type": "string"
+          },
+          "resumeJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PersonalStatementResumeGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personalStatmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "resumeMd": {
+            "type": "string"
+          },
+          "resumeMdEdited": {
+            "type": "string"
+          },
+          "resumeJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PersonalStatementResumeGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PersonalStatementResumeCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personalStatmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PersonalStatementResumePUTData": {
+        "required": [
+          "available",
+          "personalStatmentId",
+          "resumeJson",
+          "resumeMd",
+          "title",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personalStatmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resumeMd": {
+            "type": "string"
+          },
+          "resumeMdEdited": {
+            "type": "string"
+          },
+          "resumeJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ResumeEntryPOSTData": {
+        "required": [
+          "available",
+          "entryJson",
+          "entryMd",
+          "entryMdEdited",
+          "title",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "entryMd": {
+            "type": "string"
+          },
+          "entryMdEdited": {
+            "type": "string"
+          },
+          "entryJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResumeEntryGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "entryMd": {
+            "type": "string"
+          },
+          "entryMdEdited": {
+            "type": "string"
+          },
+          "entryJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ResumeEntryGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResumeEntryGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "ResumeEntryCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResumeEntryPUTData": {
+        "required": [
+          "available",
+          "entryJson",
+          "entryMd",
+          "entryMdEdited",
+          "title",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "entryMd": {
+            "type": "string"
+          },
+          "entryMdEdited": {
+            "type": "string"
+          },
+          "entryJson": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResumeUserInfoPOSTData": {
+        "required": [
+          "eduMd",
+          "headerMd",
+          "otherMd",
+          "projectsMd",
+          "skillsMd",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "headerMd": {
+            "type": "string"
+          },
+          "eduMd": {
+            "type": "string"
+          },
+          "skillsMd": {
+            "type": "string"
+          },
+          "projectsMd": {
+            "type": "string"
+          },
+          "otherMd": {
+            "type": "string"
+          }
+        }
+      },
+      "ResumeUserInfoGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "headerMd": {
+            "type": "string"
+          },
+          "eduMd": {
+            "type": "string"
+          },
+          "skillsMd": {
+            "type": "string"
+          },
+          "projectsMd": {
+            "type": "string"
+          },
+          "otherMd": {
+            "type": "string"
+          }
+        }
+      },
+      "ResumeUserInfoGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResumeUserInfoGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "ResumeUserInfoCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ResumeUserInfoPUTData": {
+        "required": [
+          "eduMd",
+          "headerMd",
+          "otherMd",
+          "projectsMd",
+          "skillsMd",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "headerMd": {
+            "type": "string"
+          },
+          "eduMd": {
+            "type": "string"
+          },
+          "skillsMd": {
+            "type": "string"
+          },
+          "projectsMd": {
+            "type": "string"
+          },
+          "otherMd": {
+            "type": "string"
           }
         }
       },
@@ -20049,6 +21581,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "organizationId": {
             "type": "string",
@@ -20345,6 +21880,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "organizationId": {
             "type": "string",
@@ -20644,6 +22182,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -20940,6 +22481,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -21199,6 +22743,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "nameText": {
             "type": "string"
           },
@@ -21379,6 +22926,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "pmfileId": {
             "type": "string",
             "format": "uuid"
@@ -21521,6 +23071,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "pmfileGroupId": {
             "type": "string",
@@ -21692,6 +23245,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "title": {
             "type": "string"
@@ -22022,6 +23578,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "downloadAs": {
             "type": "string"
           },
@@ -22323,6 +23882,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "pmessageId": {
             "type": "string",
             "format": "uuid"
@@ -22549,6 +24111,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "pmessageId": {
             "type": "string",
             "format": "uuid"
@@ -22718,6 +24283,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "pmessageId": {
             "type": "string",
@@ -22922,6 +24490,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "authorUserProfileId": {
             "type": "string",
@@ -23161,6 +24732,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -23355,6 +24929,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -23512,6 +25089,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "userCode": {
             "type": "string"
@@ -23717,6 +25297,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -23949,6 +25532,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -24190,6 +25776,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "nameText": {
             "type": "string"
@@ -24563,6 +26152,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -24902,6 +26494,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "nameText": {
             "type": "string"
           },
@@ -25103,6 +26698,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "nameText": {
             "type": "string"
           },
@@ -25292,6 +26890,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "nameText": {
             "type": "string"
           },
@@ -25464,6 +27065,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -25675,6 +27279,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -25863,6 +27470,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "nameText": {
             "type": "string"
           },
@@ -26049,6 +27659,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "teamId": {
             "type": "string",
@@ -26241,6 +27854,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -26486,6 +28102,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -26693,6 +28312,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "roleCode": {
             "type": "string"
@@ -27154,6 +28776,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "userId": {
             "type": "string",
             "format": "uuid"
@@ -27389,6 +29014,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -27578,6 +29206,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -27730,6 +29361,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "teamType": {
             "$ref": "#/components/schemas/RelationshipGETData"
           },
@@ -27881,6 +29515,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -28149,6 +29786,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "workRequestId": {
             "type": "string",
@@ -28491,6 +30131,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -28718,6 +30361,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -28923,6 +30569,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "workRequestDeliverableId": {
             "type": "string",
@@ -29150,6 +30799,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "workRequestId": {
             "type": "string",
             "format": "uuid"
@@ -29343,6 +30995,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "workRequestId": {
             "type": "string",
@@ -29657,6 +31312,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "nameText": {
             "type": "string"
           },
@@ -29902,6 +31560,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -30116,6 +31777,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -30463,6 +32127,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -30662,6 +32329,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -30914,6 +32584,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "yearmo": {
             "type": "string"
@@ -31252,6 +32925,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "subject": {
             "type": "string"
           },
@@ -31579,6 +33255,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "yearmo": {
             "type": "string"
           },
@@ -31885,6 +33564,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "name": {
             "type": "string"
           },
@@ -32129,6 +33811,9 @@
           "optionalDataHint": {
             "type": "string"
           },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
           "vocationEncodingId": {
             "type": "string",
             "format": "uuid"
@@ -32306,6 +33991,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "name": {
             "type": "string"
@@ -32549,6 +34237,9 @@
           },
           "optionalDataHint": {
             "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
           "encodingTypeCode": {
             "type": "string"
@@ -32888,6 +34579,127 @@
           }
         }
       },
+      "ResumeAddEntriesPOSTData": {
+        "type": "object",
+        "properties": {
+          "entryIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "ResumeReorderEntriesPOSTData": {
+        "type": "object",
+        "properties": {
+          "entryIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "ResumeUpdateEntryPOSTData": {
+        "type": "object",
+        "properties": {
+          "entryJson": {
+            "type": "string"
+          }
+        }
+      },
+      "ResumeEntryPOJO": {
+        "type": "object",
+        "properties": {
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resumeText": {
+            "maxLength": 300,
+            "minLength": 1,
+            "type": "string"
+          },
+          "position": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResumePOJO": {
+        "type": "object",
+        "properties": {
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResumeSectionPOJO"
+            }
+          }
+        }
+      },
+      "ResumeSectionPOJO": {
+        "type": "object",
+        "properties": {
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "markdown": {
+            "type": "string"
+          },
+          "sectionCode": {
+            "type": "string"
+          },
+          "included": {
+            "type": "boolean"
+          },
+          "resumeEntries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResumeEntryPOJO"
+            }
+          }
+        }
+      },
       "UtilStatGraphDataPOJO": {
         "type": "object",
         "properties": {
@@ -33034,13 +34846,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }
