@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
@@ -139,7 +139,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
     }
   `]
 })
-export class CreateResumeEntryModalComponent implements OnInit {
+export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
   
   resumeEntryForm: FormGroup;
   isLoading = false;
@@ -147,6 +147,7 @@ export class CreateResumeEntryModalComponent implements OnInit {
 
   private hcclService = inject(HcclService);
   private hcclContextService = inject(HcclContextService);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor(
     public modalRef: MdbModalRef<CreateResumeEntryModalComponent>,
@@ -164,7 +165,23 @@ export class CreateResumeEntryModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.resumeEntryForm.reset();
+    // Initialize form with empty values
+    this.resumeEntryForm.reset({
+      title: '',
+      organizationName: '',
+      position: '',
+      dateStart: '',
+      dateEnd: '',
+      description: '',
+      resumeText: ''
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // Force change detection to ensure MDBootstrap form controls are initialized
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 0);
   }
 
   get formControls() {
@@ -190,19 +207,45 @@ export class CreateResumeEntryModalComponent implements OnInit {
         title: formData.title || '',
         organizationName: formData.organizationName || '',
         position: formData.position || '',
-        dateStart: formData.dateStart || '',
-        dateEnd: formData.dateEnd || '',
+        dateStart: formData.dateStart || undefined,
+        dateEnd: formData.dateEnd || undefined,
         description: formData.description || '',
         resumeText: formData.resumeText || ''
       };
 
+      // Build markdown content from the entry data
+      // Combine title, organization, position, dates, description, and resumeText into markdown
+      let entryMdContent = '';
+      if (formData.title) {
+        entryMdContent += `# ${formData.title}\n\n`;
+      }
+      if (formData.organizationName || formData.position) {
+        entryMdContent += `**${formData.organizationName || ''}${formData.organizationName && formData.position ? ' - ' : ''}${formData.position || ''}**\n\n`;
+      }
+      if (formData.dateStart || formData.dateEnd) {
+        const dateRange = `${formData.dateStart || 'Start'} - ${formData.dateEnd || 'Present'}`;
+        entryMdContent += `*${dateRange}*\n\n`;
+      }
+      if (formData.description) {
+        entryMdContent += `${formData.description}\n\n`;
+      }
+      if (formData.resumeText) {
+        entryMdContent += `${formData.resumeText}\n\n`;
+      }
+      
+      // Ensure entryMd and entryMdEdited are not empty (required fields)
+      const entryMd = entryMdContent.trim() || formData.title || 'Resume Entry';
+      const entryMdEdited = entryMd;
+
       const resumeEntryData: ResumeEntryPOSTData = {
         userProfileId: userProfile.id,
         title: formData.title,
-        entryMd: formData.description || '',
-        entryMdEdited: formData.description || '',
-        entryJson: JSON.stringify(resumeEntryPojo),
+        entryMd: entryMd,
+        entryMdEdited: '*none*',
+        entryJson: '{}',
         available: 1,
+        dateStart: formData.dateStart || undefined,
+        dateEnd: formData.dateEnd || undefined,
         theResumeEntryPojo: resumeEntryPojo
       };
 
