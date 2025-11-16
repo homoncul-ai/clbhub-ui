@@ -15218,6 +15218,34 @@
         }
       }
     },
+    "/hccl/resume/{id}/markdown/final-html": {
+      "get": {
+        "summary": "Get the final markdown with HTML wrapper for a resume",
+        "operationId": "getFinalMarkdownHtml",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/resume/{id}/markdown": {
       "get": {
         "summary": "Get the generated markdown for a resume",
@@ -34855,13 +34883,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

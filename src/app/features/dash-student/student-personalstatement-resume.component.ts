@@ -7,6 +7,7 @@ import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { FindResumeEntriesModalComponent } from './find-resume-entries-modal.component';
+import { ViewResumeModalComponent } from './view-resume-modal.component';
 
 @Component({
   selector: 'app-student-personalstatement-resume',
@@ -255,6 +256,21 @@ export class StudentPersonalStatementResumeComponent implements OnInit {
       sections: this.sections
     };
     return JSON.stringify(currentResumePOJO, null, 2);
+  }
+
+  protected openViewResumeModal(): void {
+    if (!this.resumeId) {
+      return;
+    }
+
+    const modalRef = this.modalService.open(ViewResumeModalComponent, {
+      modalClass: 'modal-xl',
+      backdrop: true,
+      keyboard: true,
+      ignoreBackdropClick: false
+    });
+
+    modalRef.component.resumeId = this.resumeId;
   }
 }
 

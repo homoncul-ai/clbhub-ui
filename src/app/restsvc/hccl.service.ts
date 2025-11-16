@@ -3521,6 +3521,14 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  getFinalMarkdownHtml(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/resume/" + id + "/markdown/final-html",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
   getMarkdown(id: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/resume/" + id + "/markdown",
@@ -8867,9 +8875,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
