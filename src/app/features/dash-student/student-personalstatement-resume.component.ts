@@ -245,5 +245,16 @@ export class StudentPersonalStatementResumeComponent implements OnInit {
       return dateString; // Return original string if parsing fails
     }
   }
+
+  protected getResumePOJOJson(): string {
+    if (!this.resumePOJO) {
+      return '{}';
+    }
+    // Update the resumePOJO with current sections before displaying
+    const currentResumePOJO: ResumePOJO = {
+      sections: this.sections
+    };
+    return JSON.stringify(currentResumePOJO, null, 2);
+  }
 }
 

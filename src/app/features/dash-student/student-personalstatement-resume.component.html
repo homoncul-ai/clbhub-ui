@@ -145,6 +145,28 @@
         </mdb-accordion-item>
       </div>
     </mdb-accordion>
+
+    <!-- ResumePOJO JSON Display -->
+    <div class="mt-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">ResumePOJO JSON</h5>
+        </div>
+        <div class="card-body">
+          <label class="form-label">Complete ResumePOJO Structure</label>
+          <textarea 
+            class="form-control font-monospace" 
+            [value]="getResumePOJOJson()"
+            [readonly]="true"
+            rows="20"
+            style="font-size: 0.85rem; white-space: pre; overflow-wrap: normal; overflow-x: auto;">
+          </textarea>
+          <small class="form-text text-muted">
+            This displays the complete ResumePOJO structure as JSON. The data is updated when sections are modified.
+          </small>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
