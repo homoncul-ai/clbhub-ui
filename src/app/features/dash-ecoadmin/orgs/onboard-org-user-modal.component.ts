@@ -1,3 +1,4 @@
+import { HcclOrgSetupData, MenuControlDataList } from '@app/restsvc/hccl.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,11 +8,13 @@ import { HcclService, OnboardOrgUserPOSTData } from '../../../restsvc/hccl.servi
 import { StdMdbFormTextComponent } from '../../../components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbPhoneComponent } from '../../../components/_global/std-mdb-phone/std-mdb-phone.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 
 @Component({
   selector: 'app-onboard-org-user-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, StdMdbFormTextComponent, StdMdbPhoneComponent, TranslateModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, 
+    StdMdbFormTextComponent, StdMdbPhoneComponent, TranslateModule, MenuControlDataListComponent],
   templateUrl: './onboard-org-user-modal.component.html',
   styleUrls: ['./onboard-org-user-modal.component.scss']
 })
@@ -40,12 +43,40 @@ export class OnboardOrgUserModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.onboardForm.reset();
-    
-    // Get organization ID from modal data
-    if (this.modalRef && (this.modalRef as any).data) {
-      this.organizationId = (this.modalRef as any).data.organizationId;
+    this.isLoading = true;
+    // Load the dropdown info 
+    if (this.organizationId) {
+      this.loadOrgSetupData(this.organizationId);
+    } else {
+      // If no organizationId, still set loading to false to show form
+      // (though this shouldn't happen in normal flow)
+      this.isLoading = false;
+      console.warn('Organization ID not provided');
     }
   }
+
+  loadOrgSetupData(organizationId: string): void {
+    var userId = "00000000-0000-0000-0000-000000000000"
+
+    this.hcclService.getOrgSetupData(organizationId, userId)
+    .subscribe({
+      next: (osData) => {
+        this.orgSetupData = osData;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Error loading organization setup data:', error);
+      }
+    });
+  }
+  
+  orgSetupData: HcclOrgSetupData = {
+    profileTypeMenu: {
+      menuItems: []
+    } as MenuControlDataList
+  };
+
 
   get formControls() {
     return this.onboardForm.controls;

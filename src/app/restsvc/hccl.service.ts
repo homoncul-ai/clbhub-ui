@@ -3236,7 +3236,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclUserContextGETData>(request);
   }
 
-  getOrgSetupData(hccl_org_id: string, userId: string): Observable<HcclOrgSetupData> {
+  getOrgSetupData(hccl_org_id: string, userId?: string): Observable<HcclOrgSetupData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/onboard/" + hccl_org_id + "/setupdata",
       method: "GET",

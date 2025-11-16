@@ -3,15 +3,23 @@
   <span class="fa fa-times cursorPointer" (click)="onCancel()"></span>
 </div>
 
-<div class="modal-body">
+<div class="modal-body" >
   <form [formGroup]="onboardForm">
-    <div class="form-symbols-text text-end">
+    <div class="form-symbols-text text-end" *ngIf="!isLoading">
       <small class="text-muted">
         <span class="requiredField">* </span>Required fields
       </small>
     </div>
     
-    <div class="row">
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2 text-muted">Loading organization setup data...</p>
+    </div>
+    
+    <div class="row" *ngIf="!isLoading">
       <div class="col-md-12">
         <div class="col-md-10 offset-md-1">
           
@@ -63,15 +71,12 @@
             formControlName="cellPhone">
           </app-std-mdb-phone>
 
-          <!-- Profile Type Code -->
-          <app-std-mdb-form-text 
-            prefix="onboardUser" 
-            name="profileTypeCode"
-            label="Profile Type Code"
-            [required]="true"
-            [error]="error"
-            formControlName="profileTypeCode">
-          </app-std-mdb-form-text>
+          <!-- Profile Type Code should be found by calling getOrgSetupData and then 
+           pulling the orgData.profileTypeMenu, and displayint the menu using 
+           the app-menu-control-data-list component  -->
+          <app-menu-control-data-list [menuControlDataList]="orgSetupData.profileTypeMenu" 
+          [placeholder]="'Select Profile Type'" [readonly]="false" name="profileTypeCode"
+          formControlName="profileTypeCode"></app-menu-control-data-list>
 
         </div>
       </div>

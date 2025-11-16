@@ -1,19 +1,18 @@
 <div class="menu-control-dropdown">
   <select 
     [disabled]="disabled || readonly"
-    (change)="onSelectionChange($event)"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+    (blur)="onBlur()"
     class="form-select"
     [class.disabled]="disabled"
     [class.readonly]="readonly">
     
-    <option value="" [selected]="!selectedItem">
-      {{ placeholder }}
-    </option>
+    <option value="">{{ placeholder }}</option>
     
     <option 
       *ngFor="let item of menuItems" 
-      [value]="item.id"
-      [selected]="item.selected === true">
+      [value]="item.id">
       {{ item.name || 'Unnamed Item' }}
     </option>
   </select>
