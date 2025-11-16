@@ -12,6 +12,7 @@ import { OrgSchoolCrudComponent } from './org-school-crud.component';
 import { OrgSchoolStaffListComponent } from './org-school-staff-list.component';
 import { OrgSchoolStaffCrudComponent } from './org-school-staff-crud.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { overrides } from 'node_modules/chart.js/dist/core/core.defaults';
 
 @Component({
   selector: 'app-org-schools-group',
@@ -137,7 +138,7 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
     var o : OnRowClickBehavior = new OnRowClickBehavior();
     o.parentId = this.id;
     o.tabId = 'staffmember';     
-   // o.alertMessage = 'Modal to show catalog entry';
+    //o.alertMessage = 'Modal to show staff member entry';
     o.usingNavigateUrl = true;
     //o.doNotNavigate = true;
     o.getNavigateUrl = (entityId: string, baseRoute: string): any[] => {
@@ -145,4 +146,20 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
     };
     return o;
   }
+
+
+  protected override populateFromParams(params: any): void {
+    super.populateFromParams(params);
+    this.childId = params['childId'];
+//    alert('childId: ' + this.childId + " " + JSON.stringify(params));
+    
+  }
+
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+    let tabId = super.calculateTabIdFromUrl(tabId_in);
+    tabId = this.tabId;
+//    alert('tabId: ' + tabId);
+    return tabId;
+  }
+
 } 
