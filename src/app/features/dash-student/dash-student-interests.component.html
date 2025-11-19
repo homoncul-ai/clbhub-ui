@@ -2,16 +2,10 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
 <div *ngIf="currentTabId === 'details'">
-  <app-hccluserprofile-crud [id]="id" modeName="detail"></app-hccluserprofile-crud>
-
+  <app-hccluserprofile-crud [id]="currentUserProfileId" modeName="heading"></app-hccluserprofile-crud>
+  
   <app-catalogentryinterest-list [criteria]="getInterestCriteria()" [showingSearch]="false" [showingSearchHeading]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"></app-catalogentryinterest-list> 
 </div>
-
-<div *ngIf="currentTabId === 'create'">
-  <h1>Create</h1>
-  <app-hccluserprofile-crud [id]="id" modeName="create"></app-hccluserprofile-crud>
-</div>
-
 
 <!--
 <div *ngIf="currentTabId === 'debug'">

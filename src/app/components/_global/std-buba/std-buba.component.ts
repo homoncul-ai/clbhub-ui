@@ -32,6 +32,8 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.entityName && this.entityId) {
       this.loadBuba();
+    } else {
+      console.error('Entity name ' + this.entityName + " or entity id " + this.entityId + " is not set for buba component");
     }
   }
 

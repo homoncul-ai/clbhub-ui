@@ -11,13 +11,14 @@ import { HcclService, CatalogEntryInterestCriteria } from '@app/restsvc/hccl.ser
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { CatalogEntryInterestListComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-list.component';
 import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component';
+import { StdBubaComponent } from '@app/components/_global/std-buba/std-buba.component';
 
 @Component({
   selector: 'app-dash-student-interests',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, 
     HcclUserProfileCrudComponent, CatalogEntryInterestListComponent,
-    CatalogEntryInterestCrudComponent],
+    CatalogEntryInterestCrudComponent, StdBubaComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './dash-student-interests.component.html',
 })
@@ -28,6 +29,22 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
     super();    
   }
 
+  override ngOnInit(): void {
+    // For singleton behavior, always use current user profile ID
+    this.hcclContextService.refreshContext().subscribe(context => {
+      this.defaultId = context.currentUserProfileId || '';
+      this.id = this.defaultId;
+      //this.setupWorkRequestListBlocks();
+      // Call parent ngOnInit after setting the ID
+      super.ngOnInit();
+      //alert('defaultId ' + this.defaultId);
+    });
+
+  }
+  protected defaultId: string = '';
+  protected override getDefaultId(): string {
+    return this.defaultId;
+  }
   protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {
     return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
   }
