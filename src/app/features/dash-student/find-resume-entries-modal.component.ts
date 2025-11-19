@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { HcclService, ResumeEntryGETData, ResumeEntryPOJO, ResumeAddEntriesPOSTData } from '@app/restsvc/hccl.service';
+import { HcclService, ResumeEntryGETData, ResumeEntryPOJO, ResumeAddEntriesPOSTData, ResumeEntryGETDataSearchResults } from '@app/restsvc/hccl.service';
 
 @Component({
   selector: 'app-find-resume-entries-modal',
@@ -49,20 +49,7 @@ import { HcclService, ResumeEntryGETData, ResumeEntryPOJO, ResumeAddEntriesPOSTD
               <label class="form-check-label w-100" [for]="'entry_' + entry.id">
                 <div>
                   <h6 class="mb-1">{{ entry.title || 'Untitled Entry' }}</h6>
-                  <p class="text-muted mb-1" *ngIf="getEntryOrganizationName(entry)">
-                    {{ getEntryOrganizationName(entry) }}
-                  </p>
-                  <p class="text-muted mb-1" *ngIf="getEntryPosition(entry)">
-                    {{ getEntryPosition(entry) }}
-                  </p>
-                  <p class="text-muted small mb-1" *ngIf="getEntryDateStart(entry) || getEntryDateEnd(entry)">
-                    <span *ngIf="getEntryDateStart(entry)">{{ formatDate(getEntryDateStart(entry)) }}</span>
-                    <span *ngIf="!getEntryDateStart(entry) && getEntryDateEnd(entry)">Start: Unknown</span>
-                    <span *ngIf="getEntryDateStart(entry) || getEntryDateEnd(entry)"> - </span>
-                    <span *ngIf="getEntryDateEnd(entry)">{{ formatDate(getEntryDateEnd(entry)) }}</span>
-                    <span *ngIf="!getEntryDateEnd(entry) && getEntryDateStart(entry)">Present</span>
-                  </p>
-                  <p class="mb-0 small" *ngIf="getEntryDescription(entry)">{{ getEntryDescription(entry) }}</p>
+                  <textarea class="form-control" rows="3" readonly>{{ dumpEntry(entry) }}</textarea>
                 </div>
               </label>
             </div>
@@ -137,32 +124,20 @@ export class FindResumeEntriesModalComponent implements OnInit {
     this.error = null;
 
     this.hcclService.getAvailableEntries(this.resumeId!).subscribe({
-      next: (response) => {
+      next: (response0: any) => {
         // The API might return entries in entryJson or as an array
+        var response = response0 as ResumeEntryGETDataSearchResults;
         try {
-          if (Array.isArray(response)) {
-            this.availableEntries = response;
-          } else if (response && (response as any).entryJson) {
-            // Try parsing entryJson if it exists
-            const parsed = JSON.parse((response as any).entryJson);
-            if (Array.isArray(parsed)) {
-              this.availableEntries = parsed;
-            } else {
-              this.availableEntries = [response];
-            }
-          } else if (response) {
-            // Single entry or response object
-            this.availableEntries = [response];
+          if (response.searchResults) {
+            this.availableEntries = response.searchResults;
           } else {
             this.availableEntries = [];
           }
+ 
         } catch (parseError) {
           // If parsing fails, treat as single entry or empty
-          if (response) {
-            this.availableEntries = [response];
-          } else {
+          
             this.availableEntries = [];
-          }
         }
         this.isLoading = false;
       },
@@ -172,6 +147,10 @@ export class FindResumeEntriesModalComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  protected dumpEntry(entry: ResumeEntryGETData): string {
+     return JSON.stringify(entry.theResumeEntryPojo || {}, null, 2);
   }
 
   protected isEntrySelected(entry: ResumeEntryGETData): boolean {
