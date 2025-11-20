@@ -2,6 +2,12 @@
   max-width: 100%;
   width: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill parent container */
+  min-height: 400px; /* Minimum height to ensure usability */
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .search-list-title {
@@ -165,9 +171,12 @@
     border-radius: 4px;
     max-width: 100%;
     width: 100%;
-    height: auto;
-    overflow-x: auto;
-    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
+    display: flex;
+    flex-direction: column;
   }
   
   .search-list-grid .dhx_grid-header {
@@ -207,11 +216,23 @@
   .search-list-grid .dhx_grid {
       max-width: 100% !important;
       width: 100% !important;
+      overflow-x: hidden !important; /* Prevent horizontal scrolling */
   }
   
   .search-list-grid .dhx_grid__table {
       max-width: 100% !important;
-      table-layout: auto;
+      width: 100% !important;
+      table-layout: auto; /* Allow flexible column sizing */
+  }
+  
+  /* Ensure grid cells don't overflow horizontally */
+  .search-list-grid .dhx_grid-cell,
+  .search-list-grid .dhx_grid-head-cell {
+      overflow: hidden;
+      word-wrap: break-word;
+      white-space: normal;
+      max-width: 100%;
+      box-sizing: border-box;
   }
   
   .search-list-grid .dhx_grid-row {

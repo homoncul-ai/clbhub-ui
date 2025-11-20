@@ -1,5 +1,5 @@
 import { BaseCriteria } from '../../../restsvc/hccl.service';
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,7 +26,7 @@ declare const dhx: any;
   imports: [CommonModule, SimpleButtonbarComponent, MatButtonModule],
 })
 export abstract class AbstractListComponent<T, TCriteria extends BaseCriteria, TSearchResults> 
-implements OnInit, AfterViewInit {
+implements OnInit, AfterViewInit, OnDestroy {
   
   
   // [showingSearchHeading]="false" [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
@@ -62,6 +62,7 @@ implements OnInit, AfterViewInit {
   @ViewChild('searchInput') searchInput!: ElementRef;
   protected grid: any;
   protected isDhtmlxLoaded = false;
+  private resizeListener?: () => void;
 
   protected selectedId: string | null = null;
   protected showingAdvancedSearch: boolean = false;
@@ -97,6 +98,24 @@ implements OnInit, AfterViewInit {
     // If DHTMLX is already loaded, initialize the grid
     if (this.isDhtmlxLoaded) {
       this.initializeGrid();
+    }
+  }
+
+  ngOnDestroy() {
+    // Clean up resize listener
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+      this.resizeListener = undefined;
+    }
+    
+    // Destroy grid if it exists
+    if (this.grid) {
+      try {
+        this.grid.destructor();
+      } catch (error) {
+        console.error('Error destroying grid:', error);
+      }
+      this.grid = null;
     }
   }
 
@@ -137,6 +156,8 @@ implements OnInit, AfterViewInit {
     }
 
     try {
+      // Calculate available height for the grid
+      this.calculateGridHeight();
       this.setupGrid();
 
       // Attach afterRowDrop event listener
@@ -160,9 +181,32 @@ implements OnInit, AfterViewInit {
       // Load initial data
       this.loadGridData();
 
+      // Add resize listener to recalculate grid height
+      this.setupResizeListener();
+
     } catch (error) {
       console.error('Error initializing DHTMLX grid:', error);
     }
+  }
+
+  private setupResizeListener(): void {
+    // Remove existing listener if any
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
+
+    // Create new resize listener
+    this.resizeListener = () => {
+      if (this.grid && this.gridContainer?.nativeElement) {
+        this.calculateGridHeight();
+        const newHeight = (this as any)._calculatedHeight;
+        if (newHeight && newHeight !== 'auto') {
+          this.grid.setHeight(newHeight);
+        }
+      }
+    };
+
+    window.addEventListener('resize', this.resizeListener);
   }
 
   protected addGridEventListeners(grid: any) {
@@ -177,6 +221,34 @@ implements OnInit, AfterViewInit {
           this.emitSelectedIdsChange();
         }
       });
+    }
+  }
+
+  protected calculateGridHeight(): void {
+    // Calculate available height by measuring the grid container's available space
+    if (!this.gridContainer?.nativeElement) {
+      return;
+    }
+    
+    const container = this.gridContainer.nativeElement;
+    const parentElement = container.parentElement;
+    
+    if (parentElement) {
+      // Get the parent container's computed style
+      const parentRect = parentElement.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      
+      // Calculate available height: parent height minus search bar and other elements above grid
+      // Measure the space from grid container top to parent bottom
+      const gridTop = containerRect.top - parentRect.top;
+      const availableHeight = parentRect.height - gridTop - 80; // 80px for pagination and padding
+      
+      // Set minimum height to ensure grid is usable
+      const minHeight = 300;
+      const calculatedHeight = Math.max(availableHeight, minHeight);
+      
+      // Store calculated height for use in setupGrid
+      (this as any)._calculatedHeight = calculatedHeight;
     }
   }
 
@@ -198,12 +270,15 @@ implements OnInit, AfterViewInit {
     const footerCount = this.showingIdCheckbox ? entityColumns.length + 1 : entityColumns.length;
     const footer = Array(footerCount).fill({ text: '' });
 
+    // Get calculated height or use auto
+    const gridHeight = (this as any)._calculatedHeight || 'auto';
+
     // Initialize DHTMLX grid with pagination and drag and drop
     this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
       columns: columns,
       css: "search-list-grid",
-      height: "auto",
-      autoWidth: true,
+      height: gridHeight,
+      autoWidth: false, // Disable autoWidth to prevent horizontal overflow
       selection: 'row',
       editable: false,
       resizable: true,
