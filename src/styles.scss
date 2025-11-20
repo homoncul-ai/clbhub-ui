@@ -431,6 +431,12 @@ body {
   align-items: center;
 }
 
+.card-header .btn {
+  font-size: 11pt; // h4 size
+  padding: 0.375rem 0.75rem; // Just a little larger than text
+  line-height: 1.2;
+}
+
 .statement-card {
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
