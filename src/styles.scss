@@ -221,10 +221,6 @@ body {
   min-height: calc(100vh - 160px)
 }
 
-.h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6 {
-  color: var(--bs-heading-color)!important;
-  font-weight: 500
-}
 
 .text-muted {
   --bs-text-opacity: 1;
@@ -278,6 +274,26 @@ body {
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   color: var(--bs-heading-color) !important;
   font-weight: 500;
+}
+
+.h1, h1 {
+  font-size: 18pt;
+}
+
+.h2, h2 {
+  font-size: 16pt;
+}
+
+.h3, h3 {
+  font-size: 14pt;
+}
+
+.h4, h4 {
+  font-size: 13pt;
+}
+
+.h5, h5 {
+  font-size: 12pt;
 }
 
 .h6, h6 {
@@ -399,4 +415,82 @@ body {
     color: #495057;
     font-size: 1.05rem;
   }
+}
+
+// Personal Statements Component Styles
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statement-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.statement-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-actions {
+  margin-top: 1rem;
+}
+
+.card-actions .btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.25rem;
+}
+
+.card-actions .btn:last-child {
+  margin-right: 0;
+}
+
+.card-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.75rem;
+}
+
+.status-badge .badge {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.badge-active {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge-draft {
+  background-color: #6c757d;
+  color: white;
+}
+
+.badge-archived {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.modal-title {
+  color: #333;
+  font-weight: 600;
 }
