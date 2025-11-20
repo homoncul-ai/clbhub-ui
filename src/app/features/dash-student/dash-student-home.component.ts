@@ -385,10 +385,55 @@ export class DashStudentHomeComponent implements OnInit {
         console.log('Edit modal closed:', result);
         // Reload data if needed after edit
         if (result === 'saved') {
-          this.loadData();
+          this.refreshUserProfile();
         }
         this.modalRef = null;
       });
     }
+  }
+
+  /**
+   * Refresh user profile data after edit
+   */
+  private refreshUserProfile(): void {
+    const userProfileId = this.userProfile?.id;
+    if (!userProfileId) {
+      return;
+    }
+
+    // Refresh the HCCL context to get updated user profile
+    this.hcclContextService.refreshContext().subscribe({
+      next: (context) => {
+        // Update local user profile from refreshed context
+        if (context?.currentUserProfile) {
+          this.userProfile = context.currentUserProfile;
+          console.log('User profile refreshed from context:', this.userProfile);
+        } else {
+          // Fallback: reload user profile directly if context doesn't have it
+          this.hcclService.getHcclUserProfileById(userProfileId).subscribe({
+            next: (updatedProfile) => {
+              this.userProfile = updatedProfile;
+              console.log('User profile refreshed directly:', updatedProfile);
+            },
+            error: (err) => {
+              console.error('Error refreshing user profile:', err);
+            }
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error refreshing context:', err);
+        // Fallback: reload user profile directly
+        this.hcclService.getHcclUserProfileById(userProfileId).subscribe({
+          next: (updatedProfile) => {
+            this.userProfile = updatedProfile;
+            console.log('User profile refreshed directly:', updatedProfile);
+          },
+          error: (err2) => {
+            console.error('Error refreshing user profile:', err2);
+          }
+        });
+      }
+    });
   }
 }
