@@ -16,6 +16,7 @@ import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
 import { DashStudentMessagesComponent } from './dash-student-messages.component';
 import { DashStudentInterestsComponent } from './dash-student-interests.component';
 import { DashStudentInterestComponent } from './dash-student-interest.component';
+import { DashStudentResumesComponent } from './dash-student-resumes.component';
 import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 const routes: Routes = [
@@ -48,6 +49,8 @@ const routes: Routes = [
       { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
       { path: 'interests', component:DashStudentInterestsComponent },
 
+      { path: 'resumes', component: DashStudentResumesComponent },
+
       { path: 'uistarter', component: UistarterHomeComponent },
 
       // { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
@@ -76,6 +79,7 @@ const routes: Routes = [
     DashStudentMessagesComponent,
     DashStudentInterestsComponent,
     DashStudentInterestComponent,
+    DashStudentResumesComponent,
     CatalogEntryModalComponent,
     UistarterHomeComponent,
     StudentPersonalStatementResumeEntryGroupComponent,

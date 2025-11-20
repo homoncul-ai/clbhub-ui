@@ -418,21 +418,27 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.STUDENT_DASHBOARD);
     this.addMenuItem(menu, dashboard);
     
+    // Add Courses with children
+    const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
+    this.addMenuItem(menu, courses);
 
+    
+    // Add Resumes as a top-level item
+    const resumes = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUMES);
+    this.addMenuItem(menu, resumes);
+   
+   // Add Resume Entries as a child of Personal Statements
+   const resumeEntries = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
+   this.addChildMenuItem(resumes, resumeEntries);
+   
     const messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
     this.addMenuItem(menu, messages);
 
     const interests = this.copyMenuItem(MENU_CONSTANTS.STUDENT_INTERESTS);
     this.addMenuItem(menu, interests);
 
-    // Add Courses with children
-    const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
-    this.addMenuItem(menu, courses);
     
-    // Add Resume Entries as a child of Personal Statements
-    const resumeEntries = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
-    this.addChildMenuItem(courses, resumeEntries);
-    
+ 
     // Add Progress with children
     const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
     this.addMenuItem(menu, guidance);
@@ -441,8 +447,8 @@ export class MenuService {
     // this.addMenuItem(menu, progress);
     
     // Add Schedule with children
-    const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
-    this.addMenuItem(menu, schedule);
+    //const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
+    //this.addMenuItem(menu, schedule);
     
     // Add UI Starter
     const uistarter = this.copyMenuItem(MENU_CONSTANTS.STUDENT_UISTARTER);
@@ -1395,7 +1401,7 @@ EA_ORGNONPROFITS_LIST: {
   // Student Dashboard Menu Items
   STUDENT_DASHBOARD: {
     level: 1,
-    label: 'Dashboard',
+    label: 'My Dashboard',
     route: '/student-dashboard/home',
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-home',
@@ -1403,7 +1409,7 @@ EA_ORGNONPROFITS_LIST: {
   },
   STUDENT_PERSONALSTATEMENTS: {
     level: 1,
-    label: 'My Personal Statements',
+    label: 'Personal Statements',
     route: '/student-dashboard/personalstatements',
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-personalstatements',
@@ -1419,7 +1425,7 @@ EA_ORGNONPROFITS_LIST: {
   },
   STUDENT_GUIDANCE: {
     level: 1,
-    label: 'Guidance',
+    label: 'Guidance & Support',
     route: '/student-dashboard/guidance',
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-guidance',
@@ -1427,7 +1433,7 @@ EA_ORGNONPROFITS_LIST: {
   },
   STUDENT_MESSAGES: {
     level: 1,
-    label: 'Messages',
+    label: 'My Communications',
     route: '/student-dashboard/messages',
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-messages',
@@ -1439,7 +1445,7 @@ EA_ORGNONPROFITS_LIST: {
     route: '/student-dashboard/interests',
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-interests',
-    icon: 'fas fa-heart'
+    icon: ''
   },
   STUDENT_SCHEDULE: {
     level: 1,
@@ -1456,6 +1462,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/views/uistarter',
     componentName: 'uistarter-home',
     icon: 'fas fa-palette'
+  },
+  STUDENT_RESUMES: {
+    level: 1,
+    label: 'Resumes',
+    route: '/student-dashboard/resumes',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-resumes',
+    icon: 'fas fa-file-alt'
   },
   STUDENT_RESUME_ENTRIES: {
     level: 2,

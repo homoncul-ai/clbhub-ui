@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService, PersonalStatementResumeGETData, PersonalStatementResumeCriteria, PersonalStatementResumeGETDataSearchResults } from '@app/restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
+import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { Observable } from 'rxjs';
 
 /**
@@ -15,7 +16,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['../../components/_global/abstract-list/abstract-list.component.scss'],
   imports: [CommonModule]
 })
-export class StudentPersonalStatementResumeListComponent extends AbstractListComponent<PersonalStatementResumeGETData, PersonalStatementResumeCriteria, PersonalStatementResumeGETDataSearchResults> {
+export class StudentPersonalStatementResumeListComponent extends AbstractListComponent<PersonalStatementResumeGETData, PersonalStatementResumeCriteria, PersonalStatementResumeGETDataSearchResults> implements OnInit {
+  
+  @Input() personalStatementId?: string; // Optional: if provided, filter by this personal statement
+  @Input() showAllResumes: boolean = false; // If true, show all resumes for the user
   
   constructor() {
     super();
@@ -24,6 +28,14 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
     this.searchHeading = 'Resumes';
     this.showingAddButton = false; // We'll handle create via modal
     this.showingIdCheckbox = false;
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    // If showing all resumes, ensure we don't filter by personal statement
+    if (this.showAllResumes) {
+      this.personalStatementId = undefined;
+    }
   }
 
   protected getGridColumns(): any[] {
@@ -35,11 +47,42 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
   }
 
   protected createCriteria(): PersonalStatementResumeCriteria {
-    return {
+    // Start with provided criteria or create new one
+    const criteria: PersonalStatementResumeCriteria = this.criteria ? { ...this.criteria } : {
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
     };
+
+    // If personalStatementId is provided, filter by it (overrides criteria)
+    if (this.personalStatementId) {
+      criteria.personalStatmentId = this.personalStatementId;
+      // Clear userProfileId if personalStatementId is set
+      delete criteria.userProfileId;
+    } else if (this.showAllResumes) {
+      // If showing all resumes, filter by current user profile ID
+      // Note: This assumes context is ready - if not, the search will be retried
+      const userProfileId = this.hcclContextService.getCurrentUserProfileId();
+      if (userProfileId) {
+        criteria.userProfileId = userProfileId;
+      }
+      // Clear personalStatmentId if showing all resumes
+      delete criteria.personalStatmentId;
+    }
+    // If neither is set, return criteria without filters (will show all)
+
+    return criteria;
+  }
+
+  override async ngAfterViewInit(): Promise<void> {
+    await super.ngAfterViewInit();
+    
+    // Wait for context if showing all resumes and context isn't ready yet
+    if (this.showAllResumes && !this.hcclContextService.isReady()) {
+      await this.hcclContextService.waitForReady();
+      // Refresh the search with the updated criteria that includes userProfileId
+      this.onRefresh();
+    }
   }
 
   protected findEntities(criteria: PersonalStatementResumeCriteria): Observable<PersonalStatementResumeGETDataSearchResults> {

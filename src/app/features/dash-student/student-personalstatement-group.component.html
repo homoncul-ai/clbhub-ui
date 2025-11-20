@@ -22,7 +22,7 @@
     <button class="btn btn-primary" (click)="openCreateResumeModal()">Create New Resume</button>
   </div>
   <app-student-personalstatement-resume-list 
-    [criteria]="getResumeCriteria()" 
+    [personalStatementId]="id"
     [onRowClickBehavior]="getResumeRowClickBehavior()"
     [showingSearch]="false" 
     [showingSearchHeading]="false" 

@@ -17,7 +17,7 @@ import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
           <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h3 class="card-title" style="margin: 0;">
-                <i class="fas fa-heart me-2"></i>
+                <i [class]="getCatalogTypeIcon() + ' me-2'"></i>
                 {{ catalogEntryInterest?.catalogEntry?.catalogTypeCode | titlecase }} Interest
               </h3>
               <div class="button-bar" style="display: flex; gap: 10px; align-items: center;">
@@ -223,6 +223,28 @@ export class DashStudentInterestComponent implements OnInit {
       this.error = 'An unexpected error occurred. Please try again.';
       this.loading = false;
     }
+  }
+
+  /**
+   * Get the appropriate icon class based on catalog type
+   * Returns: fa-briefcase for Job, fa-graduation-cap for Course, fa-calendar-alt for Event
+   */
+  getCatalogTypeIcon(): string {
+    if (!this.catalogEntryInterest?.catalogEntry?.catalogTypeCode) {
+      return 'fas fa-heart'; // Default icon if type is unknown
+    }
+
+    const catalogTypeCode = this.catalogEntryInterest.catalogEntry.catalogTypeCode.toLowerCase();
+    
+    if (catalogTypeCode.includes('job') || catalogTypeCode.includes('position')) {
+      return 'fas fa-briefcase';
+    } else if (catalogTypeCode.includes('course') || catalogTypeCode.includes('class')) {
+      return 'fas fa-graduation-cap';
+    } else if (catalogTypeCode.includes('event') || catalogTypeCode.includes('meeting')) {
+      return 'fas fa-calendar-alt';
+    }
+    
+    return 'fas fa-heart'; // Default fallback
   }
 
   /**
