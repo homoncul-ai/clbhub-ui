@@ -1,10 +1,16 @@
 
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
-<div *ngIf="currentTabId === 'details'">
+<div *ngIf="currentTabId === 'interests'">
   <app-hccluserprofile-crud [id]="currentUserProfileId" modeName="heading"></app-hccluserprofile-crud>
   
-  <app-catalogentryinterest-list [criteria]="getInterestCriteria()" [showingSearch]="false" [showingSearchHeading]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"></app-catalogentryinterest-list> 
+  <app-catalogentryinterest-list [criteria]="getInterestCriteria()" [showingSearch]="true"
+   [showingSearchHeading]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+   [onRowClickBehavior]="onInterestRowClickBehavior()"></app-catalogentryinterest-list> 
+</div>
+
+<div *ngIf="currentTabId === 'interest'">
+  <app-catalogentryinterest-crud [id]="interestId" modeName="heading"></app-catalogentryinterest-crud>
 </div>
 
 <!--

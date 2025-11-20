@@ -42,9 +42,9 @@ const routes: Routes = [
       { path: 'messages/:messageId', redirectTo: 'messages/:messageId/message', pathMatch: 'full' },
       { path: 'messages', component:DashStudentMessagesComponent },
 
-      { path: 'interests/:interestId/:tabId', component:DashStudentMessagesComponent },
+      { path: 'interests/:interestId/:tabId', component:DashStudentInterestsComponent },
       { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
-      { path: 'interests', component:DashStudentMessagesComponent },
+      { path: 'interests', component:DashStudentInterestsComponent },
 
       { path: 'uistarter', component: UistarterHomeComponent },
 
