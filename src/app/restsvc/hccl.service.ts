@@ -3978,6 +3978,45 @@ export interface CatalogEntryInterestPOSTData {
   messageId?: string;
 }
 
+export interface CatalogEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  catalogId?: string;
+  entryCode?: string;
+  title?: string;
+  catalogTypeCode?: string;
+  entryGroupCode?: string;
+  shortDescription?: string;
+  description?: string;
+  businessNeed?: string;
+  businessSponsor?: string;
+  entryPrice?: number;
+  entryCost?: number;
+  tarotPrompt?: string;
+  notes?: string;
+  available?: number;
+  url?: string;
+  tarotFileId?: string;
+  tarotFileUrl?: string;
+  vocodeInstanceId?: string;
+  integrationEntityId?: string;
+  integrationEntityType?: string;
+  integrationEntityName?: string;
+  version?: number;
+  updateNotes?: string;
+  updatedByUserProfileId?: string;
+  referenceId?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  catalogCode?: string;
+  distance?: number;
+  distanceFromCode?: string;
+}
+
 export interface CatalogEntryInterestGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -3991,6 +4030,7 @@ export interface CatalogEntryInterestGETData {
   interest?: number;
   notes?: string;
   messageId?: string;
+  catalogEntry?: CatalogEntryGETData;
 }
 
 export interface CatalogEntryInterestGETDataSearchResults {
@@ -4063,45 +4103,6 @@ export interface CatalogEntryPOSTData {
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
-}
-
-export interface CatalogEntryGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  catalogId?: string;
-  entryCode?: string;
-  title?: string;
-  catalogTypeCode?: string;
-  entryGroupCode?: string;
-  shortDescription?: string;
-  description?: string;
-  businessNeed?: string;
-  businessSponsor?: string;
-  entryPrice?: number;
-  entryCost?: number;
-  tarotPrompt?: string;
-  notes?: string;
-  available?: number;
-  url?: string;
-  tarotFileId?: string;
-  tarotFileUrl?: string;
-  vocodeInstanceId?: string;
-  integrationEntityId?: string;
-  integrationEntityType?: string;
-  integrationEntityName?: string;
-  version?: number;
-  updateNotes?: string;
-  updatedByUserProfileId?: string;
-  referenceId?: string;
-  subjectEntityId?: string;
-  subjectEntityType?: string;
-  subjectEntityName?: string;
-  catalogCode?: string;
-  distance?: number;
-  distanceFromCode?: string;
 }
 
 export interface CatalogEntryGETDataSearchResults {

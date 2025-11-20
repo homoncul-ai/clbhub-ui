@@ -15,6 +15,7 @@ import { StudentPersonalStatementResumeEntryGroupComponent } from './student-per
 import { CatalogEntryModalComponent } from './catalog-entry-modal.component';  
 import { DashStudentMessagesComponent } from './dash-student-messages.component';
 import { DashStudentInterestsComponent } from './dash-student-interests.component';
+import { DashStudentInterestComponent } from './dash-student-interest.component';
 import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 const routes: Routes = [
@@ -42,6 +43,7 @@ const routes: Routes = [
       { path: 'messages/:messageId', redirectTo: 'messages/:messageId/message', pathMatch: 'full' },
       { path: 'messages', component:DashStudentMessagesComponent },
 
+      { path: 'interests/:interestId/interest', component:DashStudentInterestComponent },
       { path: 'interests/:interestId/:tabId', component:DashStudentInterestsComponent },
       { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
       { path: 'interests', component:DashStudentInterestsComponent },
@@ -73,6 +75,7 @@ const routes: Routes = [
     DashStudentGuidanceComponent,
     DashStudentMessagesComponent,
     DashStudentInterestsComponent,
+    DashStudentInterestComponent,
     CatalogEntryModalComponent,
     UistarterHomeComponent,
     StudentPersonalStatementResumeEntryGroupComponent,

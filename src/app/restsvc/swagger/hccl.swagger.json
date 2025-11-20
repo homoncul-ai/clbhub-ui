@@ -17389,6 +17389,130 @@
           }
         }
       },
+      "CatalogEntryGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entryCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "catalogTypeCode": {
+            "type": "string"
+          },
+          "entryGroupCode": {
+            "type": "string"
+          },
+          "shortDescription": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "businessNeed": {
+            "type": "string"
+          },
+          "businessSponsor": {
+            "type": "string"
+          },
+          "entryPrice": {
+            "type": "number"
+          },
+          "entryCost": {
+            "type": "number"
+          },
+          "tarotPrompt": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "url": {
+            "type": "string"
+          },
+          "tarotFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tarotFileUrl": {
+            "type": "string"
+          },
+          "vocodeInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "integrationEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "integrationEntityType": {
+            "type": "string"
+          },
+          "integrationEntityName": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateNotes": {
+            "type": "string"
+          },
+          "updatedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "catalogCode": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "distanceFromCode": {
+            "type": "string"
+          }
+        }
+      },
       "CatalogEntryInterestGETData": {
         "type": "object",
         "properties": {
@@ -17434,6 +17558,9 @@
           "messageId": {
             "type": "string",
             "format": "uuid"
+          },
+          "catalogEntry": {
+            "$ref": "#/components/schemas/CatalogEntryGETData"
           }
         }
       },
@@ -17714,130 +17841,6 @@
           "subjectEntityName": {
             "maxLength": 255,
             "minLength": 1,
-            "type": "string"
-          }
-        }
-      },
-      "CatalogEntryGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "catalogId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entryCode": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "catalogTypeCode": {
-            "type": "string"
-          },
-          "entryGroupCode": {
-            "type": "string"
-          },
-          "shortDescription": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "businessNeed": {
-            "type": "string"
-          },
-          "businessSponsor": {
-            "type": "string"
-          },
-          "entryPrice": {
-            "type": "number"
-          },
-          "entryCost": {
-            "type": "number"
-          },
-          "tarotPrompt": {
-            "type": "string"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "url": {
-            "type": "string"
-          },
-          "tarotFileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "tarotFileUrl": {
-            "type": "string"
-          },
-          "vocodeInstanceId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "integrationEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "integrationEntityType": {
-            "type": "string"
-          },
-          "integrationEntityName": {
-            "type": "string"
-          },
-          "version": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "updateNotes": {
-            "type": "string"
-          },
-          "updatedByUserProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "referenceId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "subjectEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "subjectEntityType": {
-            "type": "string"
-          },
-          "subjectEntityName": {
-            "type": "string"
-          },
-          "catalogCode": {
-            "type": "string"
-          },
-          "distance": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "distanceFromCode": {
             "type": "string"
           }
         }
