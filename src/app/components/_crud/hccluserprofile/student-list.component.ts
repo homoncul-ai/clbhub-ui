@@ -42,21 +42,23 @@ export class StudentListComponent extends AbstractListComponent<HcclUserProfileG
       { id: 'action', header: [{ text: 'Action', align: 'center' }], width: 150, htmlEnable: true, template: () => {
         return `<button class=\"create-ticket-btn\">Create Ticket</button>`;
       }},
+      { id: 'messageHandle', header: [{ text: 'Message Handle', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
       { id: 'userCode', header: [{ text: 'User Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'userId', header: [{ text: 'User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'profileTypeCode', header: [{ text: 'Profile Type Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+ //     { id: 'userId', header: [{ text: 'User', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+ //     { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+ //     { id: 'profileTypeCode', header: [{ text: 'Profile Type Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'userEmail', header: [{ text: 'User Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+    
       { id: 'cellPhoneNumber', header: [{ text: 'Cell Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'workPhoneNumber', header: [{ text: 'Work Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'externalUserId', header: [{ text: 'External User ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'externalUserEntityType', header: [{ text: 'External User Entity Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
-      { id: 'externalUserName', header: [{ text: 'External User Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
-      { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
+ //     { id: 'externalUserId', header: [{ text: 'External User ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+ //     { id: 'externalUserEntityType', header: [{ text: 'External User Entity Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
+ //     { id: 'externalUserName', header: [{ text: 'External User Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
+ //     { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
 //      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
   //    { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
     //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
-      { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+ //     { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
     ];
   }
 
