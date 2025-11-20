@@ -2,7 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { HcclService, HcclUserContextGETData, HcclUserProfileGETData, CLStudentGETData, CLStudentCriteria, CLSchoolGETData, CLGuidanceGETData, CLGuidanceCriteria, WorkRequestDashboardUIGETData } from '@app/restsvc/hccl.service';
+import { HcclService, HcclUserContextGETData, HcclUserProfileGETData, CLStudentGETData, CLStudentCriteria,
+   CLSchoolGETData, CLGuidanceGETData, CLGuidanceCriteria, WorkRequestDashboardUIGETData, StudentDashUIGETData, 
+   HcclTeamGETData} from '@app/restsvc/hccl.service';
 import { UserProfileEditModalComponent } from './user-profile-edit-modal.component';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -133,23 +135,20 @@ import { catchError } from 'rxjs/operators';
                         </h5>
                       </div>
                       <div class="card-body">
-                        <div *ngIf="guidanceTeam && guidanceTeam.length > 0">
+                        <div *ngIf="guidanceTeam ">
                           <div class="list-group list-group-flush">
-                            <div class="list-group-item px-0" *ngFor="let member of guidanceTeam">
-                              <h6 class="mb-1">{{ member.name || 'N/A' }}</h6>
-                              <p class="mb-1 text-muted small" *ngIf="member.jobTitle">
-                                <strong>Title:</strong> {{ member.jobTitle }}
+                            <div class="list-group-item px-0" *ngFor="let member of guidanceTeam.teamMembers">
+                              <h6 class="mb-1">{{ member.name || 'N/A' }}</h6>                            
+                              <p class="mb-1 text-muted small" *ngIf="member.userProfile?.userEmail">
+                                <strong>Email:</strong> {{ member.userProfile?.userEmail }}
                               </p>
-                              <p class="mb-1 text-muted small" *ngIf="member.userEmail">
-                                <strong>Email:</strong> {{ member.userEmail }}
-                              </p>
-                              <p class="mb-0 text-muted small" *ngIf="member.cellPhoneNumber">
+                              <!-- <p class="mb-0 text-muted small" *ngIf="member.userProfile?.cellPhoneNumber">
                                 <strong>Phone:</strong> {{ member.cellPhoneNumber }}
-                              </p>
+                              </p> -->
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="!guidanceTeam || guidanceTeam.length === 0">
+                        <div *ngIf="!guidanceTeam || guidanceTeam.teamMembers?.length === 0">
                           <p class="text-muted mb-0">No guidance team members found</p>
                         </div>
                       </div>
@@ -220,8 +219,10 @@ export class DashStudentHomeComponent implements OnInit {
   userProfile: HcclUserProfileGETData | null = null;
   student: CLStudentGETData | null = null;
   school: CLSchoolGETData | null = null;
-  guidanceTeam: CLGuidanceGETData[] = [];
-  dashUIData: WorkRequestDashboardUIGETData | null = null;
+  teams: HcclTeamGETData[] = [];
+  guidanceTeam: HcclTeamGETData | null =null;
+  dashUIData: StudentDashUIGETData | null = null;
+  guidance: CLGuidanceGETData[] = [];
 
   constructor() {
     console.log('DashStudentHomeComponent initialized');
@@ -322,12 +323,23 @@ export class DashStudentHomeComponent implements OnInit {
           console.warn('Error loading guidance team:', err);
           return of({ searchResults: [] });
         })
+      ), 
+      studentDashData: this.hcclService.resolveStudentDashData().pipe(
+        catchError(err => {
+          console.warn('Error loading student dashboard data:', err);
+          return of(null);
+        })
       )
     }).subscribe({
       next: (results) => {
         this.school = results.school;
-        this.guidanceTeam = results.guidance?.searchResults || [];
+        this.guidance = results.guidance?.searchResults || [];
         this.loading = false;
+        this.dashUIData = results.studentDashData;
+        console.log('Student dashboard data:', JSON.stringify(this.dashUIData, null, 2));
+        if (this.dashUIData?.teams && this.dashUIData.teams.length > 0) {
+          this.guidanceTeam = this.dashUIData.teams[0];
+        }
       },
       error: (err) => {
         console.error('Error loading school/guidance data:', err);

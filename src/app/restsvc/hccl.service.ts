@@ -3572,12 +3572,20 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PersonalStatementResumeGETData>(request);
   }
 
-  resolveStudentDashData(): Observable<WorkRequestDashboardUIGETData> {
+  resolveGuidanceUIData(): Observable<WorkRequestDashboardUIGETData> {
     const request: CommonServiceRequest = {
-      url: "/hccl/students/dash-ui/guidance",
+      url: "/hccl/students/dash-ui/resolve-guidance-data",
       method: "GET",
     };
     return this.request<WorkRequestDashboardUIGETData>(request);
+  }
+
+  resolveStudentDashData(): Observable<StudentDashUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/dash-ui/resolve-student-data",
+      method: "GET",
+    };
+    return this.request<StudentDashUIGETData>(request);
   }
 
   createTrutestaUsageGraph(body: UtilmonStatGraphCriteria): Observable<UtilmonStatGraphPOJO> {
@@ -8831,6 +8839,18 @@ export interface ResumeUpdateEntryPOSTData {
   entryJson?: string;
 }
 
+export interface PMessageUIGETData {
+  message?: PMessageGETData;
+  unreadEnties?: PMessageEntryGETData[];
+  unreadEntryCount?: number;
+}
+
+export interface StudentDashUIGETData {
+  messages?: PMessageUIGETData[];
+  teams?: HcclTeamGETData[];
+  personalStatements?: PersonalStatementGETData[];
+}
+
 export interface UtilStatGraphDataPOJO {
   id?: string;
   name?: string;
@@ -8875,9 +8895,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

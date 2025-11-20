@@ -199,7 +199,7 @@ export class DashStudentGuidanceComponent implements OnInit {
   }
   protected loadInfo() {
     // call resolveGuidanceUIData
-    this.hcclService.resolveStudentDashData().subscribe((data) => {
+    this.hcclService.resolveGuidanceUIData().subscribe((data) => {
       console.log('Student Dashboard UI data loaded:', data);
       this.guidanceUIData = data;
     });
