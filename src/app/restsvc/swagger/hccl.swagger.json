@@ -34805,6 +34805,12 @@
             "items": {
               "$ref": "#/components/schemas/PersonalStatementGETData"
             }
+          },
+          "guidanceTeam": {
+            "$ref": "#/components/schemas/HcclTeamGETData"
+          },
+          "school": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
           }
         }
       },

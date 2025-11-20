@@ -8849,6 +8849,8 @@ export interface StudentDashUIGETData {
   messages?: PMessageUIGETData[];
   teams?: HcclTeamGETData[];
   personalStatements?: PersonalStatementGETData[];
+  guidanceTeam?: HcclTeamGETData;
+  school?: HcclOrganizationGETData;
 }
 
 export interface UtilStatGraphDataPOJO {

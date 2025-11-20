@@ -16,9 +16,9 @@ import { HcclUserProfileCrudComponent } from '@app/components/_crud/hccluserprof
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
     </div>
     
-    <div class="modal-body">
+    <div class="modal-body"> 
       <app-hccluserprofile-crud 
-        [id]="userProfileId" 
+        [id]="this.userProfileId" 
         [modeName]="'edit'">
       </app-hccluserprofile-crud>
     </div>

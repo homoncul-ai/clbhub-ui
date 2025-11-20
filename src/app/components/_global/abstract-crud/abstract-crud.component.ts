@@ -362,7 +362,10 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
 
   protected async prepareEditMode(): Promise<void> {
     var entity: R = this.entity || this.newEmptyWrapper();
-    await this.prepareMenus(entity);
+     this.prepareDetailMode().then(() => {
+      this.setMode(this.CRUD_MODES.EDIT);
+     });
+    //await this.prepareMenus(entity);
     return Promise.resolve();
   }
     protected switchToDeleteMode(): void {

@@ -21,7 +21,7 @@ import { catchError } from 'rxjs/operators';
             <div class="card-header">
               <h3 class="card-title">
                 <i class="fas fa-user-graduate me-2"></i>
-                Student Dashboard
+                Student Dashboard  
               </h3>
             </div>
             <div class="card-body">
@@ -131,7 +131,7 @@ import { catchError } from 'rxjs/operators';
                       <div class="card-header">
                         <h5 class="mb-0">
                           <i class="fas fa-users me-2"></i>
-                          Guidance Team
+                          Guidance Team 
                         </h5>
                       </div>
                       <div class="card-body">
@@ -156,7 +156,7 @@ import { catchError } from 'rxjs/operators';
                   </div>
                 </div>
 
-                <!-- Dashboard UI Data Section -->
+                <!-- Dashboard UI Data Section 
                 <div class="row" *ngIf="dashUIData">
                   <div class="col-12">
                     <div class="card">
@@ -168,11 +168,12 @@ import { catchError } from 'rxjs/operators';
                       </div>
                       <div class="card-body">
                         <p class="text-muted">Dashboard UI data loaded successfully</p>
-                        <!-- Add more dashboard statistics here if needed -->
+                         
                       </div>
                     </div>
                   </div>
                 </div>
+                -->
               </div>
             </div>
           </div>
@@ -273,6 +274,12 @@ export class DashStudentHomeComponent implements OnInit {
               console.warn('Error loading dashboard UI data:', err);
               return of(null);
             })
+          ),
+          studentDashData: this.hcclService.resolveStudentDashData().pipe(
+            catchError(err => {
+              console.warn('Error loading student dashboard data:', err);
+              return of(null);
+            })
           )
         }).subscribe({
           next: (results) => {
@@ -285,6 +292,12 @@ export class DashStudentHomeComponent implements OnInit {
               this.loadSchoolAndGuidanceTeam(this.student.schoolId);
             } else {
               this.loading = false;
+            }
+            this.dashUIData = results.studentDashData;
+            console.log('Student dashboard data:', JSON.stringify(this.dashUIData, null, 2));
+            if (this.dashUIData) {
+              this.guidanceTeam = this.dashUIData.guidanceTeam || null;
+              this.school = this.dashUIData.school || null;
             }
           },
           error: (err) => {
@@ -337,9 +350,11 @@ export class DashStudentHomeComponent implements OnInit {
         this.loading = false;
         this.dashUIData = results.studentDashData;
         console.log('Student dashboard data:', JSON.stringify(this.dashUIData, null, 2));
-        if (this.dashUIData?.teams && this.dashUIData.teams.length > 0) {
-          this.guidanceTeam = this.dashUIData.teams[0];
+        if (this.dashUIData) {
+          this.guidanceTeam = this.dashUIData.guidanceTeam || null;
+          this.school = this.dashUIData.school || null;
         }
+
       },
       error: (err) => {
         console.error('Error loading school/guidance data:', err);
