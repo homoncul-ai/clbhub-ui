@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { HcclService } from '@app/restsvc/hccl.service';
@@ -31,6 +31,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       <!-- Resume content in iframe -->
       <div *ngIf="!isLoading && !error && resumeHtml" class="resume-preview-container">
         <iframe 
+          #resumeIframe
           [srcdoc]="resumeHtml" 
           class="resume-iframe"
           frameborder="0"
@@ -40,6 +41,16 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     </div>
 
     <div class="modal-footer">
+      <button 
+        *ngIf="!isLoading && !error && resumeHtml"
+        type="button" 
+        class="btn btn-sm btn-primary me-2" 
+        (click)="saveToPdf()"
+        [disabled]="isSavingPdf">
+        <i class="fas fa-file-pdf me-1"></i>
+        <span *ngIf="isSavingPdf">Saving...</span>
+        <span *ngIf="!isSavingPdf">Save to PDF</span>
+      </button>
       <button type="button" class="btn btn-sm btn-dark" (click)="onClose()">
         Close
       </button>
@@ -66,12 +77,16 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class ViewResumeModalComponent implements OnInit {
   resumeId?: string;
 
+  @ViewChild('resumeIframe', { static: false }) resumeIframe!: ElementRef<HTMLIFrameElement>;
+
   private hcclService = inject(HcclService);
   private sanitizer = inject(DomSanitizer);
 
   isLoading = false;
   error: any = null;
   resumeHtml: SafeHtml | null = null;
+  resumeHtmlContent: string = ''; // Store raw HTML content for PDF generation
+  isSavingPdf = false;
 
   constructor(public modalRef: MdbModalRef<ViewResumeModalComponent>) {}
 
@@ -108,6 +123,7 @@ export class ViewResumeModalComponent implements OnInit {
         // Convert markdown to HTML if needed, or use as-is if already HTML
         // For now, we'll wrap it in a basic HTML structure
         const htmlContent = markdownContent; // this.wrapInHtml(markdownContent);
+        this.resumeHtmlContent = htmlContent; // Store raw HTML for PDF generation
         this.resumeHtml = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
       },
       error: (error) => {
@@ -204,6 +220,122 @@ export class ViewResumeModalComponent implements OnInit {
 
   onClose(): void {
     this.modalRef.close(false);
+  }
+
+  protected saveToPdf(): void {
+    if ((!this.resumeHtml && !this.resumeHtmlContent) || !this.resumeId) {
+      return;
+    }
+
+    this.isSavingPdf = true;
+
+    try {
+      // Use stored HTML content if available, otherwise extract from SafeHtml
+      let htmlContent = this.resumeHtmlContent;
+      
+      if (!htmlContent) {
+        // Fallback: extract from SafeHtml
+        if (typeof this.resumeHtml === 'string') {
+          htmlContent = this.resumeHtml;
+        } else if (this.resumeHtml && typeof this.resumeHtml === 'object') {
+          htmlContent = (this.resumeHtml as any).changingThisBreaksApplicationSecurity || '';
+        }
+      }
+
+      if (!htmlContent) {
+        // Last resort: try to get content from iframe
+        if (this.resumeIframe?.nativeElement?.contentDocument?.body) {
+          htmlContent = this.resumeIframe.nativeElement.contentDocument.body.innerHTML;
+        } else {
+          alert('Unable to extract resume content for PDF');
+          this.isSavingPdf = false;
+          return;
+        }
+      }
+
+      // Create a new window with the resume content
+      const printWindow = window.open('', '_blank');
+      
+      if (!printWindow) {
+        alert('Please allow popups to save the PDF');
+        this.isSavingPdf = false;
+        return;
+      }
+
+      // Write the HTML content to the new window
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Resume - PDF</title>
+          <style>
+            @media print {
+              @page {
+                margin: 0.5in;
+              }
+              body {
+                margin: 0;
+                padding: 0;
+              }
+            }
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+              line-height: 1.6;
+              color: #333;
+              max-width: 800px;
+              margin: 0 auto;
+              padding: 20px;
+            }
+            h1, h2, h3, h4, h5, h6 {
+              margin-top: 1.5em;
+              margin-bottom: 0.5em;
+            }
+            p {
+              margin-bottom: 1em;
+            }
+            ul, ol {
+              margin-bottom: 1em;
+              padding-left: 2em;
+            }
+            code {
+              background-color: #f4f4f4;
+              padding: 2px 4px;
+              border-radius: 3px;
+            }
+            pre {
+              background-color: #f4f4f4;
+              padding: 10px;
+              border-radius: 5px;
+              overflow-x: auto;
+            }
+          </style>
+        </head>
+        <body>
+          ${htmlContent}
+        </body>
+        </html>
+      `);
+
+      printWindow.document.close();
+
+      // Wait for content to load, then trigger print dialog
+      printWindow.onload = () => {
+        setTimeout(() => {
+          printWindow.print();
+          this.isSavingPdf = false;
+          // Close the print window after a short delay
+          setTimeout(() => {
+            printWindow.close();
+          }, 500);
+        }, 250);
+      };
+    } catch (error) {
+      console.error('Error saving to PDF:', error);
+      alert('Error saving to PDF. Please try again.');
+      this.isSavingPdf = false;
+    }
   }
 }
 
