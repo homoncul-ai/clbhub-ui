@@ -6,12 +6,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HcclService, ResumeEntryPOSTData } from '@app/restsvc/hccl.service';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { StdMdbDatepickerComponent } from '@app/components/_global/std-mdb-datepicker/std-mdb-datepicker.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 
 @Component({
   selector: 'app-create-resume-entry-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, StdMdbFormTextComponent, StdMdbFormTextareaComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, StdMdbFormTextComponent, StdMdbFormTextareaComponent, StdMdbDatepickerComponent],
   template: `
     <div class="modal-header text-white">
       <h5 class="modal-title">Create New Resume Entry</h5>
@@ -38,12 +39,13 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
           <div class="col-md-12">
             <div class="col-md-10 offset-md-1">
               
-              <!-- Title -->
+              <!-- Title (readonly, computed from organizationName and position) -->
               <app-std-mdb-form-text 
                 prefix="resumeEntry" 
                 name="title"
                 label="Title"
                 [required]="true"
+                [disabled]="true"
                 [error]="error"
                 formControlName="title">
               </app-std-mdb-form-text>
@@ -66,35 +68,29 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
                 formControlName="position">
               </app-std-mdb-form-text>
 
-              <!-- Date Start -->
-              <app-std-mdb-form-text 
-                prefix="resumeEntry" 
-                name="dateStart"
-                label="Start Date"
-                [error]="error"
-                placeholder="YYYY-MM-DD"
-                formControlName="dateStart">
-              </app-std-mdb-form-text>
-
-              <!-- Date End -->
-              <app-std-mdb-form-text 
-                prefix="resumeEntry" 
-                name="dateEnd"
-                label="End Date"
-                [error]="error"
-                placeholder="YYYY-MM-DD"
-                formControlName="dateEnd">
-              </app-std-mdb-form-text>
-
-              <!-- Description -->
-              <app-std-mdb-form-textarea 
-                prefix="resumeEntry" 
-                name="description"
-                label="Description"
-                [rows]="4"
-                [error]="error"
-                formControlName="description">
-              </app-std-mdb-form-textarea>
+              <!-- Date Range -->
+              <div class="row">
+                <div class="col-md-6">
+                  <app-std-mdb-datepicker 
+                    prefix="resumeEntry" 
+                    name="dateStart"
+                    label="Start Date"
+                    [error]="error"
+                    placeholder="MM/DD/YYYY"
+                    formControlName="dateStart">
+                  </app-std-mdb-datepicker>
+                </div>
+                <div class="col-md-6">
+                  <app-std-mdb-datepicker 
+                    prefix="resumeEntry" 
+                    name="dateEnd"
+                    label="End Date"
+                    [error]="error"
+                    placeholder="MM/DD/YYYY"
+                    formControlName="dateEnd">
+                  </app-std-mdb-datepicker>
+                </div>
+              </div>
 
               <!-- Resume Text -->
               <app-std-mdb-form-textarea 
@@ -103,8 +99,22 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
                 label="Resume Text"
                 [rows]="6"
                 [error]="error"
+                [placeholder]="'Enter what you did at this job/event here for the resume...'"
                 formControlName="resumeText">
               </app-std-mdb-form-textarea>
+
+
+              <!-- Description -->
+              <app-std-mdb-form-textarea 
+                prefix="resumeEntry" 
+                name="description"
+                label="Description"
+                [rows]="4"
+                [error]="error"
+                [placeholder]="'Enter a longer form description of your role and responsibilities here...'"
+                formControlName="description">
+              </app-std-mdb-form-textarea>
+
 
             </div>
           </div>
@@ -154,7 +164,7 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder
   ) {
     this.resumeEntryForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.maxLength(255)]],
+      title: [{value: '', disabled: true}, [Validators.required, Validators.maxLength(255)]],
       organizationName: ['', [Validators.maxLength(255)]],
       position: ['', [Validators.maxLength(255)]],
       dateStart: ['', [Validators.maxLength(50)]],
@@ -175,6 +185,39 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
       description: '',
       resumeText: ''
     });
+
+    // Subscribe to organizationName and position changes to update title
+    this.resumeEntryForm.get('organizationName')?.valueChanges.subscribe(() => {
+      this.updateTitle();
+    });
+    this.resumeEntryForm.get('position')?.valueChanges.subscribe(() => {
+      this.updateTitle();
+    });
+    
+    // Update title initially
+    this.updateTitle();
+  }
+
+  private updateTitle(): void {
+    const organizationName = this.resumeEntryForm.get('organizationName')?.value || '';
+    const position = this.resumeEntryForm.get('position')?.value || '';
+    
+    let titleValue = '';
+    if (organizationName && position) {
+      titleValue = `${organizationName}, ${position}`;
+    } else if (organizationName) {
+      titleValue = organizationName;
+    } else if (position) {
+      titleValue = position;
+    }
+    
+    // Temporarily enable the control to set the value, then disable it again
+    const titleControl = this.resumeEntryForm.get('title');
+    if (titleControl) {
+      titleControl.enable({ emitEvent: false });
+      titleControl.setValue(titleValue, { emitEvent: false });
+      titleControl.disable({ emitEvent: false });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -189,6 +232,9 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(): void {
+    // Ensure title is updated before submission
+    this.updateTitle();
+    
     if (this.resumeEntryForm.valid) {
       this.isLoading = true;
       this.error = {};
@@ -200,7 +246,8 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      const formData = this.resumeEntryForm.value;
+      // Use getRawValue() to include disabled form controls (like title)
+      const formData = this.resumeEntryForm.getRawValue();
       
       // Create ResumeEntryPOJO structure
       const resumeEntryPojo = {
