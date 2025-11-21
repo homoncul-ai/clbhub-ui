@@ -41,6 +41,9 @@ export class StdMdbDatepickerComponent implements ControlValueAccessor {
   get value(): string {
     return this._value;
   }
+  get valueAsDate(): Date {
+    return new Date(this._value);
+  }
 
   set value(val: string) {
     this._value = val;

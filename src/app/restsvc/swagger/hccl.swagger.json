@@ -21173,6 +21173,10 @@
           "entryJson",
           "entryMd",
           "entryMdEdited",
+          "longDescription",
+          "organizationName",
+          "position",
+          "resumeEntryText",
           "title",
           "userProfileId"
         ],
@@ -21200,6 +21204,24 @@
           "entryJson": {
             "type": "string"
           },
+          "resumeEntryText": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string"
+          },
+          "position": {
+            "maxLength": 70,
+            "minLength": 1,
+            "type": "string"
+          },
+          "organizationName": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "longDescription": {
+            "type": "string"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -21211,9 +21233,6 @@
           "dateEnd": {
             "type": "string",
             "format": "date-time"
-          },
-          "theResumeEntryPojo": {
-            "$ref": "#/components/schemas/ResumeEntryPOJO"
           }
         }
       },
@@ -21254,6 +21273,18 @@
             "type": "string"
           },
           "entryJson": {
+            "type": "string"
+          },
+          "resumeEntryText": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "longDescription": {
             "type": "string"
           },
           "available": {
@@ -21337,6 +21368,15 @@
           "title": {
             "type": "string"
           },
+          "resumeEntryText": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string"
+          },
+          "organizationName": {
+            "type": "string"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -21357,6 +21397,10 @@
           "entryJson",
           "entryMd",
           "entryMdEdited",
+          "longDescription",
+          "organizationName",
+          "position",
+          "resumeEntryText",
           "title",
           "userProfileId"
         ],
@@ -21382,6 +21426,24 @@
             "type": "string"
           },
           "entryJson": {
+            "type": "string"
+          },
+          "resumeEntryText": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string"
+          },
+          "position": {
+            "maxLength": 70,
+            "minLength": 1,
+            "type": "string"
+          },
+          "organizationName": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "longDescription": {
             "type": "string"
           },
           "available": {
@@ -28621,11 +28683,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "errorMessageAsString": {
-            "type": "string"
-          },
           "firstErrorMessage": {
             "$ref": "#/components/schemas/SimpleMessage"
+          },
+          "errorMessageAsString": {
+            "type": "string"
           }
         }
       },

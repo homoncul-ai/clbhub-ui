@@ -5069,10 +5069,13 @@ export interface ResumeEntryPOSTData {
   entryMd: string;
   entryMdEdited: string;
   entryJson: string;
+  resumeEntryText: string;
+  position: string;
+  organizationName: string;
+  longDescription: string;
   available: number;
   dateStart?: string;
   dateEnd?: string;
-  theResumeEntryPojo?: ResumeEntryPOJO;
 }
 
 export interface ResumeEntryGETData {
@@ -5087,6 +5090,10 @@ export interface ResumeEntryGETData {
   entryMd?: string;
   entryMdEdited?: string;
   entryJson?: string;
+  resumeEntryText?: string;
+  position?: string;
+  organizationName?: string;
+  longDescription?: string;
   available?: number;
   theResumeEntryPojo?: ResumeEntryPOJO;
 }
@@ -5111,6 +5118,9 @@ export interface ResumeEntryCriteria {
   userProfileId?: string;
   participantId?: string;
   title?: string;
+  resumeEntryText?: string;
+  position?: string;
+  organizationName?: string;
   available?: number;
   dateStart?: string;
   dateEnd?: string;
@@ -5123,6 +5133,10 @@ export interface ResumeEntryPUTData {
   entryMd: string;
   entryMdEdited: string;
   entryJson: string;
+  resumeEntryText: string;
+  position: string;
+  organizationName: string;
+  longDescription: string;
   available: number;
   dateStart?: string;
   dateEnd?: string;

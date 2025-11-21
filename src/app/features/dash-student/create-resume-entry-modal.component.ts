@@ -55,6 +55,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
                 prefix="resumeEntry" 
                 name="organizationName"
                 label="Organization"
+                [required]="true"
                 [error]="error"
                 formControlName="organizationName">
               </app-std-mdb-form-text>
@@ -64,6 +65,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
                 prefix="resumeEntry" 
                 name="position"
                 label="Position"
+                [required]="true"
                 [error]="error"
                 formControlName="position">
               </app-std-mdb-form-text>
@@ -71,22 +73,22 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
               <!-- Date Range -->
               <div class="row">
                 <div class="col-md-6">
-                  <app-std-mdb-datepicker 
+                  <app-std-mdb-datepicker
                     prefix="resumeEntry" 
                     name="dateStart"
                     label="Start Date"
                     [error]="error"
-                    placeholder="MM/DD/YYYY"
+                    placeholder="YYYY/MM/DD"
                     formControlName="dateStart">
                   </app-std-mdb-datepicker>
                 </div>
                 <div class="col-md-6">
-                  <app-std-mdb-datepicker 
+                  <app-std-mdb-datepicker
                     prefix="resumeEntry" 
                     name="dateEnd"
                     label="End Date"
                     [error]="error"
-                    placeholder="MM/DD/YYYY"
+                    placeholder="YYYY/MM/DD"
                     formControlName="dateEnd">
                   </app-std-mdb-datepicker>
                 </div>
@@ -97,6 +99,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
                 prefix="resumeEntry" 
                 name="resumeText"
                 label="Resume Text"
+                [required]="true"
                 [rows]="6"
                 [error]="error"
                 [placeholder]="'Enter what you did at this job/event here for the resume...'"
@@ -109,6 +112,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
                 prefix="resumeEntry" 
                 name="description"
                 label="Description"
+                [required]="true"
                 [rows]="4"
                 [error]="error"
                 [placeholder]="'Enter a longer form description of your role and responsibilities here...'"
@@ -165,12 +169,12 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
   ) {
     this.resumeEntryForm = this.formBuilder.group({
       title: [{value: '', disabled: true}, [Validators.required, Validators.maxLength(255)]],
-      organizationName: ['', [Validators.maxLength(255)]],
-      position: ['', [Validators.maxLength(255)]],
+      organizationName: ['', [Validators.required, Validators.maxLength(128)]],
+      position: ['', [Validators.required, Validators.maxLength(70)]],
       dateStart: ['', [Validators.maxLength(50)]],
       dateEnd: ['', [Validators.maxLength(50)]],
-      description: ['', [Validators.maxLength(2000)]],
-      resumeText: ['', [Validators.maxLength(2000)]]
+      description: ['', [Validators.required]], // longDescription - required
+      resumeText: ['', [Validators.required, Validators.maxLength(500)]] // resumeEntryText - required, max 500
     });
   }
 
@@ -249,16 +253,9 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
       // Use getRawValue() to include disabled form controls (like title)
       const formData = this.resumeEntryForm.getRawValue();
       
-      // Create ResumeEntryPOJO structure
-      const resumeEntryPojo = {
-        title: formData.title || '',
-        organizationName: formData.organizationName || '',
-        position: formData.position || '',
-        dateStart: formData.dateStart || undefined,
-        dateEnd: formData.dateEnd || undefined,
-        description: formData.description || '',
-        resumeText: formData.resumeText || ''
-      };
+      // Convert dates to yyyy-MM-dd format
+      const dateStart = formData.dateStart ? new Date(formData.dateStart) : undefined;
+      const dateEnd = formData.dateEnd ? new Date(formData.dateEnd) : undefined;
 
       // Build markdown content from the entry data
       // Combine title, organization, position, dates, description, and resumeText into markdown
@@ -269,8 +266,8 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
       if (formData.organizationName || formData.position) {
         entryMdContent += `**${formData.organizationName || ''}${formData.organizationName && formData.position ? ' - ' : ''}${formData.position || ''}**\n\n`;
       }
-      if (formData.dateStart || formData.dateEnd) {
-        const dateRange = `${formData.dateStart || 'Start'} - ${formData.dateEnd || 'Present'}`;
+      if (dateStart || dateEnd) {
+        const dateRange = `${dateStart || 'Start'} - ${dateEnd || 'Present'}`;
         entryMdContent += `*${dateRange}*\n\n`;
       }
       if (formData.description) {
@@ -288,13 +285,16 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
         userProfileId: userProfile.id,
         title: formData.title,
         entryMd: entryMd,
-        entryMdEdited: '*none*',
+        entryMdEdited: entryMdEdited,
         entryJson: '{}',
-        available: 1,
-        dateStart: formData.dateStart || undefined,
-        dateEnd: formData.dateEnd || undefined,
-        theResumeEntryPojo: resumeEntryPojo
-      };
+        resumeEntryText: formData.resumeText || '', // Required field
+        position: formData.position || '', // Required field
+        organizationName: formData.organizationName || '', // Required field
+        longDescription: formData.description || '', // Required field
+        dateStart: dateStart ? dateStart.toISOString() : undefined,
+        dateEnd: dateEnd ? dateEnd.toISOString() : undefined,
+     available: 1
+    };
 
       this.hcclService.createResumeEntry(resumeEntryData).subscribe({
         next: (response) => {
@@ -321,6 +321,49 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
       const control = this.resumeEntryForm.get(key);
       control?.markAsTouched();
     });
+  }
+
+  /**
+   * Converts a date string to yyyy-MM-dd format
+   * Handles various input formats: MM/DD/YYYY, YYYY-MM-DD, etc.
+   */
+  private formatDateToYYYYMMDD(dateString: string): string {
+    if (!dateString || dateString.trim() === '') {
+      return '';
+    }
+
+    // If already in yyyy-MM-dd format, return as is
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+      return dateString;
+    }
+
+    // Try to parse the date string
+    let date: Date | null = null;
+
+    // Try MM/DD/YYYY format
+    const mmddyyyyMatch = dateString.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (mmddyyyyMatch) {
+      const month = parseInt(mmddyyyyMatch[1], 10) - 1; // Month is 0-indexed
+      const day = parseInt(mmddyyyyMatch[2], 10);
+      const year = parseInt(mmddyyyyMatch[3], 10);
+      date = new Date(year, month, day);
+    } else {
+      // Try parsing as a standard date string
+      date = new Date(dateString);
+    }
+
+    // Check if date is valid
+    if (!date || isNaN(date.getTime())) {
+      console.warn(`Invalid date format: ${dateString}`);
+      return dateString; // Return original if can't parse
+    }
+
+    // Format as yyyy-MM-dd
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 }
 
