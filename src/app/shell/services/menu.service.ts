@@ -1476,7 +1476,7 @@ EA_ORGNONPROFITS_LIST: {
     label: 'Resume Entries',
     route: '/student-dashboard/resumeentries',
     componentPath: 'src/app/features/dash-student',
-    componentName: 'student-personalstatement-resumeentry-group',
+    componentName: 'student-resumeentry-group',
     icon: 'fas fa-list'
   },
   // SWCAT Dashboard Menu Items

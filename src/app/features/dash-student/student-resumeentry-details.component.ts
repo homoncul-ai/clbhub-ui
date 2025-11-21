@@ -7,7 +7,7 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 
 @Component({
-  selector: 'app-student-personalstatement-resumeentry-details',
+  selector: 'app-student-resumeentry-details',
   standalone: true,
   imports: [
     CommonModule,
@@ -16,10 +16,10 @@ import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata
     StdMdbFormTextareaComponent,
     DategetdataDisplayComponent
   ],
-  templateUrl: './student-personalstatement-resumeentry-details.component.html',
-  styleUrls: ['./student-personalstatement-resumeentry-details.component.scss']
+  templateUrl: './student-resumeentry-details.component.html',
+  styleUrls: ['./student-resumeentry-details.component.scss']
 })
-export class StudentPersonalStatementResumeEntryDetailsComponent implements OnInit {
+export class StudentResumeEntryDetailsComponent implements OnInit {
   @Input() resumeEntryId!: string;
 
   protected hcclService = inject(HcclService);

@@ -2,25 +2,25 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { StudentPersonalStatementResumeEntriesListComponent } from './student-personalstatement-resumeentries-list.component';
-import { StudentPersonalStatementResumeEntryDetailsComponent } from './student-personalstatement-resumeentry-details.component';
+import { StudentResumeEntriesListComponent } from './student-resumeentries-list.component';
+import { StudentResumeEntryDetailsComponent } from './student-resumeentry-details.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { CreateResumeEntryModalComponent } from './create-resume-entry-modal.component';
 
 @Component({
-  selector: 'app-student-personalstatement-resumeentry-group',
+  selector: 'app-student-resumeentry-group',
   standalone: true,
   imports: [
     CommonModule,
     SimpleTabsetComponent,
-    StudentPersonalStatementResumeEntriesListComponent,
-    StudentPersonalStatementResumeEntryDetailsComponent
+    StudentResumeEntriesListComponent,
+    StudentResumeEntryDetailsComponent
   ],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
-  templateUrl: './student-personalstatement-resumeentry-group.component.html',
+  templateUrl: './student-resumeentry-group.component.html',
 })
-export class StudentPersonalStatementResumeEntryGroupComponent implements OnInit {
+export class StudentResumeEntryGroupComponent implements OnInit {
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
   protected modalService = inject(MdbModalService);

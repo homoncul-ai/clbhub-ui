@@ -11,7 +11,7 @@ import { DashStudentProgressComponent } from './dash-student-progress.component'
 import { DashStudentGuidanceComponent } from './dash-student-guidance.component';
 import { DashStudentScheduleComponent } from './dash-student-schedule.component';
 import { StudentPersonalStatementGroupComponent } from './student-personalstatement-group.component';
-import { StudentPersonalStatementResumeEntryGroupComponent } from './student-personalstatement-resumeentry-group.component';
+import { StudentResumeEntryGroupComponent } from './student-resumeentry-group.component';
 import { CatalogEntryModalComponent } from './catalog-entry-modal.component';  
 import { DashStudentMessagesComponent } from './dash-student-messages.component';
 import { DashStudentInterestsComponent } from './dash-student-interests.component';
@@ -32,9 +32,9 @@ const routes: Routes = [
       { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
 
 
-      // { path: 'resumeentries/:id/:tabId', component: StudentPersonalStatementResumeEntryGroupComponent },
-      // { path: 'resumeentries/:id', redirectTo: 'resumeentries/:id/details', pathMatch: 'full' },
-      // { path: 'resumeentries', component: StudentPersonalStatementResumeEntryGroupComponent },
+      { path: 'resumeentries/:id/:tabId', component: StudentResumeEntryGroupComponent },
+      { path: 'resumeentries/:id', redirectTo: 'resumeentries/:id/details', pathMatch: 'full' },
+      { path: 'resumeentries', component: StudentResumeEntryGroupComponent },
 
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
@@ -90,7 +90,7 @@ const routes: Routes = [
     DashStudentResumesGroupComponent,
     CatalogEntryModalComponent,
     UistarterHomeComponent,
-    StudentPersonalStatementResumeEntryGroupComponent,
+    StudentResumeEntryGroupComponent,
   ],
   declarations: [
     // Non-standalone components would go here

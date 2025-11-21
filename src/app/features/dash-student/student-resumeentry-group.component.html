@@ -4,17 +4,17 @@
   <div class="mb-3">
     <button class="btn btn-primary" (click)="openCreateResumeEntryModal()">Create New Resume Entry</button>
   </div>
-  <app-student-personalstatement-resumeentries-list 
+  <app-student-resumeentries-list 
     [onRowClickBehavior]="getResumeEntryRowClickBehavior()"
     [showingSearch]="false" 
     [showingSearchHeading]="false" 
     [showingGoButton]="false" 
     [showingAddButton]="false" 
     [showingIdCheckbox]="false">
-  </app-student-personalstatement-resumeentries-list>
+  </app-student-resumeentries-list>
 </div>
 
 <div *ngIf="currentTabId === 'details'">
-  <app-student-personalstatement-resumeentry-details [resumeEntryId]="resumeEntryId || ''"></app-student-personalstatement-resumeentry-details>
+  <app-student-resumeentry-details [resumeEntryId]="resumeEntryId || ''"></app-student-resumeentry-details>
 </div>
 

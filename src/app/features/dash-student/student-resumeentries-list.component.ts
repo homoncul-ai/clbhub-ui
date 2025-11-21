@@ -9,13 +9,13 @@ import { Observable } from 'rxjs';
  * Extends AbstractListComponent for common grid functionality
  */
 @Component({
-  selector: 'app-student-personalstatement-resumeentries-list',
+  selector: 'app-student-resumeentries-list',
   standalone: true,
   templateUrl: '../../components/_global/abstract-list/abstract-list.component.html',
   styleUrls: ['../../components/_global/abstract-list/abstract-list.component.scss'],
   imports: [CommonModule]
 })
-export class StudentPersonalStatementResumeEntriesListComponent extends AbstractListComponent<ResumeEntryGETData, ResumeEntryCriteria, ResumeEntryGETDataSearchResults> {
+export class StudentResumeEntriesListComponent extends AbstractListComponent<ResumeEntryGETData, ResumeEntryCriteria, ResumeEntryGETDataSearchResults> {
   
   constructor() {
     super();
