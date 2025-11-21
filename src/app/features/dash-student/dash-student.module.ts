@@ -17,6 +17,7 @@ import { DashStudentMessagesComponent } from './dash-student-messages.component'
 import { DashStudentInterestsComponent } from './dash-student-interests.component';
 import { DashStudentInterestComponent } from './dash-student-interest.component';
 import { DashStudentResumesComponent } from './dash-student-resumes.component';
+import { DashStudentResumesGroupComponent } from './dash-student-resumes-group.component';
 import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 const routes: Routes = [
@@ -29,9 +30,12 @@ const routes: Routes = [
       { path: 'personalstatements/:id/:tabId/:childId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id/:tabId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
-      { path: 'resumeentries/:id/:tabId', component: StudentPersonalStatementResumeEntryGroupComponent },
-      { path: 'resumeentries/:id', redirectTo: 'resumeentries/:id/details', pathMatch: 'full' },
-      { path: 'resumeentries', component: StudentPersonalStatementResumeEntryGroupComponent },
+
+
+      // { path: 'resumeentries/:id/:tabId', component: StudentPersonalStatementResumeEntryGroupComponent },
+      // { path: 'resumeentries/:id', redirectTo: 'resumeentries/:id/details', pathMatch: 'full' },
+      // { path: 'resumeentries', component: StudentPersonalStatementResumeEntryGroupComponent },
+
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
@@ -49,7 +53,10 @@ const routes: Routes = [
       { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
       { path: 'interests', component:DashStudentInterestsComponent },
 
-      { path: 'resumes', component: DashStudentResumesComponent },
+      { path: 'resumes/:resumeId/resume', component:DashStudentResumesGroupComponent },
+      { path: 'resumes/:resumeId/:tabId', component:DashStudentResumesGroupComponent },
+      { path: 'resumes/:resumeId', redirectTo: 'resumes/:resumeId/resume', pathMatch: 'full' },
+      { path: 'resumes', component:DashStudentResumesGroupComponent },
 
       { path: 'uistarter', component: UistarterHomeComponent },
 
@@ -80,6 +87,7 @@ const routes: Routes = [
     DashStudentInterestsComponent,
     DashStudentInterestComponent,
     DashStudentResumesComponent,
+    DashStudentResumesGroupComponent,
     CatalogEntryModalComponent,
     UistarterHomeComponent,
     StudentPersonalStatementResumeEntryGroupComponent,
