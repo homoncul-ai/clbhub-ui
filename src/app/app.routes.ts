@@ -32,6 +32,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/dash-student/dash-student.module').then(m => m.DashStudentModule)
       },
       {
+        path: 'student-dashboard2',
+        loadChildren: () => import('./features/dash-student2/dash-student2.routes').then(m => m.DASH_STUDENT2_ROUTES)
+      },
+      {
         path: 'swcat-dashboard',
         loadChildren: () => import('./features/dash-swcat/dash-swcat.module').then(m => m.DashSwcatModule)
       },
