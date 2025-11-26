@@ -443,6 +443,10 @@ export class MenuService {
     const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
     this.addMenuItem(menu, guidance);
     
+    // Add Research
+    const research = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH);
+    this.addMenuItem(menu, research);
+    
     // const progress = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROGRESS);
     // this.addMenuItem(menu, progress);
     
@@ -1430,6 +1434,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-guidance',
     icon: 'fas fa-life-ring'
+  },
+  STUDENT_RESEARCH: {
+    level: 1,
+    label: 'Research',
+    route: '/student-dashboard/research',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'clcatalog-search',
+    icon: 'fas fa-search'
   },
   STUDENT_MESSAGES: {
     level: 1,

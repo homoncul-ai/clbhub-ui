@@ -20,6 +20,7 @@ import { DashStudentResumesComponent } from './dash-student-resumes.component';
 import { DashStudentResumesGroupComponent } from './dash-student-resumes-group.component';
 import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
+import { CLCatalogSearchComponent } from './clcatalog-search/clcatalog-search.component';
 const routes: Routes = [
   {
     path: '',
@@ -38,6 +39,7 @@ const routes: Routes = [
 
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
+      { path: 'research', component: CLCatalogSearchComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
 
       { path: 'guidance/workrequests/:ticketId/:tabId', component:StudentWorkRequestsComponent },
@@ -91,6 +93,7 @@ const routes: Routes = [
     CatalogEntryModalComponent,
     UistarterHomeComponent,
     StudentResumeEntryGroupComponent,
+    CLCatalogSearchComponent,
   ],
   declarations: [
     // Non-standalone components would go here
