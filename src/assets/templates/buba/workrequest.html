@@ -1,6 +1,11 @@
 <div class="buba-container">
   <i class="{{icon}}"></i>
-  <span class="buba-name">{{displayName}}</span>
+  <span class="buba-name">{{name}}</span>
   <span class="buba-id">({{entityId}})</span>
-  <span class="buba-status" *ngIf="status">{{status}}</span>
+  <div class="buba-details">
+    <span class="buba-description" *ngIf="description">{{description}}</span>
+    <span class="buba-code" *ngIf="businessCode">Code: {{businessCode}}</span>
+    <span class="buba-status" *ngIf="currentStateCode">Status: {{currentStateCode}}</span>
+    <span class="buba-subject" *ngIf="subjectEntityName">Subject: {{subjectEntityName}}</span>
+  </div>
 </div>

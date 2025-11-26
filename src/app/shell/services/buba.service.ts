@@ -234,7 +234,7 @@ export class BubaService {
       'workrequest': {
         iconTemplate: 'fas fa-tasks',
         routePathTemplate: '/{dashboardType}/workrequest/{entityId}',
-        nameTemplate: '{displayName}',
+        nameTemplate: '{name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'workrequest.html'
       }
