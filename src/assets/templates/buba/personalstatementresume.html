@@ -1,0 +1,11 @@
+<div class="buba-container">
+  <i class="{{icon}}"></i>
+  <span class="buba-name">{{title}}</span>
+  <span class="buba-id">({{entityId}})</span>
+  <div class="buba-details">
+    <span class="buba-status" *ngIf="available !== undefined">Available: {{available === 1 ? 'Yes' : 'No'}}</span>
+    <span class="buba-user-profile" *ngIf="userProfileId">User Profile: {{userProfileId}}</span>
+    <span class="buba-personal-statement" *ngIf="personalStatmentId">Personal Statement: {{personalStatmentId}}</span>
+  </div>
+</div>
+

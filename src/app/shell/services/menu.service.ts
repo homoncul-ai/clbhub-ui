@@ -333,8 +333,10 @@ export class MenuService {
     this.addChildMenuItem(integrations, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_CLGUIDANCE));
     this.addMenuItem(menu, integrations);
     
-    // Add Component Inventory
-    this.addMenuItem(menu, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_COMPONENT_INVENTORY));
+    // Add Component Inventory with children
+    const componentInventory = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_COMPONENT_INVENTORY);
+    this.addChildMenuItem(componentInventory, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_BUBA_DEMO));
+    this.addMenuItem(menu, componentInventory);
     
     return menu;
   }
@@ -754,6 +756,14 @@ export const MENU_CONSTANTS = {
     componentPath: 'src/app/views/uistarter',
     componentName: 'uistarter-home',
     icon: 'fas fa-ticket-alt'
+  },
+  ADVOCATE_BUBA_DEMO: {
+    level: 2,
+    label: 'Buba Demo',
+    route: '/advocate-dashboard/component-inventory/buba-demo',
+    componentPath: 'src/app/components/_global/std-buba',
+    componentName: 'BubaDemoComponent',
+    icon: 'fas fa-cube'
   },
 
   // Broker Dashboard Menu Items

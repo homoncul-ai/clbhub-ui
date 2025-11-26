@@ -1,0 +1,14 @@
+<div class="buba-container">
+  <i class="{{icon}}"></i>
+  <span class="buba-name">{{name}}</span>
+  <span class="buba-id">({{entityId}})</span>
+  <div class="buba-details">
+    <span class="buba-description" *ngIf="description">{{description}}</span>
+    <span class="buba-code" *ngIf="businessCode">Code: {{businessCode}}</span>
+    <span class="buba-status" *ngIf="currentStateCode">Status: {{currentStateCode}}</span>
+    <span class="buba-participants" *ngIf="minParticipants || maxParticipants">
+      Participants: {{minParticipants || 0}}-{{maxParticipants || 'unlimited'}}
+    </span>
+  </div>
+</div>
+

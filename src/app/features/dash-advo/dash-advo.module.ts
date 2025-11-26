@@ -52,6 +52,7 @@ import { WorkRequestLogListComponent } from '@app/components/_crud/workrequestlo
 import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestlog/workrequestlog-group.component';
 import { WorkItemDeliverableListComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-list.component';
 import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
+import { BubaDemoComponent } from '@app/components/_global/std-buba/buba-demo.component';
 
 const routes: Routes = [
   {
@@ -102,6 +103,7 @@ const routes: Routes = [
       { path: 'uistarter/edit-2col-starter', component: Edit2colStarterComponent },
       { path: 'uistarter/edit-all-elements-starter', component: EditAllElementsStarterComponent },
       { path: 'uistarter/dash-cardlist-starter', component: DashCardlistStarterComponent },
+      { path: 'component-inventory/buba-demo', component: BubaDemoComponent },
       { path: 'org-queue-list', component: OrgQueueListComponent },
       { path: 'org-queue-tix/:workQueueId', component: OrgQueueTixListComponent },
       
@@ -198,6 +200,7 @@ const routes: Routes = [
     ProviderRequestGroupComponent,
     WorkItemDeliverableListComponent,
     WorkItemDeliverableGroupComponent,
+    BubaDemoComponent,
     // WorkRequestLogListComponent,
     // WorkRequestLogGroupComponent
   ],

@@ -12,8 +12,34 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
       <h2>Buba Component Demo</h2>
       
       <div class="demo-section">
+        <h3>CatalogEntry</h3>
+        <app-std-buba 
+          entityName="CatalogEntry" 
+          entityId="{{ this.UUID_SENTINEL }}"
+          [showLink]="false">
+        </app-std-buba>
+      </div>
 
-      <h3>User Profile Buba</h3>
+      <div class="demo-section">
+        <h3>CatalogEntrySearchResults</h3>
+        <app-std-buba 
+          entityName="CatalogEntrySearchResults" 
+          entityId="{{ this.UUID_SENTINEL }}"
+          [showLink]="false">
+        </app-std-buba>
+      </div>
+
+      <div class="demo-section">
+        <h3>Experience</h3>
+        <app-std-buba 
+          entityName="Experience" 
+          entityId="{{ this.UUID_SENTINEL }}"
+          [showLink]="false">
+        </app-std-buba>
+      </div>
+
+      <div class="demo-section">
+        <h3>HcclUserProfile</h3>
         <app-std-buba 
           entityName="HcclUserProfile" 
           entityId="{{ currentUserProfileId }}"
@@ -21,21 +47,34 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
           aspect="academic"
           [showLink]="false">
         </app-std-buba>
-
-
-   <!--      <h3>Catalog Buba</h3>
-        <app-std-buba 
-          entityName="Catalog" 
-          entityId="{{ this.UUID_SENTINEL }}"
-          profileTypeCode="this.getProfileTypeCode()"
-          aspect="academic"
-          [showLink]="false">
-        </app-std-buba>
--->
-      
       </div>
 
-      
+      <div class="demo-section">
+        <h3>Participant</h3>
+        <app-std-buba 
+          entityName="Participant" 
+          entityId="{{ this.UUID_SENTINEL }}"
+          [showLink]="false">
+        </app-std-buba>
+      </div>
+
+      <div class="demo-section">
+        <h3>PersonalStatement</h3>
+        <app-std-buba 
+          entityName="PersonalStatement" 
+          entityId="{{ this.UUID_SENTINEL }}"
+          [showLink]="false">
+        </app-std-buba>
+      </div>
+
+      <div class="demo-section">
+        <h3>PersonalStatementResume</h3>
+        <app-std-buba 
+          entityName="PersonalStatementResume" 
+          entityId="{{ this.UUID_SENTINEL }}"
+          [showLink]="false">
+        </app-std-buba>
+      </div>
   `,
   styles: [`
     .buba-demo {
@@ -71,7 +110,7 @@ export class BubaDemoComponent implements OnInit{
     this.loading = true;
   }
 
-  public readonly UUID_SENTINEL = '00000000-0000-0000-0000-000000000000';
+  public readonly UUID_SENTINEL :string = '00000000-0000-0000-0000-000000000000' as const;
   public loading: boolean = true;
   public currentUserProfileId: string = '';
   public hcclContextService = inject(HcclContextService);

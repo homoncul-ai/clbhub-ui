@@ -1,0 +1,12 @@
+<div class="buba-container">
+  <i class="{{icon}}"></i>
+  <span class="buba-name">{{name}}</span>
+  <span class="buba-id">({{entityId}})</span>
+  <div class="buba-details">
+    <span class="buba-code" *ngIf="businessCode">Code: {{businessCode}}</span>
+    <span class="buba-status" *ngIf="currentStateCode">Status: {{currentStateCode}}</span>
+    <span class="buba-order" *ngIf="sequenceOrder">Order: {{sequenceOrder}}</span>
+    <span class="buba-comments" *ngIf="comments">{{comments}}</span>
+  </div>
+</div>
+

@@ -157,9 +157,44 @@ export class BubaService {
       'catalogentry': {
         iconTemplate: 'fas fa-book-open',
         routePathTemplate: '/{dashboardType}/catalogentry/{entityId}',
-        nameTemplate: '{displayName}',
+        nameTemplate: '{title}',
         htmlTemplate: null,
         htmlTemplateFilename: 'catalogentry.html'
+      },
+      'catalogentrysearchresults': {
+        iconTemplate: 'fas fa-search',
+        routePathTemplate: '/{dashboardType}/catalogentrysearchresults/{entityId}',
+        nameTemplate: '{catalogEntry.title}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'catalogentrysearchresults.html'
+      },
+      'experience': {
+        iconTemplate: 'fas fa-briefcase',
+        routePathTemplate: '/{dashboardType}/experience/{entityId}',
+        nameTemplate: '{name}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'experience.html'
+      },
+      'participant': {
+        iconTemplate: 'fas fa-users',
+        routePathTemplate: '/{dashboardType}/participant/{entityId}',
+        nameTemplate: '{name}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'participant.html'
+      },
+      'personalstatement': {
+        iconTemplate: 'fas fa-file-alt',
+        routePathTemplate: '/{dashboardType}/personalstatement/{entityId}',
+        nameTemplate: '{name}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'personalstatement.html'
+      },
+      'personalstatementresume': {
+        iconTemplate: 'fas fa-file-pdf',
+        routePathTemplate: '/{dashboardType}/personalstatementresume/{entityId}',
+        nameTemplate: '{title}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'personalstatementresume.html'
       },
       'profile': {
         iconTemplate: 'fas fa-id-card',
