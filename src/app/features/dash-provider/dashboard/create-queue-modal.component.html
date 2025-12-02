@@ -1,0 +1,134 @@
+<div class="modal-header text-white">
+  <h5 class="modal-title">Create Work Queue</h5>
+  <span class="fa fa-times cursorPointer" (click)="onCancel()"></span>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="queueForm">
+    <div class="form-symbols-text text-end" *ngIf="!isLoading">
+      <small class="text-muted">
+        <span class="requiredField">* </span>Required fields
+      </small>
+    </div>
+    
+    <div class="row" *ngIf="!isLoading">
+      <div class="col-md-12">
+        <div class="col-md-10 offset-md-1">
+          
+          <!-- Name -->
+          <app-std-mdb-form-text 
+            prefix="createQueue" 
+            name="name"
+            label="Name"
+            [required]="true"
+            [error]="error"
+            formControlName="name">
+          </app-std-mdb-form-text>
+
+          <!-- Business Code -->
+          <app-std-mdb-form-text 
+            prefix="createQueue" 
+            name="businessCode"
+            label="Business Code"
+            [required]="true"
+            [error]="error"
+            formControlName="businessCode">
+          </app-std-mdb-form-text>
+          
+          <!-- Description -->
+          <app-std-mdb-form-textarea 
+            prefix="createQueue" 
+            name="description"
+            label="Description"
+            [required]="true"
+            [error]="error"
+            formControlName="description">
+          </app-std-mdb-form-textarea>
+
+          <!-- Prefix Code -->
+          <app-std-mdb-form-text 
+            prefix="createQueue" 
+            name="prefixCode"
+            label="Prefix Code"
+            [required]="true"
+            [error]="error"
+            formControlName="prefixCode">
+          </app-std-mdb-form-text>
+
+          <!-- Work Queue Type ID -->
+          <div class="form-group mb-3">
+            <label class="form-label">
+              <span class="requiredField">* </span>Work Queue Type
+            </label>
+            <app-workqueuetyperef-crud 
+              [id]="workQueueTypeIdValue" 
+              [modeName]="CRUD_MODES.FK_MENU">
+            </app-workqueuetyperef-crud>
+            <div *ngIf="error?.workQueueTypeId" class="invalid-feedback d-block">
+              {{ error.workQueueTypeId.errorMessage }}
+            </div>
+          </div>
+
+          <!-- Work Queue Team ID -->
+          <app-std-mdb-form-text 
+            prefix="createQueue" 
+            name="workQueueTeamId"
+            label="Work Queue Team ID"
+            [required]="true"
+            [error]="error"
+            formControlName="workQueueTeamId">
+          </app-std-mdb-form-text>
+
+          <!-- Available -->
+          <div class="form-group mb-3">
+            <label class="form-label">
+              <span class="requiredField">* </span>Available
+            </label>
+            <app-available-selector 
+              [available]="availableValue"
+              (availableChange)="onAvailableChange($event)">
+            </app-available-selector>
+            <div *ngIf="error?.available" class="invalid-feedback d-block">
+              {{ error.available.errorMessage }}
+            </div>
+          </div>
+
+          <!-- External Queue -->
+          <div class="form-group mb-3">
+            <label class="form-label">
+              <span class="requiredField">* </span>External Queue
+            </label>
+            <input 
+              type="number" 
+              class="form-control" 
+              formControlName="externalQueue"
+              [class.is-invalid]="error?.externalQueue">
+            <div *ngIf="error?.externalQueue" class="invalid-feedback">
+              {{ error.externalQueue.errorMessage }}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    (click)="onSubmit()"
+    [disabled]="!queueForm.valid || isLoading"
+  >
+    <span
+      [ngClass]="{ 'spinner-border spinner-border-sm': isLoading }"
+    >
+      {{ isLoading ? 'Creating...' : 'Create Queue' }}
+    </span>
+  </button>
+  <button type="button" class="btn btn-sm btn-dark" (click)="onCancel()">
+    Cancel
+  </button>
+</div>
+

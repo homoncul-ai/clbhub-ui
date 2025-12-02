@@ -11,6 +11,7 @@ import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprof
 import { ProviderWorkQueueListComponent } from '@app/components/_crud/workqueue/provider-workqueue-list.component';
 import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list.component';
 import { OnboardOrgUserModalComponent } from '@app/features/dash-ecoadmin/orgs/onboard-org-user-modal.component';
+import { CreateQueueModalComponent } from './create-queue-modal.component';
 
 @Component({
   selector: 'app-provider-dashboard-tab-setup',
@@ -59,8 +60,9 @@ import { OnboardOrgUserModalComponent } from '@app/features/dash-ecoadmin/orgs/o
                   <app-provider-workqueue-list 
                     [showingSearch]="true" 
                     [showingSearchHeading]="false"
-                    [showingAddButton]="false"
-                    [criteria]="getWorkQueueCriteria()">
+                    [showingAddButton]="true"
+                    [criteria]="getWorkQueueCriteria()"
+                    [onAddAction]="getWorkQueueAddAction()">
                   </app-provider-workqueue-list>
                 </div>
               </div>
@@ -134,7 +136,9 @@ export class ProviderDashboardTabSetupComponent extends AbstractMultimodeCompone
   protected organizationId: string = '';
   protected modalService = inject(MdbModalService);
   protected modalRef?: MdbModalRef<OnboardOrgUserModalComponent>;
+  protected queueModalRef?: MdbModalRef<CreateQueueModalComponent>;
   @ViewChild(HcclUserProfileListComponent) userProfileListComponent?: HcclUserProfileListComponent;
+  @ViewChild(ProviderWorkQueueListComponent) workQueueListComponent?: ProviderWorkQueueListComponent;
 
   constructor() {
       super();
@@ -221,6 +225,37 @@ export class ProviderDashboardTabSetupComponent extends AbstractMultimodeCompone
           // Refresh the user profile list
           if (this.userProfileListComponent) {
             this.userProfileListComponent.onRefresh();
+          }
+        }
+      });
+    };
+    return addAction;
+  }
+
+  /**
+   * Get the add action handler for work queue list
+   * Opens the create queue modal
+   */
+  protected getWorkQueueAddAction(): OnAddActionBehavior {
+    const addAction = new OnAddActionBehavior();
+    addAction.onAdd = (baseRoute: string, router: any) => {
+      // Open the create queue modal
+      this.queueModalRef = this.modalService.open(CreateQueueModalComponent, {
+        modalClass: 'modal-lg',
+        keyboard: false,
+        ignoreBackdropClick: true,
+        data: {
+          organizationId: this.organizationId
+        }
+      });
+
+      // Handle modal close - refresh list if queue was successfully created
+      this.queueModalRef.onClose.subscribe((result: boolean) => {
+        if (result) {
+          console.log('Queue created successfully');
+          // Refresh the work queue list
+          if (this.workQueueListComponent) {
+            this.workQueueListComponent.onRefresh();
           }
         }
       });
