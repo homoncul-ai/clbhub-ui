@@ -1,17 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclUserProfileCriteria, WorkQueueCriteria, CatalogCriteria } from '@app/restsvc/hccl.service';
 
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
-import { HcclUserListComponent } from '@app/components/_crud/hccluser/hccluser-list.component';
+import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
 import { ProviderWorkQueueListComponent } from '@app/components/_crud/workqueue/provider-workqueue-list.component';
 import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list.component';
 
 @Component({
   selector: 'app-provider-dashboard-tab-setup',
   standalone: true,
-  imports: [CommonModule, HcclUserListComponent, ProviderWorkQueueListComponent, CatalogListComponent],
+  imports: [CommonModule, HcclUserProfileListComponent, ProviderWorkQueueListComponent, CatalogListComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -33,11 +34,14 @@ import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list
                   Users
                 </h4>
                 <p class="text-muted">Manage organization users. Click "New User" to add a new user.</p>
-                <app-hccluser-list 
-                  [showingSearch]="true" 
-                  [showingSearchHeading]="false"
-                  [showingAddButton]="false">
-                </app-hccluser-list>
+                <div *ngIf="!loading">
+                  <app-hccluserprofile-list 
+                    [showingSearch]="true" 
+                    [showingSearchHeading]="false"
+                    [showingAddButton]="false"
+                    [criteria]="getUserProfileCriteria()">
+                  </app-hccluserprofile-list>
+                </div>
               </div>
 
               <!-- Queues Section -->
@@ -47,11 +51,14 @@ import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list
                   Queues
                 </h4>
                 <p class="text-muted">Manage work queues. Click "New Queue" to create a new queue.</p>
-                <app-provider-workqueue-list 
-                  [showingSearch]="true" 
-                  [showingSearchHeading]="false"
-                  [showingAddButton]="false">
-                </app-provider-workqueue-list>
+                <div *ngIf="!loading">
+                  <app-provider-workqueue-list 
+                    [showingSearch]="true" 
+                    [showingSearchHeading]="false"
+                    [showingAddButton]="false"
+                    [criteria]="getWorkQueueCriteria()">
+                  </app-provider-workqueue-list>
+                </div>
               </div>
 
               <!-- Signup Packets Section -->
@@ -61,9 +68,11 @@ import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list
                   Signup Packets
                 </h4>
                 <p class="text-muted">Manage signup packets. Click "New Signup Packet" to create a new signup packet.</p>
-                <div class="alert alert-info">
-                  <i class="fas fa-info-circle me-2"></i>
-                  Signup packet management will be available soon.
+                <div *ngIf="!loading">
+                  <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Signup packet management will be available soon.
+                  </div>
                 </div>
               </div>
 
@@ -74,11 +83,14 @@ import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list
                   Catalogs
                 </h4>
                 <p class="text-muted">Manage course catalogs. Click "New Catalog" to create a new catalog.</p>
-                <app-catalog-list 
-                  [showingSearch]="true" 
-                  [showingSearchHeading]="false"
-                  [showingAddButton]="false">
-                </app-catalog-list>
+                <div *ngIf="!loading">
+                  <app-catalog-list 
+                    [showingSearch]="true" 
+                    [showingSearchHeading]="false"
+                    [showingAddButton]="false"
+                    [criteria]="getCatalogCriteria()">
+                  </app-catalog-list>
+                </div>
               </div>
             </div>
           </div>
@@ -135,5 +147,46 @@ export class ProviderDashboardTabSetupComponent extends AbstractMultimodeCompone
 
   protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
       return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+  }
+
+  /**
+   * Get criteria for HcclUserProfile list filtered by organization
+   */
+  protected getUserProfileCriteria(): HcclUserProfileCriteria {
+    return {
+      organizationId: this.organizationId || undefined,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      available: 1
+    };
+  }
+
+  /**
+   * Get criteria for WorkQueue list filtered by organization
+   */
+  protected getWorkQueueCriteria(): WorkQueueCriteria {
+    return {
+      organizationId: this.organizationId || undefined,
+      externalQueue: 1,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      includingStats: true
+    };
+  }
+
+  /**
+   * Get criteria for Catalog list filtered by organization
+   */
+  protected getCatalogCriteria(): CatalogCriteria {
+    return {
+      organizationId: this.organizationId || undefined,
+      available: 1,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      includingCatalogStats: true
+    };
   }
 }
