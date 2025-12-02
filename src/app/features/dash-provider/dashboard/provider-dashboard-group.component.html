@@ -6,13 +6,11 @@
     <app-provider-dashboard-tab-mydash [id]="getOrganizationId()" modeName="detail"></app-provider-dashboard-tab-mydash>
   </div>
 
-  <div *ngIf="true">
-    <li>CurrentId :{{currentTabId}}</li>
-    <li>Id :{{id}}</li>
-    <li>ChildId :{{childId}}</li>
-    <li>Loading :{{loading}}</li>
-    <li>ShowingTabset :{{showingTabset}}</li>
-    <li>Tabs :{{tabs}}</li> 
-    <li>OrganizationId :{{organizationId}}</li>
+  <div *ngIf="currentTabId === 'profile'">
+    <app-provider-dashboard-tab-profile [id]="getOrganizationId()" modeName="detail"></app-provider-dashboard-tab-profile>
+  </div>
+
+  <div *ngIf="currentTabId === 'setup'">
+    <app-provider-dashboard-tab-setup [id]="getOrganizationId()" modeName="detail"></app-provider-dashboard-tab-setup>
   </div>
 </div>

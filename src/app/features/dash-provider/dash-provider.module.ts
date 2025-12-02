@@ -18,6 +18,7 @@ const routes: Routes = [
     component: DashProviderComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard/:tabId', component: ProviderDashboardGroupComponent },
       { path: 'dashboard', component: ProviderDashboardGroupComponent },
       { path: 'details/:tabId/:childId', component: ProviderDetailsGroupComponent },
       { path: 'details/:tabId', component: ProviderDetailsGroupComponent },

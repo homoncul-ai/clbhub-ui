@@ -5,11 +5,13 @@ import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofil
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { HcclUserContextGETData, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { ProviderDashboardTabMydashComponent } from './provider-dashboard-tab-mydash.component';
+import { ProviderDashboardTabSetupComponent } from './provider-dashboard-tab-setup.component';
+import { ProviderDashboardTabProfileComponent } from './provider-dashboard-tab-profile.component';
 
 @Component({
   selector: 'app-provider-dashboard-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, ProviderDashboardTabMydashComponent ],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderDashboardTabMydashComponent, ProviderDashboardTabProfileComponent, ProviderDashboardTabSetupComponent],
   templateUrl: './provider-dashboard-group.component.html',
   styleUrl: './provider-dashboard-group.component.scss'
 })
@@ -45,6 +47,22 @@ export class ProviderDashboardGroupComponent extends AbstractEntityGroupComponen
       new SimpleTab('mydash', 'Dashboard', '', 
         () => {
           this.router.navigate([baseRoute]);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('profile', 'Profile', '', 
+        () => {
+          this.router.navigate([baseRoute, 'profile']);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('setup', 'Setup', '', 
+        () => {
+          this.router.navigate([baseRoute, 'setup']);
         },
         () => {
           return true;
