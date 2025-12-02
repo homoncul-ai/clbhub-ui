@@ -81,7 +81,8 @@ export class CatalogEntryInterestCrudComponent extends AbstractCrudComponent<Cat
       personalStatementId: entity.getData().personalStatementId || '',
       userProfileId: entity.getData().userProfileId || '',
       interest: entity.getData().interest || 0,
-      notes: entity.getData().notes || ''
+      notes: entity.getData().notes || '',
+      currentStateCode: entity.getData().currentStateCode || ''
     };
  
     // This is important - the requestCreate method returns { id: string, status: 201 }
@@ -104,7 +105,8 @@ export class CatalogEntryInterestCrudComponent extends AbstractCrudComponent<Cat
       personalStatementId: entity.getData().personalStatementId || '',
       userProfileId: entity.getData().userProfileId || '',
       interest: entity.getData().interest || 0,
-      notes: entity.getData().notes || ''
+      notes: entity.getData().notes || '',
+      currentStateCode: entity.getData().currentStateCode || ''
     };
 
     await this.hcclService.updateCatalogEntryInterestById(entity.getData().id!, putData).toPromise();

@@ -432,6 +432,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VeiSearchResultsGETData>(request);
   }
 
+  createCatalogEntrySignupPacket(body: CatalogEntrySignupPacketPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrysignuppacket",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCatalogEntrySignupPacketById(id: string): Observable<CatalogEntrySignupPacketGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrysignuppacket/" + id,
+      method: "GET",
+    };
+    return this.request<CatalogEntrySignupPacketGETData>(request);
+  }
+
+  updateCatalogEntrySignupPacketById(id: string, body: CatalogEntrySignupPacketPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrysignuppacket/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCatalogEntrySignupPacketById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrysignuppacket/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCatalogEntrySignupPackets(body: CatalogEntrySignupPacketCriteria): Observable<CatalogEntrySignupPacketGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentrysignuppacket/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogEntrySignupPacketGETDataSearchResults>(request);
+  }
+
   createCatalogEntryTag(body: CatalogEntryTagPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrytag",
@@ -688,6 +731,49 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<CatalogTagRefGETDataSearchResults>(request);
+  }
+
+  createCatalogTypeRef(body: CatalogTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCatalogTypeRefById(id: string): Observable<CatalogTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtyperef/" + id,
+      method: "GET",
+    };
+    return this.request<CatalogTypeRefGETData>(request);
+  }
+
+  updateCatalogTypeRefById(id: string, body: CatalogTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtyperef/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCatalogTypeRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtyperef/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCatalogTypeRefs(body: CatalogTypeRefCriteria): Observable<CatalogTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogtyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogTypeRefGETDataSearchResults>(request);
   }
 
   createExperienceLocation(body: ExperienceLocationPOSTData): Observable<any> {
@@ -3976,6 +4062,9 @@ export interface CatalogEntryInterestPOSTData {
   interest: number;
   notes?: string;
   messageId?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
 }
 
 export interface CatalogEntryGETData {
@@ -3985,9 +4074,11 @@ export interface CatalogEntryGETData {
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
   catalogId?: string;
+  signupPacketId?: string;
   entryCode?: string;
   title?: string;
   catalogTypeCode?: string;
+  catalogTypeId?: string;
   entryGroupCode?: string;
   shortDescription?: string;
   description?: string;
@@ -4030,6 +4121,8 @@ export interface CatalogEntryInterestGETData {
   interest?: number;
   notes?: string;
   messageId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
   catalogEntry?: CatalogEntryGETData;
 }
 
@@ -4056,6 +4149,9 @@ export interface CatalogEntryInterestCriteria {
   userProfileId?: string;
   interest?: number;
   messageId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
   interestRangeMin?: number;
   interestRangeMax?: number;
 }
@@ -4068,13 +4164,18 @@ export interface CatalogEntryInterestPUTData {
   interest: number;
   notes?: string;
   messageId?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
 }
 
 export interface CatalogEntryPOSTData {
   catalogId: string;
+  signupPacketId?: string;
   entryCode: string;
   title: string;
   catalogTypeCode: string;
+  catalogTypeId: string;
   entryGroupCode?: string;
   shortDescription: string;
   description: string;
@@ -4124,8 +4225,10 @@ export interface CatalogGETData {
   description?: string;
   available?: number;
   taxonomyEntryId?: string;
+  catalogTypeId?: string;
   urlPrefix?: string;
   url?: string;
+  signupPacketId?: string;
   stats?: CatalogStatsPOJO;
   organization?: HcclOrganizationGETData;
 }
@@ -4172,9 +4275,11 @@ export interface CatalogEntryCriteria {
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
   catalogId?: string;
+  signupPacketId?: string;
   entryCode?: string;
   title?: string;
   catalogTypeCode?: string;
+  catalogTypeId?: string;
   entryGroupCode?: string;
   shortDescription?: string;
   businessNeed?: string;
@@ -4226,9 +4331,11 @@ export interface VocationEncodingRefGETData {
 
 export interface CatalogEntryPUTData {
   catalogId: string;
+  signupPacketId?: string;
   entryCode: string;
   title: string;
   catalogTypeCode: string;
+  catalogTypeId: string;
   entryGroupCode?: string;
   shortDescription: string;
   description: string;
@@ -4257,6 +4364,108 @@ export interface CatalogEntryPUTData {
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
+}
+
+export interface CatalogEntrySignupPacketPOSTData {
+  organizationId: string;
+  catalogId?: string;
+  catalogEntryId?: string;
+  name: string;
+  signupBehaviorCode: string;
+  description: string;
+  available: number;
+}
+
+export interface CatalogEntrySignupPacketGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  catalogId?: string;
+  catalogEntryId?: string;
+  name?: string;
+  signupBehaviorCode?: string;
+  description?: string;
+  available?: number;
+  signupInstructionsMD?: string;
+  fileGroup?: PMFileGroupGETData;
+}
+
+export interface CatalogEntrySignupPacketGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogEntrySignupPacketGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface DhtmlxTreeNode {
+  id?: string;
+  value?: string;
+  opened?: boolean;
+  checked?: boolean;
+  checkbox?: boolean;
+  type?: string;
+  items?: DhtmlxTreeNode[];
+}
+
+export interface PMFileGroupEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  pmfileGroupId?: string;
+  pmfileId?: string;
+  folderName?: string;
+}
+
+export interface PMFileGroupGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  title?: string;
+  instructions?: string;
+  available?: boolean;
+  uploadGroupReferenceId?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  aspectCode?: string;
+  fileGroupEntryId?: string;
+  fileTree?: DhtmlxTreeNode;
+  mapIdToEntry?: any;
+}
+
+export interface CatalogEntrySignupPacketCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  organizationId?: string;
+  catalogId?: string;
+  catalogEntryId?: string;
+  name?: string;
+  signupBehaviorCode?: string;
+  available?: number;
+}
+
+export interface CatalogEntrySignupPacketPUTData {
+  organizationId: string;
+  catalogId?: string;
+  catalogEntryId?: string;
+  name: string;
+  signupBehaviorCode: string;
+  description: string;
+  available: number;
 }
 
 export interface CatalogEntryTagPOSTData {
@@ -4540,8 +4749,10 @@ export interface CatalogPOSTData {
   description: string;
   available: number;
   taxonomyEntryId?: string;
+  catalogTypeId?: string;
   urlPrefix?: string;
   url?: string;
+  signupPacketId?: string;
 }
 
 export interface CatalogGETDataSearchResults {
@@ -4566,8 +4777,10 @@ export interface CatalogCriteria {
   businessCode?: string;
   available?: number;
   taxonomyEntryId?: string;
+  catalogTypeId?: string;
   urlPrefix?: string;
   url?: string;
+  signupPacketId?: string;
   includingCatalogStats?: boolean;
   statsDateRange?: DateRangeGETData;
 }
@@ -4579,8 +4792,10 @@ export interface CatalogPUTData {
   description: string;
   available: number;
   taxonomyEntryId?: string;
+  catalogTypeId?: string;
   urlPrefix?: string;
   url?: string;
+  signupPacketId?: string;
 }
 
 export interface CatalogTagRefPOSTData {
@@ -4636,6 +4851,54 @@ export interface CatalogTagRefPUTData {
   tagValueType: string;
   tagMaxValue?: number;
   tagMinValue?: number;
+}
+
+export interface CatalogTypeRefPOSTData {
+  businessCode: string;
+  name: string;
+  description: string;
+  signupPacketId?: string;
+}
+
+export interface CatalogTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  businessCode?: string;
+  name?: string;
+  description?: string;
+  signupPacketId?: string;
+}
+
+export interface CatalogTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CatalogTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  businessCode?: string;
+  name?: string;
+  signupPacketId?: string;
+}
+
+export interface CatalogTypeRefPUTData {
+  businessCode: string;
+  name: string;
+  description: string;
+  signupPacketId?: string;
 }
 
 export interface ExperienceLocationPOSTData {
@@ -5622,16 +5885,7 @@ export interface PMFileBlobPUTData {
 export interface PMFileGroupEntryPOSTData {
   pmfileGroupId: string;
   pmfileId: string;
-}
-
-export interface PMFileGroupEntryGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  pmfileGroupId?: string;
-  pmfileId?: string;
+  folderName: string;
 }
 
 export interface PMFileGroupEntryGETDataSearchResults {
@@ -5653,11 +5907,13 @@ export interface PMFileGroupEntryCriteria {
   predicateHint?: CriteriaPredicateHint;
   pmfileGroupId?: string;
   pmfileId?: string;
+  folderName?: string;
 }
 
 export interface PMFileGroupEntryPUTData {
   pmfileGroupId: string;
   pmfileId: string;
+  folderName: string;
 }
 
 export interface PMFileGroupPOSTData {
@@ -5668,21 +5924,8 @@ export interface PMFileGroupPOSTData {
   parentEntityId: string;
   parentEntityName?: string;
   parentEntityType: string;
-}
-
-export interface PMFileGroupGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  title?: string;
-  instructions?: string;
-  available?: boolean;
-  uploadGroupReferenceId?: string;
-  parentEntityId?: string;
-  parentEntityName?: string;
-  parentEntityType?: string;
+  aspectCode: string;
+  fileGroupEntryId?: string;
 }
 
 export interface PMFileGroupGETDataSearchResults {
@@ -5709,6 +5952,8 @@ export interface PMFileGroupCriteria {
   parentEntityId?: string;
   parentEntityName?: string;
   parentEntityType?: string;
+  aspectCode?: string;
+  fileGroupEntryId?: string;
 }
 
 export interface PMFileGroupPUTData {
@@ -5719,6 +5964,8 @@ export interface PMFileGroupPUTData {
   parentEntityId: string;
   parentEntityName?: string;
   parentEntityType: string;
+  aspectCode: string;
+  fileGroupEntryId?: string;
 }
 
 export interface PMFilePOSTData {

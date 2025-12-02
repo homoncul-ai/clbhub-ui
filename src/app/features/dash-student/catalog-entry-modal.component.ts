@@ -180,7 +180,8 @@ export class CatalogEntryModalComponent implements OnInit {
       catalogEntryId: currentEntry?.id || '',
       personalStatementId: this.personalStatementId,
       userProfileId: this.userProfileId,
-      interest: interest
+      interest: interest,
+      currentStateCode: ''
     };
 
     //alert(JSON.stringify(interestData));

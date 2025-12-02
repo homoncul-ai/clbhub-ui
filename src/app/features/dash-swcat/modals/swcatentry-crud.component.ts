@@ -181,7 +181,8 @@ export class SwcatEntryCrudComponent extends AbstractCrudComponent<SwcatEntryCru
        integrationEntityId: catalogEntryData.integrationEntityId || '',
        integrationEntityType: catalogEntryData.integrationEntityType || '',
        integrationEntityName: catalogEntryData.integrationEntityName || '',
-       catalogTypeCode: catalogEntryData.catalogTypeCode || ''
+       catalogTypeCode: catalogEntryData.catalogTypeCode || '',
+       catalogTypeId: catalogEntryData.catalogTypeId || ''
      };
 
      try {
@@ -222,7 +223,8 @@ export class SwcatEntryCrudComponent extends AbstractCrudComponent<SwcatEntryCru
         integrationEntityId: catalogEntryData.integrationEntityId || '',
         integrationEntityType: catalogEntryData.integrationEntityType || '',
         integrationEntityName: catalogEntryData.integrationEntityName || '',
-        catalogTypeCode: catalogEntryData.catalogTypeCode || ''
+        catalogTypeCode: catalogEntryData.catalogTypeCode || '',
+        catalogTypeId: catalogEntryData.catalogTypeId || ''
       };
 
       try {

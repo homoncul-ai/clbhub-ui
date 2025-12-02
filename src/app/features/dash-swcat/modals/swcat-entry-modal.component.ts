@@ -194,7 +194,8 @@ export class SwcatEntryModalComponent implements OnInit {
       catalogEntryId: currentEntry?.id || '',
       personalStatementId: '', // Not needed for SWCAT
       userProfileId: this.userProfileId,
-      interest: interest
+      interest: interest,
+      currentStateCode: ''
     };
 
     //alert(JSON.stringify(interestData));

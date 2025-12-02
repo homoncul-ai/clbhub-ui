@@ -1772,6 +1772,192 @@
         }
       }
     },
+    "/hccl/catalog/catalogentrysignuppacket": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new CatalogEntrySignupPacket.",
+        "operationId": "createCatalogEntrySignupPacket_1",
+        "requestBody": {
+          "description": "New CatalogEntrySignupPacket data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntrySignupPacketPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogentrysignuppacket/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCatalogEntrySignupPacketById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntrySignupPacketGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing CatalogEntrySignupPacket.",
+        "operationId": "updateCatalogEntrySignupPacketById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CatalogEntrySignupPacket data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntrySignupPacketPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing CatalogEntrySignupPacket.",
+        "operationId": "deleteCatalogEntrySignupPacketById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogentrysignuppacket/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all CatalogEntrySignupPackets.",
+        "operationId": "findCatalogEntrySignupPackets_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntrySignupPacketCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntrySignupPacketGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/catalog/catalogentrytag": {
       "post": {
         "tags": [
@@ -2869,6 +3055,192 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/CatalogTagRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogtyperef": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new CatalogTypeRef.",
+        "operationId": "createCatalogTypeRef_1",
+        "requestBody": {
+          "description": "New CatalogTypeRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogTypeRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogtyperef/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCatalogTypeRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogTypeRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing CatalogTypeRef.",
+        "operationId": "updateCatalogTypeRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CatalogTypeRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogTypeRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing CatalogTypeRef.",
+        "operationId": "deleteCatalogTypeRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogtyperef/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all CatalogTypeRefs.",
+        "operationId": "findCatalogTypeRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogTypeRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogTypeRefGETDataSearchResults"
                 }
               }
             }
@@ -17354,6 +17726,7 @@
         "required": [
           "catalogEntryId",
           "catalogId",
+          "currentStateCode",
           "interest",
           "personalStatementId",
           "userProfileId"
@@ -17386,6 +17759,19 @@
           "messageId": {
             "type": "string",
             "format": "uuid"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -17412,6 +17798,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "entryCode": {
             "type": "string"
           },
@@ -17419,6 +17809,9 @@
             "type": "string"
           },
           "catalogTypeCode": {
+            "type": "string"
+          },
+          "catalogTypeId": {
             "type": "string"
           },
           "entryGroupCode": {
@@ -17559,6 +17952,13 @@
             "type": "string",
             "format": "uuid"
           },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "catalogEntry": {
             "$ref": "#/components/schemas/CatalogEntryGETData"
           }
@@ -17649,6 +18049,17 @@
             "type": "string",
             "format": "uuid"
           },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
           "interestRangeMin": {
             "type": "integer",
             "format": "int32"
@@ -17663,6 +18074,7 @@
         "required": [
           "catalogEntryId",
           "catalogId",
+          "currentStateCode",
           "interest",
           "personalStatementId",
           "userProfileId"
@@ -17695,6 +18107,19 @@
           "messageId": {
             "type": "string",
             "format": "uuid"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -17703,6 +18128,7 @@
           "available",
           "catalogId",
           "catalogTypeCode",
+          "catalogTypeId",
           "description",
           "entryCode",
           "shortDescription",
@@ -17711,6 +18137,10 @@
         "type": "object",
         "properties": {
           "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "signupPacketId": {
             "type": "string",
             "format": "uuid"
           },
@@ -17725,6 +18155,11 @@
             "type": "string"
           },
           "catalogTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "catalogTypeId": {
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
@@ -17905,11 +18340,19 @@
             "type": "string",
             "format": "uuid"
           },
+          "catalogTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "urlPrefix": {
             "type": "string"
           },
           "url": {
             "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
           },
           "stats": {
             "$ref": "#/components/schemas/CatalogStatsPOJO"
@@ -18051,6 +18494,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "entryCode": {
             "type": "string"
           },
@@ -18058,6 +18505,9 @@
             "type": "string"
           },
           "catalogTypeCode": {
+            "type": "string"
+          },
+          "catalogTypeId": {
             "type": "string"
           },
           "entryGroupCode": {
@@ -18223,6 +18673,7 @@
           "available",
           "catalogId",
           "catalogTypeCode",
+          "catalogTypeId",
           "description",
           "entryCode",
           "shortDescription",
@@ -18231,6 +18682,10 @@
         "type": "object",
         "properties": {
           "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "signupPacketId": {
             "type": "string",
             "format": "uuid"
           },
@@ -18245,6 +18700,11 @@
             "type": "string"
           },
           "catalogTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "catalogTypeId": {
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
@@ -18362,6 +18822,350 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          }
+        }
+      },
+      "CatalogEntrySignupPacketPOSTData": {
+        "required": [
+          "available",
+          "description",
+          "name",
+          "organizationId",
+          "signupBehaviorCode"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "signupBehaviorCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CatalogEntrySignupPacketGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "signupBehaviorCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "signupInstructionsMD": {
+            "type": "string"
+          },
+          "fileGroup": {
+            "$ref": "#/components/schemas/PMFileGroupGETData"
+          }
+        }
+      },
+      "CatalogEntrySignupPacketGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogEntrySignupPacketGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "DhtmlxTreeNode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "opened": {
+            "type": "boolean"
+          },
+          "checked": {
+            "type": "boolean"
+          },
+          "checkbox": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DhtmlxTreeNode"
+            }
+          }
+        }
+      },
+      "PMFileGroupEntryGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "pmfileGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folderName": {
+            "type": "string"
+          }
+        }
+      },
+      "PMFileGroupGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "title": {
+            "type": "string"
+          },
+          "instructions": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "aspectCode": {
+            "type": "string"
+          },
+          "fileGroupEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fileTree": {
+            "$ref": "#/components/schemas/DhtmlxTreeNode"
+          },
+          "mapIdToEntry": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PMFileGroupEntryGETData"
+            }
+          }
+        }
+      },
+      "CatalogEntrySignupPacketCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "signupBehaviorCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CatalogEntrySignupPacketPUTData": {
+        "required": [
+          "available",
+          "description",
+          "name",
+          "organizationId",
+          "signupBehaviorCode"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "signupBehaviorCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -19322,11 +20126,19 @@
             "type": "string",
             "format": "uuid"
           },
+          "catalogTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "urlPrefix": {
             "type": "string"
           },
           "url": {
             "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -19409,11 +20221,19 @@
             "type": "string",
             "format": "uuid"
           },
+          "catalogTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "urlPrefix": {
             "type": "string"
           },
           "url": {
             "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
           },
           "includingCatalogStats": {
             "type": "boolean"
@@ -19458,11 +20278,19 @@
             "type": "string",
             "format": "uuid"
           },
+          "catalogTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "urlPrefix": {
             "type": "string"
           },
           "url": {
             "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -19655,6 +20483,167 @@
           "tagMinValue": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "CatalogTypeRefPOSTData": {
+        "required": [
+          "businessCode",
+          "description",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CatalogTypeRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CatalogTypeRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogTypeRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CatalogTypeRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CatalogTypeRefPUTData": {
+        "required": [
+          "businessCode",
+          "description",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -23191,6 +24180,7 @@
       },
       "PMFileGroupEntryPOSTData": {
         "required": [
+          "folderName",
           "pmfileGroupId",
           "pmfileId"
         ],
@@ -23203,35 +24193,11 @@
           "pmfileId": {
             "type": "string",
             "format": "uuid"
-          }
-        }
-      },
-      "PMFileGroupEntryGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
           },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "pmfileGroupId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "pmfileId": {
-            "type": "string",
-            "format": "uuid"
+          "folderName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
           }
         }
       },
@@ -23303,11 +24269,15 @@
           "pmfileId": {
             "type": "string",
             "format": "uuid"
+          },
+          "folderName": {
+            "type": "string"
           }
         }
       },
       "PMFileGroupEntryPUTData": {
         "required": [
+          "folderName",
           "pmfileGroupId",
           "pmfileId"
         ],
@@ -23320,11 +24290,17 @@
           "pmfileId": {
             "type": "string",
             "format": "uuid"
+          },
+          "folderName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
           }
         }
       },
       "PMFileGroupPOSTData": {
         "required": [
+          "aspectCode",
           "instructions",
           "parentEntityId",
           "parentEntityType",
@@ -23362,50 +24338,15 @@
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
-          }
-        }
-      },
-      "PMFileGroupGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
+          },
+          "aspectCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileGroupEntryId": {
             "type": "string",
             "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "title": {
-            "type": "string"
-          },
-          "instructions": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "uploadGroupReferenceId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityName": {
-            "type": "string"
-          },
-          "parentEntityType": {
-            "type": "string"
           }
         }
       },
@@ -23492,11 +24433,19 @@
           },
           "parentEntityType": {
             "type": "string"
+          },
+          "aspectCode": {
+            "type": "string"
+          },
+          "fileGroupEntryId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
       "PMFileGroupPUTData": {
         "required": [
+          "aspectCode",
           "instructions",
           "parentEntityId",
           "parentEntityType",
@@ -23534,6 +24483,15 @@
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
+          },
+          "aspectCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileGroupEntryId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
