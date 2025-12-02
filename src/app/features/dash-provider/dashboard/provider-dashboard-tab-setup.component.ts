@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '@app/restsvc/hccl.service';
-import { HcclUserProfileCriteria, WorkQueueCriteria, CatalogCriteria } from '@app/restsvc/hccl.service';
+import { HcclUserProfileCriteria, WorkQueueCriteria, CatalogCriteria, HcclTeamCriteria } from '@app/restsvc/hccl.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { OnAddActionBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
@@ -10,13 +10,15 @@ import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganizat
 import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
 import { ProviderWorkQueueListComponent } from '@app/components/_crud/workqueue/provider-workqueue-list.component';
 import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list.component';
+import { HcclTeamListComponent } from '@app/components/_crud/hcclteam/hcclteam-list.component';
 import { OnboardOrgUserModalComponent } from '@app/features/dash-ecoadmin/orgs/onboard-org-user-modal.component';
 import { CreateQueueModalComponent } from './create-queue-modal.component';
+import { CreateTeamModalComponent } from './create-team-modal.component';
 
 @Component({
   selector: 'app-provider-dashboard-tab-setup',
   standalone: true,
-  imports: [CommonModule, HcclUserProfileListComponent, ProviderWorkQueueListComponent, CatalogListComponent],
+  imports: [CommonModule, HcclUserProfileListComponent, ProviderWorkQueueListComponent, CatalogListComponent, HcclTeamListComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -46,6 +48,24 @@ import { CreateQueueModalComponent } from './create-queue-modal.component';
                     [criteria]="getUserProfileCriteria()"
                     [onAddAction]="getUserAddAction()">
                   </app-hccluserprofile-list>
+                </div>
+              </div>
+
+              <!-- Teams Section -->
+              <div class="setup-section mb-5">
+                <h4 class="section-title">
+                  <i class="fas fa-users-cog me-2"></i>
+                  Teams
+                </h4>
+                <p class="text-muted">Manage organization teams. Click "New Team" to add a new team.</p>
+                <div *ngIf="!loading">
+                  <app-hcclteam-list 
+                    [showingSearch]="true" 
+                    [showingSearchHeading]="false"
+                    [showingAddButton]="true"
+                    [criteria]="getTeamCriteria()"
+                    [onAddAction]="getTeamAddAction()">
+                  </app-hcclteam-list>
                 </div>
               </div>
 
@@ -137,8 +157,10 @@ export class ProviderDashboardTabSetupComponent extends AbstractMultimodeCompone
   protected modalService = inject(MdbModalService);
   protected modalRef?: MdbModalRef<OnboardOrgUserModalComponent>;
   protected queueModalRef?: MdbModalRef<CreateQueueModalComponent>;
+  protected teamModalRef?: MdbModalRef<CreateTeamModalComponent>;
   @ViewChild(HcclUserProfileListComponent) userProfileListComponent?: HcclUserProfileListComponent;
   @ViewChild(ProviderWorkQueueListComponent) workQueueListComponent?: ProviderWorkQueueListComponent;
+  @ViewChild(HcclTeamListComponent) teamListComponent?: HcclTeamListComponent;
 
   constructor() {
       super();
@@ -202,6 +224,18 @@ export class ProviderDashboardTabSetupComponent extends AbstractMultimodeCompone
   }
 
   /**
+   * Get criteria for HcclTeam list filtered by organization
+   */
+  protected getTeamCriteria(): HcclTeamCriteria {
+    return {
+      organizationId: this.organizationId || undefined,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
+  }
+
+  /**
    * Get the add action handler for user profile list
    * Opens the onboard user modal
    */
@@ -256,6 +290,37 @@ export class ProviderDashboardTabSetupComponent extends AbstractMultimodeCompone
           // Refresh the work queue list
           if (this.workQueueListComponent) {
             this.workQueueListComponent.onRefresh();
+          }
+        }
+      });
+    };
+    return addAction;
+  }
+
+  /**
+   * Get the add action handler for team list
+   * Opens the create team modal
+   */
+  protected getTeamAddAction(): OnAddActionBehavior {
+    const addAction = new OnAddActionBehavior();
+    addAction.onAdd = (baseRoute: string, router: any) => {
+      // Open the create team modal
+      this.teamModalRef = this.modalService.open(CreateTeamModalComponent, {
+        modalClass: 'modal-lg',
+        keyboard: false,
+        ignoreBackdropClick: true,
+        data: {
+          organizationId: this.organizationId
+        }
+      });
+
+      // Handle modal close - refresh list if team was successfully created
+      this.teamModalRef.onClose.subscribe((result: boolean) => {
+        if (result) {
+          console.log('Team created successfully');
+          // Refresh the team list
+          if (this.teamListComponent) {
+            this.teamListComponent.onRefresh();
           }
         }
       });

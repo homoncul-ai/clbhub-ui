@@ -31,6 +31,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   
   // [showingSearchHeading]="false" [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
   @Input() criteria: TCriteria | null = null;
+  @Input() fkMenuCriteria: BaseCriteria | null = null;
   @Input() showingSearch: boolean = true;
   @Input() searchButtonLabel: string = 'Search';
   @Input() searchPlaceholder: string = 'search by name or business code, * for wildcard';

@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HcclService, WorkQueuePOSTData } from '../../../restsvc/hccl.service';
+import { HcclService, HcclTeamCriteria, WorkQueuePOSTData } from '../../../restsvc/hccl.service';
 import { StdMdbFormTextComponent } from '../../../components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '../../../components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { AvailableSelectorComponent } from '../../../components/_global/available-selector/available-selector.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WorkqueuetyperefCrudComponent } from '../../../components/_crud/workqueuetyperef/workqueuetyperef-crud.component';
+import { HcclTeamCrudComponent } from '../../../components/_crud/hcclteam/hcclteam-crud.component';
 import { CRUD_MODES } from '../../../@core/constants';
 
 @Component({
@@ -16,7 +17,7 @@ import { CRUD_MODES } from '../../../@core/constants';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, 
     StdMdbFormTextComponent, StdMdbFormTextareaComponent, 
-    AvailableSelectorComponent, TranslateModule, WorkqueuetyperefCrudComponent],
+    AvailableSelectorComponent, TranslateModule, WorkqueuetyperefCrudComponent, HcclTeamCrudComponent],
   templateUrl: './create-queue-modal.component.html',
   styleUrls: ['./create-queue-modal.component.scss']
 })
@@ -28,8 +29,10 @@ export class CreateQueueModalComponent implements OnInit, AfterViewInit {
   organizationId?: string;
   availableValue: number = 1;
   workQueueTypeIdValue: string = '';
+  workQueueTeamIdValue: string = '';
   CRUD_MODES = CRUD_MODES;
   @ViewChild(WorkqueuetyperefCrudComponent) workQueueTypeRefComponent?: WorkqueuetyperefCrudComponent;
+  @ViewChild(HcclTeamCrudComponent) hcclTeamComponent?: HcclTeamCrudComponent;
 
   constructor(
     public modalRef: MdbModalRef<CreateQueueModalComponent>,
@@ -65,11 +68,21 @@ export class CreateQueueModalComponent implements OnInit, AfterViewInit {
     // Sync available value with form
     this.availableValue = this.queueForm.get('available')?.value || 1;
     this.workQueueTypeIdValue = this.queueForm.get('workQueueTypeId')?.value || '';
+    this.workQueueTeamIdValue = this.queueForm.get('workQueueTeamId')?.value || '';
   }
   
+  protected getWorkQueueTeamFkMenuCriteria(): HcclTeamCriteria {
+    return {
+      organizationId: this.organizationId || undefined,
+      available: 1,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: false
+    };
+  }
   ngAfterViewInit(): void {
-    // Listen for changes to the work queue type selection
-    // The component uses MenuControlDataListComponent internally which updates the id
+    // Listen for changes to the work queue type and team selections
+    // The components use MenuControlDataListComponent internally which updates the id
     // We need to periodically check or use a different approach
     // For now, we'll read the value on form submit
   }
@@ -92,6 +105,14 @@ export class CreateQueueModalComponent implements OnInit, AfterViewInit {
       }
     }
     
+    // Get the selected team ID from the component if available
+    if (this.hcclTeamComponent) {
+      const selectedTeamId = this.hcclTeamComponent.id || this.workQueueTeamIdValue;
+      if (selectedTeamId) {
+        this.queueForm.patchValue({ workQueueTeamId: selectedTeamId });
+      }
+    }
+    
     if (this.queueForm.valid) {
       this.isLoading = true;
       this.error = {};
@@ -103,7 +124,7 @@ export class CreateQueueModalComponent implements OnInit, AfterViewInit {
         description: formData.description,
         prefixCode: formData.prefixCode,
         workQueueTypeId: formData.workQueueTypeId || this.workQueueTypeIdValue,
-        workQueueTeamId: formData.workQueueTeamId,
+        workQueueTeamId: formData.workQueueTeamId || this.workQueueTeamIdValue,
         available: formData.available || 1,
         organizationId: this.organizationId,
         externalQueue: formData.externalQueue || 1

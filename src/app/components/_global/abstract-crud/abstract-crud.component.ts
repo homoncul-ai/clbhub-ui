@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList } from '../../../restsvc/hccl.service';
+import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, BaseCriteria } from '../../../restsvc/hccl.service';
 import { Reference, SimpleMessageList } from '../../../restsvc/common-request-service.model';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
@@ -47,6 +47,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   @Input() menuCreationHint?: string = '';
   @Input() entityForCreate?: R;
   @Input() readonly: boolean = false;
+  @Input() fkMenuCriteria: BaseCriteria | null = null;
 
   @Output() crudComponentRequiresRefresh = new EventEmitter<void>();
 
@@ -353,7 +354,7 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   public fkMenu : MenuControlDataList | null = null;
   protected async prepareFkMenuMode(): Promise<void> {
     this.entity  = this.entity || this.newEmptyWrapper();
-    this.fkMenu = await this.entity.getFkMenu(this.menuCreationHint, null);
+    this.fkMenu = await this.entity.getFkMenu(this.menuCreationHint, this.fkMenuCriteria);
     if (this.id) {
       this.entity.setSelectedOption(this.fkMenu, this.id)
     }

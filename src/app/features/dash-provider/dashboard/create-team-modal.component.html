@@ -1,10 +1,10 @@
 <div class="modal-header text-white">
-  <h5 class="modal-title">Create Work Queue</h5>
+  <h5 class="modal-title">Create Team</h5>
   <span class="fa fa-times cursorPointer" (click)="onCancel()"></span>
 </div>
 
 <div class="modal-body">
-  <form [formGroup]="queueForm">
+  <form [formGroup]="teamForm">
     <div class="form-symbols-text text-end" *ngIf="!isLoading">
       <small class="text-muted">
         <span class="requiredField">* </span>Required fields
@@ -17,7 +17,7 @@
           
           <!-- Name -->
           <app-std-mdb-form-text 
-            prefix="createQueue" 
+            prefix="createTeam" 
             name="name"
             label="Name"
             [required]="true"
@@ -27,7 +27,7 @@
 
           <!-- Business Code -->
           <app-std-mdb-form-text 
-            prefix="createQueue" 
+            prefix="createTeam" 
             name="businessCode"
             label="Business Code"
             [required]="true"
@@ -37,52 +37,53 @@
           
           <!-- Description -->
           <app-std-mdb-form-textarea 
-            prefix="createQueue" 
+            prefix="createTeam" 
             name="description"
             label="Description"
-            [required]="true"
             [error]="error"
             formControlName="description">
           </app-std-mdb-form-textarea>
 
-          <!-- Prefix Code -->
+          <!-- Team Type -->
+          <div class="form-group mb-3">
+            <label class="form-label">
+              <span class="requiredField">* </span>Team Type
+            </label>
+            <app-teamtyperef-crud 
+              [id]="teamTypeIdValue" 
+              [modeName]="CRUD_MODES.FK_MENU">
+            </app-teamtyperef-crud>
+            <div *ngIf="error?.teamTypeId" class="invalid-feedback d-block">
+              {{ error.teamTypeId.errorMessage }}
+            </div>
+          </div>
+
+          <!-- Team Parent ID -->
           <app-std-mdb-form-text 
-            prefix="createQueue" 
-            name="prefixCode"
-            label="Prefix Code"
-            [required]="true"
+            prefix="createTeam" 
+            name="teamParentId"
+            label="Team Parent ID"
             [error]="error"
-            formControlName="prefixCode">
+            formControlName="teamParentId">
           </app-std-mdb-form-text>
 
-          <!-- Work Queue Type ID -->
-          <div class="form-group mb-3">
-            <label class="form-label">
-              <span class="requiredField">* </span>Work Queue Type
-            </label>
-            <app-workqueuetyperef-crud 
-              [id]="workQueueTypeIdValue" 
-              [modeName]="CRUD_MODES.FK_MENU">
-            </app-workqueuetyperef-crud>
-            <div *ngIf="error?.workQueueTypeId" class="invalid-feedback d-block">
-              {{ error.workQueueTypeId.errorMessage }}
-            </div>
-          </div>
+          <!-- Team Parent Entity Type -->
+          <app-std-mdb-form-text 
+            prefix="createTeam" 
+            name="teamParentEntityType"
+            label="Team Parent Entity Type"
+            [error]="error"
+            formControlName="teamParentEntityType">
+          </app-std-mdb-form-text>
 
-          <!-- Work Queue Team -->
-          <div class="form-group mb-3">
-            <label class="form-label">
-              <span class="requiredField">* </span>Work Queue Team
-            </label>
-            <app-hcclteam-crud 
-              [id]="workQueueTeamIdValue" 
-              [modeName]="CRUD_MODES.FK_MENU"
-              [fkMenuCriteria]="getWorkQueueTeamFkMenuCriteria()">
-            </app-hcclteam-crud>
-            <div *ngIf="error?.workQueueTeamId" class="invalid-feedback d-block">
-              {{ error.workQueueTeamId.errorMessage }}
-            </div>
-          </div>
+          <!-- Team Parent Name -->
+          <app-std-mdb-form-text 
+            prefix="createTeam" 
+            name="teamParentName"
+            label="Team Parent Name"
+            [error]="error"
+            formControlName="teamParentName">
+          </app-std-mdb-form-text>
 
           <!-- Available -->
           <div class="form-group mb-3">
@@ -98,21 +99,6 @@
             </div>
           </div>
 
-          <!-- External Queue -->
-          <div class="form-group mb-3">
-            <label class="form-label">
-              <span class="requiredField">* </span>External Queue
-            </label>
-            <input 
-              type="number" 
-              class="form-control" 
-              formControlName="externalQueue"
-              [class.is-invalid]="error?.externalQueue">
-            <div *ngIf="error?.externalQueue" class="invalid-feedback">
-              {{ error.externalQueue.errorMessage }}
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
@@ -124,12 +110,12 @@
     type="button"
     class="btn btn-sm btn-primary"
     (click)="onSubmit()"
-    [disabled]="!queueForm.valid || isLoading"
+    [disabled]="!teamForm.valid || isLoading"
   >
     <span
       [ngClass]="{ 'spinner-border spinner-border-sm': isLoading }"
     >
-      {{ isLoading ? 'Creating...' : 'Create Queue' }}
+      {{ isLoading ? 'Creating...' : 'Create Team' }}
     </span>
   </button>
   <button type="button" class="btn btn-sm btn-dark" (click)="onCancel()">

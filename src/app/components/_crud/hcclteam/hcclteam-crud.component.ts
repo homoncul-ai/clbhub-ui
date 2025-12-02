@@ -398,12 +398,26 @@ export class HcclTeamCrudWrapper extends EntityWrapper<HcclTeamGETData> {
     if (!this.hcclService) {
       throw new Error('HcclService not available');
     }
-    const results = await this.hcclService.findHcclTeams(criteria || this.getFkMenuCriteria()).toPromise();
+    const searchCriteria = criteria || this.getFkMenuCriteria();
+    const results = await this.hcclService.findHcclTeams(searchCriteria).toPromise();
     return results?.searchResults || [];
   }
 
   public override async getFkMenu(menuHint?: string, data?: any): Promise<MenuControlDataList> {
-    const hcclteams = await this.getHcclTeams();
-    return this.getMenuControlDataList("hcclteams", this.getEntityType() + " Menu", hcclteams, data);
+    var criteria: HcclTeamCriteria = this.getFkMenuCriteria();
+    
+    // Merge the passed fkMenuCriteria (data) with default criteria
+    if (data && typeof data === 'object') {
+      criteria = { ...criteria, ...data };
+    }
+    
+    const hcclteams = await this.getHcclTeams(criteria);
+    var menuItems = hcclteams.map(team => {
+      return {
+        id: team.id,
+        name: team.name
+      } as MenuControlData;
+    });
+    return { menuItems: menuItems } as MenuControlDataList;
   }
 } 
