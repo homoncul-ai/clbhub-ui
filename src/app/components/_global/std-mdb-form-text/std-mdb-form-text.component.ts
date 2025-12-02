@@ -33,6 +33,7 @@ export class StdMdbFormTextComponent implements ControlValueAccessor {
   @Input() helpText: string = '';
   
   @Output() valueChange = new EventEmitter<string>();
+  @Output() blur = new EventEmitter<void>();
 
   private _value: string = '';
   private onChange = (value: string) => {};
@@ -84,5 +85,6 @@ export class StdMdbFormTextComponent implements ControlValueAccessor {
 
   onBlur(): void {
     this.onTouched();
+    this.blur.emit();
   }
 } 

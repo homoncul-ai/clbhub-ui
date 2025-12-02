@@ -1,13 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { HcclUserProfileCriteria, WorkQueueCriteria, CatalogCriteria } from '@app/restsvc/hccl.service';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { OnAddActionBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
 import { ProviderWorkQueueListComponent } from '@app/components/_crud/workqueue/provider-workqueue-list.component';
 import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list.component';
+import { OnboardOrgUserModalComponent } from '@app/features/dash-ecoadmin/orgs/onboard-org-user-modal.component';
 
 @Component({
   selector: 'app-provider-dashboard-tab-setup',
@@ -38,8 +41,9 @@ import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list
                   <app-hccluserprofile-list 
                     [showingSearch]="true" 
                     [showingSearchHeading]="false"
-                    [showingAddButton]="false"
-                    [criteria]="getUserProfileCriteria()">
+                    [showingAddButton]="true"
+                    [criteria]="getUserProfileCriteria()"
+                    [onAddAction]="getUserAddAction()">
                   </app-hccluserprofile-list>
                 </div>
               </div>
@@ -128,6 +132,9 @@ import { CatalogListComponent } from '@app/components/_crud/catalog/catalog-list
 })
 export class ProviderDashboardTabSetupComponent extends AbstractMultimodeComponent<HcclOrganizationCrudWrapper> {
   protected organizationId: string = '';
+  protected modalService = inject(MdbModalService);
+  protected modalRef?: MdbModalRef<OnboardOrgUserModalComponent>;
+  @ViewChild(HcclUserProfileListComponent) userProfileListComponent?: HcclUserProfileListComponent;
 
   constructor() {
       super();
@@ -188,5 +195,36 @@ export class ProviderDashboardTabSetupComponent extends AbstractMultimodeCompone
       isPaging: true,
       includingCatalogStats: true
     };
+  }
+
+  /**
+   * Get the add action handler for user profile list
+   * Opens the onboard user modal
+   */
+  protected getUserAddAction(): OnAddActionBehavior {
+    const addAction = new OnAddActionBehavior();
+    addAction.onAdd = (baseRoute: string, router: any) => {
+      // Open the onboarding modal
+      this.modalRef = this.modalService.open(OnboardOrgUserModalComponent, {
+        modalClass: 'modal-lg',
+        keyboard: false,
+        ignoreBackdropClick: true,
+        data: {
+          organizationId: this.organizationId
+        }
+      });
+
+      // Handle modal close - refresh list if user was successfully onboarded
+      this.modalRef.onClose.subscribe((result: boolean) => {
+        if (result) {
+          console.log('User onboarded successfully');
+          // Refresh the user profile list
+          if (this.userProfileListComponent) {
+            this.userProfileListComponent.onRefresh();
+          }
+        }
+      });
+    };
+    return addAction;
   }
 }

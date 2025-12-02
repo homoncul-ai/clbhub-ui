@@ -44,6 +44,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   @Input() hideInternalButtons: boolean = false; // When true, hides Go and Add buttons for external control
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
+  @Input() onAddAction: OnAddActionBehavior | null = null;
   @Input() otherData: any = {};
   @Input() showingDiagnostics: boolean = false;
 
@@ -617,7 +618,14 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected onAdd(): void {
-     // Default implementation - subclasses can override
+     // If custom add action is provided, use it
+     if (this.onAddAction) {
+       const baseRoute = this.getBaseRoute();
+       this.onAddAction.onAdd(baseRoute, this.router);
+       return;
+     }
+     
+     // Default implementation - navigate to create route
      const baseRoute = this.getBaseRoute();
      console.log('Current URL:', this.router.url);
      console.log('Calculated base route:', baseRoute);
@@ -802,3 +810,21 @@ export class OnGoClickActionBehavior  {
 
   
 };
+
+/**
+ * Object containing add action functionality
+ * Allows custom handling of the "Add" button click, such as opening a modal
+ */
+export class OnAddActionBehavior {
+  /**
+   * Custom handler for add action
+   * @param baseRoute The base route for the entity
+   * @param router The Angular router instance
+   */
+  onAdd(baseRoute: string, router: Router): void {
+    // Default implementation - subclasses should override
+    // Default behavior is to navigate to create route
+    console.log('OnAddActionBehavior.onAdd called with baseRoute:', baseRoute);
+    router.navigate([baseRoute, 'create']);
+  }
+}

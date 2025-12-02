@@ -11,6 +11,30 @@
       </small>
     </div>
     
+    <!-- Validation Errors Section -->
+    <div *ngIf="hasValidationErrors() && !isLoading" class="validation-errors-alert alert alert-warning">
+      <div *ngIf="validationErrors.email" class="validation-error-item">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span>{{ validationErrors.email }}</span>
+        <a *ngIf="emailExists && emailExists.id" 
+           href="javascript:void(0)" 
+           class="validation-error-link ms-2"
+           (click)="navigateToUser(emailExists.id)">
+          <i class="fas fa-external-link-alt me-1"></i>View User
+        </a>
+      </div>
+      <div *ngIf="validationErrors.userName" class="validation-error-item">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span>{{ validationErrors.userName }}</span>
+        <a *ngIf="userNameExists && userNameExists.id" 
+           href="javascript:void(0)" 
+           class="validation-error-link ms-2"
+           (click)="navigateToUser(userNameExists.id)">
+          <i class="fas fa-external-link-alt me-1"></i>View User
+        </a>
+      </div>
+    </div>
+    
     <!-- Loading indicator -->
     <div *ngIf="isLoading" class="text-center py-4">
       <div class="spinner-border text-primary" role="status">
@@ -23,36 +47,57 @@
       <div class="col-md-12">
         <div class="col-md-10 offset-md-1">
           
-          <!-- Name -->
-          <app-std-mdb-form-text 
-            prefix="onboardUser" 
-            name="name"
-            label="Name"
-            [required]="true"
-            [error]="error"
-            formControlName="name">
-          </app-std-mdb-form-text>
-
-          <!-- User Name -->
-          <app-std-mdb-form-text 
-            prefix="onboardUser" 
-            name="userName"
-            label="User Name"
-            [required]="true"
-            [error]="error"
-            formControlName="userName">
-          </app-std-mdb-form-text>
-
+ 
           <!-- Email Address -->
-          <app-std-mdb-form-text 
-            prefix="onboardUser" 
-            name="emailAddress"
-            label="Email Address"
-            [required]="true"
-            [error]="error"
-            formControlName="emailAddress">
-          </app-std-mdb-form-text>
+          <div class="form-field-with-validation">
+            <app-std-mdb-form-text 
+              prefix="onboardUser" 
+              name="emailAddress"
+              label="Email Address"
+              [required]="true"
+              [error]="error"
+              formControlName="emailAddress"
+              (blur)="checkEmailAddress()">
+            </app-std-mdb-form-text>
+            <div *ngIf="checkingEmail" class="validation-spinner">
+              <span class="spinner-border spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">Checking...</span>
+              </span>
+              <small class="ms-2 text-muted">Checking email...</small>
+            </div>
+          </div>
 
+
+                 <!-- User Name -->
+                 <div class="form-field-with-validation">
+                   <app-std-mdb-form-text 
+                     prefix="onboardUser" 
+                     name="userName"
+                     label="User Name"
+                     [required]="true"
+                     [error]="error"
+                     formControlName="userName"
+                     (blur)="checkUserName()">
+                   </app-std-mdb-form-text>
+                   <div *ngIf="checkingUserName" class="validation-spinner">
+                     <span class="spinner-border spinner-border-sm text-primary" role="status">
+                       <span class="visually-hidden">Checking...</span>
+                     </span>
+                     <small class="ms-2 text-muted">Checking username...</small>
+                   </div>
+                 </div>
+                 
+                   <!-- Name -->
+                   <app-std-mdb-form-text 
+                   prefix="onboardUser" 
+                   name="name"
+                   label="Name"
+                   [required]="true"
+                   [error]="error"
+                   formControlName="name">
+                 </app-std-mdb-form-text>
+       
+       
           <!-- Work Phone -->
           <app-std-mdb-phone 
             prefix="onboardUser" 
@@ -89,7 +134,7 @@
     type="button"
     class="btn btn-sm btn-primary"
     (click)="onSubmit()"
-    [disabled]="!onboardForm.valid || isLoading"
+    [disabled]="!onboardForm.valid || isLoading || hasValidationErrors()"
   >
     <span
       [ngClass]="{ 'spinner-border spinner-border-sm': isLoading }"
