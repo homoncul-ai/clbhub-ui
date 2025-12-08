@@ -15870,6 +15870,47 @@
         }
       }
     },
+    "/hccl/students/dash-ui/resolve-signup-ui-data/{interest-id}": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveSignupUIData",
+        "parameters": [
+          {
+            "name": "interest-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/students/dash-ui/resolve-student-data": {
       "get": {
         "tags": [
@@ -35967,6 +36008,23 @@
         "properties": {
           "entryJson": {
             "type": "string"
+          }
+        }
+      },
+      "SignupUIData": {
+        "type": "object",
+        "properties": {
+          "signupPacket": {
+            "$ref": "#/components/schemas/CatalogEntrySignupPacketGETData"
+          },
+          "catalogEntryInterest": {
+            "$ref": "#/components/schemas/CatalogEntryInterestGETData"
+          },
+          "resumeSelectData": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "signupBehavior": {
+            "$ref": "#/components/schemas/SignupBehavior"
           }
         }
       },
