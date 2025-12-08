@@ -4494,6 +4494,7 @@ export interface CatalogEntrySignupPacketCriteria {
   name?: string;
   signupBehaviorCode?: string;
   available?: number;
+  findingDefaultForOrganization?: boolean;
 }
 
 export interface CatalogEntrySignupPacketPUTData {
@@ -9132,6 +9133,7 @@ export interface SignupBehavior {
   code?: string;
   name?: string;
   requiringResume?: boolean;
+  consentingToSendTranscript?: boolean;
   ackingProviderContact?: boolean;
 }
 
@@ -9163,6 +9165,7 @@ export interface SignupUIData {
   catalogEntryInterest?: CatalogEntryInterestGETData;
   resumeSelectData?: MenuControlDataList;
   signupBehavior?: SignupBehavior;
+  providerOrganizationName?: string;
 }
 
 export interface PMessageUIGETData {

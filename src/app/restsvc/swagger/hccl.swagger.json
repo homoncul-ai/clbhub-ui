@@ -19281,6 +19281,9 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "findingDefaultForOrganization": {
+            "type": "boolean"
           }
         }
       },
@@ -35945,6 +35948,9 @@
           "requiringResume": {
             "type": "boolean"
           },
+          "consentingToSendTranscript": {
+            "type": "boolean"
+          },
           "ackingProviderContact": {
             "type": "boolean"
           }
@@ -36025,6 +36031,9 @@
           },
           "signupBehavior": {
             "$ref": "#/components/schemas/SignupBehavior"
+          },
+          "providerOrganizationName": {
+            "type": "string"
           }
         }
       },

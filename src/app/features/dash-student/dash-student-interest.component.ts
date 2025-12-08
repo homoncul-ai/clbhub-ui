@@ -1,10 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HcclService, CatalogEntryInterestGETData } from '@app/restsvc/hccl.service';
+import { HcclService, CatalogEntryInterestGETData, SignupUIData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dash-student-interest',
@@ -70,9 +71,23 @@ import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
                     <i class="fas fa-info-circle me-2"></i>
                     More Information
                   </h4>
-                  <div class="alert alert-info">
-                    <p><strong>This section is under development.</strong></p>
-                    <p>Additional information about the catalog entry will be displayed here.</p>
+                  
+                  <!-- Loading state for signup UI data -->
+                  <div *ngIf="loadingSignupUIData" class="text-center py-2">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+
+                  <!-- Signup Packet Instructions -->
+                  <div *ngIf="!loadingSignupUIData && signupInstructionsHtml" 
+                       class="signup-packet-instructions"
+                       [innerHTML]="signupInstructionsHtml">
+                  </div>
+
+                  <!-- No signup packet available -->
+                  <div *ngIf="!loadingSignupUIData && !signupInstructionsHtml" class="alert alert-info">
+                    <p>No additional information available for this catalog entry.</p>
                   </div>
                 </div>
               </div>
@@ -177,13 +192,19 @@ export class DashStudentInterestComponent implements OnInit {
   showSignUpModal = false;
   showApplyModal = false;
 
+  // Signup UI data state
+  loadingSignupUIData = false;
+  signupUIData: SignupUIData | null = null;
+  signupInstructionsHtml: SafeHtml | null = null;
+
   private modalService = inject(MdbModalService);
 
   constructor(
     private hcclService: HcclService,
     private hcclContextService: HcclContextService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     console.log('DashStudentInterestComponent initialized');
   }
@@ -211,6 +232,9 @@ export class DashStudentInterestComponent implements OnInit {
         next: (data) => {
           this.catalogEntryInterest = data;
           this.loading = false;
+          
+          // Load signup UI data
+          this.loadSignupUIData();
         },
         error: (err) => {
           console.error('Error loading catalog entry interest:', err);
@@ -313,6 +337,191 @@ export class DashStudentInterestComponent implements OnInit {
    */
   closeApplyModal(): void {
     this.showApplyModal = false;
+  }
+
+  /**
+   * Load the SignupUIData by calling resolveSignupUIData
+   */
+  loadSignupUIData(): void {
+    if (!this.interestId) {
+      return;
+    }
+
+    this.loadingSignupUIData = true;
+    this.signupUIData = null;
+    this.signupInstructionsHtml = null;
+
+    console.log('Loading signup UI data for interest ID:', this.interestId);
+    this.hcclService.resolveSignupUIData(this.interestId).subscribe({
+      next: (data) => {
+        console.log('Signup UI data loaded successfully:', data);
+        this.loadingSignupUIData = false;
+        this.signupUIData = data;
+        
+        // Extract and render markdown instructions
+        const instructionsMd = data?.signupPacket?.instructionsMd || 
+                               data?.signupPacket?.signupInstructionsMD || '';
+        
+        if (instructionsMd) {
+          const htmlContent = this.markdownToHtml(instructionsMd);
+          this.signupInstructionsHtml = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
+        }
+      },
+      error: (err) => {
+        console.error('Error loading signup UI data:', err);
+        console.error('Error details:', {
+          status: err?.status,
+          statusText: err?.statusText,
+          message: err?.message,
+          error: err?.error,
+          url: err?.url
+        });
+        this.loadingSignupUIData = false;
+        // Don't show error to user, just don't display signup packet
+      }
+    });
+  }
+
+  /**
+   * Convert markdown text to HTML
+   * Basic markdown conversion for common syntax
+   */
+  markdownToHtml(markdown: string): string {
+    if (!markdown) {
+      return '';
+    }
+
+    let html = markdown;
+
+    // Escape HTML first to prevent XSS, but preserve markdown syntax
+    // We'll do this more carefully to allow markdown conversion
+    const escapeHtml = (text: string): string => {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    };
+
+    // Process code blocks first (before escaping)
+    const codeBlocks: string[] = [];
+    html = html.replace(/```([\s\S]*?)```/g, (match, code) => {
+      const id = `__CODE_BLOCK_${codeBlocks.length}__`;
+      codeBlocks.push(escapeHtml(code));
+      return id;
+    });
+
+    // Process inline code
+    const inlineCodes: string[] = [];
+    html = html.replace(/`([^`]+)`/g, (match, code) => {
+      const id = `__INLINE_CODE_${inlineCodes.length}__`;
+      inlineCodes.push(escapeHtml(code));
+      return id;
+    });
+
+    // Escape the rest of the HTML
+    html = escapeHtml(html);
+
+    // Restore code blocks
+    codeBlocks.forEach((code, index) => {
+      html = html.replace(`__CODE_BLOCK_${index}__`, `<pre><code>${code}</code></pre>`);
+    });
+
+    // Restore inline code
+    inlineCodes.forEach((code, index) => {
+      html = html.replace(`__INLINE_CODE_${index}__`, `<code>${code}</code>`);
+    });
+
+    // Headers
+    html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+    html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+    html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+    // Bold
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+    // Italic (but not if it's part of bold)
+    html = html.replace(/(?<!\*)\*(?!\*)([^*]+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+    html = html.replace(/(?<!_)_(?!_)([^_]+?)(?<!_)_(?!_)/g, '<em>$1</em>');
+
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+    // Unordered lists - process line by line
+    const lines = html.split('\n');
+    const processedLines: string[] = [];
+    let inList = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const listMatch = line.match(/^(\*|-)\s+(.+)$/);
+      
+      if (listMatch) {
+        if (!inList) {
+          processedLines.push('<ul>');
+          inList = true;
+        }
+        processedLines.push(`<li>${listMatch[2]}</li>`);
+      } else {
+        if (inList) {
+          processedLines.push('</ul>');
+          inList = false;
+        }
+        processedLines.push(line);
+      }
+    }
+    
+    if (inList) {
+      processedLines.push('</ul>');
+    }
+    
+    html = processedLines.join('\n');
+
+    // Ordered lists
+    const olLines = html.split('\n');
+    const olProcessedLines: string[] = [];
+    let inOlList = false;
+    
+    for (let i = 0; i < olLines.length; i++) {
+      const line = olLines[i];
+      const olMatch = line.match(/^\d+\.\s+(.+)$/);
+      
+      if (olMatch) {
+        if (!inOlList) {
+          olProcessedLines.push('<ol>');
+          inOlList = true;
+        }
+        olProcessedLines.push(`<li>${olMatch[1]}</li>`);
+      } else {
+        if (inOlList) {
+          olProcessedLines.push('</ol>');
+          inOlList = false;
+        }
+        olProcessedLines.push(line);
+      }
+    }
+    
+    if (inOlList) {
+      olProcessedLines.push('</ol>');
+    }
+    
+    html = olProcessedLines.join('\n');
+
+    // Line breaks - convert double newlines to paragraphs
+    html = html.split('\n\n').map(para => {
+      para = para.trim();
+      if (para && !para.match(/^<(h[1-6]|ul|ol|pre|p)/)) {
+        return `<p>${para}</p>`;
+      }
+      return para;
+    }).join('');
+
+    // Single line breaks to <br>
+    html = html.replace(/\n/g, '<br>');
+
+    return html;
   }
 }
 
