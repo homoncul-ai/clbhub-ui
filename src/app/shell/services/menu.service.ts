@@ -551,6 +551,10 @@ export class MenuService {
     const catalogEntryList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRY_LIST);
     this.addChildMenuItem(courseGroup, catalogEntryList);
 
+    // catalogtyperef list
+    const catalogTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGTYPEREF_LIST);
+    this.addChildMenuItem(courseGroup, catalogTypeRefList);
+
 
     // clschool list
     const clschoolList = this.copyMenuItem(MENU_CONSTANTS.EA_CLSCHOOL_LIST);
@@ -1310,6 +1314,15 @@ EA_CATALOGENTRY_LIST: {
   "componentPath" : "/src/app/components/_crud/catalogentry/catalogentry-list.component",
   "componentName" : "CatalogEntryListComponent",
   "icon" : ""
+},
+
+EA_CATALOGTYPEREF_LIST: {
+  "level" : 2,
+  "label" : "Catalog Type Ref",
+  "route" : "/ecoadmin-dashboard/catalogtyperefs",
+  "componentPath" : "/src/app/components/_crud/catalogtyperef/catalogtyperef-list.component",
+  "componentName" : "CatalogTypeRefListComponent",
+  "icon" : "fas fa-tags"
 },
 
 EA_CATALOGSEARCHRESULTENTRY_LIST: {

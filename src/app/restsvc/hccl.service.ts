@@ -3574,6 +3574,14 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PMessageGETData>(request);
   }
 
+  getSignupPacketsSetupData(): Observable<ManageSignupPacketUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/providers/setup/signup-packets-setup-data",
+      method: "GET",
+    };
+    return this.request<ManageSignupPacketUIData>(request);
+  }
+
   resolveProviderTicketUIData(): Observable<WorkRequestDashboardUIGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/providers/dash-ui/tickets",
@@ -3694,6 +3702,15 @@ export class HcclService extends CommonRequestServiceCaller {
   acceptTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/" + tix_id + "/accept",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestGETData>(request);
+  }
+
+  callCreateSignupRequest(body: SignupBehaviorPOSTData): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/create-signup-request",
       method: "POST",
       body: body,
     };
@@ -4062,9 +4079,11 @@ export interface CatalogEntryInterestPOSTData {
   interest: number;
   notes?: string;
   messageId?: string;
+  participantId?: string;
   currentStateCode: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+  resumeId?: string;
 }
 
 export interface CatalogEntryGETData {
@@ -4121,8 +4140,10 @@ export interface CatalogEntryInterestGETData {
   interest?: number;
   notes?: string;
   messageId?: string;
+  participantId?: string;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  resumeId?: string;
   catalogEntry?: CatalogEntryGETData;
 }
 
@@ -4149,9 +4170,11 @@ export interface CatalogEntryInterestCriteria {
   userProfileId?: string;
   interest?: number;
   messageId?: string;
+  participantId?: string;
   currentStateCode?: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+  resumeId?: string;
   interestRangeMin?: number;
   interestRangeMax?: number;
 }
@@ -4164,9 +4187,11 @@ export interface CatalogEntryInterestPUTData {
   interest: number;
   notes?: string;
   messageId?: string;
+  participantId?: string;
   currentStateCode: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+  resumeId?: string;
 }
 
 export interface CatalogEntryPOSTData {
@@ -4370,10 +4395,12 @@ export interface CatalogEntrySignupPacketPOSTData {
   organizationId: string;
   catalogId?: string;
   catalogEntryId?: string;
+  fileGroupId?: string;
   name: string;
   signupBehaviorCode: string;
   description: string;
   available: number;
+  instructionsMd: string;
 }
 
 export interface CatalogEntrySignupPacketGETData {
@@ -4385,10 +4412,12 @@ export interface CatalogEntrySignupPacketGETData {
   organizationId?: string;
   catalogId?: string;
   catalogEntryId?: string;
+  fileGroupId?: string;
   name?: string;
   signupBehaviorCode?: string;
   description?: string;
   available?: number;
+  instructionsMd?: string;
   signupInstructionsMD?: string;
   fileGroup?: PMFileGroupGETData;
 }
@@ -4453,6 +4482,7 @@ export interface CatalogEntrySignupPacketCriteria {
   organizationId?: string;
   catalogId?: string;
   catalogEntryId?: string;
+  fileGroupId?: string;
   name?: string;
   signupBehaviorCode?: string;
   available?: number;
@@ -4462,10 +4492,12 @@ export interface CatalogEntrySignupPacketPUTData {
   organizationId: string;
   catalogId?: string;
   catalogEntryId?: string;
+  fileGroupId?: string;
   name: string;
   signupBehaviorCode: string;
   description: string;
   available: number;
+  instructionsMd: string;
 }
 
 export interface CatalogEntryTagPOSTData {
@@ -5023,6 +5055,7 @@ export interface ExperiencePOSTData {
   minParticipants?: number;
   dateRegistrationClosed?: string;
   metadataJson: string;
+  indexMd: string;
 }
 
 export interface ExperienceGETData {
@@ -5042,6 +5075,7 @@ export interface ExperienceGETData {
   maxParticipants?: number;
   minParticipants?: number;
   metadataJson?: string;
+  indexMd?: string;
 }
 
 export interface ExperienceGETDataSearchResults {
@@ -5096,6 +5130,7 @@ export interface ExperiencePUTData {
   minParticipants?: number;
   dateRegistrationClosed?: string;
   metadataJson: string;
+  indexMd: string;
 }
 
 export interface ExperienceTypePOSTData {
@@ -5926,6 +5961,33 @@ export interface PMFileGroupPOSTData {
   parentEntityType: string;
   aspectCode: string;
   fileGroupEntryId?: string;
+  mapFolderFiles?: any;
+}
+
+export interface PMFilePOSTData {
+  downloadAs: string;
+  folderPath: string;
+  fileAccessCode: string;
+  available?: boolean;
+  pmbucketFolderId?: string;
+  pmfileReferenceId?: string;
+  uploadReferenceId?: string;
+  uploadGroupReferenceId?: string;
+  parentEntityId: string;
+  parentEntityName?: string;
+  parentEntityType: string;
+  md5Hash?: string;
+  copyFromPMFileId?: string;
+  publicImage?: boolean;
+  fileSize?: number;
+  mimeType?: string;
+  version?: number;
+  bucketStorageUuid?: string;
+  bucketFolderPath?: string;
+  inTrash?: boolean;
+  fileBlob?: string;
+  fileBlobBase64?: string;
+  blobMetadata?: any;
 }
 
 export interface PMFileGroupGETDataSearchResults {
@@ -5966,32 +6028,6 @@ export interface PMFileGroupPUTData {
   parentEntityType: string;
   aspectCode: string;
   fileGroupEntryId?: string;
-}
-
-export interface PMFilePOSTData {
-  downloadAs: string;
-  folderPath: string;
-  fileAccessCode: string;
-  available?: boolean;
-  pmbucketFolderId?: string;
-  pmfileReferenceId?: string;
-  uploadReferenceId?: string;
-  uploadGroupReferenceId?: string;
-  parentEntityId: string;
-  parentEntityName?: string;
-  parentEntityType: string;
-  md5Hash?: string;
-  copyFromPMFileId?: string;
-  publicImage?: boolean;
-  fileSize?: number;
-  mimeType?: string;
-  version?: number;
-  bucketStorageUuid?: string;
-  bucketFolderPath?: string;
-  inTrash?: boolean;
-  fileBlob?: string;
-  fileBlobBase64?: string;
-  blobMetadata?: any;
 }
 
 export interface PMFileGETData {
@@ -7312,6 +7348,7 @@ export interface HcclTeamCriteria {
   teamParentEntityType?: string;
   teamParentName?: string;
   available?: number;
+  memberUserProfileId?: string;
 }
 
 export interface HcclTeamPUTData {
@@ -9078,6 +9115,18 @@ export interface SimpleRestActionResponse {
   mapFormElements?: any;
 }
 
+export interface ManageSignupPacketUIData {
+  signupBehaviors?: SignupBehavior[];
+  signupBehaviorSelectData?: MenuControlDataList;
+}
+
+export interface SignupBehavior {
+  code?: string;
+  name?: string;
+  requiringResume?: boolean;
+  ackingProviderContact?: boolean;
+}
+
 export interface EntityStateStatGETData {
   itemCount?: number;
   stateCode?: string;
@@ -9145,6 +9194,15 @@ export interface RoutingActionPOSTData {
   newQueueId?: string;
 }
 
+export interface SignupBehaviorPOSTData {
+  catalogEntryInterestId?: string;
+  studentUserProfileId?: string;
+  resumeId?: string;
+  consentToProviderMessaging?: boolean;
+  consentToSendTranscript?: boolean;
+  signupMessage?: string;
+}
+
 export interface EntityState {
   name?: string;
   stateCode?: string;
@@ -9159,9 +9217,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {

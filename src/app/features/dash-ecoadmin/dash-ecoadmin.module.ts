@@ -64,6 +64,8 @@ import { PersonalStatementListComponent } from '../../components/_crud/personals
 import { PersonalStatementGroupComponent } from '../../components/_crud/personalstatement/personalstatement-group.component';
 import { CatalogEntryInterestListComponent } from '../../components/_crud/catalogentryinterest/catalogentryinterest-list.component';
 import { CatalogEntryInterestGroupComponent } from '../../components/_crud/catalogentryinterest/catalogentryinterest-group.component';
+import { CatalogTypeRefListComponent } from '../../components/_crud/catalogtyperef/catalogtyperef-list.component';
+import { CatalogTypeRefGroupComponent } from '../../components/_crud/catalogtyperef/catalogtyperef-group.component';
 
 const routes: Routes = [
   {
@@ -125,6 +127,11 @@ const routes: Routes = [
       { path: 'catalogentries/:id/:tabId', component: CatalogEntryGroupComponent },
       { path: 'catalogentries/:id', redirectTo: 'catalogentries/:id/details', pathMatch: 'full' },
       { path: 'catalogentries', component: CatalogEntryListComponent },
+
+      { path: 'catalogtyperefs/create', component: CatalogTypeRefGroupComponent },
+      { path: 'catalogtyperefs/:id/:tabId', component: CatalogTypeRefGroupComponent },
+      { path: 'catalogtyperefs/:id', redirectTo: 'catalogtyperefs/:id/details', pathMatch: 'full' },
+      { path: 'catalogtyperefs', component: CatalogTypeRefListComponent },
 
       { path: 'clschools/create', component: CLSchoolGroupComponent },
       { path: 'clschools/:id/:tabId', component: CLSchoolGroupComponent },
@@ -286,6 +293,8 @@ const routes: Routes = [
     PersonalStatementGroupComponent,
     CatalogEntryInterestListComponent,
     CatalogEntryInterestGroupComponent,
+    CatalogTypeRefListComponent,
+    CatalogTypeRefGroupComponent,
     OrgSchoolsGroupComponent
   ]
 })

@@ -1,0 +1,24 @@
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+
+<div *ngIf="currentTabId === 'details'">
+  <app-catalogtyperef-crud [id]="id" modeName="detail"></app-catalogtyperef-crud>
+</div>
+
+<div *ngIf="currentTabId === 'create'">
+  <h1>Create</h1>
+  <app-catalogtyperef-crud [id]="id" modeName="create"></app-catalogtyperef-crud>
+</div>
+
+<!--
+<div *ngIf="currentTabId === 'debug'">
+  <h1>CRUD Modes DEBUG</h1>
+  <hr>
+  <app-catalogtyperef-crud [id]="id" modeName="debug"></app-catalogtyperef-crud>
+</div>
+
+<div *ngIf="currentTabId === 'fk_menu'">
+  <h1>FK_MENU</h1>
+  <app-catalogtyperef-crud [id]="id" modeName="fk_menu"></app-catalogtyperef-crud>
+</div>
+-->
+

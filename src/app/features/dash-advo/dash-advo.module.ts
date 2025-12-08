@@ -52,6 +52,8 @@ import { WorkRequestLogListComponent } from '@app/components/_crud/workrequestlo
 import { WorkRequestLogGroupComponent } from '@app/components/_crud/workrequestlog/workrequestlog-group.component';
 import { WorkItemDeliverableListComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-list.component';
 import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
+import { CatalogTypeRefListComponent } from '@app/components/_crud/catalogtyperef/catalogtyperef-list.component';
+import { CatalogTypeRefGroupComponent } from '@app/components/_crud/catalogtyperef/catalogtyperef-group.component';
 import { BubaDemoComponent } from '@app/components/_global/std-buba/buba-demo.component';
 
 const routes: Routes = [
@@ -111,6 +113,11 @@ const routes: Routes = [
       { path: 'workitemdeliverables/:id/:tabId', component: WorkItemDeliverableGroupComponent },
       { path: 'workitemdeliverables/:id', redirectTo: 'workitemdeliverables/:id/details', pathMatch: 'full' },
       { path: 'workitemdeliverables', component: WorkItemDeliverableListComponent },
+
+      // CatalogTypeRef routes
+      { path: 'catalogtyperefs/:id/:tabId', component: CatalogTypeRefGroupComponent },
+      { path: 'catalogtyperefs/:id', redirectTo: 'catalogtyperefs/:id/details', pathMatch: 'full' },
+      { path: 'catalogtyperefs', component: CatalogTypeRefListComponent },
 
       /** 
       { 
@@ -200,6 +207,8 @@ const routes: Routes = [
     ProviderRequestGroupComponent,
     WorkItemDeliverableListComponent,
     WorkItemDeliverableGroupComponent,
+    CatalogTypeRefListComponent,
+    CatalogTypeRefGroupComponent,
     BubaDemoComponent,
     // WorkRequestLogListComponent,
     // WorkRequestLogGroupComponent

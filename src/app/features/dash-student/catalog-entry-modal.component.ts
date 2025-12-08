@@ -181,9 +181,8 @@ export class CatalogEntryModalComponent implements OnInit {
       personalStatementId: this.personalStatementId,
       userProfileId: this.userProfileId,
       interest: interest,
-      currentStateCode: ''
-    };
-
+      currentStateCode: '--ChangedOnEntry--'
+    }; 
     //alert(JSON.stringify(interestData));
     this.hcclService.showInterest(interestData).subscribe({
       next: (response) => {

@@ -15456,6 +15456,33 @@
         }
       }
     },
+    "/hccl/providers/setup/signup-packets-setup-data": {
+      "get": {
+        "summary": "Load the signup packet . ",
+        "operationId": "getSignupPacketsSetupData",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManageSignupPacketUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/providers/dash-ui/tickets": {
       "get": {
         "summary": "Load the guidance UI. ",
@@ -15965,6 +15992,45 @@
             "*/*": {
               "schema": {
                 "$ref": "#/components/schemas/RoutingActionPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tixui/create-signup-request": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches Create the ticket",
+        "operationId": "callCreateSignupRequest",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupBehaviorPOSTData"
               }
             }
           }
@@ -17760,6 +17826,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "currentStateCode": {
             "maxLength": 50,
             "minLength": 1,
@@ -17772,6 +17842,10 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          },
+          "resumeId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -17812,7 +17886,8 @@
             "type": "string"
           },
           "catalogTypeId": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "entryGroupCode": {
             "type": "string"
@@ -17952,10 +18027,18 @@
             "type": "string",
             "format": "uuid"
           },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "currentStateCode": {
             "type": "string"
           },
           "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resumeId": {
             "type": "string",
             "format": "uuid"
           },
@@ -18049,6 +18132,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "currentStateCode": {
             "type": "string"
           },
@@ -18059,6 +18146,10 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          },
+          "resumeId": {
+            "type": "string",
+            "format": "uuid"
           },
           "interestRangeMin": {
             "type": "integer",
@@ -18108,6 +18199,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "currentStateCode": {
             "maxLength": 50,
             "minLength": 1,
@@ -18120,6 +18215,10 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          },
+          "resumeId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -18160,9 +18259,8 @@
             "type": "string"
           },
           "catalogTypeId": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "entryGroupCode": {
             "maxLength": 50,
@@ -18508,7 +18606,8 @@
             "type": "string"
           },
           "catalogTypeId": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "entryGroupCode": {
             "type": "string"
@@ -18705,9 +18804,8 @@
             "type": "string"
           },
           "catalogTypeId": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "entryGroupCode": {
             "maxLength": 50,
@@ -18829,6 +18927,7 @@
         "required": [
           "available",
           "description",
+          "instructionsMd",
           "name",
           "organizationId",
           "signupBehaviorCode"
@@ -18844,6 +18943,10 @@
             "format": "uuid"
           },
           "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fileGroupId": {
             "type": "string",
             "format": "uuid"
           },
@@ -18865,6 +18968,9 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "instructionsMd": {
+            "type": "string"
           }
         }
       },
@@ -18899,6 +19005,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "fileGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "type": "string"
           },
@@ -18911,6 +19021,9 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "instructionsMd": {
+            "type": "string"
           },
           "signupInstructionsMD": {
             "type": "string"
@@ -19114,6 +19227,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "fileGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "type": "string"
           },
@@ -19130,6 +19247,7 @@
         "required": [
           "available",
           "description",
+          "instructionsMd",
           "name",
           "organizationId",
           "signupBehaviorCode"
@@ -19145,6 +19263,10 @@
             "format": "uuid"
           },
           "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fileGroupId": {
             "type": "string",
             "format": "uuid"
           },
@@ -19166,6 +19288,9 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "instructionsMd": {
+            "type": "string"
           }
         }
       },
@@ -21012,6 +21137,7 @@
           "currentStateCode",
           "description",
           "exprienceTypeId",
+          "indexMd",
           "metadataJson",
           "name"
         ],
@@ -21085,6 +21211,9 @@
           },
           "metadataJson": {
             "type": "string"
+          },
+          "indexMd": {
+            "type": "string"
           }
         }
       },
@@ -21144,6 +21273,9 @@
             "format": "int32"
           },
           "metadataJson": {
+            "type": "string"
+          },
+          "indexMd": {
             "type": "string"
           }
         }
@@ -21275,6 +21407,7 @@
           "currentStateCode",
           "description",
           "exprienceTypeId",
+          "indexMd",
           "metadataJson",
           "name"
         ],
@@ -21347,6 +21480,9 @@
             "format": "date-time"
           },
           "metadataJson": {
+            "type": "string"
+          },
+          "indexMd": {
             "type": "string"
           }
         }
@@ -24347,6 +24483,123 @@
           "fileGroupEntryId": {
             "type": "string",
             "format": "uuid"
+          },
+          "mapFolderFiles": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PMFilePOSTData"
+              }
+            }
+          }
+        }
+      },
+      "PMFilePOSTData": {
+        "required": [
+          "downloadAs",
+          "fileAccessCode",
+          "folderPath",
+          "parentEntityId",
+          "parentEntityType"
+        ],
+        "type": "object",
+        "properties": {
+          "downloadAs": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "folderPath": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileAccessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "pmbucketFolderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmfileReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadGroupReferenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "md5Hash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "copyFromPMFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "publicImage": {
+            "type": "boolean"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mimeType": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bucketStorageUuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bucketFolderPath": {
+            "type": "string"
+          },
+          "inTrash": {
+            "type": "boolean"
+          },
+          "fileBlob": {
+            "type": "string",
+            "format": "byte"
+          },
+          "fileBlobBase64": {
+            "type": "string"
+          },
+          "blobMetadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       },
@@ -24492,114 +24745,6 @@
           "fileGroupEntryId": {
             "type": "string",
             "format": "uuid"
-          }
-        }
-      },
-      "PMFilePOSTData": {
-        "required": [
-          "downloadAs",
-          "fileAccessCode",
-          "folderPath",
-          "parentEntityId",
-          "parentEntityType"
-        ],
-        "type": "object",
-        "properties": {
-          "downloadAs": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "folderPath": {
-            "maxLength": 512,
-            "minLength": 1,
-            "type": "string"
-          },
-          "fileAccessCode": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "pmbucketFolderId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "pmfileReferenceId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "uploadReferenceId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "uploadGroupReferenceId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityName": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "parentEntityType": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "md5Hash": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "copyFromPMFileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "publicImage": {
-            "type": "boolean"
-          },
-          "fileSize": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "mimeType": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string"
-          },
-          "version": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "bucketStorageUuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "bucketFolderPath": {
-            "type": "string"
-          },
-          "inTrash": {
-            "type": "boolean"
-          },
-          "fileBlob": {
-            "type": "string",
-            "format": "byte"
-          },
-          "fileBlobBase64": {
-            "type": "string"
-          },
-          "blobMetadata": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
           }
         }
       },
@@ -29314,6 +29459,10 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "memberUserProfileId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -35729,6 +35878,37 @@
           }
         }
       },
+      "ManageSignupPacketUIData": {
+        "type": "object",
+        "properties": {
+          "signupBehaviors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SignupBehavior"
+            }
+          },
+          "signupBehaviorSelectData": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          }
+        }
+      },
+      "SignupBehavior": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "requiringResume": {
+            "type": "boolean"
+          },
+          "ackingProviderContact": {
+            "type": "boolean"
+          }
+        }
+      },
       "EntityStateStatGETData": {
         "type": "object",
         "properties": {
@@ -35934,6 +36114,32 @@
           }
         }
       },
+      "SignupBehaviorPOSTData": {
+        "type": "object",
+        "properties": {
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "studentUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resumeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "consentToProviderMessaging": {
+            "type": "boolean"
+          },
+          "consentToSendTranscript": {
+            "type": "boolean"
+          },
+          "signupMessage": {
+            "type": "string"
+          }
+        }
+      },
       "EntityState": {
         "type": "object",
         "properties": {
@@ -35983,13 +36189,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }
