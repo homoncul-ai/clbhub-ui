@@ -1,16 +1,25 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HcclService, CatalogEntryInterestGETData, SignupUIData } from '@app/restsvc/hccl.service';
+import { HcclService, CatalogEntryInterestGETData, SignupUIData, SignupBehaviorPOSTData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boolean.component';
 
 @Component({
   selector: 'app-dash-student-interest',
   standalone: true,
-  imports: [CommonModule, CatalogEntryCrudComponent],
+  imports: [
+    CommonModule, 
+    FormsModule,
+    CatalogEntryCrudComponent,
+    MenuControlDataListComponent,
+    StdBooleanComponent
+  ],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -109,28 +118,65 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
             <button type="button" class="btn-close" (click)="closeSignUpModal()" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <!-- TODO: Implement sign up form -->
-            <!-- This modal will allow users to sign up for courses, jobs, events, etc. -->
-            <!-- 
-              Features to implement:
-              - Form fields for sign up information
-              - Validation
-              - Submit to backend API
-              - Success/error handling
-            -->
-            <p>Sign up functionality will be implemented here.</p>
-            <p>This will allow users to register for:</p>
-            <ul>
-              <li>Courses</li>
-              <li>Jobs</li>
-              <li>Events</li>
-              <li>Other catalog entries</li>
-            </ul>
+            <!-- Loading state -->
+            <div *ngIf="loadingSignupUIData" class="text-center py-4">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-2">Loading signup information...</p>
+            </div>
+
+            <!-- Signup Form -->
+            <form *ngIf="!loadingSignupUIData && signupUIData" (ngSubmit)="onSubmitSignup()">
+              <!-- Resume Dropdown (if required) -->
+              <div *ngIf="signupUIData.signupBehavior?.requiringResume" class="mb-3">
+                <label class="form-label">Resume <span class="text-danger">*</span></label>
+                <app-menu-control-data-list
+                  [menuControlDataList]="signupUIData.resumeSelectData || null"
+                  placeholder="Select a resume"
+                  [(ngModel)]="signupFormData.resumeId"
+                  name="resumeId"
+                  [required]="signupUIData.signupBehavior?.requiringResume || false">
+                </app-menu-control-data-list>
+                <div class="form-text">Please select a resume to include with your signup.</div>
+              </div>
+
+              <!-- Provider Messaging Consent Checkbox (if required) -->
+              <div *ngIf="signupUIData.signupBehavior?.ackingProviderContact" class="mb-3">
+                <app-std-boolean
+                  prefix="signup"
+                  name="allowingProviderToMessage"
+                  [label]="'Allow ' + (signupUIData.providerOrganizationName || 'Provider') + ' to Message'"
+                  [required]="false"
+                  mode="checkbox"
+                  [(ngModel)]="signupFormData.allowingProviderToMessage">
+                </app-std-boolean>
+              </div>
+
+              <!-- Error message -->
+              <div *ngIf="signupError" class="alert alert-danger mt-3">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                {{ signupError }}
+              </div>
+            </form>
+
+            <!-- No signup data available -->
+            <div *ngIf="!loadingSignupUIData && !signupUIData" class="alert alert-warning">
+              <p>Signup information is not available for this catalog entry.</p>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="closeSignUpModal()">Cancel</button>
-            <button type="button" class="btn btn-primary" disabled>
-              Sign Up
+            <button 
+              type="button" 
+              class="btn btn-primary" 
+              (click)="onSubmitSignup()"
+              [disabled]="!canSubmitSignup() || submittingSignup">
+              <span *ngIf="submittingSignup">
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Submitting...
+              </span>
+              <span *ngIf="!submittingSignup">Complete Signup</span>
             </button>
           </div>
         </div>
@@ -196,6 +242,16 @@ export class DashStudentInterestComponent implements OnInit {
   loadingSignupUIData = false;
   signupUIData: SignupUIData | null = null;
   signupInstructionsHtml: SafeHtml | null = null;
+
+  // Signup form data
+  signupFormData: {
+    resumeId?: string;
+    allowingProviderToMessage?: boolean;
+  } = {};
+
+  // Signup submission state
+  submittingSignup = false;
+  signupError: string | null = null;
 
   private modalService = inject(MdbModalService);
 
@@ -315,6 +371,19 @@ export class DashStudentInterestComponent implements OnInit {
    * Open the Sign Up modal
    */
   openSignUpModal(): void {
+    // Reset form data
+    this.signupFormData = {
+      resumeId: undefined,
+      allowingProviderToMessage: false
+    };
+    this.signupError = null;
+    this.submittingSignup = false;
+
+    // Ensure signup UI data is loaded
+    if (!this.signupUIData && !this.loadingSignupUIData) {
+      this.loadSignupUIData();
+    }
+
     this.showSignUpModal = true;
   }
 
@@ -323,6 +392,79 @@ export class DashStudentInterestComponent implements OnInit {
    */
   closeSignUpModal(): void {
     this.showSignUpModal = false;
+    this.signupFormData = {};
+    this.signupError = null;
+    this.submittingSignup = false;
+  }
+
+  /**
+   * Check if signup form can be submitted
+   */
+  canSubmitSignup(): boolean {
+    if (!this.signupUIData?.signupBehavior) {
+      return false;
+    }
+
+    const behavior = this.signupUIData.signupBehavior;
+
+    // If resume is required, it must be selected
+    if (behavior.requiringResume && !this.signupFormData.resumeId) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Submit the signup form
+   */
+  onSubmitSignup(): void {
+    if (!this.canSubmitSignup() || this.submittingSignup) {
+      return;
+    }
+
+    if (!this.signupUIData || !this.catalogEntryInterest) {
+      this.signupError = 'Signup information is not available.';
+      return;
+    }
+
+    this.submittingSignup = true;
+    this.signupError = null;
+
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId();
+    if (!userProfileId) {
+      this.signupError = 'User profile ID is not available. Please refresh the page.';
+      this.submittingSignup = false;
+      return;
+    }
+
+    const signupData: SignupBehaviorPOSTData = {
+      catalogEntryInterestId: this.catalogEntryInterest.id || this.interestId,
+      studentUserProfileId: userProfileId,
+      resumeId: this.signupFormData.resumeId,
+      consentToProviderMessaging: this.signupFormData.allowingProviderToMessage || false,
+      consentToSendTranscript: this.signupUIData.signupBehavior?.consentingToSendTranscript ? 
+        (this.signupFormData.allowingProviderToMessage || false) : undefined,
+      signupMessage: undefined
+    };
+
+    console.log('Submitting signup request:', signupData);
+
+    this.hcclService.callCreateSignupRequest(signupData).subscribe({
+      next: (response) => {
+        console.log('Signup request created successfully:', response);
+        this.submittingSignup = false;
+        this.closeSignUpModal();
+        
+        // Optionally reload the catalog entry interest to show updated state
+        this.loadCatalogEntryInterest();
+      },
+      error: (err) => {
+        console.error('Error creating signup request:', err);
+        this.signupError = err?.error?.message || err?.message || 'Failed to submit signup request. Please try again.';
+        this.submittingSignup = false;
+      }
+    });
   }
 
   /**
