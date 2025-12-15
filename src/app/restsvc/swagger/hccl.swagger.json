@@ -9068,6 +9068,378 @@
         }
       }
     },
+    "/hccl/teams/familyunitmember": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new FamilyUnitMember.",
+        "operationId": "createFamilyUnitMember_1",
+        "requestBody": {
+          "description": "New FamilyUnitMember data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyUnitMemberPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/familyunitmember/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getFamilyUnitMemberById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FamilyUnitMemberGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing FamilyUnitMember.",
+        "operationId": "updateFamilyUnitMemberById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated FamilyUnitMember data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyUnitMemberPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing FamilyUnitMember.",
+        "operationId": "deleteFamilyUnitMemberById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/familyunitmember/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all FamilyUnitMembers.",
+        "operationId": "findFamilyUnitMembers_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyUnitMemberCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FamilyUnitMemberGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/familyunit": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new FamilyUnit.",
+        "operationId": "createFamilyUnit_1",
+        "requestBody": {
+          "description": "New FamilyUnit data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyUnitPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/familyunit/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getFamilyUnitById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FamilyUnitGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing FamilyUnit.",
+        "operationId": "updateFamilyUnitById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated FamilyUnit data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyUnitPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing FamilyUnit.",
+        "operationId": "deleteFamilyUnitById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/familyunit/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all FamilyUnits.",
+        "operationId": "findFamilyUnits_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyUnitCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FamilyUnitGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/teams/hcclorganization": {
       "post": {
         "tags": [
@@ -9421,6 +9793,192 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/HcclOrganizationTypeRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hcclperson": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new HcclPerson.",
+        "operationId": "createHcclPerson_1",
+        "requestBody": {
+          "description": "New HcclPerson data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclPersonPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hcclperson/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclPersonById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclPersonGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing HcclPerson.",
+        "operationId": "updateHcclPersonById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated HcclPerson data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclPersonPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing HcclPerson.",
+        "operationId": "deleteHcclPersonById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hcclperson/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all HcclPersons.",
+        "operationId": "findHcclPersons_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclPersonCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclPersonGETDataSearchResults"
                 }
               }
             }
@@ -19881,6 +20439,67 @@
           }
         }
       },
+      "HcclPersonGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userEmail": {
+            "type": "string"
+          },
+          "cellPhoneNumber": {
+            "type": "string"
+          },
+          "workPhoneNumber": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        }
+      },
       "HcclUserGETData": {
         "type": "object",
         "properties": {
@@ -19922,6 +20541,13 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "person": {
+            "$ref": "#/components/schemas/HcclPersonGETData"
           }
         }
       },
@@ -19989,6 +20615,10 @@
           },
           "externalUserName": {
             "type": "string"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
           },
           "roles": {
             "type": "array",
@@ -28317,6 +28947,447 @@
           }
         }
       },
+      "FamilyUnitMemberPOSTData": {
+        "required": [
+          "familyUnitId",
+          "personId"
+        ],
+        "type": "object",
+        "properties": {
+          "familyUnitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "FamilyUnitMemberGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "familyUnitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "type": "string"
+          },
+          "person": {
+            "$ref": "#/components/schemas/HcclPersonGETData"
+          }
+        }
+      },
+      "FamilyUnitMemberGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FamilyUnitMemberGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "FamilyUnitMemberCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "familyUnitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "FamilyUnitMemberPUTData": {
+        "required": [
+          "familyUnitId",
+          "personId"
+        ],
+        "type": "object",
+        "properties": {
+          "familyUnitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "FamilyUnitPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "familyName",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "organizationName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine1": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine2": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine3": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine4": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "familyName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "FamilyUnitGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "type": "string"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "addressLine1": {
+            "type": "string"
+          },
+          "addressLine2": {
+            "type": "string"
+          },
+          "addressLine3": {
+            "type": "string"
+          },
+          "addressLine4": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FamilyUnitMemberGETData"
+            }
+          }
+        }
+      },
+      "FamilyUnitGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FamilyUnitGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "FamilyUnitCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "type": "string"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "addressLine1": {
+            "type": "string"
+          },
+          "addressLine2": {
+            "type": "string"
+          },
+          "addressLine3": {
+            "type": "string"
+          },
+          "addressLine4": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          }
+        }
+      },
+      "FamilyUnitPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "familyName",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "organizationName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine1": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine2": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine3": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressLine4": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "familyName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
       "HcclOrganizationPOSTData": {
         "required": [
           "available",
@@ -28690,6 +29761,245 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "HcclPersonPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "firstName",
+          "lastName",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userEmail": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "cellPhoneNumber": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "workPhoneNumber": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "HcclPersonGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclPersonGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "HcclPersonCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userEmail": {
+            "type": "string"
+          },
+          "cellPhoneNumber": {
+            "type": "string"
+          },
+          "workPhoneNumber": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        }
+      },
+      "HcclPersonPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "firstName",
+          "lastName",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataOriginCode": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userEmail": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "cellPhoneNumber": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "workPhoneNumber": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
           }
         }
       },
@@ -29734,6 +31044,7 @@
           "available",
           "messageHandle",
           "organizationId",
+          "personId",
           "profileTypeCode",
           "userCode",
           "userId"
@@ -29801,6 +31112,10 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -30194,6 +31509,10 @@
           "externalUserName": {
             "type": "string"
           },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "externalUserIds": {
             "type": "array",
             "items": {
@@ -30209,6 +31528,7 @@
           "messageHandle",
           "name",
           "organizationId",
+          "personId",
           "profileTypeCode",
           "userCode",
           "userId"
@@ -30277,6 +31597,10 @@
             "minLength": 1,
             "type": "string"
           },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "maxLength": 255,
             "minLength": 1,
@@ -30289,7 +31613,8 @@
           "available",
           "businessCode",
           "description",
-          "name"
+          "name",
+          "personId"
         ],
         "type": "object",
         "properties": {
@@ -30325,6 +31650,10 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -30411,6 +31740,10 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -30419,7 +31752,8 @@
           "available",
           "businessCode",
           "description",
-          "name"
+          "name",
+          "personId"
         ],
         "type": "object",
         "properties": {
@@ -30455,6 +31789,10 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -35849,9 +37187,8 @@
       "OnboardOrgUserPOSTData": {
         "type": "object",
         "properties": {
-          "organizationId": {
-            "type": "string",
-            "format": "uuid"
+          "organizationCode": {
+            "type": "string"
           },
           "firstName": {
             "type": "string"

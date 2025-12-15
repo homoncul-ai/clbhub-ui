@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgHvac" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect fill="url(#bgHvac)" width="400" height="280"/>
+  <!-- AC Unit -->
+  <rect x="100" y="80" width="200" height="140" rx="10" fill="#374151" stroke="#4b5563" stroke-width="3"/>
+  <rect x="120" y="100" width="160" height="80" rx="5" fill="#1f2937"/>
+  <!-- Vents -->
+  <line x1="130" y1="110" x2="270" y2="110" stroke="#4b5563" stroke-width="4"/>
+  <line x1="130" y1="125" x2="270" y2="125" stroke="#4b5563" stroke-width="4"/>
+  <line x1="130" y1="140" x2="270" y2="140" stroke="#4b5563" stroke-width="4"/>
+  <line x1="130" y1="155" x2="270" y2="155" stroke="#4b5563" stroke-width="4"/>
+  <line x1="130" y1="170" x2="270" y2="170" stroke="#4b5563" stroke-width="4"/>
+  <!-- Control panel -->
+  <rect x="130" y="195" width="50" height="15" rx="3" fill="#1f2937"/>
+  <circle cx="145" cy="202" r="4" fill="#22c55e"/>
+  <circle cx="165" cy="202" r="4" fill="#3b82f6"/>
+  <!-- Worker -->
+  <g transform="translate(300, 120)">
+    <circle cx="20" cy="0" r="18" fill="#3b82f6"/>
+    <ellipse cx="20" cy="55" rx="22" ry="35" fill="#3b82f6"/>
+  </g>
+</svg>
+
+

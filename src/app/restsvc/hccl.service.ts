@@ -2117,6 +2117,92 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<TaxonomyGETDataSearchResults>(request);
   }
 
+  createFamilyUnitMember(body: FamilyUnitMemberPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunitmember",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getFamilyUnitMemberById(id: string): Observable<FamilyUnitMemberGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunitmember/" + id,
+      method: "GET",
+    };
+    return this.request<FamilyUnitMemberGETData>(request);
+  }
+
+  updateFamilyUnitMemberById(id: string, body: FamilyUnitMemberPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunitmember/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteFamilyUnitMemberById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunitmember/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findFamilyUnitMembers(body: FamilyUnitMemberCriteria): Observable<FamilyUnitMemberGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunitmember/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<FamilyUnitMemberGETDataSearchResults>(request);
+  }
+
+  createFamilyUnit(body: FamilyUnitPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunit",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getFamilyUnitById(id: string): Observable<FamilyUnitGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunit/" + id,
+      method: "GET",
+    };
+    return this.request<FamilyUnitGETData>(request);
+  }
+
+  updateFamilyUnitById(id: string, body: FamilyUnitPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunit/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteFamilyUnitById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunit/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findFamilyUnits(body: FamilyUnitCriteria): Observable<FamilyUnitGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/familyunit/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<FamilyUnitGETDataSearchResults>(request);
+  }
+
   createHcclOrganization(body: HcclOrganizationPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization",
@@ -2201,6 +2287,49 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<HcclOrganizationTypeRefGETDataSearchResults>(request);
+  }
+
+  createHcclPerson(body: HcclPersonPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclperson",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclPersonById(id: string): Observable<HcclPersonGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclperson/" + id,
+      method: "GET",
+    };
+    return this.request<HcclPersonGETData>(request);
+  }
+
+  updateHcclPersonById(id: string, body: HcclPersonPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclperson/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclPersonById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclperson/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclPersons(body: HcclPersonCriteria): Observable<HcclPersonGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hcclperson/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclPersonGETDataSearchResults>(request);
   }
 
   createHcclTeamLog(body: HcclTeamLogPOSTData): Observable<any> {
@@ -4668,6 +4797,26 @@ export interface CatalogSearchResultGETDataSearchResults {
   filter?: BaseCriteria;
 }
 
+export interface HcclPersonGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
 export interface HcclUserGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -4681,6 +4830,8 @@ export interface HcclUserGETData {
   externalUserEntityType?: string;
   externalUserName?: string;
   available?: number;
+  personId?: string;
+  person?: HcclPersonGETData;
 }
 
 export interface HcclUserProfileGETData {
@@ -4703,6 +4854,7 @@ export interface HcclUserProfileGETData {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  personId?: string;
   roles?: string[];
   theUser?: HcclUserGETData;
 }
@@ -7025,6 +7177,130 @@ export interface TaxonomyPUTData {
   defaultWeight?: number;
 }
 
+export interface FamilyUnitMemberPOSTData {
+  familyUnitId: string;
+  personId: string;
+  role?: string;
+}
+
+export interface FamilyUnitMemberGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  familyUnitId?: string;
+  personId?: string;
+  role?: string;
+  person?: HcclPersonGETData;
+}
+
+export interface FamilyUnitMemberGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: FamilyUnitMemberGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface FamilyUnitMemberCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  familyUnitId?: string;
+  personId?: string;
+  role?: string;
+}
+
+export interface FamilyUnitMemberPUTData {
+  familyUnitId: string;
+  personId: string;
+  role?: string;
+}
+
+export interface FamilyUnitPOSTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  familyName: string;
+}
+
+export interface FamilyUnitGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  familyName?: string;
+  members?: FamilyUnitMemberGETData[];
+}
+
+export interface FamilyUnitGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: FamilyUnitGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface FamilyUnitCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  familyName?: string;
+}
+
+export interface FamilyUnitPUTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  organizationName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  familyName: string;
+}
+
 export interface HcclOrganizationPOSTData {
   name: string;
   businessCode: string;
@@ -7128,6 +7404,67 @@ export interface HcclOrganizationTypeRefPUTData {
   businessCode: string;
   description: string;
   available: number;
+}
+
+export interface HcclPersonPOSTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface HcclPersonGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclPersonGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclPersonCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  available?: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface HcclPersonPUTData {
+  organizationId?: string;
+  name: string;
+  businessCode: string;
+  available: number;
+  dataOriginCode?: string;
+  userProfileId?: string;
+  userId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface HcclTeamLogPOSTData {
@@ -7435,6 +7772,7 @@ export interface HcclUserProfilePOSTData {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  personId: string;
 }
 
 export interface WorkItemFormContext {
@@ -7542,6 +7880,7 @@ export interface HcclUserProfileCriteria {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  personId?: string;
   externalUserIds?: string[];
 }
 
@@ -7560,6 +7899,7 @@ export interface HcclUserProfilePUTData {
   externalUserId?: string;
   externalUserEntityType?: string;
   externalUserName?: string;
+  personId: string;
   name: string;
 }
 
@@ -7571,6 +7911,7 @@ export interface HcclUserPOSTData {
   externalUserEntityType?: string;
   externalUserName?: string;
   available: number;
+  personId: string;
 }
 
 export interface HcclUserGETDataSearchResults {
@@ -7597,6 +7938,7 @@ export interface HcclUserCriteria {
   externalUserEntityType?: string;
   externalUserName?: string;
   available?: number;
+  personId?: string;
 }
 
 export interface HcclUserPUTData {
@@ -7607,6 +7949,7 @@ export interface HcclUserPUTData {
   externalUserEntityType?: string;
   externalUserName?: string;
   available: number;
+  personId: string;
 }
 
 export interface TeamMemberRoleRefPOSTData {
@@ -9099,7 +9442,7 @@ export interface HcclOrgSetupData {
 }
 
 export interface OnboardOrgUserPOSTData {
-  organizationId?: string;
+  organizationCode?: string;
   firstName?: string;
   lastName?: string;
   name?: string;

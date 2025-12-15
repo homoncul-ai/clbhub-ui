@@ -1,0 +1,1 @@
+Here's a picture from stitch.  Create an index.htm with the css and all the elements in an images subfolder to create the page in html. 

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgWeld" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#450a0a"/>
+      <stop offset="100%" style="stop-color:#1c1917"/>
+    </linearGradient>
+    <radialGradient id="spark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fef3c7"/>
+      <stop offset="50%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#ea580c;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  <rect fill="url(#bgWeld)" width="400" height="280"/>
+  <!-- Sparks -->
+  <circle cx="180" cy="160" r="60" fill="url(#spark)"/>
+  <circle cx="180" cy="160" r="20" fill="#fef3c7"/>
+  <!-- Spark lines -->
+  <g stroke="#f59e0b" stroke-width="2">
+    <line x1="180" y1="160" x2="140" y2="100"/>
+    <line x1="180" y1="160" x2="220" y2="90"/>
+    <line x1="180" y1="160" x2="250" y2="130"/>
+    <line x1="180" y1="160" x2="130" y2="180"/>
+    <line x1="180" y1="160" x2="200" y2="220"/>
+    <line x1="180" y1="160" x2="120" y2="140"/>
+  </g>
+  <!-- Welder silhouette -->
+  <g transform="translate(240, 100)">
+    <ellipse cx="30" cy="15" rx="25" ry="20" fill="#1f2937"/>
+    <rect x="5" y="30" width="50" height="10" fill="#1f2937"/>
+    <ellipse cx="30" cy="80" rx="30" ry="45" fill="#1f2937"/>
+  </g>
+  <!-- Welding tool -->
+  <rect x="195" y="150" width="60" height="15" rx="3" fill="#374151" transform="rotate(20, 200, 160)"/>
+</svg>
+
+
