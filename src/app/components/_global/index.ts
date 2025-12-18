@@ -22,4 +22,8 @@ export { StdMdbFormTextareaComponent } from './std-mdb-form-textarea/std-mdb-for
 export { StdMdbDatepickerComponent } from './std-mdb-datepicker/std-mdb-datepicker.component';
 export { StdBooleanComponent } from './std-boolean/std-boolean.component';
 export type { BooleanMode } from './std-boolean/std-boolean.component';
-export { StdMdbEntitystateComponent } from './std-mdb-entitystate/std-mdb-entitystate.component'; 
+export { StdMdbEntitystateComponent } from './std-mdb-entitystate/std-mdb-entitystate.component';
+
+// Markdown display component
+export { StdMarkdownDisplayComponent } from './std-markdown-display/std-markdown-display.component';
+export type { MarkdownDialect, MarkdownMode } from './std-markdown-display/std-markdown-display.component';

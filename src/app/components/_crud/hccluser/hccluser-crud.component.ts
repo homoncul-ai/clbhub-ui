@@ -150,15 +150,16 @@ export class HccluserCrudComponent extends AbstractCrudComponent<HcclUserCrudWra
      // Use entityNew if in create mode, otherwise use the passed entity
      const hcclUserData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
     
-     const postData: HcclUserPOSTData = {
-       name: hcclUserData.name || '',
-       businessCode: hcclUserData.businessCode || '',
-       description: hcclUserData.description || '',
-       externalUserId: hcclUserData.externalUserId || undefined,
-       externalUserEntityType: hcclUserData.externalUserEntityType || undefined,
-       externalUserName: hcclUserData.externalUserName || undefined,
-       available: hcclUserData.available || 1
-     };
+    const postData: HcclUserPOSTData = {
+      name: hcclUserData.name || '',
+      businessCode: hcclUserData.businessCode || '',
+      description: hcclUserData.description || '',
+      externalUserId: hcclUserData.externalUserId || undefined,
+      externalUserEntityType: hcclUserData.externalUserEntityType || undefined,
+      externalUserName: hcclUserData.externalUserName || undefined,
+      available: hcclUserData.available || 1,
+      personId: hcclUserData.personId || ''
+    };
 
      try {
        // The requestCreate method now returns { id: string, status: 201 }
@@ -192,7 +193,8 @@ export class HccluserCrudComponent extends AbstractCrudComponent<HcclUserCrudWra
         externalUserId: hcclUserData.externalUserId || undefined,
         externalUserEntityType: hcclUserData.externalUserEntityType || undefined,
         externalUserName: hcclUserData.externalUserName || undefined,
-        available: hcclUserData.available || 1
+        available: hcclUserData.available || 1,
+        personId: hcclUserData.personId || ''
       };
 
       try {

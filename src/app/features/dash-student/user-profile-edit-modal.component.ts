@@ -252,6 +252,7 @@ export class UserProfileEditModalComponent implements OnInit {
         externalUserEntityType: data.externalUserEntityType,
         externalUserName: data.externalUserName,
         available: data.available || 1,
+        personId: data.personId || '',
         name: this.name || ''
       };
 

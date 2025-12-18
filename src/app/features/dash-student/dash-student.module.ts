@@ -21,6 +21,8 @@ import { DashStudentResumesGroupComponent } from './dash-student-resumes-group.c
 import { StudentWorkRequestsComponent } from './workrequests/student-workrequests.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { CLCatalogSearchComponent } from './clcatalog-search/clcatalog-search.component';
+import { StudentEngageComponent } from './student-engage.component';
+import { StudentCatalogComponent } from './student-catalog/student-catalog.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +42,7 @@ const routes: Routes = [
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
       { path: 'research', component: CLCatalogSearchComponent },
+      { path: 'catalogs', component: StudentCatalogComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
 
       { path: 'guidance/workrequests/:ticketId/:tabId', component:StudentWorkRequestsComponent },
@@ -54,6 +57,8 @@ const routes: Routes = [
       { path: 'interests/:interestId/:tabId', component:DashStudentInterestsComponent },
       { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
       { path: 'interests', component:DashStudentInterestsComponent },
+
+      { path: 'engage', component: StudentEngageComponent },
 
       { path: 'resumes/:resumeId/resume', component:DashStudentResumesGroupComponent },
       { path: 'resumes/:resumeId/:tabId', component:DashStudentResumesGroupComponent },
@@ -94,6 +99,8 @@ const routes: Routes = [
     UistarterHomeComponent,
     StudentResumeEntryGroupComponent,
     CLCatalogSearchComponent,
+    StudentEngageComponent,
+    StudentCatalogComponent,
   ],
   declarations: [
     // Non-standalone components would go here

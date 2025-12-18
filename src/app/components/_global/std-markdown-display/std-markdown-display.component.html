@@ -1,0 +1,51 @@
+<div [class]="getContainerClasses()" [ngStyle]="getContainerStyles()">
+  <!-- Optional Title -->
+  @if (title) {
+    <div class="markdown-title">
+      <h4>{{ title }}</h4>
+    </div>
+  }
+
+  <!-- Display Mode -->
+  @if (modeName === 'display') {
+    <!-- Common Markdown -->
+    @if (dialect === 'common') {
+      <div class="markdown-content common-markdown" [innerHTML]="renderedHtml"></div>
+    }
+
+    <!-- Markdeep (rendered in iframe) -->
+    @if (dialect === 'markdeep') {
+      <iframe 
+        #markdeepFrame
+        class="markdeep-frame"
+        sandbox="allow-scripts allow-same-origin"
+        title="Markdeep Content">
+      </iframe>
+    }
+  }
+
+  <!-- Edit Mode -->
+  @if (modeName === 'edit') {
+    <textarea 
+      class="markdown-editor"
+      [value]="editContent"
+      (input)="onEditContentChange($event)"
+      placeholder="Enter markdown content...">
+    </textarea>
+    
+    <!-- Optional preview in edit mode -->
+    @if (dialect === 'common') {
+      <div class="markdown-preview">
+        <div class="preview-label">Preview:</div>
+        <div class="markdown-content common-markdown" [innerHTML]="renderedHtml"></div>
+      </div>
+    }
+  }
+
+  <!-- Empty state -->
+  @if (!markdown && modeName === 'display') {
+    <div class="markdown-empty">
+      <em>No content available</em>
+    </div>
+  }
+</div>

@@ -424,30 +424,36 @@ export class MenuService {
     const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
 
+   // Add Resume Entries as a child of Personal Statements
+   const resumeEntries = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
+   this.addChildMenuItem(courses, resumeEntries);
     
     // Add Resumes as a top-level item
     const resumes = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUMES);
-    this.addMenuItem(menu, resumes);
+    this.addChildMenuItem(courses, resumes);
    
-   // Add Resume Entries as a child of Personal Statements
-   const resumeEntries = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
-   this.addChildMenuItem(resumes, resumeEntries);
-   
-    const messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
-    this.addMenuItem(menu, messages);
+    const engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
+    this.addMenuItem(menu, engage);
 
-    const interests = this.copyMenuItem(MENU_CONSTANTS.STUDENT_INTERESTS);
-    this.addMenuItem(menu, interests);
+    // const messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
+    // this.addMenuItem(menu, messages);
 
+    // const interests = this.copyMenuItem(MENU_CONSTANTS.STUDENT_INTERESTS);
+    // this.addMenuItem(menu, interests);
+
+        // Add Progress with children
+        const catalogs = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CATALOG);
+        this.addMenuItem(menu, catalogs);
+        
     
  
-    // Add Progress with children
-    const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
-    this.addMenuItem(menu, guidance);
-    
     // Add Research
     const research = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH);
     this.addMenuItem(menu, research);
+    
+    // Add Progress with children
+    const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
+    this.addMenuItem(menu, guidance);
     
     // const progress = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROGRESS);
     // this.addMenuItem(menu, progress);
@@ -1436,7 +1442,7 @@ EA_ORGNONPROFITS_LIST: {
   },
   STUDENT_PERSONALSTATEMENTS: {
     level: 1,
-    label: 'Personal Statements',
+    label: 'Career Goals',
     route: '/student-dashboard/personalstatements',
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-personalstatements',
@@ -1466,6 +1472,14 @@ EA_ORGNONPROFITS_LIST: {
     componentName: 'clcatalog-search',
     icon: 'fas fa-search'
   },
+  STUDENT_ENGAGE: {
+    level: 1,
+    label: 'Engage',
+    route: '/student-dashboard/engage',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-engage',
+    icon: 'fas fa-envelope'
+  },
   STUDENT_MESSAGES: {
     level: 1,
     label: 'My Communications',
@@ -1482,6 +1496,16 @@ EA_ORGNONPROFITS_LIST: {
     componentName: 'dash-student-interests',
     icon: ''
   },
+
+//  /ecoadmin-dashboard/catalog menu items 
+STUDENT_CATALOG: {
+  "level" : 2,
+  "label" : "Catalog Search",
+  "route" : "/student-dashboard/catalogs",
+  "componentPath" : "src/app/features/dash-studentt",
+  "componentName" : "dash-student-catalog",
+  "icon" : "fas fa-list"
+},
   STUDENT_SCHEDULE: {
     level: 1,
     label: 'Schedule',
@@ -1514,6 +1538,7 @@ EA_ORGNONPROFITS_LIST: {
     componentName: 'student-resumeentry-group',
     icon: 'fas fa-list'
   },
+
   // SWCAT Dashboard Menu Items
   SWCAT_HOME: {
     level: 1,

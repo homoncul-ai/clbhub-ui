@@ -201,7 +201,7 @@ export class OnboardOrgUserModalComponent implements OnInit {
 
       const formData = this.onboardForm.value;
       const onboardData: OnboardOrgUserPOSTData = {
-        organizationId: this.organizationId,
+        organizationCode: this.organizationId,
         name: formData.name,
         userName: formData.userName,
         emailAddress: formData.emailAddress,

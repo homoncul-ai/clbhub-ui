@@ -207,7 +207,8 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
       externalUserId: data.externalUserId,
       externalUserEntityType: data.externalUserEntityType,
       externalUserName: data.externalUserName,
-      available: data.available || 1
+      available: data.available || 1,
+      personId: data.personId || ''
     };
     
     return this.hcclService.createHcclUserProfile(postData).toPromise();
@@ -228,6 +229,7 @@ export class HcclUserProfileCrudComponent extends AbstractCrudComponent<HcclUser
       externalUserEntityType: data.externalUserEntityType,
       externalUserName: data.externalUserName,
       available: data.available || 1,
+      personId: data.personId || '',
       name: data.theUser?.name || ''
     };
     

@@ -210,7 +210,8 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
       externalUserId: data.externalUserId,
       externalUserEntityType: data.externalUserEntityType,
       externalUserName: data.externalUserName,
-      available: data.available || 1
+      available: data.available || 1,
+      personId: data.personId || ''
     };
     
     return this.hcclService.createHcclUserProfile(postData).toPromise();
@@ -231,6 +232,7 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
       externalUserEntityType: data.externalUserEntityType,
       externalUserName: data.externalUserName,
       available: data.available || 1,
+      personId: data.personId || '',
       name: data.theUser?.name || ''
     };
     

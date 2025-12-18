@@ -1,0 +1,80 @@
+<div class="catalog-container" [class.large-font]="isLargeFont">
+    <div class="sidebar">
+      <div class="catalog-list">
+        <div class="catalog-item" *ngFor="let catalog of catalogs">
+          <input type="checkbox" [id]="catalog.id" [name]="catalog.name" (change)="onCatalogChange($event)">
+          <label [for]="catalog.id">{{catalog.name}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="catalog-header">
+        <h1>Vocational Opportunity Catalog</h1>
+      </div>
+  
+      <div class="search-container">
+        <div class="tab-list">
+          <div class="tab-list-item" [class.active]="selectedTab === 'simple'" (click)="selectTab('simple')">Simple Search</div>
+          <div class="tab-list-item" [class.active]="selectedTab === 'advanced'" (click)="selectTab('advanced')">Advanced Search</div>
+          <div class="font-toggle">
+            <button (click)="toggleFontSize()">
+              <span class="material-icons">{{ isLargeFont ? 'zoom_out' : 'zoom_in' }}</span>
+            </button>
+          </div>
+        </div>
+  
+        <div class="tab-content" [hidden]="selectedTab !== 'simple'">
+          <div class="search-form">
+            <div class="filter-row">
+              <div class="form-group">
+                <label for="keyword">Keyword (e.g., plumbing, masonry)</label>
+                <input type="text" id="keyword" name="keyword" [(ngModel)]="simpleKeyword" (ngModelChange)="search()">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="tab-content" [hidden]="selectedTab !== 'advanced'">
+                     <div class="search-form">
+                       <!-- First Row -->
+                       <div class="filter-row">
+                         <div class="form-group">
+                           <label for="keyword-adv">Keyword</label>
+                           <input type="text" id="keyword-adv" name="keyword-adv" [(ngModel)]="advKeyword" (ngModelChange)="advancedSearch()">
+                         </div>
+                       </div>
+                      <!-- Second Row -->
+                      <div class="filter-row">
+                        <div class="form-group checkbox-group">
+                          <input type="checkbox" id="available-only" name="available-only" [(ngModel)]="advAvailableOnly" (ngModelChange)="advancedSearch()">
+                          <label for="available-only">Show Available Only</label>
+                        </div>
+                        <div class="form-group checkbox-group">
+                          <input type="checkbox" id="show-debug" name="show-debug" [(ngModel)]="showDebug">
+                          <label for="show-debug">Show Debug</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+      <div class="results-container">
+        <h2>Results</h2>
+        <div class="results-list">
+          <div class="result-item" *ngFor="let result of searchResults; let i = index">
+            <h3 class="item-title">{{ result.title }}</h3>
+            <p class="item-description">{{ result.description }}</p>
+            <div class="item-footer">
+              <span class="item-last-updated">Last Updated: {{ result.dateLastUpdated }}</span>
+              <span class="item-availability">{{ result.available ? 'Available' : 'Not Available' }}</span>
+              <a [href]="result.url" class="item-link" target="_blank">View Source</a>
+            </div>
+            <div class="item-debug" *ngIf="showDebug">
+              <hr>
+              <p><strong>Debug Info:</strong></p>
+              <pre>{{ rawSearchResults[i] | json }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
