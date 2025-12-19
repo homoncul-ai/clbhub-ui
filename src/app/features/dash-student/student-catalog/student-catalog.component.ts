@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria } from '@app/restsvc/hccl.service';
-
+import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.service';
+import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
+import { RouterModule } from '@angular/router';
 export interface Opportunity {
+  id: string;
   title: string;
   catalogId: string;
   dateLastUpdated?: string;
@@ -15,49 +18,40 @@ export interface Opportunity {
 @Component({
   selector: 'app-student-catalog',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CatalogEntryCrudComponent, RouterModule],
   templateUrl: './student-catalog.component.html',
   styleUrls: ['./student-catalog.component.scss']
 })
 export class StudentCatalogComponent implements OnInit {
-  selectedTab: string = 'simple';
   searchResults: Opportunity[] = [];
   rawSearchResults: CatalogEntryGETData[] = [];
   isLargeFont: boolean = true;
   selectedCatalogs: string[] = [];
+  isLoading: boolean = false;
 
-  // Advanced search properties
-  advKeyword: string = '';
-  advAvailableOnly: boolean = false;
-  showDebug: boolean = false;
-  simpleKeyword: string = '';
+  // Search properties
+  searchKeyword: string = '';
+  selectedCategory: string = 'all';
+  showAvailableOnly: boolean = false;
+
+  // Pagination
+  pageSize: number = 20;
 
   // Catalog Data
   catalogs: CatalogGETData[] = [];
 
-  constructor(private hcclService: HcclService) {}
+  constructor(
+    private hcclService: HcclService,
+    private hcclContextService: HcclContextService
+  ) {}
 
   ngOnInit(): void {
     this.loadCatalogs();
   }
 
-  selectTab(tab: string) {
-    this.selectedTab = tab;
-  }
-
-  onCatalogChange(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    if (checkbox.checked) {
-      this.selectedCatalogs.push(checkbox.id);
-    } else {
-      this.selectedCatalogs = this.selectedCatalogs.filter(c => c !== checkbox.id);
-    }
-
-    if (this.selectedTab === 'simple') {
-      this.search();
-    } else {
-      this.advancedSearch();
-    }
+  selectCategory(category: string) {
+    this.selectedCategory = category;
+    // Don't auto-search, wait for user to click Search button
   }
 
   loadCatalogs() {
@@ -65,74 +59,101 @@ export class StudentCatalogComponent implements OnInit {
     this.hcclService.findCatalogs(criteria).subscribe(response => {
       if (response.searchResults) {
         this.catalogs = response.searchResults;
+        // Auto-select all catalogs
+        this.selectedCatalogs = this.catalogs.map(c => c.id || '').filter(id => id);
       }
     });
   }
 
-  search() {
-    if (this.selectedCatalogs.length === 0) {
-      this.searchResults = [];
-      return;
-    }
-
-    const criteria: CatalogEntryCriteria = {
-      catalogId: this.selectedCatalogs.join(','), // Join selected catalogs
-      searchByText: this.simpleKeyword,
-    };
-    console.log("Search criteria: " + JSON.stringify(criteria))
-
-    this.hcclService.findCatalogEntrys(criteria).subscribe(response => {
-      console.log('Server Response:', response);
-      if (response.searchResults) {
-        this.rawSearchResults = response.searchResults;
-        this.searchResults = response.searchResults.map(entry => {
-          const opportunity: Opportunity = {
-            title: entry.title || '',
-            catalogId: entry.catalogId || '',
-            dateLastUpdated: entry.dateLastUpdated?.formattedDateTime || 'N/A',
-            url: entry.url || '#',
-            description: entry.description || '',
-            available: entry.available
-          };
-          return opportunity;
-        });
-      }
-    });
+  protected getCatalogEntryImageUrl(): string {
+    return "imgs/TAROT-HR.png";
   }
 
-  advancedSearch() {
-    if (this.selectedCatalogs.length === 0) {
-      this.searchResults = [];
-      return;
-    }
+  performSearch() {
+    this.isLoading = true;
+    this.searchResults = [];
 
     const criteria: CatalogEntryCriteria = {
-      catalogId: this.selectedCatalogs.join(','), // Join selected catalogs
+      // First page of results
+      pageNumber: 1,
+      pageSize: this.pageSize,
+      isPaging: true
     };
 
-    if (this.advKeyword) {
-      criteria.searchByText = this.advKeyword;
+    // Add category filter based on selection
+    // if (this.selectedCategory !== 'all') {
+    //   criteria.catalogId = this.selectedCategory;
+    // } else if (this.selectedCatalogs.length > 0) {
+    //   criteria.catalogId = this.selectedCatalogs.join(',');
+    // }
+
+    // Add keyword search
+    if (this.searchKeyword) {
+      criteria.searchByText = this.searchKeyword;
     }
-    if (this.advAvailableOnly) {
+
+    // Add available only filter
+    if (this.showAvailableOnly) {
       criteria.available = 1;
     }
-    console.log("Search criteria: " + JSON.stringify(criteria))
 
-    this.hcclService.findCatalogEntrys(criteria).subscribe(response => {
-      console.log('Server Response:', response);
-      if (response.searchResults) {
-        this.rawSearchResults = response.searchResults;
-        this.searchResults = response.searchResults.map(entry => {
-          const opportunity: Opportunity = {
-            title: entry.title || '',
-            catalogId: entry.catalogId || '',
-            dateLastUpdated: entry.dateLastUpdated?.formattedDateTime || 'N/A',
-            url: entry.url || '#',
-            description: entry.description || '',
-            available: entry.available
-          };
-          return opportunity;
-        });
+    console.log("Search criteria: " + JSON.stringify(criteria));
+
+    this.hcclService.findCatalogEntrys(criteria).subscribe({
+      next: (response) => {
+        console.log('Server Response:', response);
+        this.isLoading = false;
+        if (response.searchResults) {
+          this.rawSearchResults = response.searchResults;
+          this.searchResults = response.searchResults.map(entry => {
+            const opportunity: Opportunity = {
+              id: entry.id || '',
+              title: entry.title || '',
+              catalogId: entry.catalogId || '',
+              dateLastUpdated: entry.dateLastUpdated?.formattedDateTime || 'N/A',
+              url: entry.url || '#',
+              description: entry.description || '',
+              available: entry.available
+            };
+            return opportunity;
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Search error:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  markInterested(result: Opportunity): void {
+    console.log('Interested:', result.title);
+    this.recordInterest(result, 10);
+  }
+
+  markNotInterested(result: Opportunity): void {
+    console.log('Not Interested:', result.title);
+    this.recordInterest(result, 0);
+  }
+
+  private recordInterest(result: Opportunity, interest: number): void {
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId() || '';
+    
+    const interestData: CatalogEntryInterestPOSTData = {
+      catalogId: result.catalogId,
+      catalogEntryId: result.id,
+      personalStatementId: '',
+      userProfileId: userProfileId,
+      interest: interest,
+      currentStateCode: '--ChangedOnEntry--'
+    };
+
+    this.hcclService.showInterest(interestData).subscribe({
+      next: (response) => {
+        console.log('Interest recorded successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error recording interest:', error);
       }
     });
   }

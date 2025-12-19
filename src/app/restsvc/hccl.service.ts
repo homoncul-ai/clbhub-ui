@@ -4891,6 +4891,11 @@ export interface CatalogSearchPOSTData {
   businessCode: string;
   description: string;
   searchMapJson: string;
+  personalStatementId?: string;
+  userProfileId: string;
+  encodingText: string;
+  vocationEncodingId?: string;
+  status?: number;
 }
 
 export interface CatalogSearchGETData {
@@ -4903,6 +4908,11 @@ export interface CatalogSearchGETData {
   businessCode?: string;
   description?: string;
   searchMapJson?: string;
+  personalStatementId?: string;
+  userProfileId?: string;
+  encodingText?: string;
+  vocationEncodingId?: string;
+  status?: number;
 }
 
 export interface CatalogSearchGETDataSearchResults {
@@ -4926,6 +4936,10 @@ export interface CatalogSearchCriteria {
   businessCode?: string;
   description?: string;
   searchMapJson?: string;
+  personalStatementId?: string;
+  userProfileId?: string;
+  vocationEncodingId?: string;
+  status?: number;
 }
 
 export interface CatalogSearchPUTData {
@@ -4933,6 +4947,11 @@ export interface CatalogSearchPUTData {
   businessCode: string;
   description: string;
   searchMapJson: string;
+  personalStatementId?: string;
+  userProfileId: string;
+  encodingText: string;
+  vocationEncodingId?: string;
+  status?: number;
 }
 
 export interface CatalogPOSTData {
@@ -9578,9 +9597,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

@@ -20732,8 +20732,10 @@
         "required": [
           "businessCode",
           "description",
+          "encodingText",
           "searchMapJson",
-          "searchName"
+          "searchName",
+          "userProfileId"
         ],
         "type": "object",
         "properties": {
@@ -20752,6 +20754,25 @@
           },
           "searchMapJson": {
             "type": "string"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -20785,6 +20806,25 @@
           },
           "searchMapJson": {
             "type": "string"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -20860,6 +20900,22 @@
           },
           "searchMapJson": {
             "type": "string"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -20867,8 +20923,10 @@
         "required": [
           "businessCode",
           "description",
+          "encodingText",
           "searchMapJson",
-          "searchName"
+          "searchName",
+          "userProfileId"
         ],
         "type": "object",
         "properties": {
@@ -20887,6 +20945,25 @@
           },
           "searchMapJson": {
             "type": "string"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -37593,13 +37670,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

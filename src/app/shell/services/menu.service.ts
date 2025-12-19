@@ -432,9 +432,7 @@ export class MenuService {
     const resumes = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUMES);
     this.addChildMenuItem(courses, resumes);
    
-    const engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
-    this.addMenuItem(menu, engage);
-
+   
     // const messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
     // this.addMenuItem(menu, messages);
 
@@ -445,6 +443,8 @@ export class MenuService {
         const catalogs = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CATALOG);
         this.addMenuItem(menu, catalogs);
         
+        const engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
+        this.addMenuItem(menu, engage);
     
  
     // Add Research

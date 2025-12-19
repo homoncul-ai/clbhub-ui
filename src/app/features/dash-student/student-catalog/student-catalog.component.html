@@ -1,80 +1,115 @@
-<div class="catalog-container" [class.large-font]="isLargeFont">
-    <div class="sidebar">
-      <div class="catalog-list">
-        <div class="catalog-item" *ngFor="let catalog of catalogs">
-          <input type="checkbox" [id]="catalog.id" [name]="catalog.name" (change)="onCatalogChange($event)">
-          <label [for]="catalog.id">{{catalog.name}}</label>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-comments me-2"></i>
+            Vocational Opportunity Catalog
+          </h3>
         </div>
+        <div class="card-body">
+         
+    <!-- Search Bar -->
+    <div class="search-bar-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon material-icons">search</span>
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Search for jobs, courses, events..."
+          [(ngModel)]="searchKeyword"
+          (keyup.enter)="performSearch()">
+      </div>
+      <button class="search-button" (click)="performSearch()">
+        <span class="material-icons">search</span>
+        Search
+      </button>
+    </div>
+
+    <!-- Filter Buttons Row -->
+    <div class="filter-row">
+      <div class="filter-buttons">
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedCategory === 'all'"
+          (click)="selectCategory('all')">
+          All
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedCategory === 'jobs'"
+          (click)="selectCategory('jobs')">
+          <span class="material-icons">work</span>
+          Jobs
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedCategory === 'courses'"
+          (click)="selectCategory('courses')">
+          <span class="material-icons">school</span>
+          Courses
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedCategory === 'events'"
+          (click)="selectCategory('events')">
+          <span class="material-icons">event</span>
+          Events
+        </button>
+      </div>
+      <div class="available-only-checkbox">
+        <input 
+          type="checkbox" 
+          id="available-only" 
+          [(ngModel)]="showAvailableOnly">
+        <label for="available-only">Show available only</label>
       </div>
     </div>
-    <div class="main-content">
-      <div class="catalog-header">
-        <h1>Vocational Opportunity Catalog</h1>
+
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-  
-      <div class="search-container">
-        <div class="tab-list">
-          <div class="tab-list-item" [class.active]="selectedTab === 'simple'" (click)="selectTab('simple')">Simple Search</div>
-          <div class="tab-list-item" [class.active]="selectedTab === 'advanced'" (click)="selectTab('advanced')">Advanced Search</div>
-          <div class="font-toggle">
-            <button (click)="toggleFontSize()">
-              <span class="material-icons">{{ isLargeFont ? 'zoom_out' : 'zoom_in' }}</span>
+      <p>Searching...</p>
+    </div>
+
+    <!-- No Results -->
+    <div class="no-results" *ngIf="!isLoading && searchResults.length === 0 && searchKeyword">
+      <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+      <p>No results found. Try adjusting your search criteria.</p>
+    </div>
+
+    <!-- Results -->
+    <div class="results-container" *ngIf="!isLoading && searchResults.length > 0">
+      <h2>Results</h2>
+      <div class="results-grid">
+        <div class="result-card" *ngFor="let result of searchResults; let i = index" >
+        
+      <!-- Image on the left -->
+        <!-- Catalog Entry CRUD Component -->
+      <app-catalogentry-crud 
+      [id]="result.id" 
+      [modeName]="'section'">
+    </app-catalogentry-crud>
+    
+          <div class="card-footer">
+            <button type="button" 
+                    class="btn btn-outline-danger btn-sm" 
+                    (click)="markNotInterested(result)">
+              <i class="fas fa-thumbs-down me-1"></i>Not Interested
+            </button>
+            <button type="button" 
+                    class="btn btn-success btn-sm" 
+                    (click)="markInterested(result)">
+              <i class="fas fa-thumbs-up me-1"></i>Interested
             </button>
           </div>
         </div>
-  
-        <div class="tab-content" [hidden]="selectedTab !== 'simple'">
-          <div class="search-form">
-            <div class="filter-row">
-              <div class="form-group">
-                <label for="keyword">Keyword (e.g., plumbing, masonry)</label>
-                <input type="text" id="keyword" name="keyword" [(ngModel)]="simpleKeyword" (ngModelChange)="search()">
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="tab-content" [hidden]="selectedTab !== 'advanced'">
-                     <div class="search-form">
-                       <!-- First Row -->
-                       <div class="filter-row">
-                         <div class="form-group">
-                           <label for="keyword-adv">Keyword</label>
-                           <input type="text" id="keyword-adv" name="keyword-adv" [(ngModel)]="advKeyword" (ngModelChange)="advancedSearch()">
-                         </div>
-                       </div>
-                      <!-- Second Row -->
-                      <div class="filter-row">
-                        <div class="form-group checkbox-group">
-                          <input type="checkbox" id="available-only" name="available-only" [(ngModel)]="advAvailableOnly" (ngModelChange)="advancedSearch()">
-                          <label for="available-only">Show Available Only</label>
-                        </div>
-                        <div class="form-group checkbox-group">
-                          <input type="checkbox" id="show-debug" name="show-debug" [(ngModel)]="showDebug">
-                          <label for="show-debug">Show Debug</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-  
-      <div class="results-container">
-        <h2>Results</h2>
-        <div class="results-list">
-          <div class="result-item" *ngFor="let result of searchResults; let i = index">
-            <h3 class="item-title">{{ result.title }}</h3>
-            <p class="item-description">{{ result.description }}</p>
-            <div class="item-footer">
-              <span class="item-last-updated">Last Updated: {{ result.dateLastUpdated }}</span>
-              <span class="item-availability">{{ result.available ? 'Available' : 'Not Available' }}</span>
-              <a [href]="result.url" class="item-link" target="_blank">View Source</a>
-            </div>
-            <div class="item-debug" *ngIf="showDebug">
-              <hr>
-              <p><strong>Debug Info:</strong></p>
-              <pre>{{ rawSearchResults[i] | json }}</pre>
-            </div>
-          </div>
+      </div>
         </div>
       </div>
     </div>
   </div>
+</div>
