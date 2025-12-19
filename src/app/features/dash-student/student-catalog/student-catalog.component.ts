@@ -70,7 +70,13 @@ export class StudentCatalogComponent implements OnInit {
   }
 
   onPersonalStatementChange(ps: PersonalStatementGETData | null): void {
+    const previousId = this.selectedPersonalStatement?.id;
     this.selectedPersonalStatement = ps;
+    
+    // Re-run search if a different personal statement is selected and we have a valid selection
+    if (ps && ps.id !== previousId) {
+      this.performSearch();
+    }
   }
 
   canSearch(): boolean {
@@ -120,7 +126,7 @@ export class StudentCatalogComponent implements OnInit {
       criteria.available = 1;
     }
 
-    alert("Search criteria: " + JSON.stringify(criteria));
+   // alert("Search criteria: " + JSON.stringify(criteria));
 
     this.hcclService.findCatalogEntrysUsingVocode(criteria).subscribe({
       next: (response) => {

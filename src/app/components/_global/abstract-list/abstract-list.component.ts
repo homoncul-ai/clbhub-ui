@@ -199,7 +199,7 @@ implements OnInit, AfterViewInit, OnDestroy {
 
     // Create new resize listener
     this.resizeListener = () => {
-      if (this.grid && this.gridContainer?.nativeElement) {
+      if (this.grid && this.gridContainer?.nativeElement && typeof this.grid.setHeight === 'function') {
         this.calculateGridHeight();
         const newHeight = (this as any)._calculatedHeight;
         if (newHeight && newHeight !== 'auto') {

@@ -1,0 +1,16 @@
+<h1>Student Engage Interest</h1>
+<hr>
+
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+
+<div *ngIf="currentTabId === 'details'">
+  <app-catalogentryinterest-crud [id]="this.interestId" modeName="detail"></app-catalogentryinterest-crud>
+</div>
+
+<div *ngIf="currentTabId === 'signupInfo'">
+   Signup Information
+</div>
+
+<div *ngIf="currentTabId === 'message'">
+  <app-pmessage-crud [id]="this.messageId" modeName="detail"></app-pmessage-crud>
+</div>

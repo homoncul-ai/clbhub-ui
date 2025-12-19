@@ -65,7 +65,7 @@ export class PMessageCrudComponent extends AbstractCrudComponent<PMessageCrudWra
       description: entity.getData().description || '',
       subjectEntityId: entity.getData().subjectEntityId || '',
       subjectEntityType: entity.getData().subjectEntityType || '',
-      dateLastEntry: entity.getData().dateLastEntry || ''
+      dateLastEntry: entity.getDateLastEntry() || ''
     };
  
     // This is important - the requestCreate method returns { id: string, status: 201 }
@@ -89,7 +89,7 @@ export class PMessageCrudComponent extends AbstractCrudComponent<PMessageCrudWra
       subjectEntityId: entity.getData().subjectEntityId || '',
       subjectEntityType: entity.getData().subjectEntityType || '',
       subjectEntityName: entity.getData().subjectEntityName || '',
-      dateLastEntry: entity.getData().dateLastEntry || ''
+      dateLastEntry: entity.getDateLastEntry() || ''
     };
 
     await this.hcclService.updatePMessageById(entity.getData().id!, putData).toPromise();
@@ -170,15 +170,6 @@ export class PMessageCrudComponent extends AbstractCrudComponent<PMessageCrudWra
     }
   }
 
-  public get dateLastEntry(): string {
-    return this.getCurrentEntity()?.getData()?.dateLastEntry || '';
-  }
-
-  public set dateLastEntry(value: string) {
-    if (this.getCurrentEntity()) {
-      this.getCurrentEntity()!.getData().dateLastEntry = value;
-    }
-  }
 
   public createWrapper(pmessageData: PMessageGETData): PMessageCrudWrapper {
     return new PMessageCrudWrapper(pmessageData, this.hcclService);
@@ -261,7 +252,7 @@ export class PMessageCrudWrapper extends EntityWrapper<PMessageGETData> {
   }
 
   getDateLastEntry(): string {
-    return this.getData().dateLastEntry || '';
+    return '' + this.getData().dateLastUpdated || '';
   }
 
   getFkMenuCriteria(): PMessageCriteria {

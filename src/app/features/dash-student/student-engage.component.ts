@@ -10,12 +10,14 @@ import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-e
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { HcclUserProfileCrudWrapper } from '../dash-ecoadmin/orgs/org-school-staff-crud.component';
 import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData } from '@app/restsvc/hccl.service';
+import { PersonalStatementSelectorComponent } from "@app/components/_global/personal-statement-selector/personal-statement-selector.component";
+import { StudentEngageInterestComponent } from './student-engage-interest/student-engage-interest.component';
 @Component({
   selector: 'app-student-engage',
   standalone: true,
-  imports: [CommonModule, CatalogEntryInterestListComponent,CommonModule, SimpleTabsetComponent, 
+  imports: [CommonModule, CatalogEntryInterestListComponent, CommonModule, SimpleTabsetComponent,
     HcclUserProfileCrudComponent, CatalogEntryInterestListComponent,
-    CatalogEntryInterestCrudComponent, StdBubaComponent],
+    CatalogEntryInterestCrudComponent, StdBubaComponent, PersonalStatementSelectorComponent, StudentEngageInterestComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -28,12 +30,23 @@ import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData } from '@app/
               </h3>
             </div>
             <div class="card-body">
- 
+            <app-personal-statement-selector
+  label="Select Personal Statement:"
+  [autoSelectFirst]="true"
+  (selectionChange)="onPersonalStatementChange($event)">
+</app-personal-statement-selector>
+
             <app-catalogentryinterest-list [criteria]="getInterestCriteria()" [showingSearch]="true"
    [showingSearchHeading]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
    [onRowClickBehavior]="onInterestRowClickBehavior()"></app-catalogentryinterest-list> 
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <app-student-engage-interest [interestId]="getSelectedInterestId()"></app-student-engage-interest>
         </div>
       </div>
     </div>
@@ -92,11 +105,14 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
  
 
   getInterestCriteria(): CatalogEntryInterestCriteria {
-    return {
+    var criteria: CatalogEntryInterestCriteria = {
+      personalStatementId: this.personalStatementId,
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
     };
+    //alert("personalStatementId: " + this.personalStatementId);
+    return criteria;
   }
 
 
@@ -122,7 +138,12 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
   }
  
 
-  
+  protected getSelectedInterestId(): string {
+    return this.interestId;
+  }
+  protected setSelectedInterestId(interestId: string): void {
+    this.interestId = interestId;
+  }
 
   protected setupTabs(): SimpleTab[] {
     const baseRoute = this.getBaseRoute();
@@ -162,11 +183,14 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.parentId = this.id;
     x.tabId = 'interest';
-  //  x.alertMessage = 'Message';
-
+    x.alertMessage = 'Message';
+    x.usingNavigateUrl = false;
+    x.onRowClick = (id: string) => {
+      this.setSelectedInterestId(id);
+      // Clicking on this needs to open up 
+    };
     x.getNavigateUrl = (id: string) => {
-      //return [this.getBaseRoute(),  id, 'message'];
-      return ['student-dashboard', 'interests', id, 'interest'];
+      return []
     };
     return x;
   }
@@ -197,4 +221,8 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
     }
   }
 
+  onPersonalStatementChange(event: any): void {
+    this.personalStatementId = event.id;
+    alert("personalStatementId: " + this.personalStatementId);
+  }
 }
