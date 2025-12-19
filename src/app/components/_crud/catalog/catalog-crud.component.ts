@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogCriteria, CatalogGETData, CatalogPOSTData, CatalogPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CatalogCriteria, CatalogGETData, CatalogPOSTData, CatalogPUTData, HcclService, MenuControlDataList, MenuControlData, HcclOrganizationGETData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -295,6 +295,10 @@ export class CatalogCrudWrapper extends EntityWrapper<CatalogGETData> {
 
   set organizationId(value: string) {
     this.data.organizationId = value;
+  }
+
+  get theOrganization(): HcclOrganizationGETData {
+    return this.data.organization || {};
   }
 
   get name(): string {
