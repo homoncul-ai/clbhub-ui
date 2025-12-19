@@ -36,7 +36,7 @@ import { StudentEngageInterestComponent } from './student-engage-interest/studen
   (selectionChange)="onPersonalStatementChange($event)">
 </app-personal-statement-selector>
 
-            <app-catalogentryinterest-list [criteria]="getInterestCriteria()" [showingSearch]="true"
+            <app-catalogentryinterest-list [criteria]="getInterestCriteria()" [showingSearch]="false"
    [showingSearchHeading]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
    [onRowClickBehavior]="onInterestRowClickBehavior()"></app-catalogentryinterest-list> 
             </div>
@@ -143,35 +143,12 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
   }
   protected setSelectedInterestId(interestId: string): void {
     this.interestId = interestId;
+    this.cdr.detectChanges(); // Trigger change detection to update child component
   }
 
   protected setupTabs(): SimpleTab[] {
     const baseRoute = this.getBaseRoute();
-    var tabs: SimpleTab[] = [
-      new SimpleTab('interests', 'Interests', '', 
-        () => {
-          this.router.navigate([baseRoute]);
-        },
-        () => {
-          return true;
-        }
-      )];
-      
-      this.interestTab = new SimpleTab('interest', "Interest", '', 
-        () => {
-          this.router.navigate(['student-dashboard', 'interests', this.interestId, 'interest']);
-        },
-        () => {
-          return this.interestId !== null;
-        }
-      );
-      tabs.push(this.interestTab);
-      
-      // Load message data if messageId is available
-      if (this.interestId) {
-        this.loadMessageData();
-      }
-   
+    var tabs: SimpleTab[] = []
     return tabs;
   }
 
@@ -223,6 +200,6 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
 
   onPersonalStatementChange(event: any): void {
     this.personalStatementId = event.id;
-    alert("personalStatementId: " + this.personalStatementId);
+   // alert("personalStatementId: " + this.personalStatementId);
   }
 }

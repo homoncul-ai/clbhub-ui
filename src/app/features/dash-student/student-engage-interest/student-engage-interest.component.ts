@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global';
 import { HcclService, CatalogEntryInterestGETData, PMessageGETData, CatalogEntryGETData } from '@app/restsvc/hccl.service';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
@@ -7,14 +7,17 @@ import { CatalogEntryInterestCrudComponent, CatalogEntryInterestCrudWrapper } fr
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { PMessageCrudComponent } from '@app/components/_crud/pmessage/pmessage-crud.component';
+import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
+import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 @Component({
   selector: 'app-student-engage-interest',
-  imports: [SimpleTabsetComponent, CatalogEntryInterestCrudComponent, CommonModule, PMessageCrudComponent],
+  standalone: true,
+  imports: [SimpleTabsetComponent, CatalogEntryInterestCrudComponent, CommonModule, PMessageUiComponent, CatalogEntryCrudComponent],
   templateUrl: './student-engage-interest.component.html',
   styleUrl: './student-engage-interest.component.scss'
 })
 export class StudentEngageInterestComponent 
-implements OnInit, OnDestroy {
+implements OnInit, OnDestroy, OnChanges {
   @Input() interestId: string = '';
 
   private hcclService = inject(HcclService);
@@ -30,6 +33,13 @@ implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadInterestData(); 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Reload data when interestId input changes
+    if (changes['interestId'] && !changes['interestId'].firstChange) {
+      this.loadInterestData();
+    }
   }
 
   ngOnDestroy(): void {
@@ -62,7 +72,7 @@ implements OnInit, OnDestroy {
         () => {
           // Open up the details tab, showing
           // <app-catalogentryinterest-crud [id]="interestId" modeName="details"></app-catalogentryinterest-crud>
-          alert("message id: " + this.messageId);
+          this.currentTabId = 'details';
         },
         () => {
           return true;
@@ -72,7 +82,7 @@ implements OnInit, OnDestroy {
       // Show if the 
       var signupInfoTab = new SimpleTab('signupInfo', "Signup Information", '', 
         () => {
-          alert("signup info");
+          this.currentTabId = 'signupInfo';
         },
         () => {
           return this.entryGETData?.signupPacketId !== null;
@@ -82,10 +92,11 @@ implements OnInit, OnDestroy {
 
       var messageTab = new SimpleTab('message', "Message", '', 
         () => {
-          alert("message id: " + this.messageId);
+         // alert("message id: " + this.messageId);
+          this.currentTabId = 'message';
         },
         () => {
-          return this.messageId !== null;
+          return this.messageId !== '' && this.messageId !==  null;
         }
       );
       tabs.push(messageTab);
