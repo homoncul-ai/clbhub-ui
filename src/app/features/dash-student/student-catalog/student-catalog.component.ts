@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.service';
+import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria, CatalogEntryInterestPOSTData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { RouterModule } from '@angular/router';
@@ -28,6 +28,11 @@ export class StudentCatalogComponent implements OnInit {
   isLargeFont: boolean = true;
   selectedCatalogs: string[] = [];
   isLoading: boolean = false;
+  isLoadingPersonalStatements: boolean = false;
+
+  // Personal Statements
+  personalStatements: PersonalStatementGETData[] = [];
+  selectedPersonalStatement: PersonalStatementGETData | null = null;
 
   // Search properties
   searchKeyword: string = '';
@@ -47,6 +52,7 @@ export class StudentCatalogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCatalogs();
+    this.loadPersonalStatements();
   }
 
   selectCategory(category: string) {
@@ -65,11 +71,59 @@ export class StudentCatalogComponent implements OnInit {
     });
   }
 
+  loadPersonalStatements() {
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId();
+    if (!userProfileId) {
+      console.warn('User profile ID not available - waiting for context');
+      // Retry after context is ready
+      this.hcclContextService.waitForReady().then(() => {
+        this.loadPersonalStatements();
+      });
+      return;
+    }
+
+    this.isLoadingPersonalStatements = true;
+    const criteria: PersonalStatementCriteria = {
+      parentEntityId: userProfileId,
+      isPaging: false
+    };
+
+    this.hcclService.findPersonalStatements(criteria).subscribe({
+      next: (response) => {
+        this.isLoadingPersonalStatements = false;
+        if (response.searchResults) {
+          this.personalStatements = response.searchResults;
+          // Auto-select first personal statement if available
+          if (this.personalStatements.length > 0) {
+            this.selectedPersonalStatement = this.personalStatements[0];
+          }
+        }
+      },
+      error: (error) => {
+        console.error('Error loading personal statements:', error);
+        this.isLoadingPersonalStatements = false;
+      }
+    });
+  }
+
+  selectPersonalStatement(ps: PersonalStatementGETData) {
+    this.selectedPersonalStatement = ps;
+  }
+
+  canSearch(): boolean {
+    return this.selectedPersonalStatement !== null;
+  }
+
   protected getCatalogEntryImageUrl(): string {
     return "imgs/TAROT-HR.png";
   }
 
   performSearch() {
+    if (!this.canSearch()) {
+      console.warn('Please select a personal statement before searching');
+      return;
+    }
+
     this.isLoading = true;
     this.searchResults = [];
 
@@ -80,10 +134,16 @@ export class StudentCatalogComponent implements OnInit {
       isPaging: true
     };
 
+    // Add vocation encoding from selected personal statement
+    if (this.selectedPersonalStatement?.vocationEncodingId) {
+      criteria.vocationEncodingId = this.selectedPersonalStatement.vocationEncodingId;
+    }
+
     // Add category filter based on selection
-    // if (this.selectedCategory !== 'all') {
-    //   criteria.catalogId = this.selectedCategory;
-    // } else if (this.selectedCatalogs.length > 0) {
+    if (this.selectedCategory !== 'all') {
+      criteria.catalogTypeCode = this.selectedCategory;
+    } 
+    //else if (this.selectedCatalogs.length > 0) {
     //   criteria.catalogId = this.selectedCatalogs.join(',');
     // }
 
@@ -97,15 +157,16 @@ export class StudentCatalogComponent implements OnInit {
       criteria.available = 1;
     }
 
-    console.log("Search criteria: " + JSON.stringify(criteria));
+    alert("Search criteria: " + JSON.stringify(criteria));
 
-    this.hcclService.findCatalogEntrys(criteria).subscribe({
+    this.hcclService.findCatalogEntrysUsingVocode(criteria).subscribe({
       next: (response) => {
         console.log('Server Response:', response);
         this.isLoading = false;
-        if (response.searchResults) {
-          this.rawSearchResults = response.searchResults;
-          this.searchResults = response.searchResults.map(entry => {
+        // VeiSearchResultsGETData has catalogEntries which contains searchResults
+        if (response.catalogEntries?.searchResults) {
+          this.rawSearchResults = response.catalogEntries.searchResults;
+          this.searchResults = response.catalogEntries.searchResults.map(entry => {
             const opportunity: Opportunity = {
               id: entry.id || '',
               title: entry.title || '',
@@ -142,7 +203,7 @@ export class StudentCatalogComponent implements OnInit {
     const interestData: CatalogEntryInterestPOSTData = {
       catalogId: result.catalogId,
       catalogEntryId: result.id,
-      personalStatementId: '',
+      personalStatementId: this.selectedPersonalStatement?.id || '',
       userProfileId: userProfileId,
       interest: interest,
       currentStateCode: '--ChangedOnEntry--'
