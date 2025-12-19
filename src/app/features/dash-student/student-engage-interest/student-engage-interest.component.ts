@@ -37,9 +37,23 @@ implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // Reload data when interestId input changes
-    if (changes['interestId'] && !changes['interestId'].firstChange) {
-      this.loadInterestData();
+    if (changes['interestId']) {
+      // Reset state first
+      this.resetState();
+      // Then load new data if we have an interestId
+      if (this.interestId) {
+        this.loadInterestData();
+      }
     }
+  }
+
+  private resetState(): void {
+    this.interestGETData = null;
+    this.entryGETData = null;
+    this.messageId = '';
+    this.tabs = [];
+    this.showingTabset = false;
+    this.currentTabId = '';
   }
 
   ngOnDestroy(): void {
