@@ -111,7 +111,12 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
       pageSize: 50,
       isPaging: true
     };
-    //alert("personalStatementId: " + this.personalStatementId);
+    if (this.lastPersonalStatementId !== this.personalStatementId) {
+      this.lastPersonalStatementId = this.personalStatementId;
+      
+    alert("getInterestCriteria: personalStatementId: " + JSON.stringify(criteria));
+  }
+
     return criteria;
   }
 
@@ -198,8 +203,14 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
     }
   }
 
+  private lastPersonalStatementId: string = '';
   onPersonalStatementChange(event: any): void {
     this.personalStatementId = event.id;
    // alert("personalStatementId: " + this.personalStatementId);
+    if (this.lastPersonalStatementId !== this.personalStatementId) {
+      this.interestId = '';
+      this.setSelectedInterestId('');
+      this.cdr.detectChanges(); // Trigger change detection to update child component
+    }
   }
 }

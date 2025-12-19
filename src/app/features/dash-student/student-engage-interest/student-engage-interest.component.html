@@ -1,5 +1,4 @@
-<h1>Student Engage Interest {{ this.currentTabId }} {{ this.interestId }} {{ this.messageId }} </h1>
-<hr>
+<div class="container-fluid" *ngIf="this.interestId !== '' && this.interestId !== null">
 
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
@@ -19,4 +18,5 @@
 
 <div *ngIf="currentTabId === 'message'">
   <app-pmessage-ui [id]="this.messageId"   ></app-pmessage-ui>
+</div>
 </div>
