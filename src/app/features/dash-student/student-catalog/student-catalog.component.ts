@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria, CatalogEntryInterestPOSTData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria, CatalogEntryInterestPOSTData, PersonalStatementGETData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { RouterModule } from '@angular/router';
+import { PersonalStatementSelectorComponent } from '@app/components/_global/personal-statement-selector/personal-statement-selector.component';
 export interface Opportunity {
   id: string;
   title: string;
@@ -18,7 +19,7 @@ export interface Opportunity {
 @Component({
   selector: 'app-student-catalog',
   standalone: true,
-  imports: [CommonModule, FormsModule, CatalogEntryCrudComponent, RouterModule],
+  imports: [CommonModule, FormsModule, CatalogEntryCrudComponent, RouterModule, PersonalStatementSelectorComponent],
   templateUrl: './student-catalog.component.html',
   styleUrls: ['./student-catalog.component.scss']
 })
@@ -28,10 +29,8 @@ export class StudentCatalogComponent implements OnInit {
   isLargeFont: boolean = true;
   selectedCatalogs: string[] = [];
   isLoading: boolean = false;
-  isLoadingPersonalStatements: boolean = false;
 
-  // Personal Statements
-  personalStatements: PersonalStatementGETData[] = [];
+  // Personal Statement (from selector component)
   selectedPersonalStatement: PersonalStatementGETData | null = null;
 
   // Search properties
@@ -52,7 +51,6 @@ export class StudentCatalogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCatalogs();
-    this.loadPersonalStatements();
   }
 
   selectCategory(category: string) {
@@ -71,42 +69,7 @@ export class StudentCatalogComponent implements OnInit {
     });
   }
 
-  loadPersonalStatements() {
-    const userProfileId = this.hcclContextService.getCurrentUserProfileId();
-    if (!userProfileId) {
-      console.warn('User profile ID not available - waiting for context');
-      // Retry after context is ready
-      this.hcclContextService.waitForReady().then(() => {
-        this.loadPersonalStatements();
-      });
-      return;
-    }
-
-    this.isLoadingPersonalStatements = true;
-    const criteria: PersonalStatementCriteria = {
-      parentEntityId: userProfileId,
-      isPaging: false
-    };
-
-    this.hcclService.findPersonalStatements(criteria).subscribe({
-      next: (response) => {
-        this.isLoadingPersonalStatements = false;
-        if (response.searchResults) {
-          this.personalStatements = response.searchResults;
-          // Auto-select first personal statement if available
-          if (this.personalStatements.length > 0) {
-            this.selectedPersonalStatement = this.personalStatements[0];
-          }
-        }
-      },
-      error: (error) => {
-        console.error('Error loading personal statements:', error);
-        this.isLoadingPersonalStatements = false;
-      }
-    });
-  }
-
-  selectPersonalStatement(ps: PersonalStatementGETData) {
+  onPersonalStatementChange(ps: PersonalStatementGETData | null): void {
     this.selectedPersonalStatement = ps;
   }
 

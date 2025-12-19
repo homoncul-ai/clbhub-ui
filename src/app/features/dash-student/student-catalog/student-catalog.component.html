@@ -11,37 +11,11 @@
         <div class="card-body">
 
     <!-- Personal Statement Selection -->
-    <div class="personal-statement-section">
-      <label class="section-label">
-        <i class="fas fa-user-graduate me-2"></i>
-        Select Personal Statement:
-      </label>
-      
-      <!-- Loading State -->
-      <div *ngIf="isLoadingPersonalStatements" class="ps-loading">
-        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-        Loading personal statements...
-      </div>
-      
-      <!-- No Personal Statements -->
-      <div *ngIf="!isLoadingPersonalStatements && personalStatements.length === 0" class="ps-empty">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        No personal statements found. Please create one first.
-      </div>
-      
-      <!-- Personal Statement Buttons -->
-      <div class="ps-button-bar" *ngIf="!isLoadingPersonalStatements && personalStatements.length > 0">
-        <button 
-          *ngFor="let ps of personalStatements"
-          class="ps-btn"
-          [class.active]="selectedPersonalStatement?.id === ps.id"
-          (click)="selectPersonalStatement(ps)"
-          [title]="ps.description || ps.name || 'Personal Statement'">
-          <i class="fas fa-file-alt me-2"></i>
-          {{ ps.name || 'Unnamed Statement' }}
-        </button>
-      </div>
-    </div>
+    <app-personal-statement-selector
+      label="Select Personal Statement:"
+      [autoSelectFirst]="true"
+      (selectionChange)="onPersonalStatementChange($event)">
+    </app-personal-statement-selector>
          
     <!-- Search Bar -->
     <div class="search-bar-container" [class.disabled]="!canSearch()">

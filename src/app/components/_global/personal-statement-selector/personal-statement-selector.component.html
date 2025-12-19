@@ -1,0 +1,31 @@
+<div class="personal-statement-section">
+  <label class="section-label">
+    <i class="fas fa-user-graduate me-2"></i>
+    {{ label }}
+  </label>
+  
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="ps-loading">
+    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+    Loading personal statements...
+  </div>
+  
+  <!-- No Personal Statements -->
+  <div *ngIf="!isLoading && personalStatements.length === 0" class="ps-empty">
+    <i class="fas fa-exclamation-circle me-2"></i>
+    No personal statements found. Please create one first.
+  </div>
+  
+  <!-- Personal Statement Buttons -->
+  <div class="ps-button-bar" *ngIf="!isLoading && personalStatements.length > 0">
+    <button 
+      *ngFor="let ps of personalStatements"
+      class="ps-btn"
+      [class.active]="selectedPersonalStatement?.id === ps.id"
+      (click)="selectPersonalStatement(ps)"
+      [title]="ps.description || ps.name || 'Personal Statement'">
+      <i class="fas fa-file-alt me-2"></i>
+      {{ ps.name || 'Unnamed Statement' }}
+    </button>
+  </div>
+</div>
