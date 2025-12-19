@@ -48,6 +48,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   @Input() onAddAction: OnAddActionBehavior | null = null;
   @Input() otherData: any = {};
   @Input() showingDiagnostics: boolean = false;
+  @Input() onFinishLoading: OnFinishLoadingBehavior | null = null;
 
   // CSV values to control checkbox selection externally
   @Input() selectedIdsCsv: string = '';
@@ -355,7 +356,12 @@ implements OnInit, AfterViewInit, OnDestroy {
           this.preProcessEntities(entities, ids)
             .then(() => {
               // All preprocessing is now complete, safe to process entities
-              return this.processEntities(entities);
+              var data =  this.processEntities(entities);
+              if (this.onFinishLoading) { 
+                var id = this.extractId(entities[0]);
+                this.onFinishLoading.onFinishLoading(id, data);
+              }
+              return data;
             })
             .catch(error => {
               console.error('Error in preprocessing or processing entities:', error);
@@ -827,5 +833,24 @@ export class OnAddActionBehavior {
     // Default behavior is to navigate to create route
     console.log('OnAddActionBehavior.onAdd called with baseRoute:', baseRoute);
     router.navigate([baseRoute, 'create']);
+  }
+}
+
+
+
+/**
+ * Object containing add action functionality
+ * Allows custom handling of the "Add" button click, such as opening a modal
+ */
+export class OnFinishLoadingBehavior {
+  /**
+   * Custom handler for add action
+   * @param baseRoute The base route for the entity
+   * @param router The Angular router instance
+   */
+  onFinishLoading(id: string, data: any): void {
+    // Default implementation - subclasses should override
+    // Default behavior is to do nothing
+    //console.log('OnFinishLoadingBehavior.onFinishLoading called with entities:');
   }
 }

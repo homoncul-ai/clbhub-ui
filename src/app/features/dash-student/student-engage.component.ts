@@ -7,7 +7,7 @@ import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalog
 import { HcclUserProfileCrudComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
-import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { HcclUserProfileCrudWrapper } from '../dash-ecoadmin/orgs/org-school-staff-crud.component';
 import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData } from '@app/restsvc/hccl.service';
 import { PersonalStatementSelectorComponent } from "@app/components/_global/personal-statement-selector/personal-statement-selector.component";
@@ -36,9 +36,11 @@ import { StudentEngageInterestComponent } from './student-engage-interest/studen
   (selectionChange)="onPersonalStatementChange($event)">
 </app-personal-statement-selector>
 
-            <app-catalogentryinterest-list [criteria]="getInterestCriteria()" [showingSearch]="false"
+            <app-catalogentryinterest-list *ngIf="showInterestList && personalStatementId"
+   [criteria]="getInterestCriteria()" [showingSearch]="false"
    [showingSearchHeading]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
-   [onRowClickBehavior]="onInterestRowClickBehavior()"></app-catalogentryinterest-list> 
+   [onRowClickBehavior]="onInterestRowClickBehavior()"
+   [onFinishLoading]="onFinishLoadingBehavior()"></app-catalogentryinterest-list> 
             </div>
           </div>
         </div>
@@ -111,11 +113,6 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
       pageSize: 50,
       isPaging: true
     };
-    if (this.lastPersonalStatementId !== this.personalStatementId) {
-      this.lastPersonalStatementId = this.personalStatementId;
-      
-    alert("getInterestCriteria: personalStatementId: " + JSON.stringify(criteria));
-  }
 
     return criteria;
   }
@@ -171,12 +168,17 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
       this.setSelectedInterestId(id);
       // Clicking on this needs to open up 
     };
-    x.getNavigateUrl = (id: string) => {
-      return []
+    
+    return x;
+  }
+  protected onFinishLoadingBehavior(): OnFinishLoadingBehavior {
+    var x: OnFinishLoadingBehavior = new OnFinishLoadingBehavior();
+    x.onFinishLoading = (id: string, data: any) => {
+      this.setSelectedInterestId(id);
     };
     return x;
   }
-   
+
 //   selectedWorkQueue: MenuControlData | null = null;
 //   onWorkQueueChange(selectedItem: MenuControlData | null): void {
 //     this.selectedWorkQueue = selectedItem;
@@ -203,14 +205,24 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
     }
   }
 
-  private lastPersonalStatementId: string = '';
+  protected showInterestList: boolean = true;
+
   onPersonalStatementChange(event: any): void {
-    this.personalStatementId = event.id;
-   // alert("personalStatementId: " + this.personalStatementId);
-    if (this.lastPersonalStatementId !== this.personalStatementId) {
-      this.interestId = '';
-      this.setSelectedInterestId('');
-      this.cdr.detectChanges(); // Trigger change detection to update child component
-    }
+    const newId = event?.id || '';
+    
+    // Clear current selection
+    this.interestId = '';
+    this.setSelectedInterestId('');
+    
+    // Force list component to recreate by toggling visibility
+    this.showInterestList = false;
+    this.personalStatementId = newId;
+    this.cdr.detectChanges();
+    
+    // Re-show the list after a tick to force recreation with new criteria
+    setTimeout(() => {
+      this.showInterestList = true;
+      this.cdr.detectChanges();
+    }, 0);
   }
 }
