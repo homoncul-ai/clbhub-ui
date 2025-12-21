@@ -2,14 +2,15 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclService, PMFileGroupGETData } from '@app/restsvc/hccl.service';
 import { SimpleTab } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { VocationEncodingGETData, VocationEncodingInstanceGETData, VocationEncodingRefGETData } from '@app/restsvc/hccl.service';
+import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.component';
 
 @Component({
   selector: 'app-vocationencoding-display',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PmfilegroupUiComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   template: `
       <div *ngIf="loading" class="loading-overlay">
@@ -126,6 +127,13 @@ import { VocationEncodingGETData, VocationEncodingInstanceGETData, VocationEncod
                    <label>Description:</label>
                    <span>{{ getVocationEncodingRefDescription(instance.vocationEncodingRefId) }}</span>
                  </div>
+                 
+                 <!-- PMFileGroup UI for this encoding ref -->
+                 <div *ngIf="getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)" class="filegroup-section">
+                   <app-pmfilegroup-ui 
+                     [data]="getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)!">
+                   </app-pmfilegroup-ui>
+                 </div>
                
               </div>
             </div>
@@ -228,6 +236,12 @@ import { VocationEncodingGETData, VocationEncodingInstanceGETData, VocationEncod
       max-height: 300px;
       overflow-y: auto;
     }
+    
+    .filegroup-section {
+      margin-top: 1rem;
+      border-top: 1px solid #dee2e6;
+      padding-top: 1rem;
+    }
   `]
 })
 export class VocationEncodingDisplayComponent  implements OnInit {
@@ -239,6 +253,8 @@ export class VocationEncodingDisplayComponent  implements OnInit {
   protected error: string = '';
   protected hcclService = inject(HcclService);
   protected vocationEncodingRefs: Map<string, VocationEncodingRefGETData> = new Map();
+  protected vocationEncodingRefFileGroups: Map<string, PMFileGroupGETData> = new Map();
+  
   constructor() {
     
   }
@@ -281,13 +297,16 @@ export class VocationEncodingDisplayComponent  implements OnInit {
       .map(instance => instance.vocationEncodingRefId)
       .filter((id): id is string => !!id);
     
-    // Load each VocationEncodingRef
+    // Load each VocationEncodingRef and its associated FileGroup
     for (const refId of refIds) {
       if (!this.vocationEncodingRefs.has(refId)) {
         try {
           const refData = await this.hcclService.getVocationEncodingRefById(refId).toPromise();
           if (refData) {
             this.vocationEncodingRefs.set(refId, refData);
+            
+            // Try to load the associated FileGroup for this ref
+            await this.loadFileGroupForRef(refId);
           }
         } catch (error) {
           console.warn(`Failed to load VocationEncodingRef ${refId}:`, error);
@@ -296,10 +315,31 @@ export class VocationEncodingDisplayComponent  implements OnInit {
     }
   }
 
+  private async loadFileGroupForRef(refId: string): Promise<void> {
+    try {
+      const result = await this.hcclService.findPMFileGroups({
+        parentEntityId: refId,
+        parentEntityType: 'VocationEncodingRef',
+        optionalDataHint: 'all'
+      }).toPromise();
+      
+      if (result?.searchResults && result.searchResults.length > 0) {
+        this.vocationEncodingRefFileGroups.set(refId, result.searchResults[0]);
+      }
+    } catch (error) {
+      console.warn(`Failed to load FileGroup for VocationEncodingRef ${refId}:`, error);
+    }
+  }
+
   protected getVocationEncodingRefDescription(refId: string | undefined): string {
     if (!refId) return '';
     const refData = this.vocationEncodingRefs.get(refId);
     return refData?.description || '';
+  }
+
+  protected getVocationEncodingRefFileGroup(refId: string | undefined): PMFileGroupGETData | undefined {
+    if (!refId) return undefined;
+    return this.vocationEncodingRefFileGroups.get(refId);
   }
 
   protected setupTabs(): SimpleTab[] {
