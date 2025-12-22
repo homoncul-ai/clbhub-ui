@@ -646,6 +646,10 @@ export class MenuService {
     const catalogentryinterestList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRYINTEREST_LIST);
     this.addChildMenuItem(vocodeGroup, catalogentryinterestList);
 
+    // Add VocationEncodingRef
+    const vocationEncodingRefList = this.copyMenuItem(MENU_CONSTANTS.EA_VOCATIONENCODINGREF_LIST);
+    this.addChildMenuItem(vocodeGroup, vocationEncodingRefList);
+
     return menu;
   }
 
@@ -1369,12 +1373,12 @@ EA_VOCATIONENCODINGINSTANCE_LIST: {
 },
 
 EA_VOCATIONENCODINGREF_LIST: {
-  "level" : 2,
-  "label" : "Vocation Encoding Ref",
-  "route" : "/ecoadmin-dashboard/vocode/vocationencodingref-list",
-  "componentPath" : "/src/app/components/_crud/vocode/vocationencodingref-list",
-  "componentName" : "vocationencodingref-list",
-  "icon" : ""
+  level: 1,
+  label: 'Vocation Encoding Refs',
+  route: '/ecoadmin-dashboard/vocationencodingrefs',
+  componentPath: 'src/app/components/_crud/vocationencodingref/vocationencodingref-list.component',
+  componentName: 'VocationEncodingRefListComponent',
+  icon: 'fas fa-code'
 },
 
 EA_VOCATIONENCODING_LIST: {

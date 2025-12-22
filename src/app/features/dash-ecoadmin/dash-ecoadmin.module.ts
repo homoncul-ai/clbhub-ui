@@ -66,6 +66,8 @@ import { CatalogEntryInterestListComponent } from '../../components/_crud/catalo
 import { CatalogEntryInterestGroupComponent } from '../../components/_crud/catalogentryinterest/catalogentryinterest-group.component';
 import { CatalogTypeRefListComponent } from '../../components/_crud/catalogtyperef/catalogtyperef-list.component';
 import { CatalogTypeRefGroupComponent } from '../../components/_crud/catalogtyperef/catalogtyperef-group.component';
+import { VocationEncodingRefListComponent } from '../../components/_crud/vocationencodingref/vocationencodingref-list.component';
+import { VocationEncodingRefGroupComponent } from '../../components/_crud/vocationencodingref/vocationencodingref-group.component';
 
 const routes: Routes = [
   {
@@ -229,6 +231,12 @@ const routes: Routes = [
       { path: 'catalogentryinterests/:id/:tabId', component: CatalogEntryInterestGroupComponent },
       { path: 'catalogentryinterests/:id', redirectTo: 'catalogentryinterests/:id/details', pathMatch: 'full' },
       { path: 'catalogentryinterests', component: CatalogEntryInterestListComponent },
+
+      // VocationEncodingRef routes
+      { path: 'vocationencodingrefs/create', component: VocationEncodingRefGroupComponent },
+      { path: 'vocationencodingrefs/:id/:tabId', component: VocationEncodingRefGroupComponent },
+      { path: 'vocationencodingrefs/:id', redirectTo: 'vocationencodingrefs/:id/details', pathMatch: 'full' },
+      { path: 'vocationencodingrefs', component: VocationEncodingRefListComponent },
     ]
   }
 ];
@@ -295,6 +303,8 @@ const routes: Routes = [
     CatalogEntryInterestGroupComponent,
     CatalogTypeRefListComponent,
     CatalogTypeRefGroupComponent,
+    VocationEncodingRefListComponent,
+    VocationEncodingRefGroupComponent,
     OrgSchoolsGroupComponent
   ]
 })

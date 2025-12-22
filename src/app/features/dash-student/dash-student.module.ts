@@ -23,6 +23,7 @@ import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.com
 import { CLCatalogSearchComponent } from './clcatalog-search/clcatalog-search.component';
 import { StudentEngageComponent } from './student-engage.component';
 import { StudentCatalogComponent } from './student-catalog/student-catalog.component';
+import { StudentResearchComponent } from './student-research/student-research.component';
 const routes: Routes = [
   {
     path: '',
@@ -41,7 +42,8 @@ const routes: Routes = [
 
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
-      { path: 'research', component: CLCatalogSearchComponent },
+      { path: 'research/:vocationEncodingRefId', component: StudentResearchComponent },
+      { path: 'research', component: StudentResearchComponent },
       { path: 'catalogs', component: StudentCatalogComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
 
@@ -101,6 +103,7 @@ const routes: Routes = [
     CLCatalogSearchComponent,
     StudentEngageComponent,
     StudentCatalogComponent,
+    StudentResearchComponent,
   ],
   declarations: [
     // Non-standalone components would go here
