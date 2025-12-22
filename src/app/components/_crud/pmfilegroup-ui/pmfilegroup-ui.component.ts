@@ -151,7 +151,39 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
           this.onTreeItemClick(id);
         });
       });
+
+      // Auto-select the first file in the tree
+      this.ngZone.run(() => {
+        const firstFileId = this.findFirstFileId(this.pmfilegroup!.fileTree!);
+        if (firstFileId) {
+          this.loadFile(firstFileId);
+          // Select the item in the tree
+          if (this.tree) {
+            this.tree.selection.add(firstFileId);
+          }
+        }
+      });
     });
+  }
+
+  /**
+   * Find the first file (leaf node) in the tree and return its id
+   */
+  private findFirstFileId(node: DhtmlxTreeNode): string | null {
+    // If this node has no children, it's a file - return its id
+    if (!node.items || node.items.length === 0) {
+      return node.id || null;
+    }
+    
+    // Otherwise, recursively search children for the first file
+    for (const child of node.items) {
+      const fileId = this.findFirstFileId(child);
+      if (fileId) {
+        return fileId;
+      }
+    }
+    
+    return null;
   }
 
   private transformTreeData(node: DhtmlxTreeNode): any {
@@ -227,11 +259,12 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   private onTreeItemClick(nodeId: string): void {
-    // Check if this is a file (has entry in mapIdToEntry)
-    const entry = this.pmfilegroup?.mapIdToEntry?.[nodeId];
+    // Check if this is a file (leaf node) by checking the tree data
+    const node = this.findNodeById(this.pmfilegroup?.fileTree, nodeId);
     
-    if (entry && entry.pmfileId) {
-      this.loadFile(entry.pmfileId);
+    // If node has no children, it's a file - use the node id as pmfileId
+    if (node && (!node.items || node.items.length === 0)) {
+      this.loadFile(nodeId);
     } else {
       // It's a folder, clear selection
       this.selectedFile = null;
@@ -239,20 +272,44 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     }
   }
 
+  /**
+   * Find a node by id in the tree
+   */
+  private findNodeById(node: DhtmlxTreeNode | undefined, id: string): DhtmlxTreeNode | null {
+    if (!node) return null;
+    
+    if (node.id === id) {
+      return node;
+    }
+    
+    if (node.items) {
+      for (const child of node.items) {
+        const found = this.findNodeById(child, id);
+        if (found) return found;
+      }
+    }
+    
+    return null;
+  }
+
   private loadFile(pmfileId: string): void {
     this.loadingFile = true;
+    console.log('Loading file with id:', pmfileId);
     
     this.hcclService.getPMFileById(pmfileId).subscribe({
       next: (file) => {
         this.selectedFile = file;
         this.loadingFile = false;
         
-        // Set the iframe URL
+        // Set the iframe URL        
         if (file.downloadFileUrl) {
           this.selectedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(file.downloadFileUrl);
-        } else {
+        } else if (file.downloadInternalFileUrl) {
+          this.selectedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(file.downloadInternalFileUrl);
+        }   else {
           this.selectedFileUrl = null;
         }
+       // alert("selectedFileUrl: " + this.selectedFileUrl + " for file: " + JSON.stringify(file));
       },
       error: (err) => {
         console.error('Error loading file:', err);
