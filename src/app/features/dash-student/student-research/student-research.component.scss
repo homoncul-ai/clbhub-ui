@@ -131,10 +131,10 @@
   }
 }
 
-/* 2-Column Grid Layout */
+/* Single Column Full Width Layout */
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 20px;
 }
 
@@ -186,12 +186,6 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
-  .results-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 768px) {
   .search-bar-container {
     flex-direction: column;
