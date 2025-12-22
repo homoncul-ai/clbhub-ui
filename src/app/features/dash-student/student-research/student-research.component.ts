@@ -26,6 +26,7 @@ export class StudentResearchComponent implements OnInit {
   searchResults: VocationEncodingRefResult[] = [];
   rawSearchResults: VocationEncodingRefGETData[] = [];
   isLoading: boolean = false;
+  hasSearched: boolean = false;
 
   // Search properties
   searchKeyword: string = '';
@@ -39,12 +40,12 @@ export class StudentResearchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Auto-search on load
-    this.performSearch();
+    // Don't auto-search on load - wait for user to click Search
   }
 
   performSearch() {
     this.isLoading = true;
+    this.hasSearched = true;
     this.searchResults = [];
 
     const criteria: VocationEncodingRefCriteria = {
