@@ -5,7 +5,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclService, HcclUserContextGETData, HcclUserProfileGETData, CLStudentGETData, CLStudentCriteria,
    CLSchoolGETData, CLGuidanceGETData, CLGuidanceCriteria, WorkRequestDashboardUIGETData, StudentDashUIGETData, 
    HcclTeamGETData} from '@app/restsvc/hccl.service';
-import { UserProfileEditModalComponent } from './user-profile-edit-modal.component';
+import { UserProfileEditModalComponent } from '../user-profile-edit-modal.component';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

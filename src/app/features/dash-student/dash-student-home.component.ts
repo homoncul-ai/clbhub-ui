@@ -20,12 +20,7 @@ import { CRUD_MODES } from '@app/@core/constants';
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-user-graduate me-2"></i>
-                Career Search Dashboard  
-              </h3>
-            </div>
+          
             <div class="card-body">
               <!-- Loading State -->
               <div *ngIf="loading" class="text-center py-5">
@@ -40,21 +35,21 @@ import { CRUD_MODES } from '@app/@core/constants';
                 <i class="fas fa-exclamation-triangle me-2"></i>
                 {{ error }}
               </div>
-
               <!-- Content -->
               <div *ngIf="!loading && !error">
                 <h3>Welcome {{ userProfile?.theUser?.name || 'N/A' }}</h3>
+                Your career search is in progress.  select a personal statement or create a new one <a href="/student-dashboard/personalstatements">here</a>
                 <!--List all the personal statements  -->
                 <div class="row mb-4">
                   <div class="col-12">
                     <div class="card">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                      <!-- <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">
                           <i class="fas fa-user me-2"></i>
                           Career Search Progress
                         </h5>
                         yadda yadda yadda
-                      </div>
+                      </div> -->
 
                       <!-- studentDashData.personalstatements listed here - using the app-personalstatement-crud component in a modeName=card -->
                       <div class="row mb-4" *ngFor="let personalStatement of dashUIData?.personalStatements || []">
@@ -63,11 +58,87 @@ import { CRUD_MODES } from '@app/@core/constants';
                             <div class="card-header d-flex justify-content-between align-items-center">
                               <h5 class="mb-0">
                                 <i class="fas fa-user me-2"></i>
-                                Personal Statements
+                                {{ personalStatement.name }}
                               </h5>
                             </div>
                             <div class="card-body">
-                              <app-personalstatement-crud [modeName]="CRUD_MODES.CARD" [id]="personalStatement.id"></app-personalstatement-crud>
+                            <table cellpadding="3" cellspacing="3" border="0" width="100%">
+        <tr>
+            <td  width="40%" valign="top">
+            <app-personalstatement-crud [modeName]="CRUD_MODES.CARD" [id]="personalStatement.id"></app-personalstatement-crud>
+              </td>
+
+       
+        <td valign="top">
+ <!-- Career Search Progress Pie Chart -->
+ <div class="career-progress-chart text-center my-2" valign="top">
+                              <canvas 
+                                *ngIf="personalStatement.progress?.progressPercent !== undefined"
+                                [attr.data-progress]="personalStatement.progress?.progressPercent"
+                                width="120" 
+                                height="120"
+                                style="max-width: 100px; max-height: 100px;"
+                                #pieCanvas{{personalStatement.id}}>
+                              </canvas>
+                              <div *ngIf="personalStatement.progress?.progressPercent !== undefined" class="mt-1">
+                                <strong>{{ personalStatement.progress?.progressPercent }}%</strong> complete
+                              </div>
+                              <div *ngIf="personalStatement.progress?.progressSummary">
+                                <small class="text-muted">{{ personalStatement.progress?.progressSummary }}</small>
+                              </div>
+                              <div *ngIf="personalStatement.progress?.progressPercent === undefined">
+                                <span class="text-muted">No progress data available.</span>
+                              </div>
+                            </div>
+                            <script>
+                              // Render pie chart using Canvas 2D for the progress
+                              // This script will redraw pie charts after DOM updates
+                              (function(){
+                                setTimeout(function(){
+                                  const list = document.querySelectorAll('canvas[data-progress]');
+                                  list.forEach(canvas => {
+                                    const percent = parseInt(canvas.dataset.progress, 10) || 0;
+                                    const ctx = canvas.getContext('2d');
+                                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                    // Background circle
+                                    ctx.beginPath();
+                                    ctx.arc(60, 60, 50, 0, 2 * Math.PI);
+                                    ctx.strokeStyle = '#e6e6e6';
+                                    ctx.lineWidth = 14;
+                                    ctx.stroke();
+                                    // Progress arc
+                                    ctx.beginPath();
+                                    ctx.arc(60, 60, 50, -Math.PI/2, (-Math.PI/2 + (2 * Math.PI * percent / 100)));
+                                    ctx.strokeStyle = '#4285f4';
+                                    ctx.lineWidth = 14;
+                                    ctx.stroke();
+                                  });
+                                }, 300);
+                              })();
+                            </script>
+                            <div class="career-progress-description mt-2">
+                              <ng-container *ngIf="personalStatement.progress?.progressPercent !== undefined">
+                                <span>
+                                  You have completed <strong>{{ personalStatement.progress?.progressPercent }}%</strong> of your career search personal statement.
+                                 
+                                </span>
+                              </ng-container>
+                              <ng-container *ngIf="personalStatement?.progress?.progressPercent === undefined">
+                                <span class="text-muted">Get started to begin making progress!</span>
+                              </ng-container>
+                            </div>
+                            SPAM
+        </td>
+
+        <td valign="top" width="40%">
+        <span *ngIf="personalStatement.progress?.nextStep">
+                                    Next: <em>{{ personalStatement.progress?.nextStep }}</em>
+                                  </span>
+                                  </td>
+    </tr>
+    
+    </table>
+                           
                             </div>
                           </div>
                         </div>

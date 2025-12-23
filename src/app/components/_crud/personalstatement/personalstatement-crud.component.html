@@ -8,9 +8,7 @@
 
 
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.CARD" class="card-mode">
-  <table>
-<tr>
-    <td  width="40%" valign="top">
+
       <table><tr> 
         <td valign="top">
             <img [src]="getPersonalStatementImageUrl()" width="100px"alt="Personal Statement Image">
@@ -20,17 +18,8 @@
             <p>{{  encodingText }}</p>
             <!-- Instead of the descriptio, show the vocation encoding component-->
         </td>
-      </tr></table></td>
-
-        <td valign="top" width="40%">
-            <app-vocationencoding-display [id]="vocationEncodingId" [showingResearch]="false"></app-vocationencoding-display>
-        </td>
-        <td valign="top">
-Progress: 100%
-        </td>
-    </tr>
+      </tr></table>
     
-    </table>
 </div>
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
     <div class="details-section">

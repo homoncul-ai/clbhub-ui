@@ -19,66 +19,7 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
       
       <div *ngIf="!loading && entity" class="detail-mode">
         
-          <!--
-        <div class="details-section">
-          <div class="detail-group">
-            <label>ID:</label>
-            <span>{{ entity.id }}</span>
-          </div>
-          
-          <div class="detail-group">
-            <label>Encoding Type Code:</label>
-            <span>{{ entity.encodingTypeCode }}</span>
-          </div>    
-          <div class="detail-group">
-            <label>Parent Entity ID:</label>
-            <span>{{ entity.parentEntityId }}</span>
-          </div>
-          
-          <div class="detail-group">
-            <label>Parent Entity Type:</label>
-            <span>{{ entity.parentEntityType }}</span>
-          </div>
-          
-          <div class="detail-group">
-            <label>Parent Entity Name:</label>
-            <span>{{ entity.parentEntityName }}</span>
-          </div>
-          
-          <div class="detail-group">
-            <label>Encoding Text:</label>
-            <span>{{ entity.encodingText }}</span>
-          </div>
-          
-          <div class="detail-group">
-            <label>Status:</label>
-            <span>{{ entity.status }}</span>
-          </div>
-          
-          <div class="detail-group">
-            <label>Duration (ms):</label>
-            <span>{{ entity.durationMs }}</span>
-          </div>
-          
-          <div class="detail-group">
-            <label>Available:</label>
-            <span>{{ entity.available }}</span>
-          </div>
-           
-          <div *ngIf="entity.errorMessage" class="detail-group">
-            <label>Error Message:</label>
-            <span style="color: #dc3545;">{{ entity.errorMessage }}</span>
-          </div> 
-          <div *ngIf="entity.encodingResponseJson" class="detail-group">
-            <label>Encoding Response JSON:</label>
-            <pre style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.9rem;">{{ entity.encodingResponseJson | json }}</pre>
-          </div> 
-          <div *ngIf="entity.pipelineLogJson" class="detail-group">
-            <label>Pipeline Log JSON:</label>
-            <pre style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.9rem;">{{ entity.pipelineLogJson | json }}</pre>
-          </div>
-        </div>
-        -->
+      
         <!-- Vocation Encoding Instances Tree -->
         <div *ngIf="entity.vocationEncodingInstances && entity.vocationEncodingInstances.length > 0" class="details-section">
           <div class="tree-container">
@@ -92,17 +33,7 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
               </div>
               
               <div *ngIf="expandedInstances[i]" class="tree-node-content">
-                <!--
-                <div class="detail-group">
-                  <label>Instance ID:</label>
-                  <span>{{ instance.id }}</span>
-                </div>
-                
-                <div class="detail-group">
-                  <label>Vocation Encoding ID:</label>
-                  <span>{{ instance.vocationEncodingId }}</span>
-                </div>
--->
+              
                 <div class="detail-group" [hidden]="true" >
                   <label>Encoding Name:</label>
                   <span> {{ instance.encodingName }}</span>
@@ -247,7 +178,7 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
 export class VocationEncodingDisplayComponent  implements OnInit {
   @Input() id!: string;
   @Input() showingResearch: boolean = true;
-  
+
   protected entity: VocationEncodingGETData | null = null;
   protected expandedInstances: boolean[] = [];
   protected loading: boolean = false;

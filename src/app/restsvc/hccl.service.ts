@@ -3373,6 +3373,49 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<UtilmonStatGETDataSearchResults>(request);
   }
 
+  createPersonalStatementActivityLog(body: PersonalStatementActivityLogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatementactivitylog",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPersonalStatementActivityLogById(id: string): Observable<PersonalStatementActivityLogGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatementactivitylog/" + id,
+      method: "GET",
+    };
+    return this.request<PersonalStatementActivityLogGETData>(request);
+  }
+
+  updatePersonalStatementActivityLogById(id: string, body: PersonalStatementActivityLogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatementactivitylog/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePersonalStatementActivityLogById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatementactivitylog/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPersonalStatementActivityLogs(body: PersonalStatementActivityLogCriteria): Observable<PersonalStatementActivityLogGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/vocode/personalstatementactivitylog/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PersonalStatementActivityLogGETDataSearchResults>(request);
+  }
+
   createPersonalStatement(body: PersonalStatementPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/vocode/personalstatement",
@@ -4471,6 +4514,46 @@ export interface CatalogEntryCriteria {
   searchingForEditVersion?: boolean;
 }
 
+export interface DhtmlxTreeNode {
+  id?: string;
+  value?: string;
+  opened?: boolean;
+  checked?: boolean;
+  checkbox?: boolean;
+  type?: string;
+  items?: DhtmlxTreeNode[];
+}
+
+export interface PMFileGroupEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  pmfileGroupId?: string;
+  pmfileId?: string;
+  folderName?: string;
+}
+
+export interface PMFileGroupGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  title?: string;
+  instructions?: string;
+  available?: boolean;
+  uploadGroupReferenceId?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  aspectCode?: string;
+  fileGroupEntryId?: string;
+  fileTree?: DhtmlxTreeNode;
+  mapIdToEntry?: any;
+}
+
 export interface VeiSearchResultsGETData {
   catalogEntries?: CatalogEntryGETDataSearchResults;
   mapVocationRef?: any;
@@ -4489,6 +4572,7 @@ export interface VocationEncodingRefGETData {
   available?: number;
   primaryCode?: number;
   secondaryCode?: number;
+  fileGroup?: PMFileGroupGETData;
 }
 
 export interface CatalogEntryPUTData {
@@ -4563,46 +4647,6 @@ export interface CatalogEntrySignupPacketGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CatalogEntrySignupPacketGETData[];
   filter?: BaseCriteria;
-}
-
-export interface DhtmlxTreeNode {
-  id?: string;
-  value?: string;
-  opened?: boolean;
-  checked?: boolean;
-  checkbox?: boolean;
-  type?: string;
-  items?: DhtmlxTreeNode[];
-}
-
-export interface PMFileGroupEntryGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  pmfileGroupId?: string;
-  pmfileId?: string;
-  folderName?: string;
-}
-
-export interface PMFileGroupGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  title?: string;
-  instructions?: string;
-  available?: boolean;
-  uploadGroupReferenceId?: string;
-  parentEntityId?: string;
-  parentEntityName?: string;
-  parentEntityType?: string;
-  aspectCode?: string;
-  fileGroupEntryId?: string;
-  fileTree?: DhtmlxTreeNode;
-  mapIdToEntry?: any;
 }
 
 export interface CatalogEntrySignupPacketCriteria {
@@ -9149,6 +9193,73 @@ export interface UtilmonStatPUTData {
   count: number;
 }
 
+export interface PersonalStatementActivityLogPOSTData {
+  userProfileId: string;
+  personalStatmentId: string;
+  nameText: string;
+  actionCode?: string;
+  notes?: string;
+  documentId: string;
+  documentEntityType: string;
+  documentName: string;
+  extendedJson?: string;
+}
+
+export interface PersonalStatementActivityLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  userProfileId?: string;
+  personalStatmentId?: string;
+  nameText?: string;
+  actionCode?: string;
+  notes?: string;
+  documentId?: string;
+  documentEntityType?: string;
+  documentName?: string;
+  extendedJson?: string;
+}
+
+export interface PersonalStatementActivityLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PersonalStatementActivityLogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PersonalStatementActivityLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  userProfileId?: string;
+  personalStatmentId?: string;
+  nameText?: string;
+  actionCode?: string;
+  documentId?: string;
+  documentEntityType?: string;
+  documentName?: string;
+}
+
+export interface PersonalStatementActivityLogPUTData {
+  userProfileId: string;
+  personalStatmentId: string;
+  nameText: string;
+  actionCode?: string;
+  notes?: string;
+  documentId: string;
+  documentEntityType: string;
+  documentName: string;
+  extendedJson?: string;
+}
+
 export interface PersonalStatementPOSTData {
   name: string;
   businessCode: string;
@@ -9180,12 +9291,20 @@ export interface PersonalStatementGETData {
   encodingText?: string;
   vocationEncodingId?: string;
   status?: number;
+  progress?: PersonalStatementProgressPOJO;
 }
 
 export interface PersonalStatementGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: PersonalStatementGETData[];
   filter?: BaseCriteria;
+}
+
+export interface PersonalStatementProgressPOJO {
+  progressReport?: string;
+  progressPercent?: number;
+  progressSummary?: string;
+  nextStep?: string;
 }
 
 export interface PersonalStatementCriteria {
