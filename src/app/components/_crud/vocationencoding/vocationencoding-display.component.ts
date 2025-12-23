@@ -129,7 +129,7 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
                  </div>
                  
                  <!-- PMFileGroup UI for this encoding ref -->
-                 <div *ngIf="getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)" class="filegroup-section">
+                 <div *ngIf="showingResearch && getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)" class="filegroup-section">
                    <app-pmfilegroup-ui 
                      [data]="getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)!">
                    </app-pmfilegroup-ui>
@@ -246,6 +246,7 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
 })
 export class VocationEncodingDisplayComponent  implements OnInit {
   @Input() id!: string;
+  @Input() showingResearch: boolean = true;
   
   protected entity: VocationEncodingGETData | null = null;
   protected expandedInstances: boolean[] = [];

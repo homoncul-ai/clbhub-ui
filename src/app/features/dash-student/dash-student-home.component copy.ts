@@ -8,13 +8,11 @@ import { HcclService, HcclUserContextGETData, HcclUserProfileGETData, CLStudentG
 import { UserProfileEditModalComponent } from './user-profile-edit-modal.component';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
-import { CRUD_MODES } from '@app/@core/constants';
 
 @Component({
   selector: 'app-dash-student-home',
   standalone: true,
-  imports: [CommonModule, PersonalStatementCrudComponent],
+  imports: [CommonModule],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -23,7 +21,7 @@ import { CRUD_MODES } from '@app/@core/constants';
             <div class="card-header">
               <h3 class="card-title">
                 <i class="fas fa-user-graduate me-2"></i>
-                Career Search Dashboard  
+                Student Dashboard  
               </h3>
             </div>
             <div class="card-body">
@@ -43,39 +41,58 @@ import { CRUD_MODES } from '@app/@core/constants';
 
               <!-- Content -->
               <div *ngIf="!loading && !error">
-                <h3>Welcome {{ userProfile?.theUser?.name || 'N/A' }}</h3>
-                <!--List all the personal statements  -->
+                <!-- Student Information Section -->
                 <div class="row mb-4">
                   <div class="col-12">
                     <div class="card">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">
                           <i class="fas fa-user me-2"></i>
-                          Career Search Progress
+                          Student Information
                         </h5>
-                        yadda yadda yadda
+                        <button class="btn btn-sm btn-primary" (click)="openEditModal()">
+                          <i class="fas fa-edit me-1"></i>
+                          Edit
+                        </button>
                       </div>
-
-                      <!-- studentDashData.personalstatements listed here - using the app-personalstatement-crud component in a modeName=card -->
-                      <div class="row mb-4" *ngFor="let personalStatement of dashUIData?.personalStatements || []">
-                        <div class="col-12">
-                          <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                              <h5 class="mb-0">
-                                <i class="fas fa-user me-2"></i>
-                                Personal Statements
-                              </h5>
-                            </div>
-                            <div class="card-body">
-                              <app-personalstatement-crud [modeName]="CRUD_MODES.CARD" [id]="personalStatement.id"></app-personalstatement-crud>
-                            </div>
+                      <div class="card-body" *ngIf="userProfile">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <dl class="row mb-0">
+                              <dt class="col-sm-4">Name:</dt>
+                              <dd class="col-sm-8">{{ userProfile.theUser?.name || 'N/A' }}</dd>
+                              
+                              <dt class="col-sm-4">User Code:</dt>
+                              <dd class="col-sm-8">{{ userProfile.userCode || 'N/A' }}</dd>
+                              
+                              <dt class="col-sm-4">Email:</dt>
+                              <dd class="col-sm-8">{{ userProfile.userEmail || 'N/A' }}</dd>
+                              
+                              <dt class="col-sm-4">Cell Phone:</dt>
+                              <dd class="col-sm-8">{{ userProfile.cellPhoneNumber || 'N/A' }}</dd>
+                            </dl>
+                          </div>
+                          <div class="col-md-6">
+                            <dl class="row mb-0">
+                              <dt class="col-sm-4">Work Phone:</dt>
+                              <dd class="col-sm-8">{{ userProfile.workPhoneNumber || 'N/A' }}</dd>
+                              
+                              <dt class="col-sm-4">Message Handle:</dt>
+                              <dd class="col-sm-8">{{ userProfile.messageHandle || 'N/A' }}</dd>
+                              
+                              <dt class="col-sm-4">Profile Type:</dt>
+                              <dd class="col-sm-8">{{ userProfile.profileTypeCode || 'N/A' }}</dd>
+                              
+                              <dt class="col-sm-4">Last Updated:</dt>
+                              <dd class="col-sm-8">{{ userProfile.dateLastUpdated?.formattedDate || 'N/A' }}</dd>
+                            </dl>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
- 
+
                 <!-- School and Guidance Team Section -->
                 <div class="row">
                   <!-- School Information -->
@@ -197,8 +214,7 @@ export class DashStudentHomeComponent implements OnInit {
   private modalService = inject(MdbModalService);
   
   private modalRef: MdbModalRef<UserProfileEditModalComponent> | null = null;
-  CRUD_MODES = CRUD_MODES;
-  CRUD_MODE_CARD = CRUD_MODES.CARD;
+  
   loading: boolean = false;
   error: string | null = null;
   userProfile: HcclUserProfileGETData | null = null;

@@ -230,6 +230,10 @@ export class PersonalStatementCrudComponent extends AbstractCrudComponent<Person
     }
   }
 
+  protected getPersonalStatementImageUrl(): string {
+    return 'imgs/CCL-personalstatement.png';
+  }
+
   public override get dateCreated(): any {
     return this.getCurrentEntity()?.getData()?.dateCreated;
   }
@@ -353,6 +357,10 @@ export class PersonalStatementCrudWrapper extends EntityWrapper<PersonalStatemen
   }
   getVocationEncodingId(): string {
     return this.getData().vocationEncodingId || '';
+  }
+
+  get imageUrl(): string {
+    return 'imgs/CCL-personalstatement.png';
   }
   
   getFkMenuCriteria(): PersonalStatementCriteria {

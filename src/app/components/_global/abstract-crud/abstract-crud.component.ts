@@ -134,6 +134,9 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
       case CRUD_MODES.CREATE:
         this.switchToCreateMode();
         break;
+      case CRUD_MODES.CARD:
+        this.switchToCardMode();
+        break;
       case CRUD_MODES.FK_MENU:
         this.switchToFkMenuMode();
         break;
@@ -273,7 +276,8 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
     CRUD_MODES.FK,
     CRUD_MODES.FK_MENU,
     CRUD_MODES.DEBUG,
-    CRUD_MODES.PARENT
+    CRUD_MODES.PARENT,
+    CRUD_MODES.CARD
     ];
   protected currentMode: CrudModeType | null = null;
 
@@ -383,7 +387,16 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
       this.setMode(this.CRUD_MODES.DETAIL);
     });
   }
+
+  protected switchToCardMode(): void {       
+    this.prepareCardMode().then(() => {
+      this.setMode(this.CRUD_MODES.CARD);
+    });
+  }
   
+  protected async prepareCardMode(): Promise<void> {
+    return this.prepareDetailMode();
+  }
   protected async prepareDetailMode(): Promise<void> {
     if (this.id) {
       this.loadEntityById(this.id).then(entity => {
