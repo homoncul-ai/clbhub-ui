@@ -27,12 +27,14 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
   
   // Properties for dropdown and search functionality
   selectedSearchType: string = '';
+  searchKeyword: string = '';
   searchResults: VeiSearchResultsGETData | null = null;
   override loading: boolean = false;
   error: any = null;
 
   // Search type options
   searchTypes = [
+    { value: 'all', label: 'All' },
     { value: 'jobs', label: 'Jobs' },
     { value: 'courses', label: 'Courses' },
     { value: 'events', label: 'Events' }
@@ -74,7 +76,8 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
       pageNumber: 1,
       pageSize: 50,
       isPaging: true,
-      vocationEncodingId: this.entity?.getVocationEncodingId()
+      vocationEncodingId: this.entity?.getVocationEncodingId(),
+      searchByText: this.searchKeyword || undefined
     };
 
     // Add specific criteria based on search type
@@ -131,6 +134,7 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
    * Handle search button click
    */
   onSearchClick(): void {
+    this.searchKeyword = this.searchKeyword.trim();
     this.performSearch();
   }
 

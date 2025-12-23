@@ -20,7 +20,6 @@
     <!-- Search Bar -->
     <div class="search-bar-container" [class.disabled]="!canSearch()">
       <div class="search-input-wrapper">
-        <span class="search-icon material-icons">search</span>
         <input 
           type="text" 
           class="search-input" 
@@ -29,7 +28,7 @@
           (keyup.enter)="performSearch()">
       </div>
       <button class="search-button" (click)="performSearch()" [disabled]="!canSearch()">
-        <span class="material-icons">search</span>
+        <i class="fas fa-search me-1"></i>
         Search
       </button>
     </div>
@@ -41,27 +40,27 @@
           class="filter-btn" 
           [class.active]="selectedCategory === 'all'"
           (click)="selectCategory('all')">
-          All
+           All
         </button>
         <button 
           class="filter-btn" 
           [class.active]="selectedCategory === 'job'"
           (click)="selectCategory('job')">
-          <span class="material-icons">work</span>
+          <i class="fas fa-briefcase me-1"></i>
           Jobs
         </button>
         <button 
           class="filter-btn" 
           [class.active]="selectedCategory === 'course'"
           (click)="selectCategory('course')">
-          <span class="material-icons">school</span>
+          <i class="fas fa-graduation-cap me-1"></i>
           Courses
         </button>
         <button 
           class="filter-btn" 
           [class.active]="selectedCategory === 'event'"
           (click)="selectCategory('event')">
-          <span class="material-icons">event</span>
+          <i class="fas fa-calendar-alt me-1"></i>
           Events
         </button>
       </div>
