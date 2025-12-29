@@ -36761,6 +36761,30 @@
           },
           "nextStep": {
             "type": "string"
+          },
+          "completedResume": {
+            "type": "boolean"
+          },
+          "completedSignupForJob": {
+            "type": "boolean"
+          },
+          "completedSignupForCourse": {
+            "type": "boolean"
+          },
+          "showedInterestForJob": {
+            "type": "boolean"
+          },
+          "showedInterestForCourse": {
+            "type": "boolean"
+          },
+          "contactedProvider": {
+            "type": "boolean"
+          },
+          "acceptedForCourse": {
+            "type": "boolean"
+          },
+          "acceptedForJob": {
+            "type": "boolean"
           }
         }
       },
@@ -38124,13 +38148,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

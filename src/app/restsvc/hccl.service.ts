@@ -9305,6 +9305,14 @@ export interface PersonalStatementProgressPOJO {
   progressPercent?: number;
   progressSummary?: string;
   nextStep?: string;
+  completedResume?: boolean;
+  completedSignupForJob?: boolean;
+  completedSignupForCourse?: boolean;
+  showedInterestForJob?: boolean;
+  showedInterestForCourse?: boolean;
+  contactedProvider?: boolean;
+  acceptedForCourse?: boolean;
+  acceptedForJob?: boolean;
 }
 
 export interface PersonalStatementCriteria {
@@ -9716,9 +9724,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
