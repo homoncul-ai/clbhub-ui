@@ -4305,6 +4305,7 @@ export interface CatalogEntryGETData {
   catalogCode?: string;
   distance?: number;
   distanceFromCode?: string;
+  catalogEntryInterest?: CatalogEntryInterestGETData;
 }
 
 export interface CatalogEntryInterestGETData {
@@ -4357,6 +4358,7 @@ export interface CatalogEntryInterestCriteria {
   resumeId?: string;
   interestRangeMin?: number;
   interestRangeMax?: number;
+  catalogEntryIds?: string[];
 }
 
 export interface CatalogEntryInterestPUTData {
@@ -9724,9 +9726,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

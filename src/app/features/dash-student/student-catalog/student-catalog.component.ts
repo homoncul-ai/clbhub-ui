@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria, CatalogEntryInterestPOSTData, PersonalStatementGETData } from '@app/restsvc/hccl.service';
+import { HcclService, CatalogGETData, CatalogEntryGETData, CatalogCriteria, CatalogEntryCriteria, CatalogEntryInterestPOSTData, CatalogEntryInterestGETData, PersonalStatementGETData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { RouterModule } from '@angular/router';
 import { PersonalStatementSelectorComponent } from '@app/components/_global/personal-statement-selector/personal-statement-selector.component';
+
 export interface Opportunity {
   id: string;
   title: string;
@@ -156,22 +157,32 @@ export class StudentCatalogComponent implements OnInit {
     });
   }
 
-  markInterested(result: Opportunity): void {
+  markInterested(result: CatalogEntryGETData): void {
     console.log('Interested:', result.title);
     this.recordInterest(result, 10);
   }
 
-  markNotInterested(result: Opportunity): void {
+  markNotInterested(result: CatalogEntryGETData): void {
     console.log('Not Interested:', result.title);
     this.recordInterest(result, 0);
   }
 
-  private recordInterest(result: Opportunity, interest: number): void {
+  toggleInterest(result: CatalogEntryGETData): void {
+    // If currently interested, mark as not interested; otherwise mark as interested
+    const currentInterest = result.catalogEntryInterest?.interest || 0;
+    if (currentInterest > 0) {
+      this.recordInterest(result, 0);
+    } else {
+      this.recordInterest(result, 10);
+    }
+  }
+
+  private recordInterest(result: CatalogEntryGETData, interest: number): void {
     const userProfileId = this.hcclContextService.getCurrentUserProfileId() || '';
     
     const interestData: CatalogEntryInterestPOSTData = {
-      catalogId: result.catalogId,
-      catalogEntryId: result.id,
+      catalogId: result.catalogId || '',
+      catalogEntryId: result.id || '',
       personalStatementId: this.selectedPersonalStatement?.id || '',
       userProfileId: userProfileId,
       interest: interest,
@@ -181,6 +192,15 @@ export class StudentCatalogComponent implements OnInit {
     this.hcclService.showInterest(interestData).subscribe({
       next: (response) => {
         console.log('Interest recorded successfully:', response);
+        // Update the local data to reflect the change
+        if (!result.catalogEntryInterest) {
+          result.catalogEntryInterest = {} as CatalogEntryInterestGETData;
+        }
+        result.catalogEntryInterest.interest = interest;
+        // If response contains the created/updated interest object, use it
+        if (response?.id) {
+          result.catalogEntryInterest.id = response.id;
+        }
       },
       error: (error) => {
         console.error('Error recording interest:', error);

@@ -91,30 +91,97 @@
     <div class="results-container" *ngIf="!isLoading && searchResults.length > 0">
       <h2>Results</h2>
       <div class="results-grid">
-        <div class="result-card" *ngFor="let result of searchResults; let i = index" >
+        <div class="result-card" *ngFor="let result of rawSearchResults; let i = index">
+          
         
-      <!-- Image on the left -->
-        <!-- Catalog Entry CRUD Component -->
-      <app-catalogentry-crud 
-      [id]="result.id" 
-      [modeName]="'section'">
-    </app-catalogentry-crud>
-    
-          <div class="card-footer">
-            <button type="button" 
-                    class="btn btn-outline-danger btn-sm" 
-                    (click)="markNotInterested(result)">
-              <i class="fas fa-thumbs-down me-1"></i>Not Interested
-            </button>
-            <button type="button" 
-                    class="btn btn-success btn-sm" 
-                    (click)="markInterested(result)">
-              <i class="fas fa-thumbs-up me-1"></i>Interested
-            </button>
+          <!-- Catalog Entry CRUD Component -->
+          <div class="details-section" style="display: flex; gap: 20px; align-items: flex-start;">
+            <!-- Image on the left -->
+            <div class="image-container" style="flex-shrink: 0;">
+              <img [src]="getCatalogEntryImageUrl()" 
+                   alt="Catalog Entry Image" 
+                   style="max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            </div>
+            
+            <!-- Attributes on the right -->
+            <div class="attributes-container" style="flex: 1;">
+              <div class="detail-group">
+                <label>&nbsp;</label>
+                <div class="interest-icons">
+                  <!-- No interest recorded yet - show both icons -->
+                  <ng-container *ngIf="!result.catalogEntryInterest">
+                    <button class="interest-icon-btn thumbs-down" 
+                            (click)="markNotInterested(result)"
+                            title="Not Interested">
+                      <i class="fas fa-thumbs-down"></i>
+                    </button>
+                    <button class="interest-icon-btn thumbs-up" 
+                            (click)="markInterested(result)"
+                            title="Interested">
+                      <i class="fas fa-thumbs-up"></i>
+                    </button>
+                  </ng-container>
+                  
+                  <!-- Interest recorded - show appropriate icon -->
+                  <ng-container *ngIf="result.catalogEntryInterest">
+                    <!-- Interested (interest > 0) - show thumbs up only -->
+                    <button class="interest-icon-btn thumbs-up active" 
+                            *ngIf="result.catalogEntryInterest.interest && result.catalogEntryInterest.interest > 0"
+                            (click)="toggleInterest(result)"
+                            title="You're Interested - Click to remove">
+                      <i class="fas fa-thumbs-up"></i>
+                    </button>
+                    <!-- Not interested (interest === 0) - show thumbs down only -->
+                    <button class="interest-icon-btn thumbs-down active" 
+                            *ngIf="result.catalogEntryInterest.interest === 0"
+                            (click)="toggleInterest(result)"
+                            title="Not Interested - Click to remove">
+                      <i class="fas fa-thumbs-down"></i>
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="detail-group">
+                <label>Entry Code:</label>
+                <span>{{ result.entryCode }}</span>
+              </div>
+              <div class="detail-group">
+                <label>Title:</label>
+                <span>{{ result.title }}</span>
+              </div>
+              <div *ngIf="result.shortDescription && result.shortDescription !== result.description " class="detail-group">
+                <label>Short Description:</label>
+                <span>{{ result.shortDescription }}</span>
+              </div>
+              <div class="detail-group">
+                <label>Description:</label>
+                <span>{{ result.description }}</span>
+              </div>
+              <div *ngIf="result.notes" class="detail-group">
+                <label>Notes:</label>
+                <span>{{ result.notes }}</span>
+              </div>
+              <!-- <div class="detail-group">
+                <label>Available:</label>
+                <span><app-available-selector [available]="result.available" [readonly]="true"></app-available-selector></span>
+              </div>
+              <div class="detail-group">
+                <label>URL:</label>
+                <span>{{ result.url }}</span>
+              </div> -->
+              <!-- <div class="detail-group">
+                <label>JSON:</label>
+                <pre>{{ result | json }}</pre>
+              </div> -->
+            </div>
           </div>
+          <!-- <app-catalogentry-crud 
+            [id]="result.id" 
+            [modeName]="'section'">
+          </app-catalogentry-crud> -->
         </div>
       </div>
-        </div>
+    </div>
       </div>
     </div>
   </div>

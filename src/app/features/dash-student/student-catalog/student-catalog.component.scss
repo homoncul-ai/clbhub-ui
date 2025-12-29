@@ -217,6 +217,95 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
+  /* Interest Bar at Top */
+  .interest-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .interest-label {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .interest-icons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .interest-icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fff;
+
+    i {
+      font-size: 14px;
+    }
+
+    &.thumbs-up {
+      color: #9ca3af;
+      border-color: #e5e7eb;
+
+      &:hover {
+        color: #10b981;
+        border-color: #10b981;
+        background: #ecfdf5;
+        transform: scale(1.1);
+      }
+
+      &.active {
+        color: #fff;
+        background: #10b981;
+        border-color: #10b981;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+
+        &:hover {
+          background: #059669;
+          border-color: #059669;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    &.thumbs-down {
+      color: #9ca3af;
+      border-color: #e5e7eb;
+
+      &:hover {
+        color: #ef4444;
+        border-color: #ef4444;
+        background: #fef2f2;
+        transform: scale(1.1);
+      }
+
+      &.active {
+        color: #fff;
+        background: #ef4444;
+        border-color: #ef4444;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+
+        &:hover {
+          background: #dc2626;
+          border-color: #dc2626;
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
   .card-header {
     padding: 16px 20px;
     background-color: #f8f9fa;

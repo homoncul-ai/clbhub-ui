@@ -18763,6 +18763,9 @@
           },
           "distanceFromCode": {
             "type": "string"
+          },
+          "catalogEntryInterest": {
+            "$ref": "#/components/schemas/CatalogEntryInterestGETData"
           }
         }
       },
@@ -18943,6 +18946,13 @@
           "interestRangeMax": {
             "type": "integer",
             "format": "int32"
+          },
+          "catalogEntryIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
@@ -38148,13 +38158,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }
