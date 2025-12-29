@@ -19499,6 +19499,9 @@
           },
           "searchingForEditVersion": {
             "type": "boolean"
+          },
+          "ignoringWithInterest": {
+            "type": "boolean"
           }
         }
       },

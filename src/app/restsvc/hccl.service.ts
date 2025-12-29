@@ -4514,6 +4514,7 @@ export interface CatalogEntryCriteria {
   subjectEntityName?: string;
   vocationEncodingId?: string;
   searchingForEditVersion?: boolean;
+  ignoringWithInterest?: boolean;
 }
 
 export interface DhtmlxTreeNode {

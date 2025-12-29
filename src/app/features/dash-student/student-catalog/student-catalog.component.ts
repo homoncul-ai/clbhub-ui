@@ -37,7 +37,7 @@ export class StudentCatalogComponent implements OnInit {
   // Search properties
   searchKeyword: string = '';
   selectedCategory: string = 'all';
-  showAvailableOnly: boolean = false;
+  hideIrrelevant: boolean = true;
 
   // Pagination
   pageSize: number = 20;
@@ -122,10 +122,8 @@ export class StudentCatalogComponent implements OnInit {
       criteria.searchByText = this.searchKeyword;
     }
 
-    // Add available only filter
-    if (this.showAvailableOnly) {
-      criteria.available = 1;
-    }
+    // Hide irrelevant entries (those already marked with interest)
+    criteria.ignoringWithInterest = this.hideIrrelevant;
 
    // alert("Search criteria: " + JSON.stringify(criteria));
 

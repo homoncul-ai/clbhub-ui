@@ -67,9 +67,10 @@
       <div class="available-only-checkbox">
         <input 
           type="checkbox" 
-          id="available-only" 
-          [(ngModel)]="showAvailableOnly">
-        <label for="available-only">Show available only</label>
+          id="hide-irrelevant" 
+          [(ngModel)]="hideIrrelevant"
+          (change)="performSearch()">
+        <label for="hide-irrelevant">Hide irrelevant</label>
       </div>
     </div>
 
