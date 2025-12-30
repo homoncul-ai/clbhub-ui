@@ -12,12 +12,13 @@ import { HcclUserProfileCrudWrapper } from '../dash-ecoadmin/orgs/org-school-sta
 import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData } from '@app/restsvc/hccl.service';
 import { PersonalStatementSelectorComponent } from "@app/components/_global/personal-statement-selector/personal-statement-selector.component";
 import { StudentEngageInterestComponent } from './student-engage-interest/student-engage-interest.component';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-student-engage',
   standalone: true,
   imports: [CommonModule, CatalogEntryInterestListComponent, CommonModule, SimpleTabsetComponent,
     HcclUserProfileCrudComponent, CatalogEntryInterestListComponent,
-    CatalogEntryInterestCrudComponent, StdBubaComponent, PersonalStatementSelectorComponent, StudentEngageInterestComponent],
+    CatalogEntryInterestCrudComponent, StdBubaComponent, PersonalStatementSelectorComponent, StudentEngageInterestComponent, FormsModule],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -46,9 +47,9 @@ import { StudentEngageInterestComponent } from './student-engage-interest/studen
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf="getSelectedInterestId() !== ''">
         <div class="col-12">
-          <app-student-engage-interest [interestId]="getSelectedInterestId()"></app-student-engage-interest>
+          <app-student-engage-interest [interestId]="getSelectedInterestId()"></app-student-engage-interest> 
         </div>
       </div>
     </div>
@@ -147,7 +148,7 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
   }
   protected setSelectedInterestId(interestId: string): void {
     this.interestId = interestId;
-    this.cdr.detectChanges(); // Trigger change detection to update child component
+     this.cdr.detectChanges(); // Trigger change detection to update child component
   }
 
   protected setupTabs(): SimpleTab[] {
@@ -165,7 +166,7 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
     x.parentId = this.id;
     x.tabId = 'interest';
     x.alertMessage = 'Message';
-    x.usingNavigateUrl = false;
+    x.usingNavigateUrl = false; 
     x.onRowClick = (id: string) => {
       this.setSelectedInterestId(id);
       // Clicking on this needs to open up 

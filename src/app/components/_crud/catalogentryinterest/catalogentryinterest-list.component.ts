@@ -54,6 +54,7 @@ export class CatalogEntryInterestListComponent extends AbstractListComponent<Cat
       // Replace [prefix]Id with the displaytext of the crudwrapper - named [prefix]Str instead of [prefix]Id
       //{ id: 'catalogStr', header: [{ text: 'Catalog', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'catalogEntryStr', header: [{ text: 'Catalog Entry', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      { id: 'currentStateCode', header: [{ text: 'Current State', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       //{ id: 'personalStatementStr', header: [{ text: 'Personal Statement', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       //{ id: 'userProfileStr', header: [{ text: 'User Profile', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
 

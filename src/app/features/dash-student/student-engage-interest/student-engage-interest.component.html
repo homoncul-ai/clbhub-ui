@@ -1,9 +1,36 @@
 <div class="container-fluid" *ngIf="this.interestId !== '' && this.interestId !== null">
 
+<!-- Header with button bar -->
+<div class="card mb-3">
+  <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <h5 class="card-title" style="margin: 0;">
+      <i [class]="getCatalogTypeIcon() + ' me-2'"></i>
+      {{ interestGETData?.catalogEntry?.catalogTypeCode | titlecase }} Interest
+    </h5>
+    <div class="button-bar" style="display: flex; gap: 10px; align-items: center;">
+      <button 
+        *ngIf="canSignUp()" 
+        class="btn btn-primary btn-sm" 
+        (click)="openSignUpModal()" 
+        title="Sign Up">
+        <i class="fas fa-user-plus me-1"></i>
+        Sign Up
+      </button>
+      <button 
+        *ngIf="canApply()" 
+        class="btn btn-success btn-sm" 
+        (click)="openApplyModal()" 
+        title="Apply">
+        <i class="fas fa-paper-plane me-1"></i>
+        Apply
+      </button>
+    </div>
+  </div>
+</div>
+
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
 <div *ngIf="currentTabId === 'details'">
-  <!-- <app-catalogentryinterest-crud [id]="this.interestId" modeName="detail"></app-catalogentryinterest-crud> -->
   <div *ngIf="this.entryGETData !== null" class="catalog-entry-section mb-4"> 
     <app-catalogentry-crud 
       [id]="this.entryGETData?.id" 
@@ -13,10 +40,134 @@
 </div>
 
 <div *ngIf="currentTabId === 'signupInfo'">
-   Signup Information
+  <!-- Signup Packet Instructions -->
+  <div *ngIf="loadingSignupUIData" class="text-center py-2">
+    <div class="spinner-border spinner-border-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loadingSignupUIData && signupInstructionsHtml" 
+       class="signup-packet-instructions"
+       [innerHTML]="signupInstructionsHtml">
+  </div>
+
+  <div *ngIf="!loadingSignupUIData && !signupInstructionsHtml" class="alert alert-info">
+    <p>No additional signup information available for this catalog entry.</p>
+  </div>
 </div>
 
 <div *ngIf="currentTabId === 'message'">
-  <app-pmessage-ui [id]="this.messageId"   ></app-pmessage-ui>
+  <app-pmessage-ui [id]="this.messageId"></app-pmessage-ui>
 </div>
 </div>
+
+<!-- Sign Up Modal -->
+<div *ngIf="showSignUpModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signUpModalLabel">
+          <i class="fas fa-user-plus me-2"></i>
+          Sign Up
+        </h5>
+        <button type="button" class="btn-close" (click)="closeSignUpModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Loading state -->
+        <div *ngIf="loadingSignupUIData" class="text-center py-4">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">Loading signup information...</p>
+        </div>
+
+        <!-- Signup Form -->
+        <form *ngIf="!loadingSignupUIData && signupUIData" (ngSubmit)="onSubmitSignup()">
+          <!-- Resume Dropdown (if required) -->
+          <div *ngIf="signupUIData.signupBehavior?.requiringResume" class="mb-3">
+            <label class="form-label">Resume <span class="text-danger">*</span></label>
+            <app-menu-control-data-list
+              [menuControlDataList]="signupUIData.resumeSelectData || null"
+              placeholder="Select a resume"
+              [(ngModel)]="signupFormData.resumeId"
+              name="resumeId"
+              [required]="signupUIData.signupBehavior?.requiringResume || false">
+            </app-menu-control-data-list>
+            <div class="form-text">Please select a resume to include with your signup.</div>
+          </div>
+
+          <!-- Provider Messaging Consent Checkbox (if required) -->
+          <div *ngIf="signupUIData.signupBehavior?.ackingProviderContact" class="mb-3">
+            <app-std-boolean
+              prefix="signup"
+              name="allowingProviderToMessage"
+              [label]="'Allow ' + (signupUIData.providerOrganizationName || 'Provider') + ' to Message'"
+              [required]="false"
+              mode="checkbox"
+              [(ngModel)]="signupFormData.allowingProviderToMessage">
+            </app-std-boolean>
+          </div>
+
+          <!-- Error message -->
+          <div *ngIf="signupError" class="alert alert-danger mt-3">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ signupError }}
+          </div>
+        </form>
+
+        <!-- No signup data available -->
+        <div *ngIf="!loadingSignupUIData && !signupUIData" class="alert alert-warning">
+          <p>Signup information is not available for this catalog entry.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeSignUpModal()">Cancel</button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="onSubmitSignup()"
+          [disabled]="!canSubmitSignup() || submittingSignup">
+          <span *ngIf="submittingSignup">
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Submitting...
+          </span>
+          <span *ngIf="!submittingSignup">Complete Signup</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showSignUpModal" class="modal-backdrop fade show"></div>
+
+<!-- Apply Modal -->
+<div *ngIf="showApplyModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="applyModalLabel">
+          <i class="fas fa-paper-plane me-2"></i>
+          Apply
+        </h5>
+        <button type="button" class="btn-close" (click)="closeApplyModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Application functionality will be implemented here.</p>
+        <p>This will allow users to create applications for:</p>
+        <ul>
+          <li>Job positions</li>
+          <li>Course enrollments</li>
+          <li>Program admissions</li>
+          <li>Other opportunities</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeApplyModal()">Cancel</button>
+        <button type="button" class="btn btn-success" disabled>
+          Submit Application
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showApplyModal" class="modal-backdrop fade show"></div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -229,10 +229,12 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
   `
 })
 export class DashStudentInterestComponent implements OnInit {
+
+  @Input() interestId: string = '';
+
   catalogEntryInterest: CatalogEntryInterestGETData | null = null;
   loading = false;
   error = '';
-  interestId: string = '';
   
   // Modal state
   showSignUpModal = false;
@@ -267,7 +269,7 @@ export class DashStudentInterestComponent implements OnInit {
 
   ngOnInit(): void {
     // Get interest ID from route parameters
-    this.interestId = this.route.snapshot.params['interestId'] || '';
+  //  this.interestId = this.route.snapshot.params['interestId'] || '';
     
     if (this.interestId) {
       this.loadCatalogEntryInterest();
