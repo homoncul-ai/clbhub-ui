@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
@@ -47,6 +47,18 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
 
   // Input for organization ID when creating new catalog
   @Input() organizationId?: string;
+  
+  // Flag to indicate component is in modal mode (skip navigation after create/update)
+  @Input() isModal: boolean = false;
+  
+  // Event emitted when a catalog is successfully created
+  @Output() catalogCreated = new EventEmitter<string>();
+  
+  // Event emitted when a catalog is successfully updated
+  @Output() catalogUpdated = new EventEmitter<string>();
+  
+  // Event emitted when user cancels the operation (for modal mode)
+  @Output() cancelled = new EventEmitter<void>();
   
   constructor() {
     super();
@@ -159,7 +171,7 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
   protected override async createEntityDataCall(entity: CatalogCrudWrapper): Promise<any> {
     // Use input organizationId if entity doesn't have one
     const orgId = entity.organizationId || this.organizationId || '';
-    debugger;
+    
     const postData: CatalogPOSTData = {
       organizationId: orgId,
       name: entity.name,
@@ -322,6 +334,48 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
     // Load catalog type menu if not already loaded
     if (!this.catalogTypeMenu) {
       await this.loadCatalogTypeMenu();
+    }
+  }
+
+  /**
+   * Override postCreate to handle modal mode - emit event instead of navigating
+   */
+  protected override postCreate(): void {
+    console.log('Catalog created successfully');
+    
+    // Emit event with the created catalog ID
+    this.catalogCreated.emit(this.id);
+    
+    // Only navigate if not in modal mode
+    if (!this.isModal) {
+      const baseRoute = this.getBaseRoute();
+      this.router.navigate([baseRoute, this.id, 'details']);
+    }
+  }
+
+  /**
+   * Override postSave to handle modal mode - emit event instead of navigating
+   */
+  protected override postSave(): void {
+    console.log('Catalog saved successfully');
+    
+    // Emit event with the updated catalog ID
+    this.catalogUpdated.emit(this.id);
+    
+    // Only switch to detail mode if not in modal mode
+    if (!this.isModal) {
+      this.switchToDetailMode();
+    }
+  }
+
+  /**
+   * Cancel the current operation - emit cancel event if in modal mode
+   */
+  public cancelOperation(): void {
+    if (this.isModal) {
+      this.cancelled.emit();
+    } else {
+      this.switchToDetailMode();
     }
   }
 }

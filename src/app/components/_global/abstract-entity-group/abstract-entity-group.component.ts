@@ -7,7 +7,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
 import { AbstractListComponent } from '../abstract-list';
 import { OnRowClickBehavior } from '../abstract-list/abstract-list.component';
-
+import { CRUD_MODES } from '@app/@core/constants/app-settings';
 @Component({
   selector: 'app-abstract-entity-group',
   imports: [],
@@ -15,7 +15,7 @@ import { OnRowClickBehavior } from '../abstract-list/abstract-list.component';
   styleUrl: './abstract-entity-group.component.scss'
 })
 export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>> {
-  
+  protected CRUD_MODES = CRUD_MODES;
   @Input() id!: string;
   @Input() childId?: string;
   @Input() tabId!: string;

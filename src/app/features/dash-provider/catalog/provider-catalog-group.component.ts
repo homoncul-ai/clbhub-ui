@@ -5,27 +5,30 @@ import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofil
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { HcclUserContextGETData, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { ProviderCatalogTabDashComponent } from './provider-catalog-tab-dash.component';
+import { CatalogCrudWrapper } from '@app/components/_crud/catalog/catalog-crud.component';
+import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud.component';
 
 @Component({
   selector: 'app-provider-catalog-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, ProviderCatalogTabDashComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderCatalogTabDashComponent, CatalogCrudComponent],
   templateUrl: './provider-catalog-group.component.html',
   styleUrl: './provider-catalog-group.component.scss'
 })
-export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {
+export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<CatalogCrudWrapper> implements OnInit {
 
   override ngOnInit(): void {
+   
+    super.ngOnInit();
     // For singleton behavior, always use current user profile ID
     this.hcclContextService.refreshContext().subscribe(context => {
       this.defaultId = context.currentUserProfileId || '';
       this.id = this.defaultId;
       this.organizationId = context.currentUserProfile.organizationId || '';
       // Call parent ngOnInit after setting the ID
-      super.ngOnInit();
     });
   }
-
+ 
   protected organizationId : string = '';
   protected getOrganizationId(): string {
     return this.organizationId;  
@@ -36,12 +39,12 @@ export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<
     return this.defaultId;
   }
 
-  protected newCrudWrapperForCreate(): HcclUserProfileCrudWrapper {
-    return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
+  protected newCrudWrapperForCreate(): CatalogCrudWrapper {
+    return CatalogCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
-  protected async loadEntityById(id: string): Promise<HcclUserProfileCrudWrapper> {
-    return HcclUserProfileCrudWrapper.newInstance(id, this.hcclService);
+  protected async loadEntityById(id: string): Promise<CatalogCrudWrapper> {
+    return CatalogCrudWrapper.newInstance(id, this.hcclService);
   }
 
   protected setupTabs(): SimpleTab[] {

@@ -6,6 +6,7 @@ import { CatalogCriteria, CatalogGETData, HcclService } from '@app/restsvc/hccl.
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { AddCatalogModalComponent } from './add-catalog-modal.component';
+import { EditCatalogModalComponent } from './edit-catalog-modal.component';
 
 @Component({
   selector: 'app-provider-catalog-tab-dash',
@@ -54,8 +55,8 @@ import { AddCatalogModalComponent } from './add-catalog-modal.component';
                       <div class="d-flex justify-content-between">
                         <small class="text-muted">Updated: {{ catalog.dateLastUpdated?.formattedDate }}</small>
                         <div>
-                          <button class="btn btn-sm btn-outline-primary me-1">View</button>
-                          <button class="btn btn-sm btn-outline-success">Edit</button>
+                          <button class="btn btn-sm btn-outline-primary me-1" (click)="viewCatalog(catalog)">View</button>
+                          <button class="btn btn-sm btn-outline-success" (click)="editCatalog(catalog)">Edit</button>
                         </div>
                       </div>
                     </div>
@@ -141,7 +142,8 @@ import { AddCatalogModalComponent } from './add-catalog-modal.component';
 })
 export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<HcclOrganizationCrudWrapper> {
   private modalService = inject(MdbModalService);
-  private modalRef: MdbModalRef<AddCatalogModalComponent> | null = null;
+  private addModalRef: MdbModalRef<AddCatalogModalComponent> | null = null;
+  private editModalRef: MdbModalRef<EditCatalogModalComponent> | null = null;
 
   constructor() {
     super();
@@ -202,7 +204,7 @@ export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<
   }
 
   protected addCatalog(): void {
-    this.modalRef = this.modalService.open(AddCatalogModalComponent, {
+    this.addModalRef = this.modalService.open(AddCatalogModalComponent, {
       modalClass: 'modal-lg',
       backdrop: true,
       keyboard: true,
@@ -210,13 +212,43 @@ export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<
     });
 
     // Handle modal result
-    this.modalRef.onClose.subscribe((result) => {
+    this.addModalRef.onClose.subscribe((result) => {
       if (result?.success) {
         console.log('Catalog created successfully:', result.catalogId);
         // Refresh the catalog list
         this.refreshCatalogs();
       }
-      this.modalRef = null;
+      this.addModalRef = null;
+    });
+  }
+
+  /**
+   * Navigate to catalog detail page
+   */
+  protected viewCatalog(catalog: CatalogGETData): void {
+    this.router.navigate(['/catalogs', catalog.id]);
+  }
+
+  /**
+   * Open edit modal for the catalog
+   */
+  protected editCatalog(catalog: CatalogGETData): void {
+    this.editModalRef = this.modalService.open(EditCatalogModalComponent, {
+      modalClass: 'modal-lg',
+      backdrop: true,
+      keyboard: true,
+      ignoreBackdropClick: false,
+      data: { catalogId: catalog.id }
+    });
+
+    // Handle modal result
+    this.editModalRef.onClose.subscribe((result) => {
+      if (result?.success) {
+        console.log('Catalog updated successfully:', result.catalogId);
+        // Refresh the catalog list
+        this.refreshCatalogs();
+      }
+      this.editModalRef = null;
     });
   }
 

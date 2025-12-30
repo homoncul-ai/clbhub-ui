@@ -5,14 +5,14 @@ import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 
 @Component({
-  selector: 'app-add-catalog-modal',
+  selector: 'app-edit-catalog-modal',
   standalone: true,
   imports: [CommonModule, CatalogCrudComponent],
   template: `
     <div class="modal-header">
       <h5 class="modal-title">
-        <i class="fas fa-plus-circle me-2"></i>
-        Add New Catalog
+        <i class="fas fa-edit me-2"></i>
+        Edit Catalog
       </h5>
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
     </div>
@@ -20,21 +20,14 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
     <div class="modal-body">
       <app-catalog-crud 
         #catalogCrud
-        [id]="''" 
+        [id]="catalogId" 
         [organizationId]="getOrganizationId()"
-        [modeName]="'create'"
+        [modeName]="'edit'"
         [isModal]="true"
-        (catalogCreated)="onCatalogCreated($event)"
+        (catalogUpdated)="onCatalogUpdated($event)"
         (cancelled)="closeModal()">
       </app-catalog-crud>
     </div>
-    
-    <!-- <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="closeModal()">
-        <i class="fas fa-times me-1"></i>
-        Close
-      </button>
-    </div> -->
   `,
   styles: [`
     .modal-header {
@@ -59,11 +52,14 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
     }
   `]
 })
-export class AddCatalogModalComponent implements OnInit {
+export class EditCatalogModalComponent implements OnInit {
   private hcclContextService = inject(HcclContextService);
   
   // Modal reference for closing
-  public modalRef = inject(MdbModalRef<AddCatalogModalComponent>);
+  public modalRef = inject(MdbModalRef<EditCatalogModalComponent>);
+  
+  // Catalog ID to edit - passed via modal data
+  public catalogId: string = '';
   
   @ViewChild('catalogCrud') catalogCrud!: CatalogCrudComponent;
 
@@ -87,10 +83,11 @@ export class AddCatalogModalComponent implements OnInit {
   }
 
   /**
-   * Handle successful catalog creation
+   * Handle successful catalog update
    */
-  onCatalogCreated(catalogId: string): void {
-    console.log('Catalog created with ID:', catalogId);
+  onCatalogUpdated(catalogId: string): void {
+    console.log('Catalog updated:', catalogId);
     this.modalRef.close({ success: true, catalogId });
   }
 }
+
