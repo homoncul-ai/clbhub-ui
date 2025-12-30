@@ -1,9 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogCriteria, CatalogGETData, HcclService } from '@app/restsvc/hccl.service';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
+import { AddCatalogModalComponent } from './add-catalog-modal.component';
 
 @Component({
   selector: 'app-provider-catalog-tab-dash',
@@ -14,11 +16,15 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h3 class="card-title mb-0">
                 <i class="fas fa-book me-2"></i>
                 Catalog Dashboard
               </h3>
+              <button class="btn btn-primary btn-sm" (click)="addCatalog()">
+                <i class="fas fa-plus me-1"></i>
+                Add Catalog
+              </button>
             </div>
             <div class="card-body">
               <!-- Catalog Tiles -->
@@ -58,7 +64,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
               </div>
               
               <!-- Quick Actions -->
-              <div class="row mt-4">
+              <!-- <div class="row mt-4">
                 <div class="col-12">
                   <h5>Quick Actions</h5>
                   <div class="card">
@@ -104,7 +110,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>  -->
             </div>
           </div>
         </div>
@@ -133,22 +139,42 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
     }
   `]
 })
-export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent <HcclOrganizationCrudWrapper>{
+export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<HcclOrganizationCrudWrapper> {
+  private modalService = inject(MdbModalService);
+  private modalRef: MdbModalRef<AddCatalogModalComponent> | null = null;
+
   constructor() {
-      super();
-      console.log('ProviderDashboardTabMydashComponent');
+    super();
+    console.log('ProviderCatalogTabDashComponent');
   }
 
-
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit();
+  }
   
   protected newCrudWrapperForCreate(): HcclOrganizationCrudWrapper {
       return HcclOrganizationCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+  protected organizationId: string = '';
+  protected getOrganizationId(): string {
+    return this.organizationId;
+  }
   protected catalogList: CatalogGETData[] = [];
   protected async loadEntityByIdCall(id: string): Promise<HcclOrganizationCrudWrapper> {
+    this.organizationId = this.hcclContextService.getCurrentUserProfile().organizationId;
+
+    var ids: string[] = [];
+    if (id !== '') {
+    //  ids.push(id);
+    }
+    var organizationId: string = '';
+    if (this.organizationId !== '') {
+      organizationId = this.organizationId;
+    }
     const catalogcriteria : CatalogCriteria = {
-      organizationId: id,
+      ids: ids,
+      organizationId: this.organizationId,
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
@@ -159,7 +185,10 @@ export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent 
     
     this.catalogList = catalogs?.searchResults || [];
 
-      return HcclOrganizationCrudWrapper.newInstance(id, this.hcclService);
+//  alert('organizationId ' + organizationId + JSON.stringify(catalogs));
+    const organizationWrapper = HcclOrganizationCrudWrapper.newInstance(organizationId, this.hcclService);
+//    alert('organizationWrapper ' + JSON.stringify((await organizationWrapper).dump()));
+    return organizationWrapper;
   }  
  
 
@@ -170,5 +199,39 @@ export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent 
 
   protected getCatalogs(): CatalogGETData[] {
     return this.catalogList;
+  }
+
+  protected addCatalog(): void {
+    this.modalRef = this.modalService.open(AddCatalogModalComponent, {
+      modalClass: 'modal-lg',
+      backdrop: true,
+      keyboard: true,
+      ignoreBackdropClick: false
+    });
+
+    // Handle modal result
+    this.modalRef.onClose.subscribe((result) => {
+      if (result?.success) {
+        console.log('Catalog created successfully:', result.catalogId);
+        // Refresh the catalog list
+        this.refreshCatalogs();
+      }
+      this.modalRef = null;
+    });
+  }
+
+  /**
+   * Refresh the catalog list after adding a new catalog
+   */
+  private async refreshCatalogs(): Promise<void> {
+    const catalogcriteria: CatalogCriteria = {
+      organizationId: this.organizationId,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
+    
+    const catalogs = await this.hcclService.findCatalogs(catalogcriteria).toPromise();
+    this.catalogList = catalogs?.searchResults || [];
   }
 }

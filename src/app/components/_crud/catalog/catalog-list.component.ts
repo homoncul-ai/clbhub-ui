@@ -37,14 +37,12 @@ export class CatalogListComponent extends AbstractListComponent<CatalogGETData, 
       { id: 'name', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'businessCode', header: [{ text: 'Business Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'organizationName', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+      { id: 'catalogTypeId', header: [{ text: 'Catalog Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'urlPrefix', header: [{ text: 'URL Prefix', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
       { id: 'url', header: [{ text: 'URL', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'signupPacketId', header: [{ text: 'Signup Packet', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
-      { id: 'organizationId', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-      { id: 'taxonomyEntryId', header: [{ text: 'Taxonomy Entry', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
-//      { id: 'createdByInfo', header: [{ text: 'Created By', align: 'center' }], minWidth: 120, adjust: true },
-  //    { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
-    //  { id: 'lastUpdatedByInfo', header: [{ text: 'Last Updated By', align: 'center' }], minWidth: 120, adjust: true },
       { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
     ];
   }
@@ -71,6 +69,7 @@ export class CatalogListComponent extends AbstractListComponent<CatalogGETData, 
 
   protected override formatEntityData(entity: CatalogGETData): any {
     return {
+      organizationName: entity.organization?.name || entity.organizationId || '',
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',

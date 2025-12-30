@@ -20,12 +20,24 @@
         <span>{{ getCurrentEntity().getData().description }}</span>
       </div>
       <div class="detail-group">
+        <label>Organization:</label>
+        <span><app-hcclorganization-crud [id]="getCurrentEntity().getData().organizationId" [modeName]="'fk'"></app-hcclorganization-crud></span>
+      </div>
+      <div class="detail-group">
+        <label>Catalog Type:</label>
+        <span>{{ getCurrentEntity().getData().catalogTypeId }}</span>
+      </div>
+      <div class="detail-group">
         <label>URL Prefix:</label>
         <span>{{ getCurrentEntity().getData().urlPrefix }}</span>
       </div>
       <div class="detail-group">
         <label>URL:</label>
         <span>{{ getCurrentEntity().getData().url }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Signup Packet ID:</label>
+        <span>{{ getCurrentEntity().getData().signupPacketId }}</span>
       </div>
       <div class="detail-group">
         <label>Available:</label>
@@ -60,46 +72,77 @@
         <button type="submit" class="btn btn-success">Save</button>
         <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
       </div>
-      <app-std-mdb-form-text 
-        prefix="catalog" 
-        name="name"
-        label="Name"
-        [required]="true"
-        [error]="error"
-        [(ngModel)]="name">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalog" 
-        name="businessCode"
-        label="Business Code"
-        [required]="true"
-        [error]="error"
-        [(ngModel)]="businessCode">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-textarea 
-        prefix="catalog" 
-        name="description"
-        label="Description"
-        [required]="true"
-        [error]="error"
-        [(ngModel)]="description">
-      </app-std-mdb-form-textarea>
-      <app-std-mdb-form-text 
-        prefix="catalog" 
-        name="urlPrefix"
-        label="URL Prefix"
-        [error]="error"
-        [(ngModel)]="urlPrefix">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalog" 
-        name="url"
-        label="URL"
-        [error]="error"
-        [(ngModel)]="url">
-      </app-std-mdb-form-text>
-      <div class="form-group">
-        <label>Available:</label>
+      <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="catalog" 
+          name="name"
+          label="Name"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="name">
+        </app-std-mdb-form-text>
+      </div>
+      <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="catalog" 
+          name="businessCode"
+          label="Business Code"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="businessCode">
+        </app-std-mdb-form-text>
+      </div>
+      <div class="mb-4">
+        <app-std-mdb-form-textarea 
+          prefix="catalog" 
+          name="description"
+          label="Description"
+          [required]="true"
+          [rows]="4"
+          [maxlength]="1024"
+          [showCharCounter]="true"
+          [error]="error"
+          [(ngModel)]="description">
+        </app-std-mdb-form-textarea>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Catalog Type:</label>
+        <app-menu-control-data-list 
+          [menuControlDataList]="catalogTypeMenu"
+          [id]="catalogTypeId"
+          placeholder="Select a catalog type..."
+          (selectionChange)="onCatalogTypeChange($event)">
+        </app-menu-control-data-list>
+      </div>
+      <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="catalog" 
+          name="urlPrefix"
+          label="URL Prefix"
+          [error]="error"
+          [(ngModel)]="urlPrefix">
+        </app-std-mdb-form-text>
+      </div>
+      <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="catalog" 
+          name="url"
+          label="URL"
+          [error]="error"
+          [(ngModel)]="url">
+        </app-std-mdb-form-text>
+      </div>
+      <div class="mb-4">
+        <app-std-mdb-form-text 
+          prefix="catalog" 
+          name="signupPacketId"
+          label="Signup Packet ID"
+          [error]="error"
+          [(ngModel)]="signupPacketId">
+        </app-std-mdb-form-text>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Available:</label>
         <app-available-selector [(ngModel)]="available"></app-available-selector>
       </div>
      
@@ -121,60 +164,82 @@
 
         <div class="form-group">
           <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalog" 
-          name="name"
-          label="Name"
-          [required]="true"
-          [error]="error"
-          [(ngModel)]="name">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalog" 
-          name="businessCode"
-          label="Business Code"
-          [required]="true"
-          [error]="error"
-          [(ngModel)]="businessCode">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="catalog" 
-          name="description"
-          label="Description"
-          [required]="true"
-          [error]="error"
-          [rows]="4"
-          [maxlength]="1024"
-          [showCharCounter]="true"
-          [(ngModel)]="description">
-        </app-std-mdb-form-textarea>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalog" 
-          name="urlPrefix"
-          label="URL Prefix"
-          [error]="error"
-          [(ngModel)]="urlPrefix">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalog" 
-          name="url"
-          label="URL"
-          [error]="error"
-          [(ngModel)]="url">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-          <label>Available:</label>
-          <app-available-selector [(ngModel)]="available"></app-available-selector>
-        </div>
+            <app-std-mdb-form-text 
+              prefix="catalog" 
+              name="name"
+              label="Name"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="name">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="mb-4">
+            <app-std-mdb-form-text 
+              prefix="catalog" 
+              name="businessCode"
+              label="Business Code"
+              [required]="true"
+              [error]="error"
+              [(ngModel)]="businessCode">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="mb-4">
+            <app-std-mdb-form-textarea 
+              prefix="catalog" 
+              name="description"
+              label="Description"
+              [required]="true"
+              [error]="error"
+              [rows]="4"
+              [maxlength]="1024"
+              [showCharCounter]="true"
+              [(ngModel)]="description">
+            </app-std-mdb-form-textarea>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Organization:</label>
+            <app-hcclorganization-crud [id]="organizationId" [modeName]="'fk'"></app-hcclorganization-crud>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Catalog Type:</label>
+            <app-menu-control-data-list 
+              [menuControlDataList]="catalogTypeMenu"
+              [id]="catalogTypeId"
+              placeholder="Select a catalog type..."
+              (selectionChange)="onCatalogTypeChange($event)">
+            </app-menu-control-data-list>
+          </div>
+          <div class="mb-4">
+            <app-std-mdb-form-text 
+              prefix="catalog" 
+              name="urlPrefix"
+              label="URL Prefix"
+              [error]="error"
+              [(ngModel)]="urlPrefix">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="mb-4">
+            <app-std-mdb-form-text 
+              prefix="catalog" 
+              name="url"
+              label="URL"
+              [error]="error"
+              [(ngModel)]="url">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="mb-4">
+            <app-std-mdb-form-text 
+              prefix="catalog" 
+              name="signupPacketId"
+              label="Signup Packet ID"
+              [error]="error"
+              [(ngModel)]="signupPacketId">
+            </app-std-mdb-form-text>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Available:</label>
+            <app-available-selector [(ngModel)]="available"></app-available-selector>
+          </div>
         </div>
       </form>
     </div>
@@ -208,12 +273,28 @@
         <span>{{ getCurrentEntity().getData().description }}</span>
       </div>
       <div class="detail-group">
+        <label>Organization:</label>
+        <span><app-hcclorganization-crud [id]="getCurrentEntity().getData().organizationId" [modeName]="'fk'"></app-hcclorganization-crud></span>
+      </div>
+      <div class="detail-group">
+        <label>Catalog Type:</label>
+        <app-menu-control-data-list 
+          [menuControlDataList]="catalogTypeMenu"
+          [id]="catalogTypeId"
+          [readonly]="true">
+        </app-menu-control-data-list>
+      </div>
+      <div class="detail-group">
         <label>URL Prefix:</label>
         <span>{{ getCurrentEntity().getData().urlPrefix }}</span>
       </div>
       <div class="detail-group">
         <label>URL:</label>
         <span>{{ getCurrentEntity().getData().url }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Signup Packet ID:</label>
+        <span>{{ getCurrentEntity().getData().signupPacketId }}</span>
       </div>
       <div class="detail-group">
         <label>Available:</label>

@@ -11,6 +11,7 @@ import { ProviderDetailsGroupComponent } from './details/provider-details-group.
 import { ProviderWorkrequestGroupComponent } from './workrequest/provider-workrequest-group.component';
 import { ProviderCatalogGroupComponent } from './catalog/provider-catalog-group.component';
 import { ProviderWorkqueueGroupComponent } from './workqueues/provider-workqueue-group.component';
+import { ProviderCatalogTabDashComponent } from './catalog/provider-catalog-tab-dash.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'details/:tabId/:childId', component: ProviderDetailsGroupComponent },
       { path: 'details/:tabId', component: ProviderDetailsGroupComponent },
       { path: 'details', component: ProviderDetailsGroupComponent },
+
       { path: 'workrequest/:tabId/:childId', component: ProviderWorkrequestGroupComponent },
       { path: 'workrequest/:tabId', component: ProviderWorkrequestGroupComponent },
       { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
@@ -31,9 +33,9 @@ const routes: Routes = [
       { path: 'workqueues/:queueId/:ticketId', redirectTo: 'workqueues/:queueId/:ticketId/ticket', pathMatch: 'full' },
       { path: 'workqueues/:queueId', component: ProviderWorkqueueGroupComponent },
       { path: 'workqueues', component: ProviderWorkqueueGroupComponent },
-      { path: 'catalog/:tabId/:childId', component: ProviderCatalogGroupComponent },
-      { path: 'catalog/:tabId', component: ProviderCatalogGroupComponent },
-      { path: 'catalog', component: ProviderCatalogGroupComponent },
+      { path: 'catalogs/:tabId/:childId', component: ProviderCatalogGroupComponent },
+      { path: 'catalogs/:tabId', component: ProviderCatalogGroupComponent },
+      { path: 'catalogs', component: ProviderCatalogTabDashComponent },
      
     ]
   }

@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogCriteria, CatalogGETData, CatalogPOSTData, CatalogPUTData, HcclService, MenuControlDataList, MenuControlData, HcclOrganizationGETData } from '@app/restsvc/hccl.service';
+import { CatalogCriteria, CatalogGETData, CatalogPOSTData, CatalogPUTData, CatalogTypeRefGETData, HcclService, MenuControlDataList, MenuControlData, HcclOrganizationGETData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -14,6 +14,7 @@ import { AvailableSelectorComponent } from '@app/components/_global/available-se
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { HcclOrganizationCrudComponent } from '../hcclorganization/hcclorganization-crud.component';
 
 @Component({
   selector: 'app-catalog-crud',
@@ -22,7 +23,8 @@ import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-for
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
     StdMdbFormTextComponent, StdMdbFormTextareaComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
-    AvailableSelectorComponent, DategetdataDisplayComponent],
+    AvailableSelectorComponent, DategetdataDisplayComponent,
+    HcclOrganizationCrudComponent],
   standalone: true
 })
 export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapper> implements OnInit, OnChanges {
@@ -34,6 +36,7 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
  * 
  * Input parameter:
  * - id?: string - Optional Catalog ID to load a specific Catalog for viewing/editing
+ * - organizationId?: string - Optional Organization ID to set when creating a new Catalog
  * 
  * If no ID is provided, the component will load the full list of Catalogs.
  * If an ID is provided, the component will load that specific Catalog and show it in detail mode.
@@ -42,6 +45,8 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
  * and implement the abstract methods of the AbstractCrudComponent
  */
 
+  // Input for organization ID when creating new catalog
+  @Input() organizationId?: string;
   
   constructor() {
     super();
@@ -49,6 +54,9 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
 
   // Error property for form validation
   public error: any = null;
+  
+  // Menu for catalog type selection
+  protected catalogTypeMenu: MenuControlDataList | null = null;
 
   // Validation methods
   private validateName(name: string): string | null {
@@ -109,6 +117,34 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
 
   override ngOnInit(): void {
     super.ngOnInit();
+    this.loadCatalogTypeMenu();
+  }
+  
+  /**
+   * Load the catalog type menu for selection
+   */
+  private async loadCatalogTypeMenu(): Promise<void> {
+    try {
+      const response = await this.hcclService.findCatalogTypeRefs({ isPaging: false }).toPromise();
+      if (response?.searchResults) {
+        const menuItems: MenuControlData[] = response.searchResults.map(typeRef => ({
+          id: typeRef.id || '',
+          name: typeRef.name || typeRef.businessCode || 'Unknown Type'
+        }));
+        this.catalogTypeMenu = { menuItems };
+      }
+    } catch (error) {
+      console.error('Error loading catalog type refs:', error);
+    }
+  }
+  
+  /**
+   * Handle catalog type selection change
+   */
+  onCatalogTypeChange(selected: MenuControlData | null): void {
+    if (this.entity) {
+      this.entity.catalogTypeId = selected?.id || '';
+    }
   }
 
   protected async loadEntityByIdCall(id: string): Promise<CatalogCrudWrapper> {
@@ -120,15 +156,20 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
   }
 
   protected override async createEntityDataCall(entity: CatalogCrudWrapper): Promise<any> {
+    // Use input organizationId if entity doesn't have one
+    const orgId = entity.organizationId || this.organizationId || '';
+    debugger;
     const postData: CatalogPOSTData = {
-      organizationId: entity.organizationId,
+      organizationId: orgId,
       name: entity.name,
       businessCode: entity.businessCode,
       description: entity.description,
       available: entity.available,
-      taxonomyEntryId: entity.taxonomyEntryId,
-      urlPrefix: entity.urlPrefix,
-      url: entity.url
+      taxonomyEntryId: entity.taxonomyEntryId || undefined,
+      catalogTypeId: entity.catalogTypeId || undefined,
+      urlPrefix: entity.urlPrefix || undefined,
+      url: entity.url || undefined,
+      signupPacketId: entity.signupPacketId || undefined
     };
     
     return await this.hcclService.createCatalog(postData).toPromise();
@@ -141,9 +182,11 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
       businessCode: entity.businessCode,
       description: entity.description,
       available: entity.available,
-      taxonomyEntryId: entity.taxonomyEntryId,
-      urlPrefix: entity.urlPrefix,
-      url: entity.url
+      taxonomyEntryId: entity.taxonomyEntryId || undefined,
+      catalogTypeId: entity.catalogTypeId || undefined,
+      urlPrefix: entity.urlPrefix || undefined,
+      url: entity.url || undefined,
+      signupPacketId: entity.signupPacketId || undefined
     };
     
     await this.hcclService.updateCatalogById(entity.id!, putData).toPromise();
@@ -203,16 +246,6 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
     }
   }
 
-  public get organizationId(): string {
-    return this.entity?.organizationId || '';
-  }
-
-  public set organizationId(value: string) {
-    if (this.entity) {
-      this.entity.organizationId = value;
-    }
-  }
-
   public get taxonomyEntryId(): string {
     return this.entity?.taxonomyEntryId || '';
   }
@@ -243,6 +276,26 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
     }
   }
 
+  public get catalogTypeId(): string {
+    return this.entity?.catalogTypeId || '';
+  }
+
+  public set catalogTypeId(value: string) {
+    if (this.entity) {
+      this.entity.catalogTypeId = value;
+    }
+  }
+
+  public get signupPacketId(): string {
+    return this.entity?.signupPacketId || '';
+  }
+
+  public set signupPacketId(value: string) {
+    if (this.entity) {
+      this.entity.signupPacketId = value;
+    }
+  }
+
   public createWrapper(catalogData: CatalogGETData): CatalogCrudWrapper {
     return new CatalogCrudWrapper(catalogData, this.hcclService);
   }
@@ -255,7 +308,10 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
 
   protected catalogMenu: MenuControlDataList | null = null;
   protected override async prepareMenus(entity: CatalogCrudWrapper): Promise<void> {
-    // Prepare FK menus if needed
+    // Load catalog type menu if not already loaded
+    if (!this.catalogTypeMenu) {
+      await this.loadCatalogTypeMenu();
+    }
   }
 }
 
@@ -270,8 +326,10 @@ export class CatalogCrudWrapper extends EntityWrapper<CatalogGETData> {
       description: '',
       available: 1,
       taxonomyEntryId: '',
+      catalogTypeId: '',
       urlPrefix: '',
-      url: ''
+      url: '',
+      signupPacketId: ''
     };
     return new CatalogCrudWrapper(entityIn || emptyData, hcclService);
   }
@@ -355,6 +413,22 @@ export class CatalogCrudWrapper extends EntityWrapper<CatalogGETData> {
 
   set url(value: string) {
     this.data.url = value;
+  }
+
+  get catalogTypeId(): string {
+    return this.data.catalogTypeId || '';
+  }
+
+  set catalogTypeId(value: string) {
+    this.data.catalogTypeId = value;
+  }
+
+  get signupPacketId(): string {
+    return this.data.signupPacketId || '';
+  }
+
+  set signupPacketId(value: string) {
+    this.data.signupPacketId = value;
   }
 
   get id(): string {

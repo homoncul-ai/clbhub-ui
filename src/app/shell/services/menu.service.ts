@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HcclService, HcclUserContextGETData, WorkQueueGETData } from '@app/restsvc/hccl.service';
+import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData } from '@app/restsvc/hccl.service';
 
 export interface MenuItem {
   level: number;
@@ -116,6 +116,7 @@ export class MenuService {
     }
   }
   queues : WorkQueueGETData[] = [];
+  catalogs : CatalogGETData[] = [];
   async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
     switch (dashboardType) {
       case 'service-provider':
@@ -129,6 +130,17 @@ export class MenuService {
         }
         const queuRsp = await this.hcclService.findWorkQueues(workQueueCriteria).toPromise();
         this.queues  = queuRsp?.searchResults as WorkQueueGETData[] || [];
+
+
+        const catalogCriteria = {
+          organizationId: context.currentUserProfile.organizationId,
+          pageNumber: 1,
+          pageSize: 50,
+          isPaging: true
+        }
+        const catalogRsp = await this.hcclService.findCatalogs(catalogCriteria).toPromise();
+        const catalogs = catalogRsp?.searchResults as CatalogGETData[] || [];
+        this.catalogs = catalogs;
         break;
       case 'advocate':
       case 'nonprofit':
@@ -384,8 +396,29 @@ export class MenuService {
     this.addChildMenuItem(details, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DETAILS_TAB_COLLEAGUES));
     this.addMenuItem(menu, details);
     
+
+
+    // Add Provider Catalog Dashboard with children
+    const catalogMenu =  this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG_TAB_DASH); //this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG);
+    for (const catalog of this.catalogs) {
+      let menuItem =  {
+        level: 2,
+        label: '' + catalog.businessCode,
+        route: '/provider-dashboard/catalogs/' + catalog.id,
+        componentPath: 'src/app/features/dash-provider/catalog',
+        componentName: 'provider-catalog-tab-dash',
+        icon: 'fas fa-book'
+      };
+      this.addChildMenuItem(catalogMenu, menuItem);
+    }
+    //this.addChildMenuItem(catalogMenu, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG_TAB_DASH));
+    this.addMenuItem(menu, catalogMenu);
+    
+
     // Add Provider Work Request Dashboard with children
-    const workrequest = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST);
+    //this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST);
+    
+    const workrequest = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST_TAB_DASH);
     //alert('queues: ' + this.queues.length);
     for (const queue of this.queues) {
       let menuItem =  {
@@ -398,13 +431,9 @@ export class MenuService {
       };
       this.addChildMenuItem(workrequest, menuItem);
     }
-    this.addChildMenuItem(workrequest, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_WORKREQUEST_TAB_DASH));
-    this.addMenuItem(menu, workrequest);
     
-    // Add Provider Catalog Dashboard with children
-    const catalog = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG);
-    this.addChildMenuItem(catalog, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG_TAB_DASH));
-    this.addMenuItem(menu, catalog);
+    //this.addChildMenuItem(workrequest, 
+    this.addMenuItem(menu, workrequest);
     
     return menu;
   }
@@ -898,8 +927,8 @@ export const MENU_CONSTANTS = {
   PROVIDER_CATALOG_TAB_DASH: {
     level: 2,
     label: 'Catalogs',
-    route: '/provider-dashboard/catalog',
-    componentPath: 'src/app/features/dash-provider/catalog',
+    route: '/provider-dashboard/catalogs',
+    componentPath: 'src/app/features/dash-provider/catalogs',
     componentName: 'provider-catalog-tab-dash',
     icon: 'fas fa-book'
   },
