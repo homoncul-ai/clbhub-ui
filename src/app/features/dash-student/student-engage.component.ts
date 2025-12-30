@@ -109,6 +109,8 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
   getInterestCriteria(): CatalogEntryInterestCriteria {
     var criteria: CatalogEntryInterestCriteria = {
       personalStatementId: this.personalStatementId,
+      interestRangeMin: 1,
+      interestRangeMax: 10,
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
