@@ -107,6 +107,13 @@ export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implem
   protected handleCrudComponentRequiresRefresh(): void {
     this.refreshParentComponent();
   }
+// Helper to get the correct entity (entityNew in CREATE mode, entity otherwise)
+protected getActiveEntity(): R | null {
+  if (this.isCreateMode && this.entityNew) {
+    return this.entityNew;
+  }
+  return this.entity;
+}
 
   protected ngOnInitInternal(): void {
     this.ngOnInit()

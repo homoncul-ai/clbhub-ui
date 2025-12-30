@@ -142,8 +142,9 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
    * Handle catalog type selection change
    */
   onCatalogTypeChange(selected: MenuControlData | null): void {
-    if (this.entity) {
-      this.entity.catalogTypeId = selected?.id || '';
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.catalogTypeId = selected?.id || '';
     }
   }
 
@@ -206,93 +207,103 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
     return CatalogCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+  
   public get name(): string {
-    return this.entity?.name || '';
+    return this.getActiveEntity()?.name || '';
   }
 
   public set name(value: string) {
-    if (this.entity) {
-      this.entity.name = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.name = value;
     }
   }
 
   public get businessCode(): string {
-    return this.entity?.businessCode || '';
+    return this.getActiveEntity()?.businessCode || '';
   }
 
   public set businessCode(value: string) {
-    if (this.entity) {
-      this.entity.businessCode = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.businessCode = value;
     }
   }
 
   public get description(): string {
-    return this.entity?.description || '';
+    return this.getActiveEntity()?.description || '';
   }
 
   public set description(value: string) {
-    if (this.entity) {
-      this.entity.description = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.description = value;
     }
   }
 
   public get available(): number {
-    return this.entity?.available || 0;
+    return this.getActiveEntity()?.available || 0;
   }
 
   public set available(value: number) {
-    if (this.entity) {
-      this.entity.available = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.available = value;
     }
   }
 
   public get taxonomyEntryId(): string {
-    return this.entity?.taxonomyEntryId || '';
+    return this.getActiveEntity()?.taxonomyEntryId || '';
   }
 
   public set taxonomyEntryId(value: string) {
-    if (this.entity) {
-      this.entity.taxonomyEntryId = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.taxonomyEntryId = value;
     }
   }
 
   public get urlPrefix(): string {
-    return this.entity?.urlPrefix || '';
+    return this.getActiveEntity()?.urlPrefix || '';
   }
 
   public set urlPrefix(value: string) {
-    if (this.entity) {
-      this.entity.urlPrefix = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.urlPrefix = value;
     }
   }
 
   public get url(): string {
-    return this.entity?.url || '';
+    return this.getActiveEntity()?.url || '';
   }
 
   public set url(value: string) {
-    if (this.entity) {
-      this.entity.url = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.url = value;
     }
   }
 
   public get catalogTypeId(): string {
-    return this.entity?.catalogTypeId || '';
+    return this.getActiveEntity()?.catalogTypeId || '';
   }
 
   public set catalogTypeId(value: string) {
-    if (this.entity) {
-      this.entity.catalogTypeId = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.catalogTypeId = value;
     }
   }
 
   public get signupPacketId(): string {
-    return this.entity?.signupPacketId || '';
+    return this.getActiveEntity()?.signupPacketId || '';
   }
 
   public set signupPacketId(value: string) {
-    if (this.entity) {
-      this.entity.signupPacketId = value;
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.signupPacketId = value;
     }
   }
 
