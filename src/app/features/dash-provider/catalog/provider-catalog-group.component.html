@@ -3,13 +3,21 @@
     <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
   
      
-  <div *ngIf="currentTabId === 'create'">
-    <app-catalog-crud [id]="this.id" [modeName]="CRUD_MODES.DETAIL"></app-catalog-crud>
-    <!-- <app-provider-catalog-tab-dash [id]="getOrganizationId()" modeName="detail"></app-provider-catalog-tab-dash> -->
+  <div *ngIf="currentTabId === 'dash'">   
+    <app-catalogentry-list [criteria]="getCatalogEntryCriteria()" 
+    [onRowClickBehavior]="getCatalogEntryOnClickBehavior()"
+    [showingAddButton]="false"
+    [showingGoButton]="false"
+    [showingSearchHeading]="false"
+    [showingSearch]="true"
+    [showingIdCheckbox]="false"
+    ></app-catalogentry-list>
+
+    <div *ngIf="catalogEntryId != ''">
+    <app-catalogentry-crud [id]="this.catalogEntryId" [modeName]="'section'"></app-catalogentry-crud>
+    </div>
   </div>
-</div>
 
 {{currentTabId}}
 {{this.id}}
-{{loading}}
-{{this.entity | json}}
+{{loading}} 

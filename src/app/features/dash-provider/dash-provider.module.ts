@@ -32,10 +32,12 @@ const routes: Routes = [
       { path: 'workqueues/:queueId/:ticketId/:tabId', component: ProviderWorkqueueGroupComponent },
       { path: 'workqueues/:queueId/:ticketId', redirectTo: 'workqueues/:queueId/:ticketId/ticket', pathMatch: 'full' },
       { path: 'workqueues/:queueId', component: ProviderWorkqueueGroupComponent },
+
       { path: 'workqueues', component: ProviderWorkqueueGroupComponent },
-      { path: 'catalogs/:tabId/:childId', component: ProviderCatalogGroupComponent },
-      { path: 'catalogs/:tabId', component: ProviderCatalogGroupComponent },
+
       { path: 'catalogs', component: ProviderCatalogTabDashComponent },
+      { path: 'catalogs/:id', redirectTo: 'catalogs/:id/dash', pathMatch: 'full'  },
+      { path: 'catalogs/:id/:tabId', component: ProviderCatalogGroupComponent },
      
     ]
   }

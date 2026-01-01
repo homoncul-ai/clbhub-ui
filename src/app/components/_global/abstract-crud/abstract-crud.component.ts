@@ -204,19 +204,17 @@ protected getActiveEntity(): R | null {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Handle ID changes
-    // if (changes['id'] && this.id) {
-    //   console.log('Loading student with ID:', this.id);
-    //   this.loadEntityById(this.id).then(entity => {
-    //     this.entity = entity;
-    //     this.switchToDetailMode(); // Show details of the loaded student
-    //   }).catch(error => {
-    //     console.error('Error loading ' + this.getEntityType() + ' by ID:', error);
-    //     // Fallback is rerouting to the list route
-    //     const baseRoute = this.getBaseRoute();
-    //     this.router.navigate([baseRoute]);
-    //   });
-    // }
+    // Handle ID changes - reload entity when ID input changes
+    if (changes['id'] && !changes['id'].firstChange && this.id) {
+      console.log('ID changed, reloading ' + this.getEntityType() + ' with ID:', this.id);
+      this.loadEntityById(this.id).then(entity => {
+        this.entity = entity;
+        this.prepareMenus(entity);
+        this.cdr.detectChanges();
+      }).catch(error => {
+        console.error('Error loading ' + this.getEntityType() + ' by ID:', error);
+      });
+    }
   }
 
   // Inject services using inject() function for standalone components
