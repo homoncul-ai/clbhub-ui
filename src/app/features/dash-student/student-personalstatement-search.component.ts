@@ -2,50 +2,41 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { HcclService } from '@app/restsvc/hccl.service';
-import { PersonalStatementCrudWrapper, PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
+import { HcclService, CatalogEntryGETData, CatalogEntryInterestPOSTData, CatalogEntryInterestGETData } from '@app/restsvc/hccl.service';
+import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl.service';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
-import { CatalogCrudComponent } from "@app/components/_crud/catalog/catalog-crud.component";
 
 @Component({
   selector: 'app-student-personalstatement-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, PersonalStatementCrudComponent, CatalogCrudComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './student-personalstatement-search.component.html',
-  styleUrl: '../../components/_global/abstract-crud/abstract-crud.component.scss'
+  styleUrls: ['./student-personalstatement-search.component.scss']
 })
 export class StudentPersonalStatementSearchComponent extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
   
   @Input() searchType: string = '';
   
-  // Inject modal service
+  // Inject services
   private modalService = inject(MdbModalService);
   private modalRef: MdbModalRef<CatalogEntryModalComponent> | null = null;
   
-  // Properties for dropdown and search functionality
-  selectedSearchType: string = '';
+  // Properties for search functionality
   searchKeyword: string = '';
   searchResults: VeiSearchResultsGETData | null = null;
+  rawSearchResults: CatalogEntryGETData[] = [];
   override loading: boolean = false;
   error: any = null;
 
-  // Search type options
-  searchTypes = [
-    { value: 'all', label: 'All' },
-    { value: 'jobs', label: 'Jobs' },
-    { value: 'courses', label: 'Courses' },
-    { value: 'events', label: 'Events' }
-  ];
+  // Filter properties
+  selectedCategory: string = 'all';
+  hideIrrelevant: boolean = true;
 
-  /* update this page to have a dropdown with 3 choices : jobs, courses, events
-    and a search button. 
-    When the user selects a choice, update the criteria object with the appropriate criteria.
-    Add a method "getCriteria" that returns a catalogentrycriteria object and pass it to the catalog entry list component.
-    call the method queryCatalogEntries and display the VEISearchResultsGETData
-   */
+  // Pagination
+  pageSize: number = 20;
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
@@ -54,9 +45,9 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
     this.localModes = ['mode1', 'mode2'];
     this.loading = false;
     
-    // Initialize searchType from input parameter if provided
-    if (this.searchType && this.searchTypes.some(type => type.value === this.searchType)) {
-      this.selectedSearchType = this.searchType;
+    // Initialize category from input parameter if provided
+    if (this.searchType) {
+      this.selectedCategory = this.searchType;
       // Automatically perform search if searchType is provided
       this.performSearch();
     }
@@ -69,73 +60,129 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
   }
 
   /**
-   * Get criteria based on selected search type
+   * Select category filter
+   */
+  selectCategory(category: string): void {
+    this.selectedCategory = category;
+  }
+
+  /**
+   * Get criteria based on selected category
    */
   getCriteria(): CatalogEntryCriteria {
     const criteria: CatalogEntryCriteria = {
       pageNumber: 1,
-      pageSize: 50,
+      pageSize: this.pageSize,
       isPaging: true,
       vocationEncodingId: this.entity?.getVocationEncodingId(),
       searchByText: this.searchKeyword || undefined
     };
 
-    // Add specific criteria based on search type
-    switch (this.selectedSearchType) {
-      case 'jobs':
-        criteria.catalogTypeCode = 'JOB';
-        break;
-      case 'courses':
-        criteria.catalogTypeCode = 'COURSE';
-        break;
-      case 'events':
-        criteria.catalogTypeCode = 'EVENT';
-        break;
+    // Add category filter based on selection
+    if (this.selectedCategory !== 'all') {
+      criteria.catalogTypeCode = this.selectedCategory;
     }
+
+    // Hide irrelevant entries (those already marked with interest)
+    criteria.ignoringWithInterest = this.hideIrrelevant;
 
     return criteria;
   }
 
   /**
-   * Perform search using queryCatalogEntries (findCatalogEntrysUsingVocode)
+   * Perform search using findCatalogEntrysUsingVocode
    */
-  async performSearch(): Promise<void> {
-    if (!this.selectedSearchType) {
-      this.error = 'Please select a search type';
-      return;
-    }
-
+  performSearch(): void {
     this.loading = true;
     this.error = null;
+    this.rawSearchResults = [];
 
-    try {
-      const criteria = this.getCriteria();
-      const results = await this.hcclService.findCatalogEntrysUsingVocode(criteria).toPromise();
-      this.searchResults = results || null;
-      console.log('Search results:', results);
-    } catch (err) {
-      this.error = 'Error performing search: ' + (err as any)?.message || 'Unknown error';
-      console.error('Search error:', err);
-    } finally {
-      this.loading = false;
+    const criteria = this.getCriteria();
+    
+    this.hcclService.findCatalogEntrysUsingVocode(criteria).subscribe({
+      next: (response) => {
+        console.log('Search results:', response);
+        this.loading = false;
+        this.searchResults = response || null;
+        
+        if (response?.catalogEntries?.searchResults) {
+          this.rawSearchResults = response.catalogEntries.searchResults;
+        }
+      },
+      error: (err) => {
+        this.error = 'Error performing search: ' + (err?.message || 'Unknown error');
+        console.error('Search error:', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  /**
+   * Get catalog entry image URL
+   */
+  getCatalogEntryImageUrl(): string {
+    return "imgs/TAROT-HR.png";
+  }
+
+  /**
+   * Mark as interested (thumbs up)
+   */
+  markInterested(result: CatalogEntryGETData): void {
+    console.log('Interested:', result.title);
+    this.recordInterest(result, 10);
+  }
+
+  /**
+   * Mark as not interested (thumbs down)
+   */
+  markNotInterested(result: CatalogEntryGETData): void {
+    console.log('Not Interested:', result.title);
+    this.recordInterest(result, 0);
+  }
+
+  /**
+   * Toggle interest state
+   */
+  toggleInterest(result: CatalogEntryGETData): void {
+    const currentInterest = result.catalogEntryInterest?.interest || 0;
+    if (currentInterest > 0) {
+      this.recordInterest(result, 0);
+    } else {
+      this.recordInterest(result, 10);
     }
   }
 
   /**
-   * Handle search type change
+   * Record interest for a catalog entry
    */
-  onSearchTypeChange(): void {
-    // Clear previous results when search type changes
-    this.searchResults = null;
-    this.error = null;
-  }
+  private recordInterest(result: CatalogEntryGETData, interest: number): void {
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId() || '';
+    
+    const interestData: CatalogEntryInterestPOSTData = {
+      catalogId: result.catalogId || '',
+      catalogEntryId: result.id || '',
+      personalStatementId: this.id,
+      userProfileId: userProfileId,
+      interest: interest,
+      currentStateCode: '--ChangedOnEntry--'
+    };
 
-  /**
-   * Handle search button click
-   */
-  onSearchClick(): void {
-    this.searchKeyword = this.searchKeyword.trim();
-    this.performSearch();
+    this.hcclService.showInterest(interestData).subscribe({
+      next: (response) => {
+        console.log('Interest recorded successfully:', response);
+        // Update the local data to reflect the change
+        if (!result.catalogEntryInterest) {
+          result.catalogEntryInterest = {} as CatalogEntryInterestGETData;
+        }
+        result.catalogEntryInterest.interest = interest;
+        if (response?.id) {
+          result.catalogEntryInterest.id = response.id;
+        }
+      },
+      error: (error) => {
+        console.error('Error recording interest:', error);
+      }
+    });
   }
 
   /**

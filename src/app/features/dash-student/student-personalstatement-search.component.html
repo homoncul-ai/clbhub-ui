@@ -1,79 +1,178 @@
-<div class="container mt-4">
-  <h1>Search for Jobs, Courses, or Events for {{ entity.getData().name }}</h1>
-  
-  <!-- Search Form -->
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="searchType" class="form-label">Search Type *</label>
-        <select 
-          id="searchType" 
-          class="form-select" 
-          [(ngModel)]="selectedSearchType"
-          (change)="onSearchTypeChange()"
-          [class.is-invalid]="error && !selectedSearchType">
-          <option value="">Select search type...</option>
-          <option *ngFor="let type of searchTypes" [value]="type.value">
-            {{ type.label }}
-          </option>
-        </select>
-        <div *ngIf="error && !selectedSearchType" class="invalid-feedback">
-          Please select a search type
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <!-- <div class="card-header">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-search me-2"></i>
+            Search for {{ entity?.getData()?.name }}
+          </h3>
+        </div> -->
+        <div class="card-body">
+
+          <!-- Search Bar -->
+          <div class="search-bar-container">
+            <div class="search-input-wrapper">
+              <input 
+                type="text" 
+                class="search-input" 
+                placeholder="Search for jobs, courses, events..."
+                [(ngModel)]="searchKeyword"
+                (keyup.enter)="performSearch()">
+            </div>
+            <button class="search-button" (click)="performSearch()">
+              <i class="fas fa-search me-1"></i>
+              Search
+            </button>
+          </div>
+
+          <!-- Filter Buttons Row -->
+          <div class="filter-row">
+            <div class="filter-buttons">
+              <button 
+                class="filter-btn" 
+                [class.active]="selectedCategory === 'all'"
+                (click)="selectCategory('all')">
+                All
+              </button>
+              <button 
+                class="filter-btn" 
+                [class.active]="selectedCategory === 'job'"
+                (click)="selectCategory('job')">
+                <i class="fas fa-briefcase me-1"></i>
+                Jobs
+              </button>
+              <button 
+                class="filter-btn" 
+                [class.active]="selectedCategory === 'course'"
+                (click)="selectCategory('course')">
+                <i class="fas fa-graduation-cap me-1"></i>
+                Courses
+              </button>
+              <button 
+                class="filter-btn" 
+                [class.active]="selectedCategory === 'event'"
+                (click)="selectCategory('event')">
+                <i class="fas fa-calendar-alt me-1"></i>
+                Events
+              </button>
+            </div>
+            <div class="available-only-checkbox">
+              <input 
+                type="checkbox" 
+                id="hide-irrelevant" 
+                [(ngModel)]="hideIrrelevant"
+                (change)="performSearch()">
+              <label for="hide-irrelevant">Hide irrelevant</label>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div class="loading-container" *ngIf="loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Searching...</p>
+          </div>
+
+          <!-- Error Display -->
+          <div *ngIf="error" class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+
+          <!-- No Results -->
+          <div class="no-results" *ngIf="!loading && rawSearchResults.length === 0 && searchKeyword">
+            <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+            <p>No results found. Try adjusting your search criteria.</p>
+          </div>
+
+          <!-- Results -->
+          <div class="results-container" *ngIf="!loading && rawSearchResults.length > 0">
+            <h2>Results</h2>
+            <div class="results-grid">
+              <div class="result-card" *ngFor="let result of rawSearchResults; let i = index">
+                
+                <!-- Catalog Entry Display -->
+                <div class="details-section" style="display: flex; gap: 20px; align-items: flex-start;">
+                  <!-- Image on the left -->
+                  <div class="image-container" style="flex-shrink: 0;">
+                    <img [src]="getCatalogEntryImageUrl()" 
+                         alt="Catalog Entry Image" 
+                         style="max-width: 200px; max-height: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  </div>
+                  
+                  <!-- Attributes on the right -->
+                  <div class="attributes-container" style="flex: 1;">
+                    <div class="detail-group">
+                      <label>&nbsp;</label>
+                      <div class="interest-icons">
+                        <!-- No interest recorded yet - show both icons -->
+                        <ng-container *ngIf="!result.catalogEntryInterest">
+                          <button class="interest-icon-btn thumbs-down" 
+                                  (click)="markNotInterested(result)"
+                                  title="Not Interested">
+                            <i class="fas fa-thumbs-down"></i>
+                          </button>
+                          <button class="interest-icon-btn thumbs-up" 
+                                  (click)="markInterested(result)"
+                                  title="Interested">
+                            <i class="fas fa-thumbs-up"></i>
+                          </button>
+                        </ng-container>
+                        
+                        <!-- Interest recorded - show appropriate icon -->
+                        <ng-container *ngIf="result.catalogEntryInterest">
+                          <!-- Interested (interest > 0) - show thumbs up only -->
+                          <button class="interest-icon-btn thumbs-up active" 
+                                  *ngIf="result.catalogEntryInterest.interest && result.catalogEntryInterest.interest > 0"
+                                  (click)="toggleInterest(result)"
+                                  title="You're Interested - Click to remove">
+                            <i class="fas fa-thumbs-up"></i>
+                          </button>
+                          <!-- Not interested (interest === 0) - show thumbs down only -->
+                          <button class="interest-icon-btn thumbs-down active" 
+                                  *ngIf="result.catalogEntryInterest.interest === 0"
+                                  (click)="toggleInterest(result)"
+                                  title="Not Interested - Click to remove">
+                            <i class="fas fa-thumbs-down"></i>
+                          </button>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="detail-group">
+                      <label>Entry Code:</label>
+                      <span>{{ result.entryCode }}</span>
+                    </div>
+                    <div class="detail-group">
+                      <label>Title:</label>
+                      <span>{{ result.title }}</span>
+                    </div>
+                    <div *ngIf="result.shortDescription && result.shortDescription !== result.description" class="detail-group">
+                      <label>Short Description:</label>
+                      <span>{{ result.shortDescription }}</span>
+                    </div>
+                    <div class="detail-group">
+                      <label>Description:</label>
+                      <span>{{ result.description }}</span>
+                    </div>
+                    <div *ngIf="result.notes" class="detail-group">
+                      <label>Notes:</label>
+                      <span>{{ result.notes }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Initial state - no search yet -->
+          <div class="initial-state" *ngIf="!loading && rawSearchResults.length === 0 && !searchKeyword && !error">
+            <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+            <p class="text-muted">Enter a search term or select a category to find opportunities.</p>
+          </div>
+
         </div>
       </div>
     </div>
-    <div class="col-md-6 d-flex align-items-end">
-      <button 
-        type="button" 
-        class="btn btn-primary" 
-        (click)="onSearchClick()"
-        [disabled]="loading || !selectedSearchType">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"></span>
-        {{ loading ? 'Searching...' : 'Search' }}
-      </button>
-    </div>
   </div>
-
-  <!-- Error Display -->
-  <div *ngIf="error" class="alert alert-danger" role="alert">
-    {{ error }}
-  </div>
-
-  <!-- Search Results -->
-  <div *ngIf="searchResults && searchResults.catalogEntries">
-    <h3>Search Results</h3>
-    <div *ngIf="searchResults.catalogEntries.searchResults && searchResults.catalogEntries.searchResults.length > 0">
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Catalog</th>
-              <th>Entry Code</th>
-              <th>Title</th>
-              <th>Short Description</th>
-              <!-- <th>Type</th> -->
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let entry of searchResults.catalogEntries.searchResults; let i = index" 
-                (click)="openModal(i)" 
-                style="cursor: pointer;">
-              <td [noWrap]="true"><app-catalog-crud [id]="entry.catalogId" [modeName]="'fk'"></app-catalog-crud></td>
-              <td>{{ entry.entryCode }}</td>
-              <td>{{ entry.title }}</td>
-              <td>{{ entry.shortDescription }}</td>
-              <!-- <td>{{ entry.catalogTypeCode }}</td> -->
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- No Results Message -->
-  <div *ngIf="searchResults && (!searchResults.catalogEntries || searchResults.catalogEntries.searchResults?.length === 0)" 
-       class="alert alert-info" role="alert">
-    No results found for the selected search type.
-  </div>
-
 </div>
