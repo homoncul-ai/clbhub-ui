@@ -25,6 +25,7 @@ import { StudentEngageComponent } from './student-engage.component';
 import { StudentCatalogComponent } from './student-catalog/student-catalog.component';
 import { StudentResearchComponent } from './student-research/student-research.component';
 import { StudentResumeBuilderComponent } from './student-resumebuilder/student-resumebuilder.component';
+import { StudentPersonalStatementDetailsComponent } from './student-personalstatement-details.component';
 const routes: Routes = [
   {
     path: '',
@@ -33,6 +34,7 @@ const routes: Routes = [
       { path: 'home', component: DashStudentHomeComponent },
       
       { path: 'personalstatements', component: DashStudentPersonalStatementsComponent },
+      { path: 'personalstatement-details/:id', component: StudentPersonalStatementDetailsComponent },
       { path: 'personalstatements/:id/:tabId/:childId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id/:tabId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id', component: StudentPersonalStatementGroupComponent },
@@ -108,6 +110,7 @@ const routes: Routes = [
     StudentCatalogComponent,
     StudentResearchComponent,
     StudentResumeBuilderComponent,
+    StudentPersonalStatementDetailsComponent,
   ],
   declarations: [
     // Non-standalone components would go here

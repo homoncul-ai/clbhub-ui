@@ -3846,6 +3846,14 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestDashboardUIGETData>(request);
   }
 
+  resolvePersonalStatementUIData(id: string): Observable<PersonalStatementUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/dash-ui/resolve-personal-statmentui/" + id,
+      method: "GET",
+    };
+    return this.request<PersonalStatementUIGETData>(request);
+  }
+
   resolveSignupUIData(interest_id: string): Observable<SignupUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/dash-ui/resolve-signup-ui-data/" + interest_id,
@@ -9652,18 +9660,23 @@ export interface ResumeUpdateEntryPOSTData {
   entryJson?: string;
 }
 
+export interface PMessageUIGETData {
+  message?: PMessageGETData;
+  unreadEnties?: PMessageEntryGETData[];
+  unreadEntryCount?: number;
+}
+
+export interface PersonalStatementUIGETData {
+  messages?: PMessageUIGETData[];
+  personalStatement?: PersonalStatementGETData;
+}
+
 export interface SignupUIData {
   signupPacket?: CatalogEntrySignupPacketGETData;
   catalogEntryInterest?: CatalogEntryInterestGETData;
   resumeSelectData?: MenuControlDataList;
   signupBehavior?: SignupBehavior;
   providerOrganizationName?: string;
-}
-
-export interface PMessageUIGETData {
-  message?: PMessageGETData;
-  unreadEnties?: PMessageEntryGETData[];
-  unreadEntryCount?: number;
 }
 
 export interface StudentDashUIGETData {

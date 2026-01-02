@@ -16,11 +16,15 @@ import { CreateResumeModalComponent } from './create-resume-modal.component';
 import { StudentPersonalStatementResumeComponent } from './student-personalstatement-resume.component';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { StudentPersonalStatementDetailsComponent } from "./student-personalstatement-details.component";
 
 @Component({
   selector: 'app-student-personalstatement-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, PersonalStatementCrudComponent, StudentPersonalStatementSearchComponent, StudentPersonalStatementResearchComponent, StudentPersonalStatementResumeListComponent, StudentPersonalStatementResumeComponent],
+  imports: [CommonModule, SimpleTabsetComponent, PersonalStatementCrudComponent, 
+    StudentPersonalStatementSearchComponent, StudentPersonalStatementResearchComponent, 
+    StudentPersonalStatementResumeListComponent, StudentPersonalStatementResumeComponent, 
+    StudentPersonalStatementDetailsComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: 'student-personalstatement-group.component.html',
 })

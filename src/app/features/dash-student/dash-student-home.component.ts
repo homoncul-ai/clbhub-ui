@@ -79,7 +79,7 @@ import { CRUD_MODES } from '@app/@core/constants';
                               <i class="fas fa-compass me-2"></i>
                               {{ personalStatement.name }}
                             </h5>
-                            <a [href]="'/student-dashboard/personalstatements/' + personalStatement.id" class="btn btn-sm btn-outline-primary">
+                            <a [href]="'/student-dashboard/personalstatement-details/' + personalStatement.id" class="btn btn-sm btn-outline-primary">
                               <i class="fas fa-arrow-right me-1"></i> View Details
                             </a>
                           </div>
