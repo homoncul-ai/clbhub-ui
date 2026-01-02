@@ -16,6 +16,14 @@
   </app-student-personalstatement-resume-list> 
 </div>
 
+
+
+
+
+<div *ngIf="currentTabId === 'details'">
+  <app-personalstatementresume-crud [id]="resumeId" modeName="detail"></app-personalstatementresume-crud>
+</div>
+
 <div *ngIf="currentTabId === 'resume'">
   <app-dash-student-resume [resumeId]="resumeId"></app-dash-student-resume>
 </div>

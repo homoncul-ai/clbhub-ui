@@ -61,7 +61,7 @@
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="title">
       </app-std-mdb-form-text>
-
+<!-- 
       <app-std-mdb-form-text 
         prefix="personalStatementResume" 
         name="userProfileId"
@@ -101,9 +101,9 @@
         [error]="error"
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="resumeMdEdited">
-      </app-std-mdb-form-textarea>
+      </app-std-mdb-form-textarea> -->
 
-      <app-std-mdb-form-textarea 
+      <!-- <app-std-mdb-form-textarea 
         prefix="personalStatementResume" 
         name="resumeJson"
         label="Resume JSON"
@@ -112,7 +112,7 @@
         [error]="error"
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="resumeJson">
-      </app-std-mdb-form-textarea>
+      </app-std-mdb-form-textarea> -->
 
       <div class="form-group">
         <label>Available:</label>
@@ -147,7 +147,7 @@
               [(ngModel)]="title">
             </app-std-mdb-form-text>
           </div>
-          <div class="mb-4">
+          <!-- <div class="mb-4">
             <app-std-mdb-form-text 
               prefix="personalStatementResume" 
               name="userProfileId"
@@ -203,7 +203,7 @@
               [ngModelOptions]="{standalone: true}"
               [(ngModel)]="resumeJson">
             </app-std-mdb-form-textarea>
-          </div>
+          </div> -->
           <div class="mb-4">
             <label>Available:</label>
             <app-available-selector [(ngModel)]="available" [ngModelOptions]="{standalone: true}"></app-available-selector>

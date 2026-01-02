@@ -42,8 +42,10 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
 
   protected getGridColumns(): any[] {
     return [
+      { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'title', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'personalStatementTitle', header: [{ text: 'Personal Statement Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'availableStr', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
       { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
     ];
@@ -109,7 +111,8 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
-      dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
+      dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+      availableStr: entity.available === 1 ? 'Yes' : 'No'
     };
   }
 

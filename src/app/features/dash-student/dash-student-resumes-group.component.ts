@@ -13,13 +13,14 @@ import { StudentPersonalStatementResumeListComponent } from './student-personals
 import { DashStudentResumeComponent } from './dash-student-resume.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { A } from 'node_modules/@angular/cdk/activedescendant-key-manager.d-Bjic5obv';
+import { PersonalStatementResumeCrudComponent } from '@app/components/_crud/personalstatementresume/personalstatementresume-crud.component';
 
 @Component({
   selector: 'app-dash-student-resumes-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, 
     HcclUserProfileCrudComponent, StudentPersonalStatementResumeListComponent,
-    DashStudentResumeComponent],
+    DashStudentResumeComponent, PersonalStatementResumeCrudComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './dash-student-resumes-group.component.html',
 })
@@ -104,7 +105,15 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
           return true;
         }
       )];
-      
+      var tab = new SimpleTab('details', 'Details', '', 
+        () => {
+          this.router.navigate([baseRoute, this.resumeId, 'details']);
+        },
+        () => {
+          return this.resumeId !== null && this.resumeId !== '';
+        }
+      );
+      tabs.push(tab);
       this.resumeTab = new SimpleTab('resume', "Resume", '', 
         () => {
           this.router.navigate(['student-dashboard', 'resumes', this.resumeId, 'resume']);
