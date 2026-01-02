@@ -64,6 +64,7 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
    */
   selectCategory(category: string): void {
     this.selectedCategory = category;
+    this.performSearch();
   }
 
   /**

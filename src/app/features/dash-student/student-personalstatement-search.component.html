@@ -10,22 +10,6 @@
         </div> -->
         <div class="card-body">
 
-          <!-- Search Bar -->
-          <div class="search-bar-container">
-            <div class="search-input-wrapper">
-              <input 
-                type="text" 
-                class="search-input" 
-                placeholder="Search for jobs, courses, events..."
-                [(ngModel)]="searchKeyword"
-                (keyup.enter)="performSearch()">
-            </div>
-            <button class="search-button" (click)="performSearch()">
-              <i class="fas fa-search me-1"></i>
-              Search
-            </button>
-          </div>
-
           <!-- Filter Buttons Row -->
           <div class="filter-row">
             <div class="filter-buttons">
@@ -65,6 +49,24 @@
                 (change)="performSearch()">
               <label for="hide-irrelevant">Hide irrelevant</label>
             </div>
+          </div>
+
+
+          <!-- Search Bar -->
+
+          <div class="search-bar-container">
+            <div class="search-input-wrapper">
+              <input 
+                type="text" 
+                class="search-input" 
+                placeholder="Search for jobs, courses, events..."
+                [(ngModel)]="searchKeyword"
+                (keyup.enter)="performSearch()">
+            </div>
+            <button class="search-button" (click)="performSearch()">
+              <i class="fas fa-search me-1"></i>
+              Search
+            </button>
           </div>
 
           <!-- Loading State -->
