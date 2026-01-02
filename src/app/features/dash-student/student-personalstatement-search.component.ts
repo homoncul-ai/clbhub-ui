@@ -49,9 +49,10 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
     // Initialize category from input parameter if provided
     if (this.searchType) {
       this.selectedCategory = this.searchType;
-      // Automatically perform search if searchType is provided
-      this.performSearch();
     }
+    
+    // Always perform search on page load
+    this.performSearch();
   }
 
   protected override async prepareModeEntry(entity: PersonalStatementCrudWrapper, mode: string): Promise<void> {

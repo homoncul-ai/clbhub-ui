@@ -73,7 +73,7 @@ export class StudentPersonalStatementResearchComponent extends AbstractMultimode
   protected onFinishLoadingBehavior(): OnFinishLoadingBehavior {
     var x: OnFinishLoadingBehavior = new OnFinishLoadingBehavior();
     x.onFinishLoading = (id: string, data: any) => {
-      this.setSelectedInterestId(id);
+     // this.setSelectedInterestId(id);
     };
     return x;
   }
