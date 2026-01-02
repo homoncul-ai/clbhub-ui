@@ -37,6 +37,7 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
     if (this.showAllResumes) {
       this.personalStatementId = undefined;
     }
+    this.setSelectedId('');
   }
 
   protected getGridColumns(): any[] {
@@ -50,7 +51,7 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
 
   protected createCriteria(): PersonalStatementResumeCriteria {
     // Start with provided criteria or create new one
-    const criteria: PersonalStatementResumeCriteria = this.criteria ? { ...this.criteria } : {
+    var criteria: PersonalStatementResumeCriteria = this.criteria ? { ...this.criteria } : {
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
@@ -72,7 +73,7 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
       delete criteria.personalStatmentId;
     }
     // If neither is set, return criteria without filters (will show all)
-
+    
     return criteria;
   }
 

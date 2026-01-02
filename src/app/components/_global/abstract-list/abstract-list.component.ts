@@ -92,9 +92,18 @@ implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
+
     // Check if DHTMLX is loaded
     this.checkDhtmlxLoaded();
     this.showingButtonBar = this.hasButtonBarList()  ;
+  }
+
+  setSelectedId(id: string) {
+    this.selectedId = id;
+  }
+
+  getSelectedId(): string | null {
+    return this.selectedId;
   }
 
   ngAfterViewInit() {
@@ -334,11 +343,12 @@ implements OnInit, AfterViewInit, OnDestroy {
     if (searchByText && searchByText.trim() !== '') {
       (criteria as any).searchByText = searchByText; 
     }
-    if (this.criteria == null && this.selectedId) {
+    if (this.criteria == null && this.selectedId && this.selectedId.trim() !== '') {
       (criteria as any).ids = [this.selectedId];
     }
 
     this.currentCriteria = criteria;
+   // alert('loadGridData criteria: ' + JSON.stringify(criteria));
     this.loadGridDataCall(criteria);
   }
 
