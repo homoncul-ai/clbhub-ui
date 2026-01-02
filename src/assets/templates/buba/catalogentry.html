@@ -1,11 +1,11 @@
 <div class="buba-container">
-  <i class="{{icon}}"></i>
-  <span class="buba-name">{{title}}</span>
-  <span class="buba-id">({{entityId}})</span>
+  <div class="buba-name-container">Catalog : {{catalog.name}} </div>
+  <div class="buba-name">{{catalog.businessCode}}</div>
+  <hr/>
   <div class="buba-details">
-    <span class="buba-code" *ngIf="entryCode">{{entryCode}}</span>
-    <span class="buba-description" *ngIf="shortDescription">{{shortDescription}}</span>
-    <span class="buba-type" *ngIf="catalogTypeCode">Type: {{catalogTypeCode}}</span>
+    <div class="buba-type" *ngIf="catalogTypeCode"> {{catalogTypeCode}}</div>
+    <div class="buba-code" *ngIf="entryCode">{{entryCode}}</div>
+    <div class="buba-name">{{title}}</div>
   </div>
 </div>
 

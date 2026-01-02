@@ -57,7 +57,7 @@ export class BubaService {
     }).pipe(
       map(({ mergePayloadResponse, template, context }) => {
         const entityData = mergePayloadResponse.payloads?.[0]?.datasets?.['d'];
-      
+        //alert("BubaData "+   JSON.stringify(entityData));
         const metadata = this.loadEntityMetadata(bubaData.entityName);
  
         const routePath = this.calculateRoutePath(entityData, bubaData, metadata, context);
@@ -96,7 +96,8 @@ export class BubaService {
     // For now, we'll create a mock entity data structure
     // In a real implementation, this would call the appropriate HCCL service method
 
-    const entityData =  this.hcclService.loadMergePayloadGet(bubaData.entityName, bubaData.entityId, "");  
+    const datasets = 'buba';
+    const entityData =  this.hcclService.loadMergePayloadGet(bubaData.entityName, bubaData.entityId, datasets);  
     
     return entityData;
   }
@@ -348,6 +349,7 @@ export class BubaService {
     
     // Replace all template variables with actual data using nested property resolution
     html = html.replace(/\{\{([^}]+)\}\}/g, (match, path) => {
+     
       return this.resolveNestedProperty(entityData, path) || 
              this.resolveNestedProperty(bubaData, path) || 
              match; // Keep original if not found
