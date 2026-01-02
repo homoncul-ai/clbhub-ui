@@ -66,7 +66,16 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
         }
       );
       tabs.push(tab) 
-  
+      tab = new SimpleTab('messages', 'Messages', '', 
+        () => {
+          this.router.navigate([baseRoute, this.id, 'messages']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);
+      
        tab =  new SimpleTab('engage', 'Engage', '', 
         () => {
           //this.currentTabId = 'items';

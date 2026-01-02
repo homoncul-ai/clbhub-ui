@@ -461,7 +461,7 @@ export class MenuService {
     this.addMenuItem(menu, dashboard);
     
     // Add Career Goals (Personal Statements list)
-    const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
+    var courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
     
     // Add dynamic menu items for each personal statement
@@ -475,7 +475,22 @@ export class MenuService {
           componentName: 'student-personalstatement-group',
           icon: 'fas fa-bullseye'
         };
-        this.addMenuItem(menu, psMenuItem);
+        this.addChildMenuItem(courses, psMenuItem);
+
+        var catalogs = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CATALOG);
+        catalogs.level = 2
+        catalogs.route = `/student-dashboard/personalstatements/${ps.id}/search`;
+        this.addChildMenuItem(psMenuItem, catalogs);
+        
+        var engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
+        engage.level = 2
+        engage.route = `/student-dashboard/personalstatements/${ps.id}/engage`;
+        this.addChildMenuItem(psMenuItem, engage);
+
+        var messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
+        messages.level = 2
+        messages.route = `/student-dashboard/personalstatements/${ps.id}/messages`;
+        this.addChildMenuItem(psMenuItem, messages);
       }
     }
    
@@ -487,11 +502,11 @@ export class MenuService {
     // this.addMenuItem(menu, interests);
 
         // Add Progress with children
-        const catalogs = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CATALOG);
-        this.addMenuItem(menu, catalogs);
+        // catalogs = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CATALOG);
+        // this.addMenuItem(menu, catalogs);
         
-        const engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
-        this.addMenuItem(menu, engage);
+        //  engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
+        // this.addMenuItem(menu, engage);
     
  
     // Add Research
