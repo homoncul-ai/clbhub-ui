@@ -15,12 +15,12 @@
   <div *ngIf="bubaResult && !loading && !error" class="buba-content">
     <!-- Icon with popup -->
     <div class="buba-icon-container" 
-         (mouseenter)="onIconMouseEnter()" 
+         (mouseenter)="onIconMouseEnter($event)" 
          (mouseleave)="onIconMouseLeave()">
       <i *ngIf="showIcon" [class]="bubaResult.icon" class="buba-icon"></i>
       
       <!-- Popup window -->
-      <div *ngIf="showPopup" class="buba-popup">
+      <div *ngIf="showPopup" class="buba-popup" [ngStyle]="popupStyle">
         <div class="buba-popup-content">
           <!-- Render the HTML template -->
           <div class="buba-html-content" [innerHTML]="bubaResult.html"></div>

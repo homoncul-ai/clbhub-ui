@@ -29,6 +29,7 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   error: string | null = null;
   showPopup: boolean = false;
+  popupStyle: { [key: string]: string } = {};
 
   ngOnInit(): void {
     if (this.entityName && this.entityId) {
@@ -85,8 +86,29 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   /**
    * Show popup on icon mouse enter
    */
-  onIconMouseEnter(): void {
+  onIconMouseEnter(event: MouseEvent): void {
     if (this.bubaResult?.entityData) {
+      const target = event.currentTarget as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      
+      // Position the popup above the icon, centered horizontally
+      const popupWidth = Math.min(window.innerWidth * 0.67, 600);
+      let left = rect.left + (rect.width / 2) - (popupWidth / 2);
+      
+      // Keep popup within viewport bounds
+      if (left < 10) left = 10;
+      if (left + popupWidth > window.innerWidth - 10) {
+        left = window.innerWidth - popupWidth - 10;
+      }
+      
+      // Position above the icon with some margin
+      let top = rect.top - 10;
+      
+      this.popupStyle = {
+        'left': `${left}px`,
+        'bottom': `${window.innerHeight - top}px`
+      };
+      
       this.showPopup = true;
     }
   }

@@ -108,13 +108,11 @@
 }
 
 .buba-popup {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  z-index: 1000;
-  margin-bottom: 0.25rem;
+  position: fixed;
+  z-index: 999999;
   pointer-events: none;
   width: 66.67vw; // 2/3 of viewport width
+  max-width: 600px;
   
   .buba-popup-content {
     background-color: #fff;
@@ -237,25 +235,7 @@
       }
     }
     
-    // Arrow pointing down
-    &::before {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 1rem;
-      border: 0.5rem solid transparent;
-      border-top-color: #fff;
     }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 0.875rem;
-      border: 0.625rem solid transparent;
-      border-top-color: #dee2e6;
-    }
-  }
 }
 
 // Responsive design
@@ -266,7 +246,7 @@
   
   .buba-popup {
     width: 90vw; // Use more of the screen on mobile
-    left: -10vw; // Center it better
+    max-width: none;
   }
 }
 
