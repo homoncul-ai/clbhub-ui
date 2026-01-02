@@ -3,18 +3,18 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclService, HcclUserProfileGETData, PersonalStatementUIGETData, PersonalStatementGETData,
-  CatalogEntryInterestGETData, CatalogEntryInterestCriteria } from '@app/restsvc/hccl.service';
+  CatalogEntryInterestGETData, CatalogEntryInterestCriteria,
+  PersonalStatementResumeGETData, PersonalStatementResumeCriteria } from '@app/restsvc/hccl.service';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
-import { CatalogEntryInterestListComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-list.component';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { CRUD_MODES } from '@app/@core/constants';
 
 @Component({
   selector: 'app-student-personalstatement-details',
   standalone: true,
-  imports: [CommonModule, PersonalStatementCrudComponent, CatalogEntryInterestListComponent, CatalogEntryCrudComponent],
+  imports: [CommonModule, PersonalStatementCrudComponent, CatalogEntryCrudComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -150,6 +150,63 @@ import { CRUD_MODES } from '@app/@core/constants';
                       <div class="no-progress-state text-center py-3" *ngIf="!personalStatement.progress">
                         <i class="fas fa-rocket fa-2x text-muted mb-2"></i>
                         <p class="text-muted mb-0">Start your career journey to track your progress!</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Resumes Section -->
+                <div class="row mb-4">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                          <i class="fas fa-file-alt me-2"></i>
+                          Resumes
+                        </h5>
+                        <a [href]="'/student-dashboard/personalstatements/' + personalStatementId + '/resumes'" class="btn btn-sm btn-outline-primary">
+                          <i class="fas fa-plus me-1"></i> Manage Resumes
+                        </a>
+                      </div>
+                      <div class="card-body">
+                        <div *ngIf="resumes.length === 0" class="text-center py-4">
+                          <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                          <p class="text-muted">No resumes have been created yet for this personal statement.</p>
+                          <a [href]="'/student-dashboard/personalstatements/' + personalStatementId + '/resumes'" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i> Create a Resume
+                          </a>
+                        </div>
+                        
+                        <div *ngIf="resumes.length > 0" class="resumes-list">
+                          <div class="row">
+                            <div class="col-md-6 col-lg-4 mb-3" *ngFor="let resume of resumes">
+                              <div class="card resume-card h-100">
+                                <div class="card-body">
+                                  <div class="d-flex align-items-start justify-content-between">
+                                    <div>
+                                      <h6 class="card-title mb-1">
+                                        <i class="fas fa-file-alt text-primary me-2"></i>
+                                        {{ resume.title || 'Untitled Resume' }}
+                                      </h6>
+                                      <small class="text-muted">
+                                        Created: {{ resume.dateCreated?.formattedDate || '-' }}
+                                      </small>
+                                    </div>
+                                    <span class="badge" [ngClass]="resume.available === 1 ? 'bg-success' : 'bg-secondary'">
+                                      {{ resume.available === 1 ? 'Available' : 'Draft' }}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                  <a [href]="'/student-dashboard/personalstatements/' + personalStatementId + '/resume/' + resume.id" 
+                                     class="btn btn-sm btn-outline-primary w-100">
+                                    <i class="fas fa-eye me-1"></i> View Resume
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -364,6 +421,27 @@ import { CRUD_MODES } from '@app/@core/constants';
       display: block;
     }
 
+    /* Resume Card Styles */
+    .resume-card {
+      border: 1px solid #e9ecef;
+      transition: all 0.2s ease;
+    }
+
+    .resume-card:hover {
+      border-color: #4285f4;
+      box-shadow: 0 0.25rem 0.5rem rgba(66, 133, 244, 0.15);
+    }
+
+    .resume-card .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .resume-card .card-footer {
+      border-top: 1px solid #e9ecef;
+      padding: 0.75rem;
+    }
+
     /* Interests Table Styles */
     .interests-list {
       margin-top: 0.5rem;
@@ -425,6 +503,7 @@ export class StudentPersonalStatementDetailsComponent implements OnInit {
   personalStatement: PersonalStatementGETData | null = null;
   personalStatementId: string = '';
   catalogEntryInterests: CatalogEntryInterestGETData[] = [];
+  resumes: PersonalStatementResumeGETData[] = [];
 
   constructor() {
     console.log('StudentPersonalStatementDetailsComponent initialized');
@@ -460,7 +539,7 @@ export class StudentPersonalStatementDetailsComponent implements OnInit {
 
         this.userProfile = context.currentUserProfile || null;
 
-        // Load personal statement UI data and catalog entry interests
+        // Load personal statement UI data, catalog entry interests, and resumes
         forkJoin({
           psUIData: this.hcclService.resolvePersonalStatementUIData(this.personalStatementId).pipe(
             catchError(err => {
@@ -478,12 +557,24 @@ export class StudentPersonalStatementDetailsComponent implements OnInit {
               console.warn('Error loading catalog entry interests:', err);
               return of({ searchResults: [] });
             })
+          ),
+          resumes: this.hcclService.findPersonalStatementResumes({
+            personalStatmentId: this.personalStatementId,
+            pageNumber: 1,
+            pageSize: 100,
+            isPaging: true
+          } as PersonalStatementResumeCriteria).pipe(
+            catchError(err => {
+              console.warn('Error loading resumes:', err);
+              return of({ searchResults: [] });
+            })
           )
         }).subscribe({
           next: (results) => {
             this.personalStatementUIData = results.psUIData;
             this.personalStatement = results.psUIData?.personalStatement || null;
             this.catalogEntryInterests = results.interests?.searchResults || [];
+            this.resumes = results.resumes?.searchResults || [];
 
             // If personal statement not found, create minimal object
             if (!this.personalStatement) {

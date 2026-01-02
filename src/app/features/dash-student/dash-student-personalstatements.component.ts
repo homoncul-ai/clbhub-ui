@@ -22,7 +22,7 @@ import { StdMdbFormTextComponent } from "../../components/_global/std-mdb-form-t
             <div class="card-header">
               <h3 class="card-title">
                 <i class="fas fa-file-alt me-2"></i>
-                My Personal Statements
+                My Career Goals
               </h3>
               <button class="btn btn-primary btn-sm" (click)="openCreateModal()" title="Create New Personal Statement">
                 <i class="fas fa-plus me-1"></i>
