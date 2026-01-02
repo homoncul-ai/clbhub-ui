@@ -182,6 +182,18 @@ implements OnInit, OnDestroy, OnChanges {
     return 'fas fa-heart';
   }
 
+  getCurrentStateCode(): string {
+    return this.interestGETData?.currentStateCode || '';
+  }
+
+  canCancelSignUp(): boolean {
+    return this.getCurrentStateCode() === 'signupstarted';
+  }
+
+  cancelSignUp(): void {
+    alert("Cancleling signup");
+  }
+
   /**
    * Determine if the Sign Up button should be shown
    */
@@ -189,7 +201,9 @@ implements OnInit, OnDestroy, OnChanges {
     if (!this.interestGETData?.catalogEntry) {
       return false;
     }
-
+    if (this.getCurrentStateCode() !== 'initial') {
+      return false;
+    }
     const catalogEntry = this.interestGETData.catalogEntry;
     const catalogTypeCode = catalogEntry.catalogTypeCode?.toLowerCase() || '';
     const canSignUpTypes = ['course', 'event', 'program'];
@@ -203,6 +217,9 @@ implements OnInit, OnDestroy, OnChanges {
    */
   protected canApply(): boolean {
     if (!this.interestGETData?.catalogEntry) {
+      return false;
+    }
+    if (this.getCurrentStateCode() !== 'initial') {
       return false;
     }
 

@@ -30,7 +30,7 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
                 <i [class]="getCatalogTypeIcon() + ' me-2'"></i>
                 {{ catalogEntryInterest?.catalogEntry?.catalogTypeCode | titlecase }} Interest
               </h3>
-              <div class="button-bar" style="display: flex; gap: 10px; align-items: center;">
+              <div class="button-bar" style="display: flex; gap: 10px; align-items: center;" >
                 <button 
                   *ngIf="canSignUp()" 
                   class="btn btn-primary btn-sm" 
@@ -46,6 +46,14 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
                   title="Apply">
                   <i class="fas fa-paper-plane me-1"></i>
                   Apply
+                </button>
+                <button 
+                  *ngIf="canCancelSignUp()"
+                  class="btn btn-primary btn-sm" 
+                  (click)="cancelSignUp()" 
+                  title="Sign Up">
+                  <i class="fas fa-user-plus me-1"></i>
+                  Cancel Sign Up
                 </button>
               </div>
             </div>
@@ -105,7 +113,7 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
         </div>
       </div>
     </div>
-
+BOOGER
     <!-- Sign Up Modal -->
     <div *ngIf="showSignUpModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="false">
       <div class="modal-dialog modal-lg">
@@ -329,12 +337,35 @@ export class DashStudentInterestComponent implements OnInit {
     return 'fas fa-heart'; // Default fallback
   }
 
+  getCurrentStateCode(): string {
+    return this.catalogEntryInterest?.currentStateCode || '';
+  }
+
+  canCancelSignUp(): boolean {
+    return this.getCurrentStateCode() === 'signupstarted';
+  }
+
+  cancelSignUp(): void {
+    alert("Cancleling signup");
+    // this.hcclService.cancelSignup(this.interestId).subscribe({
+    //   next: (response) => {
+    //     console.log('Signup canceled successfully:', response);
+    //     this.loadCatalogEntryInterest();
+    //   },
+    //   error: (err) => {
+    //     console.error('Error canceling signup:', err);
+    //   }
+    // });
+  }
   /**
    * Determine if the Sign Up button should be shown
    * This will check various conditions like catalog entry type, availability, etc.
    */
   canSignUp(): boolean {
     if (!this.catalogEntryInterest?.catalogEntry) {
+      return false;
+    }
+    if (this.getCurrentStateCode() === 'initial') {
       return false;
     }
 
