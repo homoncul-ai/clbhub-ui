@@ -1,16 +1,17 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { CatalogEntryInterestCriteria, HcclService } from '@app/restsvc/hccl.service';
+import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData, HcclService } from '@app/restsvc/hccl.service';
 import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
-import { CatalogEntryInterestCrudComponent } from "@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component";
 import { CatalogEntryInterestListComponent } from "@app/components/_crud/catalogentryinterest/catalogentryinterest-list.component";
+import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { StudentEngageInterestComponent } from './student-engage-interest/student-engage-interest.component';
 
 @Component({
   selector: 'app-student-personalstatement-research',
   standalone: true,
-  imports: [CommonModule, CatalogEntryInterestCrudComponent, CatalogEntryInterestListComponent],
+  imports: [CommonModule, CatalogEntryInterestListComponent, StudentEngageInterestComponent],
   templateUrl: './student-personalstatement-research.component.html',
   styleUrl: '../../components/_global/abstract-crud/abstract-crud.component.scss'
 })
@@ -18,6 +19,8 @@ export class StudentPersonalStatementResearchComponent extends AbstractMultimode
   
   // Properties referenced in template
   error: any = null;
+  protected interestId: string = '';
+  protected cdr = inject(ChangeDetectorRef);
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
@@ -43,5 +46,35 @@ export class StudentPersonalStatementResearchComponent extends AbstractMultimode
 
   protected async loadEntityByIdCall(id: string): Promise<PersonalStatementCrudWrapper> {
     return PersonalStatementCrudWrapper.newInstance(id, this.hcclService);
+  }
+
+  // Methods for interest selection behavior (same as student-engage.component.ts)
+  protected getSelectedInterestId(): string {
+    return this.interestId;
+  }
+
+  protected setSelectedInterestId(interestId: string): void {
+    this.interestId = interestId;
+    this.cdr.detectChanges(); // Trigger change detection to update child component
+  }
+
+  protected onInterestRowClickBehavior(): OnRowClickBehavior {
+    var x: OnRowClickBehavior = new OnRowClickBehavior();
+    x.parentId = this.id;
+    x.tabId = 'interest';
+    x.alertMessage = 'Message';
+    x.usingNavigateUrl = false;
+    x.onRowClick = (id: string) => {
+      this.setSelectedInterestId(id);
+    };
+    return x;
+  }
+
+  protected onFinishLoadingBehavior(): OnFinishLoadingBehavior {
+    var x: OnFinishLoadingBehavior = new OnFinishLoadingBehavior();
+    x.onFinishLoading = (id: string, data: any) => {
+      this.setSelectedInterestId(id);
+    };
+    return x;
   }
 }

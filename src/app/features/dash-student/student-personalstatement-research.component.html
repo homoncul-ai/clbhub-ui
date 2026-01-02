@@ -1,10 +1,17 @@
-<h1>Manage Interests for {{ entity.getData().name }}</h1>
+<h1>Manage Interests for {{ entity?.getData()?.name || '' }}</h1>
 
 <app-catalogentryinterest-list [criteria]="getInterestCriteria()" 
 [showingGoButton]="false" 
 [showingAddButton]="false" [showingIdCheckbox]="false" 
-[showingIdCheckbox]="false" [showingDiagnostics]="false"
+[showingDiagnostics]="false"
 [showingSearch]="false" [showingSearchHeading]="false"
 [selectedIdsCsv]="''"
->
+[onRowClickBehavior]="onInterestRowClickBehavior()"
+[onFinishLoading]="onFinishLoadingBehavior()">
 </app-catalogentryinterest-list>
+
+<div class="row" *ngIf="getSelectedInterestId() !== ''">
+  <div class="col-12">
+    <app-student-engage-interest [interestId]="getSelectedInterestId()"></app-student-engage-interest> 
+  </div>
+</div>
