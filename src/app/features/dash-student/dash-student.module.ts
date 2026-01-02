@@ -24,12 +24,14 @@ import { CLCatalogSearchComponent } from './clcatalog-search/clcatalog-search.co
 import { StudentEngageComponent } from './student-engage.component';
 import { StudentCatalogComponent } from './student-catalog/student-catalog.component';
 import { StudentResearchComponent } from './student-research/student-research.component';
+import { StudentResumeBuilderComponent } from './student-resumebuilder/student-resumebuilder.component';
 const routes: Routes = [
   {
     path: '',
     component: DashStudentComponent,
     children: [
       { path: 'home', component: DashStudentHomeComponent },
+      
       { path: 'personalstatements', component: DashStudentPersonalStatementsComponent },
       { path: 'personalstatements/:id/:tabId/:childId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id/:tabId', component: StudentPersonalStatementGroupComponent },
@@ -44,6 +46,7 @@ const routes: Routes = [
       { path: 'guidance', component: DashStudentGuidanceComponent },
       { path: 'research/:vocationEncodingRefId', component: StudentResearchComponent },
       { path: 'research', component: StudentResearchComponent },
+      { path: 'resumebuilder', component: StudentResumeBuilderComponent },
       { path: 'catalogs', component: StudentCatalogComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
 
@@ -104,6 +107,7 @@ const routes: Routes = [
     StudentEngageComponent,
     StudentCatalogComponent,
     StudentResearchComponent,
+    StudentResumeBuilderComponent,
   ],
   declarations: [
     // Non-standalone components would go here

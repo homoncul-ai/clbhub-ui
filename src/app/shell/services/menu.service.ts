@@ -452,12 +452,8 @@ export class MenuService {
     // Add Courses with children
     const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
-
-   // Add Resume Entries as a child of Personal Statements
-   const resumeEntries = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
-   this.addChildMenuItem(courses, resumeEntries);
     
-    // Add Resumes as a top-level item
+    // Add Resumes as a child of Personal Statements
     const resumes = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUMES);
     this.addChildMenuItem(courses, resumes);
    
@@ -480,6 +476,14 @@ export class MenuService {
     const research = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH);
     this.addMenuItem(menu, research);
     
+    // Add Resume Builder with Resume Entries as a child
+    const resumeBuilder = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_BUILDER);
+    this.addMenuItem(menu, resumeBuilder);
+
+    // Add Resume Entries as a child of Resume Builder
+    const resumeEntriesForBuilder = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
+    this.addChildMenuItem(resumeBuilder, resumeEntriesForBuilder);
+
     // Add Progress with children
     const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
     this.addMenuItem(menu, guidance);
@@ -1504,6 +1508,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'clcatalog-search',
     icon: 'fas fa-search'
+  },
+  STUDENT_RESUME_BUILDER: {
+    level: 1,
+    label: 'Resume Builder',
+    route: '/student-dashboard/resumebuilder',
+    componentPath: 'src/app/features/dash-student/student-resumebuilder',
+    componentName: 'student-resumebuilder',
+    icon: 'fas fa-file-alt'
   },
   STUDENT_ENGAGE: {
     level: 1,
