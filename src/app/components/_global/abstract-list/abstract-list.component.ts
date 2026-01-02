@@ -49,6 +49,11 @@ implements OnInit, AfterViewInit, OnDestroy {
   @Input() otherData: any = {};
   @Input() showingDiagnostics: boolean = false;
   @Input() onFinishLoading: OnFinishLoadingBehavior | null = null;
+  
+  // Auto-height settings - grid height adjusts to content, with max rows before scrolling
+  @Input() autoHeight: boolean = false;
+  @Input() maxRows: number = 20;
+  @Input() rowHeight: number = 40; // Approximate height per row in pixels
 
   // CSV values to control checkbox selection externally
   @Input() selectedIdsCsv: string = '';
@@ -283,13 +288,24 @@ implements OnInit, AfterViewInit, OnDestroy {
     const footer = Array(footerCount).fill({ text: '' });
 
     // Get calculated height or use auto
-    const gridHeight = (this as any)._calculatedHeight || 'auto';
+    let gridHeight: number | string = (this as any)._calculatedHeight || 'auto';
+    
+    // If autoHeight is enabled, use dhtmlx autoHeight feature
+    const useAutoHeight = this.autoHeight;
+    if (useAutoHeight) {
+      // Calculate max height based on maxRows
+      const headerHeight = 50; // Approximate header height
+      const maxHeight = headerHeight + (this.maxRows * this.rowHeight);
+      gridHeight = maxHeight;      
+    }
+    gridHeight = 'auto';
 
     // Initialize DHTMLX grid with pagination and drag and drop
     this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
       columns: columns,
-      css: "search-list-grid",
+      css: useAutoHeight ? "search-list-grid search-list-grid--auto-height" : "search-list-grid",
       height: gridHeight,
+      autoHeight: useAutoHeight,
       autoWidth: false, // Disable autoWidth to prevent horizontal overflow
       selection: 'row',
       editable: false,

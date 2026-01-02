@@ -1,6 +1,6 @@
 
 
-<div class="search-list-container">
+<div class="search-list-container" [class.auto-height-mode]="autoHeight">
     <span *ngIf="showingSearchHeading" class="search-list-title">{{ this.searchHeading }}</span>
     <form *ngIf="showingSearch" class="search-list-search-bar" (submit)="onFormSubmit($event)">
       <div *ngIf="showingGoButton && !hideInternalButtons" class="search-list-button-bar">
