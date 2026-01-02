@@ -697,6 +697,10 @@ export class MenuService {
     const personalStatementList = this.copyMenuItem(MENU_CONSTANTS.EA_PERSONALSTATEMENT_LIST);
     this.addChildMenuItem(vocodeGroup, personalStatementList);
 
+    // Add PersonalStatementResume
+    const personalStatementResumeList = this.copyMenuItem(MENU_CONSTANTS.EA_PERSONALSTATEMENTRESUME_LIST);
+    this.addChildMenuItem(vocodeGroup, personalStatementResumeList);
+
     // Add CatalogEntryInterest
     const catalogentryinterestList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRYINTEREST_LIST);
     this.addChildMenuItem(vocodeGroup, catalogentryinterestList);
@@ -1407,6 +1411,15 @@ EA_PERSONALSTATEMENT_LIST: {
   "componentPath" : "src/app/components/_crud/personalstatement/personalstatement-list.component",
   "componentName" : "PersonalStatementListComponent",
   "icon" : "fas fa-file-alt"
+},
+
+EA_PERSONALSTATEMENTRESUME_LIST: {
+  level: 2,
+  label: 'Personal Statement Resumes',
+  route: '/ecoadmin-dashboard/personalstatementresumes',
+  componentPath: 'src/app/components/_crud/personalstatementresume/personalstatementresume-list.component',
+  componentName: 'PersonalStatementResumeListComponent',
+  icon: 'fas fa-file-alt'
 },
 
 EA_CATALOGENTRYINTEREST_LIST: {

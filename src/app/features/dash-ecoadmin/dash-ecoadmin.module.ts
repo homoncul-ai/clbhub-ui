@@ -68,6 +68,8 @@ import { CatalogTypeRefListComponent } from '../../components/_crud/catalogtyper
 import { CatalogTypeRefGroupComponent } from '../../components/_crud/catalogtyperef/catalogtyperef-group.component';
 import { VocationEncodingRefListComponent } from '../../components/_crud/vocationencodingref/vocationencodingref-list.component';
 import { VocationEncodingRefGroupComponent } from '../../components/_crud/vocationencodingref/vocationencodingref-group.component';
+import { PersonalStatementResumeListComponent } from '../../components/_crud/personalstatementresume/personalstatementresume-list.component';
+import { PersonalStatementResumeGroupComponent } from '../../components/_crud/personalstatementresume/personalstatementresume-group.component';
 
 const routes: Routes = [
   {
@@ -237,6 +239,12 @@ const routes: Routes = [
       { path: 'vocationencodingrefs/:id/:tabId', component: VocationEncodingRefGroupComponent },
       { path: 'vocationencodingrefs/:id', redirectTo: 'vocationencodingrefs/:id/details', pathMatch: 'full' },
       { path: 'vocationencodingrefs', component: VocationEncodingRefListComponent },
+
+      // PersonalStatementResume routes
+      { path: 'personalstatementresumes/create', component: PersonalStatementResumeGroupComponent },
+      { path: 'personalstatementresumes/:id/:tabId', component: PersonalStatementResumeGroupComponent },
+      { path: 'personalstatementresumes/:id', redirectTo: 'personalstatementresumes/:id/details', pathMatch: 'full' },
+      { path: 'personalstatementresumes', component: PersonalStatementResumeListComponent },
     ]
   }
 ];
@@ -305,6 +313,8 @@ const routes: Routes = [
     CatalogTypeRefGroupComponent,
     VocationEncodingRefListComponent,
     VocationEncodingRefGroupComponent,
+    PersonalStatementResumeListComponent,
+    PersonalStatementResumeGroupComponent,
     OrgSchoolsGroupComponent
   ]
 })

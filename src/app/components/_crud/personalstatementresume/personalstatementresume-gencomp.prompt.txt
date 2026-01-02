@@ -1,0 +1,150 @@
+# PersonalStatementResume Component Generation Spec
+
+## Overview
+Generate CRUD, List, and Group components for the `PersonalStatementResume` entity.
+
+**Reference Example:** `copyFromEntity="providertyperef"`
+
+## Entity Information
+
+### entityName: PersonalStatementResume
+### routePath: personalstatementresumes (plural)
+### selector prefix: app-personalstatementresume
+
+## Data Interfaces
+
+### PersonalStatementResumeGETData (Details Mode)
+- id?: string
+- createdByInfo?: Reference
+- dateCreated?: DateGETData
+- lastUpdatedByInfo?: Reference
+- dateLastUpdated?: DateGETData
+- userProfileId?: string (FK → HcclUserProfile)
+- personalStatmentId?: string (FK → PersonalStatement) [Note: typo in API - "Statment"]
+- title?: string
+- resumeMd?: string (textarea - long text)
+- resumeMdEdited?: string (textarea - long text)
+- resumeJson?: string (textarea - JSON data)
+- available?: number
+- theResumePojo?: ResumePOJO (complex object - display only)
+
+### PersonalStatementResumePOSTData (Create Mode)
+- userProfileId: string (required, FK)
+- personalStatmentId: string (required, FK)
+- title: string (required)
+- resumeMd: string (required, textarea)
+- resumeMdEdited?: string (optional, textarea)
+- resumeJson: string (required, textarea)
+- available: number (required)
+
+### PersonalStatementResumePUTData (Edit Mode)
+- userProfileId: string (required, FK)
+- personalStatmentId: string (required, FK)
+- title: string (required)
+- resumeMd: string (required, textarea)
+- resumeMdEdited?: string (optional, textarea)
+- resumeJson: string (required, textarea)
+- available: number (required)
+
+## Service Methods
+- Get: HcclService.getPersonalStatementResumeById(id)
+- Create: HcclService.createPersonalStatementResume(body)
+- Update: HcclService.updatePersonalStatementResumeById(id, body)
+- Delete: HcclService.deletePersonalStatementResumeById(id)
+- Search: HcclService.findPersonalStatementResumes(criteria)
+
+## Foreign Key Display
+
+### userProfileId
+- **Details:** `<app-hccluserprofile-crud [id]="userProfileId" [modeName]="CRUD_MODES.FK"></app-hccluserprofile-crud>`
+- **Edit/Create:** FK Menu or text input (simplified)
+- **List Grid:** Use HcclUserProfileCrudWrapper.getDisplayText()
+
+### personalStatmentId
+- **Details:** `<app-personalstatement-crud [id]="personalStatmentId" [modeName]="CRUD_MODES.FK"></app-personalstatement-crud>`
+- **Edit/Create:** FK Menu or text input (simplified)
+- **List Grid:** Use PersonalStatementCrudWrapper.getDisplayText()
+
+## Field Display Rules
+
+### Text Fields
+- **title:** `<app-std-mdb-form-text>` - standard text input
+
+### Textarea Fields (long text or >100 chars)
+- **resumeMd:** `<app-std-mdb-form-textarea>` with rows=6
+- **resumeMdEdited:** `<app-std-mdb-form-textarea>` with rows=6
+- **resumeJson:** `<app-std-mdb-form-textarea>` with rows=4
+
+### Available Field
+- Use `<app-available-selector>` component
+
+### Hidden Fields (Create/Update)
+- id, dateLastUpdated, dateCreated, lastUpdatedBy, createdBy
+
+## Files to Generate
+
+### Location: src/app/components/_crud/personalstatementresume/
+
+1. **personalstatementresume-crud.component.ts**
+   - Extends AbstractCrudComponent<PersonalStatementResumeCrudWrapper>
+   - Includes PersonalStatementResumeCrudWrapper class
+   - Imports FK components: HcclUserProfileCrudComponent, PersonalStatementCrudComponent
+
+2. **personalstatementresume-crud.component.html**
+   - FK mode, FK_MENU mode, SECTION mode, HEADING mode
+   - CREATE, EDIT, DETAIL, DELETE modes
+   - DEBUG mode
+
+3. **personalstatementresume-group.component.ts**
+   - Extends AbstractEntityGroupComponent<PersonalStatementResumeCrudWrapper>
+   - Implements loadEntityById, setupTabs, newCrudWrapperForCreate
+
+4. **personalstatementresume-group.component.html**
+   - Tabset with details, create tabs
+
+5. **personalstatementresume-list.component.ts**
+   - Extends AbstractListComponent<PersonalStatementResumeGETData, PersonalStatementResumeCriteria, PersonalStatementResumeGETDataSearchResults>
+   - Uses abstract list template (no custom template)
+   - Grid columns: title, userProfileStr (FK display), personalStatementStr (FK display), available, dateLastUpdated
+
+## Route Configuration
+
+### Routes to add to dash-ecoadmin.module.ts:
+```typescript
+{ path: 'personalstatementresumes/create', component: PersonalStatementResumeGroupComponent },
+{ path: 'personalstatementresumes/:id/:tabId', component: PersonalStatementResumeGroupComponent },
+{ path: 'personalstatementresumes/:id', redirectTo: 'personalstatementresumes/:id/details', pathMatch: 'full' },
+{ path: 'personalstatementresumes', component: PersonalStatementResumeListComponent },
+```
+
+## Menu Configuration
+
+### Menu constant to add to menu.service.ts:
+```typescript
+EA_PERSONALSTATEMENTRESUME_LIST: {
+  level: 2,
+  label: 'Personal Statement Resumes',
+  route: '/ecoadmin-dashboard/personalstatementresumes',
+  componentPath: 'src/app/components/_crud/personalstatementresume/personalstatementresume-list.component',
+  componentName: 'PersonalStatementResumeListComponent',
+  icon: 'fas fa-file-alt'
+}
+```
+
+## Required Imports for CRUD Component
+```typescript
+import { HcclUserProfileCrudComponent, HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
+import { PersonalStatementCrudComponent, PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
+```
+
+## Grid Column Configuration for List
+```typescript
+[
+  { id: 'title', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+  { id: 'userProfileStr', header: [{ text: 'User Profile', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'personalStatementStr', header: [{ text: 'Personal Statement', align: 'center' }, { content: 'inputFilter' }], minWidth: 150, adjust: true },
+  { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'inputFilter' }], minWidth: 100, adjust: true },
+  { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
+]
+```
+
