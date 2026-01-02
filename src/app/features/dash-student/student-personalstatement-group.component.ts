@@ -38,53 +38,62 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
   }
 
   protected setupTabs(): SimpleTab[] {
-    var tabs = this.setupListDetailsTabs();
-   
-    var baseRoute = this.getBaseRoute();
-    var tab =  new SimpleTab('search', 'Search', '', 
-      () => {
-        //this.currentTabId = 'update';
-        this.router.navigate([baseRoute, this.id, 'search']);
-       // alert("update");
-      },
-      () => {
-        return this.entity !== null;
-      }
-    );
-    tabs.push(tab) 
-
-     tab =  new SimpleTab('research', 'Research', '', 
-      () => {
-        //this.currentTabId = 'items';
-        this.router.navigate([baseRoute, this.id, 'research']);
-        
-      },
-      () => {
-        return this.entity !== null;
-      }
-    );
-    tabs.push(tab) 
-
-    tab = new SimpleTab('resumes', 'Resumes', '', 
-      () => {
-        this.router.navigate([baseRoute, this.id, 'resumes']);
-      },
-      () => {
-        return this.entity !== null;
-      }
-    );
-    tabs.push(tab);
-
-    tab = new SimpleTab('resume', this.getResumeTabLabel(), '', 
-      () => {
-        this.router.navigate([baseRoute, this.id, 'resume', this.childId]);
-      },
-      () => {
-        return this.currentTabId === 'resume' && this.childId !== null && this.childId !== undefined && this.childId !== '';
-      }
-    );
-    tabs.push(tab);
-     
+    var tabs: SimpleTab[] = [];
+    const baseRoute = this.getBaseRoute();
+      var tab  =     
+      new SimpleTab('details', this.getDetailsTabLabel(), '', 
+        () => {
+          //this.currentTabId = 'details';
+          this.router.navigate([baseRoute, this.id, 'details']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+     tabs.push(tab);
+      tab =  new SimpleTab('search', 'Search', '', 
+        () => {
+          //this.currentTabId = 'update';
+          this.router.navigate([baseRoute, this.id, 'search']);
+         // alert("update");
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab) 
+  
+       tab =  new SimpleTab('engage', 'Engage', '', 
+        () => {
+          //this.currentTabId = 'items';
+          this.router.navigate([baseRoute, this.id, 'engage']);          
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab) 
+  
+      tab = new SimpleTab('resumes', 'Resumes', '', 
+        () => {
+          this.router.navigate([baseRoute, this.id, 'resumes']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);
+  
+      tab = new SimpleTab('resume', this.getResumeTabLabel(), '', 
+        () => {
+          this.router.navigate([baseRoute, this.id, 'resume', this.childId]);
+        },
+        () => {
+          return this.currentTabId === 'resume' && this.childId !== null && this.childId !== undefined && this.childId !== '';
+        }
+      );
+      tabs.push(tab);
+       
     return tabs;
   }
 

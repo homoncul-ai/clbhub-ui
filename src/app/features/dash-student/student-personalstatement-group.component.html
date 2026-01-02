@@ -1,19 +1,23 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1>Personal Statement: {{entity?.getDisplayText()}}</h1>
+    </div>
+  </div>
+</div>
+
+
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
 <div *ngIf="currentTabId === 'details'">
   <app-personalstatement-crud [id]="id" modeName="detail"></app-personalstatement-crud>
 </div>
-
-<div *ngIf="currentTabId === 'create'">
-  <h1>Create</h1>
-  <app-personalstatement-crud [id]="id" modeName="create"></app-personalstatement-crud>
-</div>
-
+ 
 <div *ngIf="currentTabId === 'search'">
   <app-student-personalstatement-search [id]="id" [searchType]="getSearchTypeFromRoute()"></app-student-personalstatement-search>
 </div>
 
-<div *ngIf="currentTabId === 'research'">
+<div *ngIf="currentTabId === 'engage'">
   <app-student-personalstatement-research [id]="id"></app-student-personalstatement-research>
 </div>
 
