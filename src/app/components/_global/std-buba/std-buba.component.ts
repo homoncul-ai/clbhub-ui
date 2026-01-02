@@ -18,7 +18,8 @@ export class StdBubaComponent implements OnInit, OnDestroy {
   @Input() showIcon: boolean = true;
   @Input() showTooltip: boolean = true;
   @Input() showLink: boolean = true;
-  @Input() cssClass: string = '';
+  @Input() showName: boolean = true;
+  @Input() cssClass: string = ''; 
 
   private bubaService = inject(BubaService);
   private router = inject(Router);

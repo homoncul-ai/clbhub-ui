@@ -43,7 +43,7 @@
       *ngIf="!showLink || !bubaResult.routePath || bubaResult.routePath === '#'"
       class="buba-text"
     >
-      {{ bubaResult.name }}
+      {{ showName ? bubaResult.name : '' }}
     </span>
   </div>
 </div>

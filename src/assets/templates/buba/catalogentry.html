@@ -3,8 +3,8 @@
   <span class="buba-name">{{title}}</span>
   <span class="buba-id">({{entityId}})</span>
   <div class="buba-details">
+    <span class="buba-code" *ngIf="entryCode">{{entryCode}}</span>
     <span class="buba-description" *ngIf="shortDescription">{{shortDescription}}</span>
-    <span class="buba-code" *ngIf="entryCode">Code: {{entryCode}}</span>
     <span class="buba-type" *ngIf="catalogTypeCode">Type: {{catalogTypeCode}}</span>
   </div>
 </div>

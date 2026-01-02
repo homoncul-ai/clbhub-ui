@@ -106,7 +106,8 @@
                   <!-- Attributes on the right -->
                   <div class="attributes-container" style="flex: 1;">
                     <div class="detail-group">
-                      <label>&nbsp;</label>
+                      <label><span><app-std-buba entityName="CatalogEntry" entityId="{{ result.id }}" 
+                        [showLink]="false" [showName]="false" ></app-std-buba>  {{ result.entryCode }}</span></label>
                       <div class="interest-icons">
                         <!-- No interest recorded yet - show both icons -->
                         <ng-container *ngIf="!result.catalogEntryInterest">
@@ -141,20 +142,20 @@
                         </ng-container>
                       </div>
                     </div>
+                    <!-- <div class="detail-group"> 
+                      <span><app-std-buba entityName="CatalogEntry" entityId="{{ result.id }}" 
+                        [showLink]="false" [showName]="false" ></app-std-buba>  {{ result.entryCode }}</span>
+                    </div> -->
                     <div class="detail-group">
-                      <label>Entry Code:</label>
-                      <span>{{ result.entryCode }}</span>
-                    </div>
-                    <div class="detail-group">
-                      <label>Title:</label>
+                      <!-- <label>Title:</label> -->
                       <span>{{ result.title }}</span>
                     </div>
                     <div *ngIf="result.shortDescription && result.shortDescription !== result.description" class="detail-group">
-                      <label>Short Description:</label>
+                      <!-- <label>Short Description:</label> -->
                       <span>{{ result.shortDescription }}</span>
                     </div>
                     <div class="detail-group">
-                      <label>Description:</label>
+                      <!-- <label>Description:</label> -->
                       <span>{{ result.description }}</span>
                     </div>
                     <div *ngIf="result.notes" class="detail-group">
