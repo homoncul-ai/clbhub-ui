@@ -4,6 +4,7 @@ import { HcclService, PersonalStatementResumeGETData, PersonalStatementResumeCri
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { Observable } from 'rxjs';
+import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 
 /**
  * Component for displaying and managing PersonalStatementResume data
@@ -41,6 +42,7 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
   protected getGridColumns(): any[] {
     return [
       { id: 'title', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
+      { id: 'personalStatementTitle', header: [{ text: 'Personal Statement Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
       { id: 'dateCreated', header: [{ text: 'Date Created', align: 'center' }], minWidth: 120, adjust: true },
       { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 120, adjust: true }
     ];
@@ -98,7 +100,11 @@ export class StudentPersonalStatementResumeListComponent extends AbstractListCom
   }
 
   protected override async formatEntityDataAsync(entity: PersonalStatementResumeGETData): Promise<any> {
+    const personalStatementTitle = await PersonalStatementCrudWrapper.newInstance(entity.personalStatmentId || '', this.hcclService)
+    .then(wrapper => wrapper.getDisplayText());
     return {
+      title: entity.title || '',
+      personalStatementTitle: personalStatementTitle || '',
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',

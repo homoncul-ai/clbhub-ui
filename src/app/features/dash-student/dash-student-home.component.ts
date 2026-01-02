@@ -38,7 +38,27 @@ import { CRUD_MODES } from '@app/@core/constants';
               <!-- Content -->
               <div *ngIf="!loading && !error">
                 <h3>Welcome {{ userProfile?.theUser?.name || 'N/A' }}</h3>
-                Your career search is in progress.  select a personal statement or create a new one <a href="/student-dashboard/personalstatements">here</a>
+                <!-- messages section from student from dashUIData  --> 
+                <div class="row mb-4">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="mb-0">
+                          <i class="fas fa-envelope me-2"></i>
+                          Messages
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="list-group list-group-flush">
+                          <div class="list-group-item" *ngFor="let message of dashUIData?.messages">
+                            <h6 class="mb-1">{{ message.message?.title }}</h6>
+                            <p class="mb-1 text-muted small">{{ message.message?.description || 'No description' }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <!--List all the personal statements  -->
                 <div class="row mb-4">
                   <div class="col-12">
