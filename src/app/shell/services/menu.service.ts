@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData } from '@app/restsvc/hccl.service';
+import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 
 export interface MenuItem {
   level: number;
@@ -117,6 +117,8 @@ export class MenuService {
   }
   queues : WorkQueueGETData[] = [];
   catalogs : CatalogGETData[] = [];
+  personalStatements: PersonalStatementGETData[] = [];
+  
   async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
     switch (dashboardType) {
       case 'service-provider':
@@ -142,10 +144,19 @@ export class MenuService {
         const catalogs = catalogRsp?.searchResults as CatalogGETData[] || [];
         this.catalogs = catalogs;
         break;
+      case 'student':
+        // Fetch personal statements for the current user profile
+        const personalStatementCriteria: PersonalStatementCriteria = {
+          parentEntityId: context.currentUserProfileId,
+          isPaging: false,
+          maxResults: 100
+        };
+        const psRsp = await this.hcclService.findPersonalStatements(personalStatementCriteria).toPromise();
+        this.personalStatements = psRsp?.searchResults as PersonalStatementGETData[] || [];
+        break;
       case 'advocate':
       case 'nonprofit':
       case 'ecoadmin':
-      case 'student':
       case 'swcat':
       default:
         break;
@@ -449,13 +460,24 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.STUDENT_DASHBOARD);
     this.addMenuItem(menu, dashboard);
     
-    // Add Courses with children
+    // Add Career Goals (Personal Statements list)
     const courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
     
-    // Add Resumes as a child of Personal Statements
-    const resumes = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUMES);
-    this.addChildMenuItem(courses, resumes);
+    // Add dynamic menu items for each personal statement
+    if (this.personalStatements && this.personalStatements.length > 0) {
+      for (const ps of this.personalStatements) {
+        const psMenuItem: MenuItem = {
+          level: 1,
+          label: ps.name || 'Unnamed Career Goal',
+          route: `/student-dashboard/personalstatements/${ps.id}`,
+          componentPath: 'src/app/features/dash-student',
+          componentName: 'student-personalstatement-group',
+          icon: 'fas fa-bullseye'
+        };
+        this.addMenuItem(menu, psMenuItem);
+      }
+    }
    
    
     // const messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
