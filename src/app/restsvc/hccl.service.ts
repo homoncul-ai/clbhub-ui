@@ -337,10 +337,11 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.requestCreate<any>(request);
   }
 
-  getCatalogEntryInterestById(id: string): Observable<CatalogEntryInterestGETData> {
+  getCatalogEntryInterestById(id: string, hint: string): Observable<CatalogEntryInterestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentryinterest/" + id,
       method: "GET",
+      params: { hint: this.convertToString(hint) },
     };
     return this.request<CatalogEntryInterestGETData>(request);
   }
@@ -4314,6 +4315,7 @@ export interface CatalogEntryGETData {
   distance?: number;
   distanceFromCode?: string;
   catalogEntryInterest?: CatalogEntryInterestGETData;
+  catalog?: CatalogGETData;
 }
 
 export interface CatalogEntryInterestGETData {
@@ -4340,6 +4342,56 @@ export interface CatalogEntryInterestGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CatalogEntryInterestGETData[];
   filter?: BaseCriteria;
+}
+
+export interface CatalogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  organizationId?: string;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  taxonomyEntryId?: string;
+  catalogTypeId?: string;
+  urlPrefix?: string;
+  url?: string;
+  signupPacketId?: string;
+  stats?: CatalogStatsPOJO;
+  organization?: HcclOrganizationGETData;
+}
+
+export interface CatalogStatsPOJO {
+  dateRange?: DateRangeGETData;
+  entryCount?: number;
+  interestCount?: number;
+}
+
+export interface DateRangeGETData {
+  theStart?: DateGETData;
+  theEnd?: DateGETData;
+  valid?: boolean;
+}
+
+export interface HcclOrganizationGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+  jsonData?: string;
+  websiteUrl?: string;
+  organizationTypeId?: string;
+  parentEntityId?: string;
+  parentEntityEntityType?: string;
+  parentEntityName?: string;
 }
 
 export interface CatalogEntryInterestCriteria {
@@ -4426,56 +4478,6 @@ export interface CatalogEntryGETDataSearchResults {
   searchResults?: CatalogEntryGETData[];
   filter?: BaseCriteria;
   catalog?: CatalogGETData;
-}
-
-export interface CatalogGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  organizationId?: string;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  available?: number;
-  taxonomyEntryId?: string;
-  catalogTypeId?: string;
-  urlPrefix?: string;
-  url?: string;
-  signupPacketId?: string;
-  stats?: CatalogStatsPOJO;
-  organization?: HcclOrganizationGETData;
-}
-
-export interface CatalogStatsPOJO {
-  dateRange?: DateRangeGETData;
-  entryCount?: number;
-  interestCount?: number;
-}
-
-export interface DateRangeGETData {
-  theStart?: DateGETData;
-  theEnd?: DateGETData;
-  valid?: boolean;
-}
-
-export interface HcclOrganizationGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  available?: number;
-  jsonData?: string;
-  websiteUrl?: string;
-  organizationTypeId?: string;
-  parentEntityId?: string;
-  parentEntityEntityType?: string;
-  parentEntityName?: string;
 }
 
 export interface CatalogEntryCriteria {
@@ -9669,6 +9671,8 @@ export interface PMessageUIGETData {
 export interface PersonalStatementUIGETData {
   messages?: PMessageUIGETData[];
   personalStatement?: PersonalStatementGETData;
+  personalStatementResumeCriteria?: PersonalStatementResumeCriteria;
+  catalogEntryInterestCriteria?: CatalogEntryInterestCriteria;
 }
 
 export interface SignupUIData {
@@ -9677,6 +9681,10 @@ export interface SignupUIData {
   resumeSelectData?: MenuControlDataList;
   signupBehavior?: SignupBehavior;
   providerOrganizationName?: string;
+  workRequestId?: string;
+  workRequestStateTransitionLogId?: string;
+  progressMessageCode?: string;
+  progressMessageText?: string;
 }
 
 export interface StudentDashUIGETData {
@@ -9740,9 +9748,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {

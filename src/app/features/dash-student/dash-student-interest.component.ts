@@ -294,7 +294,7 @@ export class DashStudentInterestComponent implements OnInit {
       // Wait for context to be ready
       await this.hcclContextService.waitForReady();
       
-      this.hcclService.getCatalogEntryInterestById(this.interestId).subscribe({
+      this.hcclService.getCatalogEntryInterestById(this.interestId, 'all').subscribe({
         next: (data) => {
           this.catalogEntryInterest = data;
           this.loading = false;

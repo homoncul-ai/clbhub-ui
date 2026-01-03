@@ -265,7 +265,7 @@ export class StudentContextService {
    * Get a single interest by ID
    */
   getInterestById(id: string): Observable<CatalogEntryInterestGETData | null> {
-    return this.hcclService.getCatalogEntryInterestById(id).pipe(
+    return this.hcclService.getCatalogEntryInterestById(id, '').pipe(
       catchError(() => of(null))
     );
   }

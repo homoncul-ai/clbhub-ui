@@ -1373,6 +1373,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
           }
         ],
         "responses": {
@@ -18807,6 +18815,9 @@
           },
           "catalogEntryInterest": {
             "$ref": "#/components/schemas/CatalogEntryInterestGETData"
+          },
+          "catalog": {
+            "$ref": "#/components/schemas/CatalogGETData"
           }
         }
       },
@@ -18890,6 +18901,152 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CatalogGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taxonomyEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "urlPrefix": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "signupPacketId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/CatalogStatsPOJO"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
+          }
+        }
+      },
+      "CatalogStatsPOJO": {
+        "type": "object",
+        "properties": {
+          "dateRange": {
+            "$ref": "#/components/schemas/DateRangeGETData"
+          },
+          "entryCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "interestCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DateRangeGETData": {
+        "type": "object",
+        "properties": {
+          "theStart": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "theEnd": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "valid": {
+            "type": "boolean"
+          }
+        }
+      },
+      "HcclOrganizationGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "websiteUrl": {
+            "type": "string"
+          },
+          "organizationTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
           }
         }
       },
@@ -19233,152 +19390,6 @@
           },
           "catalog": {
             "$ref": "#/components/schemas/CatalogGETData"
-          }
-        }
-      },
-      "CatalogGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "organizationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "taxonomyEntryId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "catalogTypeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "urlPrefix": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          },
-          "signupPacketId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "stats": {
-            "$ref": "#/components/schemas/CatalogStatsPOJO"
-          },
-          "organization": {
-            "$ref": "#/components/schemas/HcclOrganizationGETData"
-          }
-        }
-      },
-      "CatalogStatsPOJO": {
-        "type": "object",
-        "properties": {
-          "dateRange": {
-            "$ref": "#/components/schemas/DateRangeGETData"
-          },
-          "entryCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "interestCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "DateRangeGETData": {
-        "type": "object",
-        "properties": {
-          "theStart": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "theEnd": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "valid": {
-            "type": "boolean"
-          }
-        }
-      },
-      "HcclOrganizationGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "jsonData": {
-            "type": "string"
-          },
-          "websiteUrl": {
-            "type": "string"
-          },
-          "organizationTypeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentEntityEntityType": {
-            "type": "string"
-          },
-          "parentEntityName": {
-            "type": "string"
           }
         }
       },
@@ -37992,6 +38003,12 @@
           },
           "personalStatement": {
             "$ref": "#/components/schemas/PersonalStatementGETData"
+          },
+          "personalStatementResumeCriteria": {
+            "$ref": "#/components/schemas/PersonalStatementResumeCriteria"
+          },
+          "catalogEntryInterestCriteria": {
+            "$ref": "#/components/schemas/CatalogEntryInterestCriteria"
           }
         }
       },
@@ -38011,6 +38028,20 @@
             "$ref": "#/components/schemas/SignupBehavior"
           },
           "providerOrganizationName": {
+            "type": "string"
+          },
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workRequestStateTransitionLogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "progressMessageCode": {
+            "type": "string"
+          },
+          "progressMessageText": {
             "type": "string"
           }
         }
@@ -38216,13 +38247,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

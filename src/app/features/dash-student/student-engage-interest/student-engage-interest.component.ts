@@ -98,7 +98,7 @@ implements OnInit, OnDestroy, OnChanges {
 
   private loadInterestData(): void {
     if (!this.interestId) return;
-    this.hcclService.getCatalogEntryInterestById(this.interestId)
+    this.hcclService.getCatalogEntryInterestById(this.interestId, 'all')
       .subscribe({
         next: (data) => {
           this.interestGETData = data;

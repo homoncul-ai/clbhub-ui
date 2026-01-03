@@ -190,7 +190,7 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
   private loadMessageData(): void {
     if (!this.interestId) return;
     
-    this.hcclService.getCatalogEntryInterestById(this.interestId)
+    this.hcclService.getCatalogEntryInterestById(this.interestId, '')
       .subscribe({
         next: (data) => {
           this.catalogEntryInterest = data;

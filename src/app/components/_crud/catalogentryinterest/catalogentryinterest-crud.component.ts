@@ -67,7 +67,7 @@ export class CatalogEntryInterestCrudComponent extends AbstractCrudComponent<Cat
   }
 
   protected async loadEntityByIdCall(id: string): Promise<CatalogEntryInterestCrudWrapper> {
-    const catalogentryinterest = await this.hcclService.getCatalogEntryInterestById(id).toPromise();
+    const catalogentryinterest = await this.hcclService.getCatalogEntryInterestById(id, '').toPromise();
     if (!catalogentryinterest) {
       throw new Error('CatalogEntryInterest not found');
     }
@@ -222,7 +222,7 @@ export class CatalogEntryInterestCrudWrapper extends EntityWrapper<CatalogEntryI
   }
 
   public static async newInstance(id: string, hcclService: HcclService): Promise<CatalogEntryInterestCrudWrapper> {
-    const data = await hcclService.getCatalogEntryInterestById(id).toPromise();
+    const data = await hcclService.getCatalogEntryInterestById(id, '').toPromise();
     if (!data) {
       throw new Error('CatalogEntryInterest not found');
     }
