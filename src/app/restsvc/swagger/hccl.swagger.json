@@ -38034,15 +38034,8 @@
             "type": "string",
             "format": "uuid"
           },
-          "workRequestStateTransitionLogId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "progressMessageCode": {
-            "type": "string"
-          },
-          "progressMessageText": {
-            "type": "string"
+          "stateTransitionLog": {
+            "$ref": "#/components/schemas/StateTransitionLogGETData"
           }
         }
       },

@@ -187,7 +187,7 @@ implements OnInit, OnDestroy, OnChanges {
   }
 
   canCancelSignUp(): boolean {
-    return this.getCurrentStateCode() === 'signupstarted';
+    return this.getCurrentStateCode() === 'signupstarted' || this.getCurrentStateCode() === 'signupcompleted';
   }
 
   cancelSignUp(): void {

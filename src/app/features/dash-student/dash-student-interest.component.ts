@@ -30,6 +30,7 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
                 <i [class]="getCatalogTypeIcon() + ' me-2'"></i>
                 {{ catalogEntryInterest?.catalogEntry?.catalogTypeCode | titlecase }} Interest
               </h3>
+             
               <div class="button-bar" style="display: flex; gap: 10px; align-items: center;" >
                 <button 
                   *ngIf="canSignUp()" 

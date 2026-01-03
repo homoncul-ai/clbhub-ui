@@ -9682,9 +9682,7 @@ export interface SignupUIData {
   signupBehavior?: SignupBehavior;
   providerOrganizationName?: string;
   workRequestId?: string;
-  workRequestStateTransitionLogId?: string;
-  progressMessageCode?: string;
-  progressMessageText?: string;
+  stateTransitionLog?: StateTransitionLogGETData;
 }
 
 export interface StudentDashUIGETData {

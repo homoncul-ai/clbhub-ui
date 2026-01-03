@@ -7,6 +7,9 @@
       <i [class]="getCatalogTypeIcon() + ' me-2'"></i>
       {{ interestGETData?.catalogEntry?.catalogTypeCode | titlecase }} Interest
     </h5>
+    <h6 class="text-muted">
+      {{ signupUIData?.stateTransitionLog?.nameText || 'No state transition log' }}
+    </h6>
     <div class="button-bar" style="display: flex; gap: 10px; align-items: center;">
       <button 
         *ngIf="canSignUp()" 
