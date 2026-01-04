@@ -183,6 +183,11 @@
         </div>
       </div>
     </div>
+
+    <!-- About Tab -->
+    <div *ngIf="currentTabId === 'about'" class="about-tab">
+      <app-pmessage-crud [id]="id" modeName="details"></app-pmessage-crud>
+    </div>
     </div><!-- End tab-content-wrapper -->
   </div>
 

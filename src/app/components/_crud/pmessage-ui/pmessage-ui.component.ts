@@ -21,12 +21,13 @@ import { HcclUserProfileDetailsComponent } from '../../hccl-user-profile-details
 import { StdMdbFormTextareaComponent } from '../../_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { Subject, takeUntil } from 'rxjs';
 import { StdBubfileComponent } from '@app/components/_global/std-bubfile/std-bubfile.component';
+import { PMessageCrudComponent } from '../pmessage/pmessage-crud.component';
 
 @Component({
   selector: 'app-pmessage-ui',
   standalone: true,
   imports: [CommonModule, FormsModule, SimpleTabsetComponent, 
-    HcclUserProfileDetailsComponent, StdMdbFormTextareaComponent, StdBubfileComponent],
+    HcclUserProfileDetailsComponent, StdMdbFormTextareaComponent, StdBubfileComponent, PMessageCrudComponent],
   templateUrl: './pmessage-ui.component.html',
   styleUrl: './pmessage-ui.component.scss'
 })
@@ -97,8 +98,13 @@ export class PMessageUiComponent implements OnInit, OnChanges, AfterViewChecked 
     this.tabs = [
       this.createTab('messages', 'Conversation', '', () => this.showMessagesTab(), () => true),
       this.createTab('attachments', 'Attachments', '', () => this.showAttachmentsTab(), () => true),
-      this.createTab('participants', 'About', '', () => this.showParticipantsTab(), () => true)
+      this.createTab('participants', 'Participants', '', () => this.showParticipantsTab(), () => true),
+      this.createTab('about', 'About', '', () => this.showAboutTab(), () => true)
     ];
+  }
+
+  private showAboutTab(): void {
+    this.currentTabId = 'about';
   }
 
   private createTab(id: string, label: string, url: string, 
