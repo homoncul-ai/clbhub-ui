@@ -1,0 +1,18 @@
+<!-- PMessage entity UI -->
+<div *ngIf="entityType === 'PMessage'">
+  <app-pmessage-ui [id]="entityId" [readonly]="readonly"></app-pmessage-ui>
+</div>
+
+<!-- PMFileGroup entity UI -->
+<div *ngIf="entityType === 'PMFileGroup'">
+  <app-pmfilegroup-ui [id]="entityId" [readonly]="readonly"></app-pmfilegroup-ui>
+</div>
+
+<!-- Fallback for unknown entity types -->
+<div *ngIf="entityType && !isSupportedEntity()" class="unknown-entity-type">
+  <div class="alert alert-warning">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    Unknown entity type: <strong>{{ entityType }}</strong>
+  </div>
+</div>
+

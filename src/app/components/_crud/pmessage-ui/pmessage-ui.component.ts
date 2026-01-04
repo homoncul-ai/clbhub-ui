@@ -22,12 +22,14 @@ import { StdMdbFormTextareaComponent } from '../../_global/std-mdb-form-textarea
 import { Subject, takeUntil } from 'rxjs';
 import { StdBubfileComponent } from '@app/components/_global/std-bubfile/std-bubfile.component';
 import { PMessageCrudComponent } from '../pmessage/pmessage-crud.component';
+import { StdBubaComponent } from "@app/components/_global/std-buba/std-buba.component";
 
 @Component({
   selector: 'app-pmessage-ui',
   standalone: true,
-  imports: [CommonModule, FormsModule, SimpleTabsetComponent, 
-    HcclUserProfileDetailsComponent, StdMdbFormTextareaComponent, StdBubfileComponent, PMessageCrudComponent],
+  imports: [CommonModule, FormsModule, SimpleTabsetComponent,
+    HcclUserProfileDetailsComponent, StdMdbFormTextareaComponent, 
+    StdBubfileComponent, PMessageCrudComponent, StdBubaComponent],
   templateUrl: './pmessage-ui.component.html',
   styleUrl: './pmessage-ui.component.scss'
 })

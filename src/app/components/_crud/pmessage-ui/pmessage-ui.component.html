@@ -52,8 +52,10 @@
                 <app-std-bubfile [entityId]="attachment.attachmentEntityId || ''"></app-std-bubfile>
               </div>
               <div *ngIf="attachment.attachmentEntityType !== 'PMFile'">
-                <span class="attachment-name">{{ attachment.attachmentEntityName || 'Unnamed Attachment' }}</span>
                 <span class="attachment-type">{{ attachment.attachmentEntityType }}</span>
+                <app-std-buba [entityName]="attachment.attachmentEntityType || ''" 
+                [entityId]="attachment.attachmentEntityId || ''"
+                [showLink]="false"></app-std-buba>
               </div>
             </div>
           </div>
@@ -118,17 +120,16 @@
       <div *ngFor="let attachment of attachments" class="attachment-item">
         <div class="attachment-info">
           <div class="attachment-header">
-            <span class="attachment-name">{{ attachment.attachmentEntityName || 'Unnamed Attachment' }}</span>
             <span class="attachment-type">{{ attachment.attachmentEntityType }}</span>
+            <app-std-buba [entityName]="attachment.attachmentEntityType || ''" 
+            [entityId]="attachment.attachmentEntityId || ''"
+            [showLink]="false"></app-std-buba>
           </div>
           <div class="attachment-meta">
-            <span class="attachment-id">ID: {{ attachment.attachmentEntityId }}</span>
             <span class="attachment-date">Added: {{ formatDate(attachment.dateCreated) }}</span>
           </div>
         </div>
         <div class="attachment-actions">
-          <button class="btn btn-sm btn-outline-primary">View</button>
-          <button class="btn btn-sm btn-outline-secondary">Download</button>
         </div>
       </div>
     </div>

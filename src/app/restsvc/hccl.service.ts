@@ -6585,6 +6585,7 @@ export interface PMessageCriteria {
   subjectEntityName?: string;
   dateLastEntry?: string;
   teamIds?: string[];
+  participantUserProfileId?: string;
 }
 
 export interface PMessagePUTData {
@@ -9746,9 +9747,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

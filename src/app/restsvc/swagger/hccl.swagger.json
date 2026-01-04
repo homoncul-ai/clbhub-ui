@@ -26861,6 +26861,10 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          "participantUserProfileId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -38240,13 +38244,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

@@ -189,6 +189,7 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
 
   getPMessageCriteria(): PMessageCriteria {
     return {
+      participantUserProfileId: this.id,
       pageNumber: 1,
       pageSize: 50,
       isPaging: true

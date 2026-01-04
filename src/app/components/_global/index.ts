@@ -27,3 +27,6 @@ export { StdMdbEntitystateComponent } from './std-mdb-entitystate/std-mdb-entity
 // Markdown display component
 export { StdMarkdownDisplayComponent } from './std-markdown-display/std-markdown-display.component';
 export type { MarkdownDialect, MarkdownMode } from './std-markdown-display/std-markdown-display.component';
+
+// Entity UI component (polymorphic entity display)
+export { StdEntityUiComponent } from './std-entity-ui/std-entity-ui.component';
