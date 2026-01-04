@@ -1,28 +1,21 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 
-
-<div *ngIf="currentTabId === 'messages'">
+<div *ngIf="currentTabId === 'messages'" class="messages-container">
     <app-pmessage-list [criteria]="getPMessageCriteria()" 
     [onRowClickBehavior]="onMessageRowClickBehavior()"
     [showingSearch]="false" [showingSearchHeading]="false" [showingGoButton]="false" 
     [showingAddButton]="false" [showingIdCheckbox]="false"></app-pmessage-list>
-</div>
-  
 
-<div *ngIf="currentTabId === 'message'">
-  <app-pmessage-ui [id]="messageId" ></app-pmessage-ui>
+    <!-- Inline Message Panel -->
+    <div *ngIf="selectedMessageId" #messagePanel class="message-panel">
+      <div class="message-panel-header">
+        <h4>Message Details</h4>
+        <button class="close-panel-btn" (click)="closeMessagePanel()" title="Close panel">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="message-panel-content">
+        <app-pmessage-ui [id]="selectedMessageId"></app-pmessage-ui>
+      </div>
+    </div>
 </div>
-
-
-<!--
-<div *ngIf="currentTabId === 'debug'">
-  <h1>CRUD Modes DEBUG</h1>
-  <hr>
-  <app-hccluserprofile-crud [id]="id" modeName="debug"></app-hccluserprofile-crud>
-</div>
-
-<div *ngIf="currentTabId === 'fk_menu'">
-  <h1>FK_MENU</h1>
-  <app-hccluserprofile-crud [id]="id" modeName="fk_menu"></app-hccluserprofile-crud>
-</div>
--->

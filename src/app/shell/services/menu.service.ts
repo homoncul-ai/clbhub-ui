@@ -460,6 +460,11 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.STUDENT_DASHBOARD);
     this.addMenuItem(menu, dashboard);
     
+    var m2 = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
+    m2.level = 1
+    m2.route = `/student-dashboard/messages`;
+    this.addMenuItem(menu, m2);
+
     // Add Career Goals (Personal Statements list)
     var courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
@@ -487,10 +492,10 @@ export class MenuService {
         engage.route = `/student-dashboard/personalstatements/${ps.id}/engage`;
         this.addChildMenuItem(psMenuItem, engage);
 
-        var messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
-        messages.level = 2
-        messages.route = `/student-dashboard/personalstatements/${ps.id}/messages`;
-        this.addChildMenuItem(psMenuItem, messages);
+        // var messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
+        // messages.level = 2
+        // messages.route = `/student-dashboard/personalstatements/${ps.id}/messages`;
+        // this.addChildMenuItem(psMenuItem, messages);
       }
     }
    
