@@ -136,105 +136,105 @@ export class BubaService {
     const metadataMap: { [key: string]: EntityMetadata } = {
       'advocate': {
         iconTemplate: 'fas fa-user-tie',
-        routePathTemplate: '/{dashboardType}/advocate/{entityId}',
+        routePathTemplate: '{prefix}/advocate/{entityId}',
         nameTemplate: '{displayName}',
         htmlTemplate: null,
         htmlTemplateFilename: 'advocate.html'
       },
       'broker': {
         iconTemplate: 'fas fa-handshake',
-        routePathTemplate: '/{dashboardType}/broker/{entityId}',
+        routePathTemplate: '{prefix}/broker/{entityId}',
         nameTemplate: '{displayName}',
         htmlTemplate: null,
         htmlTemplateFilename: 'broker.html'
       },
       'catalog': {
         iconTemplate: 'fas fa-book',
-        routePathTemplate: '/{dashboardType}/catalog/{entityId}',
+        routePathTemplate: '{prefix}/catalog/{entityId}',
         nameTemplate: '{name} {organization.name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'catalog.html'
       },
       'catalogentry': {
         iconTemplate: 'fas fa-book-open',
-        routePathTemplate: '/{dashboardType}/catalogentry/{entityId}',
+        routePathTemplate: '{prefix}/catalogentry/{entityId}',
         nameTemplate: '{title}',
         htmlTemplate: null,
         htmlTemplateFilename: 'catalogentry.html'
       },
       'catalogentrysearchresults': {
         iconTemplate: 'fas fa-search',
-        routePathTemplate: '/{dashboardType}/catalogentrysearchresults/{entityId}',
+        routePathTemplate: '{prefix}/catalogentrysearchresults/{entityId}',
         nameTemplate: '{catalogEntry.title}',
         htmlTemplate: null,
         htmlTemplateFilename: 'catalogentrysearchresults.html'
       },
       'experience': {
         iconTemplate: 'fas fa-briefcase',
-        routePathTemplate: '/{dashboardType}/experience/{entityId}',
+        routePathTemplate: '{prefix}/experience/{entityId}',
         nameTemplate: '{name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'experience.html'
       },
       'participant': {
         iconTemplate: 'fas fa-users',
-        routePathTemplate: '/{dashboardType}/participant/{entityId}',
+        routePathTemplate: '{prefix}/participant/{entityId}',
         nameTemplate: '{name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'participant.html'
       },
       'personalstatement': {
         iconTemplate: 'fas fa-file-alt',
-        routePathTemplate: '/{dashboardType}/personalstatement/{entityId}',
+        routePathTemplate: '{prefix}/personalstatement/{entityId}',
         nameTemplate: '{name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'personalstatement.html'
       },
       'personalstatementresume': {
         iconTemplate: 'fas fa-file-pdf',
-        routePathTemplate: '/{dashboardType}/personalstatementresume/{entityId}',
+        routePathTemplate: '{prefix}/personalstatementresume/{entityId}',
         nameTemplate: '{title}',
         htmlTemplate: null,
         htmlTemplateFilename: 'personalstatementresume.html'
       },
       'profile': {
         iconTemplate: 'fas fa-id-card',
-        routePathTemplate: '/{dashboardType}/profile/{entityId}',
+        routePathTemplate: '{prefix}/profile/{entityId}',
         nameTemplate: '{displayName}',
         htmlTemplate: null,
         htmlTemplateFilename: 'profile.html'
       },
       'provider': {
         iconTemplate: 'fas fa-hospital',
-        routePathTemplate: '/{dashboardType}/provider/{entityId}',
+        routePathTemplate: '{prefix}/provider/{entityId}',
         nameTemplate: '{displayName}',
         htmlTemplate: null,
         htmlTemplateFilename: 'provider.html'
       },
       'school': {
         iconTemplate: 'fas fa-school',
-        routePathTemplate: '/{dashboardType}/school/{entityId}',
+        routePathTemplate: '{prefix}/school/{entityId}',
         nameTemplate: '{displayName}',
         htmlTemplate: null,
         htmlTemplateFilename: 'school.html'
       },
       'student': {
         iconTemplate: 'fas fa-user-graduate',
-        routePathTemplate: '/{dashboardType}/student/{entityId}',
+        routePathTemplate: '{prefix}/student/{entityId}',
         nameTemplate: '{displayName}',
         htmlTemplate: null,
         htmlTemplateFilename: 'student.html'
       },
       'user': {
         iconTemplate: 'fas fa-user',
-        routePathTemplate: '/{dashboardType}/user/{entityId}',
+        routePathTemplate: '{prefix}/user/{entityId}',
         nameTemplate: '{displayName}',
         htmlTemplate: null,
         htmlTemplateFilename: 'user.html'
       },
       'workrequest': {
         iconTemplate: 'fas fa-tasks',
-        routePathTemplate: '/{dashboardType}/workrequest/{entityId}',
+        routePathTemplate: '{prefix}/workrequest/{entityId}',
         nameTemplate: '{name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'workrequest.html'
@@ -243,7 +243,7 @@ export class BubaService {
 
     return metadataMap[entityName.toLowerCase()] || {
       iconTemplate: 'fas fa-cube',
-      routePathTemplate: '/{dashboardType}/{entityName}/{entityId}',
+      routePathTemplate: '{prefix}/{entityName}/{entityId}',
       nameTemplate: '{entityName} {entityId}',
       htmlTemplate: null,
       htmlTemplateFilename: 'default.html'
@@ -259,13 +259,14 @@ export class BubaService {
    */
   private calculateRoutePath(entityData: any, bubaData: BubaData,  metadata: EntityMetadata, context: any): string {
     // Get the current dashboard type from context or default
-    const dashboardType = context?.dashboardType || 'ecoadmin-dashboard';
-    
+    const dashboardType = context?.dashboardType || 'student-dashboard';
+    const prefix =  '/' + dashboardType + '/e';
     // Use metadata template to build route path
-    let routePath = (metadata.routePathTemplate || '/{dashboardType}/{entityName}/{entityId}')
+    let routePath = (metadata.routePathTemplate || '{prefix}/{entityName}/{entityId}')
       .replace('{dashboardType}', dashboardType)
       .replace('{entityName}', bubaData.entityName.toLowerCase())
-      .replace('{entityId}', bubaData.entityId);
+      .replace('{entityId}', bubaData.entityId)
+      .replace('{prefix}', prefix);
     
     // // Add query parameters if present
     // const queryParams: string[] = [];

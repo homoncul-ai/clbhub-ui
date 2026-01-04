@@ -123,7 +123,7 @@
             <span class="attachment-type">{{ attachment.attachmentEntityType }}</span>
             <app-std-buba [entityName]="attachment.attachmentEntityType || ''" 
             [entityId]="attachment.attachmentEntityId || ''"
-            [showLink]="false"></app-std-buba>
+            [showLink]="true"></app-std-buba>
           </div>
           <div class="attachment-meta">
             <span class="attachment-date">Added: {{ formatDate(attachment.dateCreated) }}</span>

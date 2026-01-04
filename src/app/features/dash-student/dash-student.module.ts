@@ -26,6 +26,7 @@ import { StudentCatalogComponent } from './student-catalog/student-catalog.compo
 import { StudentResearchComponent } from './student-research/student-research.component';
 import { StudentResumeBuilderComponent } from './student-resumebuilder/student-resumebuilder.component';
 import { StudentPersonalStatementDetailsComponent } from './student-personalstatement-details.component';
+import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-entity-ui.component';
 const routes: Routes = [
   {
     path: '',
@@ -73,6 +74,8 @@ const routes: Routes = [
       { path: 'resumes', component:DashStudentResumesGroupComponent },
 
       { path: 'uistarter', component: UistarterHomeComponent },
+
+      { path: 'e/:entityType/:entityId', component: StdEntityUiComponent  },
 
       // { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
       // { path: 'workqueues/:queueId/:ticketId/:tabId/:workRequestItemId', component: ProviderWorkqueueGroupComponent },
