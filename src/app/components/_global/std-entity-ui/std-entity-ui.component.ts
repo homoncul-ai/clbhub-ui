@@ -4,6 +4,9 @@ import { PMessageUiComponent } from '../../_crud/pmessage-ui/pmessage-ui.compone
 import { PmfilegroupUiComponent } from '../../_crud/pmfilegroup-ui/pmfilegroup-ui.component';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StdBubfileComponent } from '../std-bubfile/std-bubfile.component';
+import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
+import { WorkRequestUiComponent } from '@app/components/_crud/workrequest-ui/workrequest-ui.component';
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -22,7 +25,10 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [
     CommonModule,
     PMessageUiComponent,
-    PmfilegroupUiComponent
+    PmfilegroupUiComponent,
+    StdBubfileComponent,
+    WorkRequestUiComponent,
+    WorkItemDeliverableGroupComponent
   ],
   templateUrl: './std-entity-ui.component.html',
   styleUrl: './std-entity-ui.component.scss'
@@ -40,7 +46,7 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
       this.entityType = params['entityType'];
       this.entityId = params['entityId'];
     });
-    
+
     alert("StdEntityUiComponent ngOnInit called for entityType: " + this.entityType + " and entityId: " + this.entityId);
   }
 
@@ -54,7 +60,11 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
   @Input() readonly: boolean = false;
 
   /** List of supported entity types */
-  private readonly supportedEntityTypes = ['PMessage', 'PMFileGroup'];
+  private readonly supportedEntityTypes = [
+    'pmessage', 'pmfile', 'pmfilegroup',
+    'workrequest', 'workrequestdeliverable', 
+
+  ];
 
   /** Check if the current entityType is supported */
   isSupportedEntity(): boolean {

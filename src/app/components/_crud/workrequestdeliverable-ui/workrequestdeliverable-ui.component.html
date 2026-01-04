@@ -1,0 +1,177 @@
+<div class="deliverable-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading deliverable...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <div class="error-message">
+      <i class="error-icon">⚠️</i>
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!loading && !error && deliverable" class="deliverable-content">
+    <!-- Header Section -->
+    <div class="deliverable-header">
+      <div class="header-main">
+        <h2>{{ deliverable.nameText || 'Deliverable' }}</h2>
+      </div>
+      <div class="header-status">
+        <span class="state-badge" [ngClass]="getStateClass(deliverable.currentStateCode)">
+          {{ deliverable.currentStateCode }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tabs-header">
+      <app-simple-tabset
+        *ngIf="showingTabset"
+        [tabs]="tabs"
+        [currentTabId]="currentTabId"
+        (tabSelected)="onTabSelected($event)">
+      </app-simple-tabset>
+    </div>
+
+    <!-- Tab Content Area -->
+    <div class="tab-content-wrapper">
+      <!-- Overview Tab -->
+      <div *ngIf="currentTabId === 'overview'" class="overview-tab">
+        <div class="overview-grid">
+          <!-- Comments Card -->
+          <div class="info-card comments-card" *ngIf="deliverable.comments">
+            <div class="card-header">
+              <i class="fas fa-comment-alt"></i>
+              <span>Comments</span>
+            </div>
+            <div class="card-content">
+              <p>{{ deliverable.comments }}</p>
+            </div>
+          </div>
+
+          <!-- Markdown Content Card -->
+          <div class="info-card markdown-card" *ngIf="deliverable.markdown">
+            <div class="card-header">
+              <i class="fas fa-file-alt"></i>
+              <span>Content</span>
+            </div>
+            <div class="card-content markdown-content">
+              <pre>{{ deliverable.markdown }}</pre>
+            </div>
+          </div>
+
+          <!-- Dates Card -->
+          <div class="info-card dates-card">
+            <div class="card-header">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Timeline</span>
+            </div>
+            <div class="card-content">
+              <div class="detail-row">
+                <label>Created:</label>
+                <app-dategetdata-display [data]="deliverable.dateCreated"></app-dategetdata-display>
+              </div>
+              <div class="detail-row" *ngIf="deliverable.dateLastUpdated">
+                <label>Last Updated:</label>
+                <app-dategetdata-display [data]="deliverable.dateLastUpdated"></app-dategetdata-display>
+              </div>
+            </div>
+          </div>
+
+          <!-- Files Reference Card -->
+          <div class="info-card files-card" *ngIf="deliverable.pmfileGroupId">
+            <div class="card-header">
+              <i class="fas fa-folder"></i>
+              <span>Associated Files</span>
+            </div>
+            <div class="card-content">
+              <div class="files-indicator">
+                <i class="fas fa-folder-open"></i>
+                <span>This deliverable has associated files</span>
+              </div>
+              <button class="btn btn-outline-primary" (click)="onTabSelected('files')">
+                <i class="fas fa-eye"></i>
+                View Files
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+          <div class="stat-item">
+            <i class="fas fa-list-ol"></i>
+            <span class="stat-value">{{ sections.length }}</span>
+            <span class="stat-label">Sections</span>
+          </div>
+          <div class="stat-item" *ngIf="deliverable.pmfileGroupId">
+            <i class="fas fa-folder"></i>
+            <span class="stat-value">1</span>
+            <span class="stat-label">File Group</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sections Tab -->
+      <div *ngIf="currentTabId === 'sections'" class="sections-tab">
+        <div *ngIf="sections.length === 0" class="empty-state">
+          <i class="fas fa-list-ol fa-3x"></i>
+          <p>No sections found for this deliverable.</p>
+        </div>
+
+        <div class="sections-list">
+          <div *ngFor="let section of sections"
+               class="section-card"
+               [class.selected]="isSectionSelected(section.id)"
+               (click)="selectSection(section.id || '')">
+            <div class="section-header">
+              <span class="section-sequence">#{{ section.sequenceOrder }}</span>
+              <span class="section-title">{{ section.title }}</span>
+              <span class="section-action" *ngIf="section.itemActionCode">
+                {{ section.itemActionCode }}
+              </span>
+            </div>
+            <div class="section-content" *ngIf="isSectionSelected(section.id)">
+              <div *ngIf="section.comments" class="section-comments">
+                <label>Comments:</label>
+                <p>{{ section.comments }}</p>
+              </div>
+              <div *ngIf="section.markdown" class="section-markdown">
+                <label>Content:</label>
+                <pre>{{ section.markdown }}</pre>
+              </div>
+              <div class="section-meta">
+                <span class="section-date">
+                  Created: <app-dategetdata-display [data]="section.dateCreated"></app-dategetdata-display>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Files Tab -->
+      <div *ngIf="currentTabId === 'files'" class="files-tab">
+        <div *ngIf="!deliverable.pmfileGroupId" class="empty-state">
+          <i class="fas fa-folder-open fa-3x"></i>
+          <p>No files associated with this deliverable.</p>
+        </div>
+
+        <div *ngIf="deliverable.pmfileGroupId" class="files-viewer">
+          <app-pmfilegroup-ui [id]="deliverable.pmfileGroupId" [readonly]="readonly"></app-pmfilegroup-ui>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data State -->
+  <div *ngIf="!loading && !error && !deliverable" class="no-data">
+    <i class="fas fa-file-alt fa-3x"></i>
+    <p>No deliverable found.</p>
+  </div>
+</div>
+

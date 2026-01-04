@@ -16,13 +16,14 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   /** Optional: ID to load the PMFileGroup by */
   @Input() id?: string;
   
-  /** Optional: Pass the PMFileGroupGETData object directly */
-  @Input() data?: PMFileGroupGETData;
-  
-  @Input() readonly: boolean = false;
+   @Input() readonly: boolean = false;
 
   @ViewChild('treeContainer') treeContainer!: ElementRef;
 
+  /** Optional: Pass the PMFileGroupGETData object directly */
+  @Input() data?: PMFileGroupGETData;
+  
+ 
   pmfilegroup: PMFileGroupGETData | null = null;
   selectedFile: PMFileGETData | null = null;
   selectedFileUrl: SafeResourceUrl | null = null;
