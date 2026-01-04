@@ -17,16 +17,20 @@
 
   <!-- Main Content -->
   <div *ngIf="!loading && !error && pmessage" class="pmessage-content">
-    <!-- Tab Navigation -->
-    <app-simple-tabset 
-      *ngIf="showingTabset" 
-      [tabs]="tabs" 
-      [currentTabId]="currentTabId"
-      (tabSelected)="onTabSelected($event)">
-    </app-simple-tabset>
+    <!-- Tab Navigation - Sticky at top -->
+    <div class="tabs-header">
+      <app-simple-tabset 
+        *ngIf="showingTabset" 
+        [tabs]="tabs" 
+        [currentTabId]="currentTabId"
+        (tabSelected)="onTabSelected($event)">
+      </app-simple-tabset>
+    </div>
 
-    <!-- Messages Tab -->
-    <div *ngIf="currentTabId === 'messages'" class="messages-tab">
+    <!-- Scrollable Tab Content Area -->
+    <div class="tab-content-wrapper">
+      <!-- Messages Tab -->
+      <div *ngIf="currentTabId === 'messages'" class="messages-tab">
 
       <!-- Messages List -->
       <div class="messages-list" #messagesContainer>
@@ -179,6 +183,7 @@
         </div>
       </div>
     </div>
+    </div><!-- End tab-content-wrapper -->
   </div>
 
   <!-- No Data State -->
