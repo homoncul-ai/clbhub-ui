@@ -111,21 +111,23 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
 
   protected setupTabs(): SimpleTab[] {
     var tabs : SimpleTab[] = [];
+    var entityType = (this.entity?.getEntityType() || '').toLowerCase();
+    entityType = 'workrequest';
+    var idBaseRoute = this.getIdBaseRoute(this.id);
     var tab = new SimpleTab('details', this.getDetailsTabLabel(), '', 
         () => {
           //this.currentTabId = 'details';
-          this.router.navigate([baseRoute, this.id, 'details']);
+          this.router.navigate([idBaseRoute, 'details']);
         },
         () => {
           return this.entity !== null;
         }
       );
       tabs.push(tab);
-    var baseRoute = this.getBaseRoute();
       tab =  new SimpleTab('details-complete', 'More Details ...', '', 
       () => {
         //this.currentTabId = 'update';
-        this.router.navigate([baseRoute, this.id, 'details-complete']);
+        this.router.navigate([idBaseRoute, 'details-complete']);
        // alert("update");
       },
       () => {
@@ -137,7 +139,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     tab =  new SimpleTab('update', 'Update', '', 
       () => {
         //this.currentTabId = 'update';
-        this.router.navigate([baseRoute, this.id, 'update']);
+        this.router.navigate([idBaseRoute, 'update']);
        // alert("update");
       },
       () => {
@@ -147,7 +149,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     //tabs.push(tab) 
     tab =  new SimpleTab('logs', 'Logs', '', 
       () => {
-        this.router.navigate([baseRoute, this.id, 'logs']);
+        this.router.navigate([idBaseRoute, 'logs']);
         //this.currentTabId = 'workRequestItem';
         
       },
@@ -158,9 +160,9 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     tabs.push(tab)
 
      tab =  new SimpleTab('items', 'Items', '', 
-      () => {
+      () => {   
         //this.currentTabId = 'items';
-        this.router.navigate([baseRoute, this.id, 'items']);
+        this.router.navigate([idBaseRoute, 'items']);
         
       },
       () => {
@@ -171,7 +173,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     
     tab =  new SimpleTab('workRequestItem', 'Item', '', 
       () => {
-        this.router.navigate([baseRoute, this.id, 'workRequestItem', this.childId]);
+        this.router.navigate([idBaseRoute, 'workRequestItem', this.childId]);
         //this.currentTabId = 'workRequestItem';
         
       },
@@ -181,12 +183,6 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     );
     tabs.push(tab)
 
-    alert("tabs: " + JSON.stringify(tabs));
-    // var tabD: SimpleTab | undefined = this.findTabById(tabs, 'details');
-    // if (tabD) {
-    //   //alert('found tabD');
-    //   tabD.label = this.entity?.getBusinessCode() || '';
-    // }
     return tabs;
     return tabs;
   }

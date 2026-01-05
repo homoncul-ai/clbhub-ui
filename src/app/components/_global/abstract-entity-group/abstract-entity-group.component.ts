@@ -205,7 +205,10 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 protected getBaseRoute(): string {
   return AbstractListComponent.extractBaseRoute(this.router.url);
 }
-
+protected getIdBaseRoute(id: string): string {
+  var x = AbstractListComponent.extractIdBaseRoute(this.router.url, id);
+  return x
+}
 public routeToPath(routePath: string[]) {
   return AbstractListComponent.routeToPath(this.router, routePath);
 }

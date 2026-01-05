@@ -1,18 +1,6 @@
 
-<div *ngIf="true">
-  <li>Id :{{id}}</li>
-  <li>ChildId :{{childId}}</li>
-  <li>Loading :{{loading}}</li>
-</div>
 
 <div *ngIf="!loading">
-  <div *ngIf="true">
-    <li>CurrentId :{{currentTabId}}</li>
-    <li>Loading :{{loading}}</li>
-    <li>ShowingTabset :{{showingTabset}}</li>
-    <li>Tabs :{{tabs | json}}</li> 
-  </div>
-
   
   <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId"></app-simple-tabset>
 
@@ -112,3 +100,11 @@
 </div>
 
 
+<div *ngIf="true">
+  <li>Id :{{id}}</li>
+  <li>ChildId :{{childId}}</li>
+  <li>Loading :{{loading}}</li>
+  <li>CurrentId :{{currentTabId}}</li>
+  <li>ShowingTabset :{{showingTabset}}</li>
+  <li>Tabs :{{tabs | json}}</li> 
+</div>

@@ -673,6 +673,23 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected getBaseRoute(): string {
     return AbstractListComponent.extractBaseRoute(this.router.url);
   }
+  protected getIdBaseRoute(id: string): string {
+    var x = AbstractListComponent.extractIdBaseRoute(this.router.url, id);
+    return x
+  }
+
+
+  public static extractIdBaseRoute(url: string, id: string): string {
+    var urlPrefix =  url.indexOf(id) == -1 ? '' 
+    : url.substring(0, url.indexOf(id)) ;
+    var x = urlPrefix + id;
+    if (urlPrefix.length == 0) {
+      alert('url prefix is empty for id: ' + id + ' url: ' + url);
+    }
+
+    return x;
+  }
+
   public static extractBaseRoute(url:string ): string {
     // Get the current URL segments
     const urlSegments = url.split('/').filter(segment => segment.length > 0);
