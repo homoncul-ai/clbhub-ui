@@ -14,7 +14,7 @@
 <!-- WorkRequest entity UI -->
 <div *ngIf="entityType === 'workrequest'">
     WorkRequestGroup
-    <app-workrequest-group [id]="entityId" [tabId]="'details'"></app-workrequest-group>
+    <app-workrequest-group-ui [id]="entityId" [tabId]="tabId || 'details'" [childId]="childId || ''" [childTabId]="childTabId || 'details'"></app-workrequest-group-ui>
     <!-- <app-workrequest-ui [id]="entityId" [readonly]="readonly"></app-workrequest-ui> -->
 </div>
 

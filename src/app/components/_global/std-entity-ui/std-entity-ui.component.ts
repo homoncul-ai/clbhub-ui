@@ -8,6 +8,7 @@ import { StdBubfileComponent } from '../std-bubfile/std-bubfile.component';
 import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
 import { WorkRequestUiComponent } from '@app/components/_crud/workrequest-ui/workrequest-ui.component';
 import { WorkRequestGroupComponent } from "@app/components/_crud/workrequest/workrequest-group.component";
+import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/workrequest-group-ui.component';
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -28,10 +29,8 @@ import { WorkRequestGroupComponent } from "@app/components/_crud/workrequest/wor
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,
-    WorkRequestUiComponent,
-    WorkRequestGroupComponent,
     WorkItemDeliverableGroupComponent,
-    WorkRequestGroupComponent
+    WorkRequestGroupUIComponent
 ],
   templateUrl: './std-entity-ui.component.html',
   styleUrl: './std-entity-ui.component.scss'
@@ -48,9 +47,12 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       this.entityType = params['entityType'];
       this.entityId = params['entityId'];
+      this.tabId = params['tabId']? params['tabId'] : this.tabId;
+      this.childId = params['childId']? params['childId'] : this.childId;
+      this.childTabId = params['childTabId']? params['childTabId'] : this.childTabId;
     });
 
-    alert("StdEntityUiComponent ngOnInit called for entityType: " + this.entityType + " and entityId: " + this.entityId);
+    //alert("StdEntityUiComponent ngOnInit called for entityType: " + this.entityType + " and entityId: " + this.entityId);
   }
 
   /** The entity type to display (e.g., 'PMessage', 'PMFileGroup') */
@@ -58,6 +60,10 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
   
   /** The ID of the entity to display */
   @Input() entityId: string = '';
+
+  @Input() tabId?: string = undefined;
+  @Input() childId?: string = undefined;
+  @Input() childTabId?: string = undefined;
   
   /** Whether the entity display should be readonly */
   @Input() readonly: boolean = false;

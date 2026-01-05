@@ -19,6 +19,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   @Input() id!: string;
   @Input() childId?: string;
   @Input() tabId!: string;
+  @Input() childTabId?: string;
   @Input() showingTabset: boolean = true;
   @Input() showingDebug: boolean = false;
 
@@ -49,9 +50,12 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   }
 
   protected populateFromParams(params: any): void {
+	
+	if (this.childId == '') this.childId = undefined;
     this.id = params['id']? params['id'] : this.id;
-    this.childId = params['childId'];
-    this.tabId = params['tabId'];
+    this.childId = params['childId']? params['childId'] : this.childId;
+    this.tabId = params['tabId']? params['tabId'] : this.tabId  || 'details';
+    this.childTabId = params['childTabId']? params['childTabId'] : this.childTabId  || 'details';
   }
   ngOnInit(): void {
     this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';
@@ -83,7 +87,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
     let tabId = this.calculateTabIdFromUrl(this.tabId);
  
       var id = this.id;
-     // debugger
+     debugger
      if (tabId === 'create') {
       this.currentTabId = 'create';
       this.showingTabset = true;
@@ -92,6 +96,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
         this.setupIfNoId();
      } else {
         this.currentTabId = tabId;
+		this.loading = true;
         this.loadEntityById(id).then(entity => {
           this.entity = entity;
           this.tabs = this.setupTabs();
@@ -104,6 +109,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
           //debugger
           const finalTabId = tabId || defaultTabId;
           this.currentTabId = finalTabId;
+		  this.loading=false;
             
         }).catch(error => {
           console.error('Error loading :', error);
@@ -149,16 +155,17 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   }
   protected setupListDetailsTabs(): SimpleTab[] {
     const baseRoute = this.getBaseRoute();
-    return [
-      new SimpleTab('list', 'List', '', 
+    var tabs: SimpleTab[] = [];
+    var tab = new SimpleTab('list', 'List', '', 
         () => {
           this.router.navigate([baseRoute]);
         },
         () => {
           return true;
         }
-      ),
-      new SimpleTab('details', this.getDetailsTabLabel(), '', 
+      );
+      tabs.push(tab);
+      tab = new SimpleTab('details', this.getDetailsTabLabel(), '', 
         () => {
           //this.currentTabId = 'details';
           this.router.navigate([baseRoute, this.id, 'details']);
@@ -166,27 +173,30 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
         () => {
           return this.entity !== null;
         }
-      )];
-    //   ,
-    //   new SimpleTab('debug', 'Debug', '', 
-    //     () => {
-    //       this.currentTabId = 'debug';
-    //       this.router.navigate([baseRoute, this.id, 'debug']);
-    //     },
-    //     () => {
-    //       return true;
-    //     }
-    //   ),
-    //   new SimpleTab('fk_menu', 'FK_MENU', '', 
-    //     () => {
-    //       this.currentTabId = 'fk_menu';
-    //       this.router.navigate([baseRoute, this.id, 'fk_menu']);
-    //     },
-    //     () => {
-    //       return true;
-    //     }
-    //   )
-    // ];
+      );
+      tabs.push(tab);
+     
+      tab = new SimpleTab('debug', 'Debug', '', 
+        () => {
+          this.currentTabId = 'debug';
+          this.router.navigate([baseRoute, this.id, 'debug']);
+        },
+        () => {
+          return true;
+        }
+      );
+     // tabs.push(tab);
+      tab = new SimpleTab('fk_menu', 'FK_MENU', '', 
+        () => {
+          this.currentTabId = 'fk_menu';
+          this.router.navigate([baseRoute, this.id, 'fk_menu']);
+        },
+        () => {
+          return true;
+        }
+      )
+    //  tabs.push(tab);
+      return tabs;
   }
 /**
    * Calculate the base route for the current entity type
@@ -260,10 +270,12 @@ protected resetComponentState(): void {
  */
 protected reloadEntityData(): void {
   if (this.id) {
+	this.loading = true;
     this.loadEntityById(this.id).then(entity => {
       this.entity = entity;
       this.tabs = this.setupTabs();
       this.currentTabId = this.calculateTabIdFromUrl(this.tabId);
+	  this.loading = false;
     }).catch(error => {
       console.error('Error reloading entity:', error);
       this.error = 'Failed to reload data';

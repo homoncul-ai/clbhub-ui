@@ -75,7 +75,12 @@ const routes: Routes = [
 
       { path: 'uistarter', component: UistarterHomeComponent },
 
-      { path: 'e/:entityType/:entityId', component: StdEntityUiComponent  },
+      { path: 'e/:entityType/:entityId/:tabId/:childId/:childTabId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId/:tabId/:childId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId/:tabId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId', component: StdEntityUiComponent },
+//      { path: 'e/:entityType/:entityId', component: StdEntityUiComponent  },
+
 
       // { path: 'workrequest', component: ProviderWorkrequestGroupComponent },
       // { path: 'workqueues/:queueId/:ticketId/:tabId/:workRequestItemId', component: ProviderWorkqueueGroupComponent },

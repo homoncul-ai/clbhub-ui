@@ -75,6 +75,7 @@ const routes: Routes = [
       { path: 'students/:tabId', component: AdvoStudentsGroupComponent },
       { path: 'students', component: AdvoStudentsGroupComponent },
 
+      { path: 'workrequests/:id/:tabId/:childId/:childTabId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id/:tabId/:childId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id/:tabId', component: WorkRequestGroupComponent },
       { path: 'workrequests/:id', redirectTo: 'workrequests/:id/details', pathMatch: 'full' },
