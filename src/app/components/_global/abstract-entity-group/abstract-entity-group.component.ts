@@ -49,17 +49,14 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   }
 
   protected populateFromParams(params: any): void {
-    this.id = params['id'];
+    this.id = params['id']? params['id'] : this.id;
     this.childId = params['childId'];
     this.tabId = params['tabId'];
   }
   ngOnInit(): void {
     this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';
     this.route.params.subscribe(params => {
-    
-    this.populateFromParams(params)
-      
-
+      this.populateFromParams(params)
       if (this.id === undefined || this.id === '') {
         this.id = this.getDefaultId();
       }

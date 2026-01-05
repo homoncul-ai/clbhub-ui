@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StdBubfileComponent } from '../std-bubfile/std-bubfile.component';
 import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
 import { WorkRequestUiComponent } from '@app/components/_crud/workrequest-ui/workrequest-ui.component';
+import { WorkRequestGroupComponent } from "@app/components/_crud/workrequest/workrequest-group.component";
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -28,8 +29,10 @@ import { WorkRequestUiComponent } from '@app/components/_crud/workrequest-ui/wor
     PmfilegroupUiComponent,
     StdBubfileComponent,
     WorkRequestUiComponent,
-    WorkItemDeliverableGroupComponent
-  ],
+    WorkRequestGroupComponent,
+    WorkItemDeliverableGroupComponent,
+    WorkRequestGroupComponent
+],
   templateUrl: './std-entity-ui.component.html',
   styleUrl: './std-entity-ui.component.scss'
 })
