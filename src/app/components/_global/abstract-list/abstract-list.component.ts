@@ -643,7 +643,7 @@ implements OnInit, AfterViewInit, OnDestroy {
    */
   protected onRowClick(entityId: string): void {
     // Default implementation - subclasses can override
-    const baseRoute = this.getBaseRoute();
+    const baseRoute = this.getBaseRoute(); 
     console.log('onRowClick called with entityId:', entityId);
     console.log('Current URL:', this.router.url);
     console.log('Calculated base route:', baseRoute);
@@ -680,12 +680,26 @@ implements OnInit, AfterViewInit, OnDestroy {
 
 
   public static extractIdBaseRoute(url: string, id: string): string {
-    var urlPrefix =  url.indexOf(id) == -1 ? '' 
-    : url.substring(0, url.indexOf(id)) ;
-    var x = urlPrefix + id;
-    if (urlPrefix.length == 0) {
-      alert('url prefix is empty for id: ' + id + ' url: ' + url);
+    var urlPrefixIdx = url.indexOf("/e/");
+    if (urlPrefixIdx == -1) {
+      alert('url prefix idx is -1 for id: ' + id + ' url: ' + url);
+      return '';
     }
+    // find the next 2 slashes after the /e/
+    var urlPrefixIdx2 = url.indexOf("/", urlPrefixIdx + 3);
+    if (urlPrefixIdx2 == -1) {
+      alert('url prefix idx2 is -1 for id: ' + id + ' url: ' + url);
+      return '';
+    }
+    var urlPrefixIdx3 = url.indexOf("/", urlPrefixIdx2 + 1);
+    if (urlPrefixIdx3 == -1) {
+      alert('url prefix idx3 is -1 for id: ' + id + ' url: ' + url);
+      return '';
+    }
+    var urlPrefix = url.substring(0, urlPrefixIdx3);
+    var x = urlPrefix ;
+    
+    //alert(x);
 
     return x;
   }
