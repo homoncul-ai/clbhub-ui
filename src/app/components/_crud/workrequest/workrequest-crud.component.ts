@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { WorkRequestCriteria, WorkRequestGETData, WorkRequestPOSTData, WorkRequestPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { WorkRequestCriteria, WorkRequestGETData, WorkRequestPOSTData, WorkRequestPUTData, HcclService, MenuControlDataList, MenuControlData, EntityStateGETData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -406,7 +406,15 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
     }
   }
 
-
+  public get currentState(): EntityStateGETData {
+    return this.getCurrentEntity()?.getData()?.currentState || {
+      id: '',
+      stateCode: '',
+      stateMsgCode: '',
+      stateName: '',
+      majorStatus: 0
+    };
+  }
 
   public get subjectEntityId(): string {
     return this.getCurrentEntity()?.getData()?.subjectEntityId || '';
@@ -527,6 +535,15 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
 
   getWorkQueueId(): string {
     return this.getData().workQueueId || '';
+  }
+  getCurrentState(): EntityStateGETData {
+    return this.getData().currentState || {
+      id: '',
+      stateCode: '',
+      stateMsgCode: '',
+      stateName: '',
+      majorStatus: 0
+    };
   }
 
   getFkMenuCriteria(): WorkRequestCriteria {

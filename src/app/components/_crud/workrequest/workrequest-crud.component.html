@@ -43,12 +43,10 @@
         </div> -->
          
 
-    
-
       <div class="column-left">
         <div class="detail-group">
           <label>Current State Code:</label>
-          <span *ngIf="readonly">{{ currentStateCode }}</span>
+          <span *ngIf="readonly">{{ currentState | json}}</span>
           <span *ngIf="!readonly">
             <app-std-mdb-entitystate [currentStateCode]="currentStateCode" [entityName]="'WorkRequest'" [entityId]="entityId"
             (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 

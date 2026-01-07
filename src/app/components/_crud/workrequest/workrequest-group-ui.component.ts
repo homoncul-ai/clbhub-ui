@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
-import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria, WorkItemFormResponse, WorkRequestUIControllerGETData, MenuControlDataList } from '@app/restsvc/hccl.service';
+import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria, WorkItemFormResponse, WorkRequestUIControllerGETData, MenuControlDataList, WorkRequestGETData, WorkRequestDeliverableGETData } from '@app/restsvc/hccl.service';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { WorkrequestUpdateComponent } from "./workrequest-update.component";
@@ -32,16 +32,18 @@ import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-entitystate/std-mdb-entitystate.component';
 import { CatalogEntryInterestCrudComponent } from '../catalogentryinterest/catalogentryinterest-crud.component';
+import { StdEntitySectionComponent } from '@app/components/_global/std-entity-section/std-entity-section.component';
+import { WorkRequestDeliverableUiComponent } from '../workrequestdeliverable-ui/workrequestdeliverable-ui.component';
 
 @Component({
   selector: 'app-workrequest-group-ui',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
-    WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
-    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent,
-    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent,
-    SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent,
-     WorkRequestItemCompleteModalComponent, StdMdbEntitystateComponent, CatalogEntryInterestCrudComponent ],
+    WorkRequestItemListComponent, WorkRequestItemCrudComponent,
+      WorkRequestItemAttachRFIContentAddEntriesComponent,
+      WorkRequestLogListComponent, 
+    SimpleButtonbarComponent, StdEntitySectionComponent, WorkItemDeliverableCrudComponent,
+     StdMdbEntitystateComponent, WorkRequestDeliverableUiComponent ],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group-ui.component.html',
 })
@@ -60,6 +62,23 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   }
 
   protected workRequestUIController?: WorkRequestUIControllerGETData | null = null;
+
+  protected canUpdateWorkRequest(): boolean {
+    return !this.isClientView();
+  }
+  protected getDeliverable(): WorkRequestDeliverableGETData | undefined {
+    return this.workRequestUIController?.deliverable || undefined;
+  }
+  protected isShowingDeliverable(): boolean {
+    return this.getDeliverable() != null;
+  }
+  protected isClientView(): boolean {
+    //return this.workRequestUIController?.clientView || false;
+    return true;
+  }
+  protected getWorkRequest(): WorkRequestGETData   {
+    return this.workRequestUIController?.workRequest || {};
+  }
 
   protected isShowingItemsList(): boolean {
     return this.workRequestUIController?.showingItemsList || false;
@@ -155,7 +174,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
       tabs.push(tab);
       tab =  new SimpleTab('details-complete', 'More Details ...', '', 
       () => {
-        this.currentTabId = 'update';
+        this.currentTabId = 'details-complete';
         //this.router.navigate([idBaseRoute, 'details-complete']);
        // alert("update");
       },
