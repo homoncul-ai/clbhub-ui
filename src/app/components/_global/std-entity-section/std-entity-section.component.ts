@@ -9,6 +9,7 @@ import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workite
 import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/workrequest-group-ui.component';
 import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component';
 import { ProviderRequestCrudComponent } from '@app/components/_crud/providerrequest/providerrequest-crud.component';
+import { CatalogSearchResultCrudComponent } from '@app/components/_crud/catalogsearchresult/catalogsearchresult-crud.component';
 
 /**
  * A polymorphic entity section component that renders the appropriate
@@ -27,6 +28,7 @@ import { ProviderRequestCrudComponent } from '@app/components/_crud/providerrequ
   standalone: true,
   imports: [
     CommonModule,
+    CatalogSearchResultCrudComponent,
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,

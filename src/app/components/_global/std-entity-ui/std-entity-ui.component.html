@@ -1,11 +1,10 @@
-<!-- This is for fully-routable group components.-->
+<!-- This is for fully-routable group components. ie {dashboard}/e/{entityType}/{entityId} -->
 <!-- PMessage entity UI -->
 <div *ngIf="entityType === 'pmessage'">
   <app-pmessage-ui [id]="entityId" [readonly]="readonly"></app-pmessage-ui>
 </div>
 
 <div *ngIf="entityType === 'pmfile'">
-  PMFile : {{ entityId }}
     <app-std-bubfile [entityId]="entityId" ></app-std-bubfile>
 </div>
     <!-- PMFileGroup entity UI -->
@@ -29,6 +28,8 @@
   </div>
 </div>
 
-<pre>
-entity-ui: component {{ entityType }} : {{ entityId }}
-</pre>
+<div *ngIf="false">
+  <pre>
+  entity-ui: component {{ entityType }} : {{ entityId }}
+  </pre>
+</div>

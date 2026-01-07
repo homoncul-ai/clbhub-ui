@@ -7,6 +7,7 @@
 
 <div *ngIf="entityType === 'catalogsearchresult'">
     <h3>Catalog Search Result</h3>
+    <app-catalogsearchresult-crud [id]="entityId || ''" [modeName]="'section'"></app-catalogsearchresult-crud>
     <!-- <app-catalogsearchresultui [id]="entityId" [modeName]="'section'"></app-catalogsearchresultui> -->
 </div>
 
