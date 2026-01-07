@@ -161,6 +161,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
 
   protected workRequestItem: WorkRequestItemCrudWrapper | null = null;
 
+
   protected setupTabs(): SimpleTab[] {
     var tabs : SimpleTab[] = [];
     var entityType = (this.entity?.getEntityType() || '').toLowerCase();
@@ -226,7 +227,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
       }
     );
     if (this.canUpdateWorkRequest()) {
-      tabs.push(tab)
+     // tabs.push(tab)
     }
 
     
@@ -234,10 +235,9 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
       () => {
         //this.router.navigate([idBaseRoute, 'workRequestItem', this.childId]);
         this.currentTabId = 'workRequestItem';
-        
       },
       () => {
-        return this.childId !== null && this.childId !== undefined && this.childId !== '';
+        return this.isShowingWorkRequestItem();
       }
     );
     if (this.canUpdateWorkRequest()) {
