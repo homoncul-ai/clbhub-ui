@@ -6,8 +6,6 @@ import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StdBubfileComponent } from '../std-bubfile/std-bubfile.component';
 import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
-import { WorkRequestUiComponent } from '@app/components/_crud/workrequest-ui/workrequest-ui.component';
-import { WorkRequestGroupComponent } from "@app/components/_crud/workrequest/workrequest-group.component";
 import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/workrequest-group-ui.component';
 
 /**

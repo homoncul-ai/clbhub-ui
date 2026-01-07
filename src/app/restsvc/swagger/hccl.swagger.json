@@ -17077,47 +17077,6 @@
         }
       }
     },
-    "/hccl/tixui/{tix-id}/wri-actions-menu": {
-      "get": {
-        "tags": [
-          "/options"
-        ],
-        "summary": "Fetches based the id.",
-        "operationId": "getActionsMenu",
-        "parameters": [
-          {
-            "name": "tix-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/MenuControlDataList"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
     "/hccl/tixui/create-ticket-setup-ui": {
       "post": {
         "tags": [
@@ -17223,6 +17182,47 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkQueueGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tixui/{tix-id}/uicontroller": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getWorkRequestUIController",
+        "parameters": [
+          {
+            "name": "tix-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestUIControllerGETData"
                 }
               }
             }
@@ -31458,6 +31458,63 @@
           }
         }
       },
+      "EntityStateGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fgColor": {
+            "type": "string"
+          },
+          "bgColor": {
+            "type": "string"
+          },
+          "stateCode": {
+            "type": "string"
+          },
+          "stateMsgCode": {
+            "type": "string"
+          },
+          "stateName": {
+            "type": "string"
+          },
+          "majorStatus": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "EntityStateTransitionGETData": {
+        "type": "object",
+        "properties": {
+          "stateFrom": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "stateTo": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "stateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "logMessage": {
+            "type": "string"
+          },
+          "dateEntered": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "closeParentIfPossible": {
+            "type": "boolean"
+          },
+          "stateTransitionValid": {
+            "type": "boolean"
+          }
+        }
+      },
       "SimpleMessage": {
         "type": "object",
         "properties": {
@@ -31653,6 +31710,12 @@
           "internalFacingMessageId": {
             "type": "string",
             "format": "uuid"
+          },
+          "currentState": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "currentStateTransition": {
+            "$ref": "#/components/schemas/EntityStateTransitionGETData"
           }
         }
       },
@@ -38244,13 +38307,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }
@@ -38406,6 +38469,29 @@
           },
           "currentUserProfile": {
             "$ref": "#/components/schemas/HcclUserProfileGETData"
+          }
+        }
+      },
+      "WorkRequestUIControllerGETData": {
+        "type": "object",
+        "properties": {
+          "workRequest": {
+            "$ref": "#/components/schemas/WorkRequestGETData"
+          },
+          "deliverable": {
+            "$ref": "#/components/schemas/WorkRequestDeliverableGETData"
+          },
+          "showingItemsList": {
+            "type": "boolean"
+          },
+          "showingCreateWorkItem": {
+            "type": "boolean"
+          },
+          "createWorkItemActionMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
           }
         }
       },

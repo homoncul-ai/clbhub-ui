@@ -1,7 +1,7 @@
 import { TeamMemberListComponent } from './../teammember/teammember-list.component';
-// This template is for generating a GROUP UI component  
+// This template is for generating a READONLY UI component  
 // This was generated using entityName = WorkRequest
-// Generate the new [entityName]-group-ui.component.ts   files using this template 
+// Generate the new [entityName]-readonly-ui.component.ts   files using this template 
 
 import { Component, Input, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,8 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
-import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria, WorkItemFormResponse, WorkRequestUIControllerGETData, MenuControlDataList } from '@app/restsvc/hccl.service';
-import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
+import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria, WorkItemFormResponse } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
@@ -34,7 +33,7 @@ import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-enti
 import { CatalogEntryInterestCrudComponent } from '../catalogentryinterest/catalogentryinterest-crud.component';
 
 @Component({
-  selector: 'app-workrequest-group-ui',
+  selector: 'app-workrequest-readonly-ui',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
     WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
@@ -43,9 +42,9 @@ import { CatalogEntryInterestCrudComponent } from '../catalogentryinterest/catal
     SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent,
      WorkRequestItemCompleteModalComponent, StdMdbEntitystateComponent, CatalogEntryInterestCrudComponent ],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
-  templateUrl: './workrequest-group-ui.component.html',
+  templateUrl: './workrequest-readonly-ui.component.html',
 })
-export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<WorkRequestCrudWrapper> implements OnInit {  
+export class WorkRequestReadonlyUIComponent extends AbstractEntityGroupComponent<WorkRequestCrudWrapper> implements OnInit {  
 
   // Inject modal service
   private modalService = inject(MdbModalService);
@@ -59,36 +58,9 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     return WorkRequestCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
-  protected workRequestUIController?: WorkRequestUIControllerGETData | null = null;
-
-  protected isShowingItemsList(): boolean {
-    return this.workRequestUIController?.showingItemsList || false;
-  }
-
-  protected isShowingCreateWorkItem(): boolean {
-    return this.workRequestUIController?.showingCreateWorkItem || false;
-  }
-
-  protected isShowingParentDocuments(): boolean {
-    return false;
-    //return this.workRequestUIController?.showingParentDocuments || false;
-  }
-  protected getItemActionMenu(): MenuControlDataList | null {
-    return this.workRequestUIController?.createWorkItemActionMenu || null;
-  }
-
-  protected getMessages(): SimpleMessageList | null {
-    return this.workRequestUIController?.messages || null;
-  }
   protected workItemDeliverableId?: string = '';
   protected async loadEntityById(id: string): Promise<WorkRequestCrudWrapper> {
-
-    var workRequestUIController = await this.hcclService.getWorkRequestUIController(id).toPromise();
-    if (workRequestUIController) {
-      this.workRequestUIController = workRequestUIController;
-    }
-
-    var workRequest = new WorkRequestCrudWrapper(workRequestUIController?.workRequest || {}, this.hcclService);
+    var workRequest = await WorkRequestCrudWrapper.newInstance(id, this.hcclService);
     if (this.childId != null) {
       this.workRequestItem = await WorkRequestItemCrudWrapper.newInstance(this.childId || '', this.hcclService).then(async x => {
         this.workRequestItem = x;

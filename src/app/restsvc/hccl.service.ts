@@ -3941,14 +3941,6 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkItemFormResponse>(request);
   }
 
-  getActionsMenu(tix_id: string): Observable<MenuControlDataList> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/tixui/" + tix_id + "/wri-actions-menu",
-      method: "GET",
-    };
-    return this.request<MenuControlDataList>(request);
-  }
-
   getCreateTicketSetupUi(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/create-ticket-setup-ui",
@@ -3972,6 +3964,14 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "GET",
     };
     return this.request<WorkQueueGETDataSearchResults>(request);
+  }
+
+  getWorkRequestUIController(tix_id: string): Observable<WorkRequestUIControllerGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/" + tix_id + "/uicontroller",
+      method: "GET",
+    };
+    return this.request<WorkRequestUIControllerGETData>(request);
   }
 
   rerouteTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
@@ -7852,6 +7852,27 @@ export interface HcclUserProfilePOSTData {
   personId: string;
 }
 
+export interface EntityStateGETData {
+  id?: string;
+  fgColor?: string;
+  bgColor?: string;
+  stateCode?: string;
+  stateMsgCode?: string;
+  stateName?: string;
+  majorStatus?: number;
+}
+
+export interface EntityStateTransitionGETData {
+  stateFrom?: EntityStateGETData;
+  stateTo?: EntityStateGETData;
+  stateTransitionId?: string;
+  logMessage?: string;
+  dateEntered?: DateGETData;
+  messages?: SimpleMessageList;
+  closeParentIfPossible?: boolean;
+  stateTransitionValid?: boolean;
+}
+
 export interface WorkItemFormContext {
   workRequestId: string;
   workRequestItemId?: string;
@@ -7896,6 +7917,8 @@ export interface WorkRequestGETData {
   parentWorkRequestItemId?: string;
   clientFacingMessageId?: string;
   internalFacingMessageId?: string;
+  currentState?: EntityStateGETData;
+  currentStateTransition?: EntityStateTransitionGETData;
 }
 
 export interface WorkRequestItemGETData {
@@ -9747,9 +9770,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
@@ -9800,6 +9823,15 @@ export interface CreateTicketSetupUIData {
   queuesMenu?: MenuControlDataList;
   workRequestTypesMenu?: MenuControlDataList;
   currentUserProfile?: HcclUserProfileGETData;
+}
+
+export interface WorkRequestUIControllerGETData {
+  workRequest?: WorkRequestGETData;
+  deliverable?: WorkRequestDeliverableGETData;
+  showingItemsList?: boolean;
+  showingCreateWorkItem?: boolean;
+  createWorkItemActionMenu?: MenuControlDataList;
+  messages?: SimpleMessageList;
 }
 
 export interface GenericFormUI {
