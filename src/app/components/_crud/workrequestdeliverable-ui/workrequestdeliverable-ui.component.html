@@ -67,7 +67,6 @@
         </div>
 
         <div class="detail-group">
-          {{ section.workItemDeliverable?.subjectEntityType || '' }} : {{ section.workItemDeliverable?.subjectEntityId || '' }}
           <app-std-entity-section [entityType]="section.workItemDeliverable?.subjectEntityType || ''" 
           [entityId]="section.workItemDeliverable?.subjectEntityId || ''" [modeName]="'section'"></app-std-entity-section>
         </div>

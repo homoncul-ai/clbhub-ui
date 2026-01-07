@@ -9,6 +9,7 @@ import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workite
 import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/workrequest-group-ui.component';
 import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component';
 import { ProviderRequestCrudComponent } from '@app/components/_crud/providerrequest/providerrequest-crud.component';
+
 /**
  * A polymorphic entity section component that renders the appropriate
  * entity-ui component based on the entityType provided.
@@ -32,7 +33,7 @@ import { ProviderRequestCrudComponent } from '@app/components/_crud/providerrequ
     WorkItemDeliverableGroupComponent,
     WorkRequestGroupUIComponent,
     CatalogEntryInterestCrudComponent,
-    ProviderRequestCrudComponent
+    ProviderRequestCrudComponent 
 ],
   templateUrl: './std-entity-section.component.html',
   styleUrl: './std-entity-section.component.scss'
@@ -46,6 +47,7 @@ export class StdEntitySectionComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   
   ngOnInit(): void {
+    this.entityType = (this.entityType || '').toLowerCase();
     console.log("StdEntitySectionComponent ngOnInit called for entityType: " + this.entityType + " and entityId: " + this.entityId);
   }
 
@@ -67,7 +69,9 @@ export class StdEntitySectionComponent implements OnInit, OnDestroy {
 
   /** List of supported entity types */
   private readonly supportedEntityTypes = [
+    'catalogentryinterest', 'catalogsearchresult',
     'pmessage', 'pmfile', 'pmfilegroup',
+    'providerrequest',
     'workrequest', 'workrequestdeliverable', 
 
   ];

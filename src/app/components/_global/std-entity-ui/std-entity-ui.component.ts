@@ -50,7 +50,7 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
       this.childTabId = params['childTabId'] || this.childTabId;
     });
 
-    alert("StdEntityUiComponent ngOnInit called for entityType: " + this.entityType + " and entityId: " + this.entityId);
+    //alert("StdEntityUiComponent ngOnInit called for entityType: " + this.entityType + " and entityId: " + this.entityId);
   }
 
   /** The entity type to display (e.g., 'PMessage', 'PMFileGroup') */

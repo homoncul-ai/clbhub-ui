@@ -1,11 +1,13 @@
+<!-- This is for displaying a component in a section. -->
 <!-- PMessage entity UI -->
 <div *ngIf="entityType === 'catalogentryinterest'">
  <h3>Catalog Entry Interest</h3>
- <app-catalogentryinterest-crud [id]="entityId" [modeName]="'details'"></app-catalogentryinterest-crud>
+ <app-catalogentryinterest-crud [id]="entityId" [modeName]="'section'"></app-catalogentryinterest-crud>
 </div>
 
 <div *ngIf="entityType === 'catalogsearchresult'">
     <h3>Catalog Search Result</h3>
+    <!-- <app-catalogsearchresultui [id]="entityId" [modeName]="'section'"></app-catalogsearchresultui> -->
 </div>
 
 <div *ngIf="entityType === 'pmfile'">
@@ -31,9 +33,10 @@
 <div *ngIf="entityType && !isSupportedEntity()" class="unknown-entity-type">
   <div class="alert alert-warning">
     <i class="fas fa-exclamation-triangle me-2"></i>
-    Unknown entity type: <strong>{{ entityType }}</strong>
+    std-entity-section Unknown entity type: <strong>{{ entityType }}</strong>
   </div>
 </div>
 
+<pre *ngIf="false">
 {{ entityType }} : {{ entityId }} : {{ modeName }}
-
+</pre>
