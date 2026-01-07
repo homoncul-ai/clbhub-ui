@@ -9,7 +9,6 @@ import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workite
 import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/workrequest-group-ui.component';
 import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component';
 import { ProviderRequestCrudComponent } from '@app/components/_crud/providerrequest/providerrequest-crud.component';
-
 /**
  * A polymorphic entity section component that renders the appropriate
  * entity-ui component based on the entityType provided.
@@ -47,13 +46,7 @@ export class StdEntitySectionComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.entityType = params['entityType'];
-      this.entityId = params['entityId'];
-      this.tabId = params['tabId']? params['tabId'] : this.tabId;
-      this.childId = params['childId']? params['childId'] : this.childId;
-      this.childTabId = params['childTabId']? params['childTabId'] : this.childTabId;
-    });
+    console.log("StdEntitySectionComponent ngOnInit called for entityType: " + this.entityType + " and entityId: " + this.entityId);
   }
 
   /** The entity type to display (e.g., 'PMessage', 'PMFileGroup') */

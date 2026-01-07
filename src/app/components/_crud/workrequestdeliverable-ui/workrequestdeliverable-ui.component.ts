@@ -12,6 +12,8 @@ import { StdBubaComponent } from '@app/components/_global/std-buba/std-buba.comp
 import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata-display/dategetdata-display.component';
 import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.component';
 import { CRUD_MODES } from '@app/@core/constants';
+import { StdEntitySectionComponent } from '@app/components/_global/std-entity-section/std-entity-section.component';
+import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 
 @Component({
   selector: 'app-workrequestdeliverable-ui',
@@ -22,21 +24,22 @@ import { CRUD_MODES } from '@app/@core/constants';
     SimpleTabsetComponent,
     StdBubaComponent,
     DategetdataDisplayComponent,
-    PmfilegroupUiComponent
+    PmfilegroupUiComponent,
+    StdEntitySectionComponent,
+    StdMarkdownDisplayComponent
   ],
   templateUrl: './workrequestdeliverable-ui.component.html',
   styleUrl: './workrequestdeliverable-ui.component.scss'
 })
 export class WorkRequestDeliverableUiComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() id?: string;
-
+  @Input() deliverable?: WorkRequestDeliverableGETData;
   @Input() readonly: boolean = false;
 
   // CRUD modes
   protected CRUD_MODES = CRUD_MODES;
 
   // Component state
-  deliverable: WorkRequestDeliverableGETData | null = null;
   sections: WorkRequestDeliverableSectionGETData[] = [];
 
   // UI state
@@ -55,11 +58,17 @@ export class WorkRequestDeliverableUiComponent implements AfterViewInit, OnDestr
   private destroy$ = new Subject<void>();
   private initialized = false;
 
-  constructor(private hcclService: HcclService) {}
+  constructor(private hcclService: HcclService) {
+    if (this.deliverable) {
+      this.sections = this.deliverable.sections || [];
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['id'] && this.id) {
       if (this.initialized) {
+        this.deliverable = undefined;
+        this.sections = [];
         this.loadDeliverable();
       }
     }
@@ -108,12 +117,12 @@ export class WorkRequestDeliverableUiComponent implements AfterViewInit, OnDestr
   }
 
   private loadDeliverable(): void {
-    if (!this.id) return;
+    if (!this.id && this.deliverable) return;
 
     this.loading = true;
     this.error = null;
 
-    this.hcclService.getWorkRequestDeliverableById(this.id)
+    this.hcclService.getWorkRequestDeliverableById(this.id || '')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {

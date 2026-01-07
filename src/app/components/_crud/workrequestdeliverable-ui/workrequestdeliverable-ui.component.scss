@@ -15,8 +15,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
-  color: white;
+//  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
+//  color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   .header-main {
@@ -283,6 +283,16 @@
       }
     }
   }
+}
+
+// Sections List (standalone)
+.sections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  border: 2px solid #e0f2fe;
+  border-radius: 8px;
+  padding: 1rem;
 }
 
 // Sections Tab

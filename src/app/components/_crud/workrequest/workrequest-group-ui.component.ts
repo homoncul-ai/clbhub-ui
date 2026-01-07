@@ -195,7 +195,10 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         return this.entity !== null;
       }
     );
-    //tabs.push(tab) 
+    if (this.canUpdateWorkRequest()) {
+      tabs.push(tab) 
+    }
+
     tab =  new SimpleTab('logs', 'Logs', '', 
       () => {
         //this.router.navigate([idBaseRoute, 'logs']);
@@ -206,8 +209,8 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         return true;
       }
     );
-    tabs.push(tab)
-
+      tabs.push(tab)
+   
      tab =  new SimpleTab('items', 'Items', '', 
       () => {   
         this.currentTabId = 'items';
@@ -218,7 +221,10 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         return this.entity !== null;
       }
     );
-    tabs.push(tab) 
+    if (this.canUpdateWorkRequest()) {
+      tabs.push(tab)
+    }
+
     
     tab =  new SimpleTab('workRequestItem', 'Item', '', 
       () => {
@@ -230,7 +236,10 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         return this.childId !== null && this.childId !== undefined && this.childId !== '';
       }
     );
-    tabs.push(tab)
+    if (this.canUpdateWorkRequest()) {
+      tabs.push(tab)
+    }
+
 
     return tabs;
     return tabs;

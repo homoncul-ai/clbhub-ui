@@ -43,6 +43,7 @@ export type MarkdownMode = 'display' | 'edit';
  */
 @Component({
   selector: 'app-std-markdown-display',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './std-markdown-display.component.html',
   styleUrl: './std-markdown-display.component.scss'

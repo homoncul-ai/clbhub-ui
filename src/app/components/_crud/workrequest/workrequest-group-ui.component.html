@@ -17,7 +17,7 @@
   
   <div *ngIf="currentTabId === 'details'">
    <div *ngIf="isShowingDeliverable()">
-    <app-workrequestdeliverable-ui [id]="getDeliverable()?.id || ''" [readonly]="true"></app-workrequestdeliverable-ui>
+    <app-workrequestdeliverable-ui [deliverable]="getDeliverable()" [readonly]="true"></app-workrequestdeliverable-ui>
 <pre> 
   </pre>
   </div>
@@ -103,3 +103,4 @@
   <li>ShowingTabset :{{showingTabset}}</li>
   <li>Tabs :{{tabs | json}}</li> 
 </div>
+<pre>{{ workRequestUIController | json }}</pre>
