@@ -83,6 +83,10 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   protected isShowingItemsList(): boolean {
     return this.workRequestUIController?.showingItemsList || false;
   }
+  public isShowingWorkRequestItem(): boolean {
+    return this.workRequestItemId !== null && this.workRequestItemId !== undefined && this.workRequestItemId !== '';
+  }
+  protected workRequestItemId?: string = '';
 
   protected isShowingCreateWorkItem(): boolean {
     return this.workRequestUIController?.showingCreateWorkItem || false;
@@ -256,10 +260,15 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     return criteria;
   }
 
-  myOnRowClickBehavior(): OnRowClickBehavior {
+  onClickWorkRequestItemBehavior(): OnRowClickBehavior {
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.parentId = this.id;
     x.tabId = 'workRequestItem';
+    x.usingNavigateUrl = false;
+    x.doNotNavigate = true;
+    x.onRowClick = (entityId: string) => {
+      this.workRequestItemId = entityId;
+    }
     //x.alertMessage = 'Catalog Entry';
     return x;
   }
