@@ -19099,6 +19099,9 @@
           "entityDisplayName": {
             "type": "string"
           },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -20951,6 +20954,9 @@
             "$ref": "#/components/schemas/DateGETData"
           },
           "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
             "type": "string"
           },
           "userId": {
@@ -38367,13 +38373,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

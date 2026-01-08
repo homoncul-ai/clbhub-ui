@@ -1,0 +1,15 @@
+<div class="buba-container">
+  <div class="buba-header">
+    <strong>{{name}}</strong>
+  </div>
+  <div class="buba-name">
+    {{businessCode}}
+  </div>
+  <div class="buba-details">
+    <span class="buba-type">{{organizationType.name}}</span>
+    <span class="buba-description">{{description}}</span>
+    <span class="buba-website" *ngIf="websiteUrl">{{websiteUrl}}</span>
+    <span class="buba-id">Last Updated: {{dateLastUpdated.date}}</span>
+  </div>
+</div>
+

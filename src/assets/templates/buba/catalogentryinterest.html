@@ -1,0 +1,15 @@
+<div class="buba-container">
+  <div class="buba-header">
+    <strong>{{catalogEntry.title}} - {{catalogEntry.businessCode}}</strong>
+  </div>
+  <div class="buba-name">
+    {{catalog.name}} 
+  </div>
+  <div class="buba-details">
+    <span class="buba-interest">Interest Level: {{interest}}</span>
+    <span class="buba-notes" *ngIf="notes">{{notes}}</span>
+    <span class="buba-statement">Statement: {{personalStatement.name}}</span>
+    <span class="buba-id">Last Updated: {{dateLastUpdated.date}}</span>
+  </div>
+</div>
+

@@ -238,6 +238,27 @@ export class BubaService {
         nameTemplate: '{name}',
         htmlTemplate: null,
         htmlTemplateFilename: 'workrequest.html'
+      },
+      'hcclorganization': {
+        iconTemplate: 'fas fa-building',
+        routePathTemplate: '{prefix}/hcclorganization/{entityId}',
+        nameTemplate: '{name}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'hcclorganization.html'
+      },
+      'hccluserprofile': {
+        iconTemplate: 'fas fa-user-circle',
+        routePathTemplate: '{prefix}/hccluserprofile/{entityId}',
+        nameTemplate: '{theUser.name}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'hccluserprofile.html'
+      },
+      'catalogentryinterest': {
+        iconTemplate: 'fas fa-heart',
+        routePathTemplate: '{prefix}/catalogentryinterest/{entityId}',
+        nameTemplate: '{catalogEntry.title}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'catalogentryinterest.html'
       }
     };
 
