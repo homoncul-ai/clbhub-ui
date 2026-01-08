@@ -1,6 +1,7 @@
 <div *ngIf="!loading">
-    <h3 *ngIf="isClientView()">Client View</h3>
-    <!-- workRequestName, entityStateTransition.currentState.stateName, entityStateTransition.currentState.dateEntered -->
+  <h3 *ngIf="isClientView()">Client View</h3>
+  <h3 *ngIf="!isClientView()">Advocate View</h3>
+  <!-- workRequestName, entityStateTransition.currentState.stateName, entityStateTransition.currentState.dateEntered -->
     <app-workrequest-crud
         [id]="id"
         [modeName]="'section'"
@@ -10,16 +11,27 @@
     <hr />
 
     <div *ngIf="canUpdateWorkRequest()">
-        <app-workrequest-update
+
+      <div *ngIf="!isTicketCompleted() && !isTicketCancelled() && !isReadonly()">
+  
+        <app-simple-buttonbar 
+          [buttonBar]="getSimpleButtonBar()" 
+          [displayMode]="'select'"
+          [placeholder]="'Choose an action...'"
+          (buttonSelected)="onButtonSelected($event)">
+        </app-simple-buttonbar>
+      
+      <!-- <app-workrequest-update
             [id]="id"
             [modeName]="'detail'"
             (crudComponentRequiresRefresh)="componentRequiresRefresh()"
-        ></app-workrequest-update>
-    </div>
+        ></app-workrequest-update>-->
+    </div> 
 
-
+<hr/>
 
     <div *ngIf="isShowingItemsList()">
+      <h3>Items</h3>
         <app-workrequestitem-list
             [criteria]="itemsCriteria"
             [showingSearch]="false"
@@ -27,10 +39,13 @@
             [showingGoButton]="false"
             [showingAddButton]="false"
             [showingIdCheckbox]="false"
+            [onFinishLoading]="onFinishLoadingBehavior()"
             [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
         ></app-workrequestitem-list>
-
-        <div *ngIf="isShowingWorkRequestItem() && !isClientView()">
+        <hr />
+    </div>
+  <div *ngIf="!isClientView()">
+    <h3>Advocate View</h3>
             <!-- We need to put the "work on UI" stuff in here.-->
             <!-- Work request related tab -->
             <app-simple-tabset
@@ -38,6 +53,19 @@
                 [tabs]="tabs"
                 [currentTabId]="currentTabId"
             ></app-simple-tabset>
+
+            <div *ngIf="currentTabId === 'details'">
+              <div *ngIf="isShowingDeliverable()">
+                  <app-workrequestdeliverable-ui
+                      [deliverable]="getDeliverable()"
+                      [readonly]="true"
+                  ></app-workrequestdeliverable-ui>
+              </div>
+              <div *ngIf="!isShowingDeliverable()">
+                  <h3>No Deliverable</h3>
+              </div>
+          </div> 
+
 
             <div *ngIf="currentTabId === 'details-complete'">
                 <div class="column-right">
@@ -49,6 +77,7 @@
             </div>
 
             <div *ngIf="currentTabId === 'items'">
+             
                 <div id="items" *ngIf="true">
                     <app-workrequestitem-list
                         [criteria]="itemsCriteria"
@@ -60,7 +89,9 @@
                         [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
                     ></app-workrequestitem-list>
                 </div>
+             
             </div>
+            
 
             <div *ngIf="currentTabId === 'workRequestItem'">
                 <app-workrequestitem-crud
@@ -192,7 +223,7 @@
                 ></app-std-entity-section>
             </div>
         </div>
-
+<!-- 
         <div *ngIf="currentTabId === 'items'">
             <div id="items" *ngIf="true">
                 <app-workrequestitem-list
@@ -205,7 +236,7 @@
                     [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
                 ></app-workrequestitem-list>
             </div>
-        </div>
+        </div> -->
 
         <div *ngIf="currentTabId === 'workRequestItem'">
             <app-workrequestitem-crud
@@ -302,7 +333,7 @@
             <h1>FK_MENU</h1>
         </div>
     </div>
-</div>
+
 
 <hr />
 

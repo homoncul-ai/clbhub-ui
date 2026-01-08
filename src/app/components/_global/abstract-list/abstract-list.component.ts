@@ -81,6 +81,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
   protected hcclContextService = inject(HcclContextService);
+  protected totalRows: number = 0;
 
   protected modalService: MdbModalService = inject(MdbModalService);
 
@@ -367,7 +368,9 @@ implements OnInit, AfterViewInit, OnDestroy {
    // alert('loadGridData criteria: ' + JSON.stringify(criteria));
     this.loadGridDataCall(criteria);
   }
-
+  protected getTotalRows(): number {
+    return this.totalRows;
+  }
   protected loadGridDataCall(criteria: TCriteria) {
     console.log('Loading entities with criteria:', criteria);
     
@@ -375,6 +378,10 @@ implements OnInit, AfterViewInit, OnDestroy {
       next: (response: TSearchResults) => {
         if (this.hasSearchResults(response)) {
           const entities = this.getSearchResults(response);
+          const pagingInfo = (response as any).pagingInfo || { totalRows: 0 };
+          if (pagingInfo) {
+            this.totalRows = pagingInfo.totalRows;
+          }
           // Set up fk data, whatever else.
           const ids: string[] = entities.map((entity: T) => this.extractId(entity));
           
@@ -385,7 +392,7 @@ implements OnInit, AfterViewInit, OnDestroy {
               var data =  this.processEntities(entities);
               if (this.onFinishLoading) { 
                 var id = this.extractId(entities[0]);
-                this.onFinishLoading.onFinishLoading(id, data);
+                this.onFinishLoading.onFinishLoading(id, data, this.totalRows);
               }
               return data;
             })
@@ -905,7 +912,7 @@ export class OnFinishLoadingBehavior {
    * @param baseRoute The base route for the entity
    * @param router The Angular router instance
    */
-  onFinishLoading(id: string, data: any): void {
+  onFinishLoading(id: string, data: any, totalRows: number): void {
     // Default implementation - subclasses should override
     // Default behavior is to do nothing
     //console.log('OnFinishLoadingBehavior.onFinishLoading called with entities:');

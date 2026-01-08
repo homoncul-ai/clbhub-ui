@@ -9,13 +9,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { WorkRequestCrudWrapper, WorkRequestCrudComponent } from '@app/components/_crud/workrequest/workrequest-crud.component';
-import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria, WorkItemFormResponse, WorkRequestUIControllerGETData, MenuControlDataList, WorkRequestGETData, WorkRequestDeliverableGETData } from '@app/restsvc/hccl.service';
+import { HcclService, HcclTeamLogCriteria, WorkItemDeliverableCriteria, WorkItemFormRequest, WorkRequestCriteria, WorkRequestItemCriteria, WorkRequestLogCriteria, WorkItemFormResponse, WorkRequestUIControllerGETData, MenuControlDataList, WorkRequestGETData, WorkRequestDeliverableGETData, HcclUserProfileCriteria, HcclUserProfileGETData } from '@app/restsvc/hccl.service';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
 import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
-import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../workrequestitem/workrequestitem-crud.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workrequestitem/workrequestitem-attachrficontent-addentries.component';
@@ -53,7 +53,13 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   private modalService = inject(MdbModalService);
   private modalRef: MdbModalRef<any> | null = null;
   protected override cdr = inject(ChangeDetectorRef);
-
+  
+  // Input property for readonly mode
+  @Input() readonly: boolean = false;
+  
+  // Cache the button bar to prevent recreation on every change detection
+  private _buttonBar: SimpleButtonBar | null = null;
+  
   constructor() {
     super();    
   } 
@@ -72,16 +78,24 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   protected isShowingDeliverable(): boolean {
     return this.getDeliverable() != null;
   }
+ 
   protected isClientView(): boolean {
-    //return this.workRequestUIController?.clientView || false;
-    return true;
+    var userProfileTypeCode = this.getUserProfileTypeCode().toLowerCase();
+    if (userProfileTypeCode == 'student') {
+      return true;
+    }
+    return false;
   }
   protected getWorkRequest(): WorkRequestGETData   {
     return this.workRequestUIController?.workRequest || {};
   }
 
+  protected totalItems: number = 0;
+  protected getTotalItems(): number {
+    return this.totalItems;
+  }
   protected isShowingItemsList(): boolean {
-    return this.workRequestUIController?.showingItemsList || false;
+    return this.totalItems == 1 || this.workRequestUIController?.showingItemsList || false;
   }
   public isShowingWorkRequestItem(): boolean {
     return this.workRequestItemId !== null && this.workRequestItemId !== undefined && this.workRequestItemId !== '';
@@ -105,7 +119,9 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   }
   protected workItemDeliverableId?: string = '';
   protected async loadEntityById(id: string): Promise<WorkRequestCrudWrapper> {
-
+    this.totalItems = 0;
+    this.workRequestItem = null;
+    this.workRequestItemId = undefined;
     var workRequestUIController = await this.hcclService.getWorkRequestUIController(id).toPromise();
     if (workRequestUIController) {
       this.workRequestUIController = workRequestUIController;
@@ -384,6 +400,89 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     });
    }
 
+   protected onFinishLoadingBehavior(): OnFinishLoadingBehavior {
+    var x: OnFinishLoadingBehavior = new OnFinishLoadingBehavior();
+    x.onFinishLoading = (id: string, data: any, totalRows: number) => {
+      this.workRequestItemId = id;
+      var showingItemsList = totalRows > 1;
+      if (this.workRequestUIController) {
+        this.workRequestUIController.showingItemsList = showingItemsList;
+      }
+      this.totalItems = totalRows;
+      this.cdr.detectChanges();
+    };
+    return x;
+  }
+
+  // Methods copied from workrequest-update.component.ts for simple-buttonbar support
   
+  isTicketCompleted(): boolean {
+    return this.entity?.getCurrentStateCode() === 'completed' || false;
+  }
+
+  isTicketCancelled(): boolean {
+    return this.entity?.getCurrentStateCode() === 'cancelled' || false;
+  }
+
+  protected isReadonly(): boolean {
+    return this.readonly;
+  }
+
+  isEnqueuedTicket(): boolean {
+    return this.entity?.getData().parentWorkRequestItemId && this.entity?.getData().parentWorkRequestItemId !== '' || false;
+  }
+
+  getSimpleButtonBar(): SimpleButtonBar {
+    // Return cached button bar if it exists
+    if (this._buttonBar) {
+      return this._buttonBar;
+    }
+    
+    this._buttonBar = new SimpleButtonBar();
+    
+    // Accept Ticket button - only show when ticket is not accepted
+    const acceptButton = this._buttonBar.addButton('acceptTicket', 'Accept Ticket', () => {
+      this.openAcceptModal();
+    });
+    acceptButton.showingButtonFunction = () => !this.isTicketAccepted();
+    
+    // Attach RFI Content button - only show when ticket is accepted
+    const attachButton = this._buttonBar.addButton('attachContent', 'Attach RFI Content', () => {
+      this.openAttachContentModal();
+    });
+    attachButton.showingButtonFunction = () => this.isTicketAccepted();
+    
+    // Enqueue RFI button - only show when ticket is accepted
+    const enqueueButton = this._buttonBar.addButton('enqueueRFI', 'Enqueue RFI', () => {
+      this.openEnqueueModal();
+    });
+    enqueueButton.showingButtonFunction = () => this.isTicketAccepted() && !this.isEnqueuedTicket();
+    
+    return this._buttonBar;
+  }
+
+  onButtonSelected(buttonId: string): void {
+    const button = this.getSimpleButtonBar().getButton(buttonId);
+    if (button) {
+      button.activate();
+    }
+  }
+
+  // Refresh button bar when entity changes
+  private refreshButtonBar(): void {
+    this._buttonBar = null; // Clear cache to force recreation
+  }
+
+  openAttachContentModal(): void {
+    // Import and open the attach content modal
+    // Note: You may need to import WorkRequestAttachContentModalComponent
+    console.log('openAttachContentModal called - implement modal opening');
+  }
+
+  openEnqueueModal(): void {
+    // Import and open the enqueue modal
+    // Note: You may need to import WorkRequestEnqueueModalComponent
+    console.log('openEnqueueModal called - implement modal opening');
+  }
 } 
 

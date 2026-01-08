@@ -1,7 +1,7 @@
 import { Component, inject, Input, ChangeDetectorRef } from '@angular/core';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
 import { SimpleTab } from '../simple-tabset/simple-tabset.component';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclService, HcclUserProfileGETData } from '@app/restsvc/hccl.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
@@ -48,6 +48,17 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   public getCurrentEntity(): T {
     return this.entity || this.newCrudWrapperForCreate();
   }
+
+  protected getUserProfile(): HcclUserProfileGETData {
+    return this.hcclContextService.getCurrentUserProfile() as HcclUserProfileGETData;
+  }
+
+  protected getUserProfileId(): string {
+    return this.hcclContextService.getCurrentUserProfileId();
+  }
+  protected getUserProfileTypeCode(): string {
+    return this.getUserProfile()?.profileTypeCode ||   '';
+  } 
 
   protected populateFromParams(params: any): void {
 	
