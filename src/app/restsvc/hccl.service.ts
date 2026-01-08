@@ -4410,6 +4410,7 @@ export interface HcclOrganizationGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4925,6 +4926,7 @@ export interface HcclUserProfileGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
   userId?: string;
   userCode?: string;
   messageHandle?: string;
@@ -4942,6 +4944,7 @@ export interface HcclUserProfileGETData {
   personId?: string;
   roles?: string[];
   theUser?: HcclUserGETData;
+  organization?: HcclOrganizationGETData;
 }
 
 export interface CatalogSearchResultCriteria {

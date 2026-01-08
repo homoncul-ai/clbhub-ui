@@ -19096,6 +19096,9 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -20947,6 +20950,9 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string",
             "format": "uuid"
@@ -21005,6 +21011,9 @@
           },
           "theUser": {
             "$ref": "#/components/schemas/HcclUserGETData"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
           }
         }
       },

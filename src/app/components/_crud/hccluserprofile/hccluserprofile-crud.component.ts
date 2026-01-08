@@ -434,17 +434,8 @@ export class HcclUserProfileCrudWrapper extends EntityWrapper<HcclUserProfileGET
   
   getDisplayText(entity?: HcclUserProfileGETData): string {
     const data = entity || this.data;
-    const userEmail = data.userEmail || '';
-    const profileTypeCode = data.profileTypeCode || '';
-    if (userEmail && profileTypeCode) {
-      return `${userEmail} ( ${profileTypeCode} )`;
-    } else if (userEmail) {
-      return userEmail;
-    } else if (profileTypeCode) {
-      return profileTypeCode;
-    } else {
-      return 'Unnamed HCCL User Profile';
-    }
+    return `${data.entityDisplayName}`;
+
   }
 
   getUserCode(): string {

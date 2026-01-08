@@ -407,7 +407,7 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
   getDisplayText(entity?: WorkQueueGETData): string {
     const data = entity || this.data;
     const name = data.name || '';
-    const orgName = data.organization?.name || '';  
+    const orgName = data.organization?.businessCode || '';  
     const businessCode = data.businessCode || '';
     
     return `${orgName} / ${name} `;
