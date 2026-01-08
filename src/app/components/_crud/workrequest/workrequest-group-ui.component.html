@@ -34,6 +34,34 @@
         ></app-workrequestitem-list>
         <hr />
     </div>
+
+    <!-- work request work section : use method isShowingWorkRequestItemWorkSection() to show the work section
+     Add another tabset here with the tabs for the work section, Update, About, Deliverables
+     use the method getWorkRequestItemWorkSectionTabs() to get the tabs for the work section
+     -->
+    <div *ngIf="isShowingWorkRequestItemWorkSection()">
+      <h3>Work Section</h3>
+      <app-simple-tabset
+        *ngIf="showingTabset"
+        [tabs]="getWorkRequestItemWorkSectionTabs()"
+        [currentTabId]="currentTabId"
+      ></app-simple-tabset>
+      <div *ngIf="currentTabId === 'update'">
+        <app-workrequestitem-update [id]="this.workRequestItemId || ''" [workRequestId]="id || ''" [showingTabset]="false"></app-workrequestitem-update>
+      </div>
+      <div *ngIf="currentTabId === 'about'">
+        <h3>About</h3>
+      </div>
+      <div *ngIf="currentTabId === 'deliverables'">
+        <h3>Deliverables</h3>
+        <app-workrequestdeliverable-ui
+                    [deliverable]="getDeliverable()"
+                    [readonly]="true"
+                ></app-workrequestdeliverable-ui>
+      </div>
+      
+     </div>
+
   <div *ngIf="!isClientView()">
     <h3>Advocate View</h3>
             <!-- We need to put the "work on UI" stuff in here.-->

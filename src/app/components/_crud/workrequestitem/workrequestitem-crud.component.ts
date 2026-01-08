@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { WorkRequestItemCriteria, WorkRequestItemGETData, WorkRequestItemPOSTData, WorkRequestItemPUTData, HcclService, MenuControlDataList, MenuControlData, WorkRequestItemGETDataSearchResults, WorkItemDeliverableCriteria } from '@app/restsvc/hccl.service';
+import { WorkRequestItemCriteria, WorkRequestItemGETData, WorkRequestItemPOSTData, WorkRequestItemPUTData, HcclService, MenuControlDataList, MenuControlData, WorkRequestItemGETDataSearchResults, WorkItemDeliverableCriteria, EntityState } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -398,6 +398,16 @@ export class WorkRequestItemCrudWrapper extends EntityWrapper<WorkRequestItemGET
 
   constructor(data: WorkRequestItemGETData, hcclService?: HcclService) {
     super(data, hcclService);
+  }
+
+  getCurrentState(): EntityState {
+    return this.getData().currentState || {
+      id: '',
+      stateCode: '',
+      stateMsgCode: '',
+      stateName: '',
+      majorStatus: 0
+    };
   }
 
   getDisplayText(entity?: WorkRequestItemGETData): string {

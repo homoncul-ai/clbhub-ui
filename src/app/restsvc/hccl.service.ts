@@ -4336,6 +4336,8 @@ export interface CatalogEntryInterestGETData {
   currentStateTransitionId?: string;
   resumeId?: string;
   catalogEntry?: CatalogEntryGETData;
+  currentState?: EntityStateGETData;
+  currentStateTransition?: EntityStateTransitionGETData;
 }
 
 export interface CatalogEntryInterestGETDataSearchResults {
@@ -4374,6 +4376,31 @@ export interface DateRangeGETData {
   theStart?: DateGETData;
   theEnd?: DateGETData;
   valid?: boolean;
+}
+
+export interface EntityStateGETData {
+  id?: string;
+  fgColor?: string;
+  bgColor?: string;
+  stateCode?: string;
+  stateMsgCode?: string;
+  stateName?: string;
+  majorStatus?: number;
+  openStatus?: boolean;
+  closedStatus?: boolean;
+  cancelledStatus?: boolean;
+  categories?: string[];
+}
+
+export interface EntityStateTransitionGETData {
+  stateFrom?: EntityStateGETData;
+  stateTo?: EntityStateGETData;
+  stateTransitionId?: string;
+  logMessage?: string;
+  dateEntered?: DateGETData;
+  messages?: SimpleMessageList;
+  closeParentIfPossible?: boolean;
+  stateTransitionValid?: boolean;
 }
 
 export interface HcclOrganizationGETData {
@@ -6784,6 +6811,8 @@ export interface ProviderRequestGETData {
   advocateUserId?: string;
   vocationEncodingId?: string;
   requestTypeId?: string;
+  currentState?: EntityStateGETData;
+  currentStateTransition?: EntityStateTransitionGETData;
 }
 
 export interface ProviderRequestGETDataSearchResults {
@@ -7852,27 +7881,6 @@ export interface HcclUserProfilePOSTData {
   personId: string;
 }
 
-export interface EntityStateGETData {
-  id?: string;
-  fgColor?: string;
-  bgColor?: string;
-  stateCode?: string;
-  stateMsgCode?: string;
-  stateName?: string;
-  majorStatus?: number;
-}
-
-export interface EntityStateTransitionGETData {
-  stateFrom?: EntityStateGETData;
-  stateTo?: EntityStateGETData;
-  stateTransitionId?: string;
-  logMessage?: string;
-  dateEntered?: DateGETData;
-  messages?: SimpleMessageList;
-  closeParentIfPossible?: boolean;
-  stateTransitionValid?: boolean;
-}
-
 export interface WorkItemFormContext {
   workRequestId: string;
   workRequestItemId?: string;
@@ -7939,6 +7947,8 @@ export interface WorkRequestItemGETData {
   commentText?: string;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  currentState?: EntityStateGETData;
+  currentStateTransition?: EntityStateTransitionGETData;
 }
 
 export interface CreateTicketPOSTData {
@@ -8239,6 +8249,8 @@ export interface WorkItemDeliverableGETData {
   fileGroupId?: string;
   author?: HcclUserProfileGETData;
   catalogSearchResult?: CatalogSearchResultGETData;
+  currentState?: EntityStateGETData;
+  currentStateTransition?: EntityStateTransitionGETData;
 }
 
 export interface WorkItemDeliverableGETDataSearchResults {
@@ -8521,6 +8533,8 @@ export interface WorkRequestDeliverableGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   sections?: WorkRequestDeliverableSectionGETData[];
+  currentState?: EntityStateGETData;
+  currentStateTransition?: EntityStateTransitionGETData;
 }
 
 export interface WorkRequestDeliverableGETDataSearchResults {
@@ -9770,9 +9784,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

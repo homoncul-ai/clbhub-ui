@@ -1,7 +1,7 @@
 // This component handles all WorkRequestItem operations
 // It displays the work request item details and action-specific content
 
-import { Component, Input, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -32,7 +32,7 @@ import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-enti
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequestitem-update.component.html',
 })
-export class WorkRequestItemUpdateComponent extends AbstractEntityGroupComponent<WorkRequestItemCrudWrapper> implements OnInit {
+export class WorkRequestItemUpdateComponent extends AbstractEntityGroupComponent<WorkRequestItemCrudWrapper> implements OnInit, OnChanges {
   
   // Parent work request ID
   @Input() workRequestId!: string; 
@@ -48,12 +48,58 @@ export class WorkRequestItemUpdateComponent extends AbstractEntityGroupComponent
     super();
   }
 
+  /**
+   * Override ngOnInit to handle the case where this component is used as a child
+   * with @Input() id instead of relying on route params
+   */
+  override ngOnInit(): void {
+    this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';
+    
+    // Load the entity directly using the input id, don't rely on route params
+    if (this.id && this.id !== '') {
+      this.loadEntity();
+    }
+  }
+
+  /**
+   * Handle input changes - reload entity when id changes
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['id'] && !changes['id'].firstChange) {
+      // id changed after initial load, reload the entity
+      if (this.id && this.id !== '') {
+        this.loadEntity();
+      } else {
+        // id is empty, reset the entity
+        this.entity = null;
+        this.loading = false;
+      }
+    }
+  }
+
+  /**
+   * Load the entity by id
+   */
+  private loadEntity(): void {
+    this.loading = true;
+    this.loadEntityById(this.id).then(entity => {
+      this.entity = entity;
+      this.tabs = this.setupTabs();
+      this.loading = false;
+      this.cdr.detectChanges();
+    }).catch(error => {
+      console.error('Error loading WorkRequestItem:', error);
+      this.loading = false;
+      this.entity = null;
+      this.cdr.detectChanges();
+    });
+  }
+
   protected newCrudWrapperForCreate(): WorkRequestItemCrudWrapper {
     return WorkRequestItemCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
   protected async loadEntityById(id: string): Promise<WorkRequestItemCrudWrapper> {
-    alert('loadEntityById ' + id);
     const workRequestItem = await WorkRequestItemCrudWrapper.newInstance(id, this.hcclService);
     
     // If the work request item is completed, load the work item deliverable

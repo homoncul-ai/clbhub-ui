@@ -3,7 +3,15 @@
   It displays the work request item details and action-specific content.
 -->
 
-<div *ngIf="!loading && entity !== null">
+<div *ngIf="loading" class="loading-indicator">
+  <p>Loading work request item...</p>
+</div>
+
+<div *ngIf="!loading && !id" class="no-id-message">
+  <p>No work request item selected.</p>
+</div>
+
+<div *ngIf="!loading && entity !== null && id">
   <app-workrequestitem-crud [id]="id" modeName="section"></app-workrequestitem-crud>
 
   <div *ngIf="canChangeWorkItemStateToComplete() === true" class="detail-group">

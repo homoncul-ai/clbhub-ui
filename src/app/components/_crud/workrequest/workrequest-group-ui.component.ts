@@ -19,6 +19,7 @@ import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_gl
 import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../workrequestitem/workrequestitem-crud.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workrequestitem/workrequestitem-attachrficontent-addentries.component';
+import { WorkRequestItemUpdateComponent } from '../workrequestitem/workrequestitem-update.component';
 import { CatalogSearchResultCrudComponent } from "../catalogsearchresult/catalogsearchresult-crud.component";
 import { HcclTeamLogListComponent } from '../hcclteamlog/hcclteamlog-list.component';
 import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-list.component';
@@ -40,7 +41,7 @@ import { WorkRequestDeliverableUiComponent } from '../workrequestdeliverable-ui/
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
     WorkRequestItemListComponent, WorkRequestItemCrudComponent,
-      WorkRequestItemAttachRFIContentAddEntriesComponent,
+      WorkRequestItemAttachRFIContentAddEntriesComponent, WorkRequestItemUpdateComponent,
       WorkRequestLogListComponent, 
     SimpleButtonbarComponent, StdEntitySectionComponent, WorkItemDeliverableCrudComponent,
      StdMdbEntitystateComponent, WorkRequestDeliverableUiComponent ],
@@ -151,6 +152,22 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     }
    
     return workRequest;
+  }
+
+  protected isWorkRequestOpen(): boolean {
+    return this.entity?.getCurrentState().openStatus === true || false;
+  }
+
+  protected isWorkRequestClosedOrCancelled (): boolean {
+    return this.isWorkRequestClosed() || this.isWorkRequestCancelled() || false;
+  }
+
+  protected isWorkRequestClosed(): boolean {
+    return this.entity?.getCurrentState().closedStatus === true || false;
+  }
+
+  protected isWorkRequestCancelled(): boolean {
+    return this.entity?.getCurrentState().cancelledStatus === true || false;
   }
 
   protected override calculateTabIdFromUrl(tabId_in: string): string {
@@ -308,6 +325,23 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     return this.workRequestItem?.getData().actionCode || 'Error';
   }
 
+
+  protected isWorkRequestItemOpen(): boolean {
+    return this.workRequestItem?.getCurrentState().openState === true || false;
+  }
+
+  protected isWorkRequestItemClosedOrCancelled (): boolean {
+    return this.isWorkRequestClosed() || this.isWorkRequestCancelled() || false;
+  }
+
+  protected isWorkItemRequestClosed(): boolean {
+    return this.workRequestItem?.getCurrentState().closedState === true || false;
+  }
+
+  protected isWorkRequestItemCancelled(): boolean {
+    return this.workRequestItem?.getCurrentState().cancelledState === true || false;
+  }
+
   getLogsCriteria(): WorkRequestLogCriteria {
     var criteria: WorkRequestLogCriteria = {  
       workRequestId: this.id || '',
@@ -432,11 +466,11 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   // Methods copied from workrequest-update.component.ts for simple-buttonbar support
   
   isTicketCompleted(): boolean {
-    return this.entity?.getCurrentStateCode() === 'completed' || false;
+    return this.isWorkRequestClosedOrCancelled();
   }
 
   isTicketCancelled(): boolean {
-    return this.entity?.getCurrentStateCode() === 'cancelled' || false;
+    return this.isWorkRequestCancelled();
   }
 
   protected isReadonly(): boolean {
@@ -498,6 +532,30 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     // Import and open the enqueue modal
     // Note: You may need to import WorkRequestEnqueueModalComponent
     console.log('openEnqueueModal called - implement modal opening');
+  }
+
+  protected isShowingWorkRequestItemWorkSection(): boolean {
+    return this.isWorkRequestItemOpen() && this.isWorkRequestOpen()  && this.isClientView() == false;
+  }
+
+  protected getWorkRequestItemWorkSectionTabs(): SimpleTab[] {
+    var tabs: SimpleTab[] = [];
+    tabs.push(new SimpleTab('update', 'Update', '', () => {
+      this.currentTabId = 'update';
+    }, () => {
+      return this.isShowingWorkRequestItemWorkSection();
+    }));
+    tabs.push(new SimpleTab('about', 'About', '', () => {
+      this.currentTabId = 'about';
+    }, () => {
+      return this.isShowingWorkRequestItemWorkSection();
+    }));
+    tabs.push(new SimpleTab('deliverables', 'Deliverables', '', () => {
+      this.currentTabId = 'deliverables';
+    }, () => {
+      return this.isShowingWorkRequestItemWorkSection();
+    }));
+    return tabs;    
   }
 } 
 

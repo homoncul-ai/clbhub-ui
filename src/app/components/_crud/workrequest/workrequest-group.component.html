@@ -47,7 +47,6 @@
   </div>
 
   <div *ngIf="currentTabId === 'workRequestItem'">
-    Boomerang {{ childId }} {{ id }}
      <app-workrequestitem-update [id]="childId || ''" [workRequestId]="id || ''" [showingTabset]="false"></app-workrequestitem-update> 
   </div>
 

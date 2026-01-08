@@ -18884,6 +18884,12 @@
           },
           "catalogEntry": {
             "$ref": "#/components/schemas/CatalogEntryGETData"
+          },
+          "currentState": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "currentStateTransition": {
+            "$ref": "#/components/schemas/EntityStateTransitionGETData"
           }
         }
       },
@@ -18996,6 +19002,78 @@
           }
         }
       },
+      "EntityStateGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fgColor": {
+            "type": "string"
+          },
+          "bgColor": {
+            "type": "string"
+          },
+          "stateCode": {
+            "type": "string"
+          },
+          "stateMsgCode": {
+            "type": "string"
+          },
+          "stateName": {
+            "type": "string"
+          },
+          "majorStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "openStatus": {
+            "type": "boolean"
+          },
+          "closedStatus": {
+            "type": "boolean"
+          },
+          "cancelledStatus": {
+            "type": "boolean"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "EntityStateTransitionGETData": {
+        "type": "object",
+        "properties": {
+          "stateFrom": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "stateTo": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "stateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "logMessage": {
+            "type": "string"
+          },
+          "dateEntered": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "closeParentIfPossible": {
+            "type": "boolean"
+          },
+          "stateTransitionValid": {
+            "type": "boolean"
+          }
+        }
+      },
       "HcclOrganizationGETData": {
         "type": "object",
         "properties": {
@@ -19047,6 +19125,44 @@
           },
           "parentEntityName": {
             "type": "string"
+          }
+        }
+      },
+      "SimpleMessage": {
+        "type": "object",
+        "properties": {
+          "messageCode": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "exceptionMessage": {
+            "type": "string"
+          },
+          "referenceCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SimpleMessageList": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleMessage"
+            }
+          },
+          "errorMessageAsString": {
+            "type": "string"
+          },
+          "firstErrorMessage": {
+            "$ref": "#/components/schemas/SimpleMessage"
           }
         }
       },
@@ -27574,6 +27690,12 @@
           "requestTypeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "currentState": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "currentStateTransition": {
+            "$ref": "#/components/schemas/EntityStateTransitionGETData"
           }
         }
       },
@@ -31458,101 +31580,6 @@
           }
         }
       },
-      "EntityStateGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "fgColor": {
-            "type": "string"
-          },
-          "bgColor": {
-            "type": "string"
-          },
-          "stateCode": {
-            "type": "string"
-          },
-          "stateMsgCode": {
-            "type": "string"
-          },
-          "stateName": {
-            "type": "string"
-          },
-          "majorStatus": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "EntityStateTransitionGETData": {
-        "type": "object",
-        "properties": {
-          "stateFrom": {
-            "$ref": "#/components/schemas/EntityStateGETData"
-          },
-          "stateTo": {
-            "$ref": "#/components/schemas/EntityStateGETData"
-          },
-          "stateTransitionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "logMessage": {
-            "type": "string"
-          },
-          "dateEntered": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "closeParentIfPossible": {
-            "type": "boolean"
-          },
-          "stateTransitionValid": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SimpleMessage": {
-        "type": "object",
-        "properties": {
-          "messageCode": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "severity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "exceptionMessage": {
-            "type": "string"
-          },
-          "referenceCode": {
-            "type": "string"
-          }
-        }
-      },
-      "SimpleMessageList": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SimpleMessage"
-            }
-          },
-          "errorMessageAsString": {
-            "type": "string"
-          },
-          "firstErrorMessage": {
-            "$ref": "#/components/schemas/SimpleMessage"
-          }
-        }
-      },
       "WorkItemFormContext": {
         "required": [
           "workRequestId"
@@ -31777,6 +31804,12 @@
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
+          },
+          "currentState": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "currentStateTransition": {
+            "$ref": "#/components/schemas/EntityStateTransitionGETData"
           }
         }
       },
@@ -32838,6 +32871,12 @@
           },
           "catalogSearchResult": {
             "$ref": "#/components/schemas/CatalogSearchResultGETData"
+          },
+          "currentState": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "currentStateTransition": {
+            "$ref": "#/components/schemas/EntityStateTransitionGETData"
           }
         }
       },
@@ -33850,6 +33889,12 @@
             "items": {
               "$ref": "#/components/schemas/WorkRequestDeliverableSectionGETData"
             }
+          },
+          "currentState": {
+            "$ref": "#/components/schemas/EntityStateGETData"
+          },
+          "currentStateTransition": {
+            "$ref": "#/components/schemas/EntityStateTransitionGETData"
           }
         }
       },
@@ -38307,13 +38352,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }
