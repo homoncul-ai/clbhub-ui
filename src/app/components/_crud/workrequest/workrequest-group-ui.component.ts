@@ -95,7 +95,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     return this.totalItems;
   }
   protected isShowingItemsList(): boolean {
-    return this.totalItems == 1 || this.workRequestUIController?.showingItemsList || false;
+    return ( this.workRequestUIController?.showingItemsList) || false;
   }
   public isShowingWorkRequestItem(): boolean {
     return this.workRequestItemId !== null && this.workRequestItemId !== undefined && this.workRequestItemId !== '';
@@ -185,14 +185,27 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     var idBaseRoute = this.getIdBaseRoute(this.id);
     var tab = new SimpleTab('details', this.getDetailsTabLabel(), '', 
         () => {
-          //this.currentTabId = 'details';
-          this.router.navigate([idBaseRoute, 'details']);
+          this.currentTabId = 'details';
+        
         },
         () => {
-          return this.entity !== null;
+          return this.workRequestItemId !== null;
         }
       );
       tabs.push(tab);
+
+       tab = new SimpleTab('deliverables', this.getDeliverablesTabLabel(), '', 
+      () => {
+        this.currentTabId = 'deliverables';
+       // this.router.navigate([idBaseRoute, 'deliverables']);
+      },
+      () => {
+        return this.workRequestItemId !== null && this.isShowingDeliverable();
+      }
+    );
+    if (this.isClientView() == false) {
+     tabs.push(tab);
+  } 
       tab =  new SimpleTab('details-complete', 'More Details ...', '', 
       () => {
         this.currentTabId = 'details-complete';
@@ -266,9 +279,11 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   }
 
   override getDetailsTabLabel(): string {
-    return this.entity?.getBusinessCode() || '';
+    return this.entity?.getDisplayText(this.entity?.getData()) || '';
   }
- 
+  protected getDeliverablesTabLabel(): string {
+    return 'Deliverables';
+  }
   get itemsCriteria(): WorkRequestItemCriteria {
     var criteria: WorkRequestItemCriteria = {  
       workRequestId: this.id

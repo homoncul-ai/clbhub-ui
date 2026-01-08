@@ -8,6 +8,12 @@
     
     <app-workrequest-update [id]="id" [modeName]="'detail'" (crudComponentRequiresRefresh)="componentRequiresRefresh()"></app-workrequest-update> 
     <!-- <app-workrequest-crud [id]="id" modeName="detail"></app-workrequest-crud> -->
+
+  <div id="items" *ngIf="true">
+    <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
+    [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
+  </div>
+
   </div>
 
   <div *ngIf="currentTabId === 'details-complete'">
@@ -41,34 +47,8 @@
   </div>
 
   <div *ngIf="currentTabId === 'workRequestItem'">
-    Kawabunge
-    <app-workrequestitem-crud [id]="childId" modeName="section"></app-workrequestitem-crud>
-
-    <div *ngIf="canChangeWorkItemStateToComplete(this.workRequestItem) === true" class="detail-group">
-      <!-- <label>Current State Code:</label>
-      <span>{{ this.workRequestItem?.getCurrentStateCode() }} 
-      <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
-    </div>
-    <div class="detail-group" *ngIf="this.workRequestItem !== null">
-      <label>Current State Code:</label>
-      <app-std-mdb-entitystate [currentStateCode]="this.workRequestItem.getCurrentStateCode() || ''" 
-        [entityName]="'WorkRequestItem'" [entityId]="this.workRequestItem.getId()"
-        (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
-    </div>
-
-    <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
-      <h6> Show Enqueue RFI Content</h6>
-    </div>
-
-    <div *ngIf="workRequestItem?.getActionCode() === 'AttachRFIContent'">
-      <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
-        <app-workrequestitem-attachrficontent-addentries [id]="id || ''" [childId]="childId || ''"></app-workrequestitem-attachrficontent-addentries>
-      </div>
-
-      <div *ngIf="workRequestItem?.getCurrentStateCode() === 'completed' && this.workItemDeliverableId !== ''">
-        <app-workitemdeliverable-crud [id]="this.workItemDeliverableId" modeName="section"></app-workitemdeliverable-crud>
-      </div>
-    </div>
+    Boomerang {{ childId }} {{ id }}
+     <app-workrequestitem-update [id]="childId || ''" [workRequestId]="id || ''" [showingTabset]="false"></app-workrequestitem-update> 
   </div>
 
   <div *ngIf="currentTabId === 'logs'">
@@ -88,7 +68,7 @@
   <div *ngIf="currentTabId === 'debug'">
     <h1>CRUD Modes DEBUG</h1>
     <hr>
-    <app-workrequest-crud [id]="id" modeName="debug"></app-workrequest-crud>
+    <app-workrequest-crud [id]="" modeName="debug"></app-workrequest-crud>
   </div>
 
   <div *ngIf="currentTabId === 'fk_menu'">

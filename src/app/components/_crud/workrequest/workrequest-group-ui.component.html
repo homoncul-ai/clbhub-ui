@@ -11,26 +11,16 @@
     <hr />
 
     <div *ngIf="canUpdateWorkRequest()">
-
-      <div *ngIf="!isTicketCompleted() && !isTicketCancelled() && !isReadonly()">
-  
-        <app-simple-buttonbar 
-          [buttonBar]="getSimpleButtonBar()" 
-          [displayMode]="'select'"
-          [placeholder]="'Choose an action...'"
-          (buttonSelected)="onButtonSelected($event)">
-        </app-simple-buttonbar>
-      
-      <!-- <app-workrequest-update
+     <app-workrequest-update
             [id]="id"
             [modeName]="'detail'"
             (crudComponentRequiresRefresh)="componentRequiresRefresh()"
-        ></app-workrequest-update>-->
+        ></app-workrequest-update>
     </div> 
 
 <hr/>
 
-    <div *ngIf="isShowingItemsList()">
+    <div *ngIf="true || isShowingItemsList()">
       <h3>Items</h3>
         <app-workrequestitem-list
             [criteria]="itemsCriteria"
@@ -54,18 +44,24 @@
                 [currentTabId]="currentTabId"
             ></app-simple-tabset>
 
-            <div *ngIf="currentTabId === 'details'">
-              <div *ngIf="isShowingDeliverable()">
-                  <app-workrequestdeliverable-ui
-                      [deliverable]="getDeliverable()"
-                      [readonly]="true"
-                  ></app-workrequestdeliverable-ui>
-              </div>
-              <div *ngIf="!isShowingDeliverable()">
-                  <h3>No Deliverable</h3>
-              </div>
-          </div> 
+            <div *ngIf="currentTabId === 'details' && this.workRequestItemId !== null 
+            && this.workRequestItemId !== undefined && this.workRequestItemId !== ''">
+              <h3>Item Details {{ this.workRequestItemId }}</h3>
+              <app-workrequestitem-crud [id]="this.workRequestItemId" [modeName]="'section'"></app-workrequestitem-crud>
+            
+             </div> 
 
+          <div *ngIf="currentTabId === 'deliverables'">
+            <div *ngIf="isShowingDeliverable()">
+                <app-workrequestdeliverable-ui
+                    [deliverable]="getDeliverable()"
+                    [readonly]="true"
+                ></app-workrequestdeliverable-ui>
+            </div>
+            <div *ngIf="!isShowingDeliverable()">
+                <h3>No Deliverable</h3>
+            </div>
+        </div> 
 
             <div *ngIf="currentTabId === 'details-complete'">
                 <div class="column-right">
@@ -159,7 +155,7 @@
             </div>
 
             <div *ngIf="currentTabId === 'logs'">
-                <div class="mb-3">
+                <div class="mb-3" *ngIf="!isClientView()">
                     <app-simple-buttonbar
                         [buttonBar]="getWorkRequestActionsButtonBar()"
                         displayMode="select"
@@ -300,16 +296,6 @@
         </div>
 
         <div *ngIf="currentTabId === 'logs'">
-            <div class="mb-3">
-                <app-simple-buttonbar
-                    [buttonBar]="getWorkRequestActionsButtonBar()"
-                    displayMode="select"
-                    placeholder="Select an action..."
-                    (buttonSelected)="onWorkRequestActionSelected($event)"
-                >
-                </app-simple-buttonbar>
-            </div>
-            <hr />
             <app-workrequestlog-list
                 [criteria]="getLogsCriteria()"
                 [showingSearch]="false"
@@ -320,18 +306,6 @@
             ></app-workrequestlog-list>
         </div>
 
-        <div *ngIf="currentTabId === 'debug'">
-            <h1>CRUD Modes DEBUG</h1>
-            <hr />
-            <app-workrequest-crud
-                [id]="id"
-                modeName="debug"
-            ></app-workrequest-crud>
-        </div>
-
-        <div *ngIf="currentTabId === 'fk_menu'">
-            <h1>FK_MENU</h1>
-        </div>
     </div>
 
 

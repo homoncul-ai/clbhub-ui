@@ -63,10 +63,10 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   protected populateFromParams(params: any): void {
 	
 	if (this.childId == '') this.childId = undefined;
-    this.id = params['id']? params['id'] : this.id;
-    this.childId = params['childId']? params['childId'] : this.childId;
-    this.tabId = params['tabId']? params['tabId'] : this.tabId  || 'details';
-    this.childTabId = params['childTabId']? params['childTabId'] : this.childTabId  || 'details';
+  if (this.id == undefined || this.id == '') this.id = params['id']? params['id'] : this.id;
+  if (this.childId == undefined || this.childId == '') this.childId = params['childId']? params['childId'] : this.childId;
+  if (this.tabId == undefined || this.tabId == '') this.tabId = params['tabId']? params['tabId'] : this.tabId  || 'details';
+  if (this.childTabId == undefined || this.childTabId == '') this.childTabId = params['childTabId']? params['childTabId'] : this.childTabId  || 'details';
   }
   ngOnInit(): void {
     this.currentUserProfileId = this.hcclContextService?.getCurrentUserProfileId() || '';

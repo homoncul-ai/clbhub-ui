@@ -1,0 +1,41 @@
+<!-- 
+  This component handles all WorkRequestItem operations.
+  It displays the work request item details and action-specific content.
+-->
+
+<div *ngIf="!loading && entity !== null">
+  <app-workrequestitem-crud [id]="id" modeName="section"></app-workrequestitem-crud>
+
+  <div *ngIf="canChangeWorkItemStateToComplete() === true" class="detail-group">
+    <!-- <label>Current State Code:</label>
+    <span>{{ getCurrentStateCode() }} 
+    <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
+  </div>
+  
+  <div class="detail-group" *ngIf="entity !== null">
+    <label>Current State Code:</label>
+    <app-std-mdb-entitystate [currentStateCode]="getCurrentStateCode()" 
+      [entityName]="'WorkRequestItem'" [entityId]="entity.getId()"
+      (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
+  </div>
+
+  <div *ngIf="isActionCode('EnqueueRFI')">
+    <h6>Show Enqueue RFI Content</h6>
+  </div>
+
+  <div *ngIf="isActionCode('AttachRFIContent')">
+    <div *ngIf="!isCurrentStateCode('completed')">
+      <app-workrequestitem-attachrficontent-addentries [id]="workRequestId || ''" [childId]="id || ''"></app-workrequestitem-attachrficontent-addentries>
+    </div>
+
+    <div *ngIf="isCurrentStateCode('completed') && hasWorkItemDeliverable()">
+      <app-workitemdeliverable-crud [id]="getWorkItemDeliverableId()" modeName="section"></app-workitemdeliverable-crud>
+    </div>
+  </div>
+
+  <div *ngIf="isActionCode('Signup')">
+    <h6>Show Signup Content</h6>
+    <app-workrequestitem-signup [id]="entity.getId() || ''"></app-workrequestitem-signup>
+  </div>
+</div>
+

@@ -18,6 +18,7 @@ import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstra
 import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../workrequestitem/workrequestitem-crud.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workrequestitem/workrequestitem-attachrficontent-addentries.component';
+import { WorkRequestItemUpdateComponent } from '../workrequestitem/workrequestitem-update.component';
 import { CatalogSearchResultCrudComponent } from "../catalogsearchresult/catalogsearchresult-crud.component";
 import { HcclTeamLogListComponent } from '../hcclteamlog/hcclteamlog-list.component';
 import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-list.component';
@@ -35,11 +36,8 @@ import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-enti
   selector: 'app-workrequest-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, WorkRequestCrudComponent, WorkrequestUpdateComponent,
-    WorkRequestListComponent, WorkRequestItemListComponent, WorkRequestItemCrudComponent,
-    WorkRequestItemEnqueueRFIComponent, WorkRequestItemAttachRFIContentAddEntriesComponent,
-    CatalogSearchResultCrudComponent, WorkRequestLogListComponent, WorkRequestRouteComponent,
-    SimpleButtonbarComponent, ProviderRequestCrudComponent, WorkItemDeliverableCrudComponent,
-     WorkRequestItemCompleteModalComponent, StdMdbEntitystateComponent],
+    WorkRequestItemListComponent, WorkRequestItemUpdateComponent,
+    WorkRequestLogListComponent, SimpleButtonbarComponent, ProviderRequestCrudComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group.component.html',
 })
