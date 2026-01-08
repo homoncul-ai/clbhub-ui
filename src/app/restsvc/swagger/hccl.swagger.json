@@ -19071,6 +19071,9 @@
           },
           "stateTransitionValid": {
             "type": "boolean"
+          },
+          "stateMachineName": {
+            "type": "string"
           }
         }
       },
@@ -33189,6 +33192,9 @@
           },
           "stats": {
             "$ref": "#/components/schemas/WorkQueueStatsPOJO"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
           }
         }
       },
@@ -38391,6 +38397,9 @@
           },
           "stateTransitionValid": {
             "type": "boolean"
+          },
+          "stateMachineName": {
+            "type": "string"
           }
         }
       },

@@ -407,16 +407,10 @@ export class WorkQueueCrudWrapper extends EntityWrapper<WorkQueueGETData> {
   getDisplayText(entity?: WorkQueueGETData): string {
     const data = entity || this.data;
     const name = data.name || '';
+    const orgName = data.organization?.name || '';  
     const businessCode = data.businessCode || '';
-    if (name && businessCode) {
-      return `${name} (${businessCode})`;
-    } else if (name) {
-      return name;
-    } else if (businessCode) {
-      return businessCode;
-    } else {
-      return 'Unnamed Work Queue';
-    }
+    
+    return `${orgName} / ${name} `;
   }
 
   getFullName(): string {

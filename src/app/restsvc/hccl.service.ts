@@ -4401,6 +4401,7 @@ export interface EntityStateTransitionGETData {
   messages?: SimpleMessageList;
   closeParentIfPossible?: boolean;
   stateTransitionValid?: boolean;
+  stateMachineName?: string;
 }
 
 export interface HcclOrganizationGETData {
@@ -8335,6 +8336,7 @@ export interface WorkQueueGETData {
   organizationId?: string;
   externalQueue?: number;
   stats?: WorkQueueStatsPOJO;
+  organization?: HcclOrganizationGETData;
 }
 
 export interface WorkQueueGETDataSearchResults {
@@ -9798,6 +9800,7 @@ export interface EntityStateTransition {
   messages?: SimpleMessageList;
   closeParentIfPossible?: boolean;
   stateTransitionValid?: boolean;
+  stateMachineName?: string;
 }
 
 export interface StateChangeFormContext {
