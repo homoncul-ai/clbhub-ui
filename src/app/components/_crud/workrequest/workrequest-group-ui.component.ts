@@ -199,7 +199,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     var tabs : SimpleTab[] = [];
     var entityType = (this.entity?.getEntityType() || '').toLowerCase();
     entityType = 'workrequest';
-    var idBaseRoute = this.getIdBaseRoute(this.id);
+    //var idBaseRoute = this.getIdBaseRoute(this.id);
     var tab = new SimpleTab('details', this.getDetailsTabLabel(), '', 
         () => {
           this.currentTabId = 'details';
