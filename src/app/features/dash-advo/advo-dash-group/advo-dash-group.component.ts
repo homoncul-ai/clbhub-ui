@@ -98,7 +98,8 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
     //x.alertMessage = 'Ticket';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
-      return ['/advocate-dashboard', 'workrequests', id, 'update'];
+      return ['/advocate-dashboard/e', 'workrequest', id, 'details'];
+    //  return ['/advocate-dashboard', 'workrequests', id, 'update'];
     };
     //x.alertMessage = 'Catalog Entry';
     return x;

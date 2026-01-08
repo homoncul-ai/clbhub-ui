@@ -407,6 +407,7 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
   }
 
   public get currentState(): EntityStateGETData {
+//    alert(JSON.stringify(this.getCurrentEntity()?.getData()?.currentState));
     return this.getCurrentEntity()?.getData()?.currentState || {
       id: '',
       stateCode: '',
@@ -455,7 +456,6 @@ export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestC
       this.getCurrentEntity()!.getData().parentWorkRequestItemId = value;
     }
   }
-
   public createWrapper(workrequestData: WorkRequestGETData): WorkRequestCrudWrapper {
     return new WorkRequestCrudWrapper(workrequestData, this.hcclService);
   }
@@ -537,6 +537,7 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
     return this.getData().workQueueId || '';
   }
   getCurrentState(): EntityStateGETData {
+    alert(JSON.stringify(this.getData()));
     return this.getData().currentState || {
       id: '',
       stateCode: '',

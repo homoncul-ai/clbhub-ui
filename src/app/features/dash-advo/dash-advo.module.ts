@@ -55,6 +55,7 @@ import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workite
 import { CatalogTypeRefListComponent } from '@app/components/_crud/catalogtyperef/catalogtyperef-list.component';
 import { CatalogTypeRefGroupComponent } from '@app/components/_crud/catalogtyperef/catalogtyperef-group.component';
 import { BubaDemoComponent } from '@app/components/_global/std-buba/buba-demo.component';
+import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-entity-ui.component';
 
 const routes: Routes = [
   {
@@ -120,6 +121,11 @@ const routes: Routes = [
       { path: 'catalogtyperefs/:id', redirectTo: 'catalogtyperefs/:id/details', pathMatch: 'full' },
       { path: 'catalogtyperefs', component: CatalogTypeRefListComponent },
 
+
+      { path: 'e/:entityType/:entityId/:tabId/:childId/:childTabId', component: StdEntityUiComponent   },
+      { path: 'e/:entityType/:entityId/:tabId/:childId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId/:tabId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId', component: StdEntityUiComponent },
       /** 
       { 
         path: 'integrations', 
