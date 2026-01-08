@@ -537,7 +537,7 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
     return this.getData().workQueueId || '';
   }
   getCurrentState(): EntityStateGETData {
-    alert(JSON.stringify(this.getData()));
+    //alert(JSON.stringify(this.getData()));
     return this.getData().currentState || {
       id: '',
       stateCode: '',

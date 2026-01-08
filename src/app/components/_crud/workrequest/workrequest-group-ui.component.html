@@ -39,6 +39,13 @@
      Add another tabset here with the tabs for the work section, Update, About, Deliverables
      use the method getWorkRequestItemWorkSectionTabs() to get the tabs for the work section
      -->
+<!-- <pre>
+     Showing Work Request Item Work Section: {{ isShowingWorkRequestItemWorkSection() }}
+     itemid {{ this.workRequestItemId }}
+    itemopen {{ this.workRequestItem?.getCurrentState() | json }} 
+    request open {{ this.isWorkRequestOpen() }} 
+    
+    </pre> -->
     <div *ngIf="isShowingWorkRequestItemWorkSection()">
       <h3>Work Section</h3>
       <app-simple-tabset
@@ -46,7 +53,9 @@
         [tabs]="getWorkRequestItemWorkSectionTabs()"
         [currentTabId]="currentTabId"
       ></app-simple-tabset>
+     
       <div *ngIf="currentTabId === 'update'">
+        Spoo
         <app-workrequestitem-update [id]="this.workRequestItemId || ''" [workRequestId]="id || ''" [showingTabset]="false"></app-workrequestitem-update>
       </div>
       <div *ngIf="currentTabId === 'about'">
@@ -59,7 +68,6 @@
                     [readonly]="true"
                 ></app-workrequestdeliverable-ui>
       </div>
-      
      </div>
 
   <div *ngIf="!isClientView()">

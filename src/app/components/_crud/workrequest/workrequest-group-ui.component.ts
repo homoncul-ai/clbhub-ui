@@ -129,29 +129,38 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     }
 
     var workRequest = new WorkRequestCrudWrapper(workRequestUIController?.workRequest || {}, this.hcclService);
-    if (this.childId != null) {
-      this.workRequestItem = await WorkRequestItemCrudWrapper.newInstance(this.childId || '', this.hcclService).then(async x => {
-        this.workRequestItem = x;
+
+   
+    return workRequest;
+  }
+
+  protected async loadWorkRequestItemById(): Promise<WorkRequestItemCrudWrapper | null> {
+    const itemId = this.workRequestItemId;
+    if (itemId != null && itemId != undefined && itemId !== '') {
+      try {
+        this.workRequestItem = await WorkRequestItemCrudWrapper.newInstance(itemId, this.hcclService);
         
         if (this.workRequestItem.getData().currentStateCode == 'completed') {
-          const workitemdeliverablecriteria : WorkItemDeliverableCriteria = {
+          const workitemdeliverablecriteria: WorkItemDeliverableCriteria = {
             pageNumber: 1,
             pageSize: 50,
             isPaging: true,
-            workRequestItemId: this.childId || ''
+            workRequestItemId: itemId
           };
-     //     alert("childId " + this.childId);
-          WorkItemDeliverableCrudWrapper.newInstanceByCriteria(workitemdeliverablecriteria, this.hcclService).then(workitemdeliverable => {
-            this.workItemDeliverableId = workitemdeliverable.getData().id;
-       //     alert("workItemDeliverableId: " + this.workItemDeliverableId + " " + JSON.stringify(workitemdeliverable.getData()));
-          });
+          const workitemdeliverable = await WorkItemDeliverableCrudWrapper.newInstanceByCriteria(workitemdeliverablecriteria, this.hcclService);
+          this.workItemDeliverableId = workitemdeliverable.getData().id;
         }
         
-        return x;
-      });
+        // Trigger change detection after load completes
+        this.cdr.detectChanges();
+        return this.workRequestItem;
+      } catch (error) {
+        console.error('Error loading work request item:', error);
+        this.workRequestItem = null;
+        this.cdr.detectChanges();
+      }
     }
-   
-    return workRequest;
+    return null;
   }
 
   protected isWorkRequestOpen(): boolean {
@@ -186,9 +195,13 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     // Call parent refresh method
     super.refreshComponent();
     
-    // Trigger change detection
-    this.cdr.detectChanges();
-
+    // Reload work request item if one was selected
+    if (this.workRequestItemId) {
+      this.loadWorkRequestItemById();
+    } else {
+      // Trigger change detection
+      this.cdr.detectChanges();
+    }
   }
 
 
@@ -214,7 +227,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
        tab = new SimpleTab('deliverables', this.getDeliverablesTabLabel(), '', 
       () => {
         this.currentTabId = 'deliverables';
-       // this.router.navigate([idBaseRoute, 'deliverables']);
+      
       },
       () => {
         return this.workRequestItemId !== null && this.isShowingDeliverable();
@@ -227,7 +240,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
       () => {
         this.currentTabId = 'details-complete';
         //this.router.navigate([idBaseRoute, 'details-complete']);
-       // alert("update");
+       
       },
       () => {
         return this.entity !== null;
@@ -240,7 +253,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         //this.currentTabId = 'update';
         //this.router.navigate([idBaseRoute, 'update']);
         this.currentTabId = 'update';
-       // alert("update");
+       
       },
       () => {
         return this.entity !== null;
@@ -309,15 +322,19 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   }
 
   onClickWorkRequestItemBehavior(): OnRowClickBehavior {
-    var x: OnRowClickBehavior =  new OnRowClickBehavior();
+    var x: OnRowClickBehavior = new OnRowClickBehavior();
     x.parentId = this.id;
     x.tabId = 'workRequestItem';
     x.usingNavigateUrl = false;
     x.doNotNavigate = true;
     x.onRowClick = (entityId: string) => {
+      // Reset current item state
+      this.workRequestItem = null;
+      this.workItemDeliverableId = '';
+      // Set new item ID and trigger load
       this.workRequestItemId = entityId;
-    }
-    //x.alertMessage = 'Catalog Entry';
+      this.loadWorkRequestItemById();
+    };
     return x;
   }
    
@@ -327,7 +344,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
 
 
   protected isWorkRequestItemOpen(): boolean {
-    return this.workRequestItem?.getCurrentState().openState === true || false;
+    return this.workRequestItem?.getCurrentState().openStatus === true || false;
   }
 
   protected isWorkRequestItemClosedOrCancelled (): boolean {
@@ -335,11 +352,11 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   }
 
   protected isWorkItemRequestClosed(): boolean {
-    return this.workRequestItem?.getCurrentState().closedState === true || false;
+    return this.workRequestItem?.getCurrentState().closedStatus === true || false;
   }
 
   protected isWorkRequestItemCancelled(): boolean {
-    return this.workRequestItem?.getCurrentState().cancelledState === true || false;
+    return this.workRequestItem?.getCurrentState().cancelledStatus === true || false;
   }
 
   getLogsCriteria(): WorkRequestLogCriteria {
@@ -449,7 +466,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     });
    }
 
-   protected onFinishLoadingBehavior(): OnFinishLoadingBehavior {
+  protected onFinishLoadingBehavior(): OnFinishLoadingBehavior {
     var x: OnFinishLoadingBehavior = new OnFinishLoadingBehavior();
     x.onFinishLoading = (id: string, data: any, totalRows: number) => {
       this.workRequestItemId = id;
@@ -458,7 +475,8 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         this.workRequestUIController.showingItemsList = showingItemsList;
       }
       this.totalItems = totalRows;
-      this.cdr.detectChanges();
+      // Load the work request item - it handles change detection internally
+      this.loadWorkRequestItemById();
     };
     return x;
   }
