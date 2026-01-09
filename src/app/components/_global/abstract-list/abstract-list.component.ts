@@ -51,7 +51,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   @Input() onFinishLoading: OnFinishLoadingBehavior | null = null;
   
   // Auto-height settings - grid height adjusts to content, with max rows before scrolling
-  @Input() autoHeight: boolean = false;
+  @Input() autoHeight: boolean = true;
   @Input() maxRows: number = 20;
   @Input() rowHeight: number = 40; // Approximate height per row in pixels
 
