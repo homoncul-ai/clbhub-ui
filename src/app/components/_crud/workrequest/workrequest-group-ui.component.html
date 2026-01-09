@@ -19,6 +19,22 @@
         <hr />
     </div>
 
+    <!-- Messages Accordion Section -->
+    <mdb-accordion [multiple]="false" *ngIf="hasClientMessageThread()">
+        <mdb-accordion-item [collapsed]="true">
+            <ng-template mdbAccordionItemHeader>
+                <i class="fas fa-comments me-2"></i> Client Messages
+            </ng-template>
+            <ng-template mdbAccordionItemBody> 
+                <!-- Client Messages Tab -->
+                <app-pmessage-ui 
+                    [id]="getClientMessageThreadId()"
+                    [readonly]="false">
+                </app-pmessage-ui>
+            </ng-template>
+        </mdb-accordion-item>
+    </mdb-accordion>
+
     <div *ngIf="true || isShowingItemsList()">
         <app-workrequestitem-list
             [criteria]="itemsCriteria"

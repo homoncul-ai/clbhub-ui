@@ -36,6 +36,7 @@ import { CatalogEntryInterestCrudComponent } from '../catalogentryinterest/catal
 import { StdEntitySectionComponent } from '@app/components/_global/std-entity-section/std-entity-section.component';
 import { WorkRequestDeliverableUiComponent } from '../workrequestdeliverable-ui/workrequestdeliverable-ui.component';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
+import { PMessageUiComponent } from '../pmessage-ui/pmessage-ui.component';
 
 @Component({
   selector: 'app-workrequest-group-ui',
@@ -45,7 +46,7 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
       WorkRequestItemAttachRFIContentAddEntriesComponent, WorkRequestItemUpdateComponent,
       WorkRequestLogListComponent, 
     SimpleButtonbarComponent, StdEntitySectionComponent, WorkItemDeliverableCrudComponent,
-     StdMdbEntitystateComponent, WorkRequestDeliverableUiComponent, MdbAccordionModule ],
+     StdMdbEntitystateComponent, WorkRequestDeliverableUiComponent, MdbAccordionModule, PMessageUiComponent ],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group-ui.component.html',
 })
@@ -90,6 +91,43 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   }
   protected getWorkRequest(): WorkRequestGETData   {
     return this.workRequestUIController?.workRequest || {};
+  }
+
+  // Message tabs properties and methods
+  protected messageTabId: string = 'client';
+
+  protected getWorkRequestMessageTabs(): SimpleTab[] {
+    const tabs: SimpleTab[] = [];
+    
+    tabs.push(new SimpleTab('client', 'Client Messages', '', () => {
+      this.messageTabId = 'client';
+    }, () => this.hasClientMessageThread()));
+
+    tabs.push(new SimpleTab('internal', 'Internal Messages', '', () => {
+      this.messageTabId = 'internal';
+    }, () => this.hasInternalMessageThread() && !this.isClientView()));
+
+    return tabs;
+  }
+
+  protected hasClientMessageThread(): boolean {
+    return !!this.getWorkRequest().clientFacingMessageId;
+  }
+
+  protected hasInternalMessageThread(): boolean {
+    return !!this.getWorkRequest().internalFacingMessageId;
+  }
+
+  protected getClientMessageThreadId(): string {
+    return this.getWorkRequest().clientFacingMessageId || '';
+  }
+
+  protected getInternalMessageThreadId(): string {
+    return this.getWorkRequest().internalFacingMessageId || '';
+  }
+
+  protected hasAnyMessageThread(): boolean {
+    return this.hasClientMessageThread() || this.hasInternalMessageThread();
   }
 
   protected totalItems: number = 0;
