@@ -12,7 +12,6 @@
 </div>
 
 <div *ngIf="!loading && entity !== null && id">
-  <app-workrequestitem-crud [id]="id" modeName="section"></app-workrequestitem-crud>
 
   <div *ngIf="canChangeWorkItemStateToComplete() === true" class="detail-group">
     <!-- <label>Current State Code:</label>
@@ -20,13 +19,7 @@
     <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
   </div>
   
-  <div class="detail-group" *ngIf="entity !== null">
-    <label>Current State Code:</label>
-    <app-std-mdb-entitystate [currentStateCode]="getCurrentStateCode()" 
-      [entityName]="'WorkRequestItem'" [entityId]="entity.getId()"
-      (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
-  </div>
-
+ 
   <div *ngIf="isActionCode('EnqueueRFI')">
     <h6>Show Enqueue RFI Content</h6>
   </div>

@@ -41,11 +41,14 @@
         ></app-simple-tabset>
 
         <div *ngIf="currentTabId === 'details'"> 
-            <app-workrequestitem-update
-                [id]="this.workRequestItemId || ''"
-                [workRequestId]="id || ''"
-                [showingTabset]="false"
-            ></app-workrequestitem-update>
+            <div class="detail-group" *ngIf="entity !== null">
+                <label>Current State Code:</label>
+                <app-std-mdb-entitystate [currentStateCode]="this.workRequestItem?.getCurrentStateCode() || ''" 
+                  [entityName]="'WorkRequestItem'" [entityId]="this.workRequestItem?.getId()"
+                  (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
+              </div>
+            
+            <app-workrequestitem-crud [id]="this.workRequestItemId || ''" modeName="section"></app-workrequestitem-crud>
         </div>
         <div *ngIf="currentTabId === 'update'"> 
             <app-workrequestitem-update
