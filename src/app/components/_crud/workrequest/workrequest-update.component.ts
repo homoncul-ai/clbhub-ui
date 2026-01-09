@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CreateTicketSetupUIData, HcclService, RoutingActionPOSTData, SimpleRestActionResponse, WorkItemDeliverableCriteria, WorkItemDeliverableGETData, WorkItemDeliverableGETDataSearchResults, WorkQueueGETData, WorkRequestGETData, WorkRequestItemCriteria } from '@app/restsvc/hccl.service';
@@ -31,6 +31,9 @@ import { WorkItemDeliverableCrudComponent, WorkItemDeliverableCrudWrapper } from
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss'
 })
 export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkRequestCrudWrapper> implements OnInit, OnDestroy  {
+  
+  // Output to notify parent component to refresh
+  @Output() crudComponentRequiresRefresh = new EventEmitter<void>();
   
   // Properties referenced in template
   acceptText: string = '';
@@ -114,11 +117,12 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       }
     });
     
-    // Refresh entity after modal closes
+    // Refresh entity after modal closes and notify parent
     const subscription = this.acceptModalRef.onClose.subscribe(() => {
       WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
         this.entity = x;
         this.refreshButtonBar(); // Refresh button bar to update button visibility
+        this.crudComponentRequiresRefresh.emit(); // Notify parent to refresh
       });
     });
     this.subscriptions.push(subscription);
@@ -133,11 +137,12 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       }
     });
     
-    // Refresh entity after modal closes
+    // Refresh entity after modal closes and notify parent
     const subscription = this.attachModalRef.onClose.subscribe(() => {
       WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
         this.entity = x;
         this.refreshButtonBar(); // Refresh button bar to update button visibility
+        this.crudComponentRequiresRefresh.emit(); // Notify parent to refresh
       });
     });
     this.subscriptions.push(subscription);
@@ -152,12 +157,13 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       }
     });
     
-    // Refresh entity after modal closes with success result
+    // Refresh entity after modal closes with success result and notify parent
     const subscription = this.enqueueModalRef.onClose.subscribe((result: boolean) => {
       if (result) {
         WorkRequestCrudWrapper.newInstance(this.id, this.hcclService).then(x => {
           this.entity = x;
           this.refreshButtonBar(); // Refresh button bar to update button visibility
+          this.crudComponentRequiresRefresh.emit(); // Notify parent to refresh
         });
       }
     });

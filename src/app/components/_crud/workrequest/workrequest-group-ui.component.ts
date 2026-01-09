@@ -3,7 +3,7 @@ import { TeamMemberListComponent } from './../teammember/teammember-list.compone
 // This was generated using entityName = WorkRequest
 // Generate the new [entityName]-group-ui.component.ts   files using this template 
 
-import { Component, Input, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -16,6 +16,7 @@ import { WorkrequestUpdateComponent } from "./workrequest-update.component";
 import { WorkRequestListComponent } from './workrequest-list.component';
 import { WorkRequestItemListComponent } from '../workrequestitem/workrequestitem-list.component';
 import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Subscription } from 'rxjs';
 import { WorkRequestItemCrudComponent, WorkRequestItemCrudWrapper } from '../workrequestitem/workrequestitem-crud.component';
 import { WorkRequestItemEnqueueRFIComponent } from '../workrequestitem/workrequestitem-enqueuerfi.component';
 import { WorkRequestItemAttachRFIContentAddEntriesComponent } from '../workrequestitem/workrequestitem-attachrficontent-addentries.component';
@@ -26,6 +27,8 @@ import { WorkRequestLogListComponent } from '../workrequestlog/workrequestlog-li
 import { WorkRequestRouteComponent } from './workrequest-route.component';
 import { WorkRequestRouteTicketComponent } from './workrequest-route-ticket-modal.component';
 import { WorkRequestAcceptModalComponent } from './workrequest-accept-modal.component';
+import { WorkRequestAttachContentModalComponent } from './workrequest-attach-content-modal.component';
+import { WorkRequestEnqueueModalComponent } from './workrequest-enqueue-modal.component';
 import { WorkRequestItemCompleteModalComponent } from './workrequestitem-complete-modal.component';
 import { SimpleButtonBar, SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 import { ProviderRequestCrudComponent } from '../providerrequest/providerrequest-crud.component';
@@ -50,7 +53,7 @@ import { PMessageUiComponent } from '../pmessage-ui/pmessage-ui.component';
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group-ui.component.html',
 })
-export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<WorkRequestCrudWrapper> implements OnInit {  
+export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<WorkRequestCrudWrapper> implements OnInit, OnDestroy {  
 
   // Inject modal service
   private modalService = inject(MdbModalService);
@@ -63,8 +66,25 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   // Cache the button bar to prevent recreation on every change detection
   private _buttonBar: SimpleButtonBar | null = null;
   
+  // Subscription management for modal close events
+  private subscriptions: Subscription[] = [];
+  
   constructor() {
     super();    
+  }
+
+  ngOnDestroy(): void {
+    // Clean up all subscriptions
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = [];
+    
+    // Clear button bar cache
+    this._buttonBar = null;
+    
+    // Close any open modals
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
   } 
   protected newCrudWrapperForCreate(): WorkRequestCrudWrapper {
     return WorkRequestCrudWrapper.newInstanceForCreate(this.hcclService);
@@ -439,6 +459,12 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         baseRoute: baseRoute
       }
     });
+
+    // Refresh component after modal closes
+    const subscription = this.modalRef.onClose.subscribe(() => {
+      this.refreshAfterModalClose();
+    });
+    this.subscriptions.push(subscription);
   }
 
   isTicketAccepted(): boolean {
@@ -455,6 +481,12 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         baseRoute: baseRoute
       }
     });
+
+    // Refresh component after modal closes
+    const subscription = this.modalRef.onClose.subscribe(() => {
+      this.refreshAfterModalClose();
+    });
+    this.subscriptions.push(subscription);
   }
 
   isTicketComplete(): boolean {
@@ -487,6 +519,12 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
         baseRoute: baseRoute
       }
     });
+
+    // Refresh component after modal closes
+    const subscription = this.modalRef.onClose.subscribe(() => {
+      this.refreshAfterModalClose();
+    });
+    this.subscriptions.push(subscription);
   }
 
   changeWorRequestItemStateToComplete() {
@@ -579,16 +617,54 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     this._buttonBar = null; // Clear cache to force recreation
   }
 
+  // Refresh the component after a modal closes
+  private async refreshAfterModalClose(): Promise<void> {
+    // Reload the main entity (work request)
+    if (this.id) {
+      this.entity = await this.loadEntityById(this.id);
+      this.refreshButtonBar();
+      
+      // Reload work request item if one is currently selected
+      if (this.workRequestItemId) {
+        await this.loadWorkRequestItemById();
+      }
+      
+      this.cdr.detectChanges();
+    }
+  }
+
   openAttachContentModal(): void {
-    // Import and open the attach content modal
-    // Note: You may need to import WorkRequestAttachContentModalComponent
-    console.log('openAttachContentModal called - implement modal opening');
+    this.modalRef = this.modalService.open(WorkRequestAttachContentModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
+      }
+    });
+
+    // Refresh component after modal closes
+    const subscription = this.modalRef.onClose.subscribe(() => {
+      this.refreshAfterModalClose();
+    });
+    this.subscriptions.push(subscription);
   }
 
   openEnqueueModal(): void {
-    // Import and open the enqueue modal
-    // Note: You may need to import WorkRequestEnqueueModalComponent
-    console.log('openEnqueueModal called - implement modal opening');
+    this.modalRef = this.modalService.open(WorkRequestEnqueueModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        workRequestId: this.id,
+        userProfileId: this.hcclContextService.getCurrentUserProfileId() || ''
+      }
+    });
+
+    // Refresh component after modal closes with success result
+    const subscription = this.modalRef.onClose.subscribe((result: boolean) => {
+      if (result) {
+        this.refreshAfterModalClose();
+      }
+    });
+    this.subscriptions.push(subscription);
   }
 
   protected isShowingWorkRequestItemWorkSection(): boolean {
