@@ -19206,11 +19206,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "firstErrorMessage": {
-            "$ref": "#/components/schemas/SimpleMessage"
-          },
           "errorMessageAsString": {
             "type": "string"
+          },
+          "firstErrorMessage": {
+            "$ref": "#/components/schemas/SimpleMessage"
           }
         }
       },
@@ -31795,6 +31795,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "workRequestType": {
+            "$ref": "#/components/schemas/WorkRequestTypeRefGETData"
+          },
           "currentState": {
             "$ref": "#/components/schemas/EntityStateGETData"
           },
@@ -31867,6 +31870,43 @@
           },
           "currentStateTransition": {
             "$ref": "#/components/schemas/EntityStateTransitionGETData"
+          }
+        }
+      },
+      "WorkRequestTypeRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "policyBeanName": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -35444,43 +35484,6 @@
           "policyBeanName": {
             "maxLength": 255,
             "minLength": 1,
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "WorkRequestTypeRefGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "policyBeanName": {
             "type": "string"
           },
           "available": {

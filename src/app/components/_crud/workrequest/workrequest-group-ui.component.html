@@ -35,7 +35,7 @@
         </mdb-accordion-item>
     </mdb-accordion>
 
-    <div *ngIf="true || isShowingItemsList()">
+    <div *ngIf="isShowingItemsList()">
         <app-workrequestitem-list
             [criteria]="itemsCriteria"
             [showingSearch]="false"

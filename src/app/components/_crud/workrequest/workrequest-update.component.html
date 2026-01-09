@@ -13,7 +13,7 @@
   </div> -->
 
   <div *ngIf="!isTicketCompleted() && !isTicketCancelled() && !isReadonly()">
-  
+  {{this.workRequestTypeCode}}
   <app-simple-buttonbar 
     [buttonBar]="getSimpleButtonBar()" 
     [displayMode]="'select'"

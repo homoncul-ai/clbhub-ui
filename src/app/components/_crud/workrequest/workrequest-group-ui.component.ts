@@ -333,34 +333,6 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
       }
     );
       tabs.push(tab)
-   
-     tab =  new SimpleTab('items', 'Items', '', 
-      () => {   
-        this.currentTabId = 'items';
-        //this.router.navigate([idBaseRoute, 'items']);
-        
-      },
-      () => {
-        return this.entity !== null;
-      }
-    );
-    if (this.canUpdateWorkRequest()) {
-     // tabs.push(tab)
-    }
-
-    
-    tab =  new SimpleTab('workRequestItem', 'Item', '', 
-      () => {
-        //this.router.navigate([idBaseRoute, 'workRequestItem', this.childId]);
-        this.currentTabId = 'workRequestItem';
-      },
-      () => {
-        return this.isShowingWorkRequestItem();
-      }
-    );
-    if (this.canUpdateWorkRequest()) {
-      tabs.push(tab)
-    }
 
 
     return tabs;

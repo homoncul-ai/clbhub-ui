@@ -502,6 +502,10 @@ export class WorkRequestCrudWrapper extends EntityWrapper<WorkRequestGETData> {
     super(data, hcclService);
   }
 
+  getWorkRequestTypeCode(): string {
+    return this.getData().workRequestType?.businessCode || '';
+  }
+
   getDisplayText(entity?: WorkRequestGETData): string {
     const data = entity || this.getData();
     if (data.name) {

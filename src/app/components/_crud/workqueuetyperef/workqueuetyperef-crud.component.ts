@@ -303,15 +303,7 @@ export class WorkQueueTypeRefCrudWrapper extends EntityWrapper<WorkQueueTypeRefG
     const data = entity || this.data;
     const name = data.name || '';
     const businessCode = data.businessCode || '';
-    if (name && businessCode) {
-      return `${name} (${businessCode})`;
-    } else if (name) {
-      return name;
-    } else if (businessCode) {
-      return businessCode;
-    } else {
-      return 'Unnamed Work Queue Type Ref';
-    }
+    return name + ' (' + businessCode + ')';
   }
 
   getFullName(): string {

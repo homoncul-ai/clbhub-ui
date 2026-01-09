@@ -58,6 +58,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     this.localModes = ['accept', 'reroute'];
     this.loading = false;
   }
+ 
 
   ngOnDestroy(): void {
     // Clean up all subscriptions
@@ -147,7 +148,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     });
     this.subscriptions.push(subscription);
   }
-
+  workRequestTypeCode: string = '';
   openEnqueueModal(): void {
     this.enqueueModalRef = this.modalService.open(WorkRequestEnqueueModalComponent, {
       modalClass: 'modal-lg',
@@ -157,6 +158,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       }
     });
     
+
     // Refresh entity after modal closes with success result and notify parent
     const subscription = this.enqueueModalRef.onClose.subscribe((result: boolean) => {
       if (result) {
@@ -222,13 +224,17 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   }
 
   // Convert the 
-  
+  /**
+   * Button bar for the work requests.
+   * @returns 
+   */
   getSimpleButtonBar(): SimpleButtonBar {
     // Return cached button bar if it exists
     if (this._buttonBar) {
       return this._buttonBar;
     }
     
+
     this._buttonBar = new SimpleButtonBar();
     
     // Accept Ticket button - only show when ticket is not accepted
@@ -236,19 +242,20 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       this.openAcceptModal();
     });
     acceptButton.showingButtonFunction = () => !this.isTicketAccepted();
-    
-    // Attach RFI Content button - only show when ticket is accepted
-    const attachButton = this._buttonBar.addButton('attachContent', 'Attach RFI Content', () => {
-      this.openAttachContentModal();
-    });
-    attachButton.showingButtonFunction = () => this.isTicketAccepted();
-    
-    // Enqueue RFI button - only show when ticket is accepted
-    const enqueueButton = this._buttonBar.addButton('enqueueRFI', 'Enqueue RFI', () => {
-       this.openEnqueueModal();
-    });
-    enqueueButton.showingButtonFunction = () => this.isTicketAccepted() && !this.isEnqueuedTicket();
-    
+     
+    if (this.workRequestTypeCode === 'mworkrequestpolicy_rfi') {
+        // Attach RFI Content button - only show when ticket is accepted
+      const attachButton = this._buttonBar.addButton('attachContent', 'Attach RFI Content', () => {
+        this.openAttachContentModal();
+      });
+      attachButton.showingButtonFunction = () => this.isTicketAccepted();
+      
+      // Enqueue RFI button - only show when ticket is accepted
+      const enqueueButton = this._buttonBar.addButton('enqueueRFI', 'Enqueue RFI', () => {
+        this.openEnqueueModal();
+      });
+      enqueueButton.showingButtonFunction = () => this.isTicketAccepted() && !this.isEnqueuedTicket();
+    }
     return this._buttonBar;
   }
   
@@ -272,6 +279,7 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   protected async loadEntityByIdCall(id: string): Promise<WorkRequestCrudWrapper> {
     const entityRsp = await WorkRequestCrudWrapper.newInstance(id, this.hcclService);
     this. entity = entityRsp as WorkRequestCrudWrapper;
+    this.workRequestTypeCode = this.entity.getWorkRequestTypeCode().toLowerCase();
     if (this.isTicketCompleted()) {
       // Load deliverables
       const delivCrit : WorkItemDeliverableCriteria = {
@@ -280,6 +288,8 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
       const delivsRsp = await this.hcclService.findWorkItemDeliverables(delivCrit).toPromise();
       const delivs : WorkItemDeliverableGETDataSearchResults = delivsRsp as WorkItemDeliverableGETDataSearchResults;
       this.deliverables = delivs.searchResults || [];
+       
+
     
     }
     return entityRsp;

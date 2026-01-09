@@ -7940,6 +7940,7 @@ export interface WorkRequestGETData {
   parentWorkRequestItemId?: string;
   clientFacingMessageId?: string;
   internalFacingMessageId?: string;
+  workRequestType?: WorkRequestTypeRefGETData;
   currentState?: EntityStateGETData;
   currentStateTransition?: EntityStateTransitionGETData;
 }
@@ -7964,6 +7965,19 @@ export interface WorkRequestItemGETData {
   currentStateTransitionId?: string;
   currentState?: EntityStateGETData;
   currentStateTransition?: EntityStateTransitionGETData;
+}
+
+export interface WorkRequestTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  policyBeanName?: string;
+  available?: number;
 }
 
 export interface CreateTicketPOSTData {
@@ -8949,19 +8963,6 @@ export interface WorkRequestTypeRefPOSTData {
   description: string;
   policyBeanName: string;
   available: number;
-}
-
-export interface WorkRequestTypeRefGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  policyBeanName?: string;
-  available?: number;
 }
 
 export interface WorkRequestTypeRefGETDataSearchResults {
