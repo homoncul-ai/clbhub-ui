@@ -6,12 +6,11 @@
 <div *ngIf="!isLoading()">
 <app-simple-messages-section [messagesList]="this.messages"></app-simple-messages-section>
 
-  <div *ngIf="isTicketCompleted() && !isTicketCancelled()">
-  <h4>Deliverables : {{ this.deliverables.length }}</h4>
-  <div *ngFor="let deliverable of this.deliverables">
+  <!-- <div *ngIf="isTicketCompleted() && !isTicketCancelled()">
+   <div *ngFor="let deliverable of this.deliverables">
     <app-workitemdeliverable-crud  [id]="deliverable.id" [modeName]="CRUD_MODES.SECTION"></app-workitemdeliverable-crud>
   </div>
-  </div>
+  </div> -->
 
   <div *ngIf="!isTicketCompleted() && !isTicketCancelled() && !isReadonly()">
   
@@ -21,12 +20,11 @@
     [placeholder]="'Choose an action...'"
     (buttonSelected)="onButtonSelected($event)">
   </app-simple-buttonbar>
-
-
+<!-- 
   <div id="items" *ngIf="false">
     <app-workrequestitem-list [criteria]="itemsCriteria" [showingSearch]="false" [showingSearchHeading]="false" 
     [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false" [onRowClickBehavior]="myOnRowClickBehavior()"></app-workrequestitem-list>
-  </div>
+  </div> -->
 
 
 </div>

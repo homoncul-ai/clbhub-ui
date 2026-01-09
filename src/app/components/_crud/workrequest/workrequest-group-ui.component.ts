@@ -35,6 +35,7 @@ import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-enti
 import { CatalogEntryInterestCrudComponent } from '../catalogentryinterest/catalogentryinterest-crud.component';
 import { StdEntitySectionComponent } from '@app/components/_global/std-entity-section/std-entity-section.component';
 import { WorkRequestDeliverableUiComponent } from '../workrequestdeliverable-ui/workrequestdeliverable-ui.component';
+import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 
 @Component({
   selector: 'app-workrequest-group-ui',
@@ -44,7 +45,7 @@ import { WorkRequestDeliverableUiComponent } from '../workrequestdeliverable-ui/
       WorkRequestItemAttachRFIContentAddEntriesComponent, WorkRequestItemUpdateComponent,
       WorkRequestLogListComponent, 
     SimpleButtonbarComponent, StdEntitySectionComponent, WorkItemDeliverableCrudComponent,
-     StdMdbEntitystateComponent, WorkRequestDeliverableUiComponent ],
+     StdMdbEntitystateComponent, WorkRequestDeliverableUiComponent, MdbAccordionModule ],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './workrequest-group-ui.component.html',
 })
@@ -71,7 +72,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   protected workRequestUIController?: WorkRequestUIControllerGETData | null = null;
 
   protected canUpdateWorkRequest(): boolean {
-    return !this.isClientView();
+    return !this.isClientView()  && this.isWorkRequestOpen();
   }
   protected getDeliverable(): WorkRequestDeliverableGETData | undefined {
     return this.workRequestUIController?.deliverable || undefined;
