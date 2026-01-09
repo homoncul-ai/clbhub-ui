@@ -68,6 +68,9 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   
   // Subscription management for modal close events
   private subscriptions: Subscription[] = [];
+
+  // Accordion state management - track which accordion is currently open
+  protected accordionId: string = 'clientMessages';
   
   constructor() {
     super();    
@@ -189,6 +192,8 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
 
     var workRequest = new WorkRequestCrudWrapper(workRequestUIController?.workRequest || {}, this.hcclService);
 
+    // Set default accordion to clientMessages when loading completes
+    this.accordionId = 'clientMessages';
    
     return workRequest;
   }
@@ -641,6 +646,15 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
 
   protected isShowingWorkRequestItemWorkSection(): boolean {
     return this.isWorkRequestItemOpen() && this.isWorkRequestOpen()  && this.isClientView() == false;
+  }
+
+  // Accordion state management - uses accordionId to track which is open
+  protected openAccordion(id: string): void {
+    this.accordionId = id;
+  }
+
+  protected isAccordionCollapsed(id: string): boolean {
+    return this.accordionId !== id;
   }
 
   protected getWorkRequestItemWorkSectionTabs(): SimpleTab[] {

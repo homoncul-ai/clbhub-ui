@@ -21,7 +21,7 @@
 
     <!-- Messages Accordion Section -->
     <mdb-accordion [multiple]="false" *ngIf="hasClientMessageThread()">
-        <mdb-accordion-item [collapsed]="true">
+        <mdb-accordion-item [collapsed]="isAccordionCollapsed('clientMessages')" (itemShow)="openAccordion('clientMessages')">
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-comments me-2"></i> Client Messages
             </ng-template>
@@ -52,8 +52,8 @@
 
     <!-- Accordion with only one section open at a time -->
     <mdb-accordion [multiple]="false">
-        <!-- Section 1: Work Request Item Work Section (open by default) -->
-        <mdb-accordion-item *ngIf="isShowingWorkRequestItemWorkSection()" [collapsed]="false">
+        <!-- Section 1: Work Request Item Work Section -->
+        <mdb-accordion-item *ngIf="isShowingWorkRequestItemWorkSection()" [collapsed]="isAccordionCollapsed('workItemDetails')" (itemShow)="openAccordion('workItemDetails')">
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-clipboard-list me-2"></i> Work Item Details
             </ng-template>
@@ -93,8 +93,8 @@
             </ng-template>
         </mdb-accordion-item>
 
-        <!-- Section 2: Advocate View (closed by default) -->
-        <mdb-accordion-item *ngIf="!isClientView()" [collapsed]="true">
+        <!-- Section 2: Advocate Tools -->
+        <mdb-accordion-item *ngIf="!isClientView()" [collapsed]="isAccordionCollapsed('advocateTools')" (itemShow)="openAccordion('advocateTools')">
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-user-tie me-2"></i> Advocate Tools
             </ng-template>
@@ -250,8 +250,8 @@
             </ng-template>
         </mdb-accordion-item>
 
-        <!-- Section 3: Client Deliverable View (open by default for clients) -->
-        <mdb-accordion-item *ngIf="isClientView()" [collapsed]="false">
+        <!-- Section 3: Client Deliverable View -->
+        <mdb-accordion-item *ngIf="isClientView()" [collapsed]="isAccordionCollapsed('clientDeliverable')" (itemShow)="openAccordion('clientDeliverable')">
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-file-alt me-2"></i> Deliverable
             </ng-template>
