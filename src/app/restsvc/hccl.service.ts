@@ -3932,6 +3932,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<StateChangeFormResponse>(request);
   }
 
+  callVerdictSignupRequest(body: SignupVerdictPOSTData): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tixui/verdict-signup-request",
+      method: "POST",
+      body: body,
+    };
+    return this.request<WorkRequestGETData>(request);
+  }
+
   callWorkRequestUi(tix_id: string, action_code: string, body: WorkItemFormRequest): Observable<WorkItemFormResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/" + tix_id + "/workrequestitemui/" + action_code,
@@ -9832,6 +9841,13 @@ export interface StateChangeFormRequest {
   showingLegalTransitionsOnly?: boolean;
   nextState?: EntityStateTransition;
   actionFormData?: any;
+}
+
+export interface SignupVerdictPOSTData {
+  workRequestId?: string;
+  workRequestItemId?: string;
+  verdictAccepted?: boolean;
+  comments?: string;
 }
 
 export interface WorkItemFormRequest {

@@ -87,7 +87,13 @@ export abstract class AbstractMultimodeComponent <R extends EntityWrapper<any>> 
   }
   protected abstract loadEntityByIdCall(id: string): Promise<R>;
 
-   
+  protected addErrorMessage(message: string): void {
+    if (this.messages.messages == null) {
+      this.messages.messages = [];
+    }
+    this.messages.messages.push({ message: message, severity: 1 });
+  }
+
   protected  async prepareModeEntry(entity: R, mode: string): Promise<void> {
     this.messages.messages = [];
     return Promise.resolve();

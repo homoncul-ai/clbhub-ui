@@ -22,6 +22,87 @@ Shows the student name, course, and notes from the student.
       <label class="info-label">Notes from Student:</label>
       <div class="notes-content">{{ getStudentNotes() }}</div>
     </div>
+
+    <!-- Messages Section -->
+    <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
+
+    <!-- Verdict Form - only show if not already completed -->
+    <div *ngIf="canSubmitVerdict()" class="verdict-form mt-4">
+      <h5 class="section-title">Signup Decision</h5>
+      
+      <!-- Outcome Radio Buttons -->
+      <div class="form-group mb-3">
+        <label class="info-label d-block mb-2">Decision:</label>
+        <div class="d-flex gap-4">
+          <div class="form-check">
+            <input 
+              mdbRadio 
+              type="radio" 
+              class="form-check-input" 
+              name="verdictOutcome" 
+              id="verdictAccept"
+              [checked]="verdictAccepted === true"
+              (change)="setVerdictAccepted(true)"
+            />
+            <label class="form-check-label" for="verdictAccept">
+              <i class="fas fa-check-circle text-success me-1"></i> Accept
+            </label>
+          </div>
+          <div class="form-check">
+            <input 
+              mdbRadio 
+              type="radio" 
+              class="form-check-input" 
+              name="verdictOutcome" 
+              id="verdictReject"
+              [checked]="verdictAccepted === false"
+              (change)="setVerdictAccepted(false)"
+            />
+            <label class="form-check-label" for="verdictReject">
+              <i class="fas fa-times-circle text-danger me-1"></i> Reject
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comments Textarea -->
+      <div class="form-group mb-3">
+        <app-std-mdb-form-textarea
+          prefix="signup"
+          name="comments"
+          label="Comments"
+          [rows]="3"
+          [maxLength]="1000"
+          [showCharCounter]="true"
+          [(ngModel)]="verdictComments">
+        </app-std-mdb-form-textarea>
+      </div>
+
+      <!-- Save Button -->
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="btn btn-primary"
+          [disabled]="!isVerdictFormValid() || isSaving"
+          (click)="submitVerdict()">
+          <span *ngIf="isSaving">
+            <i class="fas fa-spinner fa-spin me-1"></i> Saving...
+          </span>
+          <span *ngIf="!isSaving">
+            <i class="fas fa-save me-1"></i> Submit Decision
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Show completed state message -->
+    <div *ngIf="isStateCompleted()" class="completed-notice mt-4">
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>
+        This signup request has already been processed.
+      </div>
+    </div>
+
   </div>
 
 </div>

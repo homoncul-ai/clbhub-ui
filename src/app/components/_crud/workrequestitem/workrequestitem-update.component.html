@@ -42,8 +42,8 @@
   </div>
 
   <div *ngIf="isActionCode('Signup')">
-    <h6>Show Signup Content</h6>
-    <app-workrequestitem-signup [id]="entity.getId() || ''"></app-workrequestitem-signup>
+    <h6>Show Signup Content {{ id }}</h6>
+    <app-workrequestitem-signup [id]="this.id || ''"></app-workrequestitem-signup>
   </div>
 </div>
 
