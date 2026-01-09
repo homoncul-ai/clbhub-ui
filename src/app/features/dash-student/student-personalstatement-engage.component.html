@@ -1,0 +1,26 @@
+
+<app-catalogentryinterest-list 
+  *ngIf="showInterestList"
+  [criteria]="getInterestCriteria()" 
+  [showingGoButton]="false" 
+  [showingAddButton]="false" 
+  [showingIdCheckbox]="false" 
+  [showingDiagnostics]="false"
+  [showingSearch]="false" 
+  [showingSearchHeading]="false"
+  [selectedIdsCsv]="''"
+  [autoHeight]="true"
+  [maxRows]="20"
+  [onRowClickBehavior]="onInterestRowClickBehavior()"
+  [onFinishLoading]="onFinishLoadingBehavior()">
+</app-catalogentryinterest-list>
+
+<div class="row" *ngIf="getSelectedInterestId() !== ''">
+  <div class="col-12">
+    <app-student-engage-interest 
+      [interestId]="getSelectedInterestId()"
+      (componentRequiresRefresh)="onChildComponentRefresh()">
+    </app-student-engage-interest> 
+  </div>
+</div>
+

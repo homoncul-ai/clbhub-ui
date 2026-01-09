@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, inject, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData, HcclService } from '@app/restsvc/hccl.service';
@@ -9,22 +9,25 @@ import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_gl
 import { StudentEngageInterestComponent } from './student-engage-interest/student-engage-interest.component';
 
 @Component({
-  selector: 'app-student-personalstatement-research',
+  selector: 'app-student-personalstatement-engage',
   standalone: true,
   imports: [CommonModule, CatalogEntryInterestListComponent, StudentEngageInterestComponent],
-  templateUrl: './student-personalstatement-research.component.html',
+  templateUrl: './student-personalstatement-engage.component.html',
   styleUrl: '../../components/_global/abstract-crud/abstract-crud.component.scss'
 })
-export class StudentPersonalStatementResearchComponent extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
+export class StudentPersonalStatementEngageComponent extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
   
+  @ViewChild(CatalogEntryInterestListComponent) interestListComponent?: CatalogEntryInterestListComponent;
+
   // Properties referenced in template
   error: any = null;
   protected interestId: string = '';
   protected cdr = inject(ChangeDetectorRef);
+  protected showInterestList: boolean = true;
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
-    console.log('PersonalStatementResearchComponent ngOnInit');
+    console.log('StudentPersonalStatementEngageComponent ngOnInit');
     this.entity = await PersonalStatementCrudWrapper.newInstance(this.id, this.hcclService);
     this.localModes = ['mode1', 'mode2'];
     this.loading = false;
@@ -32,7 +35,7 @@ export class StudentPersonalStatementResearchComponent extends AbstractMultimode
 
   protected override async prepareModeEntry(entity: PersonalStatementCrudWrapper, mode: string): Promise<void> {
     super.prepareModeEntry(entity, mode);
-    console.log('PersonalStatementResearchComponent prepareModeEntry ' + this.entity.dump);
+    console.log('StudentPersonalStatementEngageComponent prepareModeEntry ' + this.entity.dump);
     return Promise.resolve();
   }
 
@@ -77,4 +80,32 @@ export class StudentPersonalStatementResearchComponent extends AbstractMultimode
     };
     return x;
   }
+
+  /**
+   * Handle refresh request from child component (e.g., after modal actions)
+   */
+  onChildComponentRefresh(): void {
+    console.log('onChildComponentRefresh called');
+    
+    // Store current selection
+    const currentInterestId = this.interestId;
+    
+    // Force complete destruction and recreation of the list component
+    this.showInterestList = false;
+    this.cdr.detectChanges();
+    
+    // Use setTimeout to ensure the component is fully destroyed before recreating
+    setTimeout(() => {
+      this.showInterestList = true;
+      this.cdr.detectChanges();
+      
+      // Restore selection after a brief delay to allow list to load
+      if (currentInterestId) {
+        setTimeout(() => {
+          this.setSelectedInterestId(currentInterestId);
+        }, 200);
+      }
+    }, 100);
+  }
 }
+

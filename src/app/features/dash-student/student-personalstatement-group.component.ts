@@ -10,7 +10,7 @@ import { PersonalStatementCrudWrapper, PersonalStatementCrudComponent } from '@a
 import { HcclService, PersonalStatementResumeGETData } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { StudentPersonalStatementSearchComponent } from './student-personalstatement-search.component';
-import { StudentPersonalStatementResearchComponent } from './student-personalstatement-research.component';
+import { StudentPersonalStatementEngageComponent } from './student-personalstatement-engage.component';
 import { StudentPersonalStatementResumeListComponent } from './student-personalstatement-resume-list.component';
 import { CreateResumeModalComponent } from './create-resume-modal.component';
 import { StudentPersonalStatementResumeComponent } from './student-personalstatement-resume.component';
@@ -22,7 +22,7 @@ import { StudentPersonalStatementDetailsComponent } from "./student-personalstat
   selector: 'app-student-personalstatement-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, PersonalStatementCrudComponent, 
-    StudentPersonalStatementSearchComponent, StudentPersonalStatementResearchComponent, 
+    StudentPersonalStatementSearchComponent, StudentPersonalStatementEngageComponent, 
     StudentPersonalStatementResumeListComponent, StudentPersonalStatementResumeComponent, 
     StudentPersonalStatementDetailsComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
@@ -66,15 +66,15 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
         }
       );
       tabs.push(tab) 
-      tab = new SimpleTab('messages', 'Messages', '', 
-        () => {
-          this.router.navigate([baseRoute, this.id, 'messages']);
-        },
-        () => {
-          return this.entity !== null;
-        }
-      );
-      tabs.push(tab);
+      // tab = new SimpleTab('messages', 'Messages', '', 
+      //   () => {
+      //     this.router.navigate([baseRoute, this.id, 'messages']);
+      //   },
+      //   () => {
+      //     return this.entity !== null;
+      //   }
+      // );
+      // tabs.push(tab);
       
        tab =  new SimpleTab('engage', 'Engage', '', 
         () => {
