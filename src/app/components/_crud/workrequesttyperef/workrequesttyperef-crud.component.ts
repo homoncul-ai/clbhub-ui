@@ -328,16 +328,7 @@ export class WorkRequestTypeRefCrudWrapper extends EntityWrapper<WorkRequestType
   getDisplayText(entity?: WorkRequestTypeRefGETData): string {
     const data = entity || this.data;
     const name = data.name || '';
-    const businessCode = data.businessCode || '';
-    if (name && businessCode) {
-      return `${name} (${businessCode})`;
-    } else if (name) {
-      return name;
-    } else if (businessCode) {
-      return businessCode;
-    } else {
-      return 'Unnamed Work Request Type Ref';
-    }
+    return name;
   }
 
   getFullName(): string {

@@ -1,7 +1,6 @@
 <div *ngIf="!loading">
-  <h3 *ngIf="isClientView()">Client View</h3>
-  <h3 *ngIf="!isClientView()">Advocate View</h3>
-  <!-- workRequestName, entityStateTransition.currentState.stateName, entityStateTransition.currentState.dateEntered -->
+    <!-- <h3 *ngIf="isClientView()">Client View</h3>
+  <h3 *ngIf="!isClientView()">Advocate View</h3> -->
     <app-workrequest-crud
         [id]="id"
         [modeName]="'section'"
@@ -11,17 +10,15 @@
     <hr />
 
     <div *ngIf="canUpdateWorkRequest()">
-     <app-workrequest-update
+        <app-workrequest-update
             [id]="id"
             [modeName]="'detail'"
             (crudComponentRequiresRefresh)="componentRequiresRefresh()"
         ></app-workrequest-update>
-    </div> 
-
-<hr/>
+    </div>
+    <hr />
 
     <div *ngIf="true || isShowingItemsList()">
-      <h3>Items</h3>
         <app-workrequestitem-list
             [criteria]="itemsCriteria"
             [showingSearch]="false"
@@ -29,65 +26,72 @@
             [showingGoButton]="false"
             [showingAddButton]="false"
             [showingIdCheckbox]="false"
+            [autoHeight]="true"
             [onFinishLoading]="onFinishLoadingBehavior()"
             [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
         ></app-workrequestitem-list>
         <hr />
     </div>
 
-    <!-- work request work section : use method isShowingWorkRequestItemWorkSection() to show the work section
-     Add another tabset here with the tabs for the work section, Update, About, Deliverables
-     use the method getWorkRequestItemWorkSectionTabs() to get the tabs for the work section
-     -->
-<!-- <pre>
-     Showing Work Request Item Work Section: {{ isShowingWorkRequestItemWorkSection() }}
-     itemid {{ this.workRequestItemId }}
-    itemopen {{ this.workRequestItem?.getCurrentState() | json }} 
-    request open {{ this.isWorkRequestOpen() }} 
-    
-    </pre> -->
     <div *ngIf="isShowingWorkRequestItemWorkSection()">
-      <h3>Work Section</h3>
-      <app-simple-tabset
-        *ngIf="showingTabset"
-        [tabs]="getWorkRequestItemWorkSectionTabs()"
-        [currentTabId]="currentTabId"
-      ></app-simple-tabset>
-     
-      <div *ngIf="currentTabId === 'update'">
-        Spoo
-        <app-workrequestitem-update [id]="this.workRequestItemId || ''" [workRequestId]="id || ''" [showingTabset]="false"></app-workrequestitem-update>
-      </div>
-      <div *ngIf="currentTabId === 'about'">
-        <h3>About</h3>
-      </div>
-      <div *ngIf="currentTabId === 'deliverables'">
-        <h3>Deliverables</h3>
-        <app-workrequestdeliverable-ui
-                    [deliverable]="getDeliverable()"
-                    [readonly]="true"
-                ></app-workrequestdeliverable-ui>
-      </div>
-     </div>
+         <app-simple-tabset
+            *ngIf="showingTabset"
+            [tabs]="getWorkRequestItemWorkSectionTabs()"
+            [currentTabId]="'details'"
+        ></app-simple-tabset>
 
-  <div *ngIf="!isClientView()">
-    <h3>Advocate View</h3>
-            <!-- We need to put the "work on UI" stuff in here.-->
-            <!-- Work request related tab -->
-            <app-simple-tabset
-                *ngIf="showingTabset"
-                [tabs]="tabs"
-                [currentTabId]="currentTabId"
-            ></app-simple-tabset>
+        <div *ngIf="currentTabId === 'details'"> 
+            <app-workrequestitem-update
+                [id]="this.workRequestItemId || ''"
+                [workRequestId]="id || ''"
+                [showingTabset]="false"
+            ></app-workrequestitem-update>
+        </div>
+        <div *ngIf="currentTabId === 'update'"> 
+            <app-workrequestitem-update
+                [id]="this.workRequestItemId || ''"
+                [workRequestId]="id || ''"
+                [showingTabset]="false"
+            ></app-workrequestitem-update>
+        </div>
+        <div *ngIf="currentTabId === 'about'">
+            <h3>About</h3>
+        </div>
+        <div *ngIf="currentTabId === 'deliverables'">
+           
+            <app-workrequestdeliverable-ui
+                [deliverable]="getDeliverable()"
+                [readonly]="true"
+            ></app-workrequestdeliverable-ui>
+        </div>
+    </div>
 
-            <div *ngIf="currentTabId === 'details' && this.workRequestItemId !== null 
-            && this.workRequestItemId !== undefined && this.workRequestItemId !== ''">
-              <h3>Item Details {{ this.workRequestItemId }}</h3>
-              <app-workrequestitem-crud [id]="this.workRequestItemId" [modeName]="'section'"></app-workrequestitem-crud>
-            
-             </div> 
+    <div *ngIf="!isClientView()">
+        <!-- <h3>Advocate View</h3> -->
+        <!-- We need to put the "work on UI" stuff in here.-->
+        <!-- Work request related tab -->
+        <app-simple-tabset
+            *ngIf="showingTabset"
+            [tabs]="tabs"
+            [currentTabId]="currentTabId"
+        ></app-simple-tabset>
 
-          <div *ngIf="currentTabId === 'deliverables'">
+        <div
+            *ngIf="
+                currentTabId === 'details' &&
+                this.workRequestItemId !== null &&
+                this.workRequestItemId !== undefined &&
+                this.workRequestItemId !== ''
+            "
+        >
+            <h3>Item Details {{ this.workRequestItemId }}</h3>
+            <app-workrequestitem-crud
+                [id]="this.workRequestItemId"
+                [modeName]="'section'"
+            ></app-workrequestitem-crud>
+        </div>
+
+        <div *ngIf="currentTabId === 'deliverables'">
             <div *ngIf="isShowingDeliverable()">
                 <app-workrequestdeliverable-ui
                     [deliverable]="getDeliverable()"
@@ -97,155 +101,7 @@
             <div *ngIf="!isShowingDeliverable()">
                 <h3>No Deliverable</h3>
             </div>
-        </div> 
-
-            <div *ngIf="currentTabId === 'details-complete'">
-                <div class="column-right">
-                    <app-std-entity-section
-                        [entityType]="getWorkRequest().subjectEntityType || ''"
-                        [entityId]="getWorkRequest().subjectEntityId || ''"
-                    ></app-std-entity-section>
-                </div>
-            </div>
-
-            <div *ngIf="currentTabId === 'items'">
-             
-                <div id="items" *ngIf="true">
-                    <app-workrequestitem-list
-                        [criteria]="itemsCriteria"
-                        [showingSearch]="false"
-                        [showingSearchHeading]="false"
-                        [showingGoButton]="false"
-                        [showingAddButton]="false"
-                        [showingIdCheckbox]="false"
-                        [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
-                    ></app-workrequestitem-list>
-                </div>
-             
-            </div>
-            
-
-            <div *ngIf="currentTabId === 'workRequestItem'">
-                <app-workrequestitem-crud
-                    [id]="childId"
-                    modeName="section"
-                ></app-workrequestitem-crud>
-
-                <div
-                    *ngIf="
-                        canChangeWorkItemStateToComplete(
-                            this.workRequestItem
-                        ) === true
-                    "
-                    class="detail-group"
-                >
-                    <!-- <label>Current State Code:</label>
-  <span>{{ this.workRequestItem?.getCurrentStateCode() }} 
-  <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
-                </div>
-                <div class="detail-group" *ngIf="this.workRequestItem !== null">
-                    <label>Current State Code:</label>
-                    <app-std-mdb-entitystate
-                        [currentStateCode]="
-                            this.workRequestItem.getCurrentStateCode() || ''
-                        "
-                        [entityName]="'WorkRequestItem'"
-                        [entityId]="this.workRequestItem.getId()"
-                        (stateChangeComplete)="onStateChangeComplete()"
-                    ></app-std-mdb-entitystate>
-                </div>
-
-                <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
-                    <h6>Show Enqueue RFI Content</h6>
-                </div>
-
-                <div
-                    *ngIf="
-                        workRequestItem?.getActionCode() === 'AttachRFIContent'
-                    "
-                >
-                    <div
-                        *ngIf="
-                            workRequestItem?.getCurrentStateCode() !==
-                            'completed'
-                        "
-                    >
-                        <app-workrequestitem-attachrficontent-addentries
-                            [id]="id || ''"
-                            [childId]="childId || ''"
-                        ></app-workrequestitem-attachrficontent-addentries>
-                    </div>
-
-                    <div
-                        *ngIf="
-                            workRequestItem?.getCurrentStateCode() ===
-                                'completed' && this.workItemDeliverableId !== ''
-                        "
-                    >
-                        <app-workitemdeliverable-crud
-                            [id]="this.workItemDeliverableId"
-                            modeName="section"
-                        ></app-workitemdeliverable-crud>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="currentTabId === 'logs'">
-                <div class="mb-3" *ngIf="!isClientView()">
-                    <app-simple-buttonbar
-                        [buttonBar]="getWorkRequestActionsButtonBar()"
-                        displayMode="select"
-                        placeholder="Select an action..."
-                        (buttonSelected)="onWorkRequestActionSelected($event)"
-                    >
-                    </app-simple-buttonbar>
-                </div>
-                <hr />
-                <app-workrequestlog-list
-                    [criteria]="getLogsCriteria()"
-                    [showingSearch]="false"
-                    [showingSearchHeading]="false"
-                    [showingGoButton]="false"
-                    [showingAddButton]="false"
-                    [showingIdCheckbox]="false"
-                ></app-workrequestlog-list>
-            </div>
-
-            <div *ngIf="currentTabId === 'debug'">
-                <h1>CRUD Modes DEBUG</h1>
-                <hr />
-                <app-workrequest-crud
-                    [id]="id"
-                    modeName="debug"
-                ></app-workrequest-crud>
-            </div>
-
-            <div *ngIf="currentTabId === 'fk_menu'">
-                <h1>FK_MENU</h1>
-            </div>
         </div>
-        </div>
-
-        <div *ngIf="isClientView()">
-            <h3>Deliverable</h3>
-            <!-- Work request related tab -->
-            <app-simple-tabset
-                *ngIf="showingTabset"
-                [tabs]="tabs"
-                [currentTabId]="currentTabId"
-            ></app-simple-tabset>
-
-            <div *ngIf="currentTabId === 'details'">
-                <div *ngIf="isShowingDeliverable()">
-                    <app-workrequestdeliverable-ui
-                        [deliverable]="getDeliverable()"
-                        [readonly]="true"
-                    ></app-workrequestdeliverable-ui>
-                </div>
-                <div *ngIf="!isShowingDeliverable()">
-                    <h3>No Deliverable</h3>
-                </div>
-            </div> 
 
         <div *ngIf="currentTabId === 'details-complete'">
             <div class="column-right">
@@ -255,7 +111,7 @@
                 ></app-std-entity-section>
             </div>
         </div>
-<!-- 
+
         <div *ngIf="currentTabId === 'items'">
             <div id="items" *ngIf="true">
                 <app-workrequestitem-list
@@ -265,10 +121,11 @@
                     [showingGoButton]="false"
                     [showingAddButton]="false"
                     [showingIdCheckbox]="false"
+                    [autoHeight]="true"
                     [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
                 ></app-workrequestitem-list>
             </div>
-        </div> -->
+        </div>
 
         <div *ngIf="currentTabId === 'workRequestItem'">
             <app-workrequestitem-crud
@@ -284,8 +141,8 @@
                 class="detail-group"
             >
                 <!-- <label>Current State Code:</label>
-      <span>{{ this.workRequestItem?.getCurrentStateCode() }} 
-      <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
+  <span>{{ this.workRequestItem?.getCurrentStateCode() }} 
+  <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
             </div>
             <div class="detail-group" *ngIf="this.workRequestItem !== null">
                 <label>Current State Code:</label>
@@ -332,6 +189,16 @@
         </div>
 
         <div *ngIf="currentTabId === 'logs'">
+            <div class="mb-3" *ngIf="!isClientView()">
+                <app-simple-buttonbar
+                    [buttonBar]="getWorkRequestActionsButtonBar()"
+                    displayMode="select"
+                    placeholder="Select an action..."
+                    (buttonSelected)="onWorkRequestActionSelected($event)"
+                >
+                </app-simple-buttonbar>
+            </div>
+            <hr />
             <app-workrequestlog-list
                 [criteria]="getLogsCriteria()"
                 [showingSearch]="false"
@@ -342,8 +209,130 @@
             ></app-workrequestlog-list>
         </div>
 
+        <div *ngIf="currentTabId === 'debug'">
+            <h1>CRUD Modes DEBUG</h1>
+            <hr />
+            <app-workrequest-crud
+                [id]="id"
+                modeName="debug"
+            ></app-workrequest-crud>
+        </div>
+
+        <div *ngIf="currentTabId === 'fk_menu'">
+            <h1>FK_MENU</h1>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isClientView()">
+    <h3>Deliverable</h3>
+    <!-- Work request related tab -->
+    <app-simple-tabset
+        *ngIf="showingTabset"
+        [tabs]="tabs"
+        [currentTabId]="currentTabId"
+    ></app-simple-tabset>
+
+    <div *ngIf="currentTabId === 'details'">
+        <div *ngIf="isShowingDeliverable()">
+            <app-workrequestdeliverable-ui
+                [deliverable]="getDeliverable()"
+                [readonly]="true"
+            ></app-workrequestdeliverable-ui>
+        </div>
+        <div *ngIf="!isShowingDeliverable()">
+            <h3>No Deliverable</h3>
+        </div>
     </div>
 
+    <div *ngIf="currentTabId === 'details-complete'">
+        <div class="column-right">
+            <app-std-entity-section
+                [entityType]="getWorkRequest().subjectEntityType || ''"
+                [entityId]="getWorkRequest().subjectEntityId || ''"
+            ></app-std-entity-section>
+        </div>
+    </div>
+    <!-- 
+        <div *ngIf="currentTabId === 'items'">
+            <div id="items" *ngIf="true">
+                <app-workrequestitem-list
+                    [criteria]="itemsCriteria"
+                    [showingSearch]="false"
+                    [showingSearchHeading]="false"
+                    [showingGoButton]="false"
+                    [showingAddButton]="false"
+                    [showingIdCheckbox]="false"
+                    [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
+                ></app-workrequestitem-list>
+            </div>
+        </div> -->
+
+    <div *ngIf="currentTabId === 'workRequestItem'">
+        <app-workrequestitem-crud
+            [id]="childId"
+            modeName="section"
+        ></app-workrequestitem-crud>
+
+        <div
+            *ngIf="
+                canChangeWorkItemStateToComplete(this.workRequestItem) === true
+            "
+            class="detail-group"
+        >
+            <!-- <label>Current State Code:</label>
+      <span>{{ this.workRequestItem?.getCurrentStateCode() }} 
+      <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
+        </div>
+        <div class="detail-group" *ngIf="this.workRequestItem !== null">
+            <label>Current State Code:</label>
+            <app-std-mdb-entitystate
+                [currentStateCode]="
+                    this.workRequestItem.getCurrentStateCode() || ''
+                "
+                [entityName]="'WorkRequestItem'"
+                [entityId]="this.workRequestItem.getId()"
+                (stateChangeComplete)="onStateChangeComplete()"
+            ></app-std-mdb-entitystate>
+        </div>
+
+        <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
+            <h6>Show Enqueue RFI Content</h6>
+        </div>
+
+        <div *ngIf="workRequestItem?.getActionCode() === 'AttachRFIContent'">
+            <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
+                <app-workrequestitem-attachrficontent-addentries
+                    [id]="id || ''"
+                    [childId]="childId || ''"
+                ></app-workrequestitem-attachrficontent-addentries>
+            </div>
+
+            <div
+                *ngIf="
+                    workRequestItem?.getCurrentStateCode() === 'completed' &&
+                    this.workItemDeliverableId !== ''
+                "
+            >
+                <app-workitemdeliverable-crud
+                    [id]="this.workItemDeliverableId"
+                    modeName="section"
+                ></app-workitemdeliverable-crud>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="currentTabId === 'logs'">
+        <app-workrequestlog-list
+            [criteria]="getLogsCriteria()"
+            [showingSearch]="false"
+            [showingSearchHeading]="false"
+            [showingGoButton]="false"
+            [showingAddButton]="false"
+            [showingIdCheckbox]="false"
+        ></app-workrequestlog-list>
+    </div>
+</div>
 
 <hr />
 

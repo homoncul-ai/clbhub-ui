@@ -558,6 +558,11 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
 
   protected getWorkRequestItemWorkSectionTabs(): SimpleTab[] {
     var tabs: SimpleTab[] = [];
+    tabs.push(new SimpleTab('details', 'Details', '', () => {
+      this.currentTabId = 'details';
+    }, () => {
+      return this.isShowingWorkRequestItemWorkSection();
+    }));
     tabs.push(new SimpleTab('update', 'Update', '', () => {
       this.currentTabId = 'update';
     }, () => {

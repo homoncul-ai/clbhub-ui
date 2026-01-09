@@ -14,26 +14,30 @@
         <label>Code:</label>
         <span>{{ businessCode }}</span>
       </div>
-      <div *ngIf="parentWorkRequestItemId" class="detail-group">
-        <label>Parent Work Request:</label>
-        <app-workrequestitem-crud [id]="parentWorkRequestItemId" [modeName]="CRUD_MODES.PARENT"></app-workrequestitem-crud>
-      </div>
+      <!-- <div *ngIf="parentWorkRequestItemId" class="detail-group">
+        <label>Parent :</label>
+        <app-std-buba 
+          entityName="WorkRequestItem"
+          entityId="parentWorkRequestItemId"
+          [showLink]="false"
+        ></app-std-buba>
+      </div> -->
       <div class="detail-group">
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
 
       <div class="detail-group">
-        <label>Work Request Type:</label>
+        <label>Request Type:</label>
         <app-workrequesttyperef-crud [id]="workRequestTypeId" [modeName]="CRUD_MODES.FK"></app-workrequesttyperef-crud>
       </div>
       <div class="detail-group">
-        <label>Work Queue:</label>
+        <label> Provider / Queue:</label>
         <app-workqueue-crud [id]="workQueueId" [modeName]="CRUD_MODES.FK"></app-workqueue-crud>
       </div>
       <!-- Left Column --> 
         <div class="detail-group">
-          <label>Name :</label>
+          <label>Request Name :</label>
           <span>{{ name }}</span>  
         </div>
        
@@ -46,8 +50,8 @@
       <div class="column-left">
         <div class="detail-group">
           <label>Current State Code:</label>
-          <span *ngIf="readonly">{{ this.currentState.stateName }}</span>
-          <span *ngIf="!readonly">
+          <span *ngIf="true">{{ this.currentState.stateName }}</span>
+          <span *ngIf="false">
             <app-std-mdb-entitystate [currentStateCode]="currentStateCode" [entityName]="'WorkRequest'" [entityId]="entityId"
             (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
           </span>

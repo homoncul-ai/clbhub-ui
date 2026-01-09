@@ -26,6 +26,7 @@ import { ProviderRequestCrudComponent } from "../providerrequest/providerrequest
 import { StdMdbEntitystateComponent } from '@app/components/_global/std-mdb-entitystate/std-mdb-entitystate.component';
 import { HcclUserProfileCrudComponent } from "../hccluserprofile/hccluserprofile-crud.component";
 import { WorkRequestItemCrudComponent } from "../workrequestitem/workrequestitem-crud.component";
+import { StdBubaComponent } from "@app/components/_global/std-buba/std-buba.component";
 
 @Component({
   selector: 'app-workrequest-crud',
@@ -37,8 +38,7 @@ import { WorkRequestItemCrudComponent } from "../workrequestitem/workrequestitem
     AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent,
     WorkrequesttyperefCrudComponent, WorkqueueCrudComponent, HcclTeamCrudComponent, HccluserCrudComponent,
     ProviderRequestCrudComponent, ProviderRequestCrudComponent, StdMdbEntitystateComponent, HcclUserProfileCrudComponent,
-    WorkRequestItemCrudComponent
-  ],
+    WorkRequestItemCrudComponent, StdBubaComponent],
   standalone: true
 })
 export class WorkRequestCrudComponent extends AbstractCrudComponent<WorkRequestCrudWrapper> implements OnInit, OnChanges, OnDestroy {
