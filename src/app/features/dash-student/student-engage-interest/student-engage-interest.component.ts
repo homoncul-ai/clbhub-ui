@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global';
 import { HcclService, CatalogEntryInterestGETData, PMessageGETData, CatalogEntryGETData, SignupUIData, SignupBehaviorPOSTData } from '@app/restsvc/hccl.service';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
@@ -32,6 +32,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class StudentEngageInterestComponent 
 implements OnInit, OnDestroy, OnChanges {
   @Input() interestId: string = '';
+  @Output() componentRequiresRefresh = new EventEmitter<void>();
 
   private hcclService = inject(HcclService);
   private hcclContextService = inject(HcclContextService);
@@ -191,7 +192,11 @@ implements OnInit, OnDestroy, OnChanges {
   }
 
   cancelSignUp(): void {
-    alert("Cancleling signup");
+    // TODO: Implement actual cancel signup API call
+    alert("Canceling signup");
+    this.loadInterestData();
+    // Notify parent component to refresh
+    this.componentRequiresRefresh.emit();
   }
 
   /**
@@ -315,6 +320,9 @@ implements OnInit, OnDestroy, OnChanges {
         this.submittingSignup = false;
         this.closeSignUpModal();
         this.loadInterestData();
+        // Notify parent component to refresh
+        console.log('Emitting componentRequiresRefresh event');
+        this.componentRequiresRefresh.emit();
       },
       error: (err) => {
         console.error('Error creating signup request:', err);

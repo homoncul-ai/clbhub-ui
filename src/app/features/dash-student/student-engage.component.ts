@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogEntryInterestListComponent } from "@app/components/_crud/catalogentryinterest/catalogentryinterest-list.component";
@@ -37,11 +37,17 @@ import { FormsModule } from '@angular/forms';
   (selectionChange)="onPersonalStatementChange($event)">
 </app-personal-statement-selector>
 
-            <app-catalogentryinterest-list *ngIf="showInterestList && personalStatementId"
-   [criteria]="getInterestCriteria()" [showingSearch]="false"
-   [showingSearchHeading]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
-   [onRowClickBehavior]="onInterestRowClickBehavior()"
-   [onFinishLoading]="onFinishLoadingBehavior()"></app-catalogentryinterest-list> 
+            <app-catalogentryinterest-list 
+              *ngIf="showInterestList && personalStatementId"
+              [criteria]="getInterestCriteria()" 
+              [showingSearch]="false"
+              [showingSearchHeading]="false" 
+              [showingGoButton]="false" 
+              [showingAddButton]="false" 
+              [showingIdCheckbox]="false"
+              [onRowClickBehavior]="onInterestRowClickBehavior()"
+              [onFinishLoading]="onFinishLoadingBehavior()">
+            </app-catalogentryinterest-list> 
             </div>
           </div>
         </div>
@@ -49,7 +55,9 @@ import { FormsModule } from '@angular/forms';
 
       <div class="row" *ngIf="getSelectedInterestId() !== ''">
         <div class="col-12">
-          <app-student-engage-interest [interestId]="getSelectedInterestId()"></app-student-engage-interest> 
+          <app-student-engage-interest 
+            [interestId]="getSelectedInterestId()"
+            (componentRequiresRefresh)="onChildComponentRefresh()"></app-student-engage-interest> 
         </div>
       </div>
     </div>
@@ -69,6 +77,8 @@ import { FormsModule } from '@angular/forms';
 export class StudentEngageComponent 
 extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnInit {  
 
+  @ViewChild(CatalogEntryInterestListComponent) interestListComponent?: CatalogEntryInterestListComponent;
+  
   protected personalStatementId: string = '';
   private interestTab: SimpleTab | undefined;
   private catalogEntryInterest: CatalogEntryInterestGETData | null = null;
@@ -227,5 +237,32 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
       this.showInterestList = true;
       this.cdr.detectChanges();
     }, 0);
+  }
+
+  /**
+   * Handle refresh request from child component (e.g., after modal actions)
+   */
+  onChildComponentRefresh(): void {
+    console.log('onChildComponentRefresh called');
+    
+    // Store current selection
+    const currentInterestId = this.interestId;
+    
+    // Force complete destruction and recreation of the list component
+    this.showInterestList = false;
+    this.cdr.detectChanges();
+    
+    // Use setTimeout to ensure the component is fully destroyed before recreating
+    setTimeout(() => {
+      this.showInterestList = true;
+      this.cdr.detectChanges();
+      
+      // Restore selection after a brief delay to allow list to load
+      if (currentInterestId) {
+        setTimeout(() => {
+          this.setSelectedInterestId(currentInterestId);
+        }, 200);
+      }
+    }, 100);
   }
 }
