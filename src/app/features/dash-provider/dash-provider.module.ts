@@ -12,6 +12,8 @@ import { ProviderWorkrequestGroupComponent } from './workrequest/provider-workre
 import { ProviderCatalogGroupComponent } from './catalog/provider-catalog-group.component';
 import { ProviderWorkqueueGroupComponent } from './workqueues/provider-workqueue-group.component';
 import { ProviderCatalogTabDashComponent } from './catalog/provider-catalog-tab-dash.component';
+import { CatalogEntrySignupPacketListComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component';
+import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
 
 const routes: Routes = [
   {
@@ -38,6 +40,12 @@ const routes: Routes = [
       { path: 'catalogs', component: ProviderCatalogTabDashComponent },
       { path: 'catalogs/:id', redirectTo: 'catalogs/:id/dash', pathMatch: 'full'  },
       { path: 'catalogs/:id/:tabId', component: ProviderCatalogGroupComponent },
+
+      // CatalogEntrySignupPacket routes
+      { path: 'catalogentrysignuppackets/create', component: CatalogEntrySignupPacketGroupComponent },
+      { path: 'catalogentrysignuppackets/:id/:tabId', component: CatalogEntrySignupPacketGroupComponent },
+      { path: 'catalogentrysignuppackets/:id', redirectTo: 'catalogentrysignuppackets/:id/details', pathMatch: 'full' },
+      { path: 'catalogentrysignuppackets', component: CatalogEntrySignupPacketListComponent },
      
     ]
   }
@@ -51,7 +59,9 @@ const routes: Routes = [
     ProviderDashboardGroupComponent,
     ProviderDetailsGroupComponent,
     ProviderWorkrequestGroupComponent,
-    ProviderCatalogGroupComponent
+    ProviderCatalogGroupComponent,
+    CatalogEntrySignupPacketListComponent,
+    CatalogEntrySignupPacketGroupComponent
   ]
 })
 export class DashProviderModule { }

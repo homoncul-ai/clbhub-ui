@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EntityWrapper } from '../../../models/crud-entity-wrapper';
-import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, BaseCriteria } from '../../../restsvc/hccl.service';
+import { CLStudentPOSTData, HcclService, HcclUserContextGETData, MenuControlDataList, BaseCriteria, HcclUserGETData, HcclUserProfileGETData } from '../../../restsvc/hccl.service';
 import { Reference, SimpleMessageList } from '../../../restsvc/common-request-service.model';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { CRUD_MODES, CrudModeType } from '../../../@core/constants';
@@ -22,6 +22,14 @@ import { AbstractListComponent } from '../abstract-list/abstract-list.component'
 })
 export abstract class AbstractCrudComponent<R extends EntityWrapper<any>> implements OnInit {
   
+  protected getCurrentUserProfile(): HcclUserProfileGETData | null {
+    return this.hcclContextService.getContext().currentUserProfile
+  }
+  protected getCurrentOrganizationId(): string | null {
+    return this.getCurrentUserProfile()?.organizationId || null;
+  }
+
+
   /**
    * This component takes a generic type T that  extends EntityWrapper<T>
    * and a generic type R that extends EntityWrapper<T>

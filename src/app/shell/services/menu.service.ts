@@ -425,6 +425,10 @@ export class MenuService {
     }
     //this.addChildMenuItem(catalogMenu, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG_TAB_DASH));
     this.addMenuItem(menu, catalogMenu);
+
+    // Add Catalog Entry Signup Packets
+    const signupPackets = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOGENTRYSIGNUPPACKET_LIST);
+    this.addMenuItem(menu, signupPackets);
     
 
     // Add Provider Work Request Dashboard with children
@@ -622,6 +626,10 @@ export class MenuService {
     // Add Provider Request Type Ref
     const providerRequestTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_PROVIDERREQUESTTYPEREF_LIST);
     this.addChildMenuItem(providerGroup, providerRequestTypeRefList);
+
+    // Add CatalogEntrySignupPacket
+    const catalogentrysignuppacketList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRYSIGNUPPACKET_LIST);
+    this.addChildMenuItem(providerGroup, catalogentrysignuppacketList);
     
 
     // course list
@@ -984,7 +992,14 @@ export const MENU_CONSTANTS = {
     route: '/provider-dashboard/catalogs',
     componentPath: 'src/app/features/dash-provider/catalogs',
     componentName: 'provider-catalog-tab-dash',
-    icon: 'fas fa-book'
+  },
+  PROVIDER_CATALOGENTRYSIGNUPPACKET_LIST: {
+    level: 1,
+    label: 'Signup Packets',
+    route: '/provider-dashboard/catalogentrysignuppackets',
+    componentPath: 'src/app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component',
+    componentName: 'CatalogEntrySignupPacketListComponent',
+    icon: 'fas fa-clipboard-list' 
   },
 
   // EcoAdmin Dashboard Menu Items
@@ -1453,6 +1468,15 @@ EA_CATALOGENTRYINTEREST_LIST: {
   "componentPath" : "src/app/components/_crud/catalogentryinterest/catalogentryinterest-list.component",
   "componentName" : "CatalogEntryInterestListComponent",
   "icon" : "fas fa-heart"
+},
+
+EA_CATALOGENTRYSIGNUPPACKET_LIST: {
+  level: 2,
+  label: 'Catalog Entry Signup Packets',
+  route: '/ecoadmin-dashboard/catalogentrysignuppackets',
+  componentPath: 'src/app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component',
+  componentName: 'CatalogEntrySignupPacketListComponent',
+  icon: 'fas fa-clipboard-list'
 },
 
 EA_VOCATIONENCODINGINSTANCE_LIST: {

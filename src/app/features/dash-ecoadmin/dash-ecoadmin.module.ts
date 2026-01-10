@@ -70,6 +70,8 @@ import { VocationEncodingRefListComponent } from '../../components/_crud/vocatio
 import { VocationEncodingRefGroupComponent } from '../../components/_crud/vocationencodingref/vocationencodingref-group.component';
 import { PersonalStatementResumeListComponent } from '../../components/_crud/personalstatementresume/personalstatementresume-list.component';
 import { PersonalStatementResumeGroupComponent } from '../../components/_crud/personalstatementresume/personalstatementresume-group.component';
+import { CatalogEntrySignupPacketListComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component';
+import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
 
 const routes: Routes = [
   {
@@ -245,6 +247,12 @@ const routes: Routes = [
       { path: 'personalstatementresumes/:id/:tabId', component: PersonalStatementResumeGroupComponent },
       { path: 'personalstatementresumes/:id', redirectTo: 'personalstatementresumes/:id/details', pathMatch: 'full' },
       { path: 'personalstatementresumes', component: PersonalStatementResumeListComponent },
+
+      // CatalogEntrySignupPacket routes
+      { path: 'catalogentrysignuppackets/create', component: CatalogEntrySignupPacketGroupComponent },
+      { path: 'catalogentrysignuppackets/:id/:tabId', component: CatalogEntrySignupPacketGroupComponent },
+      { path: 'catalogentrysignuppackets/:id', redirectTo: 'catalogentrysignuppackets/:id/details', pathMatch: 'full' },
+      { path: 'catalogentrysignuppackets', component: CatalogEntrySignupPacketListComponent },
     ]
   }
 ];
@@ -315,6 +323,8 @@ const routes: Routes = [
     VocationEncodingRefGroupComponent,
     PersonalStatementResumeListComponent,
     PersonalStatementResumeGroupComponent,
+    CatalogEntrySignupPacketListComponent,
+    CatalogEntrySignupPacketGroupComponent,
     OrgSchoolsGroupComponent
   ]
 })
