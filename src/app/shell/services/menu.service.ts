@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 
 export interface MenuItem {
+  id?: string;
   level: number;
   label: string;
   route: string;
@@ -473,6 +474,7 @@ export class MenuService {
     if (this.personalStatements && this.personalStatements.length > 0) {
       for (const ps of this.personalStatements) {
         const psMenuItem: MenuItem = {
+          id: `${ps.id}`,
           level: 1,
           label: ps.name || 'Unnamed Career Goal',
           route: `/student-dashboard/personalstatements/${ps.id}`,
@@ -483,11 +485,13 @@ export class MenuService {
         this.addChildMenuItem(courses, psMenuItem);
 
         var catalogs = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CATALOG);
+        catalogs.id = `${ps.id}_CATALOG`;
         catalogs.level = 2
         catalogs.route = `/student-dashboard/personalstatements/${ps.id}/search`;
         this.addChildMenuItem(psMenuItem, catalogs);
         
         var engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
+        engage.id = `${ps.id}_ENGAGE`;
         engage.level = 2
         engage.route = `/student-dashboard/personalstatements/${ps.id}/engage`;
         this.addChildMenuItem(psMenuItem, engage);

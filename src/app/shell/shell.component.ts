@@ -176,7 +176,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private convertMenuItemsToTreeFormat(menuItems: any[]): any[] {
     return menuItems.map(item => ({
-      id: item.label,
+      id: item.id || item.label,
       value: item.label,
       opened: item.open === true, // Only open if explicitly set to true
       icon: {

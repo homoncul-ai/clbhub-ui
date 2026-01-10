@@ -1,6 +1,5 @@
 import { DateGETData } from '@app/restsvc/common-request-service.model';
 import {  HcclService, MenuControlData, MenuControlDataList } from '@app/restsvc/hccl.service';
-import { MenuItem } from '@app/shell/services/menu.service';
 
 /**
  * Take an interface and wrap it, so we have 2 properties, 
