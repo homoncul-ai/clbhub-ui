@@ -315,7 +315,8 @@ implements OnInit, OnDestroy, OnChanges {
       consentToProviderMessaging: this.signupFormData.allowingProviderToMessage || false,
       consentToSendTranscript: this.signupUIData.signupBehavior?.consentingToSendTranscript ? 
         (this.signupFormData.allowingProviderToMessage || false) : undefined,
-      signupMessage: this.signupFormData.signupMessage || undefined
+      signupMessage: this.signupFormData.signupMessage || undefined,
+      
     };
 
     this.hcclService.callCreateSignupRequest(signupData).subscribe({

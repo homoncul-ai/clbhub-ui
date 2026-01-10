@@ -81,7 +81,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="signUpModalLabel">
           <i class="fas fa-user-plus me-2"></i>
-          Sign Up
+          Sign Up for {{ interestGETData?.catalogEntry?.entryCode | titlecase }} : {{ interestGETData?.catalogEntry?.title }}
         </h5>
         <button type="button" class="btn-close" (click)="closeSignUpModal()" aria-label="Close"></button>
       </div>
