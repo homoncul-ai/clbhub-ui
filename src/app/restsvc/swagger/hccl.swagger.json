@@ -16704,6 +16704,47 @@
         }
       }
     },
+    "/hccl/students/dash-ui/resolve-signup-verdict-ui-data/{interest-id}": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveSignupVerdictUIData",
+        "parameters": [
+          {
+            "name": "interest-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupVerdictUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/students/dash-ui/resolve-student-data": {
       "get": {
         "tags": [
@@ -38255,6 +38296,33 @@
           }
         }
       },
+      "SignupVerdictUIData": {
+        "type": "object",
+        "properties": {
+          "catalogEntryInterest": {
+            "$ref": "#/components/schemas/CatalogEntryInterestGETData"
+          },
+          "signupBehavior": {
+            "$ref": "#/components/schemas/SignupBehavior"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "studentUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stateTransitionLog": {
+            "$ref": "#/components/schemas/StateTransitionLogGETData"
+          },
+          "personalStatementResume": {
+            "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+          }
+        }
+      },
       "StudentDashUIGETData": {
         "type": "object",
         "properties": {
@@ -38430,13 +38498,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

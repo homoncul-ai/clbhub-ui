@@ -1,4 +1,4 @@
-import { CatalogEntryCriteria, CatalogSearchResultEntryCriteria, CatalogSearchResultGETData, CatalogSearchResultPOSTData, HcclUserContextGETData, MenuControlData, MenuControlDataList, SignupVerdictPOSTData, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse } from './../../../restsvc/hccl.service';
+import { CatalogEntryCriteria, CatalogEntryInterestGETData, CatalogSearchResultEntryCriteria, CatalogSearchResultGETData, CatalogSearchResultPOSTData, HcclUserContextGETData, MenuControlData, MenuControlDataList, SignupBehaviorPOSTData, SignupVerdictPOSTData, WorkItemFormContext, WorkItemFormRequest, WorkItemFormResponse } from './../../../restsvc/hccl.service';
 import { Component, inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
@@ -118,6 +118,61 @@ export class WorkRequestItemSignupComponent extends AbstractMultimodeComponent<W
 
   getStudentNotes(): string {
     return this.studentNotes;
+  }
+
+  // CatalogEntryInterest data accessors
+  getCatalogEntryInterest(): CatalogEntryInterestGETData | null {
+    return this.workItemFormResponse?.mapFormElements?.catalogEntryInterest || null;
+  }
+
+  getSignupBehaviorData(): SignupBehaviorPOSTData | null {
+    const interest = this.getCatalogEntryInterest();
+    return interest?.signupBehaviorPOSTData || null;
+  }
+
+  getCatalogEntryName(): string {
+    const interest = this.getCatalogEntryInterest();
+    return interest?.catalogEntry?.title || interest?.catalogEntry?.entryCode || 'N/A';
+  }
+
+  getCatalogEntryDescription(): string {
+    const interest = this.getCatalogEntryInterest();
+    return interest?.catalogEntry?.description || '';
+  }
+
+  getCatalogEntryType(): string {
+    const interest = this.getCatalogEntryInterest();
+    return interest?.catalogEntry?.catalogTypeCode || 'N/A';
+  }
+
+  getSignupMessage(): string {
+    const signupData = this.getSignupBehaviorData();
+    return signupData?.signupMessage || '';
+  }
+
+  hasResumeAttached(): boolean {
+    const signupData = this.getSignupBehaviorData();
+    return !!signupData?.resumeId;
+  }
+
+  getConsentToMessaging(): boolean {
+    const signupData = this.getSignupBehaviorData();
+    return signupData?.consentToProviderMessaging || false;
+  }
+
+  getConsentToTranscript(): boolean {
+    const signupData = this.getSignupBehaviorData();
+    return signupData?.consentToSendTranscript || false;
+  }
+
+  getInterestNotes(): string {
+    const interest = this.getCatalogEntryInterest();
+    return interest?.notes || '';
+  }
+
+  getInterestState(): string {
+    const interest = this.getCatalogEntryInterest();
+    return interest?.currentStateCode || 'N/A';
   }
 
   isStateCompleted(): boolean {
