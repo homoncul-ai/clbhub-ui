@@ -191,6 +191,10 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     }
 
     var workRequest = new WorkRequestCrudWrapper(workRequestUIController?.workRequest || {}, this.hcclService);
+    this.workRequestItemId = workRequestUIController?.workRequestItem?.id || undefined;
+    if (this.workRequestItemId != null && this.workRequestItemId != undefined && this.workRequestItemId != '') {
+      this.loadWorkRequestItemById();
+    }
 
     // Set default accordion to clientMessages when loading completes
     this.accordionId = 'clientMessages';
@@ -241,6 +245,18 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
 
   protected isWorkRequestCancelled(): boolean {
     return this.entity?.getCurrentState().cancelledStatus === true || false;
+  }
+
+  protected isWorkRequestAccepted(): boolean {
+    return this.entity?.getCurrentState().stateCode === 'accepted' || false;
+  }
+  protected isWorkRequestInitialState(): boolean {
+    return this.entity?.getCurrentState().stateCode === 'initial' || false;
+  }
+
+
+  protected isShowingClientMessages(): boolean {
+    return this.hasClientMessageThread() && !this.isWorkRequestInitialState();
   }
 
   protected override calculateTabIdFromUrl(tabId_in: string): string {

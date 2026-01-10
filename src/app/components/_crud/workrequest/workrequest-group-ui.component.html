@@ -9,6 +9,7 @@
     ></app-workrequest-crud>
     <hr /> 
 
+    showingWorkRequestUpdate: {{canUpdateWorkRequest()}} <br />
     <div *ngIf="canUpdateWorkRequest()">
         <app-workrequest-update
             [id]="id"
@@ -19,8 +20,10 @@
         <hr />
     </div>
 
+   
     <!-- Messages Accordion Section -->
-    <mdb-accordion [multiple]="false" *ngIf="hasClientMessageThread()">
+    showingClientMessages: {{isShowingClientMessages()}} <br />
+    <mdb-accordion [multiple]="false" *ngIf="isShowingClientMessages()">
         <mdb-accordion-item [collapsed]="isAccordionCollapsed('clientMessages')" (itemShow)="openAccordion('clientMessages')">
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-comments me-2"></i> Client Messages
@@ -35,6 +38,7 @@
         </mdb-accordion-item>
     </mdb-accordion>
 
+    showingItemsList: {{isShowingItemsList()}} <br />
     <div *ngIf="isShowingItemsList()">
         <app-workrequestitem-list
             [criteria]="itemsCriteria"
@@ -51,9 +55,10 @@
     </div>
 
     <!-- Accordion with only one section open at a time -->
-    <mdb-accordion [multiple]="false">
+     showingWorkRequestItemWorkSection: {{isShowingWorkRequestItemWorkSection()}} <br />
+    <mdb-accordion [multiple]="false" *ngIf="isShowingWorkRequestItemWorkSection()">
         <!-- Section 1: Work Request Item Work Section -->
-        <mdb-accordion-item *ngIf="isShowingWorkRequestItemWorkSection()" [collapsed]="isAccordionCollapsed('workItemDetails')" (itemShow)="openAccordion('workItemDetails')">
+        <mdb-accordion-item  [collapsed]="isAccordionCollapsed('workItemDetails')" (itemShow)="openAccordion('workItemDetails')">
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-clipboard-list me-2"></i> Work Item Details
             </ng-template>

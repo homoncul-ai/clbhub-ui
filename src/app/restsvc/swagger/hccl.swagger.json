@@ -18719,6 +18719,9 @@
           "resumeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "signupPostDataJson": {
+            "type": "string"
           }
         }
       },
@@ -18921,6 +18924,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "signupPostDataJson": {
+            "type": "string"
+          },
           "catalogEntry": {
             "$ref": "#/components/schemas/CatalogEntryGETData"
           },
@@ -18929,6 +18935,9 @@
           },
           "currentStateTransition": {
             "$ref": "#/components/schemas/EntityStateTransitionGETData"
+          },
+          "signupBehaviorPOSTData": {
+            "$ref": "#/components/schemas/SignupBehaviorPOSTData"
           }
         }
       },
@@ -19176,6 +19185,32 @@
           }
         }
       },
+      "SignupBehaviorPOSTData": {
+        "type": "object",
+        "properties": {
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "studentUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resumeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "consentToProviderMessaging": {
+            "type": "boolean"
+          },
+          "consentToSendTranscript": {
+            "type": "boolean"
+          },
+          "signupMessage": {
+            "type": "string"
+          }
+        }
+      },
       "SimpleMessage": {
         "type": "object",
         "properties": {
@@ -19376,6 +19411,9 @@
           "resumeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "signupPostDataJson": {
+            "type": "string"
           }
         }
       },
@@ -38343,32 +38381,6 @@
           }
         }
       },
-      "SignupBehaviorPOSTData": {
-        "type": "object",
-        "properties": {
-          "catalogEntryInterestId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "studentUserProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "resumeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "consentToProviderMessaging": {
-            "type": "boolean"
-          },
-          "consentToSendTranscript": {
-            "type": "boolean"
-          },
-          "signupMessage": {
-            "type": "string"
-          }
-        }
-      },
       "EntityState": {
         "type": "object",
         "properties": {
@@ -38610,6 +38622,9 @@
         "properties": {
           "workRequest": {
             "$ref": "#/components/schemas/WorkRequestGETData"
+          },
+          "workRequestItem": {
+            "$ref": "#/components/schemas/WorkRequestItemGETData"
           },
           "deliverable": {
             "$ref": "#/components/schemas/WorkRequestDeliverableGETData"

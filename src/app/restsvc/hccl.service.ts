@@ -4282,6 +4282,7 @@ export interface CatalogEntryInterestPOSTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   resumeId?: string;
+  signupPostDataJson?: string;
 }
 
 export interface CatalogEntryGETData {
@@ -4344,9 +4345,11 @@ export interface CatalogEntryInterestGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   resumeId?: string;
+  signupPostDataJson?: string;
   catalogEntry?: CatalogEntryGETData;
   currentState?: EntityStateGETData;
   currentStateTransition?: EntityStateTransitionGETData;
+  signupBehaviorPOSTData?: SignupBehaviorPOSTData;
 }
 
 export interface CatalogEntryInterestGETDataSearchResults {
@@ -4433,6 +4436,15 @@ export interface HcclOrganizationGETData {
   parentEntityName?: string;
 }
 
+export interface SignupBehaviorPOSTData {
+  catalogEntryInterestId?: string;
+  studentUserProfileId?: string;
+  resumeId?: string;
+  consentToProviderMessaging?: boolean;
+  consentToSendTranscript?: boolean;
+  signupMessage?: string;
+}
+
 export interface CatalogEntryInterestCriteria {
   pageNumber?: number;
   pageSize?: number;
@@ -4473,6 +4485,7 @@ export interface CatalogEntryInterestPUTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   resumeId?: string;
+  signupPostDataJson?: string;
 }
 
 export interface CatalogEntryPOSTData {
@@ -9779,15 +9792,6 @@ export interface RoutingActionPOSTData {
   newQueueId?: string;
 }
 
-export interface SignupBehaviorPOSTData {
-  catalogEntryInterestId?: string;
-  studentUserProfileId?: string;
-  resumeId?: string;
-  consentToProviderMessaging?: boolean;
-  consentToSendTranscript?: boolean;
-  signupMessage?: string;
-}
-
 export interface EntityState {
   name?: string;
   stateCode?: string;
@@ -9867,6 +9871,7 @@ export interface CreateTicketSetupUIData {
 
 export interface WorkRequestUIControllerGETData {
   workRequest?: WorkRequestGETData;
+  workRequestItem?: WorkRequestItemGETData;
   deliverable?: WorkRequestDeliverableGETData;
   showingItemsList?: boolean;
   showingCreateWorkItem?: boolean;
