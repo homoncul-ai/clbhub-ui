@@ -10,6 +10,8 @@ import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/w
 import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component';
 import { ProviderRequestCrudComponent } from '@app/components/_crud/providerrequest/providerrequest-crud.component';
 import { CatalogSearchResultCrudComponent } from '@app/components/_crud/catalogsearchresult/catalogsearchresult-crud.component';
+import { CatalogEntrySignupPacketUiComponent } from '@app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-ui.component';
+import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
 
 /**
  * A polymorphic entity section component that renders the appropriate
@@ -28,7 +30,9 @@ import { CatalogSearchResultCrudComponent } from '@app/components/_crud/catalogs
   standalone: true,
   imports: [
     CommonModule,
+    CatalogEntryUiComponent,
     CatalogSearchResultCrudComponent,
+    CatalogEntrySignupPacketUiComponent,
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,

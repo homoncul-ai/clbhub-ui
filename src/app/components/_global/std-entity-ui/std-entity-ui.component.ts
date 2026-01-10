@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StdBubfileComponent } from '../std-bubfile/std-bubfile.component';
 import { WorkItemDeliverableGroupComponent } from '@app/components/_crud/workitemdeliverable/workitemdeliverable-group.component';
 import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/workrequest-group-ui.component';
+import { CatalogEntrySignupPacketGroupComponent } from '@app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
+import { CatalogEntryGroupComponent } from '@app/components/_crud/catalogentry/catalogentry-group.component';
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -24,6 +26,8 @@ import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/w
   standalone: true,
   imports: [
     CommonModule,
+    CatalogEntryGroupComponent,
+    CatalogEntrySignupPacketGroupComponent,
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,
@@ -70,7 +74,7 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
   private readonly supportedEntityTypes = [
     'pmessage', 'pmfile', 'pmfilegroup',
     'workrequest', 'workrequestdeliverable', 
-
+    'catalogentrysignuppacket',
   ];
 
   /** Check if the current entityType is supported */

@@ -259,6 +259,13 @@ export class BubaService {
         nameTemplate: '{catalogEntry.title}',
         htmlTemplate: null,
         htmlTemplateFilename: 'catalogentryinterest.html'
+      },
+      'catalogentrysignuppacket': {
+        iconTemplate: 'fas fa-clipboard-list',
+        routePathTemplate: '{prefix}/catalogentrysignuppacket/{entityId}',
+        nameTemplate: '{catalogEntry.title}',
+        htmlTemplate: null,
+        htmlTemplateFilename: 'catalogentrysignuppacket.html'
       }
     };
 

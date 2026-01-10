@@ -14,6 +14,7 @@ import { ProviderWorkqueueGroupComponent } from './workqueues/provider-workqueue
 import { ProviderCatalogTabDashComponent } from './catalog/provider-catalog-tab-dash.component';
 import { CatalogEntrySignupPacketListComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component';
 import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
+import { StdEntityUiComponent } from '@app/components/_global';
 
 const routes: Routes = [
   {
@@ -47,6 +48,13 @@ const routes: Routes = [
       { path: 'catalogentrysignuppackets/:id', redirectTo: 'catalogentrysignuppackets/:id/details', pathMatch: 'full' },
       { path: 'catalogentrysignuppackets', component: CatalogEntrySignupPacketListComponent },
      
+
+
+      { path: 'e/:entityType/:entityId/:tabId/:childId/:childTabId', component: StdEntityUiComponent   },
+      { path: 'e/:entityType/:entityId/:tabId/:childId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId/:tabId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId', component: StdEntityUiComponent },
+
     ]
   }
 ];

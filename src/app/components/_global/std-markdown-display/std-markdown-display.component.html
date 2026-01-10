@@ -26,20 +26,47 @@
 
   <!-- Edit Mode -->
   @if (modeName === 'edit') {
-    <textarea 
-      class="markdown-editor"
-      [value]="editContent"
-      (input)="onEditContentChange($event)"
-      placeholder="Enter markdown content...">
-    </textarea>
-    
-    <!-- Optional preview in edit mode -->
-    @if (dialect === 'common') {
-      <div class="markdown-preview">
-        <div class="preview-label">Preview:</div>
-        <div class="markdown-content common-markdown" [innerHTML]="renderedHtml"></div>
+    <!-- Markdown checkbox -->
+    <div class="edit-toolbar">
+      <div class="form-check">
+        <input
+          mdbCheckbox
+          class="form-check-input"
+          type="checkbox"
+          id="markdown-checkbox"
+          [(ngModel)]="isMarkdown"
+          (change)="onMarkdownChange()"
+        />
+        <label class="form-check-label" for="markdown-checkbox">
+          Markdown
+        </label>
       </div>
-    }
+    </div>
+
+    <!-- Edit/Preview Tabs -->
+    <mdb-tabs (activeTabChange)="onEditTabChange($event)">
+      <mdb-tab title="Edit">
+        <ng-template mdbTabContent>
+          <textarea 
+            class="markdown-editor"
+            [value]="editContent"
+            (input)="onEditContentChange($event)"
+            placeholder="Enter content...">
+          </textarea>
+        </ng-template>
+      </mdb-tab>
+      <mdb-tab title="Preview">
+        <ng-template mdbTabContent>
+          <div class="markdown-preview-tab">
+            @if (isMarkdown && dialect === 'common') {
+              <div class="markdown-content common-markdown" [innerHTML]="renderedHtml"></div>
+            } @else {
+              <div class="plain-text-preview">{{ editContent }}</div>
+            }
+          </div>
+        </ng-template>
+      </mdb-tab>
+    </mdb-tabs>
   }
 
   <!-- Empty state -->

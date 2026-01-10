@@ -1,7 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, AfterViewInit, SecurityContext } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, AfterViewInit, SecurityContext, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
 import { marked } from 'marked';
+import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
+import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
 
 /**
  * Markdown dialect type
@@ -44,7 +47,7 @@ export type MarkdownMode = 'display' | 'edit';
 @Component({
   selector: 'app-std-markdown-display',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, MdbTabsModule, MdbCheckboxModule],
   templateUrl: './std-markdown-display.component.html',
   styleUrl: './std-markdown-display.component.scss'
 })
@@ -77,6 +80,15 @@ export class StdMarkdownDisplayComponent implements OnChanges, AfterViewInit {
 
   /** Edit mode content */
   editContent: string = '';
+
+  /** Active tab in edit mode: 'edit' or 'preview' */
+  activeEditTab: 'edit' | 'preview' = 'edit';
+
+  /** Whether content is markdown format */
+  isMarkdown: boolean = true;
+
+  /** Emits when markdown checkbox changes */
+  @Output() markdownChange = new EventEmitter<boolean>();
 
   constructor(private sanitizer: DomSanitizer) {
     // Configure marked options
@@ -199,6 +211,50 @@ ${this.escapeHtmlForMarkdeep(this.markdown)}
   onEditContentChange(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
     this.editContent = textarea.value;
+    // Re-render preview when content changes
+    if (this.isMarkdown) {
+      this.renderEditPreview();
+    }
+  }
+
+  /**
+   * Handle edit tab change
+   */
+  onEditTabChange(event: { index: number }): void {
+    this.activeEditTab = event.index === 0 ? 'edit' : 'preview';
+    if (this.activeEditTab === 'preview' && this.isMarkdown) {
+      this.renderEditPreview();
+    }
+  }
+
+  /**
+   * Handle markdown checkbox change
+   */
+  onMarkdownChange(): void {
+    this.markdownChange.emit(this.isMarkdown);
+    if (this.isMarkdown) {
+      this.renderEditPreview();
+    }
+  }
+
+  /**
+   * Render preview for edit mode
+   */
+  private renderEditPreview(): void {
+    if (!this.editContent) {
+      this.renderedHtml = '';
+      return;
+    }
+
+    try {
+      const html = marked.parse(this.editContent, { async: false }) as string;
+      this.renderedHtml = this.sanitizer.bypassSecurityTrustHtml(html);
+    } catch (error) {
+      console.error('Error rendering markdown preview:', error);
+      this.renderedHtml = this.sanitizer.bypassSecurityTrustHtml(
+        '<p class="text-danger">Error rendering markdown</p>'
+      );
+    }
   }
 
   /**

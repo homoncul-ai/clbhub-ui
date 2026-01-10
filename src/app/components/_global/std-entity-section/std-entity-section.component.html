@@ -1,5 +1,8 @@
 <!-- This is for displaying a component in a section. -->
 <!-- PMessage entity UI -->
+<div *ngIf="entityType === 'catalogentry'">
+  <app-catalogentry-ui [id]="entityId" ></app-catalogentry-ui>
+</div>
 <div *ngIf="entityType === 'catalogentryinterest'">
  <h3>Catalog Entry Interest</h3>
  <app-catalogentryinterest-crud [id]="entityId" [modeName]="'section'"></app-catalogentryinterest-crud>
@@ -9,6 +12,11 @@
     <h3>Catalog Search Result</h3>
     <app-catalogsearchresult-crud [id]="entityId || ''" [modeName]="'section'"></app-catalogsearchresult-crud>
     <!-- <app-catalogsearchresultui [id]="entityId" [modeName]="'section'"></app-catalogsearchresultui> -->
+</div>
+
+<div *ngIf="entityType === 'catalogentrysignuppacket'">
+  <h3>Catalog Entry Signup Packet</h3>
+  <app-catalogentrysignuppacket-ui [id]="entityId" ></app-catalogentrysignuppacket-ui>
 </div>
 
 <div *ngIf="entityType === 'pmfile'">

@@ -91,15 +91,15 @@
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="description">
       </app-std-mdb-form-textarea>
-      <app-std-mdb-form-textarea 
-        prefix="catalogEntrySignupPacket" 
-        name="instructionsMd"
-        label="Instructions (Markdown)"
-        [error]="error"
-        [rows]="6"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="instructionsMd">
-      </app-std-mdb-form-textarea>
+      <div class="form-group mb-4">
+        <label>Instructions (Markdown)</label>
+        <app-std-markdown-display 
+          #createInstructionsMd
+          [markdown]="instructionsMd" 
+          modeName="edit"
+          maxHeight="300px">
+        </app-std-markdown-display>
+      </div>
       <app-std-mdb-form-text 
         prefix="catalogEntrySignupPacket" 
         name="organizationId"
@@ -189,14 +189,13 @@
         </app-std-mdb-form-textarea>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="catalogEntrySignupPacket" 
-          name="instructionsMd"
-          label="Instructions (Markdown)"
-          [error]="error"
-          [rows]="6"
-          [(ngModel)]="instructionsMd" [ngModelOptions]="{standalone: true}">
-        </app-std-mdb-form-textarea>
+          <label>Instructions (Markdown)</label>
+          <app-std-markdown-display 
+            #editInstructionsMd
+            [markdown]="instructionsMd" 
+            modeName="edit"
+            maxHeight="300px">
+          </app-std-markdown-display>
         </div>
         <div class="mb-4">
         <app-std-mdb-form-text 
@@ -275,13 +274,21 @@
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
-      <div class="detail-group">
+      <div class="detail-group" *ngIf="instructionsMd">
         <label>Instructions (Markdown):</label>
-        <span>{{ instructionsMd }}</span>
+        <app-std-markdown-display 
+          [markdown]="instructionsMd" 
+          modeName="display"
+          maxHeight="300px">
+        </app-std-markdown-display>
       </div>
       <div class="detail-group" *ngIf="signupInstructionsMD">
         <label>Signup Instructions (Markdown):</label>
-        <span>{{ signupInstructionsMD }}</span>
+        <app-std-markdown-display 
+          [markdown]="signupInstructionsMD" 
+          modeName="display"
+          maxHeight="300px">
+        </app-std-markdown-display>
       </div>
       <div class="detail-group">
         <label>Available:</label>

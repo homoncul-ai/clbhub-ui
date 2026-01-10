@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
@@ -15,6 +15,7 @@ import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata
 import { ReferenceDataComponent } from '@app/components/_global/reference-data/reference-data.component';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
+import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 
 // Import FK Crud components for display
 import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
@@ -26,7 +27,7 @@ import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/ca
   templateUrl: './catalogentrysignuppacket-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
   imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule,
-    StdMdbFormTextComponent, StdMdbFormTextareaComponent,
+    StdMdbFormTextComponent, StdMdbFormTextareaComponent, StdMarkdownDisplayComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
     AvailableSelectorComponent, DategetdataDisplayComponent, ReferenceDataComponent,
     HcclOrganizationCrudComponent, CatalogCrudComponent, CatalogEntryCrudComponent],
@@ -43,6 +44,10 @@ export class CatalogEntrySignupPacketCrudComponent extends AbstractCrudComponent
 
   // Output event for when entity is created successfully (useful for modal contexts)
   @Output() entityCreated = new EventEmitter<any>();
+
+  // ViewChild references for markdown editors
+  @ViewChild('createInstructionsMd') createInstructionsMdComponent?: StdMarkdownDisplayComponent;
+  @ViewChild('editInstructionsMd') editInstructionsMdComponent?: StdMarkdownDisplayComponent;
 
   // Signup behavior select data loaded from ManageSignupPacketUIData
   public signupBehaviorSelectData: MenuControlDataList | null = null;
@@ -72,6 +77,9 @@ export class CatalogEntrySignupPacketCrudComponent extends AbstractCrudComponent
   protected override async createEntityDataCall(entity: CatalogEntrySignupPacketCrudWrapper): Promise<any> {
     const entityData = this.getMode() === CRUD_MODES.CREATE && this.entityNew ? this.entityNew.getData() : entity.getData();
 
+    // Get markdown content from the editor component
+    const instructionsMdContent = this.createInstructionsMdComponent?.getContent() || entityData.instructionsMd || '';
+
     var organizationId = super.getCurrentOrganizationId();
     const postData: CatalogEntrySignupPacketPOSTData = {
       organizationId: organizationId || '',
@@ -79,7 +87,7 @@ export class CatalogEntrySignupPacketCrudComponent extends AbstractCrudComponent
       signupBehaviorCode: entityData.signupBehaviorCode || '',
       description: entityData.description || '',
       available: entityData.available || 0,
-      instructionsMd: entityData.instructionsMd || ''
+      instructionsMd: instructionsMdContent
     };
 
     try {
@@ -98,6 +106,9 @@ export class CatalogEntrySignupPacketCrudComponent extends AbstractCrudComponent
       throw new Error('CatalogEntrySignupPacket ID is required for update');
     }
 
+    // Get markdown content from the editor component
+    const instructionsMdContent = this.editInstructionsMdComponent?.getContent() || entityData.instructionsMd || '';
+
     const putData: CatalogEntrySignupPacketPUTData = {
       organizationId: entityData.organizationId || '',
       catalogId: entityData.catalogId,
@@ -107,7 +118,7 @@ export class CatalogEntrySignupPacketCrudComponent extends AbstractCrudComponent
       signupBehaviorCode: entityData.signupBehaviorCode || '',
       description: entityData.description || '',
       available: entityData.available || 0,
-      instructionsMd: entityData.instructionsMd || ''
+      instructionsMd: instructionsMdContent
     };
 
     await this.hcclService.updateCatalogEntrySignupPacketById(entityData.id, putData).toPromise();
