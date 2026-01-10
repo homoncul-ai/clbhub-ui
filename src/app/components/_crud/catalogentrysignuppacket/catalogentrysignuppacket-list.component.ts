@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { CatalogCrudWrapper } from '@app/components/_crud/catalog/catalog-crud.component';
 import { CatalogEntryCrudWrapper } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
+import { CatalogEntrySignupPacketCreateModalComponent } from './catalogentrysignuppacket-create-modal.component';
 
 /**
  * Component for displaying and managing CatalogEntrySignupPacket data using HcclService
@@ -103,6 +104,23 @@ export class CatalogEntrySignupPacketListComponent extends AbstractListComponent
       catalogStr: catalogStr,
       catalogEntryStr: catalogEntryStr
     };
+  }
+
+  /**
+   * Override onAdd to open a modal for creating a new CatalogEntrySignupPacket
+   */
+  protected override onAdd(): void {
+    const modalRef = this.modalService.open(CatalogEntrySignupPacketCreateModalComponent, {
+      modalClass: 'modal-lg modal-dialog-centered',
+      ignoreBackdropClick: true
+    });
+
+    modalRef.onClose.subscribe((result: any) => {
+      if (result?.created) {
+        // Refresh the grid after successful creation
+        this.onRefresh();
+      }
+    });
   }
 }
 

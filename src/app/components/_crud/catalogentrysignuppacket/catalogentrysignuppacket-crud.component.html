@@ -73,15 +73,15 @@
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="name">
       </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntrySignupPacket" 
-        name="signupBehaviorCode"
-        label="Signup Behavior Code"
-        [required]="true"
-        [error]="error"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="signupBehaviorCode">
-      </app-std-mdb-form-text>
+      <div class="form-group mb-4">
+        <label>Signup Behavior Code <span class="text-danger">*</span></label>
+        <app-menu-control-data-list 
+          [menuControlDataList]="signupBehaviorSelectData"
+          placeholder="Select a signup behavior..."
+          [(ngModel)]="signupBehaviorCode"
+          [ngModelOptions]="{standalone: true}">
+        </app-menu-control-data-list>
+      </div>
       <app-std-mdb-form-textarea 
         prefix="catalogEntrySignupPacket" 
         name="description"
@@ -167,15 +167,13 @@
         </app-std-mdb-form-text>
         </div>
         <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntrySignupPacket" 
-          name="signupBehaviorCode"
-          label="Signup Behavior Code"
-          [required]="true"
-          [error]="error"
-          [ngModelOptions]="{standalone: true}"
-          [(ngModel)]="signupBehaviorCode">
-        </app-std-mdb-form-text>
+          <label>Signup Behavior Code <span class="text-danger">*</span></label>
+          <app-menu-control-data-list 
+            [menuControlDataList]="signupBehaviorSelectData"
+            placeholder="Select a signup behavior..."
+            [(ngModel)]="signupBehaviorCode"
+            [ngModelOptions]="{standalone: true}">
+          </app-menu-control-data-list>
         </div>
         <div class="mb-4">
         <app-std-mdb-form-textarea 

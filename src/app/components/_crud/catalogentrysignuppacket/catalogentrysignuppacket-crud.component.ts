@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogEntrySignupPacketCriteria, CatalogEntrySignupPacketGETData, CatalogEntrySignupPacketPOSTData, CatalogEntrySignupPacketPUTData, HcclService, MenuControlDataList, MenuControlData, HcclUserPOSTData } from '@app/restsvc/hccl.service';
+import { CatalogEntrySignupPacketCriteria, CatalogEntrySignupPacketGETData, CatalogEntrySignupPacketPOSTData, CatalogEntrySignupPacketPUTData, HcclService, MenuControlDataList, MenuControlData, ManageSignupPacketUIData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -41,9 +41,27 @@ export class CatalogEntrySignupPacketCrudComponent extends AbstractCrudComponent
   // Error property for form validation
   public error: any = null;
 
+  // Output event for when entity is created successfully (useful for modal contexts)
+  @Output() entityCreated = new EventEmitter<any>();
+
+  // Signup behavior select data loaded from ManageSignupPacketUIData
+  public signupBehaviorSelectData: MenuControlDataList | null = null;
+
   override ngOnInit(): void {
     super.ngOnInit();
     this.entityType = 'CatalogEntrySignupPacket';
+    this.loadSignupPacketUIData();
+  }
+
+  private async loadSignupPacketUIData(): Promise<void> {
+    try {
+      const uiData = await this.hcclService.getSignupPacketsSetupData().toPromise();
+      if (uiData) {
+        this.signupBehaviorSelectData = uiData.signupBehaviorSelectData || null;
+      }
+    } catch (error) {
+      console.error('Error loading signup packet UI data:', error);
+    }
   }
 
   protected async loadEntityByIdCall(id: string): Promise<CatalogEntrySignupPacketCrudWrapper> {
@@ -218,6 +236,15 @@ export class CatalogEntrySignupPacketCrudComponent extends AbstractCrudComponent
   protected catalogEntrySignupPacketMenu: MenuControlDataList | null = null;
   protected override async prepareMenus(entity: CatalogEntrySignupPacketCrudWrapper): Promise<void> {
     return Promise.resolve();
+  }
+
+  /**
+   * Override onAfterCreate to emit the entityCreated event
+   * This is useful for modal contexts where we need to close after creation
+   */
+  protected override onAfterCreate(): void {
+    super.onAfterCreate();
+    this.entityCreated.emit({ id: this.id });
   }
 }
 
