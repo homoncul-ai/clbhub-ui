@@ -94,6 +94,11 @@
           <p class="mt-2">Loading signup information...</p>
         </div>
 
+        <!-- Messages Section -->
+        <div *ngIf="!loadingSignupUIData && signupUIData?.messages?.messages?.length" class="mb-3">
+          <app-simple-messages-section [messagesList]="$any(signupUIData?.messages)"></app-simple-messages-section>
+        </div>
+
         <!-- Signup Form -->
         <form *ngIf="!loadingSignupUIData && signupUIData" (ngSubmit)="onSubmitSignup()">
           <!-- Resume Dropdown (if required) -->
@@ -119,6 +124,20 @@
               mode="checkbox"
               [(ngModel)]="signupFormData.allowingProviderToMessage">
             </app-std-boolean>
+          </div>
+
+          <!-- Comments/Message Textarea -->
+          <div class="mb-3">
+            <label for="signupMessage" class="form-label">Comments (Optional)</label>
+            <textarea
+              id="signupMessage"
+              class="form-control"
+              [(ngModel)]="signupFormData.signupMessage"
+              name="signupMessage"
+              rows="4"
+              placeholder="">
+            </textarea>
+            <div class="form-text">Include any questions or additional details you'd like to share.</div>
           </div>
 
           <!-- Error message -->

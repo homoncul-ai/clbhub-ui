@@ -38205,6 +38205,9 @@
           "providerOrganizationName": {
             "type": "string"
           },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
           "workRequestId": {
             "type": "string",
             "format": "uuid"
@@ -38415,13 +38418,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

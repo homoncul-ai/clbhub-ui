@@ -12,6 +12,7 @@ import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boolean.component';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
@@ -24,7 +25,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     PMessageUiComponent, 
     CatalogEntryCrudComponent,
     MenuControlDataListComponent,
-    StdBooleanComponent
+    StdBooleanComponent,
+    SimpleMessagesSectionComponent
   ],
   templateUrl: './student-engage-interest.component.html',
   styleUrl: './student-engage-interest.component.scss'
@@ -56,6 +58,7 @@ implements OnInit, OnDestroy, OnChanges {
   protected signupFormData: {
     resumeId?: string;
     allowingProviderToMessage?: boolean;
+    signupMessage?: string;
   } = {};
 
   // Signup submission state
@@ -242,7 +245,8 @@ implements OnInit, OnDestroy, OnChanges {
   protected openSignUpModal(): void {
     this.signupFormData = {
       resumeId: undefined,
-      allowingProviderToMessage: false
+      allowingProviderToMessage: false,
+      signupMessage: ''
     };
     this.signupError = null;
     this.submittingSignup = false;
@@ -311,7 +315,7 @@ implements OnInit, OnDestroy, OnChanges {
       consentToProviderMessaging: this.signupFormData.allowingProviderToMessage || false,
       consentToSendTranscript: this.signupUIData.signupBehavior?.consentingToSendTranscript ? 
         (this.signupFormData.allowingProviderToMessage || false) : undefined,
-      signupMessage: undefined
+      signupMessage: this.signupFormData.signupMessage || undefined
     };
 
     this.hcclService.callCreateSignupRequest(signupData).subscribe({
