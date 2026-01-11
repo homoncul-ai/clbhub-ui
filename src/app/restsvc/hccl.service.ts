@@ -6288,6 +6288,7 @@ export interface PMFilePOSTData {
   fileBlob?: string;
   fileBlobBase64?: string;
   blobMetadata?: any;
+  fileGroupId?: string;
 }
 
 export interface PMFileGroupGETDataSearchResults {

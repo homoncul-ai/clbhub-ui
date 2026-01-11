@@ -25861,6 +25861,10 @@
             "additionalProperties": {
               "type": "string"
             }
+          },
+          "fileGroupId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },

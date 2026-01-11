@@ -1,7 +1,9 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy, OnChanges, SimpleChanges, NgZone, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy, OnChanges, SimpleChanges, NgZone, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HcclService, PMFileGroupGETData, PMFileGETData, DhtmlxTreeNode } from '@app/restsvc/hccl.service';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { PmfileCreateMarkdownModalComponent } from './pmfile-create-markdown-modal.component';
 
 declare const dhx: any; // DHTMLX global
 
@@ -16,13 +18,14 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   /** Optional: ID to load the PMFileGroup by */
   @Input() id?: string;
   
-   @Input() readonly: boolean = false;
+  @Input() readonly: boolean = false;
 
   @ViewChild('treeContainer') treeContainer!: ElementRef;
 
   /** Optional: Pass the PMFileGroupGETData object directly */
   @Input() data?: PMFileGroupGETData;
   
+  private modalService = inject(MdbModalService);
  
   pmfilegroup: PMFileGroupGETData | null = null;
   selectedFile: PMFileGETData | null = null;
@@ -94,14 +97,21 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   loadPMFileGroup(): void {
-    if (!this.id) {
+    // Use this.id or fall back to the current pmfilegroup's id
+    const fileGroupId = this.id || this.pmfilegroup?.id;
+    
+    if (!fileGroupId) {
       return;
     }
     
     this.loading = true;
     this.error = null;
     
-    this.hcclService.getPMFileGroupById(this.id).subscribe({
+    // Clear current selection when reloading
+    this.selectedFile = null;
+    this.selectedFileUrl = null;
+    
+    this.hcclService.getPMFileGroupById(fileGroupId).subscribe({
       next: (data) => {
         this.pmfilegroup = data;
         this.loading = false;
@@ -358,5 +368,45 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       link.download = this.selectedFile.downloadAs || 'file';
       link.click();
     }
+  }
+
+  /**
+   * Open modal to create a new markdown file
+   */
+  onCreateMarkdownFile(): void {
+    if (!this.pmfilegroup?.id) {
+      console.error('Cannot create file: PMFileGroup ID is missing');
+      return;
+    }
+
+    const modalRef = this.modalService.open(PmfileCreateMarkdownModalComponent, {
+      modalClass: 'modal-dialog-centered',
+      data: {
+        pmFileGroupId: this.pmfilegroup.id
+      }
+    });
+
+    modalRef.onClose.subscribe((result: any) => {
+      if (result && result.created) {
+        // Reload the file group to update the tree
+        this.loadPMFileGroup();
+      }
+    });
+  }
+
+  /**
+   * Open modal/dialog to upload files (placeholder for future implementation)
+   */
+  onUploadFiles(): void {
+    // TODO: Implement file upload functionality
+    alert('Upload Files - functionality to be implemented');
+  }
+
+  /**
+   * Create a new folder (hidden for now, placeholder for future implementation)
+   */
+  onCreateFolder(): void {
+    // TODO: Implement folder creation functionality
+    alert('Create Folder - functionality to be implemented');
   }
 }

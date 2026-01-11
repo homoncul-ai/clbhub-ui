@@ -20,6 +20,21 @@
       <div class="panel-header">
         <i class="fas fa-folder-tree"></i>
         <span>{{ pmfilegroup.title || 'Files' }}</span>
+        
+        <!-- Edit mode toolbar -->
+        <div class="header-actions" *ngIf="!readonly">
+          <button class="btn-action" (click)="onUploadFiles()" title="Upload Files">
+            <i class="fas fa-upload"></i>
+          </button>
+          <button class="btn-action" (click)="onCreateMarkdownFile()" title="Create Markdown File">
+            <i class="fas fa-file-alt"></i>
+          </button>
+          <!-- Create Folder button hidden for now
+          <button class="btn-action" (click)="onCreateFolder()" title="Create Folder">
+            <i class="fas fa-folder-plus"></i>
+          </button>
+          -->
+        </div>
       </div>
       <div class="tree-wrapper">
         <div #treeContainer class="tree-container"></div>
