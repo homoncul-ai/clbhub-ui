@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { HcclService, PMFileGroupGETData, PMFileGETData, DhtmlxTreeNode, PMFilePUTData } from '@app/restsvc/hccl.service';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { PmfileCreateMarkdownModalComponent } from './pmfile-create-markdown-modal.component';
+import { PmfileUploadModalComponent } from './pmfile-upload-modal.component';
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 
 declare const dhx: any; // DHTMLX global
@@ -496,11 +497,29 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   /**
-   * Open modal/dialog to upload files (placeholder for future implementation)
+   * Open modal to upload files
    */
   onUploadFiles(): void {
-    // TODO: Implement file upload functionality
-    alert('Upload Files - functionality to be implemented');
+    if (!this.pmfilegroup?.id) {
+      console.error('Cannot upload files: PMFileGroup ID is missing');
+      return;
+    }
+
+    const modalRef = this.modalService.open(PmfileUploadModalComponent, {
+      modalClass: 'modal-lg modal-dialog-centered',
+      data: {
+        pmFileGroupId: this.pmfilegroup.id
+      }
+    });
+
+    modalRef.onClose.subscribe((result: any) => {
+      if (result && result.uploaded) {
+        // Wait a moment for backend to process, then reload the file group to update the tree
+        setTimeout(() => {
+          this.loadPMFileGroup();
+        }, 50);
+      }
+    });
   }
 
   /**
