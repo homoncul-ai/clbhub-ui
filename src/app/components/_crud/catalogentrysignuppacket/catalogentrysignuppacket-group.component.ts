@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { CatalogEntrySignupPacketCrudWrapper, CatalogEntrySignupPacketCrudComponent } from '@app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-crud.component';
-import { HcclService } from '@app/restsvc/hccl.service';
+import { HcclService, PMFileGroupPOSTData, CatalogEntrySignupPacketPUTData } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { PmfilegroupUiComponent } from '@app/components/_crud/pmfilegroup-ui/pmfilegroup-ui.component';
 
@@ -54,11 +54,68 @@ export class CatalogEntrySignupPacketGroupComponent extends AbstractEntityGroupC
     return this.entity?.getData()?.fileGroupId || null;
   }
 
+  // Flag to track if file group creation is in progress
+  public creatingFileGroup: boolean = false;
+
   /**
    * Handle creating a new file group
    */
-  public onCreateNewFileGroup(): void {
-    alert('Create New File Group - functionality to be implemented');
+  public async onCreateNewFileGroup(): Promise<void> {
+    if (!this.entity || this.creatingFileGroup) {
+      return;
+    }
+
+    const entityData = this.entity.getData();
+    if (!entityData.id) {
+      alert('Cannot create file group: Signup packet ID is missing');
+      return;
+    }
+
+    this.creatingFileGroup = true;
+
+    try {
+      // Build the PMFileGroupPOSTData
+      const displayText = this.entity.getDisplayText();
+      const postData: PMFileGroupPOSTData = {
+        parentEntityType: 'CatalogEntrySignupPacket',
+        parentEntityId: entityData.id,
+        aspectCode: 'info',
+        title: `${displayText} Info`,
+        instructions: entityData.instructionsMd || '',
+        available: true
+      };
+
+      // Create the PMFileGroup
+      const createResponse = await this.hcclService.createPMFileGroup(postData).toPromise();
+      
+      if (createResponse && createResponse.id) {
+        // Update the CatalogEntrySignupPacket with the new fileGroupId
+        const putData: CatalogEntrySignupPacketPUTData = {
+          organizationId: entityData.organizationId || '',
+          catalogId: entityData.catalogId,
+          catalogEntryId: entityData.catalogEntryId,
+          fileGroupId: createResponse.id,
+          name: entityData.name || '',
+          signupBehaviorCode: entityData.signupBehaviorCode || '',
+          description: entityData.description || '',
+          available: entityData.available || 0,
+          instructionsMd: entityData.instructionsMd || ''
+        };
+
+        await this.hcclService.updateCatalogEntrySignupPacketById(entityData.id, putData).toPromise();
+
+        // Reload the entity to get updated data
+        this.entity = await this.loadEntityById(entityData.id);
+        this.cdr.detectChanges();
+      } else {
+        alert('Failed to create file group: No ID returned');
+      }
+    } catch (error) {
+      console.error('Error creating file group:', error);
+      alert('Error creating file group: ' + (error as Error).message);
+    } finally {
+      this.creatingFileGroup = false;
+    }
   }
 
 }
