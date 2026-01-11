@@ -133,13 +133,14 @@
         </app-std-mdb-form-text>
       </div>
       <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalog" 
-          name="signupPacketId"
-          label="Signup Packet ID"
-          [error]="error"
-          [(ngModel)]="signupPacketId">
-        </app-std-mdb-form-text>
+        <label class="form-label">Signup Packet:</label>
+        <app-menu-control-data-list 
+          [menuControlDataList]="signupPacketMenu"
+          [id]="signupPacketId"
+          placeholder="Select a signup packet type..."
+          (selectionChange)="onSignupPacketChange($event)">
+        </app-menu-control-data-list>
+       
       </div>
       <div class="mb-4">
         <label class="form-label">Available:</label>
@@ -228,13 +229,14 @@
             </app-std-mdb-form-text>
           </div>
           <div class="mb-4">
-            <app-std-mdb-form-text 
-              prefix="catalog" 
-              name="signupPacketId"
-              label="Signup Packet ID"
-              [error]="error"
-              [(ngModel)]="signupPacketId">
-            </app-std-mdb-form-text>
+            <label class="form-label">Signup Packet:</label>
+            <app-menu-control-data-list 
+              [menuControlDataList]="signupPacketMenu"
+              [id]="signupPacketId"
+              placeholder="Select a signup packet type..."
+              (selectionChange)="onSignupPacketChange($event)">
+            </app-menu-control-data-list>
+           
           </div>
           <div class="mb-4">
             <label class="form-label">Available:</label>

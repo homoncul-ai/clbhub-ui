@@ -336,5 +336,19 @@ export class CatalogEntrySignupPacketCrudWrapper extends EntityWrapper<CatalogEn
     const entities = await this.getCatalogEntrySignupPackets();
     return this.getMenuControlDataList("catalogentrysignuppackets", this.getEntityType() + " Menu", entities, data);
   }
+
+  public  async getFkMenuForOrganization(organizationId: string): Promise<MenuControlDataList> {
+    const criteria: CatalogEntrySignupPacketCriteria = {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      organizationId: organizationId
+    };
+    const entities = await this.getCatalogEntrySignupPackets(criteria);
+    return this.getMenuControlDataList("catalogentrysignuppackets", this.getEntityType() + " Menu", entities, '');
+  }
+
+
+
 }
 

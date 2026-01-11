@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogCriteria, CatalogGETData, CatalogPOSTData, CatalogPUTData, CatalogTypeRefGETData, HcclService, MenuControlDataList, MenuControlData, HcclOrganizationGETData } from '@app/restsvc/hccl.service';
+import { CatalogCriteria, CatalogGETData, CatalogPOSTData, CatalogPUTData, CatalogTypeRefGETData, HcclService, MenuControlDataList, MenuControlData, HcclOrganizationGETData, CatalogEntrySignupPacketCriteria } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -130,6 +130,7 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
   override ngOnInit(): void {
     super.ngOnInit();
     this.loadCatalogTypeMenu();
+    this.loadSignupPacketMenu();
   }
   
   /**
@@ -149,7 +150,29 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
       console.error('Error loading catalog type refs:', error);
     }
   }
-  
+  protected signupPacketMenu: MenuControlDataList | null = null;
+  private async loadSignupPacketMenu(): Promise<void> {
+    try {
+      const criteria: CatalogEntrySignupPacketCriteria = {
+        pageNumber: 1,
+        pageSize: 50,
+        isPaging: true,
+        organizationId: this.getCurrentOrganizationId() || ''
+      };
+      alert("Loading signup packet menu for organization: " + this.getCurrentOrganizationId());
+      const response = await this.hcclService.findCatalogEntrySignupPackets(
+        criteria).toPromise();
+      if (response?.searchResults) {
+        const menuItems: MenuControlData[] = response.searchResults.map(signupPacket => ({
+          id: signupPacket.id || '',
+          name: signupPacket.name || 'Unknown Signup Packet'
+        }));
+        this.signupPacketMenu = { menuItems };
+      }
+    } catch (error) {
+      console.error('Error loading signup packet refs:', error);
+    }
+  }
   /**
    * Handle catalog type selection change
    */
@@ -159,6 +182,12 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
       entity.catalogTypeId = selected?.id || '';
     }
   }
+  onSignupPacketChange(selected: MenuControlData | null): void {
+    const entity = this.getActiveEntity();
+    if (entity) {
+      entity.signupPacketId = selected?.id || '';
+    }
+  } 
 
   protected async loadEntityByIdCall(id: string): Promise<CatalogCrudWrapper> {
     const data = await this.hcclService.getCatalogById(id).toPromise();
