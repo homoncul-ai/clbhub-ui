@@ -26340,6 +26340,9 @@
           "fileBlob": {
             "type": "string",
             "format": "byte"
+          },
+          "fileBlobBase64": {
+            "type": "string"
           }
         }
       },

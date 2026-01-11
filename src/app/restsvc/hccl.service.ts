@@ -6423,6 +6423,7 @@ export interface PMFilePUTData {
   bucketFolderPath?: string;
   inTrash?: boolean;
   fileBlob?: string;
+  fileBlobBase64?: string;
 }
 
 export interface PMessageAttachmentPOSTData {

@@ -400,6 +400,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
 
     // Get content from the markdown editor component
     const content = this.markdownEditor?.getContent() || this.markdownContent;
+    const contentBase64 = btoa(content);
 
     this.savingMarkdown = true;
 
@@ -412,7 +413,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
         parentEntityId: this.selectedFile.parentEntityId || '',
         parentEntityType: this.selectedFile.parentEntityType || 'PMFileGroup',
         mimeType: this.selectedFile.mimeType || 'text/markdown',
-        fileBlob: content
+        fileBlobBase64: contentBase64,
       };
 
       await this.hcclService.updatePMFileById(this.selectedFile.id, putData).toPromise();
