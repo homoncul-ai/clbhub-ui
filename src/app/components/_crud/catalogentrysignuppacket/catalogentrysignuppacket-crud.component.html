@@ -100,39 +100,7 @@
           maxHeight="300px">
         </app-std-markdown-display>
       </div>
-      <app-std-mdb-form-text 
-        prefix="catalogEntrySignupPacket" 
-        name="organizationId"
-        label="Organization ID"
-        [required]="true"
-        [error]="error"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="organizationId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntrySignupPacket" 
-        name="catalogId"
-        label="Catalog ID"
-        [error]="error"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="catalogId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntrySignupPacket" 
-        name="catalogEntryId"
-        label="Catalog Entry ID"
-        [error]="error"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="catalogEntryId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntrySignupPacket" 
-        name="fileGroupId"
-        label="File Group ID"
-        [error]="error"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="fileGroupId">
-      </app-std-mdb-form-text>
+     
       <div class="form-group">
         <label>Available:</label>
         <app-available-selector [(ngModel)]="available" [ngModelOptions]="{standalone: true}"></app-available-selector>
