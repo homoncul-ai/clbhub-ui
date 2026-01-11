@@ -77,17 +77,17 @@ export class CatalogEntrySignupPacketGroupComponent extends AbstractEntityGroupC
       // Build the PMFileGroupPOSTData
       const displayText = this.entity.getDisplayText();
       const postData: PMFileGroupPOSTData = {
-        parentEntityType: 'CatalogEntrySignupPacket',
+       parentEntityType: 'CatalogEntrySignupPacket',
         parentEntityId: entityData.id,
         aspectCode: 'info',
         title: `${displayText} Info`,
-        instructions: entityData.instructionsMd || '',
+        instructions: entityData.instructionsMd || 'PLACEHOLDER INSTRUCTIONS',
         available: true
       };
 
+      
       // Create the PMFileGroup
       const createResponse = await this.hcclService.createPMFileGroup(postData).toPromise();
-      
       if (createResponse && createResponse.id) {
         // Update the CatalogEntrySignupPacket with the new fileGroupId
         const putData: CatalogEntrySignupPacketPUTData = {

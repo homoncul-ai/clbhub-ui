@@ -20,7 +20,6 @@ declare const dhx: any; // DHTMLX global
 export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChanges {
   /** Optional: ID to load the PMFileGroup by */
   @Input() id?: string;
-  
   @Input() readonly: boolean = false;
 
   @ViewChild('treeContainer') treeContainer!: ElementRef;
@@ -125,7 +124,9 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       next: (data) => {
         this.pmfilegroup = data;
         this.loading = false;
-        this.initializeTree();
+        // Defer tree initialization to allow Angular to re-render the DOM
+        // (the treeContainer is conditionally rendered based on !loading)
+        this.deferredInitializeTree();
       },
       error: (err) => {
         this.error = 'Failed to load file group';
