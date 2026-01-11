@@ -1,15 +1,18 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy, OnChanges, SimpleChanges, NgZone, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { HcclService, PMFileGroupGETData, PMFileGETData, DhtmlxTreeNode } from '@app/restsvc/hccl.service';
+import { HttpClient } from '@angular/common/http';
+import { HcclService, PMFileGroupGETData, PMFileGETData, DhtmlxTreeNode, PMFilePUTData } from '@app/restsvc/hccl.service';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { PmfileCreateMarkdownModalComponent } from './pmfile-create-markdown-modal.component';
+import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 
 declare const dhx: any; // DHTMLX global
 
 @Component({
   selector: 'app-pmfilegroup-ui',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, StdMarkdownDisplayComponent],
   templateUrl: './pmfilegroup-ui.component.html',
   styleUrl: './pmfilegroup-ui.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -21,11 +24,13 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   @Input() readonly: boolean = false;
 
   @ViewChild('treeContainer') treeContainer!: ElementRef;
+  @ViewChild('markdownEditor') markdownEditor?: StdMarkdownDisplayComponent;
 
   /** Optional: Pass the PMFileGroupGETData object directly */
   @Input() data?: PMFileGroupGETData;
   
   private modalService = inject(MdbModalService);
+  private http = inject(HttpClient);
  
   pmfilegroup: PMFileGroupGETData | null = null;
   selectedFile: PMFileGETData | null = null;
@@ -33,6 +38,11 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   loading = false;
   loadingFile = false;
   error: string | null = null;
+
+  // Markdown editing state
+  markdownContent: string = '';
+  markdownDirty: boolean = false;
+  savingMarkdown: boolean = false;
 
   private tree: any = null;
   private initialized = false;
@@ -305,30 +315,117 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
 
   private loadFile(pmfileId: string): void {
     this.loadingFile = true;
+    this.markdownContent = '';
+    this.markdownDirty = false;
     console.log('Loading file with id:', pmfileId);
     
     this.hcclService.getPMFileById(pmfileId).subscribe({
       next: (file) => {
         this.selectedFile = file;
-        this.loadingFile = false;
         
         // Set the iframe URL        
         if (file.downloadFileUrl) {
           this.selectedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(file.downloadFileUrl);
         } else if (file.downloadInternalFileUrl) {
           this.selectedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(file.downloadInternalFileUrl);
-        }   else {
+        } else {
           this.selectedFileUrl = null;
         }
-       // alert("selectedFileUrl: " + this.selectedFileUrl + " for file: " + JSON.stringify(file));
+
+        // If it's a markdown file, fetch the content
+        if (this.isMarkdownFile()) {
+          this.loadMarkdownContent(file);
+        } else {
+          this.loadingFile = false;
+        }
       },
       error: (err) => {
         console.error('Error loading file:', err);
         this.loadingFile = false;
         this.selectedFile = null;
         this.selectedFileUrl = null;
+        this.markdownContent = '';
       }
     });
+  }
+
+  /**
+   * Check if the selected file is a markdown file (.md or .md.htm)
+   */
+  isMarkdownFile(): boolean {
+    if (!this.selectedFile?.downloadAs) return false;
+    const filename = this.selectedFile.downloadAs.toLowerCase();
+    return filename.endsWith('.md') || filename.endsWith('.md.htm');
+  }
+
+  /**
+   * Load markdown content from the file URL
+   */
+  private loadMarkdownContent(file: PMFileGETData): void {
+    const url = file.downloadFileUrl || file.downloadInternalFileUrl;
+    if (!url) {
+      this.markdownContent = '';
+      this.loadingFile = false;
+      return;
+    }
+
+    this.http.get(url, { responseType: 'text' }).subscribe({
+      next: (content) => {
+        this.markdownContent = content;
+        this.markdownDirty = false;
+        this.loadingFile = false;
+      },
+      error: (err) => {
+        console.error('Error loading markdown content:', err);
+        this.markdownContent = '';
+        this.loadingFile = false;
+      }
+    });
+  }
+
+  /**
+   * Mark markdown as dirty when content changes
+   */
+  onMarkdownEdited(): void {
+    this.markdownDirty = true;
+  }
+
+  /**
+   * Save the markdown file content
+   */
+  async saveMarkdownFile(): Promise<void> {
+    if (!this.selectedFile?.id) {
+      return;
+    }
+
+    // Get content from the markdown editor component
+    const content = this.markdownEditor?.getContent() || this.markdownContent;
+
+    this.savingMarkdown = true;
+
+    try {
+      const putData: PMFilePUTData = {
+        downloadAs: this.selectedFile.downloadAs || '',
+        folderPath: this.selectedFile.folderPath || '/',
+        fileAccessCode: this.selectedFile.fileAccessCode || 'db_text',
+        available: this.selectedFile.available,
+        parentEntityId: this.selectedFile.parentEntityId || '',
+        parentEntityType: this.selectedFile.parentEntityType || 'PMFileGroup',
+        mimeType: this.selectedFile.mimeType || 'text/markdown',
+        fileBlob: content
+      };
+
+      await this.hcclService.updatePMFileById(this.selectedFile.id, putData).toPromise();
+      this.markdownDirty = false;
+      
+      // Reload the file to get updated URL/data
+      this.loadFile(this.selectedFile.id);
+    } catch (err) {
+      console.error('Error saving markdown file:', err);
+      alert('Error saving file: ' + ((err as Error).message || 'Unknown error'));
+    } finally {
+      this.savingMarkdown = false;
+    }
   }
 
   getDisplayableInIframe(): boolean {
@@ -388,8 +485,10 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
 
     modalRef.onClose.subscribe((result: any) => {
       if (result && result.created) {
-        // Reload the file group to update the tree
-        this.loadPMFileGroup();
+        // Wait a moment for backend to process, then reload the file group to update the tree
+        setTimeout(() => {
+          this.loadPMFileGroup();
+        }, 50);
       }
     });
   }
