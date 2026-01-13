@@ -32,7 +32,7 @@ export class AppConstants {
   http = inject(HttpClient);
   router = inject(Router);
 
-    keycloakInitializer() {
+  keycloakInitializer() {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         await this.__loadConfig();
@@ -43,13 +43,17 @@ export class AppConstants {
           realm: keycloak.realm,
           clientId: keycloak.clientId,
         });
-
+  
         await this.keycloak.init({
           onLoad: 'login-required',
           checkLoginIframe: false,
         });
-
+  
         await this.loadUser();
+        
+        // Set up automatic token refresh - ADD THIS LINE
+        this.setupTokenRefresh();
+        
         // Only redirect if not already on a valid route
         const currentUrl = this.router.url;
         if (currentUrl === '/' || currentUrl === '/login' || currentUrl.includes('state=') || currentUrl.includes('code=')) {
@@ -61,6 +65,58 @@ export class AppConstants {
       }
     });
   }
+
+  // Method to ensure token is valid (refreshes if needed)
+async ensureTokenValid(): Promise<boolean> {
+  try {
+    // updateToken(70) will refresh if token expires in less than 70 seconds
+    const refreshed = await this.keycloak.updateToken(70);
+    if (refreshed) {
+      this.setUserTokens();
+      console.log('Token was refreshed');
+    }
+    return true;
+  } catch (error) {
+    console.error('Token refresh failed', error);
+    this.logout();
+    return false;
+  }
+}
+
+// Method to manually refresh token
+async refreshToken(): Promise<boolean> {
+  try {
+    const refreshed = await this.keycloak.updateToken(-1); // Force refresh
+    if (refreshed) {
+      this.setUserTokens();
+      console.log('Token refreshed successfully');
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Failed to refresh token', error);
+    this.logout();
+    return false;
+  }
+}
+
+// Add this to your keycloakInitializer method, after await this.loadUser();
+private setupTokenRefresh(): void {
+  // Automatically refresh token every 4 minutes
+  setInterval(() => {
+    if (this.isLoggedIn()) {
+      this.keycloak.updateToken(70).then((refreshed) => {
+        if (refreshed) {
+          this.setUserTokens();
+          console.log('Token auto-refreshed');
+        }
+      }).catch((error) => {
+        console.error('Auto token refresh failed', error);
+        this.logout();
+      });
+    }
+  }, 4 * 60 * 1000); // 4 minutes
+}
 
   __loadConfig = async () => {
     try {

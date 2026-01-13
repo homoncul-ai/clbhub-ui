@@ -3,26 +3,62 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
+import { Observable, throwError, from } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { AppConstants } from '@app/shell/services/config.service';
 
 @Injectable()
 export class KeycloakInterceptor implements HttpInterceptor {
   constructor(private appConstants: AppConstants) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.appConstants.getToken(); // Synchronous access
-    if (token) {
-      const cloned = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    // Ensure token is valid before making the request
+    return from(this.appConstants.ensureTokenValid()).pipe(
+      switchMap(() => {
+        // Clone request and add the current token
+        const token = this.appConstants.getToken();
+        if (token) {
+          request = request.clone({
+            setHeaders: {
+              Authorization: `Bearer ${token}`
+            }
+          });
         }
-      });
-      return next.handle(cloned);
-    }
-    return next.handle(req);
+        
+        return next.handle(request).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+              // Token expired, try to refresh
+              return from(this.appConstants.refreshToken()).pipe(
+                switchMap((refreshed) => {
+                  if (refreshed) {
+                    // Retry the request with new token
+                    const newToken = this.appConstants.getToken();
+                    const clonedRequest = request.clone({
+                      setHeaders: {
+                        Authorization: `Bearer ${newToken}`
+                      }
+                    });
+                    return next.handle(clonedRequest);
+                  } else {
+                    // Refresh failed, logout
+                    this.appConstants.logout();
+                    return throwError(() => error);
+                  }
+                }),
+                catchError((refreshError) => {
+                  this.appConstants.logout();
+                  return throwError(() => error);
+                })
+              );
+            }
+            return throwError(() => error);
+          })
+        );
+      })
+    );
   }
 }
