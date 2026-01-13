@@ -22,6 +22,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   /** Optional: ID to load the PMFileGroup by */
   @Input() id?: string;
   @Input() readonly: boolean = false;
+  @Input() initialFileName : string = '';
 
   @ViewChild('treeContainer') treeContainer!: ElementRef;
   @ViewChild('markdownEditor') markdownEditor?: StdMarkdownDisplayComponent;
@@ -175,14 +176,14 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
         });
       });
 
-      // Auto-select the first file in the tree
+      // Auto-select the initial file based on initialFileName input
       this.ngZone.run(() => {
-        const firstFileId = this.findFirstFileId(this.pmfilegroup!.fileTree!);
-        if (firstFileId) {
-          this.loadFile(firstFileId);
+        const initialFileId = this.findInitialFileId();
+        if (initialFileId) {
+          this.loadFile(initialFileId);
           // Select the item in the tree
           if (this.tree) {
-            this.tree.selection.add(firstFileId);
+            this.tree.selection.add(initialFileId);
           }
         }
       });
@@ -190,19 +191,58 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   /**
-   * Find the first file (leaf node) in the tree and return its id
+   * Find the initial file to display based on initialFileName input.
+   * - If initialFileName is provided, look for that specific file
+   * - If initialFileName is empty, look for: index.htm, index.md.htm, index.md (in order)
+   * - If none found, return null (no file selected)
    */
-  private findFirstFileId(node: DhtmlxTreeNode): string | null {
-    // If this node has no children, it's a file - return its id
-    if (!node.items || node.items.length === 0) {
+  private findInitialFileId(): string | null {
+    if (!this.pmfilegroup?.fileTree) {
+      return null;
+    }
+
+    // If initialFileName is provided, look for that specific file
+    if (this.initialFileName && this.initialFileName.trim() !== '') {
+      return this.findFileIdByName(this.pmfilegroup.fileTree, this.initialFileName.trim());
+    }
+
+    // Otherwise, look for default files in priority order
+    const defaultFileNames = ['index.htm', 'index.md.htm', 'index.md'];
+    
+    for (const fileName of defaultFileNames) {
+      const fileId = this.findFileIdByName(this.pmfilegroup.fileTree, fileName);
+      if (fileId) {
+        return fileId;
+      }
+    }
+
+    // No default file found - don't select any file
+    return null;
+  }
+
+  /**
+   * Find a file by name in the tree and return its id
+   * @param node The tree node to search
+   * @param fileName The filename to look for (case-insensitive)
+   */
+  private findFileIdByName(node: DhtmlxTreeNode, fileName: string): string | null {
+    const searchName = fileName.toLowerCase();
+    
+    // Get the node's display name
+    const nodeName = (node.value || '').toLowerCase();
+    
+    // If this is a leaf node (file) and name matches, return its id
+    if ((!node.items || node.items.length === 0) && nodeName === searchName) {
       return node.id || null;
     }
     
-    // Otherwise, recursively search children for the first file
-    for (const child of node.items) {
-      const fileId = this.findFirstFileId(child);
-      if (fileId) {
-        return fileId;
+    // Search children recursively
+    if (node.items) {
+      for (const child of node.items) {
+        const fileId = this.findFileIdByName(child, fileName);
+        if (fileId) {
+          return fileId;
+        }
       }
     }
     
