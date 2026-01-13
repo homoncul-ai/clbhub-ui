@@ -38,6 +38,11 @@
       </div>
       <div class="tree-wrapper">
         <div #treeContainer class="tree-container"></div>
+        <!-- Show message when no file tree -->
+        <div *ngIf="!pmfilegroup?.fileTree" class="tree-empty-message">
+          <i class="fas fa-folder-open"></i>
+          <span>No files in this group</span>
+        </div>
       </div>
     </div>
 

@@ -124,11 +124,34 @@
     flex: 1;
     overflow: auto;
     padding: 0.5rem;
+    position: relative;
   }
   
   .tree-container {
     height: 100%;
     min-height: 400px;
+  }
+  
+  .tree-empty-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 200px;
+    color: #94a3b8;
+    text-align: center;
+    gap: 0.75rem;
+    
+    i {
+      font-size: 2.5rem;
+      opacity: 0.6;
+    }
+    
+    span {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
   }
 }
 
@@ -246,6 +269,39 @@
     flex-wrap: wrap;
     gap: 0.75rem;
     justify-content: center;
+  }
+}
+
+// Markdown containers
+.markdown-editor-container,
+.markdown-display-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  min-height: 200px;
+  
+  app-std-markdown-display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+    .markdown-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.markdown-editor-container {
+  .markdown-editor-toolbar {
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 }
 
