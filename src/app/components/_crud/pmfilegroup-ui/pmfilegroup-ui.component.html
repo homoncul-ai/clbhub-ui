@@ -79,7 +79,7 @@
         </div>
 
         <!-- Markdown file in edit mode -->
-        <div *ngIf="!loadingFile && selectedFile && isMarkdownFile() && !readonly" class="markdown-editor-container">
+        <div *ngIf="isEditingMarkdown()" class="markdown-editor-container">
           <div class="markdown-editor-toolbar">
             <button 
               class="btn btn-sm btn-primary" 
@@ -107,7 +107,7 @@
         </div>
 
         <!-- Markdown file in readonly/display mode -->
-        <div *ngIf="!loadingFile && selectedFile && isMarkdownFile() && readonly" class="markdown-display-container">
+        <div *ngIf="isDisplayingMarkdown()" class="markdown-display-container">
           <app-std-markdown-display
             [markdown]="markdownContent"
             modeName="display">

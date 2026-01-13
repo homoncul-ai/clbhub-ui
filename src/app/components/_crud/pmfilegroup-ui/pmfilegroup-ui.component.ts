@@ -209,6 +209,20 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     return null;
   }
 
+
+
+  isEditingMarkdown(): boolean {
+    return !!(!this.loadingFile && this.selectedFile && this.isMarkdownFile() && !this.readonly);
+  }
+
+  isDisplayingMarkdown(): boolean {
+    return !!(!this.loadingFile && this.selectedFile && this.isMarkdownFile() && this.readonly);
+  }
+
+  getSelectedFileUrl(): SafeResourceUrl | null {
+    return this.selectedFileUrl;
+  }
+
   private transformTreeData(node: DhtmlxTreeNode): any {
     // Handle case where value might be in different properties
     const nodeValue = node.value || (node as any).text || (node as any).name || (node as any).title || node.id || 'Unnamed';
@@ -352,12 +366,14 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   /**
-   * Check if the selected file is a markdown file (.md or .md.htm)
+   * Check if the selected file is a raw markdown file (.md only)
+   * Note: .md.htm files are pre-rendered HTML and should display in iframe
    */
   isMarkdownFile(): boolean {
     if (!this.selectedFile?.downloadAs) return false;
     const filename = this.selectedFile.downloadAs.toLowerCase();
-    return filename.endsWith('.md') || filename.endsWith('.md.htm');
+    // Only .md files need markdown rendering; .md.htm is pre-rendered HTML for iframe
+    return filename.endsWith('.md') && !filename.endsWith('.md.htm');
   }
 
   /**

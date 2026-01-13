@@ -25,7 +25,7 @@
 
       <!-- PMFileGroup UI for this encoding ref -->
       <div *ngIf="fileGroup" class="filegroup-section" style="margin-top: 1rem; border-top: 1px solid #dee2e6; padding-top: 1rem;">
-        <app-pmfilegroup-ui [data]="fileGroup"></app-pmfilegroup-ui>
+        <app-pmfilegroup-ui [data]="fileGroup" [readonly]="true"></app-pmfilegroup-ui>
       </div>
 
       <!-- Additional details (collapsed by default or shown subtly) -->
