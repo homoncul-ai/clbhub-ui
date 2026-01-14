@@ -113,55 +113,10 @@
         [error]="error"
         [(ngModel)]="description">
       </app-std-mdb-form-textarea>
-      <app-std-mdb-form-textarea 
-        prefix="catalogEntry" 
-        name="notes"
-        label="Notes"
-        [error]="error"
-        [(ngModel)]="notes">
-      </app-std-mdb-form-textarea>
       <div class="form-group">
         <label>Available:</label>
         <app-available-selector [(ngModel)]="available"></app-available-selector>
       </div>
-      <app-std-mdb-form-text 
-        prefix="catalogEntry" 
-        name="url"
-        label="URL"
-        [error]="error"
-        [(ngModel)]="url">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntry" 
-        name="vocodeInstanceId"
-        label="Vocode Instance ID"
-        [error]="error"
-        [(ngModel)]="vocodeInstanceId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntry" 
-        name="integrationEntityId"
-        label="Integration Entity ID"
-        [error]="error"
-        [(ngModel)]="integrationEntityId">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntry" 
-        name="integrationEntityType"
-        label="Integration Entity Type"
-        [maxLength]="50"
-        [error]="error"
-        [(ngModel)]="integrationEntityType">
-      </app-std-mdb-form-text>
-      <app-std-mdb-form-text 
-        prefix="catalogEntry" 
-        name="integrationEntityName"
-        label="Integration Entity Name"
-        [maxLength]="255"
-        [error]="error"
-        [(ngModel)]="integrationEntityName">
-      </app-std-mdb-form-text>
-     
       </form>
     </div>
   </div>

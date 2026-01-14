@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
@@ -8,10 +8,12 @@ import { ProviderCatalogTabDashComponent } from './provider-catalog-tab-dash.com
 import { CatalogCrudWrapper } from '@app/components/_crud/catalog/catalog-crud.component';
 import { CatalogCrudComponent } from '@app/components/_crud/catalog/catalog-crud.component';
 import { CatalogEntryListComponent } from "@app/components/_crud/catalogentry/catalogentry-list.component";
-import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnAddActionBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { Router } from '@angular/router';
 import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { AddCatalogEntryModalComponent } from './add-catalog-entry-modal.component';
 
 @Component({
   selector: 'app-provider-catalog-group',
@@ -23,14 +25,17 @@ import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/cata
 })
 export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<CatalogCrudWrapper> implements OnInit {
 
+  private modalService = inject(MdbModalService);
+  modalRef: MdbModalRef<AddCatalogEntryModalComponent> | null = null;
+
+  @ViewChild(CatalogEntryListComponent) catalogEntryList!: CatalogEntryListComponent;
+
   override ngOnInit(): void {
    
     super.ngOnInit();
     // For singleton behavior, always use current user profile ID
     this.hcclContextService.refreshContext().subscribe(context => {
-      this.defaultId = context.currentUserProfileId || '';
-      this.id = this.defaultId;
-      this.organizationId = context.currentUserProfile.organizationId || '';
+       this.organizationId = context.currentUserProfile.organizationId || '';
       // Call parent ngOnInit after setting the ID
     });
   }
@@ -104,4 +109,21 @@ export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<
     return 'dash';
   }
   protected catalogEntryId: string = '';
+
+  protected onAddButtonClick(): OnAddActionBehavior {
+    var x: OnAddActionBehavior = new OnAddActionBehavior();
+    x.onAdd = (baseRoute: string, router: Router) => {
+      // Open the add catalog entry modal
+      this.modalRef = this.modalService.open(AddCatalogEntryModalComponent, {
+        modalClass: 'modal-lg',
+        keyboard: false,
+        ignoreBackdropClick: true,
+        data: {
+          catalogId: this.id,
+          catalogTypeId: this.getCurrentEntity().getData().catalogTypeId || ''
+        }
+      }); 
+    }
+    return x;
+  }
 }
