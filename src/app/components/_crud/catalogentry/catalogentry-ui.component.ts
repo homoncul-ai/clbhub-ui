@@ -24,12 +24,67 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
     return CatalogEntryCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+
   protected async loadEntityById(id: string): Promise<CatalogEntryCrudWrapper> {
-    return CatalogEntryCrudWrapper.newInstance(id, this.hcclService);
+    var hint = "edit";
+    return CatalogEntryCrudWrapper.newInstanceFoHint(id, hint, this.hcclService);
   }
 
   protected setupTabs(): SimpleTab[] {
-    return this.setupListDetailsTabs();
+    const baseRoute = this.getBaseRoute();
+    var tabs: SimpleTab[] = [];
+    var tab = tab = new SimpleTab('details', this.getDetailsTabLabel(), '', 
+        () => {
+          this.currentTabId = 'details';          
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);
+     
+      tab = new SimpleTab('icon', 'Icon', '', 
+        () => {
+          this.currentTabId = 'icon';
+        },
+        () => {
+          return true;
+        }
+      );
+      tabs.push(tab);
+
+      tab = new SimpleTab('vocode', 'Vocation Encoding', '', 
+        () => {
+          this.currentTabId = 'vocode';
+        },
+        () => {
+          return true;
+        }
+      );
+      tabs.push(tab);
+
+      tab = new SimpleTab('signup', 'Signup', '', 
+        () => {
+          this.currentTabId = 'signup';         
+        },
+        () => {
+          return true;
+        }
+      );
+      tabs.push(tab);
+
+
+      // tab = new SimpleTab('fk_menu', 'FK_MENU', '', 
+      //   () => {
+      //     this.currentTabId = 'fk_menu';
+      //     this.router.navigate([baseRoute, this.id, 'fk_menu']);
+      //   },
+      //   () => {
+      //     return true;
+      //   }
+      // )
+    //  tabs.push(tab);
+      return tabs;
   }
 
 }

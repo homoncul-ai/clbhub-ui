@@ -3,19 +3,27 @@
   <app-catalogentry-crud [id]="id" modeName="edit"></app-catalogentry-crud>
 </div>
 
-<div *ngIf="currentTabId === 'create'">
-  <h1>Create</h1>
-  <app-catalogentry-crud [id]="id" modeName="create"></app-catalogentry-crud>
+<div *ngIf="currentTabId === 'icon'">
+  <h1>Icon</h1>
+  Have icon text here, and then generate an icon choice, to select. 
+
 </div>
 
-<div *ngIf="currentTabId === 'debug'">
-  <h1>CRUD Modes DEBUG</h1>
-  <hr>
-  <app-catalogentry-crud [id]="id" modeName="debug"></app-catalogentry-crud>
+<div *ngIf="currentTabId === 'vocode'">
+  <h1>Vocation Encoding</h1>
+  Have vocode text here, and then generate a vocode choice, to select. 
+  Display current vocode instance tree here 
+  
 </div>
 
-<div *ngIf="currentTabId === 'fk_menu'">
-  <h1>FK_MENU</h1>
-  <app-catalogentry-crud [id]="id" modeName="fk_menu"></app-catalogentry-crud>
+<div *ngIf="currentTabId === 'signup'">
+  <h1>Signup</h1>
+  Have signup text here, and then generate a signup choice, to select. 
+  Display current signup instance tree here 
+  
 </div>
 
+<pre>
+currentTabId: {{currentTabId}}
+id: {{id}}
+</pre>

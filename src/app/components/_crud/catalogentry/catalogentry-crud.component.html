@@ -244,7 +244,7 @@
           [(ngModel)]="url">
         </app-std-mdb-form-text>
         </div>
-        <div class="mb-4">
+        <!-- <div class="mb-4">
         <app-std-mdb-form-text 
           prefix="catalogEntry" 
           name="vocodeInstanceId"
@@ -252,37 +252,16 @@
           [error]="error"
           [(ngModel)]="vocodeInstanceId">
         </app-std-mdb-form-text>
+        </div> -->
+         
+            <!-- Signup Packet selection -->
+            <div class="mb-4" *ngIf="signupPacketMenu">
+              <label>Signup Packet:</label>
+              <app-menu-control-data-list [menuControlDataList]="signupPacketMenu" [(ngModel)]="signupPacketId"></app-menu-control-data-list>
+            </div>
         </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntry" 
-          name="integrationEntityId"
-          label="Integration Entity ID"
-          [error]="error"
-          [(ngModel)]="integrationEntityId">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntry" 
-          name="integrationEntityType"
-          label="Integration Entity Type"
-          [maxLength]="50"
-          [error]="error"
-          [(ngModel)]="integrationEntityType">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntry" 
-          name="integrationEntityName"
-          label="Integration Entity Name"
-          [maxLength]="255"
-          [error]="error"
-          [(ngModel)]="integrationEntityName">
-        </app-std-mdb-form-text>
-        </div>
-        </div>
+
+    
       </form>
     </div>
   </div>

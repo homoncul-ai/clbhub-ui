@@ -433,6 +433,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VeiSearchResultsGETData>(request);
   }
 
+  getCatalogEntryByIdWithHint(id: string, hint: string): Observable<CatalogEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentry/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<CatalogEntryGETData>(request);
+  }
+
   createCatalogEntrySignupPacket(body: CatalogEntrySignupPacketPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrysignuppacket",
@@ -4338,6 +4347,8 @@ export interface CatalogEntryGETData {
   distanceFromCode?: string;
   catalogEntryInterest?: CatalogEntryInterestGETData;
   catalog?: CatalogGETData;
+  signupBehaviorMenu?: MenuControlDataList;
+  signupPacketMenu?: MenuControlDataList;
 }
 
 export interface CatalogEntryInterestGETData {
@@ -4450,6 +4461,29 @@ export interface HcclOrganizationGETData {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+}
+
+export interface MenuControlData {
+  id?: string;
+  name?: string;
+  icon?: string;
+  active?: boolean;
+  selected?: boolean;
+  groupId?: string;
+  roleRequired?: string;
+  helpText?: string;
+  allowedByRole?: boolean;
+  allowedByRule?: boolean;
+}
+
+export interface MenuControlDataList {
+  applicationName?: string;
+  clientId?: string;
+  menuId?: string;
+  menuName?: string;
+  label?: string;
+  menuItems?: MenuControlData[];
+  defaultAllowedByRule?: boolean;
 }
 
 export interface SignupBehaviorPOSTData {
@@ -9797,29 +9831,6 @@ export interface HcclUserContextGETData {
   currentUserProfile: HcclUserProfileGETData;
   userProfileMenu: MenuControlDataList;
   dashQueues: WorkQueueGETData[];
-}
-
-export interface MenuControlData {
-  id?: string;
-  name?: string;
-  icon?: string;
-  active?: boolean;
-  selected?: boolean;
-  groupId?: string;
-  roleRequired?: string;
-  helpText?: string;
-  allowedByRole?: boolean;
-  allowedByRule?: boolean;
-}
-
-export interface MenuControlDataList {
-  applicationName?: string;
-  clientId?: string;
-  menuId?: string;
-  menuName?: string;
-  label?: string;
-  menuItems?: MenuControlData[];
-  defaultAllowedByRule?: boolean;
 }
 
 export interface HcclOrgSetupData {
