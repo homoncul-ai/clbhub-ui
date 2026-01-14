@@ -87,9 +87,15 @@ export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<
     //x.alertMessage = 'Catalog Entry';
     x.usingNavigateUrl = false;
     x.onRowClick = (entityId: string, baseRoute: string, router: Router) => {
-      //alert('Catalog Entry clicked: ' + entityId);
+     // alert('Catalog Entry clicked: ' + entityId);
+     var usingE = true;
+     if (!usingE) {
       this.catalogEntryId = entityId;
       this.cdr.detectChanges();
+     } else {
+      this.router.navigate(['/provider-dashboard/e/catalogentry', entityId]);
+     }
+      
     };
     return x;
   }

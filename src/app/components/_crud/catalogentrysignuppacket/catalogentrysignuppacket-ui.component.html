@@ -1,21 +1,31 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+
+
 <div *ngIf="currentTabId === 'details'">
-  <app-catalogentrysignuppacket-crud [id]="id" modeName="detail"></app-catalogentrysignuppacket-crud>
-</div>
-
-<div *ngIf="currentTabId === 'create'">
-  <h1>Create</h1>
-  <app-catalogentrysignuppacket-crud [id]="id" modeName="create"></app-catalogentrysignuppacket-crud>
-</div>
-
-<div *ngIf="currentTabId === 'debug'">
-  <h1>CRUD Modes DEBUG</h1>
+  <h1>Details</h1>
+  <app-catalogentrysignuppacket-crud [id]="id" [modeName]="CRUD_MODES.DETAIL"></app-catalogentrysignuppacket-crud>
   <hr>
-  <app-catalogentrysignuppacket-crud [id]="id" modeName="debug"></app-catalogentrysignuppacket-crud>
 </div>
+ 
+<div *ngIf="currentTabId === 'filegroup'">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0"><i class="fas fa-folder-tree me-2"></i>File Group</h5>
+    </div>
+    <div class="card-body">
+      <!-- If fileGroupId is null, show create button -->
+      <div *ngIf="!getFileGroupId() && !creatingFileGroup" class="text-center py-5">
+        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+        <p class="text-muted">No file group is associated with this signup packet.</p> 
+      </div>
 
-<div *ngIf="currentTabId === 'fk_menu'">
-  <h1>FK_MENU</h1>
-  <app-catalogentrysignuppacket-crud [id]="id" modeName="fk_menu"></app-catalogentrysignuppacket-crud>
+      
+      <!-- If fileGroupId is not null, display the pmfilegroup-ui component -->
+      <app-pmfilegroup-ui 
+        *ngIf="getFileGroupId() && !creatingFileGroup" 
+        [id]="getFileGroupId()!" [readonly]="true">
+      </app-pmfilegroup-ui>
+    </div>
+  </div>
 </div>
 

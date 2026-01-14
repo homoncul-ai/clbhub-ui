@@ -75,7 +75,7 @@ export class StdEntitySectionComponent implements OnInit, OnDestroy {
 
   /** List of supported entity types */
   private readonly supportedEntityTypes = [
-    'catalogentryinterest', 'catalogsearchresult',
+    'catalogentryinterest', 'catalogsearchresult', 'catalogentry', 'catalogentrysignuppacket',
     'pmessage', 'pmfile', 'pmfilegroup',
     'providerrequest',
     'workrequest', 'workrequestdeliverable', 

@@ -154,7 +154,8 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
 
   protected async loadEntityByIdCall(id: string): Promise<CatalogEntryCrudWrapper> {
-    const catalogEntry = await this.hcclService.getCatalogEntryById(id).toPromise();
+    var hint = this.getMode() === CRUD_MODES.EDIT ? "edit" : "";
+    const catalogEntry = await this.hcclService.getCatalogEntryByIdWithHint(id, hint).toPromise();
       if (catalogEntry) {
         return new CatalogEntryCrudWrapper(catalogEntry, this.hcclService);
       }
@@ -174,6 +175,7 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
     
      const postData: CatalogEntryPOSTData = {
        catalogId: catalogEntryData.catalogId || '',
+       signupPacketId: catalogEntryData.signupPacketId,
        entryCode: catalogEntryData.entryCode || '',
        title: catalogEntryData.title || '',
        shortDescription: catalogEntryData.shortDescription || '',
@@ -216,6 +218,7 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
       const putData: CatalogEntryPUTData = {
         catalogId: catalogEntryData.catalogId || '',
+        signupPacketId: catalogEntryData.signupPacketId,
         entryCode: catalogEntryData.entryCode || '',
         title: catalogEntryData.title || '',
         shortDescription: catalogEntryData.shortDescription || '',
@@ -389,6 +392,26 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
     var data = super.getEntityForSet();
     data.getData().catalogTypeCode = value;
   }
+
+  // Signup Packet ID - the selected signup packet for this catalog entry
+  public get signupPacketId(): string {
+    return this.getCurrentEntity().getData().signupPacketId || '';
+  }
+
+  public set signupPacketId(value: string) {
+    var data = super.getEntityForSet();
+    data.getData().signupPacketId = value;
+  }
+
+  // Menu getters - these come from the entity's menus property
+  public get signupBehaviorMenu(): MenuControlDataList | null {
+    return this.getCurrentEntity().getData().signupBehaviorMenu || null;
+  }
+
+  public get signupPacketMenu(): MenuControlDataList | null {
+    return this.getCurrentEntity().getData().signupPacketMenu || null;
+  }
+
   /**
    * Create a wrapper from CatalogEntryGETData
    * @param catalogEntryData The CatalogEntryGETData to wrap
@@ -415,6 +438,9 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
     return Promise.resolve();
   }
+  public getThe() : CatalogEntryGETData {
+    return this.getCurrentEntity().getData();
+  }
 
   protected getCatalogEntryImageUrl(): string {
     return "imgs/TAROT-HR.png";
@@ -439,12 +465,21 @@ export class CatalogEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> 
       integrationEntityId: '',
       integrationEntityType: '',
       integrationEntityName: '',
-      catalogTypeCode: ''
+      catalogTypeCode: '',
+      signupPacketId: ''
     } as CatalogEntryGETData;
     return new CatalogEntryCrudWrapper(entity, hcclService);
   }
   public static async newInstance(id: string, hcclService: HcclService): Promise<CatalogEntryCrudWrapper> {
     const catalogEntry = await hcclService.getCatalogEntryById(id).toPromise();
+    if (catalogEntry) {
+      return new CatalogEntryCrudWrapper(catalogEntry, hcclService);
+    }
+    throw new Error('Catalog Entry not found');
+  }
+
+  public static async newInstanceFoHint(id: string, hint: string, hcclService: HcclService): Promise<CatalogEntryCrudWrapper> {
+    const catalogEntry = await hcclService.getCatalogEntryByIdWithHint(id, hint).toPromise();
     if (catalogEntry) {
       return new CatalogEntryCrudWrapper(catalogEntry, hcclService);
     }
@@ -468,7 +503,12 @@ export class CatalogEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> 
       return 'Unnamed Catalog Entry';
     }
   }
-
+  getSignupPacketId(): string {
+    return this.data.signupPacketId || '';
+  }
+  setSignupPacketId(value: string) {
+    this.data.signupPacketId = value;
+  }
   getFullName(): string {
     return this.getDisplayText();
   }
