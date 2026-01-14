@@ -17,6 +17,10 @@
       <!-- Attributes on the right -->
       <div class="attributes-container" style="flex: 1;">
         <div class="detail-group">
+          <label>Catalog</label>
+          <span>{{ getCurrentEntity().getData().catalog?.entityDisplayName }}</span>
+        </div>
+        <div class="detail-group">
           <label>Entry Code:</label>
           <span>{{ getCurrentEntity().getData().entryCode }}</span>
         </div>

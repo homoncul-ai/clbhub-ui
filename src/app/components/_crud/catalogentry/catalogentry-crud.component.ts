@@ -415,6 +415,9 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
     return Promise.resolve();
   }
+  public getThe() : CatalogEntryGETData {
+    return this.getCurrentEntity().getData();
+  }
 
   protected getCatalogEntryImageUrl(): string {
     return "imgs/TAROT-HR.png";

@@ -4226,6 +4226,8 @@ export interface CatalogEntryGroupRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   businessCode?: string;
   nameText?: string;
   description?: string;
@@ -4299,6 +4301,8 @@ export interface CatalogEntryGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   catalogId?: string;
   signupPacketId?: string;
   entryCode?: string;
@@ -4342,6 +4346,8 @@ export interface CatalogEntryInterestGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   catalogId?: string;
   catalogEntryId?: string;
   personalStatementId?: string;
@@ -4372,6 +4378,8 @@ export interface CatalogGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4603,6 +4611,8 @@ export interface PMFileGroupEntryGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   pmfileGroupId?: string;
   pmfileId?: string;
   folderName?: string;
@@ -4614,6 +4624,8 @@ export interface PMFileGroupGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   title?: string;
   instructions?: string;
   available?: boolean;
@@ -4639,6 +4651,8 @@ export interface VocationEncodingRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -4703,6 +4717,8 @@ export interface CatalogEntrySignupPacketGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   catalogId?: string;
   catalogEntryId?: string;
@@ -4775,6 +4791,8 @@ export interface CatalogEntryTagGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   catalogId?: string;
   catalogEntryId?: string;
   tagId?: string;
@@ -4844,6 +4862,8 @@ export interface CatalogSearchResultEntryGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   catalogSearchResultId?: string;
   catalogEntryId?: string;
   catalogId?: string;
@@ -4896,6 +4916,8 @@ export interface CatalogSearchResultGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   catalogId?: string;
   comments?: string;
   subjectEntityId?: string;
@@ -4920,6 +4942,8 @@ export interface HcclPersonGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -4940,6 +4964,8 @@ export interface HcclUserGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5024,6 +5050,8 @@ export interface CatalogSearchGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   searchName?: string;
   businessCode?: string;
   description?: string;
@@ -5145,6 +5173,8 @@ export interface CatalogTagRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   tagCode?: string;
   nameText?: string;
   description?: string;
@@ -5198,6 +5228,8 @@ export interface CatalogTypeRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   businessCode?: string;
   name?: string;
   description?: string;
@@ -5248,6 +5280,8 @@ export interface ExperienceLocationGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5302,6 +5336,8 @@ export interface ExperienceRegRuleGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5364,6 +5400,8 @@ export interface ExperienceGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5448,6 +5486,8 @@ export interface ExperienceTypeGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -5512,6 +5552,8 @@ export interface ParticipantGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   userProfileId?: string;
   catalogEntryInterestId?: string;
   catalogEntryId?: string;
@@ -5590,6 +5632,8 @@ export interface PersonalStatementResumeGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   userProfileId?: string;
   personalStatmentId?: string;
   title?: string;
@@ -5682,6 +5726,8 @@ export interface ResumeEntryGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   userProfileId?: string;
   participantId?: string;
   title?: string;
@@ -5755,6 +5801,8 @@ export interface ResumeUserInfoGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   userProfileId?: string;
   headerMd?: string;
   eduMd?: string;
@@ -5811,6 +5859,8 @@ export interface CLCourseGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -5887,6 +5937,8 @@ export interface CLGuidanceGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -5971,6 +6023,8 @@ export interface CLSchoolGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -6050,6 +6104,8 @@ export interface CLStudentGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -6128,6 +6184,8 @@ export interface PMBucketFolderGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   nameText?: string;
   businessCode?: string;
   bucketName?: string;
@@ -6182,6 +6240,8 @@ export interface PMFileBlobGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   pmfileId?: string;
   pathToFile?: string;
   md5Hash?: string;
@@ -6337,6 +6397,8 @@ export interface PMFileGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   downloadAs?: string;
   folderPath?: string;
   fileAccessCode?: string;
@@ -6440,6 +6502,8 @@ export interface PMessageAttachmentGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   pmessageId?: string;
   pmessageEntryId?: string;
   attachmentEntityId?: string;
@@ -6505,6 +6569,8 @@ export interface PMessageEntryGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   pmessageId?: string;
   authorUserProfileId?: string;
   messageParticipantId?: string;
@@ -6559,6 +6625,8 @@ export interface PMessageParticipantGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   pmessageId?: string;
   userProfileId?: string;
   importance?: number;
@@ -6613,6 +6681,8 @@ export interface PMessageGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   authorUserProfileId?: string;
   teamId?: string;
   title?: string;
@@ -6681,6 +6751,8 @@ export interface ProviderGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6740,6 +6812,8 @@ export interface ProviderTypeRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6788,6 +6862,8 @@ export interface ProviderUserGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   providerId?: string;
   userId?: string;
   userCode?: string;
@@ -6839,6 +6915,8 @@ export interface ProviderRequestGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6910,6 +6988,8 @@ export interface ProviderRequestTypeRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -6970,6 +7050,8 @@ export interface StateTransitionLogGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   nameText?: string;
   transactionReferenceId?: string;
   parentId?: string;
@@ -7059,6 +7141,8 @@ export interface SwWorkProductGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7163,6 +7247,8 @@ export interface TaxonomyEntryGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   nameText?: string;
   businessCode?: string;
   description?: string;
@@ -7225,6 +7311,8 @@ export interface TaxonomyLevelGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   nameText?: string;
   businessCode?: string;
   description?: string;
@@ -7280,6 +7368,8 @@ export interface TaxonomyGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   nameText?: string;
   businessCode?: string;
   description?: string;
@@ -7333,6 +7423,8 @@ export interface FamilyUnitMemberGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   familyUnitId?: string;
   personId?: string;
   role?: string;
@@ -7387,6 +7479,8 @@ export interface FamilyUnitGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -7514,6 +7608,8 @@ export interface HcclOrganizationTypeRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7627,6 +7723,8 @@ export interface HcclTeamLogGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   nameText?: string;
   description?: string;
   teamId?: string;
@@ -7685,6 +7783,8 @@ export interface HcclTeamMemberRoleGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   teamId?: string;
   teamMemberId?: string;
   teamMemberRoleId?: string;
@@ -7737,6 +7837,8 @@ export interface HcclTeamMemberGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   teamId?: string;
   userId?: string;
@@ -7799,6 +7901,8 @@ export interface HcclTeamGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7866,6 +7970,8 @@ export interface HcclUserProfileRoleGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   userId?: string;
   roleCode?: string;
   userProfileId?: string;
@@ -7942,6 +8048,8 @@ export interface WorkRequestGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -7974,6 +8082,8 @@ export interface WorkRequestItemGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   workRequestId?: string;
   nameText?: string;
   businessCode?: string;
@@ -7996,6 +8106,8 @@ export interface WorkRequestTypeRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8127,6 +8239,8 @@ export interface TeamMemberRoleRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8175,6 +8289,8 @@ export interface TeamTypeMemberRoleRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   teamType?: RelationshipGETData;
   teamMemberRole?: RelationshipGETData;
   available?: number;
@@ -8221,6 +8337,8 @@ export interface TeamTypeRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8283,6 +8401,8 @@ export interface WorkItemDeliverableGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   workRequestId?: string;
   workRequestItemId?: string;
   parentDeliverableId?: string;
@@ -8377,6 +8497,8 @@ export interface WorkQueueGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8457,6 +8579,8 @@ export interface WorkQueueTypeRefGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8511,6 +8635,8 @@ export interface WorkRequestDeliverableSectionGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   workRequestDeliverableId?: string;
   sequenceOrder?: number;
   workRequestId?: string;
@@ -8578,6 +8704,8 @@ export interface WorkRequestDeliverableGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   workRequestId?: string;
   nameText?: string;
   comments?: string;
@@ -8711,6 +8839,8 @@ export interface WorkRequestLogGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   nameText?: string;
   description?: string;
   transactionReferenceId?: string;
@@ -8789,6 +8919,8 @@ export interface WorkRequestRoutingReasonGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -8935,6 +9067,8 @@ export interface WorkRequestTeamGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -9042,6 +9176,8 @@ export interface UtilmonLoginYearmoGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   yearmo?: string;
   orgId?: string;
   realmName?: string;
@@ -9131,6 +9267,8 @@ export interface UtilmonReportingEventGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   subject?: string;
   eventTypeCode?: string;
   realmName?: string;
@@ -9219,6 +9357,8 @@ export interface UtilmonStatGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   yearmo?: string;
   quarter?: number;
   orgId?: string;
@@ -9302,6 +9442,8 @@ export interface PersonalStatementActivityLogGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   userProfileId?: string;
   personalStatmentId?: string;
   nameText?: string;
@@ -9371,6 +9513,8 @@ export interface PersonalStatementGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -9459,6 +9603,8 @@ export interface VocationEncodingInstanceGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   vocationEncodingId?: string;
   encodingName?: string;
   vocationEncodingRefId?: string;
@@ -9573,6 +9719,8 @@ export interface VocationEncodingGETData {
   dateCreated?: DateGETData;
   lastUpdatedByInfo?: Reference;
   dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
   encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;
@@ -9826,9 +9974,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

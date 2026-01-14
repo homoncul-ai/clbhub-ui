@@ -18535,6 +18535,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "businessCode": {
             "type": "string"
           },
@@ -18785,6 +18791,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -18923,6 +18935,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -19017,6 +19035,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "organizationId": {
             "type": "string",
@@ -19282,11 +19306,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "errorMessageAsString": {
-            "type": "string"
-          },
           "firstErrorMessage": {
             "$ref": "#/components/schemas/SimpleMessage"
+          },
+          "errorMessageAsString": {
+            "type": "string"
           }
         }
       },
@@ -19848,6 +19872,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "pmfileGroupId": {
             "type": "string",
             "format": "uuid"
@@ -19879,6 +19909,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "title": {
             "type": "string"
@@ -19959,6 +19995,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -20214,6 +20256,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -20468,6 +20516,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -20706,6 +20760,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "catalogSearchResultId": {
             "type": "string",
             "format": "uuid"
@@ -20881,6 +20941,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -20959,6 +21025,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -21019,6 +21091,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -21304,6 +21382,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "searchName": {
             "type": "string"
@@ -21736,6 +21820,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "tagCode": {
             "type": "string"
           },
@@ -21918,6 +22008,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "businessCode": {
             "type": "string"
           },
@@ -22087,6 +22183,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -22274,6 +22376,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -22496,6 +22604,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -22807,6 +22921,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -23035,6 +23155,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "userProfileId": {
             "type": "string",
@@ -23317,6 +23443,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "userProfileId": {
             "type": "string",
@@ -23641,6 +23773,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -23897,6 +24035,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -24095,6 +24239,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "organizationId": {
             "type": "string",
@@ -24380,6 +24530,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "organizationId": {
             "type": "string",
@@ -24694,6 +24850,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -24984,6 +25146,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -25271,6 +25439,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "nameText": {
             "type": "string"
           },
@@ -25458,6 +25632,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "pmfileId": {
             "type": "string",
@@ -26032,6 +26212,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "downloadAs": {
             "type": "string"
           },
@@ -26396,6 +26582,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "pmessageId": {
             "type": "string",
             "format": "uuid"
@@ -26619,6 +26811,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "pmessageId": {
             "type": "string",
             "format": "uuid"
@@ -26800,6 +26998,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "pmessageId": {
             "type": "string",
@@ -26988,6 +27192,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "authorUserProfileId": {
             "type": "string",
@@ -27242,6 +27452,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -27452,6 +27668,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -27614,6 +27836,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "providerId": {
             "type": "string",
@@ -27798,6 +28026,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -28059,6 +28293,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -28279,6 +28519,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "nameText": {
             "type": "string"
@@ -28624,6 +28870,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -29007,6 +29259,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "nameText": {
             "type": "string"
           },
@@ -29220,6 +29478,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "nameText": {
             "type": "string"
           },
@@ -29411,6 +29675,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "nameText": {
             "type": "string"
           },
@@ -29591,6 +29861,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "familyUnitId": {
             "type": "string",
@@ -29786,6 +30062,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "organizationId": {
             "type": "string",
@@ -30249,6 +30531,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -30669,6 +30957,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "nameText": {
             "type": "string"
           },
@@ -30870,6 +31164,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "teamId": {
             "type": "string",
             "format": "uuid"
@@ -31052,6 +31352,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -31280,6 +31586,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -31523,6 +31835,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "userId": {
             "type": "string",
@@ -31803,6 +32121,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -31911,6 +32235,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "workRequestId": {
             "type": "string",
             "format": "uuid"
@@ -31977,6 +32307,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -32461,6 +32797,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -32619,6 +32961,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "teamType": {
             "$ref": "#/components/schemas/RelationshipGETData"
           },
@@ -32770,6 +33118,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -32993,6 +33347,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "workRequestId": {
             "type": "string",
@@ -33338,6 +33698,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -33625,6 +33991,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -33811,6 +34183,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "workRequestDeliverableId": {
             "type": "string",
@@ -34045,6 +34423,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "workRequestId": {
             "type": "string",
@@ -34546,6 +34930,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "nameText": {
             "type": "string"
           },
@@ -34829,6 +35219,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -35387,6 +35783,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -35790,6 +36192,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "yearmo": {
             "type": "string"
           },
@@ -36128,6 +36536,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "subject": {
             "type": "string"
           },
@@ -36457,6 +36871,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "yearmo": {
             "type": "string"
           },
@@ -36765,6 +37185,12 @@
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
           },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -37013,6 +37439,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -37311,6 +37743,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "vocationEncodingId": {
             "type": "string",
@@ -37725,6 +38163,12 @@
           },
           "dateLastUpdated": {
             "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
           },
           "encodingTypeCode": {
             "type": "string"
@@ -38505,13 +38949,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }
