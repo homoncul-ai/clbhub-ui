@@ -1,21 +1,24 @@
 /* Dash Student Messages Component Styles */
 
 .messages-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  position: relative;
+  min-height: 100vh;
 }
 
 /* Message Panel - Inline below the list */
 .message-panel {
-  margin-top: 1rem;
+
+  position: fixed;
+  right: 16px;
+  bottom: 0;        /* or 16px if you want a gap */
+  z-index: 9999999;
   border: 1px solid var(--mdb-border-color, #dee2e6);
   border-radius: 8px;
   background-color: var(--mdb-body-bg, #fff);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  animation: slideDown 0.3s ease-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  //overflow: hidden;
 }
+
 
 @keyframes slideDown {
   from {
@@ -33,7 +36,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background: linear-gradient(135deg, #3b71ca 0%, #5a8dee 100%);
+  background: linear-gradient(135deg, #8db392 0%, #3f7446 100%);
   color: #fff;
   border-bottom: 1px solid var(--mdb-border-color, #dee2e6);
 
@@ -42,6 +45,7 @@
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+    color: #fff !important;
   }
 }
 
@@ -75,8 +79,7 @@
 
 .message-panel-content {
   padding: 1rem;
-  max-height: 70vh;
-  overflow-y: auto;
+  //max-height: 70vh;
 }
 
 /* Responsive adjustments */
