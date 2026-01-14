@@ -11,12 +11,13 @@ import { CatalogEntryListComponent } from "@app/components/_crud/catalogentry/ca
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { Router } from '@angular/router';
+import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
 
 @Component({
   selector: 'app-provider-catalog-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, ProviderCatalogTabDashComponent, 
-    CatalogCrudComponent, CatalogEntryListComponent, CatalogEntryCrudComponent],
+    CatalogCrudComponent, CatalogEntryListComponent, CatalogEntryCrudComponent, CatalogEntryUiComponent],
   templateUrl: './provider-catalog-group.component.html',
   styleUrl: './provider-catalog-group.component.scss'
 })

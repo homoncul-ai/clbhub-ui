@@ -60,9 +60,11 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
                  </div>
                  
                  <!-- PMFileGroup UI for this encoding ref -->
+  
                  <div *ngIf="showingResearch && getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)" class="filegroup-section">
                    <app-pmfilegroup-ui 
-                     [data]="getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)!">
+                     [data]="getVocationEncodingRefFileGroup(instance.vocationEncodingRefId)!"
+                     [readonly]="true">
                    </app-pmfilegroup-ui>
                  </div>
                

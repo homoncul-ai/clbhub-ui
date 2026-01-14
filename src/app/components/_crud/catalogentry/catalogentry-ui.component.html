@@ -1,6 +1,6 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
 <div *ngIf="currentTabId === 'details'">
-  <app-catalogentry-crud [id]="id" modeName="detail"></app-catalogentry-crud>
+  <app-catalogentry-crud [id]="id" modeName="edit"></app-catalogentry-crud>
 </div>
 
 <div *ngIf="currentTabId === 'create'">

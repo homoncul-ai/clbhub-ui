@@ -22,6 +22,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   /** Optional: ID to load the PMFileGroup by */
   @Input() id?: string;
   @Input() readonly: boolean = false;
+  @Input() initialFileName : string = '';
 
   @ViewChild('treeContainer') treeContainer!: ElementRef;
   @ViewChild('markdownEditor') markdownEditor?: StdMarkdownDisplayComponent;
@@ -175,14 +176,14 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
         });
       });
 
-      // Auto-select the first file in the tree
+      // Auto-select the initial file based on initialFileName input
       this.ngZone.run(() => {
-        const firstFileId = this.findFirstFileId(this.pmfilegroup!.fileTree!);
-        if (firstFileId) {
-          this.loadFile(firstFileId);
+        const initialFileId = this.findInitialFileId();
+        if (initialFileId) {
+          this.loadFile(initialFileId);
           // Select the item in the tree
           if (this.tree) {
-            this.tree.selection.add(firstFileId);
+            this.tree.selection.add(initialFileId);
           }
         }
       });
@@ -190,23 +191,76 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   /**
-   * Find the first file (leaf node) in the tree and return its id
+   * Find the initial file to display based on initialFileName input.
+   * - If initialFileName is provided, look for that specific file
+   * - If initialFileName is empty, look for: index.htm, index.md.htm, index.md (in order)
+   * - If none found, return null (no file selected)
    */
-  private findFirstFileId(node: DhtmlxTreeNode): string | null {
-    // If this node has no children, it's a file - return its id
-    if (!node.items || node.items.length === 0) {
-      return node.id || null;
+  private findInitialFileId(): string | null {
+    if (!this.pmfilegroup?.fileTree) {
+      return null;
     }
+
+    // If initialFileName is provided, look for that specific file
+    if (this.initialFileName && this.initialFileName.trim() !== '') {
+      return this.findFileIdByName(this.pmfilegroup.fileTree, this.initialFileName.trim());
+    }
+
+    // Otherwise, look for default files in priority order
+    const defaultFileNames = ['index.htm', 'index.md.htm', 'index.md'];
     
-    // Otherwise, recursively search children for the first file
-    for (const child of node.items) {
-      const fileId = this.findFirstFileId(child);
+    for (const fileName of defaultFileNames) {
+      const fileId = this.findFileIdByName(this.pmfilegroup.fileTree, fileName);
       if (fileId) {
         return fileId;
       }
     }
+
+    // No default file found - don't select any file
+    return null;
+  }
+
+  /**
+   * Find a file by name in the tree and return its id
+   * @param node The tree node to search
+   * @param fileName The filename to look for (case-insensitive)
+   */
+  private findFileIdByName(node: DhtmlxTreeNode, fileName: string): string | null {
+    const searchName = fileName.toLowerCase();
+    
+    // Get the node's display name
+    const nodeName = (node.value || '').toLowerCase();
+    
+    // If this is a leaf node (file) and name matches, return its id
+    if ((!node.items || node.items.length === 0) && nodeName === searchName) {
+      return node.id || null;
+    }
+    
+    // Search children recursively
+    if (node.items) {
+      for (const child of node.items) {
+        const fileId = this.findFileIdByName(child, fileName);
+        if (fileId) {
+          return fileId;
+        }
+      }
+    }
     
     return null;
+  }
+
+
+
+  isEditingMarkdown(): boolean {
+    return !!(!this.loadingFile && this.selectedFile && this.isMarkdownFile() && !this.readonly);
+  }
+
+  isDisplayingMarkdown(): boolean {
+    return !!(!this.loadingFile && this.selectedFile && this.isMarkdownFile() && this.readonly);
+  }
+
+  getSelectedFileUrl(): SafeResourceUrl | null {
+    return this.selectedFileUrl;
   }
 
   private transformTreeData(node: DhtmlxTreeNode): any {
@@ -232,12 +286,33 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       transformedNode.icon = this.getFileIcon(extension);
     }
 
-    // Transform children
+    // Transform and sort children
     if (node.items && node.items.length > 0) {
-      transformedNode.items = node.items.map(child => this.transformTreeData(child));
+      // Sort items: folders first, then files, alphabetically within each group
+      const sortedItems = this.sortTreeItems(node.items);
+      transformedNode.items = sortedItems.map(child => this.transformTreeData(child));
     }
 
     return transformedNode;
+  }
+
+  /**
+   * Sort tree items: folders first, then files, alphabetically within each group
+   */
+  private sortTreeItems(items: DhtmlxTreeNode[]): DhtmlxTreeNode[] {
+    return [...items].sort((a, b) => {
+      const aIsFolder = a.type === 'folder' || (a.items && a.items.length > 0);
+      const bIsFolder = b.type === 'folder' || (b.items && b.items.length > 0);
+      
+      // Folders come before files
+      if (aIsFolder && !bIsFolder) return -1;
+      if (!aIsFolder && bIsFolder) return 1;
+      
+      // Within same type, sort alphabetically (case-insensitive)
+      const aName = (a.value || '').toLowerCase();
+      const bName = (b.value || '').toLowerCase();
+      return aName.localeCompare(bName);
+    });
   }
 
   private getFileIcon(extension: string): any {
@@ -352,12 +427,14 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   /**
-   * Check if the selected file is a markdown file (.md or .md.htm)
+   * Check if the selected file is a raw markdown file (.md only)
+   * Note: .md.htm files are pre-rendered HTML and should display in iframe
    */
   isMarkdownFile(): boolean {
     if (!this.selectedFile?.downloadAs) return false;
     const filename = this.selectedFile.downloadAs.toLowerCase();
-    return filename.endsWith('.md') || filename.endsWith('.md.htm');
+    // Only .md files need markdown rendering; .md.htm is pre-rendered HTML for iframe
+    return filename.endsWith('.md') && !filename.endsWith('.md.htm');
   }
 
   /**
@@ -371,6 +448,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       return;
     }
 
+//    alert('url: ' + url);
     this.http.get(url, { responseType: 'text' }).subscribe({
       next: (content) => {
         this.markdownContent = content;

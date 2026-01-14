@@ -38,6 +38,11 @@
       </div>
       <div class="tree-wrapper">
         <div #treeContainer class="tree-container"></div>
+        <!-- Show message when no file tree -->
+        <div *ngIf="!pmfilegroup?.fileTree" class="tree-empty-message">
+          <i class="fas fa-folder-open"></i>
+          <span>No files in this group</span>
+        </div>
       </div>
     </div>
 
@@ -74,7 +79,7 @@
         </div>
 
         <!-- Markdown file in edit mode -->
-        <div *ngIf="!loadingFile && selectedFile && isMarkdownFile() && !readonly" class="markdown-editor-container">
+        <div *ngIf="isEditingMarkdown()" class="markdown-editor-container">
           <div class="markdown-editor-toolbar">
             <button 
               class="btn btn-sm btn-primary" 
@@ -102,7 +107,7 @@
         </div>
 
         <!-- Markdown file in readonly/display mode -->
-        <div *ngIf="!loadingFile && selectedFile && isMarkdownFile() && readonly" class="markdown-display-container">
+        <div *ngIf="isDisplayingMarkdown()" class="markdown-display-container">
           <app-std-markdown-display
             [markdown]="markdownContent"
             modeName="display">
