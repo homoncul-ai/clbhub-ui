@@ -98,7 +98,6 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
     let tabId = this.calculateTabIdFromUrl(this.tabId);
  
       var id = this.id;
-     debugger
      if (tabId === 'create') {
       this.currentTabId = 'create';
       this.showingTabset = true;
