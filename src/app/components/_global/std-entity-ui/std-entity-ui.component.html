@@ -1,7 +1,7 @@
 <!-- This is for fully-routable group components. ie {dashboard}/e/{entityType}/{entityId} -->
 <!-- PMessage entity UI -->
 <div *ngIf="entityType === 'catalogentry'">
-  <app-catalogentry-group [id]="entityId" ></app-catalogentry-group>
+  <app-catalogentry-ui [id]="entityId" ></app-catalogentry-ui>
 </div>
 <div *ngIf="entityType === 'catalogentrysignuppacket'">
   <app-catalogentrysignuppacket-group [id]="entityId" ></app-catalogentrysignuppacket-group>

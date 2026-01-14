@@ -5,12 +5,13 @@ import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-e
 import { CatalogEntryCrudWrapper, CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { StdEntitySectionComponent } from "@app/components/_global/std-entity-section/std-entity-section.component";
 
 // UI component for editing/maintaining the catalog entry.
 @Component({
   selector: 'app-catalogentry-ui',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, CatalogEntryCrudComponent],
+  imports: [CommonModule, SimpleTabsetComponent, CatalogEntryCrudComponent, StdEntitySectionComponent],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './catalogentry-ui.component.html',
 })
