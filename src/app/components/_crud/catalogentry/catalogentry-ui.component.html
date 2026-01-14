@@ -21,6 +21,7 @@
   Have signup text here, and then generate a signup choice, to select. 
   Display current signup instance tree here 
   <!-- <app-std-entity-section entityType="catalogentrysignuppacket" entityId="signupPacketId" ></app-std-entity-section> -->
+  <app-catalogentrysignuppacket-ui [id]="getCurrentEntity().getSignupPacketId() || ''" ></app-catalogentrysignuppacket-ui>
 </div>
 
 <pre>

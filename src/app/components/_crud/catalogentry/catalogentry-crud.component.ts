@@ -465,7 +465,8 @@ export class CatalogEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> 
       integrationEntityId: '',
       integrationEntityType: '',
       integrationEntityName: '',
-      catalogTypeCode: ''
+      catalogTypeCode: '',
+      signupPacketId: ''
     } as CatalogEntryGETData;
     return new CatalogEntryCrudWrapper(entity, hcclService);
   }
@@ -502,7 +503,12 @@ export class CatalogEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> 
       return 'Unnamed Catalog Entry';
     }
   }
-
+  getSignupPacketId(): string {
+    return this.data.signupPacketId || '';
+  }
+  setSignupPacketId(value: string) {
+    this.data.signupPacketId = value;
+  }
   getFullName(): string {
     return this.getDisplayText();
   }

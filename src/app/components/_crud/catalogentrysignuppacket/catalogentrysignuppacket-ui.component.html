@@ -8,6 +8,36 @@
   <app-catalogentrysignuppacket-crud [id]="id" modeName="create"></app-catalogentrysignuppacket-crud>
 </div>
 
+<div *ngIf="currentTabId === 'filegroup'">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0"><i class="fas fa-folder-tree me-2"></i>File Group</h5>
+    </div>
+    <div class="card-body">
+      <!-- If fileGroupId is null, show create button -->
+      <div *ngIf="!getFileGroupId() && !creatingFileGroup" class="text-center py-5">
+        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+        <p class="text-muted">No file group is associated with this signup packet.</p>
+        <button class="btn btn-primary" (click)="onCreateNewFileGroup()">
+          <i class="fas fa-plus me-2"></i>Create New File Group
+        </button>
+      </div>
+
+      <!-- Loading state while creating file group -->
+      <div *ngIf="creatingFileGroup" class="text-center py-5">
+        <i class="fas fa-spinner fa-spin fa-3x text-primary mb-3"></i>
+        <p class="text-muted">Creating file group...</p>
+      </div>
+      
+      <!-- If fileGroupId is not null, display the pmfilegroup-ui component -->
+      <app-pmfilegroup-ui 
+        *ngIf="getFileGroupId() && !creatingFileGroup" 
+        [id]="getFileGroupId()!">
+      </app-pmfilegroup-ui>
+    </div>
+  </div>
+</div>
+
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>
   <hr>

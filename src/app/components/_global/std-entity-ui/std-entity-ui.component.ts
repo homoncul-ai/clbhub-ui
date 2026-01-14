@@ -73,9 +73,10 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
 
   /** List of supported entity types */
   private readonly supportedEntityTypes = [
+    'catalogentry', 'catalogentrysignuppacket',
     'pmessage', 'pmfile', 'pmfilegroup',
     'workrequest', 'workrequestdeliverable', 
-    'catalogentrysignuppacket',
+   
   ];
 
   /** Check if the current entityType is supported */
