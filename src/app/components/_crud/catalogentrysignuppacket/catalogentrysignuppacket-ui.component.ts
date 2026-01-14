@@ -15,9 +15,15 @@ import { PmfilegroupUiComponent } from '@app/components/_crud/pmfilegroup-ui/pmf
   templateUrl: './catalogentrysignuppacket-ui.component.html',
 })
 export class CatalogEntrySignupPacketUiComponent extends AbstractEntityGroupComponent<CatalogEntrySignupPacketCrudWrapper> implements OnInit {  
-
+ 
   constructor() {
     super();    
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.currentTabId = 'details';
+    this.cdr.detectChanges();
   }
 
   protected newCrudWrapperForCreate(): CatalogEntrySignupPacketCrudWrapper {
@@ -29,22 +35,29 @@ export class CatalogEntrySignupPacketUiComponent extends AbstractEntityGroupComp
   }
 
   protected setupTabs(): SimpleTab[] {
-    const baseTabs = this.setupListDetailsTabs();
-    const baseRoute = this.getBaseRoute();
     
-    // Add the File Group tab
-    const fileGroupTab = new SimpleTab('filegroup', 'File Group', '', 
-      () => {
+    var tabs: SimpleTab[] = [];
+    var tab = new SimpleTab('details', this.getDetailsTabLabel(), '', 
+        () => {
+          this.currentTabId = 'details';          
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);
+      // Add the File Group tab
+      tab = new SimpleTab('filegroup', 'File Group', '', 
+        () => {
         this.currentTabId = 'filegroup';
-        this.router.navigate([baseRoute, this.id, 'filegroup']);
       },
       () => {
         return this.entity !== null;
       }
     );
-    baseTabs.push(fileGroupTab);
+    tabs.push(tab);
     
-    return baseTabs;
+    return tabs;
   }
 
   /**
@@ -57,66 +70,7 @@ export class CatalogEntrySignupPacketUiComponent extends AbstractEntityGroupComp
   // Flag to track if file group creation is in progress
   public creatingFileGroup: boolean = false;
 
-  /**
-   * Handle creating a new file group
-   */
-  public async onCreateNewFileGroup(): Promise<void> {
-    if (!this.entity || this.creatingFileGroup) {
-      return;
-    }
-
-    const entityData = this.entity.getData();
-    if (!entityData.id) {
-      alert('Cannot create file group: Signup packet ID is missing');
-      return;
-    }
-
-    this.creatingFileGroup = true;
-
-    try {
-      // Build the PMFileGroupPOSTData
-      const displayText = this.entity.getDisplayText();
-      const postData: PMFileGroupPOSTData = {
-       parentEntityType: 'CatalogEntrySignupPacket',
-        parentEntityId: entityData.id,
-        aspectCode: 'info',
-        title: `${displayText} Info`,
-        instructions: entityData.instructionsMd || 'PLACEHOLDER INSTRUCTIONS',
-        available: true
-      };
-
-      
-      // Create the PMFileGroup
-      const createResponse = await this.hcclService.createPMFileGroup(postData).toPromise();
-      if (createResponse && createResponse.id) {
-        // Update the CatalogEntrySignupPacket with the new fileGroupId
-        const putData: CatalogEntrySignupPacketPUTData = {
-          organizationId: entityData.organizationId || '',
-          catalogId: entityData.catalogId,
-          catalogEntryId: entityData.catalogEntryId,
-          fileGroupId: createResponse.id,
-          name: entityData.name || '',
-          signupBehaviorCode: entityData.signupBehaviorCode || '',
-          description: entityData.description || '',
-          available: entityData.available || 0,
-          instructionsMd: entityData.instructionsMd || ''
-        };
-
-        await this.hcclService.updateCatalogEntrySignupPacketById(entityData.id, putData).toPromise();
-
-        // Reload the entity to get updated data
-        this.entity = await this.loadEntityById(entityData.id);
-        this.cdr.detectChanges();
-      } else {
-        alert('Failed to create file group: No ID returned');
-      }
-    } catch (error) {
-      console.error('Error creating file group:', error);
-      alert('Error creating file group: ' + (error as Error).message);
-    } finally {
-      this.creatingFileGroup = false;
-    }
-  }
+  
 
 }
 

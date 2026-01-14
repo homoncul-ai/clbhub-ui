@@ -375,7 +375,8 @@ export class BubaService {
    */
   private mergeTemplateWithData(template: string, entityData: any, bubaData: BubaData): string {
     let html = template;
-    
+    // alert("mergeTemplateWithData " + JSON.stringify(entityData) + " " + JSON.stringify(bubaData));
+    // alert("template " + template);
     // Replace all template variables with actual data using nested property resolution
     html = html.replace(/\{\{([^}]+)\}\}/g, (match, path) => {
      
