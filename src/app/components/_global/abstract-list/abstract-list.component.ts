@@ -349,6 +349,13 @@ implements OnInit, AfterViewInit, OnDestroy {
     this.initializeGrid();
   }
 
+  /**
+   * Public method to refresh the list/grid from external components
+   */
+  public refresh(): void {
+    this.refreshGrid();
+  }
+
   copyCreateCriteria(criteria: TCriteria): TCriteria {
     return { ...criteria };
   }
