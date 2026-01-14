@@ -49,7 +49,6 @@ const routes: Routes = [
       { path: 'catalogentrysignuppackets', component: CatalogEntrySignupPacketListComponent },
      
 
-
       { path: 'e/:entityType/:entityId/:tabId/:childId/:childTabId', component: StdEntityUiComponent   },
       { path: 'e/:entityType/:entityId/:tabId/:childId', component: StdEntityUiComponent },
       { path: 'e/:entityType/:entityId/:tabId', component: StdEntityUiComponent },

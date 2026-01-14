@@ -6,6 +6,7 @@ import { CatalogEntryCrudWrapper, CatalogEntryCrudComponent } from '@app/compone
 import { HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 
+// UI component for editing/maintaining the catalog entry.
 @Component({
   selector: 'app-catalogentry-ui',
   standalone: true,

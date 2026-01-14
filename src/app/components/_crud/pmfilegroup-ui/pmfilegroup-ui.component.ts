@@ -286,12 +286,33 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       transformedNode.icon = this.getFileIcon(extension);
     }
 
-    // Transform children
+    // Transform and sort children
     if (node.items && node.items.length > 0) {
-      transformedNode.items = node.items.map(child => this.transformTreeData(child));
+      // Sort items: folders first, then files, alphabetically within each group
+      const sortedItems = this.sortTreeItems(node.items);
+      transformedNode.items = sortedItems.map(child => this.transformTreeData(child));
     }
 
     return transformedNode;
+  }
+
+  /**
+   * Sort tree items: folders first, then files, alphabetically within each group
+   */
+  private sortTreeItems(items: DhtmlxTreeNode[]): DhtmlxTreeNode[] {
+    return [...items].sort((a, b) => {
+      const aIsFolder = a.type === 'folder' || (a.items && a.items.length > 0);
+      const bIsFolder = b.type === 'folder' || (b.items && b.items.length > 0);
+      
+      // Folders come before files
+      if (aIsFolder && !bIsFolder) return -1;
+      if (!aIsFolder && bIsFolder) return 1;
+      
+      // Within same type, sort alphabetically (case-insensitive)
+      const aName = (a.value || '').toLowerCase();
+      const bName = (b.value || '').toLowerCase();
+      return aName.localeCompare(bName);
+    });
   }
 
   private getFileIcon(extension: string): any {
@@ -427,6 +448,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       return;
     }
 
+//    alert('url: ' + url);
     this.http.get(url, { responseType: 'text' }).subscribe({
       next: (content) => {
         this.markdownContent = content;

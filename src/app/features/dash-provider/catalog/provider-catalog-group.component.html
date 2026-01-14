@@ -14,7 +14,8 @@
     ></app-catalogentry-list>
 
     <div *ngIf="catalogEntryId != ''">
-    <app-catalogentry-crud [id]="this.catalogEntryId" [modeName]="'section'"></app-catalogentry-crud>
+      <app-catalogentry-ui [id]="this.catalogEntryId"></app-catalogentry-ui>
+    <!-- <app-catalogentry-crud [id]="this.catalogEntryId" [modeName]="'section'"></app-catalogentry-crud> -->
     </div>
   </div>
 
