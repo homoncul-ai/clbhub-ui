@@ -10,6 +10,7 @@ import { WorkRequestGroupUIComponent } from '@app/components/_crud/workrequest/w
 import { CatalogEntrySignupPacketGroupComponent } from '@app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
 import { CatalogEntryGroupComponent } from '@app/components/_crud/catalogentry/catalogentry-group.component';
 import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
+import { WorkRequestDeliverableUiComponent } from '@app/components/_crud/workrequestdeliverable-ui/workrequestdeliverable-ui.component';
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -33,7 +34,8 @@ import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/cata
     PmfilegroupUiComponent,
     StdBubfileComponent,
     WorkItemDeliverableGroupComponent,
-    WorkRequestGroupUIComponent
+    WorkRequestGroupUIComponent,
+    WorkRequestDeliverableUiComponent
 ],
   templateUrl: './std-entity-ui.component.html',
   styleUrl: './std-entity-ui.component.scss'

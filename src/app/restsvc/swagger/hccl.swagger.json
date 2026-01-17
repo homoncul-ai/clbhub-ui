@@ -12894,6 +12894,54 @@
         }
       }
     },
+    "/hccl/tix/workrequestdeliverable/{id}/hint": {
+      "get": {
+        "tags": [
+          "/tix"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getWorkRequestDeliverableByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestDeliverableGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/tix/workrequestitem": {
       "post": {
         "tags": [
@@ -13628,6 +13676,54 @@
           },
           "206": {
             "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/tix/workrequest/{id}/hint": {
+      "get": {
+        "tags": [
+          "/tix"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getWorkRequestByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
           },
           "400": {
             "description": "Invalid Id, No Data Updated or Invalid Data"
@@ -17130,7 +17226,7 @@
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkRequestGETData"
+                  "$ref": "#/components/schemas/WorkItemFormResponse"
                 }
               }
             }
@@ -19637,8 +19733,6 @@
             "type": "string"
           },
           "catalogTypeId": {
-            "maxLength": 50,
-            "minLength": 1,
             "type": "string",
             "format": "uuid"
           },
@@ -20183,8 +20277,6 @@
             "type": "string"
           },
           "catalogTypeId": {
-            "maxLength": 50,
-            "minLength": 1,
             "type": "string",
             "format": "uuid"
           },
@@ -32331,6 +32423,9 @@
           },
           "currentStateTransition": {
             "$ref": "#/components/schemas/EntityStateTransitionGETData"
+          },
+          "debugInfo": {
+            "type": "string"
           }
         }
       },

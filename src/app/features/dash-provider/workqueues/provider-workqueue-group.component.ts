@@ -235,7 +235,8 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
     //x.alertMessage = 'Ticket';
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
-      return ['/provider-dashboard', 'workqueues', this.queueId, id];
+  //    return ['/provider-dashboard', 'workqueues', this.queueId, id];
+      return ['/provider-dashboard/e/workrequest/', id];
     };
     //x.alertMessage = 'Catalog Entry';
     return x;
@@ -269,7 +270,8 @@ export class ProviderWorkqueueGroupComponent extends AbstractEntityGroupComponen
     var x: OnRowClickBehavior =  new OnRowClickBehavior();
     x.usingNavigateUrl = true;
     x.getNavigateUrl = (id: string) => {
-      return ['/provider-dashboard', 'workqueues', this.queueId, this.ticketId, 'workRequestItem', id];
+  //      return ['/provider-dashboard', 'workqueues', this.queueId, this.ticketId, 'workRequestItem', id];
+  return ['/provider-dashboard/e/workrequest/', this.ticketId, 'workRequestItem', id];
     };
     return x;
   }

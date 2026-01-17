@@ -24,7 +24,12 @@
     <app-workrequest-group-ui [id]="entityId" [tabId]="tabId || 'details'" [childId]="childId || ''" [childTabId]="childTabId || 'details'"></app-workrequest-group-ui>
     <!-- <app-workrequest-ui [id]="entityId" [readonly]="readonly"></app-workrequest-ui> -->
 </div>
+<div *ngIf="entityType === 'workrequestdeliverable'">
+  <app-workrequestdeliverable-ui [id]="entityId" ></app-workrequestdeliverable-ui>
+  <!-- <app-workrequestdeliverable-ui [id]="entityId" [readonly]="readonly"></app-workrequestdeliverable-ui> -->
+</div>
 
+ 
 
 <!-- Fallback for unknown entity types -->
 <div *ngIf="entityType && !isSupportedEntity()" class="unknown-entity-type">

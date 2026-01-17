@@ -2996,6 +2996,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestDeliverableGETDataSearchResults>(request);
   }
 
+  getWorkRequestDeliverableByIdWithHint(id: string, hint: string): Observable<WorkRequestDeliverableGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequestdeliverable/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<WorkRequestDeliverableGETData>(request);
+  }
+
   createWorkRequestItem(body: WorkRequestItemPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestitem",
@@ -3166,6 +3175,15 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<WorkRequestGETDataSearchResults>(request);
+  }
+
+  getWorkRequestByIdWithHint(id: string, hint: string): Observable<WorkRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/tix/workrequest/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<WorkRequestGETData>(request);
   }
 
   createWorkRequestTeam(body: WorkRequestTeamPOSTData): Observable<any> {
@@ -3949,13 +3967,13 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<StateChangeFormResponse>(request);
   }
 
-  callVerdictSignupRequest(body: SignupVerdictPOSTData): Observable<WorkRequestGETData> {
+  callVerdictSignupRequest(body: SignupVerdictPOSTData): Observable<WorkItemFormResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/verdict-signup-request",
       method: "POST",
       body: body,
     };
-    return this.request<WorkRequestGETData>(request);
+    return this.request<WorkItemFormResponse>(request);
   }
 
   callWorkRequestUi(tix_id: string, action_code: string, body: WorkItemFormRequest): Observable<WorkItemFormResponse> {
@@ -8108,6 +8126,7 @@ export interface WorkRequestGETData {
   workRequestType?: WorkRequestTypeRefGETData;
   currentState?: EntityStateGETData;
   currentStateTransition?: EntityStateTransitionGETData;
+  debugInfo?: string;
 }
 
 export interface WorkRequestItemGETData {

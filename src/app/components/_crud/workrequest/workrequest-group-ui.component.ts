@@ -104,7 +104,9 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   protected isShowingDeliverable(): boolean {
     return this.getDeliverable() != null;
   }
- 
+  protected isAdvocateView(): boolean {
+    return this.isClientView() == false;
+  }
   protected isClientView(): boolean {
     var userProfileTypeCode = this.getUserProfileTypeCode().toLowerCase();
     if (userProfileTypeCode == 'student') {
@@ -596,6 +598,10 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
     enqueueButton.showingButtonFunction = () => this.isTicketAccepted() && !this.isEnqueuedTicket();
     
     return this._buttonBar;
+  }
+
+  dumpWorkRequest(): string {
+    return  this.entity?.getData().debugInfo || '';
   }
 
   onButtonSelected(buttonId: string): void {

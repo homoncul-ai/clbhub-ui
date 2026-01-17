@@ -114,11 +114,13 @@ export class BubaService {
       catchError((error) => {
         this.logger.warn(`Template not found for ${entityName}, using default template`);
         // Return a default template
+        alert("Template not found for " + entityName);
         return of(`
           <div class="buba-container">
             <i class="{{icon}}"></i>
-            <span class="buba-name">{{name}}</span>
-            <span class="buba-id">({{entityId}})</span>
+            <span class="buba-name">{{entityType}}.{{id}}</span> 
+            <span class="buba-name">{{entityDisplayName}}</span>
+            <span class="buba-description">{{entityJson}}</span>
           </div>
         `);
       })

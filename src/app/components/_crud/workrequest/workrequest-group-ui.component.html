@@ -7,9 +7,9 @@
         (crudComponentRequiresRefresh)="componentRequiresRefresh()"
         [readonly]="isClientView()"
     ></app-workrequest-crud>
-    <hr /> 
+    <hr />
 
-    showingWorkRequestUpdate: {{canUpdateWorkRequest()}} <br />
+    showingWorkRequestUpdate: {{ canUpdateWorkRequest() }} <br />
     <div *ngIf="canUpdateWorkRequest()">
         <app-workrequest-update
             [id]="id"
@@ -20,26 +20,29 @@
         <hr />
     </div>
 
-   
     <!-- Messages Accordion Section -->
-    showingClientMessages: {{isShowingClientMessages()}} <br />
+    showingClientMessages: {{ isShowingClientMessages() }} <br />
     <mdb-accordion [multiple]="false" *ngIf="isShowingClientMessages()">
-        <mdb-accordion-item [collapsed]="isAccordionCollapsed('clientMessages')" (itemShow)="openAccordion('clientMessages')">
+        <mdb-accordion-item
+            [collapsed]="isAccordionCollapsed('clientMessages')"
+            (itemShow)="openAccordion('clientMessages')"
+        >
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-comments me-2"></i> Client Messages
             </ng-template>
-            <ng-template mdbAccordionItemBody> 
+            <ng-template mdbAccordionItemBody>
                 <!-- Client Messages Tab -->
-                <app-pmessage-ui 
+                <app-pmessage-ui
                     [id]="getClientMessageThreadId()"
-                    [readonly]="false">
+                    [readonly]="false"
+                >
                 </app-pmessage-ui>
             </ng-template>
         </mdb-accordion-item>
     </mdb-accordion>
 
-    showingItemsList: {{isShowingItemsList()}} <br />
-    <div *ngIf="isShowingItemsList()">
+    showingItemsList: {{ isShowingItemsList() }} <br />
+    <div *ngIf="true || isShowingItemsList()">
         <app-workrequestitem-list
             [criteria]="itemsCriteria"
             [showingSearch]="false"
@@ -51,14 +54,20 @@
             [onFinishLoading]="onFinishLoadingBehavior()"
             [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
         ></app-workrequestitem-list>
-        <hr />
     </div>
-
+    BOOMERs
     <!-- Accordion with only one section open at a time -->
-     showingWorkRequestItemWorkSection: {{isShowingWorkRequestItemWorkSection()}} <br />
-    <mdb-accordion [multiple]="false" *ngIf="isShowingWorkRequestItemWorkSection()">
+    showingWorkRequestItemWorkSection:
+    {{ isShowingWorkRequestItemWorkSection() }} <br />
+    <mdb-accordion
+        [multiple]="false"       *ngIf="true"
+    >
         <!-- Section 1: Work Request Item Work Section -->
-        <mdb-accordion-item  [collapsed]="isAccordionCollapsed('workItemDetails')" (itemShow)="openAccordion('workItemDetails')">
+        <mdb-accordion-item
+            [collapsed]="isAccordionCollapsed('workItemDetails')"
+            (itemShow)="openAccordion('workItemDetails')"
+            *ngIf="isShowingWorkRequestItemWorkSection() === true"
+        >
             <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-clipboard-list me-2"></i> Work Item Details
             </ng-template>
@@ -69,17 +78,26 @@
                     [currentTabId]="'details'"
                 ></app-simple-tabset>
 
-                <div *ngIf="currentTabId === 'details'"> 
+                <div *ngIf="currentTabId === 'details'">
                     <div class="detail-group" *ngIf="entity !== null">
                         <label>Current State Code:</label>
-                        <app-std-mdb-entitystate [currentStateCode]="this.workRequestItem?.getCurrentStateCode() || ''" 
-                          [entityName]="'WorkRequestItem'" [entityId]="this.workRequestItem?.getId()"
-                          (stateChangeComplete)="onStateChangeComplete()"></app-std-mdb-entitystate> 
+                        <app-std-mdb-entitystate
+                            [currentStateCode]="
+                                this.workRequestItem?.getCurrentStateCode() ||
+                                ''
+                            "
+                            [entityName]="'WorkRequestItem'"
+                            [entityId]="this.workRequestItem?.getId()"
+                            (stateChangeComplete)="onStateChangeComplete()"
+                        ></app-std-mdb-entitystate>
                     </div>
-                    
-                    <app-workrequestitem-crud [id]="this.workRequestItemId || ''" modeName="section"></app-workrequestitem-crud>
+
+                    <app-workrequestitem-crud
+                        [id]="this.workRequestItemId || ''"
+                        modeName="section"
+                    ></app-workrequestitem-crud>
                 </div>
-                <div *ngIf="currentTabId === 'update'"> 
+                <div *ngIf="currentTabId === 'update'">
                     <app-workrequestitem-update
                         [id]="this.workRequestItemId || ''"
                         [workRequestId]="id || ''"
@@ -99,197 +117,234 @@
         </mdb-accordion-item>
 
         <!-- Section 2: Advocate Tools -->
-        <mdb-accordion-item *ngIf="!isClientView()" [collapsed]="isAccordionCollapsed('advocateTools')" (itemShow)="openAccordion('advocateTools')">
-            <ng-template mdbAccordionItemHeader>
-                <i class="fas fa-user-tie me-2"></i> Advocate Tools
-            </ng-template>
-            <ng-template mdbAccordionItemBody>
-                <app-simple-tabset
-                    *ngIf="showingTabset"
-                    [tabs]="tabs"
-                    [currentTabId]="currentTabId"
-                ></app-simple-tabset>
+        Advocate View : {{ isAdvocateView() }} <br />
+        <div *ngIf="isAdvocateView() === true">
+            <mdb-accordion-item
+                [collapsed]="isAccordionCollapsed('advocateTools')"
+                (itemShow)="openAccordion('advocateTools')"
+            >
+                <ng-template mdbAccordionItemHeader>
+                    <i class="fas fa-user-tie me-2"></i> Advocate Tools
+                </ng-template>
+                <ng-template mdbAccordionItemBody>
+                    <app-simple-tabset
+                        *ngIf="showingTabset"
+                        [tabs]="tabs"
+                        [currentTabId]="currentTabId"
+                    ></app-simple-tabset>
 
-                <div
-                    *ngIf="
-                        currentTabId === 'details' &&
-                        this.workRequestItemId !== null &&
-                        this.workRequestItemId !== undefined &&
-                        this.workRequestItemId !== ''
-                    "
-                >
-                    <h3>Item Details {{ this.workRequestItemId }}</h3>
-                    <app-workrequestitem-crud
-                        [id]="this.workRequestItemId"
-                        [modeName]="'section'"
-                    ></app-workrequestitem-crud>
-                </div>
-
-                <div *ngIf="currentTabId === 'deliverables'">
-                    <div *ngIf="isShowingDeliverable()">
-                        <app-workrequestdeliverable-ui
-                            [deliverable]="getDeliverable()"
-                            [readonly]="true"
-                        ></app-workrequestdeliverable-ui>
+                    <div
+                        *ngIf="
+                            currentTabId === 'details' &&
+                            this.workRequestItemId !== null &&
+                            this.workRequestItemId !== undefined &&
+                            this.workRequestItemId !== ''
+                        "
+                    >
+                        <h3>Item Details {{ this.workRequestItemId }}</h3>
+                        <app-workrequestitem-crud
+                            [id]="this.workRequestItemId"
+                            [modeName]="'section'"
+                        ></app-workrequestitem-crud>
                     </div>
-                    <div *ngIf="!isShowingDeliverable()">
-                        <h3>No Deliverable</h3>
-                    </div>
-                </div>
 
-                <div *ngIf="currentTabId === 'details-complete'">
-                    <div class="column-right">
-                        <app-std-entity-section
-                            [entityType]="getWorkRequest().subjectEntityType || ''"
-                            [entityId]="getWorkRequest().subjectEntityId || ''"
-                        ></app-std-entity-section>
+                    <div *ngIf="currentTabId === 'deliverables'">
+                        <div *ngIf="isShowingDeliverable()">
+                            <app-workrequestdeliverable-ui
+                                [deliverable]="getDeliverable()"
+                                [readonly]="true"
+                            ></app-workrequestdeliverable-ui>
+                        </div>
+                        <div *ngIf="!isShowingDeliverable()">
+                            <h3>No Deliverable</h3>
+                        </div>
                     </div>
-                </div>
 
-                <div *ngIf="currentTabId === 'items'">
-                    <div id="items" *ngIf="true">
-                        <app-workrequestitem-list
-                            [criteria]="itemsCriteria"
+                    <div *ngIf="currentTabId === 'details-complete'">
+                        <div class="column-right">
+                            <app-std-entity-section
+                                [entityType]="
+                                    getWorkRequest().subjectEntityType || ''
+                                "
+                                [entityId]="
+                                    getWorkRequest().subjectEntityId || ''
+                                "
+                            ></app-std-entity-section>
+                        </div>
+                    </div>
+
+                    <div *ngIf="currentTabId === 'items'">
+                        <div id="items" *ngIf="true">
+                            <app-workrequestitem-list
+                                [criteria]="itemsCriteria"
+                                [showingSearch]="false"
+                                [showingSearchHeading]="false"
+                                [showingGoButton]="false"
+                                [showingAddButton]="false"
+                                [showingIdCheckbox]="false"
+                                [autoHeight]="true"
+                                [onRowClickBehavior]="
+                                    onClickWorkRequestItemBehavior()
+                                "
+                            ></app-workrequestitem-list>
+                        </div>
+                    </div>
+
+                    <div *ngIf="currentTabId === 'workRequestItem'">
+                        <app-workrequestitem-crud
+                            [id]="childId"
+                            modeName="section"
+                        ></app-workrequestitem-crud>
+
+                        <div
+                            *ngIf="
+                                canChangeWorkItemStateToComplete(
+                                    this.workRequestItem
+                                ) === true
+                            "
+                            class="detail-group"
+                        ></div>
+                        <div
+                            class="detail-group"
+                            *ngIf="this.workRequestItem !== null"
+                        >
+                            <label>Current State Code:</label>
+                            <app-std-mdb-entitystate
+                                [currentStateCode]="
+                                    this.workRequestItem.getCurrentStateCode() ||
+                                    ''
+                                "
+                                [entityName]="'WorkRequestItem'"
+                                [entityId]="this.workRequestItem.getId()"
+                                (stateChangeComplete)="onStateChangeComplete()"
+                            ></app-std-mdb-entitystate>
+                        </div>
+
+                        <div
+                            *ngIf="
+                                workRequestItem?.getActionCode() ===
+                                'EnqueueRFI'
+                            "
+                        >
+                            <h6>Show Enqueue RFI Content</h6>
+                        </div>
+
+                        <div
+                            *ngIf="
+                                workRequestItem?.getActionCode() ===
+                                'AttachRFIContent'
+                            "
+                        >
+                            <div
+                                *ngIf="
+                                    workRequestItem?.getCurrentStateCode() !==
+                                    'completed'
+                                "
+                            >
+                                <app-workrequestitem-attachrficontent-addentries
+                                    [id]="id || ''"
+                                    [childId]="childId || ''"
+                                ></app-workrequestitem-attachrficontent-addentries>
+                            </div>
+
+                            <div
+                                *ngIf="
+                                    workRequestItem?.getCurrentStateCode() ===
+                                        'completed' &&
+                                    this.workItemDeliverableId !== ''
+                                "
+                            >
+                                <app-workitemdeliverable-crud
+                                    [id]="this.workItemDeliverableId"
+                                    modeName="section"
+                                ></app-workitemdeliverable-crud>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="currentTabId === 'logs'">
+                        <div class="mb-3" *ngIf="!isClientView()">
+                            <app-simple-buttonbar
+                                [buttonBar]="getWorkRequestActionsButtonBar()"
+                                displayMode="select"
+                                placeholder="Select an action..."
+                                (buttonSelected)="
+                                    onWorkRequestActionSelected($event)
+                                "
+                            >
+                            </app-simple-buttonbar>
+                        </div>
+                        <hr />
+                        <app-workrequestlog-list
+                            [criteria]="getLogsCriteria()"
                             [showingSearch]="false"
                             [showingSearchHeading]="false"
                             [showingGoButton]="false"
                             [showingAddButton]="false"
                             [showingIdCheckbox]="false"
-                            [autoHeight]="true"
-                            [onRowClickBehavior]="onClickWorkRequestItemBehavior()"
-                        ></app-workrequestitem-list>
-                    </div>
-                </div>
-
-                <div *ngIf="currentTabId === 'workRequestItem'">
-                    <app-workrequestitem-crud
-                        [id]="childId"
-                        modeName="section"
-                    ></app-workrequestitem-crud>
-
-                    <div
-                        *ngIf="
-                            canChangeWorkItemStateToComplete(this.workRequestItem) ===
-                            true
-                        "
-                        class="detail-group"
-                    >
-                    </div>
-                    <div class="detail-group" *ngIf="this.workRequestItem !== null">
-                        <label>Current State Code:</label>
-                        <app-std-mdb-entitystate
-                            [currentStateCode]="
-                                this.workRequestItem.getCurrentStateCode() || ''
-                            "
-                            [entityName]="'WorkRequestItem'"
-                            [entityId]="this.workRequestItem.getId()"
-                            (stateChangeComplete)="onStateChangeComplete()"
-                        ></app-std-mdb-entitystate>
+                        ></app-workrequestlog-list>
                     </div>
 
-                    <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
-                        <h6>Show Enqueue RFI Content</h6>
+                    <div *ngIf="currentTabId === 'debug'">
+                        <h1>CRUD Modes DEBUG</h1>
+                        <hr />
+                        <app-workrequest-crud
+                            [id]="id"
+                            modeName="debug"
+                        ></app-workrequest-crud>
                     </div>
 
-                    <div
-                        *ngIf="workRequestItem?.getActionCode() === 'AttachRFIContent'"
-                    >
-                        <div
-                            *ngIf="
-                                workRequestItem?.getCurrentStateCode() !== 'completed'
-                            "
-                        >
-                            <app-workrequestitem-attachrficontent-addentries
-                                [id]="id || ''"
-                                [childId]="childId || ''"
-                            ></app-workrequestitem-attachrficontent-addentries>
-                        </div>
-
-                        <div
-                            *ngIf="
-                                workRequestItem?.getCurrentStateCode() ===
-                                    'completed' && this.workItemDeliverableId !== ''
-                            "
-                        >
-                            <app-workitemdeliverable-crud
-                                [id]="this.workItemDeliverableId"
-                                modeName="section"
-                            ></app-workitemdeliverable-crud>
-                        </div>
+                    <div *ngIf="currentTabId === 'fk_menu'">
+                        <h1>FK_MENU</h1>
                     </div>
-                </div>
-
-                <div *ngIf="currentTabId === 'logs'">
-                    <div class="mb-3" *ngIf="!isClientView()">
-                        <app-simple-buttonbar
-                            [buttonBar]="getWorkRequestActionsButtonBar()"
-                            displayMode="select"
-                            placeholder="Select an action..."
-                            (buttonSelected)="onWorkRequestActionSelected($event)"
-                        >
-                        </app-simple-buttonbar>
-                    </div>
-                    <hr />
-                    <app-workrequestlog-list
-                        [criteria]="getLogsCriteria()"
-                        [showingSearch]="false"
-                        [showingSearchHeading]="false"
-                        [showingGoButton]="false"
-                        [showingAddButton]="false"
-                        [showingIdCheckbox]="false"
-                    ></app-workrequestlog-list>
-                </div>
-
-                <div *ngIf="currentTabId === 'debug'">
-                    <h1>CRUD Modes DEBUG</h1>
-                    <hr />
-                    <app-workrequest-crud
-                        [id]="id"
-                        modeName="debug"
-                    ></app-workrequest-crud>
-                </div>
-
-                <div *ngIf="currentTabId === 'fk_menu'">
-                    <h1>FK_MENU</h1>
-                </div>
-            </ng-template>
-        </mdb-accordion-item>
+                </ng-template>
+            </mdb-accordion-item>
+        </div>
 
         <!-- Section 3: Client Deliverable View -->
-        <mdb-accordion-item *ngIf="isClientView()" [collapsed]="isAccordionCollapsed('clientDeliverable')" (itemShow)="openAccordion('clientDeliverable')">
-            <ng-template mdbAccordionItemHeader>
-                <i class="fas fa-file-alt me-2"></i> Deliverable
-            </ng-template>
-            <ng-template mdbAccordionItemBody>
-    <h3>Deliverable</h3>
-    <!-- Work request related tab -->
-    <app-simple-tabset
-        *ngIf="showingTabset"
-        [tabs]="tabs"
-        [currentTabId]="currentTabId"
-    ></app-simple-tabset>
+        Client View : {{ isClientView() }} <br />
+        <div *ngIf="isClientView() == true">
+            <mdb-accordion-item
+                [collapsed]="isAccordionCollapsed('clientDeliverable')"
+                (itemShow)="openAccordion('clientDeliverable')"
+            >
+                <ng-template mdbAccordionItemHeader>
+                    <i class="fas fa-file-alt me-2"></i> Deliverable
+                </ng-template>
+                <ng-template mdbAccordionItemBody>
+                    <h3>Deliverable</h3>
+                    <!-- Work request related tab -->
+                    <app-simple-tabset
+                        *ngIf="showingTabset"
+                        [tabs]="tabs"
+                        [currentTabId]="currentTabId"
+                    ></app-simple-tabset>
 
-    <div *ngIf="currentTabId === 'details'">
-        <div *ngIf="isShowingDeliverable()">
-            <app-workrequestdeliverable-ui
-                [deliverable]="getDeliverable()"
-                [readonly]="true"
-            ></app-workrequestdeliverable-ui>
-        </div>
-        <div *ngIf="!isShowingDeliverable()">
-            <h3>No Deliverable</h3>
-        </div>
-    </div>
+                    <div *ngIf="currentTabId === 'details'">
+                        <div *ngIf="isShowingDeliverable()">
+                            <app-workrequestdeliverable-ui
+                                [deliverable]="getDeliverable()"
+                                [readonly]="true"
+                            ></app-workrequestdeliverable-ui>
+                        </div>
+                        <div *ngIf="!isShowingDeliverable()">
+                            <h3>No Deliverable</h3>
+                        </div>
+                    </div>
 
-    <div *ngIf="currentTabId === 'details-complete'">
-        <div class="column-right">
-            <app-std-entity-section
-                [entityType]="getWorkRequest().subjectEntityType || ''"
-                [entityId]="getWorkRequest().subjectEntityId || ''"
-            ></app-std-entity-section>
-        </div>
-    </div>
-    <!-- 
+                    <div *ngIf="currentTabId === 'details-complete'">
+                        <div class="column-right">
+                            <app-std-entity-section
+                                [entityType]="
+                                    getWorkRequest().subjectEntityType || ''
+                                "
+                                [entityId]="
+                                    getWorkRequest().subjectEntityId || ''
+                                "
+                            ></app-std-entity-section>
+                        </div>
+                    </div>
+                    <!-- 
         <div *ngIf="currentTabId === 'items'">
             <div id="items" *ngIf="true">
                 <app-workrequestitem-list
@@ -304,75 +359,104 @@
             </div>
         </div> -->
 
-    <div *ngIf="currentTabId === 'workRequestItem'">
-        <app-workrequestitem-crud
-            [id]="childId"
-            modeName="section"
-        ></app-workrequestitem-crud>
+                    <div *ngIf="currentTabId === 'workRequestItem'">
+                        <app-workrequestitem-crud
+                            [id]="childId"
+                            modeName="section"
+                        ></app-workrequestitem-crud>
 
-        <div
-            *ngIf="
-                canChangeWorkItemStateToComplete(this.workRequestItem) === true
-            "
-            class="detail-group"
-        >
-            <!-- <label>Current State Code:</label>
+                        <div
+                            *ngIf="
+                                canChangeWorkItemStateToComplete(
+                                    this.workRequestItem
+                                ) === true
+                            "
+                            class="detail-group"
+                        >
+                            <!-- <label>Current State Code:</label>
       <span>{{ this.workRequestItem?.getCurrentStateCode() }} 
       <input type="button" value="Complete Item" (click)="openCompleteWorkRequestItemModal()"></span> -->
-        </div>
-        <div class="detail-group" *ngIf="this.workRequestItem !== null">
-            <label>Current State Code:</label>
-            <app-std-mdb-entitystate
-                [currentStateCode]="
-                    this.workRequestItem.getCurrentStateCode() || ''
-                "
-                [entityName]="'WorkRequestItem'"
-                [entityId]="this.workRequestItem.getId()"
-                (stateChangeComplete)="onStateChangeComplete()"
-            ></app-std-mdb-entitystate>
-        </div>
+                        </div>
+                        <div
+                            class="detail-group"
+                            *ngIf="this.workRequestItem !== null"
+                        >
+                            <label>Current State Code:</label>
+                            <app-std-mdb-entitystate
+                                [currentStateCode]="
+                                    this.workRequestItem.getCurrentStateCode() ||
+                                    ''
+                                "
+                                [entityName]="'WorkRequestItem'"
+                                [entityId]="this.workRequestItem.getId()"
+                                (stateChangeComplete)="onStateChangeComplete()"
+                            ></app-std-mdb-entitystate>
+                        </div>
 
-        <div *ngIf="workRequestItem?.getActionCode() === 'EnqueueRFI'">
-            <h6>Show Enqueue RFI Content</h6>
+                        <div
+                            *ngIf="
+                                workRequestItem?.getActionCode() ===
+                                'EnqueueRFI'
+                            "
+                        >
+                            <h6>Show Enqueue RFI Content</h6>
+                        </div>
+
+                        <div
+                            *ngIf="
+                                workRequestItem?.getActionCode() ===
+                                'AttachRFIContent'
+                            "
+                        >
+                            <div
+                                *ngIf="
+                                    workRequestItem?.getCurrentStateCode() !==
+                                    'completed'
+                                "
+                            >
+                                <app-workrequestitem-attachrficontent-addentries
+                                    [id]="id || ''"
+                                    [childId]="childId || ''"
+                                ></app-workrequestitem-attachrficontent-addentries>
+                            </div>
+
+                            <div
+                                *ngIf="
+                                    workRequestItem?.getCurrentStateCode() ===
+                                        'completed' &&
+                                    this.workItemDeliverableId !== ''
+                                "
+                            >
+                                <app-workitemdeliverable-crud
+                                    [id]="this.workItemDeliverableId"
+                                    modeName="section"
+                                ></app-workitemdeliverable-crud>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="currentTabId === 'logs'">
+                        <app-workrequestlog-list
+                            [criteria]="getLogsCriteria()"
+                            [showingSearch]="false"
+                            [showingSearchHeading]="false"
+                            [showingGoButton]="false"
+                            [showingAddButton]="false"
+                            [showingIdCheckbox]="false"
+                        ></app-workrequestlog-list>
+                    </div>
+                </ng-template>
+            </mdb-accordion-item>
         </div>
-
-        <div *ngIf="workRequestItem?.getActionCode() === 'AttachRFIContent'">
-            <div *ngIf="workRequestItem?.getCurrentStateCode() !== 'completed'">
-                <app-workrequestitem-attachrficontent-addentries
-                    [id]="id || ''"
-                    [childId]="childId || ''"
-                ></app-workrequestitem-attachrficontent-addentries>
-            </div>
-
-            <div
-                *ngIf="
-                    workRequestItem?.getCurrentStateCode() === 'completed' &&
-                    this.workItemDeliverableId !== ''
-                "
-            >
-                <app-workitemdeliverable-crud
-                    [id]="this.workItemDeliverableId"
-                    modeName="section"
-                ></app-workitemdeliverable-crud>
-            </div>
-        </div>
-    </div>
-
-    <div *ngIf="currentTabId === 'logs'">
-        <app-workrequestlog-list
-            [criteria]="getLogsCriteria()"
-            [showingSearch]="false"
-            [showingSearchHeading]="false"
-            [showingGoButton]="false"
-            [showingAddButton]="false"
-            [showingIdCheckbox]="false"
-        ></app-workrequestlog-list>
-    </div>
-            </ng-template>
-        </mdb-accordion-item>
     </mdb-accordion>
 </div>
 
+
+<div>
+    <pre>
+    {{ this.dumpWorkRequest() }}
+</pre>
+</div>
 <hr />
 
 <div *ngIf="false">

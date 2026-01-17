@@ -122,7 +122,7 @@ export class WorkRequestDeliverableUiComponent implements AfterViewInit, OnDestr
     this.loading = true;
     this.error = null;
 
-    this.hcclService.getWorkRequestDeliverableById(this.id || '')
+    this.hcclService.getWorkRequestDeliverableByIdWithHint(this.id || '', 'all')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
