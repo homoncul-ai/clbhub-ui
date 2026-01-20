@@ -400,3 +400,111 @@
     }
   }
 }
+
+
+
+/* ============================
+   FIX: Detail rows spacing
+   (label + value should sit together)
+============================ */
+.detail-mode .details-section,
+.section-mode .details-section {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+/* Force a predictable row layout */
+.detail-mode .details-section .detail-group {
+  display: grid !important;
+  grid-template-columns: 180px 1fr;
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+  align-items: start;
+
+  padding: 0.75rem 0;
+  margin: 0 !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Kill any inherited form-label spacing from MDB/Bootstrap */
+.detail-mode .details-section .detail-group label {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #212529;
+
+  /* important: keep it from acting like a floating form label */
+  position: static !important;
+  transform: none !important;
+}
+
+/* Make sure the value doesn’t get pushed down by weird default styles */
+.detail-mode .details-section .detail-group > span {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.35;
+  color: #495057;
+  min-height: 0 !important;
+}
+
+/* If a component is inside span/slot, keep it tight */
+.detail-mode .details-section .detail-group app-dategetdata-display,
+.detail-mode .details-section .detail-group app-reference-data,
+.detail-mode .details-section .detail-group app-hccluserprofile-crud {
+  display: inline-block;
+  margin: 0 !important;
+}
+
+/* Mobile: stack label above value (but tight) */
+@media (max-width: 768px) {
+  .detail-mode .details-section .detail-group {
+    grid-template-columns: 1fr;
+    row-gap: 0.35rem;
+  }
+}
+
+
+/* ============================
+   FIX: Edit/Create buttons (no full-width bars)
+============================ */
+.create-mode .form-actions,
+.edit-mode .form-actions {
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.75rem;
+
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Override any MDB "block button" behavior */
+.create-mode .form-actions .btn,
+.edit-mode .form-actions .btn,
+.create-mode .form-actions button,
+.edit-mode .form-actions button {
+  width: auto !important;
+  min-width: 120px;
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mobile buttons can stack */
+@media (max-width: 768px) {
+  .create-mode .form-actions,
+  .edit-mode .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .create-mode .form-actions .btn,
+  .edit-mode .form-actions .btn,
+  .create-mode .form-actions button,
+  .edit-mode .form-actions button {
+    width: 100% !important;
+  }
+}

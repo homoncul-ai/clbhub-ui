@@ -10,8 +10,8 @@
     "gbsUrlPrefix": "https://gbs-stage.intertek.com"
   },
   "constants": {
-    "serviceUrlPrefixQA": "https://gbs-qa.trutesta.io",
-    "serviceUrlPrefix": "http://localhost:8099",
+    "serviceUrlPrefix": "https://gbs-qa.trutesta.io",
+    "serviceUrlPrefixAQ": "http://localhost:8099",
     "cdnUrlPrefix": "https://cdn.trutesta.io",
     "keycloakUrlPrefix": "https://keycloak-gbs-qa.trutesta.io",
     "gbsUrlPrefix": "https://gbs-stage.intertek.com"
