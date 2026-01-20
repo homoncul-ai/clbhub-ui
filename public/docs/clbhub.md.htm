@@ -1,0 +1,470 @@
+# CLBHub Haverhill Summer Jobs MVP Document
+
+**CLBHub Haverhill** connects Haverhill students with summer jobs, internships, classes, and camps via a vocational-focused platform. 
+The MVP targets a *summer 2026 launch*, integrating with Haverhill Helps, to maximize student placements while tracking metrics for iteration. 
+Providers (businesses/nonprofits/schools) manage opportunities; families/students browse and apply. 
+Core value: Frictionless matching prioritizing transit access, travel time, and student skills/interests, with admin oversight for quality.
+
+## Goals and Success Metrics
+
+**Primary Goal**: Place 100+ Haverhill students in summer opportunities by August 2026.
+
+**Key Metrics**:
+
+| Metric            | Target    | Tracking Method    |
+|-------------------|-----------|--------------------|
+| Student signups   | 500+      | Dashboard count    |
+| Opportunities listed | 200+  | Provider catalog   |
+| Placement rate    | 20%+      | Hired/accepted status |
+| Completion rate   | 80%+      | End-of-summer check-ins |
+| Feedback NPS      | 7+        | Post-placement surveys |
+| Provider retention| 70%+      | Returning listings |
+
+Feedback loops enable yearly improvements; all roles can submit via simple forms.
+
+## User Roles and Permissions
+
+Two classes: **App Users** (providers/families/students) and **Ecosystem Managers** (wranglers/admins/counselors).
+
+| Role                  | Key Actions                           | Permissions                        |
+|-----------------------|---------------------------------------|------------------------------------|
+| **Families/Parents**  | Onboard students; opt into guidance   | Manage profiles; communicate      |
+| **Students**          | Self-onboard; view/filter opps by map | Apply; rate experiences           |
+| **Guidance Counselor**| Review student paths; field tickets   | Approve apps; add notes           |
+| **ProviderAdmin**     | Create/edit listings (dates, paid/unpaid)  Interact with students; | Add catalog entries; view stats |
+| **ProviderSme**    |  run classes   | View assigned students; check-ins |
+| **Mentor**    | Mentor Students;     | View assigned students; check-ins |
+| **ClbhubAdmin** | Validate onboardings; coordinate recruitment | Full access; dispute resolution |
+
+*Roles scale via ratios (e.g., 1 wrangler:10 providers; 1 counselor:50 students).*
+
+## MVP Features
+
+Prioritize table-stakes essentials for launch. No advanced algorithms initially—simple feed with filters.
+Signup for opportunities gets the process started and bootstraps communication between students and providers.
+
+### Use Cases by Role
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **ClbhubAdmin** | 1 | Onboard Provider Workflow | Validate provider docs; final approval on verification |
+| **ClbhubAdmin** | 1 | Manage Platform Metrics | Dashboard views; weekly reports; KPI tracking |
+| **ClbhubAdmin** | 2 | Dispute Resolution | Handle escalations; ombuds function |
+| **ClbhubAdmin** | 2 | Coordinate Recruitment | Liaise with HP3, schools, Haverhill Helps |
+| **ClbhubAdmin** | 2 | Generate AI Literature Packets| Each career should have info that's verified. |
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **ClbhubStaffer** | 2 | Recruit Mentors| Each career should have info that's verified. |
+| **ClbhubStaffer** | 1 | Recruit Providers| Each career should have info that's verified. |
+| **ClbhubStaffer** | 1 | Recruit Guidance Counselors| Each career should have info that's verified. |
+| **ClbhubStaffer** | 2 | Recruit ProviderAdmin| Each career should have info that's verified. |
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **Student** | 1 | Setup student profile| Choose message handle, set map pin locus |
+| **Student** | 1 | Create "Personal Statement"| Describe vocational aspiration |
+| **Student** | 1 | Browse Catalogs for Opportunities | Search via personal statement; Map-centric feed;  transit, duration |
+| **Student** | 2 | Browse Vocational/Career Info| Explore vocational/career information |
+| **Student** | 1 | Build Resume |  Build resumes linked to personal statements |
+| **Student** | 1 | Signup to Opportunity | Submit application packet , resume,(simple form) |
+| **Student** | 1 | Communicate with Provider | Message provider directly in context with opportunity |
+| **Student** | 1 | Track Signups | View status; receive SMS notifications |
+| **Student** | 2 | Rate Experience | Post-placement NPS + open text feedback |
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **Family** | 1 | Signup Family Form Fills out | Register student, sends ticket to Guidance Counselors to onboard Student |
+| **Family** | 1 | Manage Family Profiel | Address , phone, email, consents |
+| **Family** | 1 | Monitor Student Progress | Follow or contribute via messaging. |
+| **Family** | 2 | Opt into Guidance | Connect with school counselor |
+| **Family** | 3 | Communicate | Message providers/counselors |
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **GuidanceCounselor** | 1 | Review Family Applications | Approve/flag applications as needed |
+| **GuidanceCounselor** | 1 | Monitor Student Activity | Track progress; summer check-ins |
+| **GuidanceCounselor** | 2 | Provide Career Guidance | Align opportunities with student interests |
+| **GuidanceCounselor** | 2 | Flag At-Risk Families | Escalate concerns to Admin |
+| **GuidanceCounselor** | 3 | Field Support Tickets | Handle student/family inquiries |
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **ProviderAdmin** | 1 | Create Catalog Listing | Title, description, dates, paid/unpaid, skills  |
+| **ProviderAdmin** | 1 | Manage Listings | Edit, pause, close opportunities |
+| **ProviderAdmin** | 1 | Manage Provider Profile | Edit, name, address, phone, email, website, social media |
+| **ProviderAdmin** | 1 | View Applicants | Review student application packets and resumes |
+| **ProviderAdmin** | 1 | Communicate with Students | Message students in context of opportunity |
+| **ProviderAdmin** | 1 | Communicate with ProviderSme | Message ProviderSme in context of signup |
+| **ProviderAdmin** | 1 | Track Hired Students | Manage placements; record hiring/firing |
+| **ProviderAdmin** | 1 | View Provider Stats | See views, application counts, reviews |
+| **ProviderAdmin** | 3 | Manage ProviderSme Users | Add/remove SMEs who can interact with students |
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **ProviderSme** | 1 | View Assigned Students | See students placed at their location |
+| **ProviderSme** | 2 | Conduct Check-ins | Weekly SMS check-ins; log interactions |
+| **ProviderSme** | 2 | Run Classes/Sessions | Facilitate training or class sessions |
+| **ProviderSme** | 2 | Submit Feedback | Rate student performance; end-of-summer survey |
+| **ProviderSme** | 2 | Communicate with Students | Message students directly |
+
+
+| Role | Priority | Use Case | Description |
+|------|:--------:|----------|-------------|
+| **Mentor** | 1 | View Assigned Students | See mentees assigned to them |
+| **Mentor** | 1 | Conduct Mentoring Sessions | Schedule and log 1:1 mentoring interactions |
+| **Mentor** | 1 | Track Student Progress | Monitor mentee goals and milestones |
+| **Mentor** | 2 | Submit Feedback | Rate mentee progress; provide recommendations |
+| **Mentor** | 2 | Communicate with Students | Message mentees directly |
+| **Mentor** | 3 | Coordinate with Guidance | Share insights with counselors |
+
+*Priority: 1 = MVP Critical, 2 = MVP Important, 3 = Nice-to-Have*
+
+### Table-Stakes Tech
+* Cloud-based (**GCP/Firebase**).
+* SMS notifications (**Twilio**).
+* Secure: Role-based access (**Keycloak** if scaling).
+* Mobile-first responsive web app.
+* Multi-language: **EN/ES** toggle.
+
+---
+
+## Application Role Details
+
+### ClbhubAdmin
+
+**Role Type**: Ecosystem Manager  
+**Staffing**: 1-2 FT  
+**Permissions**: Full platform access; dispute resolution; user management
+
+**Primary Workflows**:
+
+
+**Key Screens**: Admin Dashboard, Provider Verification Queue, Metrics Reports, User Management
+
+---
+
+### ProviderWrangler
+
+**Role Type**: Ecosystem Manager  
+**Staffing**: 5-10 PT (1:10 provider ratio)  
+**Permissions**: Approve listings; view assigned providers; aggregate data
+
+**Primary Workflows**:
+
+| # | Workflow | Steps |
+|---|----------|-------|
+| 1 | **Review Listing** | Receive submission → Check vocational codes → Verify dates/details → Approve or request edits |
+| 2 | **Provider Support** | Receive question → Respond via in-app message → Log interaction → Follow up |
+| 3 | **Monitor Stats** | View provider dashboard → Identify low-performing listings → Suggest improvements |
+| 4 | **Escalate Issue** | Identify problem → Document details → Submit to Admin → Track resolution |
+
+**Key Screens**: Provider Portfolio, Listing Approval Queue, Provider Stats, Message Center
+
+---
+
+### ProviderAdmin
+
+**Role Type**: App User (Provider)  
+**Staffing**: N/A (external users)  
+**Permissions**: Create/edit own listings; view own stats; manage applicants; interact with students; manage SMEs
+
+**Primary Workflows**:
+
+| # | Workflow | Steps |
+|---|----------|-------|
+| 1 | **Create Listing** | Login → New Opportunity → Fill form (title, desc, vocational code, dates, paid/unpaid, skills, transit notes) → Submit for approval |
+| 2 | **Manage Listings** | Edit details → Pause/resume → Close opportunity → Archive |
+| 3 | **View Applicants** | View applications → Review student packets/resumes → Shortlist candidates |
+| 4 | **Communicate with Students** | Open applicant profile → Send message in opportunity context → Track conversation |
+| 5 | **Track Hired Students** | View placements → Log check-ins → Record hiring/firing → Manage status |
+| 6 | **View Stats** | Access provider dashboard → See views, applications, reviews |
+| 7 | **Manage ProviderSme Users** | Add SME users → Assign permissions → Remove access |
+
+**Key Screens**: My Listings, Create/Edit Opportunity, Applicant Review, Message Center, Provider Dashboard, SME Management
+
+---
+
+### ProviderSme
+
+**Role Type**: App User (Provider)  
+**Staffing**: N/A (external users)  
+**Permissions**: View assigned students; conduct check-ins; run classes; submit feedback
+
+**Primary Workflows**:
+
+| # | Workflow | Steps |
+|---|----------|-------|
+| 1 | **View Students** | Login → My Students → See assigned placements → View contact info |
+| 2 | **Run Classes/Sessions** | Access session roster → Conduct training → Log attendance |
+| 3 | **Conduct Check-in** | Receive SMS prompt → Log check-in → Note any issues |
+| 4 | **Submit Feedback** | End of placement → Complete survey → Rate student → Add comments |
+
+**Key Screens**: My Students, Session Roster, Check-in Log, Feedback Form
+
+---
+
+### Mentor
+
+**Role Type**: App User  
+**Staffing**: N/A (volunteers or assigned)  
+**Permissions**: View assigned mentees; conduct sessions; track progress; communicate
+
+**Primary Workflows**:
+
+| # | Workflow | Steps |
+|---|----------|-------|
+| 1 | **View Mentees** | Login → My Mentees → See assigned students → View contact info |
+| 2 | **Conduct Mentoring Session** | Schedule session → Meet with mentee → Log interaction notes |
+| 3 | **Track Progress** | Review mentee goals → Update milestones → Document achievements |
+| 4 | **Submit Feedback** | Complete progress report → Rate mentee engagement → Provide recommendations |
+| 5 | **Coordinate with Guidance** | Share insights → Flag concerns → Collaborate on student support |
+
+**Key Screens**: My Mentees, Session Log, Progress Tracker, Feedback Form, Message Center
+
+---
+
+### Student
+
+**Role Type**: App User  
+**Staffing**: N/A (end users)  
+**Permissions**: Create profile; browse/apply; rate experiences
+
+**Primary Workflows**:
+
+| # | Workflow | Steps |
+|---|----------|-------|
+| 1 | **Self-Onboard** | Register (school email or parent code) → Set map pin locus → Complete profile (skills, interests) |
+| 2 | **Browse Opportunities** | Open map feed → Apply filters (duration, skills, transit) → View proximity/travel time → Save favorites |
+| 3 | **Apply** | Select opportunity → Complete application packet → Submit → Receive confirmation |
+| 4 | **Track & Rate** | View application status → Receive SMS updates → After placement: complete NPS survey |
+
+**Key Screens**: Map Feed, Opportunity Detail, Application Form, My Applications, Feedback Survey
+
+---
+
+### Family (Parent/Guardian)
+
+**Role Type**: App User  
+**Staffing**: N/A (end users)  
+**Permissions**: Manage student profiles; opt into guidance; communicate
+
+**Primary Workflows**:
+
+| # | Workflow | Steps |
+|---|----------|-------|
+| 1 | **Onboard Student** | Register → Add child profile → Provide parent code → Verify school connection |
+| 2 | **Manage Profile** | Edit student info → Set preferences → Update locus pin |
+| 3 | **Opt into Guidance** | Enable counselor access → Select school → Receive confirmation |
+| 4 | **Communicate** | Send message to provider/counselor → View responses |
+
+**Key Screens**: My Students, Student Profile, Guidance Settings, Message Center
+
+---
+
+### GuidanceCounselor
+
+**Role Type**: Ecosystem Manager  
+**Staffing**: 10 (1:50 student ratio, school staff or contract)  
+**Permissions**: Review/approve applications; add notes; view assigned students
+
+**Primary Workflows**:
+
+| # | Workflow | Steps |
+|---|----------|-------|
+| 1 | **Review Applications** | View queue → Check student fit → Approve/flag → Add notes |
+| 2 | **Monitor Placements** | View student roster → Check status → Conduct summer check-ins |
+| 3 | **Provide Guidance** | Review student interests → Suggest opportunities → Document recommendations |
+| 4 | **Flag At-Risk** | Identify concern → Document issue → Escalate to Admin → Follow up |
+
+**Key Screens**: Student Roster, Application Review Queue, Student Detail, Notes/Guidance Log
+
+---
+
+## Big Decisions for MVP
+
+| Decision             | MVP Choice                       | Rationale                           |
+|----------------------|----------------------------------|-------------------------------------|
+| **Student Verification** | School email + parent opt-in code | Balances access/safety             |
+| **Location Handling** | Map pin (no address) + transit estimates | Honors youth priorities; privacy  |
+| **Feedback Cadence** | Weekly SMS + end-of-summer survey | Low burden; actionable insights   |
+| **Match Scope**      | Match + basic management         | Enables metrics without full HR    |
+| **Monetization**     | Free; comp providers via Haverhill Helps | Focus on placements first        |
+| **Integration**      | Haverhill Helps API/embed; school calendars | Local ecosystem leverage        |
+
+## Implementation Plan
+
+Phased to hit summer 2026 (**target: May launch**).
+
+**Phase 1: Foundation** *(Jan-Feb 2026, 6 weeks)*
+> - Setup: Auth, roles, basic DB (**Postgres/GCP SQL**).
+> - Onboarding flows for providers/students.
+> - Catalog CRUD + admin approval.
+
+**Phase 2: Matching Core** *(Mar 2026, 4 weeks)*
+> - Map UI (**Leaflet/OpenStreetMap** + proximity calc).
+> - Filters/feed; application packets.
+> - SMS integration.
+
+**Phase 3: Management + Metrics** *(Apr 2026, 4 weeks)*
+> - Check-ins, dashboard, feedback forms.
+> - Guidance/counselor tools.
+> - Testing with 10 providers/50 students.
+
+**Phase 4: Launch + Iterate** *(May-Aug 2026)*
+> - Recruit via Haverhill schools/**HP3**.
+> - Monitor metrics; hotfix feedback.
+> - Post-summer: Analyze for v2 (**AI matching**).
+
+**Total Effort**: 14 weeks dev + 2 weeks testing; **2-3 devs** (**Java/Angular** stack).
+
+**Risks/Mitigations**: 
+* Low provider adoption → seed with HP3 partners
+* Tech illiteracy → simple forms + agent support
+
+## Staffing Plan
+
+Operational staff to recruit, onboard, and support providers/students through the summer.
+
+### Staffing Ratios & Targets
+
+| Role | Ratio | MVP Target | Staff Needed | Type |
+|------|-------|------------|--------------|------|
+| **ProviderWrangler** | 1:10 providers | 50-100 provider orgs | 5-10 | Paid PT / Volunteer |
+| **Guidance Counselor** | 1:50 students | 500 students | 10 | School staff / Contract |
+| **CLBHub Admin** | Full oversight | — | 1-2 | Paid FT |
+| **Provider Recruitment Lead** | Outreach coordinator | — | 1 | Paid PT/FT |
+
+### Hiring Timeline
+
+| Phase | Dates | Hires | Priority |
+|-------|-------|-------|----------|
+| **Immediate** | Jan 2026 | 1 Recruitment Lead, 1 Admin, 2-3 Wranglers | 🔴 Critical |
+| **Ramp-up** | Feb-Mar 2026 | +2-4 Wranglers, coordinate school counselors | 🟡 High |
+| **Full Ops** | Apr-Aug 2026 | Full team; backfill as needed | 🟢 Maintain |
+
+### Budget Considerations
+
+* **Paid roles**: Admin (~$25-35/hr), Recruitment Lead (~$20-30/hr), Wranglers (~$18-25/hr or stipend)
+* **Volunteer options**: College interns (NECC, UMass Lowell), AmeriCorps, HP3 community partners
+* **School counselors**: Leverage existing staff via MOU with Haverhill Public Schools
+
+---
+
+## Job Descriptions
+
+### Provider Recruitment Lead
+
+**Hours**: 15-25 hrs/week (Jan-May), flexible summer  
+**Compensation**: $20-30/hr or equivalent stipend  
+**Reports to**: CLBHub Admin
+
+**Summary**: Drive provider outreach to hit 200+ opportunity listings by May 2026. Build relationships with Haverhill businesses, nonprofits, and HP3 partners.
+
+**Responsibilities**:
+* Identify and contact potential provider organizations (businesses, camps, nonprofits, city departments)
+* Present CLBHub value proposition; answer questions; guide through sign-up
+* Coordinate with HP3 and Haverhill Helps for warm introductions
+* Track outreach pipeline; report weekly on leads/conversions
+* Gather feedback from providers to improve onboarding experience
+* Attend community events and business association meetings as CLBHub representative
+
+**Qualifications**:
+* Strong communication and relationship-building skills
+* Familiarity with Haverhill business/nonprofit community (preferred)
+* Comfortable with outreach calls, emails, and in-person meetings
+* Basic tech literacy (spreadsheets, email, web apps)
+* Bilingual EN/ES a plus
+
+---
+
+### ProviderWrangler
+
+**Hours**: 8-12 hrs/week (flexible)  
+**Compensation**: $18-25/hr, volunteer stipend, or internship credit  
+**Reports to**: CLBHub Admin
+
+**Summary**: Support a portfolio of ~10 provider organizations through onboarding, listing approval, and ongoing communication. Ensure quality and compliance with vocational codes.
+
+**Responsibilities**:
+* Guide assigned providers through account setup and verification (review business docs)
+* Review and approve catalog listings (check dates, descriptions, vocational codes)
+* Serve as primary point of contact for provider questions and issues
+* Flag problems to Admin; escalate disputes as needed
+* Monitor provider stats (views, applications) and share insights
+* Conduct periodic check-ins to ensure listings are accurate and active
+
+**Qualifications**:
+* Detail-oriented with good organizational skills
+* Comfortable reviewing documents and following approval checklists
+* Strong written communication (email, in-app messaging)
+* Customer service mindset; patient with non-technical users
+* Bilingual EN/ES a plus
+* College students, recent grads, or community volunteers welcome
+
+---
+
+### CLBHub Haverhill Admin
+
+**Hours**: 20-40 hrs/week (higher during launch)  
+**Compensation**: $25-35/hr or salaried equivalent  
+**Reports to**: Project Lead / HP3 Coordinator
+
+**Summary**: Oversee all CLBHub Haverhill operations. Validate onboardings, manage staff, resolve disputes, and coordinate with schools and community partners.
+
+**Responsibilities**:
+* Final approval on provider verifications and sensitive listings
+* Recruit, train, and supervise ProviderWranglers
+* Coordinate with school guidance counselors on student flow
+* Monitor platform metrics; generate weekly reports
+* Handle escalations and dispute resolution (ombuds function)
+* Liaise with HP3, Haverhill Helps, and city stakeholders
+* Identify process improvements; work with dev team on fixes
+
+**Qualifications**:
+* Experience in program coordination, operations, or community management
+* Strong leadership and problem-solving skills
+* Familiarity with youth programs, workforce development, or education (preferred)
+* Comfortable with data dashboards and reporting
+* Excellent communication; able to work with diverse stakeholders
+* Bilingual EN/ES strongly preferred
+
+---
+
+### Guidance Counselor (School Partner Role)
+
+**Hours**: Integrated into school duties or contract hours  
+**Compensation**: Per school MOU or hourly contract ($30-50/hr)  
+**Reports to**: School administration + CLBHub Admin (dotted line)
+
+**Summary**: Support students in discovering and applying to summer opportunities. Review applications, provide guidance, and track student progress.
+
+**Responsibilities**:
+* Promote CLBHub to students; assist with onboarding
+* Review and approve student applications as needed
+* Provide career/vocational guidance aligned with student interests
+* Monitor student placements; conduct check-ins during summer
+* Flag at-risk students or issues to CLBHub Admin
+* Participate in end-of-summer feedback and analysis
+
+**Qualifications**:
+* Current school counselor or licensed guidance professional
+* Familiarity with Haverhill student population
+* Commitment to youth workforce development
+* Comfortable with web-based tools and student tracking
+
+---
+
+## Future Growth
+* **v2**: AI feed algo; full HR tracking; year-round expansion.
+* Integrations: **MassHire**, **NECC**; mobile app.
+* Scale: Multi-town; advanced analytics.
+
+---
+
+*This MVP delivers value to all roles, proves the model, and builds on your Java/GCP expertise for sustainable growth.*
+
+
+<script>markdeepOptions = {tocStyle: 'none'};</script>
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style></script>
+ <script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
