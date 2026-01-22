@@ -2,9 +2,12 @@
 
 
 <div *ngIf="currentTabId === 'details'">
-  <h1>Details</h1>
+  <div *ngIf="this.isReadOnly() == false">
   <app-catalogentrysignuppacket-crud [id]="id" [modeName]="CRUD_MODES.DETAIL"></app-catalogentrysignuppacket-crud>
-  <hr>
+</div>
+<div *ngIf="this.isReadOnly() == true">
+  <app-catalogentrysignuppacket-crud [id]="id" [modeName]="CRUD_MODES.CARD"></app-catalogentrysignuppacket-crud>
+</div>
 </div>
  
 <div *ngIf="currentTabId === 'filegroup'">

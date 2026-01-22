@@ -2,9 +2,9 @@
 
 <div *ngIf="!loading">
 
-  <span class="h3"> 
+  <!-- <span class="h3"> 
     <app-std-buba [entityName]="getCurrentEntity().getData().entityType || ''" [entityId]="getCurrentEntity().getId() || ''"></app-std-buba>    
-  </span>
+  </span> -->
 
 </div>
 
@@ -16,17 +16,15 @@
 </div>
  
 <div *ngIf="currentTabId === 'vocode'">
-  <app-vocationencoding-display [id]="getCurrentEntity().getData().vocodeInstanceId || ''" readonly="this.isReadOnly()"></app-vocationencoding-display>
+  <app-vocationencoding-display [id]="getCurrentEntity().getData().vocodeInstanceId || ''" [readonly]="this.isReadOnly()"></app-vocationencoding-display>
 </div>
 
 <div *ngIf="currentTabId === 'signupPacket'">
-  <app-catalogentrysignuppacket-ui [id]="getCurrentEntity().getData().signupPacketId || ''" readonly="this.isReadOnly()"></app-catalogentrysignuppacket-ui>
+  <app-catalogentrysignuppacket-ui [id]="getCurrentEntity().getData().signupPacketId || ''" [readonly] ="this.isReadOnly()"></app-catalogentrysignuppacket-ui>
 </div>
 
 <div *ngIf="currentTabId === 'signup'">
-  <h1>Signup</h1>
-  
-  <!-- Signup Packet Selection Card -->
+   <!-- Signup Packet Selection Card -->
   <div class="card mb-4">
     <div class="card-header">
       <h5 class="mb-0"><i class="fas fa-file-signature me-2"></i>Select Signup Packet</h5>
@@ -76,7 +74,7 @@
   </div>
 </div>
 
-<pre>
+<pre *ngIf="false">
 currentTabId: {{currentTabId}}
 id: {{id}}
 readonly: {{isReadOnly()}}

@@ -22,7 +22,7 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
   @Input() childTabId?: string;
   @Input() showingTabset: boolean = true;
   @Input() showingDebug: boolean = false;
-
+  @Input() readonly: boolean = false;
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
 
   protected route = inject(ActivatedRoute);
@@ -47,6 +47,9 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
   public getCurrentEntity(): T {
     return this.entity || this.newCrudWrapperForCreate();
+  }
+  protected isReadOnly(): boolean {
+    return this.readonly;
   }
 
   protected getUserProfile(): HcclUserProfileGETData {

@@ -38,17 +38,6 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
                   <label>Encoding Name:</label>
                   <span> {{ instance.encodingName }}</span>
                 </div>
-                <!--
-                <div class="detail-group">
-                  <label>Vocation Encoding Ref ID:</label>
-                  <span>{{ instance.vocationEncodingRefId }}</span>
-                </div>
-                 
-                <div class="detail-group">
-                  <label>Sequence Order:</label>
-                  <span>{{ instance.sequenceOrder }}</span>
-                </div>
-                 -->
                 <div class="detail-group" [hidden]="true" >
                   <label>Encoding Distance:</label>
                   <span>{{ instance.encodingDistance }}</span>
@@ -180,6 +169,7 @@ import { PmfilegroupUiComponent } from '../pmfilegroup-ui/pmfilegroup-ui.compone
 export class VocationEncodingDisplayComponent  implements OnInit {
   @Input() id!: string;
   @Input() showingResearch: boolean = true;
+  @Input() readonly: boolean = false;
 
   protected entity: VocationEncodingGETData | null = null;
   protected expandedInstances: boolean[] = [];
@@ -188,7 +178,8 @@ export class VocationEncodingDisplayComponent  implements OnInit {
   protected hcclService = inject(HcclService);
   protected vocationEncodingRefs: Map<string, VocationEncodingRefGETData> = new Map();
   protected vocationEncodingRefFileGroups: Map<string, PMFileGroupGETData> = new Map();
-  
+
+
   constructor() {
     
   }

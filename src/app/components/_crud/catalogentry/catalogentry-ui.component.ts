@@ -26,8 +26,7 @@ import { VocationEncodingDisplayComponent } from "../vocationencoding/vocationen
 })
 export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<CatalogEntryCrudWrapper> implements OnInit {  
 
-  @Input() readonly: boolean = false;
-
+ 
   constructor() {
     super();    
   }
@@ -48,9 +47,6 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
   public saveSuccess: boolean = false;
   public saveError: string | null = null;
 
-  protected isReadOnly(): boolean {
-    return this.readonly;
-  }
 
   protected getSignupPacketId(): string {
     return this.signupPacketId;

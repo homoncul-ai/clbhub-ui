@@ -39,6 +39,22 @@
     </div>
 </div>
 
+<div *ngIf="!isLoading && getMode() === CRUD_MODES.CARD" class="section-mode">
+  <div class="details-section">
+    <div class="detail-group">
+      <label>Name:</label>
+      <span>{{ name }}</span>
+    </div>
+    <div class="detail-group">
+      <label>Signup Behavior Code:</label>
+      <span>{{ signupBehaviorCode }}</span>
+    </div>
+    <div class="detail-group">
+      <label>Description:</label>
+      <span>{{ description }}</span>
+    </div>
+  </div>
+</div>
 
 <div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
 <!-- Heading Mode -->

@@ -59,10 +59,7 @@ export class WorkRequestGroupUIComponent extends AbstractEntityGroupComponent<Wo
   private modalService = inject(MdbModalService);
   private modalRef: MdbModalRef<any> | null = null;
   protected override cdr = inject(ChangeDetectorRef);
-  
-  // Input property for readonly mode
-  @Input() readonly: boolean = false;
-  
+   
   // Cache the button bar to prevent recreation on every change detection
   private _buttonBar: SimpleButtonBar | null = null;
   
