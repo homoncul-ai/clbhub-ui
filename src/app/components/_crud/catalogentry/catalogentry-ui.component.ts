@@ -11,6 +11,8 @@ import { CatalogEntrySignupPacketUiComponent } from '../catalogentrysignuppacket
 import { CatalogEntrySignupPacketGroupComponent } from "../catalogentrysignuppacket/catalogentrysignuppacket-group.component";
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { StdBubaComponent } from "@app/components/_global/std-buba/std-buba.component";
+import { AbstractCrudComponent } from "@app/components/_global";
+import { VocationEncodingDisplayComponent } from "../vocationencoding/vocationencoding-display.component"; 
 
 // UI component for editing/maintaining the catalog entry.
 @Component({
@@ -18,11 +20,13 @@ import { StdBubaComponent } from "@app/components/_global/std-buba/std-buba.comp
   standalone: true,
   imports: [CommonModule, FormsModule, SimpleTabsetComponent, CatalogEntryCrudComponent,
     CatalogEntrySignupPacketUiComponent, CatalogEntrySignupPacketGroupComponent,
-     MenuControlDataListComponent, RouterLink, StdBubaComponent],
+    MenuControlDataListComponent, RouterLink, StdBubaComponent, VocationEncodingDisplayComponent, CommonModule],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './catalogentry-ui.component.html',
 })
 export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<CatalogEntryCrudWrapper> implements OnInit {  
+
+  @Input() readonly: boolean = false;
 
   constructor() {
     super();    
@@ -43,6 +47,10 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
   public savingSignupPacket: boolean = false;
   public saveSuccess: boolean = false;
   public saveError: string | null = null;
+
+  protected isReadOnly(): boolean {
+    return this.readonly;
+  }
 
   protected getSignupPacketId(): string {
     return this.signupPacketId;
@@ -166,7 +174,7 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
           this.currentTabId = 'icon';
         },
         () => {
-          return true;
+          return this.isReadOnly() == false;
         }
       );
       tabs.push(tab);
@@ -181,17 +189,28 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
       );
       tabs.push(tab);
 
+      if (this.isReadOnly() == false) {
       tab = new SimpleTab('signup', 'Signup', '', 
         () => {
           this.currentTabId = 'signup';         
         },
         () => {
-          return true;
+          return this.isReadOnly() == false;
         }
       );
       tabs.push(tab);
+    } else {
 
-
+      tab = new SimpleTab('signupPacket', 'Signup Packet', '', 
+        () => {
+          this.currentTabId = 'signupPacket';         
+        },
+        () => {
+          return this.isReadOnly() == true;
+        }
+      );
+      tabs.push(tab);
+    }
       // tab = new SimpleTab('fk_menu', 'FK_MENU', '', 
       //   () => {
       //     this.currentTabId = 'fk_menu';

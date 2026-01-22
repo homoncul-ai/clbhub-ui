@@ -8,21 +8,19 @@
 
 </div>
 
-<div *ngIf="currentTabId === 'details'">
-  <app-catalogentry-crud [id]="id" modeName="edit"></app-catalogentry-crud>
+<div *ngIf="currentTabId === 'details' && this.isReadOnly() == false" >
+  <app-catalogentry-crud [id]="id" modeName="edit" ></app-catalogentry-crud>
 </div>
-
-<div *ngIf="currentTabId === 'icon'">
-  <h1>Icon</h1>
-  Have icon text here, and then generate an icon choice, to select. 
-
+<div *ngIf="currentTabId === 'details' && this.isReadOnly() == true">
+  <app-catalogentry-crud [id]="id" modeName="card"></app-catalogentry-crud>
 </div>
-
+ 
 <div *ngIf="currentTabId === 'vocode'">
-  <h1>Vocation Encoding</h1>
-  Have vocode text here, and then generate a vocode choice, to select. 
-  Display current vocode instance tree here 
-  
+  <app-vocationencoding-display [id]="getCurrentEntity().getData().vocodeInstanceId || ''" readonly="this.isReadOnly()"></app-vocationencoding-display>
+</div>
+
+<div *ngIf="currentTabId === 'signupPacket'">
+  <app-catalogentrysignuppacket-ui [id]="getCurrentEntity().getData().signupPacketId || ''" readonly="this.isReadOnly()"></app-catalogentrysignuppacket-ui>
 </div>
 
 <div *ngIf="currentTabId === 'signup'">
@@ -81,4 +79,5 @@
 <pre>
 currentTabId: {{currentTabId}}
 id: {{id}}
+readonly: {{isReadOnly()}}
 </pre>

@@ -8,6 +8,7 @@ import { AbstractMultimodeComponent } from '@app/components/_global/abstract-mul
 import { CatalogEntryCriteria, VeiSearchResultsGETData } from '@app/restsvc/hccl.service';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { CatalogEntryModalComponent } from './catalog-entry-modal.component';
+import { CatalogEntryUiModalComponent } from './catalog-entry-ui-modal.component';
 import { StdBubaComponent } from "@app/components/_global/std-buba/std-buba.component";
 
 @Component({
@@ -24,6 +25,7 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
   // Inject services
   private modalService = inject(MdbModalService);
   private modalRef: MdbModalRef<CatalogEntryModalComponent> | null = null;
+  private catalogEntryUiModalRef: MdbModalRef<CatalogEntryUiModalComponent> | null = null;
   
   // Properties for search functionality
   searchKeyword: string = '';
@@ -218,6 +220,30 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
     if (this.modalRef?.onClose) {
       this.modalRef.onClose.subscribe(() => {
         this.modalRef = null;
+      });
+    }
+  }
+
+  /**
+   * Open modal with CatalogEntryUiComponent for the selected catalog entry
+   */
+  openCatalogEntryUiModal(result: CatalogEntryGETData): void {
+    if (!result?.id) {
+      return;
+    }
+
+    this.catalogEntryUiModalRef = this.modalService.open(CatalogEntryUiModalComponent, {
+      modalClass: 'modal-xl',
+      data: {
+        catalogEntryId: result.id,
+        title: result.entryCode || 'Catalog Entry Details'
+      }
+    }) as MdbModalRef<CatalogEntryUiModalComponent>;
+
+    // Handle modal close - just close without refreshing
+    if (this.catalogEntryUiModalRef?.onClose) {
+      this.catalogEntryUiModalRef.onClose.subscribe(() => {
+        this.catalogEntryUiModalRef = null;
       });
     }
   }

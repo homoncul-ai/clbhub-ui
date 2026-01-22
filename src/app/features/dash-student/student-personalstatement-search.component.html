@@ -107,7 +107,7 @@
                   <div class="attributes-container" style="flex: 1;">
                     <div class="detail-group">
                       <label><span><app-std-buba entityName="CatalogEntry" entityId="{{ result.id }}" 
-                        [showLink]="false" [showName]="false" ></app-std-buba>  {{ result.entryCode }}</span></label>
+                        [showLink]="false" [showName]="false" ></app-std-buba>  <a href="javascript:void(0)" (click)="openCatalogEntryUiModal(result)">{{ result.entryCode }}</a></span></label>
                       <div class="interest-icons">
                         <!-- No interest recorded yet - show both icons -->
                         <ng-container *ngIf="!result.catalogEntryInterest">
