@@ -4,17 +4,18 @@ import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclService, HcclUserContextGETData, HcclUserProfileGETData, CLStudentGETData, CLStudentCriteria,
    CLSchoolGETData, CLGuidanceGETData, CLGuidanceCriteria, WorkRequestDashboardUIGETData, StudentDashUIGETData, 
-   HcclTeamGETData} from '@app/restsvc/hccl.service';
+   HcclTeamGETData, PMessageUIGETData} from '@app/restsvc/hccl.service';
 import { UserProfileEditModalComponent } from './user-profile-edit-modal.component';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { CRUD_MODES } from '@app/@core/constants';
+import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
 
 @Component({
   selector: 'app-dash-student-home',
   standalone: true,
-  imports: [CommonModule, PersonalStatementCrudComponent],
+  imports: [CommonModule, PersonalStatementCrudComponent, PMessageUiComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -50,15 +51,46 @@ import { CRUD_MODES } from '@app/@core/constants';
                       </div>
                       <div class="card-body">
                         <div class="list-group list-group-flush">
-                          <div class="list-group-item" *ngFor="let message of dashUIData?.messages">
-                            <h6 class="mb-1">{{ message.message?.title }}</h6>
-                            <p class="mb-1 text-muted small">{{ message.message?.description || 'No description' }}</p>
+                          <div class="list-group-item message-row" 
+                               *ngFor="let message of dashUIData?.messages"
+                               (click)="openMessageUI(message)"
+                               [class.active]="selectedMessageId === message.message?.id">
+                            <div class="d-flex justify-content-between align-items-start">
+                              <div>
+                                <h6 class="mb-1">{{ message.message?.title }}</h6>
+                                <p class="mb-1 text-muted small">{{ message.message?.description || 'No description' }}</p>
+                              </div>
+                              <span class="badge bg-primary rounded-pill" *ngIf="message.unreadEntryCount && message.unreadEntryCount > 0">
+                                {{ message.unreadEntryCount }}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <!-- Selected Message UI -->
+                <div class="row mb-4" *ngIf="selectedMessageId">
+                  <div class="col-12">
+                    <div class="card message-ui-card">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                          <i class="fas fa-comments me-2"></i>
+                          {{ selectedMessageTitle }}
+                        </h5>
+                        <button class="btn btn-sm btn-outline-secondary" (click)="closeMessageUI()">
+                          <i class="fas fa-times me-1"></i> Close
+                        </button>
+                      </div>
+                      <div class="card-body p-0">
+                        <app-pmessage-ui [id]="selectedMessageId"></app-pmessage-ui>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <!--List all the personal statements  -->
                 <div class="row mb-4">
                   <div class="col-12">
@@ -301,6 +333,48 @@ import { CRUD_MODES } from '@app/@core/constants';
       border-top: none;
     }
 
+    /* Message Row Styles */
+    .message-row {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .message-row:hover {
+      background-color: #f8f9fa;
+      transform: translateX(4px);
+    }
+
+    .message-row.active {
+      background-color: #e3f2fd;
+      border-left: 3px solid #2196f3;
+    }
+
+    /* Message UI Card Styles */
+    .message-ui-card {
+      border: 2px solid #667eea;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+    }
+
+    .message-ui-card .card-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-bottom: none;
+    }
+
+    .message-ui-card .card-header h5 {
+      color: white;
+    }
+
+    .message-ui-card .card-header .btn-outline-secondary {
+      color: white;
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .message-ui-card .card-header .btn-outline-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: white;
+    }
+
     /* Statement Card Styles */
     .statement-card {
       border-left: 4px solid #4285f4;
@@ -463,6 +537,10 @@ export class DashStudentHomeComponent implements OnInit {
   guidanceTeam: HcclTeamGETData | null =null;
   dashUIData: StudentDashUIGETData | null = null;
   guidance: CLGuidanceGETData[] = [];
+  
+  // Selected message for pmessage-ui display
+  selectedMessageId: string | null = null;
+  selectedMessageTitle: string | null = null;
 
   constructor() {
     console.log('DashStudentHomeComponent initialized');
@@ -674,5 +752,25 @@ export class DashStudentHomeComponent implements OnInit {
         });
       }
     });
+  }
+
+  /**
+   * Open the message UI for a selected message
+   */
+  openMessageUI(messageData: PMessageUIGETData): void {
+    const messageId = messageData.message?.id;
+    if (messageId) {
+      this.selectedMessageId = messageId;
+      this.selectedMessageTitle = messageData.message?.title || 'Message Conversation';
+      console.log('Opening message UI for:', messageId);
+    }
+  }
+
+  /**
+   * Close the message UI
+   */
+  closeMessageUI(): void {
+    this.selectedMessageId = null;
+    this.selectedMessageTitle = null;
   }
 }

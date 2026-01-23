@@ -9,7 +9,7 @@
     <!-- Inline Message Panel -->
     <div *ngIf="selectedMessageId" #messagePanel class="message-panel">
       <div class="message-panel-header">
-        <h4>Message Details</h4>
+        <h4>{{ selectedMessageTitle }}</h4>
         <button class="close-panel-btn" (click)="closeMessagePanel()" title="Close panel">
           <i class="fas fa-times"></i>
         </button>

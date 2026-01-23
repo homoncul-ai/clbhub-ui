@@ -49,6 +49,7 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
   
   // Track selected message for inline panel display
   selectedMessageId: string = '';
+  selectedMessageTitle: string = '';
 
   constructor() {
     super();    
@@ -62,8 +63,26 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['messageId'] && changes['messageId'].currentValue) {
       this.selectedMessageId = changes['messageId'].currentValue;
+      this.loadMessageTitle(changes['messageId'].currentValue);
       this.scrollToPanel();
     }
+  }
+
+  /**
+   * Load message title by ID
+   */
+  private loadMessageTitle(messageId: string): void {
+    this.selectedMessageTitle = 'Loading...';
+    this.hcclService.getPMessageById(messageId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (message) => {
+          this.selectedMessageTitle = message.title || 'Message Details';
+        },
+        error: () => {
+          this.selectedMessageTitle = 'Message Details';
+        }
+      });
   }
 
   override ngOnInit(): void {
@@ -79,6 +98,7 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
       // If messageId was passed as input, set it as selected
       if (this.messageId) {
         this.selectedMessageId = this.messageId;
+        this.loadMessageTitle(this.messageId);
         setTimeout(() => this.scrollToPanel(), 100);
       }
     });
@@ -143,6 +163,7 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
   private onMessageSelected(messageId: string): void {
     this.selectedMessageId = messageId;
     this.messageId = messageId;
+    this.loadMessageTitle(messageId);
     
     // Allow Angular to render the panel, then scroll to it
     setTimeout(() => this.scrollToPanel(), 50);
@@ -166,6 +187,7 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
   closeMessagePanel(): void {
     this.selectedMessageId = '';
     this.messageId = '';
+    this.selectedMessageTitle = '';
   }
  
   protected onMessageRowClickBehavior(): OnRowClickBehavior {
