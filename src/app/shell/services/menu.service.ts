@@ -470,6 +470,14 @@ export class MenuService {
     m2.route = `/student-dashboard/messages`;
     this.addMenuItem(menu, m2);
 
+    // Add My Calendar
+    const calendar = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CALENDAR);
+    this.addMenuItem(menu, calendar);
+
+    // Add My Feed
+    const feed = this.copyMenuItem(MENU_CONSTANTS.STUDENT_FEED);
+    this.addMenuItem(menu, feed);
+
     // Add Career Goals (Personal Statements list)
     var courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
@@ -1615,6 +1623,22 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-messages',
     icon: 'fas fa-envelope'
+  },
+  STUDENT_CALENDAR: {
+    level: 1,
+    label: 'My Calendar',
+    route: '/student-dashboard/calendar',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-calendar',
+    icon: 'fas fa-calendar-alt'
+  },
+  STUDENT_FEED: {
+    level: 1,
+    label: 'My Feed',
+    route: '/student-dashboard/feed',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-feed',
+    icon: 'fas fa-stream'
   },
   STUDENT_INTERESTS: {
     level: 1,

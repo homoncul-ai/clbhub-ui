@@ -27,6 +27,8 @@ import { StudentResearchComponent } from './student-research/student-research.co
 import { StudentResumeBuilderComponent } from './student-resumebuilder/student-resumebuilder.component';
 import { StudentPersonalStatementDetailsComponent } from './student-personalstatement-details.component';
 import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-entity-ui.component';
+import { DashStudentCalendarComponent } from './dash-student-calendar.component';
+import { DashStudentFeedComponent } from './dash-student-feed.component';
 const routes: Routes = [
   {
     path: '',
@@ -60,6 +62,9 @@ const routes: Routes = [
       { path: 'messages/:messageId/:tabId', component:DashStudentMessagesComponent },
       { path: 'messages/:messageId', redirectTo: 'messages/:messageId/message', pathMatch: 'full' },
       { path: 'messages', component:DashStudentMessagesComponent },
+
+      { path: 'calendar', component: DashStudentCalendarComponent },
+      { path: 'feed', component: DashStudentFeedComponent },
 
       { path: 'interests/:interestId/interest', component:DashStudentInterestComponent },
       { path: 'interests/:interestId/:tabId', component:DashStudentInterestsComponent },
@@ -119,6 +124,8 @@ const routes: Routes = [
     StudentResearchComponent,
     StudentResumeBuilderComponent,
     StudentPersonalStatementDetailsComponent,
+    DashStudentCalendarComponent,
+    DashStudentFeedComponent,
   ],
   declarations: [
     // Non-standalone components would go here
