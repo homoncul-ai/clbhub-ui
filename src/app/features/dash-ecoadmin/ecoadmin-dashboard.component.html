@@ -18,4 +18,36 @@
       </div>
     </div>
   </div>
+
+  <!-- Key Metrics Panel -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-chart-line me-2"></i>
+            Key Metrics
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 col-lg-2 mb-3" *ngFor="let metric of keyMetrics">
+              <div class="card h-100 border-primary">
+                <div class="card-body text-center">
+                  <i [class]="metric.icon + ' fa-2x text-primary mb-2'"></i>
+                  <h5 class="card-title text-primary mb-1">{{ metric.target }}</h5>
+                  <h6 class="card-subtitle mb-2">{{ metric.metric }}</h6>
+                  <small class="text-muted">{{ metric.trackingMethod }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-muted mt-3 mb-0">
+            <i class="fas fa-sync-alt me-1"></i>
+            Feedback loops enable yearly improvements; all roles can submit via simple forms.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div> 

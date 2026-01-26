@@ -285,6 +285,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  createCatalogEntryFeedInstance(body: CatalogEntryFeedInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryfeedinstance",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCatalogEntryFeedInstanceById(id: string): Observable<CatalogEntryFeedInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryfeedinstance/" + id,
+      method: "GET",
+    };
+    return this.request<CatalogEntryFeedInstanceGETData>(request);
+  }
+
+  updateCatalogEntryFeedInstanceById(id: string, body: CatalogEntryFeedInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryfeedinstance/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCatalogEntryFeedInstanceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryfeedinstance/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCatalogEntryFeedInstances(body: CatalogEntryFeedInstanceCriteria): Observable<CatalogEntryFeedInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryfeedinstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CatalogEntryFeedInstanceGETDataSearchResults>(request);
+  }
+
+  getCatalogEntryFeedInstanceByIdWithHint(id: string, hint: string): Observable<CatalogEntryFeedInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/catalogentryfeedinstance/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<CatalogEntryFeedInstanceGETData>(request);
+  }
+
   createCatalogEntryGroupRef(body: CatalogEntryGroupRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentrygroupref",
@@ -4234,17 +4286,118 @@ export interface ServiceEventLogPUTData {
   parentId?: string;
 }
 
-export interface CatalogEntryGroupRefPOSTData {
-  businessCode: string;
-  nameText: string;
-  description: string;
-  available: number;
+export interface CatalogEntryFeedInstancePOSTData {
+  catalogId: string;
+  catalogEntryId: string;
+  catalogEntryFeedContentId?: string;
+  userProfileId: string;
+  catalogEntryInterestId?: string;
+  viewCount: number;
+  viewTimeMs: number;
+  dateExpires?: string;
+  score: number;
+  personalStatementId?: string;
+  distanceInMiles: number;
+  distanceInVocode: number;
+  feedTypeCode?: string;
 }
 
 export interface BaseCriteria {
   pageNumber?: number;
   pageSize?: number;
   isPaging?: boolean;
+}
+
+export interface CatalogEntryFeedInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  catalogId?: string;
+  catalogEntryId?: string;
+  catalogEntryFeedContentId?: string;
+  userProfileId?: string;
+  catalogEntryInterestId?: string;
+  viewCount?: number;
+  viewTimeMs?: number;
+  score?: number;
+  personalStatementId?: string;
+  distanceInMiles?: number;
+  distanceInVocode?: number;
+  feedTypeCode?: string;
+}
+
+export interface CatalogEntryFeedInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CatalogEntryFeedInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface DCPageData {
+  totalRows?: number;
+  pageNumber?: number;
+  pageSize?: number;
+  startingOffset?: number;
+  totalPages?: number;
+  endingOffset?: number;
+  links?: string[];
+}
+
+export interface CatalogEntryFeedInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  catalogId?: string;
+  catalogEntryId?: string;
+  catalogEntryFeedContentId?: string;
+  userProfileId?: string;
+  catalogEntryInterestId?: string;
+  viewCount?: number;
+  viewTimeMs?: number;
+  score?: number;
+  personalStatementId?: string;
+  distanceInMiles?: number;
+  distanceInVocode?: number;
+  feedTypeCode?: string;
+}
+
+export interface CriteriaPredicateHint {
+  matchingCase?: boolean;
+  matchingLike?: boolean;
+  matchingAddWildcard?: boolean;
+}
+
+export interface CatalogEntryFeedInstancePUTData {
+  catalogId: string;
+  catalogEntryId: string;
+  catalogEntryFeedContentId?: string;
+  userProfileId: string;
+  catalogEntryInterestId?: string;
+  viewCount: number;
+  viewTimeMs: number;
+  dateExpires?: string;
+  score: number;
+  personalStatementId?: string;
+  distanceInMiles: number;
+  distanceInVocode: number;
+  feedTypeCode?: string;
+}
+
+export interface CatalogEntryGroupRefPOSTData {
+  businessCode: string;
+  nameText: string;
+  description: string;
+  available: number;
 }
 
 export interface CatalogEntryGroupRefGETData {
@@ -4267,16 +4420,6 @@ export interface CatalogEntryGroupRefGETDataSearchResults {
   filter?: BaseCriteria;
 }
 
-export interface DCPageData {
-  totalRows?: number;
-  pageNumber?: number;
-  pageSize?: number;
-  startingOffset?: number;
-  totalPages?: number;
-  endingOffset?: number;
-  links?: string[];
-}
-
 export interface CatalogEntryGroupRefCriteria {
   pageNumber?: number;
   pageSize?: number;
@@ -4291,12 +4434,6 @@ export interface CatalogEntryGroupRefCriteria {
   businessCode?: string;
   nameText?: string;
   available?: number;
-}
-
-export interface CriteriaPredicateHint {
-  matchingCase?: boolean;
-  matchingLike?: boolean;
-  matchingAddWildcard?: boolean;
 }
 
 export interface CatalogEntryGroupRefPUTData {
@@ -4577,7 +4714,8 @@ export interface CatalogEntryPOSTData {
   url?: string;
   tarotFileId?: string;
   tarotFileUrl?: string;
-  dateFirstOffered?: string;
+  dateListingStarts?: string;
+  dateListingEnds?: string;
   dateStart?: string;
   dateEnd?: string;
   vocodeInstanceId?: string;
@@ -4628,7 +4766,8 @@ export interface CatalogEntryCriteria {
   url?: string;
   tarotFileId?: string;
   tarotFileUrl?: string;
-  dateFirstOffered?: string;
+  dateListingStarts?: string;
+  dateListingEnds?: string;
   dateStart?: string;
   dateEnd?: string;
   vocodeInstanceId?: string;
@@ -4735,7 +4874,8 @@ export interface CatalogEntryPUTData {
   url?: string;
   tarotFileId?: string;
   tarotFileUrl?: string;
-  dateFirstOffered?: string;
+  dateListingStarts?: string;
+  dateListingEnds?: string;
   dateStart?: string;
   dateEnd?: string;
   vocodeInstanceId?: string;
@@ -6611,6 +6751,9 @@ export interface PMessageEntryPOSTData {
   messageParticipantId?: string;
   body: string;
   bodyFormatCode: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
   attachments?: PMFilePOSTData[];
   attachmentTuples?: EntityTuple[];
 }
@@ -6628,6 +6771,9 @@ export interface PMessageEntryGETData {
   messageParticipantId?: string;
   body?: string;
   bodyFormatCode?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
   attachments?: PMessageAttachmentGETData[];
 }
 
@@ -6653,6 +6799,9 @@ export interface PMessageEntryCriteria {
   messageParticipantId?: string;
   body?: string;
   bodyFormatCode?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
   dateLastRead?: string;
 }
 
@@ -6662,6 +6811,9 @@ export interface PMessageEntryPUTData {
   messageParticipantId?: string;
   body: string;
   bodyFormatCode: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
 }
 
 export interface PMessageParticipantPOSTData {

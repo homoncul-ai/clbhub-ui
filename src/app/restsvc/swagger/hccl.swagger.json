@@ -1138,6 +1138,240 @@
         }
       }
     },
+    "/hccl/catalog/catalogentryfeedinstance": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new CatalogEntryFeedInstance.",
+        "operationId": "createCatalogEntryFeedInstance_1",
+        "requestBody": {
+          "description": "New CatalogEntryFeedInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryFeedInstancePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogentryfeedinstance/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCatalogEntryFeedInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryFeedInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing CatalogEntryFeedInstance.",
+        "operationId": "updateCatalogEntryFeedInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CatalogEntryFeedInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryFeedInstancePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing CatalogEntryFeedInstance.",
+        "operationId": "deleteCatalogEntryFeedInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogentryfeedinstance/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all CatalogEntryFeedInstances.",
+        "operationId": "findCatalogEntryFeedInstances_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryFeedInstanceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryFeedInstanceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/catalogentryfeedinstance/{id}/hint": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCatalogEntryFeedInstanceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryFeedInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/catalog/catalogentrygroupref": {
       "post": {
         "tags": [
@@ -18614,6 +18848,391 @@
           }
         }
       },
+      "CatalogEntryFeedInstancePOSTData": {
+        "required": [
+          "catalogEntryId",
+          "catalogId",
+          "distanceInMiles",
+          "distanceInVocode",
+          "score",
+          "userProfileId",
+          "viewCount",
+          "viewTimeMs"
+        ],
+        "type": "object",
+        "properties": {
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryFeedContentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "feedTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "BaseCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CatalogEntryFeedInstanceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryFeedContentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "feedTypeCode": {
+            "type": "string"
+          }
+        }
+      },
+      "CatalogEntryFeedInstanceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogEntryFeedInstanceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "DCPageData": {
+        "type": "object",
+        "properties": {
+          "totalRows": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startingOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endingOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CatalogEntryFeedInstanceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryFeedContentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "feedTypeCode": {
+            "type": "string"
+          }
+        }
+      },
+      "CriteriaPredicateHint": {
+        "type": "object",
+        "properties": {
+          "matchingCase": {
+            "type": "boolean"
+          },
+          "matchingLike": {
+            "type": "boolean"
+          },
+          "matchingAddWildcard": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CatalogEntryFeedInstancePUTData": {
+        "required": [
+          "catalogEntryId",
+          "catalogId",
+          "distanceInMiles",
+          "distanceInVocode",
+          "score",
+          "userProfileId",
+          "viewCount",
+          "viewTimeMs"
+        ],
+        "type": "object",
+        "properties": {
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryFeedContentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogEntryInterestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "feedTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
       "CatalogEntryGroupRefPOSTData": {
         "required": [
           "available",
@@ -18641,22 +19260,6 @@
           "available": {
             "type": "integer",
             "format": "int32"
-          }
-        }
-      },
-      "BaseCriteria": {
-        "type": "object",
-        "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isPaging": {
-            "type": "boolean"
           }
         }
       },
@@ -18717,41 +19320,6 @@
           }
         }
       },
-      "DCPageData": {
-        "type": "object",
-        "properties": {
-          "totalRows": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "startingOffset": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "endingOffset": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "links": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
       "CatalogEntryGroupRefCriteria": {
         "type": "object",
         "properties": {
@@ -18805,20 +19373,6 @@
           "available": {
             "type": "integer",
             "format": "int32"
-          }
-        }
-      },
-      "CriteriaPredicateHint": {
-        "type": "object",
-        "properties": {
-          "matchingCase": {
-            "type": "boolean"
-          },
-          "matchingLike": {
-            "type": "boolean"
-          },
-          "matchingAddWildcard": {
-            "type": "boolean"
           }
         }
       },
@@ -19791,7 +20345,11 @@
           "tarotFileUrl": {
             "type": "string"
           },
-          "dateFirstOffered": {
+          "dateListingStarts": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateListingEnds": {
             "type": "string",
             "format": "date-time"
           },
@@ -19973,7 +20531,11 @@
           "tarotFileUrl": {
             "type": "string"
           },
-          "dateFirstOffered": {
+          "dateListingStarts": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateListingEnds": {
             "type": "string",
             "format": "date-time"
           },
@@ -20335,7 +20897,11 @@
           "tarotFileUrl": {
             "type": "string"
           },
-          "dateFirstOffered": {
+          "dateListingStarts": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateListingEnds": {
             "type": "string",
             "format": "date-time"
           },
@@ -26988,6 +27554,20 @@
             "minLength": 1,
             "type": "string"
           },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
           "attachments": {
             "type": "array",
             "items": {
@@ -27043,6 +27623,16 @@
             "type": "string"
           },
           "bodyFormatCode": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
             "type": "string"
           },
           "attachments": {
@@ -27132,6 +27722,16 @@
           "bodyFormatCode": {
             "type": "string"
           },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
           "dateLastRead": {
             "type": "string",
             "format": "date-time"
@@ -27163,6 +27763,20 @@
             "type": "string"
           },
           "bodyFormatCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
