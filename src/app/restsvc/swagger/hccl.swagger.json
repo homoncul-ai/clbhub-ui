@@ -21,7 +21,7 @@
     }
   ],
   "paths": {
-    "/hccl/healthchecks/servicemanifest": {
+    "/1.0/healthchecks/servicemanifest": {
       "get": {
         "tags": [
           "/healthchecks"
@@ -41,7 +41,7 @@
         }
       }
     },
-    "/hccl/healthchecks/internals.json": {
+    "/1.0/healthchecks/internals.json": {
       "get": {
         "tags": [
           "/healthchecks"
@@ -61,7 +61,7 @@
         }
       }
     },
-    "/hccl/healthchecks/swagger.json": {
+    "/1.0/healthchecks/swagger.json": {
       "get": {
         "tags": [
           "/healthchecks"
@@ -81,7 +81,7 @@
         }
       }
     },
-    "/hccl/healthchecks/ping": {
+    "/1.0/healthchecks/ping": {
       "get": {
         "tags": [
           "/healthchecks"
@@ -95,7 +95,7 @@
         }
       }
     },
-    "/hccl/healthchecks/database": {
+    "/1.0/healthchecks/database": {
       "get": {
         "tags": [
           "/healthchecks"
@@ -112,7 +112,7 @@
         }
       }
     },
-    "/hccl/debug/loggers": {
+    "/1.0/debug/loggers": {
       "get": {
         "tags": [
           "/debug/loggers"
@@ -150,7 +150,7 @@
         }
       }
     },
-    "/hccl/debug/loggers/changeloggerlevel": {
+    "/1.0/debug/loggers/changeloggerlevel": {
       "put": {
         "tags": [
           "/debug/loggers"
@@ -184,7 +184,7 @@
         }
       }
     },
-    "/hccl/job-definitions": {
+    "/1.0/job-definitions": {
       "get": {
         "tags": [
           "/job-definitions"
@@ -277,7 +277,7 @@
         }
       }
     },
-    "/hccl/job-definitions/{id}": {
+    "/1.0/job-definitions/{id}": {
       "get": {
         "tags": [
           "/job-definitions"
@@ -391,7 +391,7 @@
         }
       }
     },
-    "/hccl/job-definitions/query-job-definitions": {
+    "/1.0/job-definitions/query-job-definitions": {
       "post": {
         "tags": [
           "/job-definitions"
@@ -428,7 +428,7 @@
         }
       }
     },
-    "/hccl/job-definitions/initialize": {
+    "/1.0/job-definitions/initialize": {
       "post": {
         "tags": [
           "/job-definitions"
@@ -455,7 +455,7 @@
         }
       }
     },
-    "/hccl/job-definitions/{definition-id}/process-logs": {
+    "/1.0/job-definitions/{definition-id}/process-logs": {
       "get": {
         "tags": [
           "/job-definitions"
@@ -578,7 +578,7 @@
         }
       }
     },
-    "/hccl/job-definitions/{definition-id}/process-logs/{id}": {
+    "/1.0/job-definitions/{definition-id}/process-logs/{id}": {
       "get": {
         "tags": [
           "/job-definitions"
@@ -711,7 +711,7 @@
         }
       }
     },
-    "/hccl/job-definitions/{definition-id}/process-logs/{log-id}/completed": {
+    "/1.0/job-definitions/{definition-id}/process-logs/{log-id}/completed": {
       "put": {
         "tags": [
           "/job-definitions"
@@ -754,7 +754,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/{id}/cancel": {
+    "/1.0/service-event-logs/{id}/cancel": {
       "put": {
         "tags": [
           "/service-event-logs"
@@ -788,7 +788,7 @@
         }
       }
     },
-    "/hccl/service-event-logs": {
+    "/1.0/service-event-logs": {
       "post": {
         "tags": [
           "/service-event-logs"
@@ -822,7 +822,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/events": {
+    "/1.0/service-event-logs/events": {
       "post": {
         "tags": [
           "/service-event-logs"
@@ -859,7 +859,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/{id}": {
+    "/1.0/service-event-logs/{id}": {
       "get": {
         "tags": [
           "/service-event-logs"
@@ -965,7 +965,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/{service-event-log-id}/download-file": {
+    "/1.0/service-event-logs/{service-event-log-id}/download-file": {
       "get": {
         "tags": [
           "/service-event-logs"
@@ -999,7 +999,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/query-logs": {
+    "/1.0/service-event-logs/query-logs": {
       "post": {
         "tags": [
           "/service-event-logs"
@@ -1036,7 +1036,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/query-event-summary-by-name": {
+    "/1.0/service-event-logs/query-event-summary-by-name": {
       "post": {
         "tags": [
           "/service-event-logs"
@@ -1070,7 +1070,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/query-event-summary": {
+    "/1.0/service-event-logs/query-event-summary": {
       "post": {
         "tags": [
           "/service-event-logs"
@@ -1104,7 +1104,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/query-event-summary-by-reference": {
+    "/1.0/service-event-logs/query-event-summary-by-reference": {
       "post": {
         "tags": [
           "/service-event-logs"
@@ -1138,7 +1138,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryfeedinstance": {
+    "/1.0/catalog/catalogentryfeedinstance": {
       "post": {
         "tags": [
           "/catalog"
@@ -1172,7 +1172,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryfeedinstance/{id}": {
+    "/1.0/catalog/catalogentryfeedinstance/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -1282,7 +1282,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryfeedinstance/query": {
+    "/1.0/catalog/catalogentryfeedinstance/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -1324,7 +1324,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryfeedinstance/{id}/hint": {
+    "/1.0/catalog/catalogentryfeedinstance/{id}/hint": {
       "get": {
         "tags": [
           "/catalog"
@@ -1372,7 +1372,241 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrygroupref": {
+    "/1.0/catalog/catalogentryfeedprofile": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new CatalogEntryFeedProfile.",
+        "operationId": "createCatalogEntryFeedProfile_1",
+        "requestBody": {
+          "description": "New CatalogEntryFeedProfile data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryFeedProfilePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/1.0/catalog/catalogentryfeedprofile/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCatalogEntryFeedProfileById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryFeedProfileGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing CatalogEntryFeedProfile.",
+        "operationId": "updateCatalogEntryFeedProfileById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CatalogEntryFeedProfile data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryFeedProfilePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing CatalogEntryFeedProfile.",
+        "operationId": "deleteCatalogEntryFeedProfileById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/1.0/catalog/catalogentryfeedprofile/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all CatalogEntryFeedProfiles.",
+        "operationId": "findCatalogEntryFeedProfiles_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CatalogEntryFeedProfileCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryFeedProfileGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/1.0/catalog/catalogentryfeedprofile/{id}/hint": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCatalogEntryFeedProfileByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogEntryFeedProfileGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/1.0/catalog/catalogentrygroupref": {
       "post": {
         "tags": [
           "/catalog"
@@ -1406,7 +1640,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrygroupref/{id}": {
+    "/1.0/catalog/catalogentrygroupref/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -1516,7 +1750,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrygroupref/query": {
+    "/1.0/catalog/catalogentrygroupref/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -1558,7 +1792,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryinterest": {
+    "/1.0/catalog/catalogentryinterest": {
       "post": {
         "tags": [
           "/catalog"
@@ -1592,7 +1826,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryinterest/{id}": {
+    "/1.0/catalog/catalogentryinterest/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -1710,7 +1944,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryinterest/query": {
+    "/1.0/catalog/catalogentryinterest/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -1752,7 +1986,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentryinterest/show-interest": {
+    "/1.0/catalog/catalogentryinterest/show-interest": {
       "post": {
         "tags": [
           "/catalog"
@@ -1786,7 +2020,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentry": {
+    "/1.0/catalog/catalogentry": {
       "post": {
         "tags": [
           "/catalog"
@@ -1820,7 +2054,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentry/{id}": {
+    "/1.0/catalog/catalogentry/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -1930,7 +2164,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentry/query": {
+    "/1.0/catalog/catalogentry/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -1972,7 +2206,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentry/query-using-vocode": {
+    "/1.0/catalog/catalogentry/query-using-vocode": {
       "post": {
         "tags": [
           "/catalog"
@@ -2014,7 +2248,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentry/{id}/hint": {
+    "/1.0/catalog/catalogentry/{id}/hint": {
       "get": {
         "tags": [
           "/catalog"
@@ -2062,7 +2296,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrysignuppacket": {
+    "/1.0/catalog/catalogentrysignuppacket": {
       "post": {
         "tags": [
           "/catalog"
@@ -2096,7 +2330,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrysignuppacket/{id}": {
+    "/1.0/catalog/catalogentrysignuppacket/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -2206,7 +2440,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrysignuppacket/query": {
+    "/1.0/catalog/catalogentrysignuppacket/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -2248,7 +2482,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrytag": {
+    "/1.0/catalog/catalogentrytag": {
       "post": {
         "tags": [
           "/catalog"
@@ -2282,7 +2516,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrytag/{id}": {
+    "/1.0/catalog/catalogentrytag/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -2392,7 +2626,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogentrytag/query": {
+    "/1.0/catalog/catalogentrytag/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -2434,7 +2668,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearchresultentry": {
+    "/1.0/catalog/catalogsearchresultentry": {
       "post": {
         "tags": [
           "/catalog"
@@ -2468,7 +2702,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearchresultentry/{id}": {
+    "/1.0/catalog/catalogsearchresultentry/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -2578,7 +2812,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearchresultentry/query": {
+    "/1.0/catalog/catalogsearchresultentry/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -2620,7 +2854,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearchresult": {
+    "/1.0/catalog/catalogsearchresult": {
       "post": {
         "tags": [
           "/catalog"
@@ -2654,7 +2888,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearchresult/{id}": {
+    "/1.0/catalog/catalogsearchresult/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -2764,7 +2998,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearchresult/query": {
+    "/1.0/catalog/catalogsearchresult/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -2806,7 +3040,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearch": {
+    "/1.0/catalog/catalogsearch": {
       "post": {
         "tags": [
           "/catalog"
@@ -2840,7 +3074,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearch/{id}": {
+    "/1.0/catalog/catalogsearch/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -2950,7 +3184,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogsearch/query": {
+    "/1.0/catalog/catalogsearch/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -2992,7 +3226,7 @@
         }
       }
     },
-    "/hccl/catalog/catalog": {
+    "/1.0/catalog/catalog": {
       "post": {
         "tags": [
           "/catalog"
@@ -3026,7 +3260,7 @@
         }
       }
     },
-    "/hccl/catalog/catalog/{id}": {
+    "/1.0/catalog/catalog/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -3136,7 +3370,7 @@
         }
       }
     },
-    "/hccl/catalog/catalog/query": {
+    "/1.0/catalog/catalog/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -3178,7 +3412,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogtagref": {
+    "/1.0/catalog/catalogtagref": {
       "post": {
         "tags": [
           "/catalog"
@@ -3212,7 +3446,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogtagref/{id}": {
+    "/1.0/catalog/catalogtagref/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -3322,7 +3556,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogtagref/query": {
+    "/1.0/catalog/catalogtagref/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -3364,7 +3598,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogtyperef": {
+    "/1.0/catalog/catalogtyperef": {
       "post": {
         "tags": [
           "/catalog"
@@ -3398,7 +3632,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogtyperef/{id}": {
+    "/1.0/catalog/catalogtyperef/{id}": {
       "get": {
         "tags": [
           "/catalog"
@@ -3508,7 +3742,7 @@
         }
       }
     },
-    "/hccl/catalog/catalogtyperef/query": {
+    "/1.0/catalog/catalogtyperef/query": {
       "post": {
         "tags": [
           "/catalog"
@@ -3550,7 +3784,7 @@
         }
       }
     },
-    "/hccl/experience/experiencelocation": {
+    "/1.0/experience/experiencelocation": {
       "post": {
         "tags": [
           "/experience"
@@ -3584,7 +3818,7 @@
         }
       }
     },
-    "/hccl/experience/experiencelocation/{id}": {
+    "/1.0/experience/experiencelocation/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -3694,7 +3928,7 @@
         }
       }
     },
-    "/hccl/experience/experiencelocation/query": {
+    "/1.0/experience/experiencelocation/query": {
       "post": {
         "tags": [
           "/experience"
@@ -3736,7 +3970,7 @@
         }
       }
     },
-    "/hccl/experience/experienceregrule": {
+    "/1.0/experience/experienceregrule": {
       "post": {
         "tags": [
           "/experience"
@@ -3770,7 +4004,7 @@
         }
       }
     },
-    "/hccl/experience/experienceregrule/{id}": {
+    "/1.0/experience/experienceregrule/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -3880,7 +4114,7 @@
         }
       }
     },
-    "/hccl/experience/experienceregrule/query": {
+    "/1.0/experience/experienceregrule/query": {
       "post": {
         "tags": [
           "/experience"
@@ -3922,7 +4156,7 @@
         }
       }
     },
-    "/hccl/experience/experience": {
+    "/1.0/experience/experience": {
       "post": {
         "tags": [
           "/experience"
@@ -3956,7 +4190,7 @@
         }
       }
     },
-    "/hccl/experience/experience/{id}": {
+    "/1.0/experience/experience/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -4066,7 +4300,7 @@
         }
       }
     },
-    "/hccl/experience/experience/query": {
+    "/1.0/experience/experience/query": {
       "post": {
         "tags": [
           "/experience"
@@ -4108,7 +4342,7 @@
         }
       }
     },
-    "/hccl/experience/experiencetype": {
+    "/1.0/experience/experiencetype": {
       "post": {
         "tags": [
           "/experience"
@@ -4142,7 +4376,7 @@
         }
       }
     },
-    "/hccl/experience/experiencetype/{id}": {
+    "/1.0/experience/experiencetype/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -4252,7 +4486,7 @@
         }
       }
     },
-    "/hccl/experience/experiencetype/query": {
+    "/1.0/experience/experiencetype/query": {
       "post": {
         "tags": [
           "/experience"
@@ -4294,7 +4528,7 @@
         }
       }
     },
-    "/hccl/experience/participant": {
+    "/1.0/experience/participant": {
       "post": {
         "tags": [
           "/experience"
@@ -4328,7 +4562,7 @@
         }
       }
     },
-    "/hccl/experience/participant/{id}": {
+    "/1.0/experience/participant/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -4438,7 +4672,7 @@
         }
       }
     },
-    "/hccl/experience/participant/query": {
+    "/1.0/experience/participant/query": {
       "post": {
         "tags": [
           "/experience"
@@ -4480,7 +4714,7 @@
         }
       }
     },
-    "/hccl/experience/personalstatementresume": {
+    "/1.0/experience/personalstatementresume": {
       "post": {
         "tags": [
           "/experience"
@@ -4514,7 +4748,7 @@
         }
       }
     },
-    "/hccl/experience/personalstatementresume/{id}": {
+    "/1.0/experience/personalstatementresume/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -4624,7 +4858,7 @@
         }
       }
     },
-    "/hccl/experience/personalstatementresume/query": {
+    "/1.0/experience/personalstatementresume/query": {
       "post": {
         "tags": [
           "/experience"
@@ -4666,7 +4900,7 @@
         }
       }
     },
-    "/hccl/experience/resumeentry": {
+    "/1.0/experience/resumeentry": {
       "post": {
         "tags": [
           "/experience"
@@ -4700,7 +4934,7 @@
         }
       }
     },
-    "/hccl/experience/resumeentry/{id}": {
+    "/1.0/experience/resumeentry/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -4810,7 +5044,7 @@
         }
       }
     },
-    "/hccl/experience/resumeentry/query": {
+    "/1.0/experience/resumeentry/query": {
       "post": {
         "tags": [
           "/experience"
@@ -4852,7 +5086,7 @@
         }
       }
     },
-    "/hccl/experience/resumeuserinfo": {
+    "/1.0/experience/resumeuserinfo": {
       "post": {
         "tags": [
           "/experience"
@@ -4886,7 +5120,7 @@
         }
       }
     },
-    "/hccl/experience/resumeuserinfo/{id}": {
+    "/1.0/experience/resumeuserinfo/{id}": {
       "get": {
         "tags": [
           "/experience"
@@ -4996,7 +5230,7 @@
         }
       }
     },
-    "/hccl/experience/resumeuserinfo/query": {
+    "/1.0/experience/resumeuserinfo/query": {
       "post": {
         "tags": [
           "/experience"
@@ -5038,7 +5272,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clcourse": {
+    "/1.0/integration_edu/clcourse": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5072,7 +5306,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clcourse/{id}": {
+    "/1.0/integration_edu/clcourse/{id}": {
       "get": {
         "tags": [
           "/integration_edu"
@@ -5182,7 +5416,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clcourse/query": {
+    "/1.0/integration_edu/clcourse/query": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5224,7 +5458,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clguidance": {
+    "/1.0/integration_edu/clguidance": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5258,7 +5492,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clguidance/{id}": {
+    "/1.0/integration_edu/clguidance/{id}": {
       "get": {
         "tags": [
           "/integration_edu"
@@ -5368,7 +5602,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clguidance/query": {
+    "/1.0/integration_edu/clguidance/query": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5410,7 +5644,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clschool": {
+    "/1.0/integration_edu/clschool": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5444,7 +5678,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clschool/{id}": {
+    "/1.0/integration_edu/clschool/{id}": {
       "get": {
         "tags": [
           "/integration_edu"
@@ -5554,7 +5788,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clschool/query": {
+    "/1.0/integration_edu/clschool/query": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5596,7 +5830,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clstudent": {
+    "/1.0/integration_edu/clstudent": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5630,7 +5864,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clstudent/{id}": {
+    "/1.0/integration_edu/clstudent/{id}": {
       "get": {
         "tags": [
           "/integration_edu"
@@ -5740,7 +5974,7 @@
         }
       }
     },
-    "/hccl/integration_edu/clstudent/query": {
+    "/1.0/integration_edu/clstudent/query": {
       "post": {
         "tags": [
           "/integration_edu"
@@ -5782,7 +6016,7 @@
         }
       }
     },
-    "/hccl/pattern/pmbucketfolder": {
+    "/1.0/pattern/pmbucketfolder": {
       "post": {
         "tags": [
           "/pattern"
@@ -5816,7 +6050,7 @@
         }
       }
     },
-    "/hccl/pattern/pmbucketfolder/{id}": {
+    "/1.0/pattern/pmbucketfolder/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -5926,7 +6160,7 @@
         }
       }
     },
-    "/hccl/pattern/pmbucketfolder/query": {
+    "/1.0/pattern/pmbucketfolder/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -5968,7 +6202,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfileblob": {
+    "/1.0/pattern/pmfileblob": {
       "post": {
         "tags": [
           "/pattern"
@@ -6002,7 +6236,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfileblob/{id}": {
+    "/1.0/pattern/pmfileblob/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -6112,7 +6346,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfileblob/query": {
+    "/1.0/pattern/pmfileblob/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -6154,7 +6388,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfilegroupentry": {
+    "/1.0/pattern/pmfilegroupentry": {
       "post": {
         "tags": [
           "/pattern"
@@ -6188,7 +6422,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfilegroupentry/{id}": {
+    "/1.0/pattern/pmfilegroupentry/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -6298,7 +6532,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfilegroupentry/query": {
+    "/1.0/pattern/pmfilegroupentry/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -6340,7 +6574,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfilegroup": {
+    "/1.0/pattern/pmfilegroup": {
       "post": {
         "tags": [
           "/pattern"
@@ -6374,7 +6608,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfilegroup/{id}": {
+    "/1.0/pattern/pmfilegroup/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -6484,7 +6718,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfilegroup/query": {
+    "/1.0/pattern/pmfilegroup/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -6526,7 +6760,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfile": {
+    "/1.0/pattern/pmfile": {
       "post": {
         "tags": [
           "/pattern"
@@ -6560,7 +6794,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfile/{id}": {
+    "/1.0/pattern/pmfile/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -6670,7 +6904,7 @@
         }
       }
     },
-    "/hccl/pattern/download/{record-id}/{file-name}": {
+    "/1.0/pattern/download/{record-id}/{file-name}": {
       "get": {
         "tags": [
           "/pattern"
@@ -6712,7 +6946,7 @@
         }
       }
     },
-    "/hccl/pattern/pmfile/query": {
+    "/1.0/pattern/pmfile/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -6754,7 +6988,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageattachment": {
+    "/1.0/pattern/pmessageattachment": {
       "post": {
         "tags": [
           "/pattern"
@@ -6788,7 +7022,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageattachment/{id}": {
+    "/1.0/pattern/pmessageattachment/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -6898,7 +7132,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageattachment/query": {
+    "/1.0/pattern/pmessageattachment/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -6940,7 +7174,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageentry": {
+    "/1.0/pattern/pmessageentry": {
       "post": {
         "tags": [
           "/pattern"
@@ -6974,7 +7208,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageentry/{id}": {
+    "/1.0/pattern/pmessageentry/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -7084,7 +7318,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageentry/query": {
+    "/1.0/pattern/pmessageentry/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -7126,7 +7360,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageparticipant": {
+    "/1.0/pattern/pmessageparticipant": {
       "post": {
         "tags": [
           "/pattern"
@@ -7160,7 +7394,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageparticipant/{id}": {
+    "/1.0/pattern/pmessageparticipant/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -7270,7 +7504,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessageparticipant/query": {
+    "/1.0/pattern/pmessageparticipant/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -7312,7 +7546,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessage": {
+    "/1.0/pattern/pmessage": {
       "post": {
         "tags": [
           "/pattern"
@@ -7346,7 +7580,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessage/{id}": {
+    "/1.0/pattern/pmessage/{id}": {
       "get": {
         "tags": [
           "/pattern"
@@ -7456,7 +7690,7 @@
         }
       }
     },
-    "/hccl/pattern/pmessage/query": {
+    "/1.0/pattern/pmessage/query": {
       "post": {
         "tags": [
           "/pattern"
@@ -7498,7 +7732,7 @@
         }
       }
     },
-    "/hccl/prov/provider": {
+    "/1.0/prov/provider": {
       "post": {
         "tags": [
           "/prov"
@@ -7532,7 +7766,7 @@
         }
       }
     },
-    "/hccl/prov/provider/{id}": {
+    "/1.0/prov/provider/{id}": {
       "get": {
         "tags": [
           "/prov"
@@ -7642,7 +7876,7 @@
         }
       }
     },
-    "/hccl/prov/provider/query": {
+    "/1.0/prov/provider/query": {
       "post": {
         "tags": [
           "/prov"
@@ -7684,7 +7918,7 @@
         }
       }
     },
-    "/hccl/prov/providertyperef": {
+    "/1.0/prov/providertyperef": {
       "post": {
         "tags": [
           "/prov"
@@ -7718,7 +7952,7 @@
         }
       }
     },
-    "/hccl/prov/providertyperef/{id}": {
+    "/1.0/prov/providertyperef/{id}": {
       "get": {
         "tags": [
           "/prov"
@@ -7828,7 +8062,7 @@
         }
       }
     },
-    "/hccl/prov/providertyperef/query": {
+    "/1.0/prov/providertyperef/query": {
       "post": {
         "tags": [
           "/prov"
@@ -7870,7 +8104,7 @@
         }
       }
     },
-    "/hccl/prov/provideruser": {
+    "/1.0/prov/provideruser": {
       "post": {
         "tags": [
           "/prov"
@@ -7904,7 +8138,7 @@
         }
       }
     },
-    "/hccl/prov/provideruser/{id}": {
+    "/1.0/prov/provideruser/{id}": {
       "get": {
         "tags": [
           "/prov"
@@ -8014,7 +8248,7 @@
         }
       }
     },
-    "/hccl/prov/provideruser/query": {
+    "/1.0/prov/provideruser/query": {
       "post": {
         "tags": [
           "/prov"
@@ -8056,7 +8290,7 @@
         }
       }
     },
-    "/hccl/provreq/providerrequest": {
+    "/1.0/provreq/providerrequest": {
       "post": {
         "tags": [
           "/provreq"
@@ -8090,7 +8324,7 @@
         }
       }
     },
-    "/hccl/provreq/providerrequest/{id}": {
+    "/1.0/provreq/providerrequest/{id}": {
       "get": {
         "tags": [
           "/provreq"
@@ -8200,7 +8434,7 @@
         }
       }
     },
-    "/hccl/provreq/providerrequest/query": {
+    "/1.0/provreq/providerrequest/query": {
       "post": {
         "tags": [
           "/provreq"
@@ -8242,7 +8476,7 @@
         }
       }
     },
-    "/hccl/provreq/providerrequesttyperef": {
+    "/1.0/provreq/providerrequesttyperef": {
       "post": {
         "tags": [
           "/provreq"
@@ -8276,7 +8510,7 @@
         }
       }
     },
-    "/hccl/provreq/providerrequesttyperef/{id}": {
+    "/1.0/provreq/providerrequesttyperef/{id}": {
       "get": {
         "tags": [
           "/provreq"
@@ -8386,7 +8620,7 @@
         }
       }
     },
-    "/hccl/provreq/providerrequesttyperef/query": {
+    "/1.0/provreq/providerrequesttyperef/query": {
       "post": {
         "tags": [
           "/provreq"
@@ -8428,7 +8662,7 @@
         }
       }
     },
-    "/hccl/statemachine/statetransitionlog": {
+    "/1.0/statemachine/statetransitionlog": {
       "post": {
         "tags": [
           "/statemachine"
@@ -8462,7 +8696,7 @@
         }
       }
     },
-    "/hccl/statemachine/statetransitionlog/{id}": {
+    "/1.0/statemachine/statetransitionlog/{id}": {
       "get": {
         "tags": [
           "/statemachine"
@@ -8572,7 +8806,7 @@
         }
       }
     },
-    "/hccl/statemachine/statetransitionlog/query": {
+    "/1.0/statemachine/statetransitionlog/query": {
       "post": {
         "tags": [
           "/statemachine"
@@ -8614,7 +8848,7 @@
         }
       }
     },
-    "/hccl/swcat/swworkproduct": {
+    "/1.0/swcat/swworkproduct": {
       "post": {
         "tags": [
           "/swcat"
@@ -8648,7 +8882,7 @@
         }
       }
     },
-    "/hccl/swcat/swworkproduct/{id}": {
+    "/1.0/swcat/swworkproduct/{id}": {
       "get": {
         "tags": [
           "/swcat"
@@ -8758,7 +8992,7 @@
         }
       }
     },
-    "/hccl/swcat/swworkproduct/query": {
+    "/1.0/swcat/swworkproduct/query": {
       "post": {
         "tags": [
           "/swcat"
@@ -8800,7 +9034,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomyentry": {
+    "/1.0/taxonomy/taxonomyentry": {
       "post": {
         "tags": [
           "/taxonomy"
@@ -8834,7 +9068,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomyentry/{id}": {
+    "/1.0/taxonomy/taxonomyentry/{id}": {
       "get": {
         "tags": [
           "/taxonomy"
@@ -8944,7 +9178,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomyentry/query": {
+    "/1.0/taxonomy/taxonomyentry/query": {
       "post": {
         "tags": [
           "/taxonomy"
@@ -8986,7 +9220,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomylevel": {
+    "/1.0/taxonomy/taxonomylevel": {
       "post": {
         "tags": [
           "/taxonomy"
@@ -9020,7 +9254,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomylevel/{id}": {
+    "/1.0/taxonomy/taxonomylevel/{id}": {
       "get": {
         "tags": [
           "/taxonomy"
@@ -9130,7 +9364,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomylevel/query": {
+    "/1.0/taxonomy/taxonomylevel/query": {
       "post": {
         "tags": [
           "/taxonomy"
@@ -9172,7 +9406,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomy": {
+    "/1.0/taxonomy/taxonomy": {
       "post": {
         "tags": [
           "/taxonomy"
@@ -9206,7 +9440,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomy/{id}": {
+    "/1.0/taxonomy/taxonomy/{id}": {
       "get": {
         "tags": [
           "/taxonomy"
@@ -9316,7 +9550,7 @@
         }
       }
     },
-    "/hccl/taxonomy/taxonomy/query": {
+    "/1.0/taxonomy/taxonomy/query": {
       "post": {
         "tags": [
           "/taxonomy"
@@ -9358,7 +9592,7 @@
         }
       }
     },
-    "/hccl/teams/familyunitmember": {
+    "/1.0/teams/familyunitmember": {
       "post": {
         "tags": [
           "/teams"
@@ -9392,7 +9626,7 @@
         }
       }
     },
-    "/hccl/teams/familyunitmember/{id}": {
+    "/1.0/teams/familyunitmember/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -9502,7 +9736,7 @@
         }
       }
     },
-    "/hccl/teams/familyunitmember/query": {
+    "/1.0/teams/familyunitmember/query": {
       "post": {
         "tags": [
           "/teams"
@@ -9544,7 +9778,7 @@
         }
       }
     },
-    "/hccl/teams/familyunit": {
+    "/1.0/teams/familyunit": {
       "post": {
         "tags": [
           "/teams"
@@ -9578,7 +9812,7 @@
         }
       }
     },
-    "/hccl/teams/familyunit/{id}": {
+    "/1.0/teams/familyunit/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -9688,7 +9922,7 @@
         }
       }
     },
-    "/hccl/teams/familyunit/query": {
+    "/1.0/teams/familyunit/query": {
       "post": {
         "tags": [
           "/teams"
@@ -9730,7 +9964,7 @@
         }
       }
     },
-    "/hccl/teams/hcclorganization": {
+    "/1.0/teams/hcclorganization": {
       "post": {
         "tags": [
           "/teams"
@@ -9764,7 +9998,7 @@
         }
       }
     },
-    "/hccl/teams/hcclorganization/{id}": {
+    "/1.0/teams/hcclorganization/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -9874,7 +10108,7 @@
         }
       }
     },
-    "/hccl/teams/hcclorganization/query": {
+    "/1.0/teams/hcclorganization/query": {
       "post": {
         "tags": [
           "/teams"
@@ -9916,7 +10150,7 @@
         }
       }
     },
-    "/hccl/teams/hcclorganizationtyperef": {
+    "/1.0/teams/hcclorganizationtyperef": {
       "post": {
         "tags": [
           "/teams"
@@ -9950,7 +10184,7 @@
         }
       }
     },
-    "/hccl/teams/hcclorganizationtyperef/{id}": {
+    "/1.0/teams/hcclorganizationtyperef/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -10060,7 +10294,7 @@
         }
       }
     },
-    "/hccl/teams/hcclorganizationtyperef/query": {
+    "/1.0/teams/hcclorganizationtyperef/query": {
       "post": {
         "tags": [
           "/teams"
@@ -10102,7 +10336,7 @@
         }
       }
     },
-    "/hccl/teams/hcclperson": {
+    "/1.0/teams/hcclperson": {
       "post": {
         "tags": [
           "/teams"
@@ -10136,7 +10370,7 @@
         }
       }
     },
-    "/hccl/teams/hcclperson/{id}": {
+    "/1.0/teams/hcclperson/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -10246,7 +10480,7 @@
         }
       }
     },
-    "/hccl/teams/hcclperson/query": {
+    "/1.0/teams/hcclperson/query": {
       "post": {
         "tags": [
           "/teams"
@@ -10288,7 +10522,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteamlog": {
+    "/1.0/teams/hcclteamlog": {
       "post": {
         "tags": [
           "/teams"
@@ -10322,7 +10556,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteamlog/{id}": {
+    "/1.0/teams/hcclteamlog/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -10432,7 +10666,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteamlog/query": {
+    "/1.0/teams/hcclteamlog/query": {
       "post": {
         "tags": [
           "/teams"
@@ -10474,7 +10708,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteammemberrole": {
+    "/1.0/teams/hcclteammemberrole": {
       "post": {
         "tags": [
           "/teams"
@@ -10508,7 +10742,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteammemberrole/{id}": {
+    "/1.0/teams/hcclteammemberrole/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -10618,7 +10852,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteammemberrole/query": {
+    "/1.0/teams/hcclteammemberrole/query": {
       "post": {
         "tags": [
           "/teams"
@@ -10660,7 +10894,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteammember": {
+    "/1.0/teams/hcclteammember": {
       "post": {
         "tags": [
           "/teams"
@@ -10694,7 +10928,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteammember/{id}": {
+    "/1.0/teams/hcclteammember/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -10804,7 +11038,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteammember/query": {
+    "/1.0/teams/hcclteammember/query": {
       "post": {
         "tags": [
           "/teams"
@@ -10846,7 +11080,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteam": {
+    "/1.0/teams/hcclteam": {
       "post": {
         "tags": [
           "/teams"
@@ -10880,7 +11114,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteam/{id}": {
+    "/1.0/teams/hcclteam/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -10990,7 +11224,7 @@
         }
       }
     },
-    "/hccl/teams/hcclteam/query": {
+    "/1.0/teams/hcclteam/query": {
       "post": {
         "tags": [
           "/teams"
@@ -11032,7 +11266,7 @@
         }
       }
     },
-    "/hccl/teams/hccluserprofilerole": {
+    "/1.0/teams/hccluserprofilerole": {
       "post": {
         "tags": [
           "/teams"
@@ -11066,7 +11300,7 @@
         }
       }
     },
-    "/hccl/teams/hccluserprofilerole/{id}": {
+    "/1.0/teams/hccluserprofilerole/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -11176,7 +11410,7 @@
         }
       }
     },
-    "/hccl/teams/hccluserprofilerole/query": {
+    "/1.0/teams/hccluserprofilerole/query": {
       "post": {
         "tags": [
           "/teams"
@@ -11218,7 +11452,7 @@
         }
       }
     },
-    "/hccl/teams/hccluserprofile": {
+    "/1.0/teams/hccluserprofile": {
       "post": {
         "tags": [
           "/teams"
@@ -11252,7 +11486,7 @@
         }
       }
     },
-    "/hccl/teams/hccluserprofile/{id}/new-student-request": {
+    "/1.0/teams/hccluserprofile/{id}/new-student-request": {
       "post": {
         "tags": [
           "/teams"
@@ -11302,7 +11536,7 @@
         }
       }
     },
-    "/hccl/teams/hccluserprofile/{id}": {
+    "/1.0/teams/hccluserprofile/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -11412,7 +11646,7 @@
         }
       }
     },
-    "/hccl/teams/hccluserprofile/query": {
+    "/1.0/teams/hccluserprofile/query": {
       "post": {
         "tags": [
           "/teams"
@@ -11454,7 +11688,7 @@
         }
       }
     },
-    "/hccl/teams/hccluser": {
+    "/1.0/teams/hccluser": {
       "post": {
         "tags": [
           "/teams"
@@ -11488,7 +11722,7 @@
         }
       }
     },
-    "/hccl/teams/hccluser/{id}": {
+    "/1.0/teams/hccluser/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -11598,7 +11832,7 @@
         }
       }
     },
-    "/hccl/teams/hccluser/query": {
+    "/1.0/teams/hccluser/query": {
       "post": {
         "tags": [
           "/teams"
@@ -11640,7 +11874,7 @@
         }
       }
     },
-    "/hccl/teams/teammemberroleref": {
+    "/1.0/teams/teammemberroleref": {
       "post": {
         "tags": [
           "/teams"
@@ -11674,7 +11908,7 @@
         }
       }
     },
-    "/hccl/teams/teammemberroleref/{id}": {
+    "/1.0/teams/teammemberroleref/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -11784,7 +12018,7 @@
         }
       }
     },
-    "/hccl/teams/teammemberroleref/query": {
+    "/1.0/teams/teammemberroleref/query": {
       "post": {
         "tags": [
           "/teams"
@@ -11826,7 +12060,7 @@
         }
       }
     },
-    "/hccl/teams/teamtypememberroleref": {
+    "/1.0/teams/teamtypememberroleref": {
       "post": {
         "tags": [
           "/teams"
@@ -11860,7 +12094,7 @@
         }
       }
     },
-    "/hccl/teams/teamtypememberroleref/{id}": {
+    "/1.0/teams/teamtypememberroleref/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -11970,7 +12204,7 @@
         }
       }
     },
-    "/hccl/teams/teamtypememberroleref/query": {
+    "/1.0/teams/teamtypememberroleref/query": {
       "post": {
         "tags": [
           "/teams"
@@ -12012,7 +12246,7 @@
         }
       }
     },
-    "/hccl/teams/teamtyperef": {
+    "/1.0/teams/teamtyperef": {
       "post": {
         "tags": [
           "/teams"
@@ -12046,7 +12280,7 @@
         }
       }
     },
-    "/hccl/teams/teamtyperef/{id}": {
+    "/1.0/teams/teamtyperef/{id}": {
       "get": {
         "tags": [
           "/teams"
@@ -12156,7 +12390,7 @@
         }
       }
     },
-    "/hccl/teams/teamtyperef/query": {
+    "/1.0/teams/teamtyperef/query": {
       "post": {
         "tags": [
           "/teams"
@@ -12198,7 +12432,7 @@
         }
       }
     },
-    "/hccl/tix/workitemdeliverable": {
+    "/1.0/tix/workitemdeliverable": {
       "post": {
         "tags": [
           "/tix"
@@ -12232,7 +12466,7 @@
         }
       }
     },
-    "/hccl/tix/workitemdeliverable/{id}": {
+    "/1.0/tix/workitemdeliverable/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -12342,7 +12576,7 @@
         }
       }
     },
-    "/hccl/tix/workitemdeliverable/query": {
+    "/1.0/tix/workitemdeliverable/query": {
       "post": {
         "tags": [
           "/tix"
@@ -12384,7 +12618,7 @@
         }
       }
     },
-    "/hccl/tix/workqueue": {
+    "/1.0/tix/workqueue": {
       "post": {
         "tags": [
           "/tix"
@@ -12418,7 +12652,7 @@
         }
       }
     },
-    "/hccl/tix/workqueue/{id}": {
+    "/1.0/tix/workqueue/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -12528,7 +12762,7 @@
         }
       }
     },
-    "/hccl/tix/workqueue/query": {
+    "/1.0/tix/workqueue/query": {
       "post": {
         "tags": [
           "/tix"
@@ -12570,7 +12804,7 @@
         }
       }
     },
-    "/hccl/tix/workqueuetyperef": {
+    "/1.0/tix/workqueuetyperef": {
       "post": {
         "tags": [
           "/tix"
@@ -12604,7 +12838,7 @@
         }
       }
     },
-    "/hccl/tix/workqueuetyperef/{id}": {
+    "/1.0/tix/workqueuetyperef/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -12714,7 +12948,7 @@
         }
       }
     },
-    "/hccl/tix/workqueuetyperef/query": {
+    "/1.0/tix/workqueuetyperef/query": {
       "post": {
         "tags": [
           "/tix"
@@ -12756,7 +12990,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestdeliverablesection": {
+    "/1.0/tix/workrequestdeliverablesection": {
       "post": {
         "tags": [
           "/tix"
@@ -12790,7 +13024,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestdeliverablesection/{id}": {
+    "/1.0/tix/workrequestdeliverablesection/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -12900,7 +13134,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestdeliverablesection/query": {
+    "/1.0/tix/workrequestdeliverablesection/query": {
       "post": {
         "tags": [
           "/tix"
@@ -12942,7 +13176,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestdeliverable": {
+    "/1.0/tix/workrequestdeliverable": {
       "post": {
         "tags": [
           "/tix"
@@ -12976,7 +13210,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestdeliverable/{id}": {
+    "/1.0/tix/workrequestdeliverable/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -13086,7 +13320,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestdeliverable/query": {
+    "/1.0/tix/workrequestdeliverable/query": {
       "post": {
         "tags": [
           "/tix"
@@ -13128,7 +13362,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestdeliverable/{id}/hint": {
+    "/1.0/tix/workrequestdeliverable/{id}/hint": {
       "get": {
         "tags": [
           "/tix"
@@ -13176,7 +13410,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestitem": {
+    "/1.0/tix/workrequestitem": {
       "post": {
         "tags": [
           "/tix"
@@ -13210,7 +13444,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestitem/{id}": {
+    "/1.0/tix/workrequestitem/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -13320,7 +13554,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestitem/query": {
+    "/1.0/tix/workrequestitem/query": {
       "post": {
         "tags": [
           "/tix"
@@ -13362,7 +13596,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestlog": {
+    "/1.0/tix/workrequestlog": {
       "post": {
         "tags": [
           "/tix"
@@ -13396,7 +13630,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestlog/{id}": {
+    "/1.0/tix/workrequestlog/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -13506,7 +13740,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestlog/query": {
+    "/1.0/tix/workrequestlog/query": {
       "post": {
         "tags": [
           "/tix"
@@ -13548,7 +13782,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestroutingreason": {
+    "/1.0/tix/workrequestroutingreason": {
       "post": {
         "tags": [
           "/tix"
@@ -13582,7 +13816,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestroutingreason/{id}": {
+    "/1.0/tix/workrequestroutingreason/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -13692,7 +13926,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestroutingreason/query": {
+    "/1.0/tix/workrequestroutingreason/query": {
       "post": {
         "tags": [
           "/tix"
@@ -13734,7 +13968,7 @@
         }
       }
     },
-    "/hccl/tix/workrequest": {
+    "/1.0/tix/workrequest": {
       "post": {
         "tags": [
           "/tix"
@@ -13768,7 +14002,7 @@
         }
       }
     },
-    "/hccl/tix/workrequest/{id}": {
+    "/1.0/tix/workrequest/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -13878,7 +14112,7 @@
         }
       }
     },
-    "/hccl/tix/workrequest/query": {
+    "/1.0/tix/workrequest/query": {
       "post": {
         "tags": [
           "/tix"
@@ -13920,7 +14154,7 @@
         }
       }
     },
-    "/hccl/tix/workrequest/{id}/hint": {
+    "/1.0/tix/workrequest/{id}/hint": {
       "get": {
         "tags": [
           "/tix"
@@ -13968,7 +14202,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestteam": {
+    "/1.0/tix/workrequestteam": {
       "post": {
         "tags": [
           "/tix"
@@ -14002,7 +14236,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestteam/{id}": {
+    "/1.0/tix/workrequestteam/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -14112,7 +14346,7 @@
         }
       }
     },
-    "/hccl/tix/workrequestteam/query": {
+    "/1.0/tix/workrequestteam/query": {
       "post": {
         "tags": [
           "/tix"
@@ -14154,7 +14388,7 @@
         }
       }
     },
-    "/hccl/tix/workrequesttyperef": {
+    "/1.0/tix/workrequesttyperef": {
       "post": {
         "tags": [
           "/tix"
@@ -14188,7 +14422,7 @@
         }
       }
     },
-    "/hccl/tix/workrequesttyperef/{id}": {
+    "/1.0/tix/workrequesttyperef/{id}": {
       "get": {
         "tags": [
           "/tix"
@@ -14298,7 +14532,7 @@
         }
       }
     },
-    "/hccl/tix/workrequesttyperef/query": {
+    "/1.0/tix/workrequesttyperef/query": {
       "post": {
         "tags": [
           "/tix"
@@ -14340,7 +14574,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonloginyearmo": {
+    "/1.0/utilmon/utilmonloginyearmo": {
       "post": {
         "tags": [
           "/utilmon"
@@ -14374,7 +14608,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonloginyearmo/{id}": {
+    "/1.0/utilmon/utilmonloginyearmo/{id}": {
       "get": {
         "tags": [
           "/utilmon"
@@ -14484,7 +14718,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonloginyearmo/query": {
+    "/1.0/utilmon/utilmonloginyearmo/query": {
       "post": {
         "tags": [
           "/utilmon"
@@ -14526,7 +14760,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonreportingevent": {
+    "/1.0/utilmon/utilmonreportingevent": {
       "post": {
         "tags": [
           "/utilmon"
@@ -14560,7 +14794,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonreportingevent/{id}": {
+    "/1.0/utilmon/utilmonreportingevent/{id}": {
       "get": {
         "tags": [
           "/utilmon"
@@ -14670,7 +14904,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonreportingevent/query": {
+    "/1.0/utilmon/utilmonreportingevent/query": {
       "post": {
         "tags": [
           "/utilmon"
@@ -14712,7 +14946,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonstat": {
+    "/1.0/utilmon/utilmonstat": {
       "post": {
         "tags": [
           "/utilmon"
@@ -14746,7 +14980,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonstat/{id}": {
+    "/1.0/utilmon/utilmonstat/{id}": {
       "get": {
         "tags": [
           "/utilmon"
@@ -14856,7 +15090,7 @@
         }
       }
     },
-    "/hccl/utilmon/utilmonstat/query": {
+    "/1.0/utilmon/utilmonstat/query": {
       "post": {
         "tags": [
           "/utilmon"
@@ -14898,7 +15132,7 @@
         }
       }
     },
-    "/hccl/vocode/personalstatementactivitylog": {
+    "/1.0/vocode/personalstatementactivitylog": {
       "post": {
         "tags": [
           "/vocode"
@@ -14932,7 +15166,7 @@
         }
       }
     },
-    "/hccl/vocode/personalstatementactivitylog/{id}": {
+    "/1.0/vocode/personalstatementactivitylog/{id}": {
       "get": {
         "tags": [
           "/vocode"
@@ -15042,7 +15276,7 @@
         }
       }
     },
-    "/hccl/vocode/personalstatementactivitylog/query": {
+    "/1.0/vocode/personalstatementactivitylog/query": {
       "post": {
         "tags": [
           "/vocode"
@@ -15084,7 +15318,7 @@
         }
       }
     },
-    "/hccl/vocode/personalstatement": {
+    "/1.0/vocode/personalstatement": {
       "post": {
         "tags": [
           "/vocode"
@@ -15118,7 +15352,7 @@
         }
       }
     },
-    "/hccl/vocode/personalstatement/{id}": {
+    "/1.0/vocode/personalstatement/{id}": {
       "get": {
         "tags": [
           "/vocode"
@@ -15228,7 +15462,7 @@
         }
       }
     },
-    "/hccl/vocode/personalstatement/query": {
+    "/1.0/vocode/personalstatement/query": {
       "post": {
         "tags": [
           "/vocode"
@@ -15270,7 +15504,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencodinginstance": {
+    "/1.0/vocode/vocationencodinginstance": {
       "post": {
         "tags": [
           "/vocode"
@@ -15304,7 +15538,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencodinginstance/{id}": {
+    "/1.0/vocode/vocationencodinginstance/{id}": {
       "get": {
         "tags": [
           "/vocode"
@@ -15414,7 +15648,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencodinginstance/query": {
+    "/1.0/vocode/vocationencodinginstance/query": {
       "post": {
         "tags": [
           "/vocode"
@@ -15456,7 +15690,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencodingref": {
+    "/1.0/vocode/vocationencodingref": {
       "post": {
         "tags": [
           "/vocode"
@@ -15490,7 +15724,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencodingref/{id}": {
+    "/1.0/vocode/vocationencodingref/{id}": {
       "get": {
         "tags": [
           "/vocode"
@@ -15600,7 +15834,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencodingref/query": {
+    "/1.0/vocode/vocationencodingref/query": {
       "post": {
         "tags": [
           "/vocode"
@@ -15642,7 +15876,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencoding": {
+    "/1.0/vocode/vocationencoding": {
       "post": {
         "tags": [
           "/vocode"
@@ -15676,7 +15910,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencoding/{id}": {
+    "/1.0/vocode/vocationencoding/{id}": {
       "get": {
         "tags": [
           "/vocode"
@@ -15786,7 +16020,7 @@
         }
       }
     },
-    "/hccl/vocode/vocationencoding/query": {
+    "/1.0/vocode/vocationencoding/query": {
       "post": {
         "tags": [
           "/vocode"
@@ -15828,7 +16062,7 @@
         }
       }
     },
-    "/hccl/ai/encode": {
+    "/1.0/ai/encode": {
       "post": {
         "tags": [
           "/options"
@@ -15860,7 +16094,7 @@
         }
       }
     },
-    "/hccl/ai/encodeprep": {
+    "/1.0/ai/encodeprep": {
       "post": {
         "tags": [
           "/options"
@@ -15892,7 +16126,7 @@
         }
       }
     },
-    "/hccl/public/download/{record-id}/{file-name}": {
+    "/1.0/public/download/{record-id}/{file-name}": {
       "get": {
         "tags": [
           "/public"
@@ -15934,7 +16168,7 @@
         }
       }
     },
-    "/hccl/public/dsig/{realm}/{record-id}/{salt}/{security-digest}/{file-name}": {
+    "/1.0/public/dsig/{realm}/{record-id}/{salt}/{security-digest}/{file-name}": {
       "get": {
         "tags": [
           "/public"
@@ -16000,7 +16234,7 @@
         }
       }
     },
-    "/hccl/intg/mapfk/{entity-type}": {
+    "/1.0/intg/mapfk/{entity-type}": {
       "post": {
         "tags": [
           "/options"
@@ -16052,7 +16286,7 @@
         }
       }
     },
-    "/hccl/intg/onboard/{hccl-org-id}/setupdata": {
+    "/1.0/intg/onboard/{hccl-org-id}/setupdata": {
       "get": {
         "tags": [
           "/options"
@@ -16101,7 +16335,7 @@
         }
       }
     },
-    "/hccl/intg/onboard/orguser": {
+    "/1.0/intg/onboard/orguser": {
       "post": {
         "tags": [
           "/options"
@@ -16140,7 +16374,7 @@
         }
       }
     },
-    "/hccl/intg/actions/promote-students": {
+    "/1.0/intg/actions/promote-students": {
       "post": {
         "tags": [
           "/options"
@@ -16179,7 +16413,7 @@
         }
       }
     },
-    "/hccl/pmessage/entries/{entryId}/attachments": {
+    "/1.0/pmessage/entries/{entryId}/attachments": {
       "get": {
         "summary": "Get attachments for a message entry",
         "operationId": "getMessageEntryAttachments",
@@ -16258,7 +16492,7 @@
         }
       }
     },
-    "/hccl/pmessage/messages/{messageId}/entries": {
+    "/1.0/pmessage/messages/{messageId}/entries": {
       "post": {
         "summary": "Add entry to a message",
         "operationId": "addEntry",
@@ -16303,7 +16537,7 @@
         }
       }
     },
-    "/hccl/pmessage/entries/{entryId}/mention": {
+    "/1.0/pmessage/entries/{entryId}/mention": {
       "put": {
         "summary": "Add mention to a message entry",
         "operationId": "addMentionToEntry",
@@ -16349,7 +16583,7 @@
         }
       }
     },
-    "/hccl/pmessage/channels": {
+    "/1.0/pmessage/channels": {
       "post": {
         "summary": "Create a new message channel",
         "operationId": "createChannel",
@@ -16382,7 +16616,7 @@
         }
       }
     },
-    "/hccl/pmessage/messages": {
+    "/1.0/pmessage/messages": {
       "post": {
         "summary": "Create a new message (legacy method)",
         "operationId": "createNewMessage",
@@ -16415,7 +16649,7 @@
         }
       }
     },
-    "/hccl/pmessage/entries/{entryId}": {
+    "/1.0/pmessage/entries/{entryId}": {
       "put": {
         "summary": "Edit a message entry",
         "operationId": "editMessageEntry",
@@ -16460,7 +16694,7 @@
         }
       }
     },
-    "/hccl/pmessage/users/{userId}/unread-entries": {
+    "/1.0/pmessage/users/{userId}/unread-entries": {
       "get": {
         "summary": "Find messages with unread entries for a user",
         "operationId": "findMessagesWithUnreadEntries",
@@ -16496,7 +16730,7 @@
         }
       }
     },
-    "/hccl/pmessage/users/{userId}/messages": {
+    "/1.0/pmessage/users/{userId}/messages": {
       "get": {
         "summary": "Get messages by a specific user",
         "operationId": "getMessagesByUser",
@@ -16541,7 +16775,7 @@
         }
       }
     },
-    "/hccl/pmessage/messages/{messageId}": {
+    "/1.0/pmessage/messages/{messageId}": {
       "put": {
         "summary": "Update a message",
         "operationId": "updateMessage",
@@ -16586,7 +16820,7 @@
         }
       }
     },
-    "/hccl/providers/setup/signup-packets-setup-data": {
+    "/1.0/providers/setup/signup-packets-setup-data": {
       "get": {
         "summary": "Load the signup packet . ",
         "operationId": "getSignupPacketsSetupData",
@@ -16613,7 +16847,7 @@
         }
       }
     },
-    "/hccl/providers/dash-ui/tickets": {
+    "/1.0/providers/dash-ui/tickets": {
       "get": {
         "summary": "Load the guidance UI. ",
         "operationId": "resolveProviderTicketUIData",
@@ -16640,7 +16874,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/add-entries": {
+    "/1.0/resume/{id}/add-entries": {
       "post": {
         "summary": "Add resume entries to a resume",
         "operationId": "addResumeEntries",
@@ -16684,7 +16918,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/entries/available": {
+    "/1.0/resume/{id}/entries/available": {
       "get": {
         "summary": "Get available resume entries that can be added (not already in resume)",
         "operationId": "getAvailableEntries",
@@ -16719,7 +16953,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/markdown/final": {
+    "/1.0/resume/{id}/markdown/final": {
       "get": {
         "summary": "Get the final markdown with HTML wrapper for a resume",
         "operationId": "getFinalMarkdown",
@@ -16747,7 +16981,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/markdown/final-html": {
+    "/1.0/resume/{id}/markdown/final-html": {
       "get": {
         "summary": "Get the final markdown with HTML wrapper for a resume",
         "operationId": "getFinalMarkdownHtml",
@@ -16775,7 +17009,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/markdown": {
+    "/1.0/resume/{id}/markdown": {
       "get": {
         "summary": "Get the generated markdown for a resume",
         "operationId": "getMarkdown",
@@ -16803,7 +17037,7 @@
         }
       }
     },
-    "/hccl/resume/{id}": {
+    "/1.0/resume/{id}": {
       "get": {
         "summary": "Get a resume by ID",
         "operationId": "getResume",
@@ -16838,7 +17072,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/reorder-entries": {
+    "/1.0/resume/{id}/reorder-entries": {
       "post": {
         "summary": "Reorder or remove entries in a resume",
         "operationId": "reorderEntries",
@@ -16882,7 +17116,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/update-entry": {
+    "/1.0/resume/{id}/update-entry": {
       "post": {
         "summary": "Update a specific entry in a resume",
         "operationId": "updateEntry",
@@ -16926,7 +17160,7 @@
         }
       }
     },
-    "/hccl/resume/{id}/update": {
+    "/1.0/resume/{id}/update": {
       "post": {
         "summary": "Update a resume with new ResumePOJO",
         "operationId": "updateResume",
@@ -16970,7 +17204,7 @@
         }
       }
     },
-    "/hccl/students/dash-ui/resolve-guidance-data": {
+    "/1.0/students/dash-ui/resolve-guidance-data": {
       "get": {
         "tags": [
           "/options"
@@ -17000,7 +17234,7 @@
         }
       }
     },
-    "/hccl/students/dash-ui/resolve-personal-statmentui/{id}": {
+    "/1.0/students/dash-ui/resolve-personal-statmentui/{id}": {
       "get": {
         "tags": [
           "/options"
@@ -17041,7 +17275,7 @@
         }
       }
     },
-    "/hccl/students/dash-ui/resolve-signup-ui-data/{interest-id}": {
+    "/1.0/students/dash-ui/resolve-signup-ui-data/{interest-id}": {
       "get": {
         "tags": [
           "/options"
@@ -17082,7 +17316,7 @@
         }
       }
     },
-    "/hccl/students/dash-ui/resolve-signup-verdict-ui-data/{interest-id}": {
+    "/1.0/students/dash-ui/resolve-signup-verdict-ui-data/{interest-id}": {
       "get": {
         "tags": [
           "/options"
@@ -17123,7 +17357,7 @@
         }
       }
     },
-    "/hccl/students/dash-ui/resolve-student-data": {
+    "/1.0/students/dash-ui/resolve-student-data": {
       "get": {
         "tags": [
           "/options"
@@ -17153,7 +17387,7 @@
         }
       }
     },
-    "/hccl/swcat/ttusage": {
+    "/1.0/swcat/ttusage": {
       "post": {
         "tags": [
           "/options"
@@ -17192,7 +17426,7 @@
         }
       }
     },
-    "/hccl/swcat/ttusage0": {
+    "/1.0/swcat/ttusage0": {
       "get": {
         "tags": [
           "/options"
@@ -17222,7 +17456,7 @@
         }
       }
     },
-    "/hccl/tixui/{tix-id}/accept": {
+    "/1.0/tixui/{tix-id}/accept": {
       "post": {
         "tags": [
           "/options"
@@ -17272,7 +17506,7 @@
         }
       }
     },
-    "/hccl/tixui/create-signup-request": {
+    "/1.0/tixui/create-signup-request": {
       "post": {
         "tags": [
           "/options"
@@ -17311,7 +17545,7 @@
         }
       }
     },
-    "/hccl/tixui/create-ticket": {
+    "/1.0/tixui/create-ticket": {
       "post": {
         "tags": [
           "/options"
@@ -17350,7 +17584,7 @@
         }
       }
     },
-    "/hccl/tixui/state-change-go": {
+    "/1.0/tixui/state-change-go": {
       "post": {
         "tags": [
           "/options"
@@ -17389,7 +17623,7 @@
         }
       }
     },
-    "/hccl/tixui/state-change-setup/{entity-name}/{entity-id}": {
+    "/1.0/tixui/state-change-setup/{entity-name}/{entity-id}": {
       "post": {
         "tags": [
           "/options"
@@ -17438,7 +17672,7 @@
         }
       }
     },
-    "/hccl/tixui/verdict-signup-request": {
+    "/1.0/tixui/verdict-signup-request": {
       "post": {
         "tags": [
           "/options"
@@ -17477,7 +17711,7 @@
         }
       }
     },
-    "/hccl/tixui/{tix-id}/workrequestitemui/{action-code}": {
+    "/1.0/tixui/{tix-id}/workrequestitemui/{action-code}": {
       "post": {
         "tags": [
           "/options"
@@ -17535,7 +17769,7 @@
         }
       }
     },
-    "/hccl/tixui/create-ticket-setup-ui": {
+    "/1.0/tixui/create-ticket-setup-ui": {
       "post": {
         "tags": [
           "/options"
@@ -17574,7 +17808,7 @@
         }
       }
     },
-    "/hccl/tixui/dashboard/{user-profile-id}/queues": {
+    "/1.0/tixui/dashboard/{user-profile-id}/queues": {
       "get": {
         "tags": [
           "/options"
@@ -17615,7 +17849,7 @@
         }
       }
     },
-    "/hccl/tixui/{tix-id}/provider-queues-menu": {
+    "/1.0/tixui/{tix-id}/provider-queues-menu": {
       "get": {
         "tags": [
           "/options"
@@ -17656,7 +17890,7 @@
         }
       }
     },
-    "/hccl/tixui/{tix-id}/uicontroller": {
+    "/1.0/tixui/{tix-id}/uicontroller": {
       "get": {
         "tags": [
           "/options"
@@ -17697,7 +17931,7 @@
         }
       }
     },
-    "/hccl/tixui/{tix-id}/reroute": {
+    "/1.0/tixui/{tix-id}/reroute": {
       "post": {
         "tags": [
           "/options"
@@ -17747,7 +17981,7 @@
         }
       }
     },
-    "/hccl/tixui/get-context": {
+    "/1.0/tixui/get-context": {
       "get": {
         "tags": [
           "/options"
@@ -17786,7 +18020,7 @@
         }
       }
     },
-    "/hccl/healthchecks/application": {
+    "/1.0/healthchecks/application": {
       "get": {
         "tags": [
           "/healthchecks"
@@ -17803,7 +18037,7 @@
         }
       }
     },
-    "/hccl/servicelib/entityaction/check": {
+    "/1.0/servicelib/entityaction/check": {
       "post": {
         "tags": [
           "/servicelib"
@@ -17835,7 +18069,7 @@
         }
       }
     },
-    "/hccl/servicelib/entityaction/doc": {
+    "/1.0/servicelib/entityaction/doc": {
       "post": {
         "tags": [
           "/servicelib"
@@ -17867,7 +18101,7 @@
         }
       }
     },
-    "/hccl/servicelib/entityaction/run": {
+    "/1.0/servicelib/entityaction/run": {
       "post": {
         "tags": [
           "/servicelib"
@@ -17899,7 +18133,7 @@
         }
       }
     },
-    "/hccl/servicelib/entityaction/ui": {
+    "/1.0/servicelib/entityaction/ui": {
       "post": {
         "tags": [
           "/servicelib"
@@ -17931,7 +18165,7 @@
         }
       }
     },
-    "/hccl/servicelib/bubble/{entity-type}/{id}": {
+    "/1.0/servicelib/bubble/{entity-type}/{id}": {
       "get": {
         "tags": [
           "/servicelib"
@@ -17973,7 +18207,7 @@
         }
       }
     },
-    "/hccl/servicelib/menu/{entity-type}/{id}/{menu-code}": {
+    "/1.0/servicelib/menu/{entity-type}/{id}/{menu-code}": {
       "get": {
         "tags": [
           "/servicelib"
@@ -18023,7 +18257,7 @@
         }
       }
     },
-    "/hccl/servicelib/features": {
+    "/1.0/servicelib/features": {
       "get": {
         "tags": [
           "/servicelib"
@@ -18046,7 +18280,7 @@
         }
       }
     },
-    "/hccl/servicelib/payload": {
+    "/1.0/servicelib/payload": {
       "post": {
         "tags": [
           "/servicelib"
@@ -18080,7 +18314,7 @@
         }
       }
     },
-    "/hccl/servicelib/payload/{entity-type}/{id}": {
+    "/1.0/servicelib/payload/{entity-type}/{id}": {
       "get": {
         "tags": [
           "/servicelib"
@@ -18129,7 +18363,7 @@
         }
       }
     },
-    "/hccl/servicelib/metadata": {
+    "/1.0/servicelib/metadata": {
       "get": {
         "tags": [
           "/servicelib"
@@ -19229,6 +19463,191 @@
           "feedTypeCode": {
             "maxLength": 50,
             "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "CatalogEntryFeedProfilePOSTData": {
+        "required": [
+          "distanceInVocode",
+          "maxDistanceInMiles",
+          "minScore",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxDistanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "feedProfileDataJson": {
+            "type": "string"
+          }
+        }
+      },
+      "CatalogEntryFeedProfileGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxDistanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "feedProfileDataJson": {
+            "type": "string"
+          }
+        }
+      },
+      "CatalogEntryFeedProfileGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogEntryFeedProfileGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CatalogEntryFeedProfileCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxDistanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "CatalogEntryFeedProfilePUTData": {
+        "required": [
+          "distanceInVocode",
+          "maxDistanceInMiles",
+          "minScore",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxDistanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "feedProfileDataJson": {
             "type": "string"
           }
         }
