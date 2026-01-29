@@ -3754,6 +3754,86 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  getCreateTicketSetupUi(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/tixui/create-ticket-setup-ui",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CreateTicketSetupUIData>(request);
+  }
+
+  handleBounce(X_Postmark_Signature: string, body: string): Observable<PostmarkWebhookResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/email/bounce",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PostmarkWebhookResponse>(request);
+  }
+
+  handleDelivery(X_Postmark_Signature: string, body: string): Observable<PostmarkWebhookResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/email/delivery",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PostmarkWebhookResponse>(request);
+  }
+
+  handleGenericWebhook(X_Postmark_Signature: string, body: string): Observable<PostmarkWebhookResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/email/webhook",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PostmarkWebhookResponse>(request);
+  }
+
+  handleInboundEmail(X_Postmark_Signature: string, body: string): Observable<PostmarkWebhookResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/email/inbound",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PostmarkWebhookResponse>(request);
+  }
+
+  handleSpamComplaint(X_Postmark_Signature: string, body: string): Observable<PostmarkWebhookResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/email/spam-complaint",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PostmarkWebhookResponse>(request);
+  }
+
+  onboardFamily(body: OnboardFamilyPOSTData): Observable<OnboardResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/family",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardResponse>(request);
+  }
+
+  onboardStudent(body: OnboardStudentPOSTData): Observable<OnboardResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/student",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardResponse>(request);
+  }
+
+  resolveSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/student/setup",
+      method: "GET",
+    };
+    return this.request<OnboardStudentUIData>(request);
+  }
+
   getEntityMapForFK(entity_type: string, body: any): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/mapfk/" + entity_type,
@@ -3986,7 +4066,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PersonalStatementUIGETData>(request);
   }
 
-  resolveSignupUIData(interest_id: string): Observable<SignupUIData> {
+  resolveSignupUIDataGet(interest_id: string): Observable<SignupUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/dash-ui/resolve-signup-ui-data/" + interest_id,
       method: "GET",
@@ -4089,7 +4169,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkItemFormResponse>(request);
   }
 
-  getCreateTicketSetupUi(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
+  getCreateTicketSetupUiPost(body: CreateTicketPOSTData): Observable<CreateTicketSetupUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/create-ticket-setup-ui",
       method: "POST",
@@ -5254,6 +5334,7 @@ export interface HcclPersonGETData {
   workPhoneNumber?: string;
   firstName?: string;
   lastName?: string;
+  messageHandle?: string;
 }
 
 export interface HcclUserGETData {
@@ -7969,6 +8050,7 @@ export interface HcclPersonPOSTData {
   workPhoneNumber?: string;
   firstName: string;
   lastName: string;
+  messageHandle: string;
 }
 
 export interface HcclPersonGETDataSearchResults {
@@ -8000,6 +8082,7 @@ export interface HcclPersonCriteria {
   workPhoneNumber?: string;
   firstName?: string;
   lastName?: string;
+  messageHandle?: string;
 }
 
 export interface HcclPersonPUTData {
@@ -8015,6 +8098,7 @@ export interface HcclPersonPUTData {
   workPhoneNumber?: string;
   firstName: string;
   lastName: string;
+  messageHandle: string;
 }
 
 export interface HcclTeamLogPOSTData {
@@ -10102,6 +10186,71 @@ export interface EncodingPOSTData {
   sourceOfText: string;
 }
 
+export interface CreateTicketSetupUIData {
+  data?: CreateTicketPOSTData;
+  queuesMenu?: MenuControlDataList;
+  workRequestTypesMenu?: MenuControlDataList;
+  currentUserProfile?: HcclUserProfileGETData;
+}
+
+export interface PostmarkWebhookResponse {
+  success?: boolean;
+  messageId?: string;
+  messages?: SimpleMessageList;
+}
+
+export interface OnboardResponse {
+  messages?: SimpleMessageList;
+  loginUrl?: string;
+}
+
+export interface OnboardFamilyMemberPOSTData {
+  messageHandle?: string;
+  userName?: string;
+  counselorId?: string;
+  userEmail?: string;
+  cellPhoneNumber?: string;
+  workPhoneNumber?: string;
+  firstName: string;
+  lastName?: string;
+  familyMemberCode: string;
+  onboardConfirm?: string;
+  cellPhoneSmsEnabled?: boolean;
+  willingToReceiveEmail?: boolean;
+  willingToReceiveSms?: boolean;
+}
+
+export interface OnboardFamilyPOSTData {
+  organizationId: string;
+  initialPassword?: string;
+  family?: FamilyUnitPOSTData;
+  parents?: OnboardFamilyMemberPOSTData[];
+  students?: OnboardFamilyMemberPOSTData[];
+}
+
+export interface OnboardOrgUserPOSTData {
+  organizationCode: string;
+  firstName?: string;
+  lastName?: string;
+  messageHandle?: string;
+  userName?: string;
+  emailAddress?: string;
+  cellPhone?: string;
+  initialPassword?: string;
+  roles?: string[];
+  profileTypeCode?: string;
+}
+
+export interface OnboardStudentPOSTData {
+  schoolId?: string;
+  counselorId?: string;
+  orgUserData: OnboardOrgUserPOSTData;
+}
+
+export interface OnboardStudentUIData {
+  schoolSelectData?: MenuControlDataList;
+}
+
 export interface HcclUserContextGETData {
   currentUserProfileId: string;
   messages: SimpleMessageList;
@@ -10112,20 +10261,6 @@ export interface HcclUserContextGETData {
 
 export interface HcclOrgSetupData {
   profileTypeMenu: MenuControlDataList;
-}
-
-export interface OnboardOrgUserPOSTData {
-  organizationCode?: string;
-  firstName?: string;
-  lastName?: string;
-  name?: string;
-  userName?: string;
-  emailAddress?: string;
-  workPhone?: string;
-  cellPhone?: string;
-  initialPassword?: string;
-  roles?: string[];
-  profileTypeCode?: string;
 }
 
 export interface SimpleRestActionContext {
@@ -10316,13 +10451,6 @@ export interface WorkItemFormRequest {
   op?: string;
   context?: WorkItemFormContext;
   actionFormData?: any;
-}
-
-export interface CreateTicketSetupUIData {
-  data?: CreateTicketPOSTData;
-  queuesMenu?: MenuControlDataList;
-  workRequestTypesMenu?: MenuControlDataList;
-  currentUserProfile?: HcclUserProfileGETData;
 }
 
 export interface WorkRequestUIControllerGETData {

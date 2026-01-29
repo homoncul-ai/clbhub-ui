@@ -16234,6 +16234,404 @@
         }
       }
     },
+    "/hccl/public/tixui/create-ticket-setup-ui": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Fetches queueMenu to create a ticket",
+        "operationId": "getCreateTicketSetupUi",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTicketPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTicketSetupUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/email/bounce": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Handles bounce webhook from Postmark.",
+        "operationId": "handleBounce",
+        "parameters": [
+          {
+            "name": "X-Postmark-Signature",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostmarkWebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Signature"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/email/delivery": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Handles delivery confirmation webhook from Postmark.",
+        "operationId": "handleDelivery",
+        "parameters": [
+          {
+            "name": "X-Postmark-Signature",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostmarkWebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Signature"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/email/webhook": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Handles generic webhook from Postmark (raw JSON).",
+        "operationId": "handleGenericWebhook",
+        "parameters": [
+          {
+            "name": "X-Postmark-Signature",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostmarkWebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Signature"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/email/inbound": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Handles inbound email webhook from Postmark.",
+        "operationId": "handleInboundEmail",
+        "parameters": [
+          {
+            "name": "X-Postmark-Signature",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostmarkWebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Signature"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/email/spam-complaint": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Handles spam complaint webhook from Postmark.",
+        "operationId": "handleSpamComplaint",
+        "parameters": [
+          {
+            "name": "X-Postmark-Signature",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostmarkWebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Signature"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/onboard/family": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Onboards a family.",
+        "operationId": "onboardFamily",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardFamilyPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/onboard/student": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Onboards a student.",
+        "operationId": "onboardStudent",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardStudentPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/onboard/student/setup": {
+      "get": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Load the setup for the student UI. ",
+        "operationId": "resolveSignupUIData",
+        "parameters": [
+          {
+            "name": "interest-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardStudentUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/intg/mapfk/{entity-type}": {
       "post": {
         "tags": [
@@ -17281,7 +17679,7 @@
           "/options"
         ],
         "summary": "Load the guidance UI. ",
-        "operationId": "resolveSignupUIData",
+        "operationId": "resolveSignupUIData_1",
         "parameters": [
           {
             "name": "interest-id",
@@ -17775,7 +18173,7 @@
           "/options"
         ],
         "summary": "Fetches queueMenu to create a ticket",
-        "operationId": "getCreateTicketSetupUi",
+        "operationId": "getCreateTicketSetupUi_1",
         "requestBody": {
           "content": {
             "*/*": {
@@ -22264,6 +22662,9 @@
             "type": "string"
           },
           "lastName": {
+            "type": "string"
+          },
+          "messageHandle": {
             "type": "string"
           }
         }
@@ -31905,6 +32306,7 @@
           "businessCode",
           "firstName",
           "lastName",
+          "messageHandle",
           "name"
         ],
         "type": "object",
@@ -31962,6 +32364,11 @@
           },
           "lastName": {
             "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "messageHandle": {
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
           }
@@ -32067,6 +32474,9 @@
           },
           "lastName": {
             "type": "string"
+          },
+          "messageHandle": {
+            "type": "string"
           }
         }
       },
@@ -32076,6 +32486,7 @@
           "businessCode",
           "firstName",
           "lastName",
+          "messageHandle",
           "name"
         ],
         "type": "object",
@@ -32133,6 +32544,11 @@
           },
           "lastName": {
             "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "messageHandle": {
+            "maxLength": 50,
             "minLength": 1,
             "type": "string"
           }
@@ -39649,6 +40065,211 @@
           }
         }
       },
+      "CreateTicketSetupUIData": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CreateTicketPOSTData"
+          },
+          "queuesMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "workRequestTypesMenu": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "currentUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          }
+        }
+      },
+      "PostmarkWebhookResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          }
+        }
+      },
+      "OnboardResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "loginUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardFamilyMemberPOSTData": {
+        "required": [
+          "familyMemberCode",
+          "firstName"
+        ],
+        "type": "object",
+        "properties": {
+          "messageHandle": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "counselorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userEmail": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "cellPhoneNumber": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "workPhoneNumber": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "familyMemberCode": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string"
+          },
+          "onboardConfirm": {
+            "type": "string"
+          },
+          "cellPhoneSmsEnabled": {
+            "type": "boolean"
+          },
+          "willingToReceiveEmail": {
+            "type": "boolean"
+          },
+          "willingToReceiveSms": {
+            "type": "boolean"
+          }
+        }
+      },
+      "OnboardFamilyPOSTData": {
+        "required": [
+          "organizationId"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "initialPassword": {
+            "type": "string"
+          },
+          "family": {
+            "$ref": "#/components/schemas/FamilyUnitPOSTData"
+          },
+          "parents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnboardFamilyMemberPOSTData"
+            }
+          },
+          "students": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnboardFamilyMemberPOSTData"
+            }
+          }
+        }
+      },
+      "OnboardOrgUserPOSTData": {
+        "required": [
+          "organizationCode"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationCode": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "messageHandle": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "cellPhone": {
+            "type": "string"
+          },
+          "initialPassword": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "profileTypeCode": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardStudentPOSTData": {
+        "required": [
+          "orgUserData"
+        ],
+        "type": "object",
+        "properties": {
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "counselorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgUserData": {
+            "$ref": "#/components/schemas/OnboardOrgUserPOSTData"
+          }
+        }
+      },
+      "OnboardStudentUIData": {
+        "type": "object",
+        "properties": {
+          "schoolSelectData": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          }
+        }
+      },
       "HcclUserContextGETData": {
         "required": [
           "currentUserProfile",
@@ -39688,47 +40309,6 @@
         "properties": {
           "profileTypeMenu": {
             "$ref": "#/components/schemas/MenuControlDataList"
-          }
-        }
-      },
-      "OnboardOrgUserPOSTData": {
-        "type": "object",
-        "properties": {
-          "organizationCode": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "userName": {
-            "type": "string"
-          },
-          "emailAddress": {
-            "type": "string"
-          },
-          "workPhone": {
-            "type": "string"
-          },
-          "cellPhone": {
-            "type": "string"
-          },
-          "initialPassword": {
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "profileTypeCode": {
-            "type": "string"
           }
         }
       },
@@ -40298,23 +40878,6 @@
             "additionalProperties": {
               "type": "object"
             }
-          }
-        }
-      },
-      "CreateTicketSetupUIData": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/CreateTicketPOSTData"
-          },
-          "queuesMenu": {
-            "$ref": "#/components/schemas/MenuControlDataList"
-          },
-          "workRequestTypesMenu": {
-            "$ref": "#/components/schemas/MenuControlDataList"
-          },
-          "currentUserProfile": {
-            "$ref": "#/components/schemas/HcclUserProfileGETData"
           }
         }
       },
