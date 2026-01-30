@@ -528,7 +528,7 @@ export class DashStudentInterestComponent implements OnInit {
     this.signupInstructionsHtml = null;
 
     console.log('Loading signup UI data for interest ID:', this.interestId);
-    this.hcclService.resolveSignupUIData(this.interestId).subscribe({
+    this.hcclService.resolveSignupUIDataGet(this.interestId).subscribe({
       next: (data) => {
         console.log('Signup UI data loaded successfully:', data);
         this.loadingSignupUIData = false;

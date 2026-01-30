@@ -1,0 +1,138 @@
+# Age and Consent Verification Strategy for 16+ Students
+
+**Last Updated**: January 29, 2026
+
+This document outlines a legally defensible, low-friction strategy for verifying student ages **(all 16+)** and recording consents for showing age-appropriate online jobs. Uses **parental attestation** as the core method per Massachusetts privacy laws, FERPA considerations, and best practices.
+
+**Status**: ~~Draft~~ **Active** | **Review Cycle**: Annual
+
+## Core Principles
+
+* **Age Threshold**: Only users 16+; block under-16 attempts
+* **Verification**: Student self-report + *verifiable parental attestation*
+* **Data Minimization**: Store metadata only (no DOB, minimal PII)
+* **Auditability**: Immutable logs of all verification/consent actions
+* **Use Case**: Age-appropriate internet job matching only (low-risk)
+
+## UI Flow (Web Interface)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Student Registration/Login
+├─ Enter DOB + profile (student_id, email)
+├─ "Must be 16+ for job matching. Parent verifies."
+└─ <16? → BLOCK: "Available at 16"
+
+Parental Attestation
+├─ Auto-email parent: "Confirm [Student]'s age for jobs"
+│   [CONFIRM Button] + 24h OTP code
+├─ Parent clicks/enters code in app modal
+└─ Capture: parent_ip, user_agent, timestamp
+
+Consent Capture (Post-Verification)
+├─ Separate checkboxes:
+│   ☑️ "Contact me about jobs"
+│   ☑️ "Allow parents to view account"
+│   ☑️ "Allow guidance to oversee account"
+├─ Parent re-confirmation for oversight consents
+└─ PDF email summary + revoke link
+
+Revocation
+└─ One-click "Revoke All" in parent/student portals
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Backend Processing (API/Keycloak)
+
+**`/verify-age` endpoint:**
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+POST /verify-age
+├── Validate DOB > 16
+├── Generate/send parent OTP (24h expiry)
+├── Validate parent response
+├── Flag: age_verified: 'parent_attested'
+└── Log to age_verifications table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Edge Cases:**
+* No parent email → Require guidance portal upload
+* Annual re-verification cron job
+
+## Database Schema
+
+### `students`
+
+```sql
+id UUID PK
+email TEXT
+parent_email ENCRYPTED
+age_verified_at TIMESTAMP
+age_verified_method ENUM('parent_attested')
+verification_token_hash TEXT
+```
+
+### `consents`
+
+```sql
+id UUID PK
+student_id UUID FK
+type ENUM('contact','parent_view','guidance_view')
+parent_email TEXT
+granted_at TIMESTAMP
+revoked_at TIMESTAMP NULL
+ip_address INET
+user_agent TEXT
+```
+
+### `age_verifications` (immutable)
+
+```sql
+student_id UUID FK
+parent_ip INET  
+timestamp TIMESTAMP
+status ENUM('pending','confirmed','expired')
+one_time_code_hash TEXT
+```
+
+### `consent_audits` (immutable)
+
+```sql
+consent_id UUID FK
+event ENUM('granted','revoked','viewed')
+actor_email TEXT
+timestamp TIMESTAMP
+```
+
+**Indexes:** `student_id`, `type`, `granted_at`
+
+## Compliance Safeguards
+
+* ☐ ID document scan → ✅ Parent attestation sufficient
+* ☑️ Annual re-verification prompts
+* ☑️ "User/parent responsible for accuracy" disclaimers
+* ☑️ Auto-delete inactive after 2 years
+* ☑️ Full audit logging
+* ☑️ Bulk guidance verification option
+
+## Implementation Notes (Your Stack)
+
+| Component | Usage |
+|-----------|-------|
+| Keycloak | Parent auth (optional separate accounts) |
+| SendGrid/Postmark | Verification emails |
+| Angular | Embed verification modal |
+| Kubernetes | Stateless API endpoints |
+| PostgreSQL | Encrypt parent_email at rest |
+
+### Metrics to Track
+
+* Verification success rate (>90% target)
+* Revocation frequency
+* Annual re-verification compliance
+
+!!! note Legal Note
+    This provides reasonable commercial efforts for 16+ job matching. Consult Massachusetts counsel for youth program specifics.
+
+<script>markdeepOptions = {tocStyle: 'none'};</script>
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
