@@ -3784,6 +3784,474 @@
         }
       }
     },
+    "/hccl/catalog/feedentryinstance": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new FeedEntryInstance.",
+        "operationId": "createFeedEntryInstance_1",
+        "requestBody": {
+          "description": "New FeedEntryInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedEntryInstancePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/feedentryinstance/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getFeedEntryInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedEntryInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing FeedEntryInstance.",
+        "operationId": "updateFeedEntryInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated FeedEntryInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedEntryInstancePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing FeedEntryInstance.",
+        "operationId": "deleteFeedEntryInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/feedentryinstance/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all FeedEntryInstances.",
+        "operationId": "findFeedEntryInstances_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedEntryInstanceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedEntryInstanceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/feedentryinstance/{id}/hint": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getFeedEntryInstanceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedEntryInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/feedentry": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new FeedEntry.",
+        "operationId": "createFeedEntry_1",
+        "requestBody": {
+          "description": "New FeedEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedEntryPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/feedentry/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getFeedEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedEntryGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing FeedEntry.",
+        "operationId": "updateFeedEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated FeedEntry data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedEntryPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing FeedEntry.",
+        "operationId": "deleteFeedEntryById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/feedentry/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all FeedEntrys.",
+        "operationId": "findFeedEntrys_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedEntryCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedEntryGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/feedentry/{id}/hint": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getFeedEntryByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedEntryGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/experience/experiencelocation": {
       "post": {
         "tags": [
@@ -7722,6 +8190,942 @@
           },
           "206": {
             "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractparticipant": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Create a new PContractParticipant.",
+        "operationId": "createPContractParticipant_1",
+        "requestBody": {
+          "description": "New PContractParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractParticipantPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractparticipant/{id}": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Updates and existing PContractParticipant.",
+        "operationId": "updatePContractParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PContractParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractParticipantPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Deletes an existing PContractParticipant.",
+        "operationId": "deletePContractParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractparticipant/query": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches all PContractParticipants.",
+        "operationId": "findPContractParticipants_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractParticipantCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractParticipantGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractparticipant/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractParticipantByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontract": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Create a new PContract.",
+        "operationId": "createPContract_1",
+        "requestBody": {
+          "description": "New PContract data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontract/{id}": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Updates and existing PContract.",
+        "operationId": "updatePContractById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PContract data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Deletes an existing PContract.",
+        "operationId": "deletePContractById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontract/query": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches all PContracts.",
+        "operationId": "findPContracts_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontract/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversioninstance": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Create a new PContractVersionInstance.",
+        "operationId": "createPContractVersionInstance_1",
+        "requestBody": {
+          "description": "New PContractVersionInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractVersionInstancePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversioninstance/{id}": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractVersionInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractVersionInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Updates and existing PContractVersionInstance.",
+        "operationId": "updatePContractVersionInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PContractVersionInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractVersionInstancePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Deletes an existing PContractVersionInstance.",
+        "operationId": "deletePContractVersionInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversioninstance/query": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches all PContractVersionInstances.",
+        "operationId": "findPContractVersionInstances_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractVersionInstanceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractVersionInstanceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversioninstance/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractVersionInstanceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractVersionInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversion": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Create a new PContractVersion.",
+        "operationId": "createPContractVersion_1",
+        "requestBody": {
+          "description": "New PContractVersion data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractVersionPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversion/{id}": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractVersionById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractVersionGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Updates and existing PContractVersion.",
+        "operationId": "updatePContractVersionById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PContractVersion data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractVersionPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Deletes an existing PContractVersion.",
+        "operationId": "deletePContractVersionById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversion/query": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches all PContractVersions.",
+        "operationId": "findPContractVersions_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractVersionCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractVersionGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractversion/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractVersionByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractVersionGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
           },
           "400": {
             "description": "Invalid Id, No Data Updated or Invalid Data"
@@ -17602,6 +19006,36 @@
         }
       }
     },
+    "/hccl/students/current-feed": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": " Current Feed.",
+        "operationId": "loadCurrentFeed",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserFeedGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/students/dash-ui/resolve-guidance-data": {
       "get": {
         "tags": [
@@ -22801,6 +24235,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "registrationJsonData": {
+            "type": "string"
+          },
           "roles": {
             "type": "array",
             "items": {
@@ -23722,6 +25159,605 @@
           "signupPacketId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "FeedEntryInstancePOSTData": {
+        "required": [
+          "distanceInMiles",
+          "distanceInVocode",
+          "score",
+          "userProfileId",
+          "viewCount",
+          "viewTimeMs"
+        ],
+        "type": "object",
+        "properties": {
+          "feedEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "FeedEntryGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "feedTypeCode": {
+            "type": "string"
+          },
+          "feedSubTypeCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "mdMore": {
+            "type": "string"
+          },
+          "imageFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageFileUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "postedByEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "postedByEntityType": {
+            "type": "string"
+          },
+          "postedByEntityName": {
+            "type": "string"
+          },
+          "postedByEntityExtra": {
+            "type": "string"
+          }
+        }
+      },
+      "FeedEntryInstanceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "feedEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "feedEntry": {
+            "$ref": "#/components/schemas/FeedEntryGETData"
+          }
+        }
+      },
+      "FeedEntryInstanceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "FeedEntryInstanceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "feedEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "FeedEntryInstancePUTData": {
+        "required": [
+          "distanceInMiles",
+          "distanceInVocode",
+          "score",
+          "userProfileId",
+          "viewCount",
+          "viewTimeMs"
+        ],
+        "type": "object",
+        "properties": {
+          "feedEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "viewTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "distanceInMiles": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceInVocode": {
+            "type": "number",
+            "format": "double"
+          },
+          "personalStatementId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "FeedEntryPOSTData": {
+        "required": [
+          "mdContents",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "feedTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "feedSubTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "mdMore": {
+            "type": "string"
+          },
+          "imageFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageFileUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postedByEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "postedByEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postedByEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postedByEntityExtra": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "FeedEntryGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeedEntryGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "FeedEntryCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "feedTypeCode": {
+            "type": "string"
+          },
+          "feedSubTypeCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "imageFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageFileUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "postedByEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "postedByEntityType": {
+            "type": "string"
+          },
+          "postedByEntityName": {
+            "type": "string"
+          },
+          "postedByEntityExtra": {
+            "type": "string"
+          },
+          "subjectEntityIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "postedByEntityIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "FeedEntryPUTData": {
+        "required": [
+          "mdContents",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "feedTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "feedSubTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "mdMore": {
+            "type": "string"
+          },
+          "imageFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageFileUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postedByEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "postedByEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postedByEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postedByEntityExtra": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
           }
         }
       },
@@ -29026,6 +31062,1030 @@
           }
         }
       },
+      "PContractParticipantPOSTData": {
+        "required": [
+          "agreeData",
+          "contractCode",
+          "contractVersionId",
+          "contractVersionInstanceId",
+          "digitalHash",
+          "loginSessionId",
+          "userProfileId",
+          "userProfileUsername"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileUsername": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "contractVersionInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateSigned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loginSessionId": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "digitalHash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "agreeData": {
+            "type": "string"
+          }
+        }
+      },
+      "PContractParticipantGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "userProfileUsername": {
+            "type": "string"
+          },
+          "contractVersionInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loginSessionId": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "type": "string"
+          },
+          "agreeData": {
+            "type": "string"
+          }
+        }
+      },
+      "PContractParticipantGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PContractParticipantGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PContractParticipantCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "userProfileUsername": {
+            "type": "string"
+          },
+          "contractVersionInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateSigned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loginSessionId": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "type": "string"
+          },
+          "agreeData": {
+            "type": "string"
+          }
+        }
+      },
+      "PContractParticipantPUTData": {
+        "required": [
+          "agreeData",
+          "contractCode",
+          "contractVersionId",
+          "contractVersionInstanceId",
+          "digitalHash",
+          "loginSessionId",
+          "userProfileId",
+          "userProfileUsername"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileUsername": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "contractVersionInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateSigned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loginSessionId": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "digitalHash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "agreeData": {
+            "type": "string"
+          }
+        }
+      },
+      "PContractPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "digitalHashAlgo",
+          "groupCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "groupCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "digitalHashAlgo": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "groupCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "digitalHashAlgo": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PContractGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PContractCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "groupCode": {
+            "type": "string"
+          },
+          "digitalHashAlgo": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "digitalHashAlgo",
+          "groupCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "groupCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "digitalHashAlgo": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractVersionInstancePOSTData": {
+        "required": [
+          "completedStatus",
+          "contractCode",
+          "contractVersionId",
+          "instanceCode",
+          "parentEntityId",
+          "parentEntityType"
+        ],
+        "type": "object",
+        "properties": {
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "instanceCode": {
+            "type": "string"
+          },
+          "mdContentsMerged": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractVersionInstanceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "type": "string"
+          },
+          "instanceCode": {
+            "type": "string"
+          },
+          "mdContentsMerged": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractVersionInstanceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PContractVersionInstanceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PContractVersionInstanceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "type": "string"
+          },
+          "instanceCode": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractVersionInstancePUTData": {
+        "required": [
+          "completedStatus",
+          "contractCode",
+          "contractVersionId",
+          "instanceCode",
+          "parentEntityId",
+          "parentEntityType"
+        ],
+        "type": "object",
+        "properties": {
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "instanceCode": {
+            "type": "string"
+          },
+          "mdContentsMerged": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PContractVersionPOSTData": {
+        "required": [
+          "agreeDataType",
+          "available",
+          "consentMessage",
+          "contractCode",
+          "contractId",
+          "currentVersion",
+          "digitalHash",
+          "digitalHashAlgo",
+          "languageCode",
+          "mdContents",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "languageCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "consentMessage": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentVersion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "digitalHashAlgo": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "digitalHash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "agreeDataType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/PContractPOSTData"
+          }
+        }
+      },
+      "PContractVersionGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "type": "string"
+          },
+          "languageCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "consentMessage": {
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentVersion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "digitalHashAlgo": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "type": "string"
+          },
+          "agreeDataType": {
+            "type": "string"
+          }
+        }
+      },
+      "PContractVersionGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PContractVersionGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PContractVersionCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "type": "string"
+          },
+          "languageCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "consentMessage": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentVersion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "digitalHashAlgo": {
+            "type": "string"
+          },
+          "digitalHash": {
+            "type": "string"
+          },
+          "agreeDataType": {
+            "type": "string"
+          }
+        }
+      },
+      "PContractVersionPUTData": {
+        "required": [
+          "agreeDataType",
+          "available",
+          "consentMessage",
+          "contractCode",
+          "contractId",
+          "currentVersion",
+          "digitalHash",
+          "digitalHashAlgo",
+          "languageCode",
+          "mdContents",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "languageCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "consentMessage": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentVersion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "digitalHashAlgo": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "digitalHash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "agreeDataType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
       "ProviderPOSTData": {
         "required": [
           "businessCode",
@@ -33697,6 +36757,17 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "registrationJsonData": {
+            "type": "string"
+          },
+          "dateFirstLogin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateRegistrationComplete": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -34129,6 +37200,14 @@
             "type": "string",
             "format": "uuid"
           },
+          "dateFirstLogin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateRegistrationComplete": {
+            "type": "string",
+            "format": "date-time"
+          },
           "externalUserIds": {
             "type": "array",
             "items": {
@@ -34216,6 +37295,17 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "registrationJsonData": {
+            "type": "string"
+          },
+          "dateFirstLogin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateRegistrationComplete": {
+            "type": "string",
+            "format": "date-time"
           },
           "name": {
             "maxLength": 255,
@@ -40202,6 +43292,32 @@
           }
         }
       },
+      "ConsentRequestPOSTData": {
+        "type": "object",
+        "properties": {
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "agreeValue": {
+            "type": "string"
+          },
+          "consenting": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MultiConsentRequestPOSTData": {
+        "type": "object",
+        "properties": {
+          "consents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentRequestPOSTData"
+            }
+          }
+        }
+      },
       "OnboardOrgUserPOSTData": {
         "required": [
           "organizationCode"
@@ -40245,6 +43361,7 @@
       },
       "OnboardStudentPOSTData": {
         "required": [
+          "consents",
           "orgUserData"
         ],
         "type": "object",
@@ -40257,8 +43374,43 @@
             "type": "string",
             "format": "uuid"
           },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
+          },
           "orgUserData": {
             "$ref": "#/components/schemas/OnboardOrgUserPOSTData"
+          }
+        }
+      },
+      "ConsentRequestGETData": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "consentMessage": {
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/PContractVersionGETData"
+          }
+        }
+      },
+      "MultiConsentRequestGETData": {
+        "type": "object",
+        "properties": {
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentRequestGETData"
+            }
           }
         }
       },
@@ -40267,6 +43419,9 @@
         "properties": {
           "schoolSelectData": {
             "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestGETData"
           }
         }
       },
@@ -40438,6 +43593,17 @@
         "properties": {
           "entryJson": {
             "type": "string"
+          }
+        }
+      },
+      "UserFeedGETData": {
+        "type": "object",
+        "properties": {
+          "feedEntries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
+            }
           }
         }
       },

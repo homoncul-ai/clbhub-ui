@@ -890,6 +890,110 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CatalogTypeRefGETDataSearchResults>(request);
   }
 
+  createFeedEntryInstance(body: FeedEntryInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentryinstance",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getFeedEntryInstanceById(id: string): Observable<FeedEntryInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentryinstance/" + id,
+      method: "GET",
+    };
+    return this.request<FeedEntryInstanceGETData>(request);
+  }
+
+  updateFeedEntryInstanceById(id: string, body: FeedEntryInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentryinstance/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteFeedEntryInstanceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentryinstance/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findFeedEntryInstances(body: FeedEntryInstanceCriteria): Observable<FeedEntryInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentryinstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<FeedEntryInstanceGETDataSearchResults>(request);
+  }
+
+  getFeedEntryInstanceByIdWithHint(id: string, hint: string): Observable<FeedEntryInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentryinstance/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<FeedEntryInstanceGETData>(request);
+  }
+
+  createFeedEntry(body: FeedEntryPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentry",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getFeedEntryById(id: string): Observable<FeedEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentry/" + id,
+      method: "GET",
+    };
+    return this.request<FeedEntryGETData>(request);
+  }
+
+  updateFeedEntryById(id: string, body: FeedEntryPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentry/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteFeedEntryById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentry/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findFeedEntrys(body: FeedEntryCriteria): Observable<FeedEntryGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentry/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<FeedEntryGETDataSearchResults>(request);
+  }
+
+  getFeedEntryByIdWithHint(id: string, hint: string): Observable<FeedEntryGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/feedentry/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<FeedEntryGETData>(request);
+  }
+
   createExperienceLocation(body: ExperienceLocationPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencelocation",
@@ -1799,6 +1903,214 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<PMessageGETDataSearchResults>(request);
+  }
+
+  createPContractParticipant(body: PContractParticipantPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractparticipant",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPContractParticipantById(id: string): Observable<PContractParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractparticipant/" + id,
+      method: "GET",
+    };
+    return this.request<PContractParticipantGETData>(request);
+  }
+
+  updatePContractParticipantById(id: string, body: PContractParticipantPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractparticipant/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePContractParticipantById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractparticipant/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPContractParticipants(body: PContractParticipantCriteria): Observable<PContractParticipantGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractparticipant/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PContractParticipantGETDataSearchResults>(request);
+  }
+
+  getPContractParticipantByIdWithHint(id: string, hint: string): Observable<PContractParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractparticipant/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PContractParticipantGETData>(request);
+  }
+
+  createPContract(body: PContractPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontract",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPContractById(id: string): Observable<PContractGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontract/" + id,
+      method: "GET",
+    };
+    return this.request<PContractGETData>(request);
+  }
+
+  updatePContractById(id: string, body: PContractPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontract/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePContractById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontract/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPContracts(body: PContractCriteria): Observable<PContractGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontract/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PContractGETDataSearchResults>(request);
+  }
+
+  getPContractByIdWithHint(id: string, hint: string): Observable<PContractGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontract/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PContractGETData>(request);
+  }
+
+  createPContractVersionInstance(body: PContractVersionInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversioninstance",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPContractVersionInstanceById(id: string): Observable<PContractVersionInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversioninstance/" + id,
+      method: "GET",
+    };
+    return this.request<PContractVersionInstanceGETData>(request);
+  }
+
+  updatePContractVersionInstanceById(id: string, body: PContractVersionInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversioninstance/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePContractVersionInstanceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversioninstance/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPContractVersionInstances(body: PContractVersionInstanceCriteria): Observable<PContractVersionInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversioninstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PContractVersionInstanceGETDataSearchResults>(request);
+  }
+
+  getPContractVersionInstanceByIdWithHint(id: string, hint: string): Observable<PContractVersionInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversioninstance/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PContractVersionInstanceGETData>(request);
+  }
+
+  createPContractVersion(body: PContractVersionPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversion",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPContractVersionById(id: string): Observable<PContractVersionGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversion/" + id,
+      method: "GET",
+    };
+    return this.request<PContractVersionGETData>(request);
+  }
+
+  updatePContractVersionById(id: string, body: PContractVersionPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversion/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePContractVersionById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversion/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPContractVersions(body: PContractVersionCriteria): Observable<PContractVersionGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversion/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PContractVersionGETDataSearchResults>(request);
+  }
+
+  getPContractVersionByIdWithHint(id: string, hint: string): Observable<PContractVersionGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractversion/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PContractVersionGETData>(request);
   }
 
   createProvider(body: ProviderPOSTData): Observable<any> {
@@ -4050,6 +4362,14 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PersonalStatementResumeGETData>(request);
   }
 
+  loadCurrentFeed(): Observable<UserFeedGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/current-feed",
+      method: "GET",
+    };
+    return this.request<UserFeedGETData>(request);
+  }
+
   resolveGuidanceUIData(): Observable<WorkRequestDashboardUIGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/dash-ui/resolve-guidance-data",
@@ -5379,6 +5699,7 @@ export interface HcclUserProfileGETData {
   externalUserEntityType?: string;
   externalUserName?: string;
   personId?: string;
+  registrationJsonData?: string;
   roles?: string[];
   theUser?: HcclUserGETData;
   organization?: HcclOrganizationGETData;
@@ -5642,6 +5963,171 @@ export interface CatalogTypeRefPUTData {
   name: string;
   description: string;
   signupPacketId?: string;
+}
+
+export interface FeedEntryInstancePOSTData {
+  feedEntryId?: string;
+  userProfileId: string;
+  viewCount: number;
+  viewTimeMs: number;
+  dateExpires?: string;
+  score: number;
+  distanceInMiles: number;
+  distanceInVocode: number;
+  personalStatementId?: string;
+}
+
+export interface FeedEntryGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  feedTypeCode?: string;
+  feedSubTypeCode?: string;
+  title?: string;
+  mdContents?: string;
+  mdMore?: string;
+  imageFileId?: string;
+  imageFileUrl?: string;
+  version?: number;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  postedByEntityId?: string;
+  postedByEntityType?: string;
+  postedByEntityName?: string;
+  postedByEntityExtra?: string;
+}
+
+export interface FeedEntryInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  feedEntryId?: string;
+  userProfileId?: string;
+  viewCount?: number;
+  viewTimeMs?: number;
+  score?: number;
+  distanceInMiles?: number;
+  distanceInVocode?: number;
+  personalStatementId?: string;
+  feedEntry?: FeedEntryGETData;
+}
+
+export interface FeedEntryInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: FeedEntryInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface FeedEntryInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  feedEntryId?: string;
+  userProfileId?: string;
+  viewCount?: number;
+  viewTimeMs?: number;
+  score?: number;
+  distanceInMiles?: number;
+  distanceInVocode?: number;
+  personalStatementId?: string;
+}
+
+export interface FeedEntryInstancePUTData {
+  feedEntryId?: string;
+  userProfileId: string;
+  viewCount: number;
+  viewTimeMs: number;
+  dateExpires?: string;
+  score: number;
+  distanceInMiles: number;
+  distanceInVocode: number;
+  personalStatementId?: string;
+}
+
+export interface FeedEntryPOSTData {
+  feedTypeCode?: string;
+  feedSubTypeCode?: string;
+  title: string;
+  mdContents: string;
+  mdMore?: string;
+  imageFileId?: string;
+  imageFileUrl?: string;
+  version?: number;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  postedByEntityId?: string;
+  postedByEntityType?: string;
+  postedByEntityName?: string;
+  postedByEntityExtra?: string;
+}
+
+export interface FeedEntryGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: FeedEntryGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface FeedEntryCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  feedTypeCode?: string;
+  feedSubTypeCode?: string;
+  title?: string;
+  imageFileId?: string;
+  imageFileUrl?: string;
+  version?: number;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  postedByEntityId?: string;
+  postedByEntityType?: string;
+  postedByEntityName?: string;
+  postedByEntityExtra?: string;
+  subjectEntityIds?: string[];
+  postedByEntityIds?: string[];
+}
+
+export interface FeedEntryPUTData {
+  feedTypeCode?: string;
+  feedSubTypeCode?: string;
+  title: string;
+  mdContents: string;
+  mdMore?: string;
+  imageFileId?: string;
+  imageFileUrl?: string;
+  version?: number;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  postedByEntityId?: string;
+  postedByEntityType?: string;
+  postedByEntityName?: string;
+  postedByEntityExtra?: string;
 }
 
 export interface ExperienceLocationPOSTData {
@@ -7125,6 +7611,287 @@ export interface PMessagePUTData {
   dateLastEntry?: string;
 }
 
+export interface PContractParticipantPOSTData {
+  userProfileUsername: string;
+  contractVersionInstanceId: string;
+  contractVersionId: string;
+  contractCode: string;
+  userProfileId: string;
+  dateSigned?: string;
+  loginSessionId: string;
+  digitalHash: string;
+  agreeData: string;
+}
+
+export interface PContractParticipantGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  userProfileUsername?: string;
+  contractVersionInstanceId?: string;
+  contractVersionId?: string;
+  contractCode?: string;
+  userProfileId?: string;
+  loginSessionId?: string;
+  digitalHash?: string;
+  agreeData?: string;
+}
+
+export interface PContractParticipantGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PContractParticipantGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PContractParticipantCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  userProfileUsername?: string;
+  contractVersionInstanceId?: string;
+  contractVersionId?: string;
+  contractCode?: string;
+  userProfileId?: string;
+  dateSigned?: string;
+  loginSessionId?: string;
+  digitalHash?: string;
+  agreeData?: string;
+}
+
+export interface PContractParticipantPUTData {
+  userProfileUsername: string;
+  contractVersionInstanceId: string;
+  contractVersionId: string;
+  contractCode: string;
+  userProfileId: string;
+  dateSigned?: string;
+  loginSessionId: string;
+  digitalHash: string;
+  agreeData: string;
+}
+
+export interface PContractPOSTData {
+  name: string;
+  businessCode: string;
+  groupCode: string;
+  description: string;
+  digitalHashAlgo: string;
+  available: number;
+}
+
+export interface PContractGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  name?: string;
+  businessCode?: string;
+  groupCode?: string;
+  description?: string;
+  digitalHashAlgo?: string;
+  available?: number;
+}
+
+export interface PContractGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PContractGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PContractCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  name?: string;
+  businessCode?: string;
+  groupCode?: string;
+  digitalHashAlgo?: string;
+  available?: number;
+}
+
+export interface PContractPUTData {
+  name: string;
+  businessCode: string;
+  groupCode: string;
+  description: string;
+  digitalHashAlgo: string;
+  available: number;
+}
+
+export interface PContractVersionInstancePOSTData {
+  contractVersionId: string;
+  contractCode: string;
+  instanceCode: string;
+  mdContentsMerged?: string;
+  digitalHash?: string;
+  parentEntityId: string;
+  parentEntityName?: string;
+  parentEntityType: string;
+  completedStatus: number;
+}
+
+export interface PContractVersionInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  contractVersionId?: string;
+  contractCode?: string;
+  instanceCode?: string;
+  mdContentsMerged?: string;
+  digitalHash?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  completedStatus?: number;
+}
+
+export interface PContractVersionInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PContractVersionInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PContractVersionInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  contractVersionId?: string;
+  contractCode?: string;
+  instanceCode?: string;
+  digitalHash?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+  completedStatus?: number;
+}
+
+export interface PContractVersionInstancePUTData {
+  contractVersionId: string;
+  contractCode: string;
+  instanceCode: string;
+  mdContentsMerged?: string;
+  digitalHash?: string;
+  parentEntityId: string;
+  parentEntityName?: string;
+  parentEntityType: string;
+  completedStatus: number;
+}
+
+export interface PContractVersionPOSTData {
+  contractId: string;
+  contractCode: string;
+  languageCode: string;
+  title: string;
+  consentMessage: string;
+  mdContents: string;
+  available: number;
+  currentVersion: number;
+  version?: number;
+  digitalHashAlgo: string;
+  digitalHash: string;
+  agreeDataType: string;
+  contract?: PContractPOSTData;
+}
+
+export interface PContractVersionGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  contractId?: string;
+  contractCode?: string;
+  languageCode?: string;
+  title?: string;
+  consentMessage?: string;
+  mdContents?: string;
+  available?: number;
+  currentVersion?: number;
+  version?: number;
+  digitalHashAlgo?: string;
+  digitalHash?: string;
+  agreeDataType?: string;
+}
+
+export interface PContractVersionGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PContractVersionGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PContractVersionCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  contractId?: string;
+  contractCode?: string;
+  languageCode?: string;
+  title?: string;
+  consentMessage?: string;
+  available?: number;
+  currentVersion?: number;
+  version?: number;
+  digitalHashAlgo?: string;
+  digitalHash?: string;
+  agreeDataType?: string;
+}
+
+export interface PContractVersionPUTData {
+  contractId: string;
+  contractCode: string;
+  languageCode: string;
+  title: string;
+  consentMessage: string;
+  mdContents: string;
+  available: number;
+  currentVersion: number;
+  version?: number;
+  digitalHashAlgo: string;
+  digitalHash: string;
+  agreeDataType: string;
+}
+
 export interface ProviderPOSTData {
   name: string;
   businessCode: string;
@@ -8417,6 +9184,9 @@ export interface HcclUserProfilePOSTData {
   externalUserEntityType?: string;
   externalUserName?: string;
   personId: string;
+  registrationJsonData?: string;
+  dateFirstLogin?: string;
+  dateRegistrationComplete?: string;
 }
 
 export interface WorkItemFormContext {
@@ -8550,6 +9320,8 @@ export interface HcclUserProfileCriteria {
   externalUserEntityType?: string;
   externalUserName?: string;
   personId?: string;
+  dateFirstLogin?: string;
+  dateRegistrationComplete?: string;
   externalUserIds?: string[];
 }
 
@@ -8569,6 +9341,9 @@ export interface HcclUserProfilePUTData {
   externalUserEntityType?: string;
   externalUserName?: string;
   personId: string;
+  registrationJsonData?: string;
+  dateFirstLogin?: string;
+  dateRegistrationComplete?: string;
   name: string;
 }
 
@@ -10228,6 +11003,16 @@ export interface OnboardFamilyPOSTData {
   students?: OnboardFamilyMemberPOSTData[];
 }
 
+export interface ConsentRequestPOSTData {
+  contractVersionId?: string;
+  agreeValue?: string;
+  consenting?: boolean;
+}
+
+export interface MultiConsentRequestPOSTData {
+  consents?: ConsentRequestPOSTData[];
+}
+
 export interface OnboardOrgUserPOSTData {
   organizationCode: string;
   firstName?: string;
@@ -10244,11 +11029,25 @@ export interface OnboardOrgUserPOSTData {
 export interface OnboardStudentPOSTData {
   schoolId?: string;
   counselorId?: string;
+  consents: MultiConsentRequestPOSTData;
   orgUserData: OnboardOrgUserPOSTData;
+}
+
+export interface ConsentRequestGETData {
+  title?: string;
+  consentMessage?: string;
+  mdContents?: string;
+  contractVersionId?: string;
+  contract?: PContractVersionGETData;
+}
+
+export interface MultiConsentRequestGETData {
+  contracts?: ConsentRequestGETData[];
 }
 
 export interface OnboardStudentUIData {
   schoolSelectData?: MenuControlDataList;
+  consents?: MultiConsentRequestGETData;
 }
 
 export interface HcclUserContextGETData {
@@ -10309,6 +11108,10 @@ export interface ResumeReorderEntriesPOSTData {
 
 export interface ResumeUpdateEntryPOSTData {
   entryJson?: string;
+}
+
+export interface UserFeedGETData {
+  feedEntries?: FeedEntryInstanceGETData[];
 }
 
 export interface PMessageUIGETData {
