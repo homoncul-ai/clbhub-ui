@@ -7,7 +7,7 @@
       </div>
       <div class="header-text">
         <h1 class="page-title">My Feed</h1>
-        <p class="page-subtitle">Discover opportunities, courses, and events tailored for you</p>
+        <p class="page-subtitle">Stay updated with the latest posts and announcements</p>
       </div>
     </div>
     <button class="refresh-btn" (click)="refreshFeed()" [disabled]="loading">
@@ -16,45 +16,8 @@
     </button>
   </div>
 
-  <!-- Filter Bar -->
-  <div class="filter-bar">
-    <div class="filter-buttons">
-      <button 
-        class="filter-btn" 
-        [class.active]="selectedCategory === 'all'"
-        (click)="selectCategory('all')">
-        <i class="fas fa-th-large"></i>
-        All
-      </button>
-      <button 
-        class="filter-btn" 
-        [class.active]="selectedCategory === 'job'"
-        (click)="selectCategory('job')">
-        <i class="fas fa-briefcase"></i>
-        Jobs
-      </button>
-      <button 
-        class="filter-btn" 
-        [class.active]="selectedCategory === 'course'"
-        (click)="selectCategory('course')">
-        <i class="fas fa-graduation-cap"></i>
-        Courses
-      </button>
-      <button 
-        class="filter-btn" 
-        [class.active]="selectedCategory === 'event'"
-        (click)="selectCategory('event')">
-        <i class="fas fa-calendar-alt"></i>
-        Events
-      </button>
-    </div>
-    <div class="feed-stats" *ngIf="!loading && totalItems > 0">
-      <span class="stat-text">{{ feedItems.length }} of {{ totalItems }} items</span>
-    </div>
-  </div>
-
   <!-- Loading State -->
-  <div class="loading-container" *ngIf="loading && feedItems.length === 0">
+  <div class="loading-container" *ngIf="loading">
     <div class="loading-spinner">
       <div class="spinner"></div>
     </div>
@@ -72,129 +35,60 @@
   </div>
 
   <!-- Empty State -->
-  <div class="empty-container" *ngIf="!loading && !error && feedItems.length === 0">
+  <div class="empty-container" *ngIf="!loading && !error && feedEntries.length === 0">
     <div class="empty-icon">
       <i class="fas fa-inbox"></i>
     </div>
     <h3>No items in your feed yet</h3>
-    <p>Check back soon for new opportunities, courses, and events.</p>
+    <p>Check back soon for new posts and updates.</p>
   </div>
 
   <!-- Feed Container -->
-  <div class="feed-container" #feedContainer *ngIf="!loading || feedItems.length > 0">
+  <div class="feed-container" *ngIf="!loading && feedEntries.length > 0">
     <div 
       class="feed-item"
-      *ngFor="let item of feedItems; let i = index"
-      [attr.data-item-id]="item.id"
-      (click)="onFeedItemClick(item)">
+      *ngFor="let entry of feedEntries; let i = index">
       
-      <!-- Item Header -->
-      <div class="item-header">
-        <div class="item-type-badge" [ngClass]="item.catalogTypeCode?.toLowerCase()">
-          <i [class]="getTypeIcon(item)"></i>
-          <span>{{ getTypeLabel(item) }}</span>
+      <ng-container *ngIf="entry.feedEntry as feedEntry">
+        <!-- Line 1: PostedByEntityName (heading 2) -->
+        <h2 class="posted-by-name" *ngIf="feedEntry.postedByEntityName">
+          {{ feedEntry.postedByEntityName }}
+        </h2>
+
+        <!-- Line 2: PostedByEntityExtra (heading 3) - if exists -->
+        <h3 class="posted-by-extra" *ngIf="feedEntry.postedByEntityExtra">
+          {{ feedEntry.postedByEntityExtra }}
+        </h3>
+
+        <!-- Line 3: Title -->
+        <div class="feed-title" *ngIf="feedEntry.title">
+          {{ feedEntry.title }}
         </div>
-        <span class="item-date">{{ getRelativeTime(item) }}</span>
+
+        <!-- Line 4: Image URL - if exists -->
+        <div class="feed-image" *ngIf="feedEntry.imageFileUrl">
+          <img [src]="feedEntry.imageFileUrl" [alt]="feedEntry.title || 'Feed image'">
+        </div>
+      </ng-container>
+
+      <!-- Lines Next: MdContents using std-markdown-display readonly -->
+      <div class="feed-content" *ngIf="entry.displayMarkdown">
+        <app-std-markdown-display 
+          [markdown]="entry.displayMarkdown"
+          modeName="display"
+          dialect="common">
+        </app-std-markdown-display>
       </div>
 
-      <!-- Item Body -->
-      <div class="item-body">
-        <!-- Image Section -->
-        <div class="item-image">
-          <img [src]="getCatalogEntryImageUrl(item)" [alt]="item.title">
-        </div>
-
-        <!-- Content Section -->
-        <div class="item-content">
-          <div class="item-meta">
-            <app-std-buba 
-              entityName="CatalogEntry" 
-              [entityId]="item.id || ''" 
-              [showLink]="false" 
-              [showName]="false">
-            </app-std-buba>
-            <span class="item-code">{{ item.entryCode }}</span>
-          </div>
-          
-          <h3 class="item-title">{{ item.title }}</h3>
-          
-          <p class="item-description" *ngIf="item.shortDescription">
-            {{ item.shortDescription }}
-          </p>
-          <p class="item-description" *ngIf="!item.shortDescription && item.description">
-            {{ item.description | slice:0:200 }}{{ item.description && item.description.length > 200 ? '...' : '' }}
-          </p>
-
-          <div class="item-notes" *ngIf="item.notes">
-            <i class="fas fa-sticky-note"></i>
-            <span>{{ item.notes }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Item Footer -->
-      <div class="item-footer">
-        <div class="action-buttons">
-          <!-- No interest recorded yet -->
-          <ng-container *ngIf="!item.catalogEntryInterest">
-            <button 
-              class="action-btn thumbs-down" 
-              (click)="markNotInterested(item, $event)"
-              title="Not Interested">
-              <i class="fas fa-thumbs-down"></i>
-              <span>Not for me</span>
-            </button>
-            <button 
-              class="action-btn thumbs-up" 
-              (click)="markInterested(item, $event)"
-              title="Interested">
-              <i class="fas fa-thumbs-up"></i>
-              <span>Interested</span>
-            </button>
-          </ng-container>
-          
-          <!-- Interest recorded -->
-          <ng-container *ngIf="item.catalogEntryInterest">
-            <button 
-              class="action-btn thumbs-up active" 
-              *ngIf="item.catalogEntryInterest.interest && item.catalogEntryInterest.interest > 0"
-              (click)="toggleInterest(item, $event)"
-              title="You're Interested">
-              <i class="fas fa-thumbs-up"></i>
-              <span>Interested</span>
-            </button>
-            <button 
-              class="action-btn thumbs-down active" 
-              *ngIf="item.catalogEntryInterest.interest === 0"
-              (click)="toggleInterest(item, $event)"
-              title="Not Interested">
-              <i class="fas fa-thumbs-down"></i>
-              <span>Not for me</span>
-            </button>
-          </ng-container>
-        </div>
-        
-        <button class="view-details-btn" (click)="onFeedItemClick(item); $event.stopPropagation()">
-          <span>View Details</span>
-          <i class="fas fa-arrow-right"></i>
+      <!-- More link - if MdMore exists and not expanded -->
+      <div class="feed-more" *ngIf="hasMore(entry)">
+        <button 
+          class="more-btn" 
+          (click)="toggleMore(entry)">
+          {{ entry.isExpanded ? '(less ...)' : '(more ...)' }}
         </button>
       </div>
-    </div>
 
-    <!-- Loading More Indicator -->
-    <div class="loading-more" *ngIf="loadingMore">
-      <div class="spinner-small"></div>
-      <span>Loading more...</span>
-    </div>
-
-    <!-- End of Feed -->
-    <div class="end-of-feed" *ngIf="!hasMoreItems && feedItems.length > 0 && !loadingMore">
-      <div class="end-marker"></div>
-      <span>You've reached the end of your feed</span>
-      <button class="back-to-top" (click)="refreshFeed()">
-        <i class="fas fa-arrow-up"></i>
-        Back to Top
-      </button>
     </div>
   </div>
 </div>
