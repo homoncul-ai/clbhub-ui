@@ -44,6 +44,14 @@ export const routes: Routes = [
         loadChildren: () => import('./features/dash-swcat/dash-swcat.module').then(m => m.DashSwcatModule)
       },
       {
+        path: 'nonprofit-dashboard',
+        loadChildren: () => import('./features/dash-nonprofit/dash-nonprofit.module').then(m => m.DashNonprofitModule)
+      },
+      {
+        path: 'parent-dashboard',
+        loadChildren: () => import('./features/dash-parent/dash-parent.module').then(m => m.DashParentModule)
+      },
+      {
         path: '',
         redirectTo: 'advocate-dashboard-bungabunga',
         pathMatch: 'full'

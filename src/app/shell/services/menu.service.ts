@@ -34,11 +34,14 @@ export class MenuService {
 
    * 
    */
-  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): string {
+  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): string {
     switch (dashboardType) {
       case 'advocate':
-  //    case 'nonprofit':
         return 'advocate-dashboard';
+      case 'nonprofit':
+        return 'nonprofit-dashboard';
+      case 'parent':
+        return 'parent-dashboard';
       case 'service-provider':
         return 'provider-dashboard';
       case 'ecoadmin':
@@ -56,9 +59,13 @@ export class MenuService {
     return '';
   }
 
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' | null {
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
+    } else if (route.startsWith('/nonprofit-dashboard')) {
+      return 'nonprofit';
+    } else if (route.startsWith('/parent-dashboard')) {
+      return 'parent';
     } else if (route.startsWith('/provider-dashboard')) {
       return 'service-provider';
     } else if (route.startsWith('/ecoadmin-dashboard')) {
@@ -71,7 +78,7 @@ export class MenuService {
     return null;
   }
 
-  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' {
+  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
       return 'advocate';
@@ -103,6 +110,9 @@ export class MenuService {
       case 'EDU_NONPROFIT':
         return 'nonprofit';
 
+      case 'PARENT':
+      case 'EDU_PARENT':
+        return 'parent';
 
       case 'STUDENT':
         return 'student';
@@ -120,7 +130,7 @@ export class MenuService {
   catalogs : CatalogGETData[] = [];
   personalStatements: PersonalStatementGETData[] = [];
   
-  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
+  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
     switch (dashboardType) {
       case 'service-provider':
         const workQueueCriteria = {
@@ -157,6 +167,7 @@ export class MenuService {
         break;
       case 'advocate':
       case 'nonprofit':
+      case 'parent':
       case 'ecoadmin':
       case 'swcat':
       default:
@@ -166,12 +177,14 @@ export class MenuService {
   }
 
 
-  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): MenuItem[] {
+  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
           return this.buildAdvocateMenu();
       case 'nonprofit':
-        return this.buildBrokerMenu(); // TODO: buildNonProfitMenu();
+        return this.buildNonprofitMenu();
+      case 'parent':
+        return this.buildParentMenu();
       case 'service-provider':
         return this.buildServiceProviderMenu();
       case 'ecoadmin':
@@ -386,6 +399,34 @@ export class MenuService {
     const agreements = this.copyMenuItem(MENU_CONSTANTS.BROKER_AGREEMENTS);
     this.addChildMenuItem(agreements, this.copyMenuItem(MENU_CONSTANTS.BROKER_AGREEMENT_DETAILS));
     this.addMenuItem(menu, agreements);
+    
+    return menu;
+  }
+
+  /**
+   * Builds the nonprofit menu dynamically using the constants and helper methods
+   * @returns Array of MenuItem objects for the nonprofit dashboard
+   */
+  buildNonprofitMenu(): MenuItem[] {
+    const menu: MenuItem[] = [];
+    
+    // Add Dashboard
+    const dashboard = this.copyMenuItem(MENU_CONSTANTS.NONPROFIT_DASHBOARD);
+    this.addMenuItem(menu, dashboard);
+    
+    return menu;
+  }
+
+  /**
+   * Builds the parent menu dynamically using the constants and helper methods
+   * @returns Array of MenuItem objects for the parent dashboard
+   */
+  buildParentMenu(): MenuItem[] {
+    const menu: MenuItem[] = [];
+    
+    // Add Dashboard
+    const dashboard = this.copyMenuItem(MENU_CONSTANTS.PARENT_DASHBOARD);
+    this.addMenuItem(menu, dashboard);
     
     return menu;
   }
@@ -1723,5 +1764,25 @@ STUDENT_CATALOG: {
     componentPath: 'src/app/features/dash-swcat',
     componentName: 'dash-swcat-sematree-group',
     icon: 'fas fa-tree'
+  },
+
+  // Nonprofit Dashboard Menu Items
+  NONPROFIT_DASHBOARD: {
+    level: 1,
+    label: 'Dashboard',
+    route: '/nonprofit-dashboard/home',
+    componentPath: 'src/app/features/dash-nonprofit',
+    componentName: 'dash-nonprofit-home',
+    icon: 'fas fa-tachometer-alt'
+  },
+
+  // Parent Dashboard Menu Items
+  PARENT_DASHBOARD: {
+    level: 1,
+    label: 'Dashboard',
+    route: '/parent-dashboard/home',
+    componentPath: 'src/app/features/dash-parent',
+    componentName: 'dash-parent-home',
+    icon: 'fas fa-tachometer-alt'
   }
 };
