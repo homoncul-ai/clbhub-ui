@@ -8200,6 +8200,240 @@
         }
       }
     },
+    "/hccl/pcontract/pcontractactivationcode": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Create a new PContractActivationCode.",
+        "operationId": "createPContractActivationCode_1",
+        "requestBody": {
+          "description": "New PContractActivationCode data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractActivationCodePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractactivationcode/{id}": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractActivationCodeById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractActivationCodeGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Updates and existing PContractActivationCode.",
+        "operationId": "updatePContractActivationCodeById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PContractActivationCode data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractActivationCodePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Deletes an existing PContractActivationCode.",
+        "operationId": "deletePContractActivationCodeById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractactivationcode/query": {
+      "post": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches all PContractActivationCodes.",
+        "operationId": "findPContractActivationCodes_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PContractActivationCodeCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractActivationCodeGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pcontract/pcontractactivationcode/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pcontract"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPContractActivationCodeByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PContractActivationCodeGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pcontract/pcontractparticipant": {
       "post": {
         "tags": [
@@ -19006,6 +19240,45 @@
         }
       }
     },
+    "/hccl/students/join-family": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Kid can claim the place in the family. ",
+        "operationId": "joinFamily",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HandleActivationCodeResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/students/current-feed": {
       "get": {
         "tags": [
@@ -22325,11 +22598,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "errorMessageAsString": {
-            "type": "string"
-          },
           "firstErrorMessage": {
             "$ref": "#/components/schemas/SimpleMessage"
+          },
+          "errorMessageAsString": {
+            "type": "string"
           }
         }
       },
@@ -29507,6 +29780,35 @@
           }
         }
       },
+      "EntityTuple": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityName": {
+            "type": "string"
+          },
+          "entityOrgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityIdStr": {
+            "type": "string"
+          },
+          "serviceCode": {
+            "type": "string"
+          },
+          "entityDisplayText": {
+            "type": "string"
+          }
+        }
+      },
       "PMFileGroupPOSTData": {
         "required": [
           "aspectCode",
@@ -29565,6 +29867,9 @@
                 "$ref": "#/components/schemas/PMFilePOSTData"
               }
             }
+          },
+          "parentEntity": {
+            "$ref": "#/components/schemas/EntityTuple"
           }
         }
       },
@@ -30352,35 +30657,6 @@
           }
         }
       },
-      "EntityTuple": {
-        "type": "object",
-        "properties": {
-          "tenantId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityName": {
-            "type": "string"
-          },
-          "entityOrgId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityIdStr": {
-            "type": "string"
-          },
-          "serviceCode": {
-            "type": "string"
-          },
-          "entityDisplayText": {
-            "type": "string"
-          }
-        }
-      },
       "PMessageEntryPOSTData": {
         "required": [
           "body",
@@ -31059,6 +31335,237 @@
           "dateLastEntry": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "PContractActivationCodePOSTData": {
+        "required": [
+          "activationActionCode",
+          "activationCode",
+          "claimedByUserProfileId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activationActionCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileUsername": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dateSigned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loginSessionId": {
+            "type": "string"
+          },
+          "activationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "claimedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PContractActivationCodeGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activationActionCode": {
+            "type": "string"
+          },
+          "userProfileUsername": {
+            "type": "string"
+          },
+          "loginSessionId": {
+            "type": "string"
+          },
+          "activationCode": {
+            "type": "string"
+          },
+          "claimedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PContractActivationCodeGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PContractActivationCodeGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PContractActivationCodeCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activationActionCode": {
+            "type": "string"
+          },
+          "userProfileUsername": {
+            "type": "string"
+          },
+          "dateSigned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loginSessionId": {
+            "type": "string"
+          },
+          "activationCode": {
+            "type": "string"
+          },
+          "claimedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "unclaimed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PContractActivationCodePUTData": {
+        "required": [
+          "activationActionCode",
+          "activationCode",
+          "claimedByUserProfileId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activationActionCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileUsername": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dateSigned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "loginSessionId": {
+            "type": "string"
+          },
+          "activationCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "claimedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -43596,6 +44103,17 @@
           }
         }
       },
+      "HandleActivationCodeResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "family": {
+            "$ref": "#/components/schemas/FamilyUnitGETData"
+          }
+        }
+      },
       "UserFeedGETData": {
         "type": "object",
         "properties": {
@@ -43877,13 +44395,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

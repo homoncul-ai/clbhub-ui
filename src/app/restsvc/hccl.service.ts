@@ -1905,6 +1905,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PMessageGETDataSearchResults>(request);
   }
 
+  createPContractActivationCode(body: PContractActivationCodePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractactivationcode",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPContractActivationCodeById(id: string): Observable<PContractActivationCodeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractactivationcode/" + id,
+      method: "GET",
+    };
+    return this.request<PContractActivationCodeGETData>(request);
+  }
+
+  updatePContractActivationCodeById(id: string, body: PContractActivationCodePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractactivationcode/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePContractActivationCodeById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractactivationcode/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPContractActivationCodes(body: PContractActivationCodeCriteria): Observable<PContractActivationCodeGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractactivationcode/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PContractActivationCodeGETDataSearchResults>(request);
+  }
+
+  getPContractActivationCodeByIdWithHint(id: string, hint: string): Observable<PContractActivationCodeGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pcontract/pcontractactivationcode/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PContractActivationCodeGETData>(request);
+  }
+
   createPContractParticipant(body: PContractParticipantPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pcontract/pcontractparticipant",
@@ -4360,6 +4412,15 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<PersonalStatementResumeGETData>(request);
+  }
+
+  joinFamily(code: string): Observable<HandleActivationCodeResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/join-family",
+      method: "GET",
+      params: { code: this.convertToString(code) },
+    };
+    return this.request<HandleActivationCodeResponse>(request);
   }
 
   loadCurrentFeed(): Observable<UserFeedGETData> {
@@ -7176,6 +7237,16 @@ export interface PMFileGroupEntryPUTData {
   folderName: string;
 }
 
+export interface EntityTuple {
+  tenantId?: string;
+  entityName?: string;
+  entityOrgId?: string;
+  entityId?: string;
+  entityIdStr?: string;
+  serviceCode?: string;
+  entityDisplayText?: string;
+}
+
 export interface PMFileGroupPOSTData {
   title: string;
   instructions: string;
@@ -7187,6 +7258,7 @@ export interface PMFileGroupPOSTData {
   aspectCode: string;
   fileGroupEntryId?: string;
   mapFolderFiles?: any;
+  parentEntity?: EntityTuple;
 }
 
 export interface PMFilePOSTData {
@@ -7408,16 +7480,6 @@ export interface PMessageAttachmentPUTData {
   attachmentEntityType: string;
 }
 
-export interface EntityTuple {
-  tenantId?: string;
-  entityName?: string;
-  entityOrgId?: string;
-  entityId?: string;
-  entityIdStr?: string;
-  serviceCode?: string;
-  entityDisplayText?: string;
-}
-
 export interface PMessageEntryPOSTData {
   pmessageId?: string;
   authorUserProfileId?: string;
@@ -7609,6 +7671,72 @@ export interface PMessagePUTData {
   subjectEntityType?: string;
   subjectEntityName?: string;
   dateLastEntry?: string;
+}
+
+export interface PContractActivationCodePOSTData {
+  userProfileId: string;
+  activationActionCode: string;
+  userProfileUsername?: string;
+  dateSigned?: string;
+  dateExpires?: string;
+  loginSessionId?: string;
+  activationCode: string;
+  claimedByUserProfileId: string;
+}
+
+export interface PContractActivationCodeGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  userProfileId?: string;
+  activationActionCode?: string;
+  userProfileUsername?: string;
+  loginSessionId?: string;
+  activationCode?: string;
+  claimedByUserProfileId?: string;
+}
+
+export interface PContractActivationCodeGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PContractActivationCodeGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PContractActivationCodeCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  userProfileId?: string;
+  activationActionCode?: string;
+  userProfileUsername?: string;
+  dateSigned?: string;
+  dateExpires?: string;
+  loginSessionId?: string;
+  activationCode?: string;
+  claimedByUserProfileId?: string;
+  unclaimed?: boolean;
+}
+
+export interface PContractActivationCodePUTData {
+  userProfileId: string;
+  activationActionCode: string;
+  userProfileUsername?: string;
+  dateSigned?: string;
+  dateExpires?: string;
+  loginSessionId?: string;
+  activationCode: string;
+  claimedByUserProfileId: string;
 }
 
 export interface PContractParticipantPOSTData {
@@ -11110,6 +11238,11 @@ export interface ResumeUpdateEntryPOSTData {
   entryJson?: string;
 }
 
+export interface HandleActivationCodeResponse {
+  messages?: SimpleMessageList;
+  family?: FamilyUnitGETData;
+}
+
 export interface UserFeedGETData {
   feedEntries?: FeedEntryInstanceGETData[];
 }
@@ -11200,9 +11333,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
