@@ -11288,6 +11288,7 @@ export interface StudentDashUIGETData {
   messages?: PMessageUIGETData[];
   teams?: HcclTeamGETData[];
   personalStatements?: PersonalStatementGETData[];
+  advisoryTeamPMessageId?: string;
   guidanceTeam?: HcclTeamGETData;
   school?: HcclOrganizationGETData;
 }

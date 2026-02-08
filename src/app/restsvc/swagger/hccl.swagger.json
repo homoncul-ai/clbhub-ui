@@ -44261,6 +44261,10 @@
               "$ref": "#/components/schemas/PersonalStatementGETData"
             }
           },
+          "advisoryTeamPMessageId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "guidanceTeam": {
             "$ref": "#/components/schemas/HcclTeamGETData"
           },
