@@ -19462,13 +19462,24 @@
         }
       }
     },
-    "/hccl/students/dash-ui/resolve-student-data": {
+    "/hccl/students/resolve-student-data/{student-userprofile-id}": {
       "get": {
         "tags": [
           "/options"
         ],
         "summary": "Load the guidance UI. ",
         "operationId": "resolveStudentDashData",
+        "parameters": [
+          {
+            "name": "student-userprofile-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -44223,6 +44234,15 @@
       "StudentDashUIGETData": {
         "type": "object",
         "properties": {
+          "profileTypeCode": {
+            "type": "string"
+          },
+          "student": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "family": {
+            "$ref": "#/components/schemas/FamilyUnitGETData"
+          },
           "messages": {
             "type": "array",
             "items": {
@@ -44395,13 +44415,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

@@ -4463,9 +4463,9 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SignupVerdictUIData>(request);
   }
 
-  resolveStudentDashData(): Observable<StudentDashUIGETData> {
+  resolveStudentDashData(student_userprofile_id: string): Observable<StudentDashUIGETData> {
     const request: CommonServiceRequest = {
-      url: "/hccl/students/dash-ui/resolve-student-data",
+      url: "/hccl/students/resolve-student-data/" + student_userprofile_id,
       method: "GET",
     };
     return this.request<StudentDashUIGETData>(request);
@@ -11282,6 +11282,9 @@ export interface SignupVerdictUIData {
 }
 
 export interface StudentDashUIGETData {
+  profileTypeCode?: string;
+  student?: HcclUserProfileGETData;
+  family?: FamilyUnitGETData;
   messages?: PMessageUIGETData[];
   teams?: HcclTeamGETData[];
   personalStatements?: PersonalStatementGETData[];
@@ -11333,9 +11336,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {
