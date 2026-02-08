@@ -22,56 +22,26 @@
     
 </div>
 <div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
-    <div class="details-section">
-      <!-- Display all the SECTION attributes FOR THIS Entity in this section, replacing the ones below. -->
-      <!-- If no section attributes, use the read-only values for 'edit' mode.  -->
-
-      <!-- In general, if not special use the form {{ attributeName }} to display the attribute value -->
-      <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
-      <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
-       <!-- Note all these attributes are only shown here as examples - only show the attributes that are relevant to this entity -->
-        <div class="detail-group">
+  <div class="details-section">
+       
+    <!-- Display all the details attributes FOR THIS Entity in this section, replacing the ones below. -->
+    <!-- Always use the form {{ attributeName }} to display the attribute value -->
+    <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
+    <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
+      <div class="detail-group">
         <label>Name :</label>
         <span>{{ name }}</span>  
       </div>
-      <div class="detail-group">
-        <label>Business Code:</label>
-        <span>{{ businessCode }}</span>
-      </div>
+
       <div class="detail-group">
         <label>Description:</label>
-        <span>{{ description }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Statement Type Code:</label>
-        <span>{{ statementTypeCode }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Parent Entity Name:</label>
-        <span>{{ parentEntityName }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Raw Text:</label>
-        <span>{{ rawText }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Encoding Text:</label>
         <span>{{ encodingText }}</span>
       </div>
-      <div class="detail-group">
+       <div class="detail-group">
         <label>Status:</label>
         <span>{{ status }}</span>
-      </div>
-
-      <!-- If the attribute is an fk use the fk-crud entity app-[fkEntityName]-crud  component to display the value -->
-      <div class="detail-group">
-        <label>Vocation Encoding ID:</label>
-        <span>{{ vocationEncodingId }}</span>
-      </div>
-
-      <!-- End example Attributes -->
-      
-
+      </div>      
+      <app-vocationencoding-display [id]="vocationEncodingId"></app-vocationencoding-display>
     </div>
 </div>
 
