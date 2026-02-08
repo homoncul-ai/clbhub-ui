@@ -15,6 +15,7 @@
 
   <!-- Content -->
   <div *ngIf="!loading && !error && dashData" class="student-monitoring-content">
+
     <mdb-accordion [multiple]="true">
       <!-- Accordion 1: Student Information and Family Unit -->
       <mdb-accordion-item>
@@ -30,10 +31,10 @@
             </div>
             <div *ngIf="dashData.family">
               <h6 class="mb-2">Family Unit</h6>
-              <app-familyunit-component [familyUnitGETData]="dashData.family"></app-familyunit-component>
+              <app-familyunit-component [familyUnitGETData]="dashData.family" [profileTypeCode]="dashData.profileTypeCode"></app-familyunit-component>
             </div>
-            <div *ngIf="!dashData.student && !dashData.family" class="text-muted">
-              No student or family information available.
+            <div *ngIf="!dashData.family" class="text-muted">
+              No family information available.
             </div>
           </div>
         </ng-template>

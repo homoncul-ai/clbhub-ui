@@ -15,6 +15,8 @@ import {
 export class FamilyunitComponent implements OnInit, OnChanges {
   @Input() familyUnitId?: string;
   @Input() familyUnitGETData?: FamilyUnitGETData;
+  /** When 'student', add parent/student buttons are hidden */
+  @Input() profileTypeCode?: string;
 
   familyData: FamilyUnitGETData | null = null;
   loading = false;
@@ -72,7 +74,7 @@ export class FamilyunitComponent implements OnInit, OnChanges {
   }
 
   get students(): FamilyUnitMemberGETData[] {
-    return this.filterMembersByRole('student');
+    return this.filterMembersByRole('child');
   }
 
   private filterMembersByRole(role: string): FamilyUnitMemberGETData[] {
@@ -137,5 +139,10 @@ export class FamilyunitComponent implements OnInit, OnChanges {
   onLinkStudentSave(): void {
     // TODO: Implement save logic
     this.closeLinkStudentModal();
+  }
+
+  /** True when add parent/student buttons should be shown */
+  get showAddButtons(): boolean {
+    return (this.profileTypeCode?.toLowerCase() ?? '') !== 'student';
   }
 }
