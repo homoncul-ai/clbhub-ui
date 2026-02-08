@@ -14,38 +14,29 @@
         <span>{{ name }}</span>  
       </div>
       <div class="detail-group">
-        <label>Business Code:</label>
-        <span>{{ businessCode }}</span>
-      </div>
-      <div class="detail-group">
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
-      <div class="detail-group">
-        <label>Team Type:</label>
-        <app-teamtyperef-crud [id]="teamTypeId" [modeName]="CRUD_MODES.FK"></app-teamtyperef-crud>
-      </div>
-      <div class="detail-group">
-        <label>Organization:</label>
-        <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
-      </div>
-      <div class="detail-group">
-        <label>Team Parent ID:</label>
-        <span>{{ teamParentId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Team Parent Entity Type:</label>
-        <span>{{ teamParentEntityType }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Team Parent Name:</label>
-        <span>{{ teamParentName }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Available:</label>
-        <span><app-available-selector [available]="available" [readonly]="true"></app-available-selector></span>
-      </div>
     </div>
+
+    <!-- put the list of members here in a table with role, name, title, handle, phone, email 
+    the role is a dropdown with the roles from the teamtyperef-crud component -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Name</th>
+          <th>Handle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of getTeamMembers()">
+          <td>{{ member.userProfile?.profileTypeCode }}</td>
+          <td>{{ member.name }}</td>
+          <td>{{ member.userProfile?.messageHandle }}</td>
+        </tr>
+      </tbody>
+    </table>
 </div>
 
 <div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">

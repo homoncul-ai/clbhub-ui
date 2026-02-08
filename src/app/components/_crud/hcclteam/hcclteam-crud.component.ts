@@ -6,7 +6,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { HcclTeamCriteria, HcclTeamGETData, HcclTeamPOSTData, HcclTeamPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { HcclTeamCriteria, HcclTeamGETData, HcclTeamPOSTData, HcclTeamPUTData, HcclService, MenuControlDataList, MenuControlData, HcclTeamMemberGETData, HcclTeamMemberCriteria } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -39,6 +39,14 @@ export class HcclTeamCrudComponent extends AbstractCrudComponent<HcclTeamCrudWra
   // Error property for form validation
   public error: any = null;
 
+  protected getTeamMembers(): HcclTeamMemberGETData[] {
+    return this.getCurrentEntity()?.getData()?.teamMembers || [];
+  }
+  protected setTeamMembers(teamMembers: HcclTeamMemberGETData[]): void {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().teamMembers = teamMembers;
+    }
+  }
   // Validation methods
   private validateName(name: string): string | null {
     if (!name || name.trim() === '') {
@@ -146,11 +154,20 @@ export class HcclTeamCrudComponent extends AbstractCrudComponent<HcclTeamCrudWra
   }
 
   protected async loadEntityByIdCall(id: string): Promise<HcclTeamCrudWrapper> {
-    const hcclteam = await this.hcclService.getHcclTeamById(id).toPromise();
-    if (!hcclteam) {
+    const criteria: HcclTeamCriteria = {
+      ids: [id],
+      optionalDataHint: 'all',
+      pageNumber: 1,
+      pageSize: 100,
+      isPaging: true
+    };
+    const hcclteamResult = await this.hcclService.findHcclTeams(criteria).toPromise();
+    if (!hcclteamResult || !hcclteamResult.searchResults || hcclteamResult.searchResults.length === 0) {
       throw new Error('HcclTeam not found');
     }
-    return new HcclTeamCrudWrapper(hcclteam, this.hcclService);
+    const hcclteam = hcclteamResult.searchResults[0];
+    //alert(JSON.stringify(hcclteam.teamMembers));
+     return new HcclTeamCrudWrapper(hcclteam, this.hcclService);
   }
 
   protected override async createEntityDataCall(entity: HcclTeamCrudWrapper): Promise<any> {
