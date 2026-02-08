@@ -34,7 +34,18 @@ export class StudentMonitoringComponent implements OnInit, OnChanges {
 
   readonly CRUD_MODES = CRUD_MODES;
 
+  /** Accordion state: which section is open. First (studentInfo) open by default. */
+  accordionId = 'studentInfo';
+
   private hcclService = inject(HcclService);
+
+  openAccordion(id: string): void {
+    this.accordionId = id;
+  }
+
+  isAccordionCollapsed(id: string): boolean {
+    return this.accordionId !== id;
+  }
 
   ngOnInit(): void {
     this.loadData();

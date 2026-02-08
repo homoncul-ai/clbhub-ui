@@ -16,9 +16,11 @@
   <!-- Content -->
   <div *ngIf="!loading && !error && dashData" class="student-monitoring-content">
 
-    <mdb-accordion [multiple]="true">
+    <mdb-accordion [multiple]="false">
       <!-- Accordion 1: Student Information and Family Unit -->
-      <mdb-accordion-item>
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('studentInfo')"
+        (itemShow)="openAccordion('studentInfo')">
         <ng-template mdbAccordionItemHeader>
           <i class="fas fa-user-graduate me-2"></i>
           Student Information and Family Unit
@@ -41,7 +43,9 @@
       </mdb-accordion-item>
 
       <!-- Accordion 2: School and Advisory Team -->
-      <mdb-accordion-item>
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('schoolTeam')"
+        (itemShow)="openAccordion('schoolTeam')">
         <ng-template mdbAccordionItemHeader>
           <i class="fas fa-school me-2"></i>
           School and Advisory Team
@@ -64,7 +68,9 @@
       </mdb-accordion-item>
 
       <!-- Accordion 3: Student Activity -->
-      <mdb-accordion-item>
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('studentActivity')"
+        (itemShow)="openAccordion('studentActivity')">
         <ng-template mdbAccordionItemHeader>
           <i class="fas fa-comments me-2"></i>
           Student Activity
@@ -82,7 +88,9 @@
       </mdb-accordion-item>
 
       <!-- Accordion 4: Student Personal Statements -->
-      <mdb-accordion-item>
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('personalStatements')"
+        (itemShow)="openAccordion('personalStatements')">
         <ng-template mdbAccordionItemHeader>
           <i class="fas fa-compass me-2"></i>
           Student Personal Statements
