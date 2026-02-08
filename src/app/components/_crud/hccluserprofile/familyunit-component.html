@@ -1,0 +1,125 @@
+<div class="familyunit-component">
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading family unit...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Family unit content -->
+  <div *ngIf="!loading && !error && familyData" class="familyunit-content">
+    <!-- Parents section -->
+    <div class="parents-section mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="mb-0">Parents</h5>
+        <button type="button" class="btn btn-primary btn-sm" (click)="openAddParentModal()">
+          Add New Parent
+        </button>
+      </div>
+      <div class="parent-list">
+        <div *ngFor="let parent of parents" class="parent-item card mb-2">
+          <div class="card-body py-2">
+            <div class="detail-group"><strong>Name:</strong> {{ getMemberName(parent) }}</div>
+            <div class="detail-group"><strong>Phone:</strong> {{ getMemberPhone(parent) }}</div>
+            <div class="detail-group"><strong>Email:</strong> {{ getMemberEmail(parent) }}</div>
+          </div>
+        </div>
+        <div *ngIf="parents.length === 0" class="text-muted small">No parents listed.</div>
+      </div>
+    </div>
+
+    <hr class="my-3">
+
+    <!-- Student section -->
+    <div class="students-section">
+      <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+        <h5 class="mb-0">Student(s)</h5>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openAddStudentModal()">
+            Add New Student
+          </button>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="openLinkStudentModal()">
+            Link Student to Account
+          </button>
+        </div>
+      </div>
+      <div class="student-list">
+        <div *ngFor="let student of students" class="student-item card mb-2">
+          <div class="card-body py-2">
+            <div class="detail-group"><strong>Name:</strong> {{ getMemberName(student) }}</div>
+            <div class="detail-group"><strong>Phone:</strong> {{ getMemberPhone(student) }}</div>
+            <div class="detail-group"><strong>Email:</strong> {{ getMemberEmail(student) }}</div>
+          </div>
+        </div>
+        <div *ngIf="students.length === 0" class="text-muted small">No students listed.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add New Parent Modal -->
+  <div *ngIf="showAddParentModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="addParentModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addParentModalLabel">Add New Parent</h5>
+          <button type="button" class="btn-close" (click)="closeAddParentModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">Form content to be implemented.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddParentModal()">Cancel</button>
+          <button type="button" class="btn btn-success" (click)="onAddParentSave()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showAddParentModal" class="modal-backdrop fade show"></div>
+
+  <!-- Add New Student Modal -->
+  <div *ngIf="showAddStudentModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addStudentModalLabel">Add New Student</h5>
+          <button type="button" class="btn-close" (click)="closeAddStudentModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">Form content to be implemented.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddStudentModal()">Cancel</button>
+          <button type="button" class="btn btn-success" (click)="onAddStudentSave()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showAddStudentModal" class="modal-backdrop fade show"></div>
+
+  <!-- Link Student to Account Modal -->
+  <div *ngIf="showLinkStudentModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="linkStudentModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="linkStudentModalLabel">Link Student to Account</h5>
+          <button type="button" class="btn-close" (click)="closeLinkStudentModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">Form content to be implemented.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeLinkStudentModal()">Cancel</button>
+          <button type="button" class="btn btn-success" (click)="onLinkStudentSave()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showLinkStudentModal" class="modal-backdrop fade show"></div>
+</div>

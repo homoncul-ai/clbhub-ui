@@ -1,0 +1,141 @@
+import { Component, Input, OnInit, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  HcclService,
+  FamilyUnitGETData,
+  FamilyUnitMemberGETData,
+} from '@app/restsvc/hccl.service';
+
+@Component({
+  selector: 'app-familyunit-component',
+  templateUrl: './familyunit-component.html',
+  standalone: true,
+  imports: [CommonModule],
+})
+export class FamilyunitComponent implements OnInit, OnChanges {
+  @Input() familyUnitId?: string;
+  @Input() familyUnitGETData?: FamilyUnitGETData;
+
+  familyData: FamilyUnitGETData | null = null;
+  loading = false;
+  error = '';
+
+  // Modal states
+  showAddParentModal = false;
+  showAddStudentModal = false;
+  showLinkStudentModal = false;
+
+  private hcclService = inject(HcclService);
+
+  ngOnInit(): void {
+    this.loadDataIfNeeded();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['familyUnitId'] || changes['familyUnitGETData']) {
+      this.loadDataIfNeeded();
+    }
+  }
+
+  private loadDataIfNeeded(): void {
+    if (this.familyUnitGETData) {
+      this.familyData = this.familyUnitGETData;
+      this.loading = false;
+      this.error = '';
+      return;
+    }
+    if (this.familyUnitId) {
+      this.loadFamilyUnit();
+    } else {
+      this.familyData = null;
+    }
+  }
+
+  private loadFamilyUnit(): void {
+    if (!this.familyUnitId) return;
+    this.loading = true;
+    this.error = '';
+    this.hcclService.getFamilyUnitById(this.familyUnitId).subscribe({
+      next: (data) => {
+        this.familyData = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = err?.message || 'Failed to load family unit';
+        this.loading = false;
+      },
+    });
+  }
+
+  get parents(): FamilyUnitMemberGETData[] {
+    return this.filterMembersByRole('parent');
+  }
+
+  get students(): FamilyUnitMemberGETData[] {
+    return this.filterMembersByRole('student');
+  }
+
+  private filterMembersByRole(role: string): FamilyUnitMemberGETData[] {
+    const members = this.familyData?.members ?? [];
+    return members.filter(
+      (m) => m.role?.toLowerCase() === role.toLowerCase()
+    );
+  }
+
+  getMemberName(member: FamilyUnitMemberGETData): string {
+    const p = member.person;
+    if (p?.name) return p.name;
+    if (p?.firstName || p?.lastName) {
+      return [p.firstName, p.lastName].filter(Boolean).join(' ') || '-';
+    }
+    return member.entityDisplayName ?? '-';
+  }
+
+  getMemberPhone(member: FamilyUnitMemberGETData): string {
+    const p = member.person;
+    return p?.cellPhoneNumber || p?.workPhoneNumber || '-';
+  }
+
+  getMemberEmail(member: FamilyUnitMemberGETData): string {
+    return member.person?.userEmail ?? '-';
+  }
+
+  openAddParentModal(): void {
+    this.showAddParentModal = true;
+  }
+
+  closeAddParentModal(): void {
+    this.showAddParentModal = false;
+  }
+
+  onAddParentSave(): void {
+    // TODO: Implement save logic
+    this.closeAddParentModal();
+  }
+
+  openAddStudentModal(): void {
+    this.showAddStudentModal = true;
+  }
+
+  closeAddStudentModal(): void {
+    this.showAddStudentModal = false;
+  }
+
+  onAddStudentSave(): void {
+    // TODO: Implement save logic
+    this.closeAddStudentModal();
+  }
+
+  openLinkStudentModal(): void {
+    this.showLinkStudentModal = true;
+  }
+
+  closeLinkStudentModal(): void {
+    this.showLinkStudentModal = false;
+  }
+
+  onLinkStudentSave(): void {
+    // TODO: Implement save logic
+    this.closeLinkStudentModal();
+  }
+}

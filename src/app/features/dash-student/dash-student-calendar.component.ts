@@ -355,7 +355,7 @@ export class DashStudentCalendarComponent implements OnInit {
         this.userProfile = context.currentUserProfile || null;
 
         // Load student dashboard data
-        this.hcclService.resolveStudentDashData().pipe(
+        this.hcclService.resolveStudentDashData(context.currentUserProfileId).pipe(
           catchError(err => {
             console.warn('Error loading student dashboard data:', err);
             return of(null);

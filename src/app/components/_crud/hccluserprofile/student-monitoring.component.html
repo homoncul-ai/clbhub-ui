@@ -1,0 +1,119 @@
+<div class="student-monitoring">
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading student information...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!loading && !error && dashData" class="student-monitoring-content">
+    <mdb-accordion [multiple]="true">
+      <!-- Accordion 1: Student Information and Family Unit -->
+      <mdb-accordion-item>
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-user-graduate me-2"></i>
+          Student Information and Family Unit
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div class="mb-4" *ngIf="dashData.student?.id">
+              <h6 class="mb-2">Student</h6>
+              <app-hccluserprofile-crud [id]="dashData.student!.id" [modeName]="CRUD_MODES.SECTION"></app-hccluserprofile-crud>
+            </div>
+            <div *ngIf="dashData.family">
+              <h6 class="mb-2">Family Unit</h6>
+              <app-familyunit-component [familyUnitGETData]="dashData.family"></app-familyunit-component>
+            </div>
+            <div *ngIf="!dashData.student && !dashData.family" class="text-muted">
+              No student or family information available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <!-- Accordion 2: School and Advisory Team -->
+      <mdb-accordion-item>
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-school me-2"></i>
+          School and Advisory Team
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div class="mb-4" *ngIf="dashData.school?.id">
+              <h6 class="mb-2">School</h6>
+              <app-hcclorganization-crud [id]="dashData.school!.id" [modeName]="CRUD_MODES.SECTION"></app-hcclorganization-crud>
+            </div>
+            <div *ngIf="dashData.guidanceTeam?.id">
+              <h6 class="mb-2">Guidance Team</h6>
+              <app-hcclteam-crud [id]="dashData.guidanceTeam!.id" [modeName]="CRUD_MODES.SECTION"></app-hcclteam-crud>
+            </div>
+            <div *ngIf="!dashData.school && !dashData.guidanceTeam" class="text-muted">
+              No school or guidance team information available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <!-- Accordion 3: Student Activity -->
+      <mdb-accordion-item>
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-comments me-2"></i>
+          Student Activity
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div *ngIf="dashData.advisoryTeamPMessageId">
+              <app-pmessage-ui [id]="dashData.advisoryTeamPMessageId"></app-pmessage-ui>
+            </div>
+            <div *ngIf="!dashData.advisoryTeamPMessageId" class="text-muted">
+              No advisory team activity available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <!-- Accordion 4: Student Personal Statements -->
+      <mdb-accordion-item>
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-compass me-2"></i>
+          Student Personal Statements
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <ng-container *ngFor="let ps of dashData.personalStatements || []">
+              <div *ngIf="ps?.id" class="mb-3">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">{{ ps?.name }}</h6>
+                    <span *ngIf="ps?.progress?.progressPercent != null" class="badge bg-primary">
+                      {{ ps?.progress?.progressPercent }}% complete
+                    </span>
+                  </div>
+                  <div class="card-body">
+                    <app-personalstatement-crud [id]="ps?.id ?? ''" [modeName]="CRUD_MODES.SECTION"></app-personalstatement-crud>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <div *ngIf="!dashData.personalStatements?.length" class="text-muted">
+              No personal statements available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+    </mdb-accordion>
+  </div>
+
+  <!-- No data state -->
+  <div *ngIf="!loading && !error && !dashData && userProfileId" class="alert alert-warning">
+    No student dashboard data found for this user profile.
+  </div>
+</div>
