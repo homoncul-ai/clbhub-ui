@@ -363,7 +363,7 @@ implements OnInit, OnDestroy, OnChanges {
     this.signupUIData = null;
     this.signupInstructionsHtml = null;
 
-    this.hcclService.resolveSignupUIDataGet(this.interestId).subscribe({
+    this.hcclService.resolveStudentSignupUIData(this.interestId).subscribe({
       next: (data) => {
         this.loadingSignupUIData = false;
         this.signupUIData = data;

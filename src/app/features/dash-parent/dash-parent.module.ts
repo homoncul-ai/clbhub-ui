@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 // Components
 import { DashParentComponent } from './dash-parent.component';
 import { DashParentHomeComponent } from './dash-parent-home.component';
+import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-entity-ui.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
     children: [
       { path: 'home', component: DashParentHomeComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
+
+      { path: 'e/:entityType/:entityId/:tabId/:childId/:childTabId', component: StdEntityUiComponent   },
+      { path: 'e/:entityType/:entityId/:tabId/:childId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId/:tabId', component: StdEntityUiComponent },
+      { path: 'e/:entityType/:entityId', component: StdEntityUiComponent },
     ]
   }
 ];

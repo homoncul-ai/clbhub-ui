@@ -4190,7 +4190,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
-  resolveSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
+  resolvePublicSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student/setup",
       method: "GET",
@@ -4322,6 +4322,55 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PMessageGETData>(request);
   }
 
+  askToJoinFamily(body: CreateActivationCodeRequest): Observable<CreateActivationCodeResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/parents/invite-to-family",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CreateActivationCodeResponse>(request);
+  }
+
+  loadCurrentFeed(): Observable<UserFeedGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/parents/current-feed",
+      method: "GET",
+    };
+    return this.request<UserFeedGETData>(request);
+  }
+
+  resolveParentDashSignupUIData(interest_id: string): Observable<SignupUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/parents/dash-ui/resolve-signup-ui-data/" + interest_id,
+      method: "GET",
+    };
+    return this.request<SignupUIData>(request);
+  }
+
+  resolveParentSignupVerdictUIData(interest_id: string): Observable<SignupVerdictUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/parents/dash-ui/resolve-signup-verdict-ui-data/" + interest_id,
+      method: "GET",
+    };
+    return this.request<SignupVerdictUIData>(request);
+  }
+
+  resolveParentUIData(): Observable<FamilyParentDashUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/parents/dash-ui",
+      method: "GET",
+    };
+    return this.request<FamilyParentDashUIGETData>(request);
+  }
+
+  resolvePersonalStatementUIData(id: string): Observable<PersonalStatementUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/parents/dash-ui/resolve-personal-statmentui/" + id,
+      method: "GET",
+    };
+    return this.request<PersonalStatementUIGETData>(request);
+  }
+
   getSignupPacketsSetupData(): Observable<ManageSignupPacketUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/providers/setup/signup-packets-setup-data",
@@ -4423,7 +4472,7 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HandleActivationCodeResponse>(request);
   }
 
-  loadCurrentFeed(): Observable<UserFeedGETData> {
+  loadCurrentFeedGet(): Observable<UserFeedGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/current-feed",
       method: "GET",
@@ -4439,28 +4488,12 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestDashboardUIGETData>(request);
   }
 
-  resolvePersonalStatementUIData(id: string): Observable<PersonalStatementUIGETData> {
+  resolvePersonalStatementUIDataGet(id: string): Observable<PersonalStatementUIGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/dash-ui/resolve-personal-statmentui/" + id,
       method: "GET",
     };
     return this.request<PersonalStatementUIGETData>(request);
-  }
-
-  resolveSignupUIDataGet(interest_id: string): Observable<SignupUIData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/students/dash-ui/resolve-signup-ui-data/" + interest_id,
-      method: "GET",
-    };
-    return this.request<SignupUIData>(request);
-  }
-
-  resolveSignupVerdictUIData(interest_id: string): Observable<SignupVerdictUIData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/students/dash-ui/resolve-signup-verdict-ui-data/" + interest_id,
-      method: "GET",
-    };
-    return this.request<SignupVerdictUIData>(request);
   }
 
   resolveStudentDashData(student_userprofile_id: string): Observable<StudentDashUIGETData> {
@@ -4469,6 +4502,22 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "GET",
     };
     return this.request<StudentDashUIGETData>(request);
+  }
+
+  resolveStudentSignupUIData(interest_id: string): Observable<SignupUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/dash-ui/resolve-signup-ui-data/" + interest_id,
+      method: "GET",
+    };
+    return this.request<SignupUIData>(request);
+  }
+
+  resolveStudentSignupVerdictUIData(interest_id: string): Observable<SignupVerdictUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/dash-ui/resolve-signup-verdict-ui-data/" + interest_id,
+      method: "GET",
+    };
+    return this.request<SignupVerdictUIData>(request);
   }
 
   createTrutestaUsageGraph(body: UtilmonStatGraphCriteria): Observable<UtilmonStatGraphPOJO> {
@@ -5716,6 +5765,7 @@ export interface HcclPersonGETData {
   firstName?: string;
   lastName?: string;
   messageHandle?: string;
+  user?: HcclUserGETData;
 }
 
 export interface HcclUserGETData {
@@ -5735,6 +5785,7 @@ export interface HcclUserGETData {
   available?: number;
   personId?: string;
   person?: HcclPersonGETData;
+  userProfiles?: HcclUserProfileGETData[];
 }
 
 export interface HcclUserProfileGETData {
@@ -8715,6 +8766,7 @@ export interface FamilyUnitMemberGETData {
   personId?: string;
   role?: string;
   person?: HcclPersonGETData;
+  user?: HcclUserGETData;
 }
 
 export interface FamilyUnitMemberGETDataSearchResults {
@@ -11202,9 +11254,19 @@ export interface SimpleRestActionResponse {
   mapFormElements?: any;
 }
 
-export interface ManageSignupPacketUIData {
-  signupBehaviors?: SignupBehavior[];
-  signupBehaviorSelectData?: MenuControlDataList;
+export interface CreateActivationCodeResponse {
+  messages?: SimpleMessageList;
+  activationCode?: string;
+}
+
+export interface CreateActivationCodeRequest {
+  addingAsChild?: boolean;
+  addingAsParent?: boolean;
+  emailAddress?: string;
+}
+
+export interface UserFeedGETData {
+  feedEntries?: FeedEntryInstanceGETData[];
 }
 
 export interface SignupBehavior {
@@ -11213,6 +11275,49 @@ export interface SignupBehavior {
   requiringResume?: boolean;
   consentingToSendTranscript?: boolean;
   ackingProviderContact?: boolean;
+}
+
+export interface SignupUIData {
+  signupPacket?: CatalogEntrySignupPacketGETData;
+  catalogEntryInterest?: CatalogEntryInterestGETData;
+  resumeSelectData?: MenuControlDataList;
+  signupBehavior?: SignupBehavior;
+  providerOrganizationName?: string;
+  messages?: SimpleMessageList;
+  workRequestId?: string;
+  stateTransitionLog?: StateTransitionLogGETData;
+}
+
+export interface SignupVerdictUIData {
+  catalogEntryInterest?: CatalogEntryInterestGETData;
+  signupBehavior?: SignupBehavior;
+  messages?: SimpleMessageList;
+  studentUserProfile?: HcclUserProfileGETData;
+  workRequestId?: string;
+  stateTransitionLog?: StateTransitionLogGETData;
+  personalStatementResume?: PersonalStatementResumeGETData;
+}
+
+export interface FamilyParentDashUIGETData {
+  family?: FamilyUnitGETData;
+}
+
+export interface PMessageUIGETData {
+  message?: PMessageGETData;
+  unreadEnties?: PMessageEntryGETData[];
+  unreadEntryCount?: number;
+}
+
+export interface PersonalStatementUIGETData {
+  messages?: PMessageUIGETData[];
+  personalStatement?: PersonalStatementGETData;
+  personalStatementResumeCriteria?: PersonalStatementResumeCriteria;
+  catalogEntryInterestCriteria?: CatalogEntryInterestCriteria;
+}
+
+export interface ManageSignupPacketUIData {
+  signupBehaviors?: SignupBehavior[];
+  signupBehaviorSelectData?: MenuControlDataList;
 }
 
 export interface EntityStateStatGETData {
@@ -11241,44 +11346,6 @@ export interface ResumeUpdateEntryPOSTData {
 export interface HandleActivationCodeResponse {
   messages?: SimpleMessageList;
   family?: FamilyUnitGETData;
-}
-
-export interface UserFeedGETData {
-  feedEntries?: FeedEntryInstanceGETData[];
-}
-
-export interface PMessageUIGETData {
-  message?: PMessageGETData;
-  unreadEnties?: PMessageEntryGETData[];
-  unreadEntryCount?: number;
-}
-
-export interface PersonalStatementUIGETData {
-  messages?: PMessageUIGETData[];
-  personalStatement?: PersonalStatementGETData;
-  personalStatementResumeCriteria?: PersonalStatementResumeCriteria;
-  catalogEntryInterestCriteria?: CatalogEntryInterestCriteria;
-}
-
-export interface SignupUIData {
-  signupPacket?: CatalogEntrySignupPacketGETData;
-  catalogEntryInterest?: CatalogEntryInterestGETData;
-  resumeSelectData?: MenuControlDataList;
-  signupBehavior?: SignupBehavior;
-  providerOrganizationName?: string;
-  messages?: SimpleMessageList;
-  workRequestId?: string;
-  stateTransitionLog?: StateTransitionLogGETData;
-}
-
-export interface SignupVerdictUIData {
-  catalogEntryInterest?: CatalogEntryInterestGETData;
-  signupBehavior?: SignupBehavior;
-  messages?: SimpleMessageList;
-  studentUserProfile?: HcclUserProfileGETData;
-  workRequestId?: string;
-  stateTransitionLog?: StateTransitionLogGETData;
-  personalStatementResume?: PersonalStatementResumeGETData;
 }
 
 export interface StudentDashUIGETData {
@@ -11337,9 +11404,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {

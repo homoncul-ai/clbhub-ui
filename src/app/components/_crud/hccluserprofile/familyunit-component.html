@@ -52,10 +52,17 @@
       </div>
       <div class="student-list">
         <div *ngFor="let student of students" class="student-item card mb-2">
-          <div class="card-body py-2">
-            <div class="detail-group"><strong>Name:</strong> {{ getMemberName(student) }}</div>
-            <div class="detail-group"><strong>Phone:</strong> {{ getMemberPhone(student) }}</div>
-            <div class="detail-group"><strong>Email:</strong> {{ getMemberEmail(student) }}</div>
+          <div class="card-body py-2 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="detail-group"><strong>Name:</strong> {{ getMemberName(student) }}</div>
+              <div class="detail-group"><strong>Phone:</strong> {{ getMemberPhone(student) }}</div>
+              <div class="detail-group"><strong>Email:</strong> {{ getMemberEmail(student) }}</div>
+            </div>
+            <div class="d-flex flex-wrap gap-1">
+              <button *ngFor="let profile of getMemberUserProfiles(student)" type="button" class="btn btn-outline-primary btn-sm" (click)="monitorStudent(profile.id!)">
+                {{ profile.entityDisplayName || 'Monitor Student' }}
+              </button>
+            </div>
           </div>
         </div>
         <div *ngIf="students.length === 0" class="text-muted small">No students listed.</div>

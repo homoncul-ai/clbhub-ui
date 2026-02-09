@@ -18235,7 +18235,7 @@
           "/public"
         ],
         "summary": "Load the setup for the student UI. ",
-        "operationId": "resolveSignupUIData",
+        "operationId": "resolvePublicSignupUIData",
         "parameters": [
           {
             "name": "interest-id",
@@ -18856,6 +18856,228 @@
         }
       }
     },
+    "/hccl/parents/invite-to-family": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the PersonalStatementUIGETData UI. ",
+        "operationId": "askToJoinFamily",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateActivationCodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateActivationCodeResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/parents/current-feed": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": " Current Feed.",
+        "operationId": "loadCurrentFeed",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserFeedGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/parents/dash-ui/resolve-signup-ui-data/{interest-id}": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveParentDashSignupUIData",
+        "parameters": [
+          {
+            "name": "interest-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/parents/dash-ui/resolve-signup-verdict-ui-data/{interest-id}": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveParentSignupVerdictUIData",
+        "parameters": [
+          {
+            "name": "interest-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupVerdictUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/parents/dash-ui": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveParentUIData",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/FamilyParentDashUIGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/parents/dash-ui/resolve-personal-statmentui/{id}": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the PersonalStatementUIGETData UI. ",
+        "operationId": "resolvePersonalStatementUIData",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementUIGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/providers/setup/signup-packets-setup-data": {
       "get": {
         "summary": "Load the signup packet . ",
@@ -19285,7 +19507,7 @@
           "/options"
         ],
         "summary": " Current Feed.",
-        "operationId": "loadCurrentFeed",
+        "operationId": "loadCurrentFeed_1",
         "responses": {
           "200": {
             "description": "Ok",
@@ -19345,7 +19567,7 @@
           "/options"
         ],
         "summary": "Load the PersonalStatementUIGETData UI. ",
-        "operationId": "resolvePersonalStatementUIData",
+        "operationId": "resolvePersonalStatementUIData_1",
         "parameters": [
           {
             "name": "id",
@@ -19364,88 +19586,6 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/PersonalStatementUIGETData"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/students/dash-ui/resolve-signup-ui-data/{interest-id}": {
-      "get": {
-        "tags": [
-          "/options"
-        ],
-        "summary": "Load the guidance UI. ",
-        "operationId": "resolveSignupUIData_1",
-        "parameters": [
-          {
-            "name": "interest-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/SignupUIData"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/students/dash-ui/resolve-signup-verdict-ui-data/{interest-id}": {
-      "get": {
-        "tags": [
-          "/options"
-        ],
-        "summary": "Load the guidance UI. ",
-        "operationId": "resolveSignupVerdictUIData",
-        "parameters": [
-          {
-            "name": "interest-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/SignupVerdictUIData"
                 }
               }
             }
@@ -19487,6 +19627,88 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/StudentDashUIGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/students/dash-ui/resolve-signup-ui-data/{interest-id}": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveStudentSignupUIData",
+        "parameters": [
+          {
+            "name": "interest-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/students/dash-ui/resolve-signup-verdict-ui-data/{interest-id}": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Load the guidance UI. ",
+        "operationId": "resolveStudentSignupVerdictUIData",
+        "parameters": [
+          {
+            "name": "interest-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupVerdictUIData"
                 }
               }
             }
@@ -24441,6 +24663,12 @@
           },
           "person": {
             "$ref": "#/components/schemas/HcclPersonGETData"
+          },
+          "userProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclUserProfileGETData"
+            }
           }
         }
       },
@@ -35103,6 +35331,9 @@
           },
           "person": {
             "$ref": "#/components/schemas/HcclPersonGETData"
+          },
+          "user": {
+            "$ref": "#/components/schemas/HcclUserGETData"
           }
         }
       },
@@ -44019,17 +44250,39 @@
           }
         }
       },
-      "ManageSignupPacketUIData": {
+      "CreateActivationCodeResponse": {
         "type": "object",
         "properties": {
-          "signupBehaviors": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "activationCode": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateActivationCodeRequest": {
+        "type": "object",
+        "properties": {
+          "addingAsChild": {
+            "type": "boolean"
+          },
+          "addingAsParent": {
+            "type": "boolean"
+          },
+          "emailAddress": {
+            "type": "string"
+          }
+        }
+      },
+      "UserFeedGETData": {
+        "type": "object",
+        "properties": {
+          "feedEntries": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SignupBehavior"
+              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
             }
-          },
-          "signupBehaviorSelectData": {
-            "$ref": "#/components/schemas/MenuControlDataList"
           }
         }
       },
@@ -44050,6 +44303,123 @@
           },
           "ackingProviderContact": {
             "type": "boolean"
+          }
+        }
+      },
+      "SignupUIData": {
+        "type": "object",
+        "properties": {
+          "signupPacket": {
+            "$ref": "#/components/schemas/CatalogEntrySignupPacketGETData"
+          },
+          "catalogEntryInterest": {
+            "$ref": "#/components/schemas/CatalogEntryInterestGETData"
+          },
+          "resumeSelectData": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "signupBehavior": {
+            "$ref": "#/components/schemas/SignupBehavior"
+          },
+          "providerOrganizationName": {
+            "type": "string"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stateTransitionLog": {
+            "$ref": "#/components/schemas/StateTransitionLogGETData"
+          }
+        }
+      },
+      "SignupVerdictUIData": {
+        "type": "object",
+        "properties": {
+          "catalogEntryInterest": {
+            "$ref": "#/components/schemas/CatalogEntryInterestGETData"
+          },
+          "signupBehavior": {
+            "$ref": "#/components/schemas/SignupBehavior"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "studentUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "workRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stateTransitionLog": {
+            "$ref": "#/components/schemas/StateTransitionLogGETData"
+          },
+          "personalStatementResume": {
+            "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+          }
+        }
+      },
+      "FamilyParentDashUIGETData": {
+        "type": "object",
+        "properties": {
+          "family": {
+            "$ref": "#/components/schemas/FamilyUnitGETData"
+          }
+        }
+      },
+      "PMessageUIGETData": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "$ref": "#/components/schemas/PMessageGETData"
+          },
+          "unreadEnties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMessageEntryGETData"
+            }
+          },
+          "unreadEntryCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PersonalStatementUIGETData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMessageUIGETData"
+            }
+          },
+          "personalStatement": {
+            "$ref": "#/components/schemas/PersonalStatementGETData"
+          },
+          "personalStatementResumeCriteria": {
+            "$ref": "#/components/schemas/PersonalStatementResumeCriteria"
+          },
+          "catalogEntryInterestCriteria": {
+            "$ref": "#/components/schemas/CatalogEntryInterestCriteria"
+          }
+        }
+      },
+      "ManageSignupPacketUIData": {
+        "type": "object",
+        "properties": {
+          "signupBehaviors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SignupBehavior"
+            }
+          },
+          "signupBehaviorSelectData": {
+            "$ref": "#/components/schemas/MenuControlDataList"
           }
         }
       },
@@ -44122,112 +44492,6 @@
           },
           "family": {
             "$ref": "#/components/schemas/FamilyUnitGETData"
-          }
-        }
-      },
-      "UserFeedGETData": {
-        "type": "object",
-        "properties": {
-          "feedEntries": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
-            }
-          }
-        }
-      },
-      "PMessageUIGETData": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "$ref": "#/components/schemas/PMessageGETData"
-          },
-          "unreadEnties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PMessageEntryGETData"
-            }
-          },
-          "unreadEntryCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "PersonalStatementUIGETData": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PMessageUIGETData"
-            }
-          },
-          "personalStatement": {
-            "$ref": "#/components/schemas/PersonalStatementGETData"
-          },
-          "personalStatementResumeCriteria": {
-            "$ref": "#/components/schemas/PersonalStatementResumeCriteria"
-          },
-          "catalogEntryInterestCriteria": {
-            "$ref": "#/components/schemas/CatalogEntryInterestCriteria"
-          }
-        }
-      },
-      "SignupUIData": {
-        "type": "object",
-        "properties": {
-          "signupPacket": {
-            "$ref": "#/components/schemas/CatalogEntrySignupPacketGETData"
-          },
-          "catalogEntryInterest": {
-            "$ref": "#/components/schemas/CatalogEntryInterestGETData"
-          },
-          "resumeSelectData": {
-            "$ref": "#/components/schemas/MenuControlDataList"
-          },
-          "signupBehavior": {
-            "$ref": "#/components/schemas/SignupBehavior"
-          },
-          "providerOrganizationName": {
-            "type": "string"
-          },
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "workRequestId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "stateTransitionLog": {
-            "$ref": "#/components/schemas/StateTransitionLogGETData"
-          }
-        }
-      },
-      "SignupVerdictUIData": {
-        "type": "object",
-        "properties": {
-          "catalogEntryInterest": {
-            "$ref": "#/components/schemas/CatalogEntryInterestGETData"
-          },
-          "signupBehavior": {
-            "$ref": "#/components/schemas/SignupBehavior"
-          },
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "studentUserProfile": {
-            "$ref": "#/components/schemas/HcclUserProfileGETData"
-          },
-          "workRequestId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "stateTransitionLog": {
-            "$ref": "#/components/schemas/StateTransitionLogGETData"
-          },
-          "personalStatementResume": {
-            "$ref": "#/components/schemas/PersonalStatementResumeGETData"
           }
         }
       },
@@ -44419,13 +44683,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

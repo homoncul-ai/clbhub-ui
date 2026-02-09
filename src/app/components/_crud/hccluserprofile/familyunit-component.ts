@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   HcclService,
   FamilyUnitGETData,
   FamilyUnitMemberGETData,
+  HcclUserProfileGETData,
 } from '@app/restsvc/hccl.service';
 
 @Component({
@@ -28,6 +30,7 @@ export class FamilyunitComponent implements OnInit, OnChanges {
   showLinkStudentModal = false;
 
   private hcclService = inject(HcclService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.loadDataIfNeeded();
@@ -144,5 +147,18 @@ export class FamilyunitComponent implements OnInit, OnChanges {
   /** True when add parent/student buttons should be shown */
   get showAddButtons(): boolean {
     return (this.profileTypeCode?.toLowerCase() ?? '') !== 'student';
+  }
+
+  /** Get student user profiles for a family member - from person.user.userProfiles or member.user.userProfiles, filtered by profileTypeCode === 'student' */
+  getMemberUserProfiles(member: FamilyUnitMemberGETData): HcclUserProfileGETData[] {
+    const profiles = member.person?.user?.userProfiles ?? member.user?.userProfiles ?? [];
+    return profiles.filter((p) => (p.profileTypeCode ?? '').toLowerCase() === 'student');
+  }
+
+  /** Navigate to student monitoring for the given userProfileId */
+  monitorStudent(userProfileId: string): void {
+    const segments = this.router.url.split('/').filter(Boolean);
+    const dashboardBase = segments[0] || 'parent-dashboard';
+    this.router.navigate([dashboardBase, 'e', 'studentmonitoring', userProfileId]);
   }
 }
