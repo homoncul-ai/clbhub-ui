@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { StudentMonitoringComponent } from '@app/components/_crud/hccluserprofile/student-monitoring.component';
+import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
 
 @Component({
   selector: 'app-dash-student-home',
   standalone: true,
-  imports: [CommonModule, StudentMonitoringComponent],
+  imports: [CommonModule, StudentUiComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -25,8 +25,8 @@ import { StudentMonitoringComponent } from '@app/components/_crud/hccluserprofil
             {{ error }}
           </div>
 
-          <!-- Student Monitoring Content -->
-          <app-student-monitoring *ngIf="!loading && !error && userProfileId" [userProfileId]="userProfileId"></app-student-monitoring>
+          <!-- Student UI Content -->
+          <app-student-ui *ngIf="!loading && !error && userProfileId" [userProfileId]="userProfileId"></app-student-ui>
         </div>
       </div>
     </div>

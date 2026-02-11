@@ -18,8 +18,8 @@
 <div *ngIf="entityType === 'pmfilegroup'">
     <app-pmfilegroup-ui [id]="entityId" [readonly]="readonly"></app-pmfilegroup-ui>
 </div>
-<div *ngIf="entityType === 'studentmonitoring'">
-  <app-student-monitoring [userProfileId]="entityId"></app-student-monitoring>
+<div *ngIf="entityType === 'studentui' || entityType === 'studentmonitoring'">
+  <app-student-ui [userProfileId]="entityId"></app-student-ui>
 </div>
 <div *ngIf="entityType === 'vocationencoding'">
   <app-vocationencoding-display [id]="entityId" ></app-vocationencoding-display>

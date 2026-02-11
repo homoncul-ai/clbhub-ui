@@ -11,8 +11,8 @@ import { PMessageUiComponent } from '../pmessage-ui/pmessage-ui.component';
 import { PersonalStatementCrudComponent } from '../personalstatement/personalstatement-crud.component';
 
 @Component({
-  selector: 'app-student-monitoring',
-  templateUrl: './student-monitoring.component.html',
+  selector: 'app-student-ui',
+  templateUrl: './student-ui.component.html',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,7 +25,7 @@ import { PersonalStatementCrudComponent } from '../personalstatement/personalsta
     PersonalStatementCrudComponent,
   ],
 })
-export class StudentMonitoringComponent implements OnInit, OnChanges {
+export class StudentUiComponent implements OnInit, OnChanges {
   @Input() userProfileId!: string;
 
   dashData: StudentDashUIGETData | null = null;

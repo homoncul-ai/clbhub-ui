@@ -159,6 +159,6 @@ export class FamilyunitComponent implements OnInit, OnChanges {
   monitorStudent(userProfileId: string): void {
     const segments = this.router.url.split('/').filter(Boolean);
     const dashboardBase = segments[0] || 'parent-dashboard';
-    this.router.navigate([dashboardBase, 'e', 'studentmonitoring', userProfileId]);
+    this.router.navigate([dashboardBase, 'e', 'studentui', userProfileId]);
   }
 }

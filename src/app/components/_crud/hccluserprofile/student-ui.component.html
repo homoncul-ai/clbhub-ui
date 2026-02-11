@@ -1,4 +1,4 @@
-<div class="student-monitoring">
+<div class="student-ui">
   <!-- Loading state -->
   <div *ngIf="loading" class="text-center py-4">
     <div class="spinner-border" role="status">
@@ -14,7 +14,7 @@
   </div>
 
   <!-- Content -->
-  <div *ngIf="!loading && !error && dashData" class="student-monitoring-content">
+  <div *ngIf="!loading && !error && dashData" class="student-ui-content">
 
     <mdb-accordion [multiple]="false">
       <!-- Accordion 1: Student Information and Family Unit -->
