@@ -13,8 +13,10 @@
 </div>
  
 <div *ngIf="currentTabId === 'student'">
-
-  <app-hccluserprofile-crud [id]="childId" modeName="detail"></app-hccluserprofile-crud>
+  <!-- <app-hccluserprofile-crud [id]="childId" modeName="detail"></app-hccluserprofile-crud> -->
+  <ng-container *ngIf="childId as selectedUserProfileId">
+    <app-student-ui [userProfileId]="selectedUserProfileId"></app-student-ui>
+  </ng-container>
 
 </div> 
 

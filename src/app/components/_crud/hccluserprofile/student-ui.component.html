@@ -73,7 +73,7 @@
         (itemShow)="openAccordion('studentActivity')">
         <ng-template mdbAccordionItemHeader>
           <i class="fas fa-comments me-2"></i>
-          Student Activity
+          Student Advisory Team Messages
         </ng-template>
         <ng-template mdbAccordionItemBody>
           <div class="accordion-body-content">
@@ -118,9 +118,28 @@
           </div>
         </ng-template>
       </mdb-accordion-item>
-    </mdb-accordion>
+
+      <!-- Accordion 5: Student Work Requests -->
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('workRequests')"
+        (itemShow)="openAccordion('workRequests')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-tasks me-2"></i>
+          Student Work Requests
+        </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <pre>{{getMyStudentTicketsCriteria() | json}}</pre>
+          <app-workrequest-list [criteria]="getMyStudentTicketsCriteria()" [showingSearchHeading]="false" 
+          [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+          [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+  </mdb-accordion>
   </div>
 
+  
   <!-- No data state -->
   <div *ngIf="!loading && !error && !dashData && userProfileId" class="alert alert-warning">
     No student dashboard data found for this user profile.

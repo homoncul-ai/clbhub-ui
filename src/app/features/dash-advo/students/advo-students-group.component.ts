@@ -9,12 +9,15 @@ import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstra
 import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
 import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
 import { StudentListComponent } from '@app/components/_crud/hccluserprofile/student-list.component';
+import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
 
 @Component({
   selector: 'app-advo-students-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, AdvoMessagesComponent,
-     HcclUserProfileListComponent, HcclUserProfileCrudComponent, WorkRequestListComponent, StudentListComponent]  ,
+     HcclUserProfileListComponent, HcclUserProfileCrudComponent,
+     StudentUiComponent,
+     WorkRequestListComponent, StudentListComponent]  ,
   templateUrl: './advo-students-group.component.html',
   styleUrl: './advo-students-group.component.scss'
 })
