@@ -67,6 +67,16 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
     return null;
   }
 
+  private validateOrgPolicyCode(orgPolicyCode: string): string | null {
+    if (!orgPolicyCode || orgPolicyCode.trim() === '') {
+      return 'Policy Code is required';
+    }
+    if (orgPolicyCode.length > 50) {
+      return 'Policy Code must be less than 50 characters';
+    }
+    return null;
+  }
+
   private validateParentEntityEntityType(parentEntityEntityType: string): string | null {
     if (parentEntityEntityType && parentEntityEntityType.length > 50) {
       return 'Parent Entity Entity Type must be less than 50 characters';
@@ -98,6 +108,11 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
     const descriptionError = this.validateDescription(this.description);
     if (descriptionError) {
       errors.description = { errorMessage: descriptionError };
+    }
+
+    const orgPolicyCodeError = this.validateOrgPolicyCode(this.orgPolicyCode);
+    if (orgPolicyCodeError) {
+      errors.orgPolicyCode = { errorMessage: orgPolicyCodeError };
     }
     
     const parentEntityEntityTypeError = this.validateParentEntityEntityType(this.parentEntityEntityType);
@@ -136,6 +151,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       description: entity.getData().description || '',
       available: entity.getData().available || 0,
       organizationTypeId: entity.getData().organizationTypeId || '',
+      orgPolicyCode: entity.getData().orgPolicyCode || '',
       organizationTypeCode: '', // This field is required by POST interface but not available in GET data
       jsonData: entity.getData().jsonData,
       websiteUrl: entity.getData().websiteUrl,
@@ -160,6 +176,7 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
       description: entity.getData().description || '',
       available: entity.getData().available || 0,
       organizationTypeId: entity.getData().organizationTypeId || '',
+      orgPolicyCode: entity.getData().orgPolicyCode || '',
       jsonData: entity.getData().jsonData,
       websiteUrl: entity.getData().websiteUrl,
       parentEntityId: entity.getData().parentEntityId,
@@ -218,6 +235,16 @@ export class HcclOrganizationCrudComponent extends AbstractCrudComponent<HcclOrg
   public set description(value: string) {
     if (this.getCurrentEntity()) {
       this.getCurrentEntity()!.getData().description = value;
+    }
+  }
+
+  public get orgPolicyCode(): string {
+    return this.getCurrentEntity()?.getData()?.orgPolicyCode || '';
+  }
+
+  public set orgPolicyCode(value: string) {
+    if (this.getCurrentEntity()) {
+      this.getCurrentEntity()!.getData().orgPolicyCode = value;
     }
   }
 
@@ -319,7 +346,8 @@ export class HcclOrganizationCrudWrapper extends EntityWrapper<HcclOrganizationG
       businessCode: '',
       description: '',
       available: 0,
-      organizationTypeId: ''
+      organizationTypeId: '',
+      orgPolicyCode: ''
     };
     return new HcclOrganizationCrudWrapper(entityIn || emptyData, hcclService);
   }

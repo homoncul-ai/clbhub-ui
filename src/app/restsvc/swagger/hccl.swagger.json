@@ -6484,6 +6484,240 @@
         }
       }
     },
+    "/hccl/pattern/paipromptref": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PAiPromptRef.",
+        "operationId": "createPAiPromptRef_1",
+        "requestBody": {
+          "description": "New PAiPromptRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PAiPromptRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/paipromptref/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPAiPromptRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAiPromptRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PAiPromptRef.",
+        "operationId": "updatePAiPromptRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PAiPromptRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PAiPromptRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PAiPromptRef.",
+        "operationId": "deletePAiPromptRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/paipromptref/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PAiPromptRefs.",
+        "operationId": "findPAiPromptRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PAiPromptRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAiPromptRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/paipromptref/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPAiPromptRefByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAiPromptRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pattern/pmbucketfolder": {
       "post": {
         "tags": [
@@ -22685,6 +22919,9 @@
           "description": {
             "type": "string"
           },
+          "mdMissionStatement": {
+            "type": "string"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -22698,6 +22935,9 @@
           "organizationTypeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "orgPolicyCode": {
+            "type": "string"
           },
           "parentEntityId": {
             "type": "string",
@@ -23418,6 +23658,9 @@
             "format": "uuid"
           },
           "folderName": {
+            "type": "string"
+          },
+          "downloadAs": {
             "type": "string"
           }
         }
@@ -29522,6 +29765,204 @@
           }
         }
       },
+      "PAiPromptRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "name",
+          "pojoClassName",
+          "promptText"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "pojoClassName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "promptText": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PAiPromptRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "pojoClassName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "promptText": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PAiPromptRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PAiPromptRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PAiPromptRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "pojoClassName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PAiPromptRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "name",
+          "pojoClassName",
+          "promptText"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "pojoClassName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "promptText": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "PMBucketFolderPOSTData": {
         "required": [
           "available",
@@ -29901,6 +30342,7 @@
       },
       "PMFileGroupEntryPOSTData": {
         "required": [
+          "downloadAs",
           "folderName",
           "pmfileGroupId",
           "pmfileId"
@@ -29916,6 +30358,11 @@
             "format": "uuid"
           },
           "folderName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "downloadAs": {
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
@@ -29993,11 +30440,15 @@
           },
           "folderName": {
             "type": "string"
+          },
+          "downloadAs": {
+            "type": "string"
           }
         }
       },
       "PMFileGroupEntryPUTData": {
         "required": [
+          "downloadAs",
           "folderName",
           "pmfileGroupId",
           "pmfileId"
@@ -30013,6 +30464,11 @@
             "format": "uuid"
           },
           "folderName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "downloadAs": {
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
@@ -35733,6 +36189,7 @@
           "businessCode",
           "description",
           "name",
+          "orgPolicyCode",
           "organizationTypeCode",
           "organizationTypeId"
         ],
@@ -35753,6 +36210,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "mdMissionStatement": {
+            "type": "string"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -35766,6 +36226,9 @@
           "organizationTypeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "orgPolicyCode": {
+            "type": "string"
           },
           "parentEntityId": {
             "type": "string",
@@ -35867,6 +36330,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "orgPolicyCode": {
+            "type": "string"
+          },
           "parentEntityId": {
             "type": "string",
             "format": "uuid"
@@ -35888,6 +36354,7 @@
           "businessCode",
           "description",
           "name",
+          "orgPolicyCode",
           "organizationTypeId"
         ],
         "type": "object",
@@ -35907,6 +36374,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "mdMissionStatement": {
+            "type": "string"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -35920,6 +36390,9 @@
           "organizationTypeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "orgPolicyCode": {
+            "type": "string"
           },
           "parentEntityId": {
             "type": "string",

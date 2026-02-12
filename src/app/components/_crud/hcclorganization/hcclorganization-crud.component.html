@@ -21,6 +21,10 @@
         <span>{{ businessCode }}</span>
       </div>
       <div class="detail-group">
+        <label>Policy Code:</label>
+        <span>{{ orgPolicyCode }}</span>
+      </div>
+      <div class="detail-group">
         <label>Description:</label>
         <span>{{ description }}</span>
       </div>
@@ -85,6 +89,15 @@
         [maxLength]="50"
         [error]="error"
         [(ngModel)]="businessCode">
+      </app-std-mdb-form-text>
+      <app-std-mdb-form-text
+        prefix="hcclorganization"
+        name="orgPolicyCode"
+        label="Policy Code"
+        [required]="true"
+        [maxLength]="50"
+        [error]="error"
+        [(ngModel)]="orgPolicyCode">
       </app-std-mdb-form-text>
       <app-std-mdb-form-textarea 
         prefix="hcclorganization" 
@@ -172,6 +185,17 @@
           [maxLength]="50"
           [error]="error"
           [(ngModel)]="businessCode">
+        </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+        <app-std-mdb-form-text
+          prefix="hcclorganization"
+          name="orgPolicyCode"
+          label="Policy Code"
+          [required]="true"
+          [maxLength]="50"
+          [error]="error"
+          [(ngModel)]="orgPolicyCode">
         </app-std-mdb-form-text>
         </div>
         <div class="mb-4">
@@ -266,6 +290,10 @@
         <div class="detail-group">
           <label>Business Code:</label>
           <span>{{ businessCode }}</span>
+        </div>
+        <div class="detail-group">
+          <label>Policy Code:</label>
+          <span>{{ orgPolicyCode }}</span>
         </div>
         <div class="detail-group">
           <label>Description:</label>
