@@ -145,4 +145,20 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   getFeedEntry(entry: FeedEntryDisplayData): FeedEntryGETData | undefined {
     return entry.feedEntry;
   }
+
+  thumbUp(entry: FeedEntryDisplayData) {
+    alert('👍 thumbs up');
+  }
+  
+  thumbDown(entry: FeedEntryDisplayData) {
+    alert('👎 thumbs down');
+  }
+  
+  moreActions(entry: FeedEntryDisplayData) {
+    alert('⋯ more');
+  }
+  
+  dismiss(entry: FeedEntryDisplayData) {
+    alert('X dismiss (later: remove from feed)');
+  }
 }
