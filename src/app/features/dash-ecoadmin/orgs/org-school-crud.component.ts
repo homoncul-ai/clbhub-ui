@@ -149,6 +149,7 @@ export class OrgSchoolCrudComponent extends AbstractCrudComponent<HcclOrganizati
       available: super.availableValue(entity.getData().available),
       organizationTypeId: entity.getData().organizationTypeId || '',
       organizationTypeCode: '', // This field is required by POST interface but not available in GET data
+      orgPolicyCode: entity.getData().orgPolicyCode || '',
       jsonData: entity.getData().jsonData,
       websiteUrl: entity.getData().websiteUrl,
       parentEntityId: entity.getData().parentEntityId,
@@ -172,6 +173,7 @@ export class OrgSchoolCrudComponent extends AbstractCrudComponent<HcclOrganizati
       description: entity.getData().description || '',
       available: entity.getData().available || 0,
       organizationTypeId: entity.getData().organizationTypeId || '',
+      orgPolicyCode: entity.getData().orgPolicyCode || '',
       jsonData: entity.getData().jsonData,
       websiteUrl: entity.getData().websiteUrl,
       parentEntityId: entity.getData().parentEntityId,

@@ -72,6 +72,8 @@ import { PersonalStatementResumeListComponent } from '../../components/_crud/per
 import { PersonalStatementResumeGroupComponent } from '../../components/_crud/personalstatementresume/personalstatementresume-group.component';
 import { CatalogEntrySignupPacketListComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component';
 import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
+import { PAIPromptRefGroupComponent } from '../../components/_crud/paiprompt/paipromptref-group.component';
+import { PAIPromptRefListComponent } from '../../components/_crud/paiprompt/paipromptref-list.component';
 
 const routes: Routes = [
   {
@@ -253,6 +255,12 @@ const routes: Routes = [
       { path: 'catalogentrysignuppackets/:id/:tabId', component: CatalogEntrySignupPacketGroupComponent },
       { path: 'catalogentrysignuppackets/:id', redirectTo: 'catalogentrysignuppackets/:id/details', pathMatch: 'full' },
       { path: 'catalogentrysignuppackets', component: CatalogEntrySignupPacketListComponent },
+
+      // PAiPromptRef routes
+      { path: 'paipromptrefs/create', component: PAIPromptRefGroupComponent },
+      { path: 'paipromptrefs/:id/:tabId', component: PAIPromptRefGroupComponent },
+      { path: 'paipromptrefs/:id', redirectTo: 'paipromptrefs/:id/details', pathMatch: 'full' },
+      { path: 'paipromptrefs', component: PAIPromptRefListComponent },
     ]
   }
 ];
@@ -325,6 +333,8 @@ const routes: Routes = [
     PersonalStatementResumeGroupComponent,
     CatalogEntrySignupPacketListComponent,
     CatalogEntrySignupPacketGroupComponent,
+    PAIPromptRefGroupComponent,
+    PAIPromptRefListComponent,
     OrgSchoolsGroupComponent
   ]
 })

@@ -151,7 +151,10 @@ export class FamilyunitComponent implements OnInit, OnChanges {
 
   /** Get student user profiles for a family member - from person.user.userProfiles or member.user.userProfiles, filtered by profileTypeCode === 'student' */
   getMemberUserProfiles(member: FamilyUnitMemberGETData): HcclUserProfileGETData[] {
-    const profiles = member.person?.user?.userProfiles ?? member.user?.userProfiles ?? [];
+    const profiles = member.user?.userProfiles ?? [];
+    if (profiles.length === 0 && member.person?.userProfileId) {
+      return [{ id: member.person.userProfileId, profileTypeCode: 'student' }];
+    }
     return profiles.filter((p) => (p.profileTypeCode ?? '').toLowerCase() === 'student');
   }
 

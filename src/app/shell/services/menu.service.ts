@@ -697,6 +697,10 @@ export class MenuService {
     const catalogTypeRefList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGTYPEREF_LIST);
     this.addChildMenuItem(courseGroup, catalogTypeRefList);
 
+    // paipromptref list
+    const paiPromptRefList = this.copyMenuItem(MENU_CONSTANTS.EA_PAIPROMPTREF_LIST);
+    this.addChildMenuItem(courseGroup, paiPromptRefList);
+
 
     // clschool list
     const clschoolList = this.copyMenuItem(MENU_CONSTANTS.EA_CLSCHOOL_LIST);
@@ -1480,6 +1484,15 @@ EA_CATALOGTYPEREF_LIST: {
   "componentPath" : "/src/app/components/_crud/catalogtyperef/catalogtyperef-list.component",
   "componentName" : "CatalogTypeRefListComponent",
   "icon" : "fas fa-tags"
+},
+
+EA_PAIPROMPTREF_LIST: {
+  "level" : 2,
+  "label" : "PAI Prompt Refs",
+  "route" : "/ecoadmin-dashboard/paipromptrefs",
+  "componentPath" : "/src/app/components/_crud/paiprompt/paipromptref-list.component",
+  "componentName" : "PAIPromptRefListComponent",
+  "icon" : "fas fa-robot"
 },
 
 EA_CATALOGSEARCHRESULTENTRY_LIST: {
