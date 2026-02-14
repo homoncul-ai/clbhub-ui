@@ -18,7 +18,7 @@
 #
 
 appName="TrutestaDevops"
-configDir="./src/assets/appConfig"
+configDir="./src/assets/commonConfig"
 #port=4200
 #if [ "${port}" != "4200" ]
 #then
@@ -31,21 +31,20 @@ if [ -d ${configDir} ]
 then
 
     echo "Using config in : ${configDir}  "
+    echo cp  ${configDir}/cluster_config.yaml.local ${configDir}/cluster_config.yaml
+    cp  ${configDir}/cluster_config.yaml.local ${configDir}/cluster_config.yaml
+    echo `grep -C1:6 \"constants\" ${configDir}/cluster_config.yaml`
+
+    echo "${appName} starting up on : http://localhost:4200/ "
+
+    echo ng serve
+    ng serve
 
 else
-
-    mkdir -p  ${configDir}
-    cp ./tooling/config_for_dev/* ${configDir}
-    echo "Created and Using config in : ${configDir} "
-
+    echo "no config found - punting ... check your files"
+    
 fi
 
-echo "${configDir}/apiservices.json using SPRIG Services "
-cat ${configDir}/apiservices.json | grep -ni sprig
 
-echo "${appName} starting up on : http://localhost:4200/ "
-
-echo ng serve
-ng serve
 
 

@@ -59,3 +59,4 @@ Thumbs.db
 .settings/
 .project
 trutesta-hccl-service
+src/assets/commonConfig/cluster_config.json.local
