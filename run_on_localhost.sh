@@ -31,9 +31,32 @@ if [ -d ${configDir} ]
 then
 
     echo "Using config in : ${configDir}  "
-    echo cp  ${configDir}/cluster_config.yaml.local ${configDir}/cluster_config.yaml
-    cp  ${configDir}/cluster_config.yaml.local ${configDir}/cluster_config.yaml
-    echo `grep -C1:6 \"constants\" ${configDir}/cluster_config.yaml`
+    targetConfig="${configDir}/cluster_config.json"
+    localConfig="${configDir}/cluster_config.local.json"
+    defaultConfig="${configDir}/cluster_config.default.json"
+
+    if [ -f "${targetConfig}" ]
+    then
+        echo "Found ${targetConfig}. Keeping existing config."
+    elif [ -f "${localConfig}" ]
+    then
+        echo "Found ${localConfig}. Copying to ${targetConfig}."
+        cp "${localConfig}" "${targetConfig}"
+    elif [ -f "${defaultConfig}" ]
+    then
+        echo "No ${targetConfig} or ${localConfig} found."
+        echo "Copying ${defaultConfig} to ${targetConfig}."
+        cp "${defaultConfig}" "${targetConfig}"
+    else
+        echo "No usable cluster config found."
+        echo "Expected one of:"
+        echo "  - ${targetConfig}"
+        echo "  - ${localConfig}"
+        echo "  - ${defaultConfig}"
+        exit 1
+    fi
+
+    echo "$(grep -n \"constants\" "${targetConfig}")"
 
     echo "${appName} starting up on : http://localhost:4200/ "
 
