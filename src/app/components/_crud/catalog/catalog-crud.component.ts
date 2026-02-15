@@ -159,7 +159,7 @@ export class CatalogCrudComponent extends AbstractCrudComponent<CatalogCrudWrapp
         isPaging: true,
         organizationId: this.getCurrentOrganizationId() || ''
       };
-      alert("Loading signup packet menu for organization: " + this.getCurrentOrganizationId());
+      // alert("Loading signup packet menu for organization: " + this.getCurrentOrganizationId());
       const response = await this.hcclService.findCatalogEntrySignupPackets(
         criteria).toPromise();
       if (response?.searchResults) {

@@ -1510,6 +1510,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CLStudentGETDataSearchResults>(request);
   }
 
+  createPAiPromptRef(body: PAiPromptRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paipromptref",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPAiPromptRefById(id: string): Observable<PAiPromptRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paipromptref/" + id,
+      method: "GET",
+    };
+    return this.request<PAiPromptRefGETData>(request);
+  }
+
+  updatePAiPromptRefById(id: string, body: PAiPromptRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paipromptref/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePAiPromptRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paipromptref/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPAiPromptRefs(body: PAiPromptRefCriteria): Observable<PAiPromptRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paipromptref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PAiPromptRefGETDataSearchResults>(request);
+  }
+
+  getPAiPromptRefByIdWithHint(id: string, hint: string): Observable<PAiPromptRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paipromptref/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PAiPromptRefGETData>(request);
+  }
+
   createPMBucketFolder(body: PMBucketFolderPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pmbucketfolder",
@@ -5225,10 +5277,12 @@ export interface HcclOrganizationGETData {
   name?: string;
   businessCode?: string;
   description?: string;
+  mdMissionStatement?: string;
   available?: number;
   jsonData?: string;
   websiteUrl?: string;
   organizationTypeId?: string;
+  orgPolicyCode?: string;
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
@@ -5423,6 +5477,7 @@ export interface PMFileGroupEntryGETData {
   pmfileGroupId?: string;
   pmfileId?: string;
   folderName?: string;
+  downloadAs?: string;
 }
 
 export interface PMFileGroupGETData {
@@ -5765,7 +5820,6 @@ export interface HcclPersonGETData {
   firstName?: string;
   lastName?: string;
   messageHandle?: string;
-  user?: HcclUserGETData;
 }
 
 export interface HcclUserGETData {
@@ -7146,6 +7200,63 @@ export interface CLStudentPUTData {
   schoolId: string;
 }
 
+export interface PAiPromptRefPOSTData {
+  businessCode: string;
+  pojoClassName: string;
+  name: string;
+  description: string;
+  promptText: string;
+  available: number;
+}
+
+export interface PAiPromptRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  businessCode?: string;
+  pojoClassName?: string;
+  name?: string;
+  description?: string;
+  promptText?: string;
+  available?: number;
+}
+
+export interface PAiPromptRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PAiPromptRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PAiPromptRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  businessCode?: string;
+  pojoClassName?: string;
+  name?: string;
+  available?: number;
+}
+
+export interface PAiPromptRefPUTData {
+  businessCode: string;
+  pojoClassName: string;
+  name: string;
+  description: string;
+  promptText: string;
+  available: number;
+}
+
 export interface PMBucketFolderPOSTData {
   nameText: string;
   businessCode: string;
@@ -7258,6 +7369,7 @@ export interface PMFileGroupEntryPOSTData {
   pmfileGroupId: string;
   pmfileId: string;
   folderName: string;
+  downloadAs: string;
 }
 
 export interface PMFileGroupEntryGETDataSearchResults {
@@ -7280,12 +7392,14 @@ export interface PMFileGroupEntryCriteria {
   pmfileGroupId?: string;
   pmfileId?: string;
   folderName?: string;
+  downloadAs?: string;
 }
 
 export interface PMFileGroupEntryPUTData {
   pmfileGroupId: string;
   pmfileId: string;
   folderName: string;
+  downloadAs: string;
 }
 
 export interface EntityTuple {
@@ -8881,10 +8995,12 @@ export interface HcclOrganizationPOSTData {
   name: string;
   businessCode: string;
   description: string;
+  mdMissionStatement?: string;
   available: number;
   jsonData?: string;
   websiteUrl?: string;
   organizationTypeId: string;
+  orgPolicyCode: string;
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
@@ -8914,6 +9030,7 @@ export interface HcclOrganizationCriteria {
   available?: number;
   websiteUrl?: string;
   organizationTypeId?: string;
+  orgPolicyCode?: string;
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
@@ -8924,10 +9041,12 @@ export interface HcclOrganizationPUTData {
   name: string;
   businessCode: string;
   description: string;
+  mdMissionStatement?: string;
   available: number;
   jsonData?: string;
   websiteUrl?: string;
   organizationTypeId: string;
+  orgPolicyCode: string;
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;

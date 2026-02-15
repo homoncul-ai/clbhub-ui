@@ -12,7 +12,7 @@ import { CatalogEntryGroupComponent } from '@app/components/_crud/catalogentry/c
 import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
 import { WorkRequestDeliverableUiComponent } from '@app/components/_crud/workrequestdeliverable-ui/workrequestdeliverable-ui.component';
 import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocationencoding/vocationencoding-display.component';
-import { StudentMonitoringComponent } from '@app/components/_crud/hccluserprofile/student-monitoring.component';
+import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -35,7 +35,7 @@ import { StudentMonitoringComponent } from '@app/components/_crud/hccluserprofil
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,
-    StudentMonitoringComponent,
+    StudentUiComponent,
     VocationEncodingDisplayComponent,
     WorkItemDeliverableGroupComponent,
     WorkRequestGroupUIComponent,
@@ -81,6 +81,7 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
   private readonly supportedEntityTypes = [
     'catalogentry', 'catalogentrysignuppacket',
     'pmessage', 'pmfile', 'pmfilegroup',
+    'studentui',
     'studentmonitoring',
     'vocationencoding',
     'workrequest', 'workrequestdeliverable', 

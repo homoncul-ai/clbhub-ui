@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const kcName = 'trutesta-hccl-mdb5-ui';
-const kcApplicationPath = '/hccl/';
+const kcApplicationPath = '/c/';
 
 // Run the app by serving the static files
 // in the dist directory

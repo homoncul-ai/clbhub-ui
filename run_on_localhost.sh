@@ -18,7 +18,7 @@
 #
 
 appName="TrutestaDevops"
-configDir="./src/assets/appConfig"
+configDir="./src/assets/commonConfig"
 #port=4200
 #if [ "${port}" != "4200" ]
 #then
@@ -31,21 +31,43 @@ if [ -d ${configDir} ]
 then
 
     echo "Using config in : ${configDir}  "
+    targetConfig="${configDir}/cluster_config.json"
+    localConfig="${configDir}/cluster_config.local.json"
+    defaultConfig="${configDir}/cluster_config.default.json"
+
+    if [ -f "${targetConfig}" ]
+    then
+        echo "Found ${targetConfig}. Keeping existing config."
+    elif [ -f "${localConfig}" ]
+    then
+        echo "Found ${localConfig}. Copying to ${targetConfig}."
+        cp "${localConfig}" "${targetConfig}"
+    elif [ -f "${defaultConfig}" ]
+    then
+        echo "No ${targetConfig} or ${localConfig} found."
+        echo "Copying ${defaultConfig} to ${targetConfig}."
+        cp "${defaultConfig}" "${targetConfig}"
+    else
+        echo "No usable cluster config found."
+        echo "Expected one of:"
+        echo "  - ${targetConfig}"
+        echo "  - ${localConfig}"
+        echo "  - ${defaultConfig}"
+        exit 1
+    fi
+
+    echo "$(grep -n \"constants\" "${targetConfig}")"
+
+    echo "${appName} starting up on : http://localhost:4200/ "
+
+    echo ng serve
+    ng serve
 
 else
-
-    mkdir -p  ${configDir}
-    cp ./tooling/config_for_dev/* ${configDir}
-    echo "Created and Using config in : ${configDir} "
-
+    echo "no config found - punting ... check your files"
+    
 fi
 
-echo "${configDir}/apiservices.json using SPRIG Services "
-cat ${configDir}/apiservices.json | grep -ni sprig
 
-echo "${appName} starting up on : http://localhost:4200/ "
-
-echo ng serve
-ng serve
 
 

@@ -1,0 +1,74 @@
+
+/**
+Catalog entries sql : 
+SELECT  distinct(cast(e.id as varchar(56))) as id, e.entry_code, e.title,
+ vr.business_code as vocode, ABS(vei.secondary_code - :secondaryCode) as distance 
+FROM trutesta_hccl_demo.catalog_entry e 
+ INNER JOIN trutesta_hccl_demo.catalog cat ON e.catalog_id = cat.id 
+ INNER JOIN trutesta_hccl_demo.vocation_encoding ve ON ve.parent_entity_id = e.id 
+ INNER JOIN trutesta_hccl_demo.vocation_encoding_instance vei ON vei.vocation_encoding_id = ve.id 
+ INNER JOIN trutesta_hccl_demo.vocation_encoding_ref vr ON vei.vocation_encoding_ref_id = vr.id 
+WHERE vei.primary_code = :primaryCode   and 
+ cat.available > 0 AND ABS(vei.secondary_code - :secondaryCode) < :maxDistance 
+
+Personal statements for user :
+
+select ps.parent_entity_type, ps.parent_entity_id as user_id,  ps.id as ps_id, ps.business_code ,
+vei.primary_code as ps_vei_primary_code, vei.secondary_code as ps_vei_secondary_code
+from trutesta_hccl_demo.personal_statement ps 
+INNER JOIN trutesta_hccl_demo.vocation_encoding ve ON ve.parent_entity_id = ps.id 
+ INNER JOIN trutesta_hccl_demo.vocation_encoding_instance vei ON vei.vocation_encoding_id = ve.id 
+ INNER JOIN trutesta_hccl_demo.vocation_encoding_ref vr ON vei.vocation_encoding_ref_id = vr.id 
+ where ps.parent_entity_type = 'HcclUserProfile'
+
+
+join the 2 SQL statements so that we can find all the catalog entries for all the personal statements .  Leave :maxDistance as a parameter
+*/
+
+WITH ranked_entries AS (
+    SELECT 
+        ps.parent_entity_id AS user_id,
+        ps.id AS ps_id,
+        ps.business_code AS ps_business_code,
+        CAST(e.id AS VARCHAR(56)) AS catalog_entry_id,
+        e.entry_code,
+        e.title,
+        ABS(cat_vei.secondary_code - ps_vei.secondary_code) AS distance,
+        ROW_NUMBER() OVER (
+            PARTITION BY ps.id, e.id 
+            ORDER BY ABS(cat_vei.secondary_code - ps_vei.secondary_code)
+        ) AS rn
+    FROM trutesta_hccl_demo.personal_statement ps
+        INNER JOIN trutesta_hccl_demo.vocation_encoding ps_ve 
+            ON ps_ve.parent_entity_id = ps.id
+        INNER JOIN trutesta_hccl_demo.vocation_encoding_instance ps_vei 
+            ON ps_vei.vocation_encoding_id = ps_ve.id
+        INNER JOIN trutesta_hccl_demo.vocation_encoding_ref ps_vr 
+            ON ps_vei.vocation_encoding_ref_id = ps_vr.id
+        INNER JOIN trutesta_hccl_demo.catalog_entry e 
+            ON 1=1
+        INNER JOIN trutesta_hccl_demo.catalog cat 
+            ON e.catalog_id = cat.id
+        INNER JOIN trutesta_hccl_demo.vocation_encoding cat_ve 
+            ON cat_ve.parent_entity_id = e.id
+        INNER JOIN trutesta_hccl_demo.vocation_encoding_instance cat_vei 
+            ON cat_vei.vocation_encoding_id = cat_ve.id
+        INNER JOIN trutesta_hccl_demo.vocation_encoding_ref cat_vr 
+            ON cat_vei.vocation_encoding_ref_id = cat_vr.id
+    WHERE ps.parent_entity_type = 'HcclUserProfile'
+        AND cat.available > 0
+        AND cat_vei.primary_code = ps_vei.primary_code
+        AND ABS(cat_vei.secondary_code - ps_vei.secondary_code) < :maxDistance
+)
+SELECT 
+    user_id,
+    ps_id,
+    ps_business_code,
+    catalog_entry_id,
+    entry_code,
+    title,
+    distance
+FROM ranked_entries
+WHERE rn = 1
+ORDER BY user_id, ps_id, distance
+

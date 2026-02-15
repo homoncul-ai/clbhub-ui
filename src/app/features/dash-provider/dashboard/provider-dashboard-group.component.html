@@ -1,6 +1,15 @@
 <div *ngIf="!loading">
     <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
+  <pre>
+    logo, signup, feed entry, preview, copyform existing, dates, and colleagues
+    new signup packet needs default filegroup.  allow edit add more junk.
+    remove uicomponents from all menus except ecoadmin
+    ecoadmin newprovider (add catalog)
+    ecoadmin newparentwithfam
+    ecoadmin 
+    add colleagues menu item for providers, advocates, nonprofits
   
+  </pre>
      
   <div *ngIf="currentTabId === 'mydash'">
     <app-provider-dashboard-tab-mydash [id]="getOrganizationId()" modeName="detail"></app-provider-dashboard-tab-mydash>

@@ -1,6 +1,6 @@
 export class GlobalConstants {
   public static keycloak_clientId = 'trutesta';
-  public static keycloakLogoutUrl = '/trusamples/';
+  public static keycloakLogoutUrl = '/c/';
 
   public static apiServicesConstants = {
     constants: {

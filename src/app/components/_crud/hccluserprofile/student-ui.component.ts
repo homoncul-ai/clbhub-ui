@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HcclService, StudentDashUIGETData } from '@app/restsvc/hccl.service';
+import { HcclService, StudentDashUIGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { HcclUserProfileCrudComponent } from './hccluserprofile-crud.component';
@@ -9,10 +9,13 @@ import { HcclOrganizationCrudComponent } from '../hcclorganization/hcclorganizat
 import { HcclTeamCrudComponent } from '../hcclteam/hcclteam-crud.component';
 import { PMessageUiComponent } from '../pmessage-ui/pmessage-ui.component';
 import { PersonalStatementCrudComponent } from '../personalstatement/personalstatement-crud.component';
+import { WorkRequestListComponent } from '../workrequest/workrequest-list.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-student-monitoring',
-  templateUrl: './student-monitoring.component.html',
+  selector: 'app-student-ui',
+  templateUrl: './student-ui.component.html',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,9 +26,10 @@ import { PersonalStatementCrudComponent } from '../personalstatement/personalsta
     HcclTeamCrudComponent,
     PMessageUiComponent,
     PersonalStatementCrudComponent,
+    WorkRequestListComponent,
   ],
 })
-export class StudentMonitoringComponent implements OnInit, OnChanges {
+export class StudentUiComponent implements OnInit, OnChanges {
   @Input() userProfileId!: string;
 
   dashData: StudentDashUIGETData | null = null;
@@ -38,6 +42,7 @@ export class StudentMonitoringComponent implements OnInit, OnChanges {
   accordionId = 'studentInfo';
 
   private hcclService = inject(HcclService);
+  private router = inject(Router);
 
   openAccordion(id: string): void {
     this.accordionId = id;
@@ -74,5 +79,24 @@ export class StudentMonitoringComponent implements OnInit, OnChanges {
         this.loading = false;
       },
     });
+  }
+
+  getMyStudentTicketsCriteria(): WorkRequestCriteria {
+    return {
+      clientUserProfileId: this.userProfileId
+    };
+  }
+
+  onClickWorkRequestRow(): OnRowClickBehavior {
+    var x: OnRowClickBehavior =  new OnRowClickBehavior();
+    //x.alertMessage = 'Ticket';
+    x.usingNavigateUrl = true;
+    x.getNavigateUrl = (id: string) => {
+      const segments = this.router.url.split('/').filter(Boolean);
+      const dashboardBase = segments[0] || 'student-dashboard';
+      return [dashboardBase, 'e', 'workrequest', id];
+    };
+    //x.alertMessage = 'Catalog Entry';
+    return x;
   }
 }
