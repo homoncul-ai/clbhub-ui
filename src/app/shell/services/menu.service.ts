@@ -370,11 +370,6 @@ export class MenuService {
     this.addChildMenuItem(integrations, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_CLGUIDANCE));
     this.addMenuItem(menu, integrations);
     
-    // Add Component Inventory with children
-    const componentInventory = this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_COMPONENT_INVENTORY);
-    this.addChildMenuItem(componentInventory, this.copyMenuItem(MENU_CONSTANTS.ADVOCATE_BUBA_DEMO));
-    this.addMenuItem(menu, componentInventory);
-    
     return menu;
   }
 
@@ -594,10 +589,6 @@ export class MenuService {
     //const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
     //this.addMenuItem(menu, schedule);
     
-    // Add UI Starter
-    const uistarter = this.copyMenuItem(MENU_CONSTANTS.STUDENT_UISTARTER);
-    this.addMenuItem(menu, uistarter);
-    
     return menu;
   }
 
@@ -793,6 +784,10 @@ export class MenuService {
     // Add VocationEncodingRef
     const vocationEncodingRefList = this.copyMenuItem(MENU_CONSTANTS.EA_VOCATIONENCODINGREF_LIST);
     this.addChildMenuItem(vocodeGroup, vocationEncodingRefList);
+
+    // Add UI Starter as the last top-level menu item
+    const uiStarter = this.copyMenuItem(MENU_CONSTANTS.EA_UISTARTER);
+    this.addMenuItem(menu, uiStarter);
 
     return menu;
   }
@@ -1557,6 +1552,15 @@ EA_VOCATIONENCODINGREF_LIST: {
   componentPath: 'src/app/components/_crud/vocationencodingref/vocationencodingref-list.component',
   componentName: 'VocationEncodingRefListComponent',
   icon: 'fas fa-code'
+},
+
+EA_UISTARTER: {
+  level: 1,
+  label: 'UI Starter',
+  route: '/ecoadmin-dashboard/uistarter',
+  componentPath: 'src/app/views/uistarter',
+  componentName: 'uistarter-home',
+  icon: 'fas fa-palette'
 },
 
 EA_VOCATIONENCODING_LIST: {

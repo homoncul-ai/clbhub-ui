@@ -74,6 +74,7 @@ import { CatalogEntrySignupPacketListComponent } from '../../components/_crud/ca
 import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
 import { PAIPromptRefGroupComponent } from '../../components/_crud/paiprompt/paipromptref-group.component';
 import { PAIPromptRefListComponent } from '../../components/_crud/paiprompt/paipromptref-list.component';
+import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 
 const routes: Routes = [
   {
@@ -261,6 +262,9 @@ const routes: Routes = [
       { path: 'paipromptrefs/:id/:tabId', component: PAIPromptRefGroupComponent },
       { path: 'paipromptrefs/:id', redirectTo: 'paipromptrefs/:id/details', pathMatch: 'full' },
       { path: 'paipromptrefs', component: PAIPromptRefListComponent },
+
+      // UI starter route
+      { path: 'uistarter', component: UistarterHomeComponent },
     ]
   }
 ];
@@ -335,7 +339,8 @@ const routes: Routes = [
     CatalogEntrySignupPacketGroupComponent,
     PAIPromptRefGroupComponent,
     PAIPromptRefListComponent,
-    OrgSchoolsGroupComponent
+    OrgSchoolsGroupComponent,
+    UistarterHomeComponent
   ]
 })
 export class DashEcoAdminModule { } 
