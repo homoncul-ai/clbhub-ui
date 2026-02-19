@@ -195,9 +195,37 @@
 
   <!-- Main Content Area -->
   <mdb-sidenav-content #sidenavContent>
-    <div class="body-wrapper">
-      <router-outlet></router-outlet>
+ <div class="body-wrapper">
+    <div class="feed-header" *ngIf="pageHeader?.title">
+    <div class="header-content">
+      <div class="header-icon">
+        <i [class]="pageHeader.icon || 'fas fa-circle-info'"></i>
+      </div>
+      <div class="header-text">
+        <h1 class="page-title">{{ pageHeader.title }}</h1>
+        <p class="page-subtitle"> {{ pageHeader.subtitle }}</p>
+      </div>
     </div>
+  </div>
+
+  <!-- Optional Breadcrumbs -->
+<!--   <nav class="page-breadcrumbs" aria-label="breadcrumb" *ngIf="pageHeader?.breadcrumbs?.length">
+    <ol class="breadcrumb mb-3">
+      <li
+        *ngFor="let bc of pageHeader.breadcrumbs; let last = last"
+        class="breadcrumb-item"
+        [class.active]="last"
+        [attr.aria-current]="last ? 'page' : null"
+      >
+        <a *ngIf="!last && bc.url" [routerLink]="bc.url">{{ bc.label }}</a>
+        <span *ngIf="last || !bc.url">{{ bc.label }}</span>
+      </li>
+    </ol>
+  </nav> -->
+
+  <router-outlet></router-outlet>
+</div>
+
     
   </mdb-sidenav-content>
 </mdb-sidenav-layout>

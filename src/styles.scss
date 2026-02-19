@@ -500,3 +500,65 @@ body {
   color: #333;
   font-weight: 600;
 }
+
+
+
+$primary-gradient: linear-gradient(135deg, #E07C71 0%, #558d82 100%);
+$card-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+$border-radius: 16px;
+$transition: all 0.25s ease;
+
+.feed-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+// Header Section
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $primary-gradient;
+  border-radius: $border-radius;
+ // padding: 28px 32px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  margin: 0 20px 20px;
+  padding: clamp(14px, 3vw, 28px) clamp(14px, 3.2vw, 32px);
+  margin: 0 clamp(10px, 2.5vw, 20px) clamp(12px, 2.5vw, 20px);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    font-size: 24px;
+  }
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+  color: rgb(255, 255, 255) !important;
+}
+
+.page-subtitle {
+  margin: 4px 0 0;
+  opacity: 0.85;
+  font-size: 14px;
+}

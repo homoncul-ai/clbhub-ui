@@ -34,7 +34,15 @@ const routes: Routes = [
     path: '',
     component: DashStudentComponent,
     children: [
-      { path: 'home', component: DashStudentHomeComponent },
+      {
+        path: 'home',
+        component: DashStudentHomeComponent,
+        data: {
+          pageTitle: 'My Dashboard',
+          pageSubtitle: 'Welcome back — here’s what’s new',
+          pageIcon: 'fas fa-tachometer-alt',
+        }
+      },
       
       { path: 'personalstatements', component: DashStudentPersonalStatementsComponent },
       { path: 'personalstatement-details/:id', component: StudentPersonalStatementDetailsComponent },
@@ -61,10 +69,35 @@ const routes: Routes = [
   
       { path: 'messages/:messageId/:tabId', component:DashStudentMessagesComponent },
       { path: 'messages/:messageId', redirectTo: 'messages/:messageId/message', pathMatch: 'full' },
-      { path: 'messages', component:DashStudentMessagesComponent },
+      {
+        path: 'messages',
+        component: DashStudentMessagesComponent,
+        data: {
+          pageTitle: 'Communications',
+          pageSubtitle: 'Message information',
+          pageIcon: 'fas fa-envelope',
+        }
+      },
 
-      { path: 'calendar', component: DashStudentCalendarComponent },
-      { path: 'feed', component: DashStudentFeedComponent },
+      {
+        path: 'calendar',
+        component: DashStudentCalendarComponent,
+        data: {
+          pageTitle: 'My Calendar',
+          pageSubtitle: 'Track your appointments, deadlines, and important events',
+          pageIcon: 'fas fa-calendar-alt',
+
+        }
+      },
+
+      {
+        path: 'feed', component: DashStudentFeedComponent,
+        data: {
+          pageTitle: 'My Feed',
+          pageSubtitle: 'Stay updated with the latest posts and announcements',
+          pageIcon: 'fas fa-stream',
+        }
+      },
 
       { path: 'interests/:interestId/interest', component:DashStudentInterestComponent },
       { path: 'interests/:interestId/:tabId', component:DashStudentInterestsComponent },

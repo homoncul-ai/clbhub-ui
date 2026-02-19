@@ -15,17 +15,7 @@ import { of } from 'rxjs';
       <div class="row">
         <div class="col-12">
           <!-- Header Section -->
-          <div class="page-header mb-4">
-            <div class="header-content">
-              <div class="header-icon">
-                <i class="fas fa-calendar-alt"></i>
-              </div>
-              <div class="header-text">
-                <h1 class="page-title">My Calendar</h1>
-                <p class="page-subtitle">Track your appointments, deadlines, and important events</p>
-              </div>
-            </div>
-          </div>
+         
 
           <!-- Loading State -->
           <div *ngIf="loading" class="text-center py-5">

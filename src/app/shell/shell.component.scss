@@ -222,3 +222,96 @@ mdb-sidenav {
 .dropdown:hover{
   background: transparent !important;
 }
+
+/* Header card */
+.page-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 20px;
+  border-radius: 18px;
+
+  background: linear-gradient(90deg, #5b7cff 0%, #6b4bbd 100%);
+  box-shadow: 0 10px 30px rgba(20, 30, 60, 0.12);
+
+  color: #fff;
+
+  /* centered like screenshot */
+  max-width: 920px;
+  margin: 6px auto 12px auto;
+}
+
+/* Left side layout */
+.page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Icon block */
+.page-header-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.page-header-icon i {
+  font-size: 18px;
+}
+
+/* Text */
+.page-header-title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.page-header-subtitle {
+  margin-top: 3px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* Right actions */
+.page-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-header-btn {
+  border-radius: 999px;
+  padding: 8px 14px;
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+}
+
+.page-header-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Breadcrumbs */
+.page-breadcrumbs {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.page-breadcrumbs .breadcrumb {
+  background: transparent;
+}
+
+.page-breadcrumbs a {
+  text-decoration: none;
+}
+
+.page-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+

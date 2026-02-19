@@ -8,7 +8,7 @@ import {
   NgZone,
   inject
 } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { fromEvent, merge, filter, Subscription } from 'rxjs';
@@ -53,7 +53,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private _menuService: MenuService,
     private ngZone: NgZone,
     private appConstants: AppConstants,
-    private hcclContextService: HcclContextService
+    private hcclContextService: HcclContextService,
+    private activatedRoute: ActivatedRoute,
   ) {
     // Listen to Route Changes
     this._router.events
@@ -63,6 +64,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
           this.currentRoute = event.url;
           console.log('Route changed:', this.currentRoute);
           //alert('Route changed:' + this.currentRoute);
+          this.updatePageHeaderFromRoute();
           if (this.menuItems.length == 0) {
             const dashboardType = this._menuService.getDashboardTypeFromRoute(this.currentRoute);
             const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
@@ -74,6 +76,41 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
         //  }
       });
   }
+
+  pageHeader: any = null;
+
+private updatePageHeaderFromRoute() {
+  const data:any = this.getDeepestRouteData();
+
+  this.pageHeader = {
+    title: data.pageTitle || data.title || '',
+    subtitle: data.pageSubtitle || data.subtitle || '',
+    icon: data.pageIcon || '',
+    breadcrumbs: data.breadcrumbs || [],
+    actions: data.actions || []
+  };
+}
+
+  private getDeepestRouteData() {
+  let route = this.activatedRoute;
+
+  while (route.firstChild) {
+    route = route.firstChild;
+  }
+
+  return route.snapshot?.data || {};
+}
+
+onHeaderAction(key: string) {
+  switch (key) {
+    case 'refresh':
+      // emit event, call a refresh service, etc.
+      console.log('refresh action');
+      break;
+    default:
+      console.log('header action:', key);
+  }
+}
 
 
   updateTree() {
@@ -106,6 +143,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
       Logger.enableProductionMode();
     }
     const currentUrl = this._router.url;
+    this.updatePageHeaderFromRoute();
     this._i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
     this.userDetails = this.appConstants.userDetails();
