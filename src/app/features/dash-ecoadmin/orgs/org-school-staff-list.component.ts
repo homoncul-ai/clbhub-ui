@@ -8,6 +8,7 @@ import { AbstractListComponent } from '@app/components/_global/abstract-list/abs
 import { Observable } from 'rxjs';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { OnboardOrgUserModalComponent } from './onboard-org-user-modal.component';
+import { InviteColleagueModalComponent } from './invite-colleague-modal.component';
 
 /**
  * Component for displaying and managing HcclUserProfile data using HcclService
@@ -17,7 +18,7 @@ import { OnboardOrgUserModalComponent } from './onboard-org-user-modal.component
 @Component({
   selector: 'app-org-school-staff-list',
   standalone: true,
-  templateUrl: '../../../components/_global/abstract-list/abstract-list.component.html',
+  templateUrl: './org-school-staff-list.component.html',
   styleUrls: ['../../../components/_global/abstract-list/abstract-list.component.scss'],
   imports: [CommonModule]
 })
@@ -25,7 +26,8 @@ import { OnboardOrgUserModalComponent } from './onboard-org-user-modal.component
 
 export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserProfileGETData, HcclUserProfileCriteria, HcclUserProfileGETDataSearchResults> {
   
-  protected modalRef?: MdbModalRef<OnboardOrgUserModalComponent>;
+  protected modalRef?: MdbModalRef<any>;
+  protected inviteCode: string = '';
   
   constructor() {
     super();
@@ -36,6 +38,7 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
     this.showingIdCheckbox = false;
     this.showingGoButton = false;
     this.searchPlaceholder = 'Search by Name';
+    this.inviteCode = 'INVITE_SCHOOL_COLLEAGUE';
   }
 
   protected getGridColumns(): any[] {
@@ -93,25 +96,47 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
   }
   
   protected override onAdd(): void {
+    this.onInviteColleague();
     // Get organization ID from route parameters if available
+    // const organizationId = this.criteria?.organizationId;
+
+    // // Open the onboarding modal
+    // const modalRef = this.modalService.open(OnboardOrgUserModalComponent, {
+    //   modalClass: 'modal-lg',
+    //   keyboard: false,
+    //   ignoreBackdropClick: true,
+    //   data: {
+    //     organizationId: organizationId
+    //   }
+    // });
+    // this.modalRef = modalRef;
+
+    // // Handle modal close
+    // modalRef.onClose.subscribe((result: boolean) => {
+    //   if (result) {
+    //     // Refresh the list if onboarding was successful
+    //     this.onRefresh();
+    //   }
+    // });
+  }
+
+  onInviteColleague(): void {
     const organizationId = this.criteria?.organizationId;
 
-    // Open the onboarding modal
-    this.modalRef = this.modalService.open(OnboardOrgUserModalComponent, {
+    const modalRef = this.modalService.open(InviteColleagueModalComponent, {
       modalClass: 'modal-lg',
       keyboard: false,
       ignoreBackdropClick: true,
       data: {
-        organizationId: organizationId
+        organizationId: organizationId,
+        inviteCode: this.inviteCode
       }
     });
+    this.modalRef = modalRef;
 
-    // Handle modal close
-    this.modalRef.onClose.subscribe((result: boolean) => {
-      if (result) {
-        // Refresh the list if onboarding was successful
-        this.onRefresh();
-      }
+    // Refresh list when invite modal closes, including cancel.
+    modalRef.onClose.subscribe(() => {
+      this.onRefresh();
     });
   }
 } 
@@ -119,7 +144,7 @@ export class OrgSchoolStaffListComponent extends AbstractListComponent<HcclUserP
 @Component({
   selector: 'app-org-nonprofit-staff-list',
   standalone: true,
-  templateUrl: '../../../components/_global/abstract-list/abstract-list.component.html',
+  templateUrl: './org-school-staff-list.component.html',
   styleUrls: ['../../../components/_global/abstract-list/abstract-list.component.scss'],
   imports: [CommonModule]
 })
@@ -127,6 +152,7 @@ export class OrgNonprofitStaffListComponent extends OrgSchoolStaffListComponent 
   constructor() {
     super();
     this.searchHeadingLabel = 'Nonprofit Staff';
+    this.inviteCode = 'INVITE_NONPROFIT_COLLEAGUE';
   }
 
   protected override onAdd(): void {
@@ -148,14 +174,15 @@ export class OrgNonprofitStaffListComponent extends OrgSchoolStaffListComponent 
 @Component({
   selector: 'app-org-business-staff-list',
   standalone: true,
-  templateUrl: '../../../components/_global/abstract-list/abstract-list.component.html',
+  templateUrl: './org-school-staff-list.component.html',
   styleUrls: ['../../../components/_global/abstract-list/abstract-list.component.scss'],
   imports: [CommonModule]
 })
 export class OrgBusinessStaffListComponent extends OrgSchoolStaffListComponent {
   constructor() {
     super();
-    this.searchHeadingLabel = 'Business Staff';
+    this.searchHeadingLabel = 'Ya Business Staff';
+    this.inviteCode = 'INVITE_BUSINESS_COLLEAGUE';
   }
 
   protected override onAdd(): void {

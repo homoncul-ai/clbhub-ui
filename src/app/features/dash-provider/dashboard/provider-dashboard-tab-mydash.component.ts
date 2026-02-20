@@ -51,7 +51,7 @@ import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganizat
                   </div>
                 </div>
               </div>
-              
+
               <div class="row">
                 <!-- Course Catalog Interests Chart -->
                 <div class="col-md-6">

@@ -47,7 +47,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
   @Input() onAddAction: OnAddActionBehavior | null = null;
   @Input() otherData: any = {};
-  @Input() showingDiagnostics: boolean = false;
+  @Input() showingDiagnostics: boolean = true;
   @Input() onFinishLoading: OnFinishLoadingBehavior | null = null;
   
   // Auto-height settings - grid height adjusts to content, with max rows before scrolling

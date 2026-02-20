@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboard Business User</title>
+  <link rel="stylesheet" href="/public/common/clbhub.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <h1>Business User Onboarding</h1>
+      <p>Please complete the fields below to start your onboarding request.</p>
+      <div id="loading-state" class="form-row" aria-live="polite">Loading invite details...</div>
+      <div id="messages" class="form-row" aria-live="polite"></div>
+
+      <form id="onboard-business-user-form" action="#" method="post">
+        <div class="form-row">
+          <label for="firstName">First Name</label>
+          <input id="firstName" name="firstName" type="text" autocomplete="given-name" required />
+        </div>
+
+        <div class="form-row">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" name="lastName" type="text" autocomplete="family-name" required />
+        </div>
+
+        <div class="form-row">
+          <label for="messageHandle">Message Handle</label>
+          <input id="messageHandle" name="messageHandle" type="text" autocomplete="username" required />
+        </div>
+
+        <div class="form-row">
+          <label for="userName">Username (optional)</label>
+          <input id="userName" name="userName" type="text" autocomplete="username" />
+        </div>
+
+        <div class="form-row">
+          <label for="password">Password (optional)</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" />
+        </div>
+
+        <div class="form-row">
+          <label for="acceptNotes">Notes (optional)</label>
+          <textarea id="acceptNotes" name="acceptNotes" rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label for="inviteId">Invite ID</label>
+          <input id="inviteId" name="inviteId" type="text" required readonly />
+        </div>
+
+        <div class="actions">
+          <button class="button" type="submit">Submit</button>
+          <a class="button secondary" href="/public/onboard/index.html">Back</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    (function onboardInvitePage() {
+      var setupData = null;
+      var form = document.getElementById('onboard-business-user-form');
+      var inviteInput = document.getElementById('inviteId');
+      var loadingState = document.getElementById('loading-state');
+      var messagesEl = document.getElementById('messages');
+
+      if (!form || !inviteInput || !loadingState || !messagesEl) {
+        return;
+      }
+
+      function setLoading(message) {
+        loadingState.textContent = message;
+        loadingState.style.display = 'block';
+      }
+
+      function clearLoading() {
+        loadingState.style.display = 'none';
+      }
+
+      function normalizeMessages(payload) {
+        if (!payload || !payload.messages) return [];
+        if (Array.isArray(payload.messages.messages)) return payload.messages.messages;
+        if (Array.isArray(payload.messages)) return payload.messages;
+        return [];
+      }
+
+      function renderMessages(payload) {
+        var msgs = normalizeMessages(payload);
+        messagesEl.innerHTML = '';
+        if (!msgs.length) return false;
+
+        var hasError = false;
+        var ul = document.createElement('ul');
+        msgs.forEach(function(msg) {
+          var li = document.createElement('li');
+          li.textContent = (msg && (msg.message || msg.exceptionMessage || msg.messageCode)) || 'Unknown message';
+          ul.appendChild(li);
+          if (msg && typeof msg.severity === 'number' && msg.severity >= 3) {
+            hasError = true;
+          }
+        });
+        messagesEl.appendChild(ul);
+        return hasError;
+      }
+
+      function stopWithMessage(message) {
+        clearLoading();
+        messagesEl.innerHTML = '<p>' + message + '</p>';
+        form.style.display = 'none';
+      }
+
+      function makeUrl(path, params) {
+        var url = new URL(path, window.location.origin);
+        if (params) {
+          Object.keys(params).forEach(function(key) {
+            if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
+              url.searchParams.set(key, String(params[key]));
+            }
+          });
+        }
+        return url.toString();
+      }
+
+      function getInviteIdFromQuery() {
+        var params = new URLSearchParams(window.location.search);
+        return params.get('inviteId') || '';
+      }
+
+      async function loadInviteSetup(inviteId) {
+        setLoading('Loading invite details...');
+        form.style.display = 'none';
+        inviteInput.value = inviteId;
+
+        var response = await fetch(makeUrl('/hccl/public/onboard/invite/setup', { invitedId: inviteId }), {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          throw new Error('Unable to resolve invite data.');
+        }
+
+        setupData = await response.json();
+        var hasSetupError = renderMessages(setupData);
+        clearLoading();
+        if (hasSetupError) {
+          form.style.display = 'none';
+          return;
+        }
+        form.style.display = 'block';
+      }
+
+      async function submitInviteForm(event) {
+        event.preventDefault();
+        messagesEl.innerHTML = '';
+
+        var firstName = String(document.getElementById('firstName').value || '').trim();
+        var lastName = String(document.getElementById('lastName').value || '').trim();
+        var messageHandle = String(document.getElementById('messageHandle').value || '').trim();
+        var userName = String(document.getElementById('userName').value || '').trim();
+        var password = String(document.getElementById('password').value || '').trim();
+        var acceptNotes = String(document.getElementById('acceptNotes').value || '').trim();
+        var inviteId = String(inviteInput.value || '').trim();
+
+        if (!inviteId || !firstName || !messageHandle) {
+          renderMessages({ messages: [{ message: 'Invite ID, first name, and message handle are required.', severity: 3 }] });
+          return;
+        }
+
+        var payload = {
+          inviteId: inviteId,
+          firstName: firstName,
+          lastName: lastName || undefined,
+          messageHandle: messageHandle,
+          userName: userName || undefined,
+          password: password || undefined,
+          acceptNotes: acceptNotes || undefined,
+          consents: { consents: [] }
+        };
+
+        try {
+          setLoading('Submitting onboarding request...');
+          var response = await fetch('/hccl/public/onboard/invite', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(payload)
+          });
+
+          var responseData = await response.json().catch(function() { return {}; });
+          var hasError = renderMessages(responseData);
+          clearLoading();
+
+          if (!response.ok || hasError) {
+            return;
+          }
+
+          var redirectUrl = responseData.dashboardUrl ||
+            (setupData && setupData.invite && setupData.invite.callbackUrl) ||
+            '/public/index.html';
+          window.location.assign(redirectUrl);
+        } catch (err) {
+          clearLoading();
+          var msg = err && err.message ? err.message : 'Request failed. Please try again.';
+          renderMessages({ messages: [{ message: msg, severity: 3 }] });
+        }
+      }
+
+      form.addEventListener('submit', submitInviteForm);
+
+      var inviteId = getInviteIdFromQuery();
+      if (!inviteId) {
+        stopWithMessage('Missing required query parameter: inviteId');
+        return;
+      }
+
+      loadInviteSetup(inviteId).catch(function(err) {
+        var msg = err && err.message ? err.message : 'Failed to load invite setup.';
+        stopWithMessage(msg);
+      });
+    })();
+  </script>
+</body>
+</html>

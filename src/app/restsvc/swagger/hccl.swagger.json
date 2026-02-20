@@ -23618,11 +23618,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "firstErrorMessage": {
-            "$ref": "#/components/schemas/SimpleMessage"
-          },
           "errorMessageAsString": {
             "type": "string"
+          },
+          "firstErrorMessage": {
+            "$ref": "#/components/schemas/SimpleMessage"
           }
         }
       },
@@ -46550,13 +46550,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }
