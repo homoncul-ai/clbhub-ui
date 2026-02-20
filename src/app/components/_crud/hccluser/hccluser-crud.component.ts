@@ -158,7 +158,8 @@ export class HccluserCrudComponent extends AbstractCrudComponent<HcclUserCrudWra
       externalUserEntityType: hcclUserData.externalUserEntityType || undefined,
       externalUserName: hcclUserData.externalUserName || undefined,
       available: hcclUserData.available || 1,
-      personId: hcclUserData.personId || ''
+      personId: hcclUserData.personId || '',
+      languageCode: 'en-US'
     };
 
      try {
@@ -194,7 +195,8 @@ export class HccluserCrudComponent extends AbstractCrudComponent<HcclUserCrudWra
         externalUserEntityType: hcclUserData.externalUserEntityType || undefined,
         externalUserName: hcclUserData.externalUserName || undefined,
         available: hcclUserData.available || 1,
-        personId: hcclUserData.personId || ''
+        personId: hcclUserData.personId || '',
+        languageCode: 'en-US'
       };
 
       try {
