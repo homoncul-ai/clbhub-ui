@@ -1562,6 +1562,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PAiPromptRefGETData>(request);
   }
 
+  createPEntityTagVal(body: PEntityTagValPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPEntityTagValById(id: string): Observable<PEntityTagValGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id,
+      method: "GET",
+    };
+    return this.request<PEntityTagValGETData>(request);
+  }
+
+  updatePEntityTagValById(id: string, body: PEntityTagValPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePEntityTagValById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPEntityTagVals(body: PEntityTagValCriteria): Observable<PEntityTagValGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PEntityTagValGETDataSearchResults>(request);
+  }
+
+  getPEntityTagValByIdWithHint(id: string, hint: string): Observable<PEntityTagValGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PEntityTagValGETData>(request);
+  }
+
   createPMBucketFolder(body: PMBucketFolderPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pmbucketfolder",
@@ -3034,6 +3086,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclTeamGETDataSearchResults>(request);
   }
 
+  createHcclUserInvite(body: HcclUserInvitePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclUserInviteById(id: string): Observable<HcclUserInviteGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id,
+      method: "GET",
+    };
+    return this.request<HcclUserInviteGETData>(request);
+  }
+
+  updateHcclUserInviteById(id: string, body: HcclUserInvitePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclUserInviteById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclUserInvites(body: HcclUserInviteCriteria): Observable<HcclUserInviteGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserInviteGETDataSearchResults>(request);
+  }
+
+  getHcclUserInviteByIdWithHint(id: string, hint: string): Observable<HcclUserInviteGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<HcclUserInviteGETData>(request);
+  }
+
   createHcclUserProfileRole(body: HcclUserProfileRolePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofilerole",
@@ -4233,6 +4337,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  onboardInvited(body: OnboardInvitedRequest): Observable<OnboardInvitedResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/invite",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardInvitedResponse>(request);
+  }
+
   onboardStudent(body: OnboardStudentPOSTData): Observable<OnboardResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student",
@@ -4240,6 +4353,15 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<OnboardResponse>(request);
+  }
+
+  resolveOnboardInvitedUIData(invitedId: string): Observable<OnboardInvitedUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/invite/setup",
+      method: "GET",
+      params: { invitedId: this.convertToString(invitedId) },
+    };
+    return this.request<OnboardInvitedUIData>(request);
   }
 
   resolvePublicSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
@@ -5820,6 +5942,7 @@ export interface HcclPersonGETData {
   firstName?: string;
   lastName?: string;
   messageHandle?: string;
+  languageCode?: string;
 }
 
 export interface HcclUserGETData {
@@ -5838,6 +5961,7 @@ export interface HcclUserGETData {
   externalUserName?: string;
   available?: number;
   personId?: string;
+  languageCode?: string;
   person?: HcclPersonGETData;
   userProfiles?: HcclUserProfileGETData[];
 }
@@ -7255,6 +7379,126 @@ export interface PAiPromptRefPUTData {
   description: string;
   promptText: string;
   available: number;
+}
+
+export interface PEntityTagValPOSTData {
+  subjectEntityId: string;
+  subjectEntityType: string;
+  subjectEntityName: string;
+  valueEntityId: string;
+  valueEntityType: string;
+  valueEntityName: string;
+  dataTypeCode: string;
+  tagCode: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  dateTdsDuration?: string;
+  jsonValue?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface PEntityTagValGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  valueEntityId?: string;
+  valueEntityType?: string;
+  valueEntityName?: string;
+  dataTypeCode?: string;
+  tagCode?: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateTdsDuration?: string;
+  jsonValue?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface PEntityTagValGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PEntityTagValGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PEntityTagValCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  valueEntityId?: string;
+  valueEntityType?: string;
+  valueEntityName?: string;
+  dataTypeCode?: string;
+  tagCode?: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  dateTdsDuration?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface PEntityTagValPUTData {
+  subjectEntityId: string;
+  subjectEntityType: string;
+  subjectEntityName: string;
+  valueEntityId: string;
+  valueEntityType: string;
+  valueEntityName: string;
+  dataTypeCode: string;
+  tagCode: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  dateTdsDuration?: string;
+  jsonValue?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
 }
 
 export interface PMBucketFolderPOSTData {
@@ -9117,6 +9361,7 @@ export interface HcclPersonPOSTData {
   firstName: string;
   lastName: string;
   messageHandle: string;
+  languageCode: string;
 }
 
 export interface HcclPersonGETDataSearchResults {
@@ -9149,6 +9394,7 @@ export interface HcclPersonCriteria {
   firstName?: string;
   lastName?: string;
   messageHandle?: string;
+  languageCode?: string;
 }
 
 export interface HcclPersonPUTData {
@@ -9165,6 +9411,7 @@ export interface HcclPersonPUTData {
   firstName: string;
   lastName: string;
   messageHandle: string;
+  languageCode: string;
 }
 
 export interface HcclTeamLogPOSTData {
@@ -9417,6 +9664,88 @@ export interface HcclTeamPUTData {
   available: number;
 }
 
+export interface HcclUserInvitePOSTData {
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode: string;
+  notes?: string;
+  dateExpires?: string;
+  jsonData?: string;
+  available: number;
+  dateAccepted?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface HcclUserInviteGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode?: string;
+  notes?: string;
+  jsonData?: string;
+  available?: number;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  organization?: HcclOrganizationGETData;
+  createdByUserProfile?: HcclUserProfileGETData;
+  callbackUrl?: string;
+}
+
+export interface HcclUserInviteGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserInviteGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclUserInviteCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode?: string;
+  notes?: string;
+  dateExpires?: string;
+  available?: number;
+  dateAccepted?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface HcclUserInvitePUTData {
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode: string;
+  notes?: string;
+  dateExpires?: string;
+  jsonData?: string;
+  available: number;
+  dateAccepted?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
 export interface HcclUserProfileRolePOSTData {
   userId: string;
   roleCode: string;
@@ -9655,6 +9984,7 @@ export interface HcclUserPOSTData {
   externalUserName?: string;
   available: number;
   personId: string;
+  languageCode: string;
 }
 
 export interface HcclUserGETDataSearchResults {
@@ -9682,6 +10012,7 @@ export interface HcclUserCriteria {
   externalUserName?: string;
   available?: number;
   personId?: string;
+  languageCode?: string;
 }
 
 export interface HcclUserPUTData {
@@ -9693,6 +10024,7 @@ export interface HcclUserPUTData {
   externalUserName?: string;
   available: number;
   personId: string;
+  languageCode: string;
 }
 
 export interface TeamMemberRoleRefPOSTData {
@@ -11302,6 +11634,11 @@ export interface OnboardFamilyPOSTData {
   students?: OnboardFamilyMemberPOSTData[];
 }
 
+export interface OnboardInvitedResponse {
+  messages?: SimpleMessageList;
+  dashboardUrl?: string;
+}
+
 export interface ConsentRequestPOSTData {
   contractVersionId?: string;
   agreeValue?: string;
@@ -11310,6 +11647,17 @@ export interface ConsentRequestPOSTData {
 
 export interface MultiConsentRequestPOSTData {
   consents?: ConsentRequestPOSTData[];
+}
+
+export interface OnboardInvitedRequest {
+  inviteId?: string;
+  messageHandle?: string;
+  userName?: string;
+  firstName: string;
+  lastName?: string;
+  password?: string;
+  acceptNotes?: string;
+  consents: MultiConsentRequestPOSTData;
 }
 
 export interface OnboardOrgUserPOSTData {
@@ -11330,6 +11678,15 @@ export interface OnboardStudentPOSTData {
   counselorId?: string;
   consents: MultiConsentRequestPOSTData;
   orgUserData: OnboardOrgUserPOSTData;
+}
+
+export interface OnboardInvitedUIData {
+  messages?: SimpleMessageList;
+  invite?: HcclUserInviteGETData;
+  languageCodesSb?: MenuControlDataList;
+  schoolsSb?: MenuControlDataList;
+  schoolId?: string;
+  mapSchoolIdToCounselorSb?: any;
 }
 
 export interface ConsentRequestGETData {
@@ -11523,9 +11880,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {
