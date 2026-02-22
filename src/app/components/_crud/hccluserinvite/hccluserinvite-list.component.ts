@@ -30,13 +30,14 @@ export class HcclUserInviteListComponent extends AbstractListComponent<
 
   protected getGridColumns(): any[] {
     return [
+      { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'emailAddress', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 220, adjust: true },
       { id: 'inviteCode', header: [{ text: 'Invite Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 160, adjust: true },
       { id: 'organizationId', header: [{ text: 'Organization ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
-      { id: 'teamId', header: [{ text: 'Team ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
+ //     { id: 'teamId', header: [{ text: 'Team ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
       { id: 'currentStateCode', header: [{ text: 'Current State', align: 'center' }, { content: 'inputFilter' }], minWidth: 140, adjust: true },
       { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'selectFilter' }], minWidth: 110, adjust: true },
-      { id: 'dateLastUpdated', header: [{ text: 'Date Last Updated', align: 'center' }], minWidth: 150, adjust: true }
+      { id: 'dateExpires', header: [{ text: 'Date Expires', align: 'center' }], minWidth: 150, adjust: true }
     ];
   }
 
@@ -66,7 +67,18 @@ export class HcclUserInviteListComponent extends AbstractListComponent<
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
-      dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
+      dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+    //  dateExpires: entity.dateExpires?.formattedDate || ''
+    };
+  }
+
+  protected override formatEntityData(entity: HcclUserInviteGETData): any {
+    return {
+      createdByInfo: entity.createdByInfo?.name || '',
+      lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
+      dateCreated: entity.dateCreated?.formattedDate || '',
+      dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+  //    dateExpires: entity.dateExpires?.formattedDate || ''
     };
   }
 }

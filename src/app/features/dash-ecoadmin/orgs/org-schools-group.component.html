@@ -25,6 +25,11 @@ Boomer! Boomer! Boomer!
   [onRowClickBehavior]="onClickOrgStaffRowBehavior()"></app-org-school-staff-list>
 </div>
 
+<div *ngIf="currentTabId === 'invitations'">
+  <app-org-school-crud [id]="id" modeName="section"></app-org-school-crud>
+  <hr/>
+  <app-hccluserinvite-list [criteria]="getCriteriaForInvitations()"></app-hccluserinvite-list>
+</div>
 
 <div *ngIf="currentTabId === 'staffmember'">
   <app-org-school-crud [id]="id" modeName="section"></app-org-school-crud>
