@@ -47,7 +47,7 @@
 
         <div class="form-row">
           <label for="inviteId">Invite ID</label>
-          <input id="inviteId" name="inviteId" type="text" required readonly />
+          <input id="inviteId" name="inviteId" type="text" required />
         </div>
 
         <div class="actions">
@@ -128,12 +128,40 @@
         return params.get('inviteId') || '';
       }
 
+      function applyInviteEmailDefaults(emailAddress) {
+        var email = String(emailAddress || '').trim();
+        if (!email) return;
+
+        var atIndex = email.indexOf('@');
+        var localPart = atIndex > 0 ? email.slice(0, atIndex) : email;
+        localPart = localPart.trim();
+        if (!localPart) return;
+
+        var firstNameInput = document.getElementById('firstName');
+        var lastNameInput = document.getElementById('lastName');
+        var userNameInput = document.getElementById('userName');
+        var messageHandleInput = document.getElementById('messageHandle');
+
+        if (firstNameInput && !String(firstNameInput.value || '').trim()) {
+          firstNameInput.value = localPart;
+        }
+        if (lastNameInput && !String(lastNameInput.value || '').trim()) {
+          lastNameInput.value = localPart;
+        }
+        if (userNameInput && !String(userNameInput.value || '').trim()) {
+          userNameInput.value = email;
+        }
+        if (messageHandleInput && !String(messageHandleInput.value || '').trim()) {
+          messageHandleInput.value = localPart;
+        }
+      }
+
       async function loadInviteSetup(inviteId) {
         setLoading('Loading invite details...');
         form.style.display = 'none';
         inviteInput.value = inviteId;
-
-        var response = await fetch(makeUrl('/hccl/public/onboard/invite/setup', { invitedId: inviteId }), {
+        var fetchUrl = getServiceUrlPrefix() + '/hccl/public/onboard/invite/setup?invitedId=' + inviteId
+        var response = await fetch(fetchUrl, {
           method: 'GET',
           headers: { 'Accept': 'application/json' },
           credentials: 'include'
@@ -144,6 +172,8 @@
         }
 
         setupData = await response.json();
+        var inviteEmailAddress = setupData && setupData.invite && setupData.invite.emailAddress;
+        applyInviteEmailDefaults(inviteEmailAddress);
         var hasSetupError = renderMessages(setupData);
         clearLoading();
         if (hasSetupError) {
@@ -183,7 +213,9 @@
 
         try {
           setLoading('Submitting onboarding request...');
-          var response = await fetch('/hccl/public/onboard/invite', {
+          var fetchUrl = getServiceUrlPrefix() + '/hccl/public/onboard/invite';
+          alert("fetchUrl: " + fetchUrl);
+          var response = await fetch(fetchUrl, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -200,7 +232,7 @@
           if (!response.ok || hasError) {
             return;
           }
-
+          alert("responseData: " + JSON.stringify(responseData));
           var redirectUrl = responseData.dashboardUrl ||
             (setupData && setupData.invite && setupData.invite.callbackUrl) ||
             '/public/index.html';
@@ -215,16 +247,22 @@
       form.addEventListener('submit', submitInviteForm);
 
       var inviteId = getInviteIdFromQuery();
-      if (!inviteId) {
-        stopWithMessage('Missing required query parameter: inviteId');
-        return;
-      }
+      inviteInput.value = inviteId;
 
-      loadInviteSetup(inviteId).catch(function(err) {
-        var msg = err && err.message ? err.message : 'Failed to load invite setup.';
-        stopWithMessage(msg);
-      });
+      if (!inviteId) {
+        clearLoading();
+        messagesEl.innerHTML = '<p>No invite Id query parameter found. Enter an Invite ID to continue.</p>';
+      } else {
+        loadInviteSetup(inviteId).catch(function(err) {
+          var msg = err && err.message ? err.message : 'Failed to load invite setup.';
+          stopWithMessage(msg);
+        });
+      }
     })();
+
+    function getServiceUrlPrefix() {
+      return 'http://localhost:8099/trutesta-hccl-services';
+    }
   </script>
 </body>
 </html>

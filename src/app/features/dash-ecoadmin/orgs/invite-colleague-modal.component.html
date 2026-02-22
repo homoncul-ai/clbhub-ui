@@ -24,6 +24,11 @@
       </div>
     </div>
 
+    <div *ngIf="error && !isLoading" class="alert alert-danger" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      {{ getSubmitErrorMessage() }}
+    </div>
+
     <div class="row">
       <div class="col-md-12">
         <div class="col-md-10 offset-md-1">

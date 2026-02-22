@@ -19,7 +19,7 @@ import { Subject } from 'rxjs';
 export class InviteColleagueModalComponent implements OnInit {
   inviteForm: FormGroup;
   isLoading = false;
-  error: any = {};
+  error: any = null;
   organizationId?: string;
   teamId?: string;
   inviteCode?: string;
@@ -62,16 +62,16 @@ export class InviteColleagueModalComponent implements OnInit {
 
     if (this.inviteForm.valid) {
       this.isLoading = true;
-      this.error = {};
+      this.error = null;
 
       const formData = this.inviteForm.value;
       const inviteData: HcclUserInvitePOSTData = {
         emailAddress: formData.emailAddress,
         organizationId: this.organizationId,
         teamId: this.teamId,
-        inviteCode: this.inviteCode || '',
+        inviteCode: this.inviteCode || this.generateInviteCode(),
         notes: formData.notes || '--- no notes ---',
-        dateExpires: '2026-03-01' ,
+        //dateExpires: this.toApiDateTime('2026-03-01'),
         available: 1,
         currentStateCode: 'NEW'
       };
@@ -124,6 +124,28 @@ export class InviteColleagueModalComponent implements OnInit {
     return !!this.validationErrors.email;
   }
 
+  getSubmitErrorMessage(): string {
+    if (!this.error) {
+      return '';
+    }
+    if (typeof this.error === 'string') {
+      return this.error;
+    }
+    if (typeof this.error?.error === 'string') {
+      return this.error.error;
+    }
+    if (this.error?.error?.message) {
+      return this.error.error.message;
+    }
+    if (this.error?.message) {
+      return this.error.message;
+    }
+    if (this.error?.status && this.error?.statusText) {
+      return `Request failed (${this.error.status} ${this.error.statusText}).`;
+    }
+    return 'Unable to send invite right now. Please try again.';
+  }
+
   private markFormGroupTouched(): void {
     Object.keys(this.inviteForm.controls).forEach(key => {
       const control = this.inviteForm.get(key);
@@ -165,5 +187,9 @@ export class InviteColleagueModalComponent implements OnInit {
 
   private generateInviteCode(): string {
     return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`.toUpperCase();
+  }
+
+  private toApiDateTime(dateValue: string): string {
+    return new Date(`${dateValue}T00:00:00.000Z`).toISOString();
   }
 }
