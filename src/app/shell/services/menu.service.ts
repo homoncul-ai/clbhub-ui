@@ -34,7 +34,7 @@ export class MenuService {
 
    * 
    */
-  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): string {
+  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat'): string {
     switch (dashboardType) {
       case 'advocate':
         return 'advocate-dashboard';
@@ -44,6 +44,8 @@ export class MenuService {
         return 'parent-dashboard';
       case 'service-provider':
         return 'provider-dashboard';
+      case 'employee':
+        return 'employee-dashboard';
       case 'ecoadmin':
         return 'ecoadmin-dashboard';
       case 'student':
@@ -59,7 +61,7 @@ export class MenuService {
     return '';
   }
 
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' | null {
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
     } else if (route.startsWith('/nonprofit-dashboard')) {
@@ -68,6 +70,8 @@ export class MenuService {
       return 'parent';
     } else if (route.startsWith('/provider-dashboard')) {
       return 'service-provider';
+    } else if (route.startsWith('/employee-dashboard')) {
+      return 'employee';
     } else if (route.startsWith('/ecoadmin-dashboard')) {
       return 'ecoadmin';
     } else if (route.startsWith('/student-dashboard')) {
@@ -78,7 +82,7 @@ export class MenuService {
     return null;
   }
 
-  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat' {
+  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
       return 'advocate';
@@ -105,6 +109,12 @@ export class MenuService {
       case 'SCHOOLPROVIDER':
       case 'EDU_SERVICE_PROVIDER':
         return 'service-provider';
+
+      case 'EMPLOYEE':
+      case 'EDU_EMPLOYEE':
+      case 'EMPLOYER':
+      case 'EDU_EMPLOYER':
+        return 'employee';
      
       case 'NONPROFIT':
       case 'EDU_NONPROFIT':
@@ -130,7 +140,7 @@ export class MenuService {
   catalogs : CatalogGETData[] = [];
   personalStatements: PersonalStatementGETData[] = [];
   
-  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
+  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
     switch (dashboardType) {
       case 'service-provider':
         const workQueueCriteria = {
@@ -166,6 +176,7 @@ export class MenuService {
         this.personalStatements = psRsp?.searchResults as PersonalStatementGETData[] || [];
         break;
       case 'advocate':
+      case 'employee':
       case 'nonprofit':
       case 'parent':
       case 'ecoadmin':
@@ -177,7 +188,7 @@ export class MenuService {
   }
 
 
-  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'ecoadmin' | 'student' | 'swcat'): MenuItem[] {
+  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
           return this.buildAdvocateMenu();
@@ -187,6 +198,8 @@ export class MenuService {
         return this.buildParentMenu();
       case 'service-provider':
         return this.buildServiceProviderMenu();
+      case 'employee':
+        return this.buildEmployeeMenu();
       case 'ecoadmin':
         return this.buildEcoAdminMenu();
       case 'student':
@@ -487,6 +500,19 @@ export class MenuService {
     //this.addChildMenuItem(workrequest, 
     this.addMenuItem(menu, workrequest);
     
+    return menu;
+  }
+
+  /**
+   * Builds the employee menu, mirroring nonprofit structure.
+   */
+  buildEmployeeMenu(): MenuItem[] {
+    const menu: MenuItem[] = [];
+
+    // Add Dashboard
+    const dashboard = this.copyMenuItem(MENU_CONSTANTS.EMPLOYEE_DASHBOARD);
+    this.addMenuItem(menu, dashboard);
+
     return menu;
   }
 
@@ -1048,6 +1074,16 @@ export const MENU_CONSTANTS = {
     componentPath: 'src/app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component',
     componentName: 'CatalogEntrySignupPacketListComponent',
     icon: 'fas fa-clipboard-list' 
+  },
+
+  // Employee Dashboard Menu Items
+  EMPLOYEE_DASHBOARD: {
+    level: 1,
+    label: 'Employee Dashboard',
+    route: '/employee-dashboard/home',
+    componentPath: 'src/app/features/dash-employee',
+    componentName: 'dash-employee-home',
+    icon: 'fas fa-briefcase'
   },
 
   // EcoAdmin Dashboard Menu Items
