@@ -9696,6 +9696,7 @@ export interface HcclUserInviteGETData {
   available?: number;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  niceName?: string;
   organization?: HcclOrganizationGETData;
   createdByUserProfile?: HcclUserProfileGETData;
   callbackUrl?: string;
@@ -9950,6 +9951,7 @@ export interface HcclUserProfileCriteria {
   personId?: string;
   dateFirstLogin?: string;
   dateRegistrationComplete?: string;
+  findingColleagues?: boolean;
   externalUserIds?: string[];
 }
 

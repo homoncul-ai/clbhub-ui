@@ -38,14 +38,21 @@ export class MenuService {
     switch (dashboardType) {
       case 'advocate':
         return 'advocate-dashboard';
-      case 'nonprofit':
-        return 'nonprofit-dashboard';
+
       case 'parent':
         return 'parent-dashboard';
+
+      case 'nonprofit':
+        return 'provider-dashboard';
+          //return 'nonprofit-dashboard';
+  
       case 'service-provider':
         return 'provider-dashboard';
+
       case 'employee':
-        return 'employee-dashboard';
+        return 'provider-dashboard';
+        //return 'employee-dashboard';
+
       case 'ecoadmin':
         return 'ecoadmin-dashboard';
       case 'student':
@@ -103,22 +110,22 @@ export class MenuService {
       case 'GUIDANCE':
         return 'advocate';
 
-    
+      case 'EMPLOYEE':
+      case 'EDU_EMPLOYEE':
+      case 'EMPLOYER':
+      case 'EDU_EMPLOYER':
+        //return 'employee';
+     
+      case 'NONPROFIT':
+      case 'EDU_NONPROFIT':
+        //return 'nonprofit';   
       case 'PROVIDER':
       case 'SERVICE_PROVIDER':
       case 'SCHOOLPROVIDER':
       case 'EDU_SERVICE_PROVIDER':
         return 'service-provider';
 
-      case 'EMPLOYEE':
-      case 'EDU_EMPLOYEE':
-      case 'EMPLOYER':
-      case 'EDU_EMPLOYER':
-        return 'employee';
-     
-      case 'NONPROFIT':
-      case 'EDU_NONPROFIT':
-        return 'nonprofit';
+
 
       case 'PARENT':
       case 'EDU_PARENT':

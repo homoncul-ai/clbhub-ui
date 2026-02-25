@@ -38854,6 +38854,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "niceName": {
+            "type": "string"
+          },
           "organization": {
             "$ref": "#/components/schemas/HcclOrganizationGETData"
           },
@@ -39726,6 +39729,9 @@
           "dateRegistrationComplete": {
             "type": "string",
             "format": "date-time"
+          },
+          "findingColleagues": {
+            "type": "boolean"
           },
           "externalUserIds": {
             "type": "array",
