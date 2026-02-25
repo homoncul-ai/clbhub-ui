@@ -231,7 +231,7 @@ export class PersonalStatementCrudComponent extends AbstractCrudComponent<Person
   }
 
   protected getPersonalStatementImageUrl(): string {
-    return 'imgs/CCL-personalstatement.png';
+    return 'public/imgs/CCL-personalstatement.png';
   }
 
   public override get dateCreated(): any {
@@ -360,7 +360,7 @@ export class PersonalStatementCrudWrapper extends EntityWrapper<PersonalStatemen
   }
 
   get imageUrl(): string {
-    return 'imgs/CCL-personalstatement.png';
+    return 'public/imgs/CCL-personalstatement.png';
   }
   
   getFkMenuCriteria(): PersonalStatementCriteria {

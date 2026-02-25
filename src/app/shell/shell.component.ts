@@ -121,7 +121,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
            
           this.userProfileMenu = context.userProfileMenu;
           this.setupForUserProfileContext(context, currentUrl);
-            //this.updateUserProfile(context.currentUserProfileId || '');
          
         });
     }

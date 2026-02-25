@@ -126,7 +126,7 @@ export class StudentPersonalStatementSearchComponent extends AbstractMultimodeCo
    * Get catalog entry image URL
    */
   getCatalogEntryImageUrl(): string {
-    return "imgs/TAROT-HR.png";
+    return "public/imgs/TAROT-HR.png";
   }
 
   /**

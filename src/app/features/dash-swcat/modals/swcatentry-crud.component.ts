@@ -494,7 +494,7 @@ export class SwcatEntryCrudComponent extends AbstractCrudComponent<SwcatEntryCru
   }
 
   protected getSwcatEntryImageUrl(): string {
-    return "imgs/TAROT-HR.png";
+    return "public/imgs/TAROT-HR.png";
   }
 
 }
