@@ -93,7 +93,7 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
     var x: HcclUserProfileCriteria = { 
       organizationId: this.organizationId,
       available: 1,
-      profileTypeCode: 'SchoolProvider'
+      findingColleagues: true
     };
     return x;
   }

@@ -142,7 +142,8 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
 
   protected getCriteriaForStaff(): HcclUserProfileCriteria {
     var x: HcclUserProfileCriteria = { 
-      organizationId: this.id
+      organizationId: this.id,
+      findingColleagues: true
     };
     return x;
   }
