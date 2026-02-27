@@ -10,11 +10,13 @@ import { catchError } from 'rxjs/operators';
 import { PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { CRUD_MODES } from '@app/@core/constants';
+import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocationencoding/vocationencoding-display.component';
 
 @Component({
   selector: 'app-student-personalstatement-details',
   standalone: true,
-  imports: [CommonModule, PersonalStatementCrudComponent, CatalogEntryCrudComponent],
+  imports: [CommonModule, PersonalStatementCrudComponent, 
+    CatalogEntryCrudComponent, VocationEncodingDisplayComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -207,6 +209,26 @@ import { CRUD_MODES } from '@app/@core/constants';
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Vocation Encoding Matches Section -->
+                <div class="row mb-4">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="mb-0">
+                          <i class="fas fa-briefcase me-2"></i>
+                          Vocation Encoding Matches
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <app-vocationencoding-display
+                          [id]="personalStatement?.vocationEncodingId || ''"
+                          >
+                        </app-vocationencoding-display>
                       </div>
                     </div>
                   </div>

@@ -12070,6 +12070,240 @@
         }
       }
     },
+    "/hccl/teams/hccladdr": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new HcclAddr.",
+        "operationId": "createHcclAddr_1",
+        "requestBody": {
+          "description": "New HcclAddr data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclAddrPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccladdr/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclAddrById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclAddrGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing HcclAddr.",
+        "operationId": "updateHcclAddrById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated HcclAddr data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclAddrPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing HcclAddr.",
+        "operationId": "deleteHcclAddrById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccladdr/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all HcclAddrs.",
+        "operationId": "findHcclAddrs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclAddrCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclAddrGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccladdr/{id}/hint": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclAddrByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclAddrGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/teams/hcclorganization": {
       "post": {
         "tags": [
@@ -19676,36 +19910,6 @@
         }
       }
     },
-    "/hccl/parents/current-feed": {
-      "get": {
-        "tags": [
-          "/options"
-        ],
-        "summary": " Current Feed.",
-        "operationId": "loadCurrentFeed",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserFeedGETData"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
     "/hccl/parents/dash-ui/resolve-signup-ui-data/{interest-id}": {
       "get": {
         "tags": [
@@ -20288,7 +20492,17 @@
           "/options"
         ],
         "summary": " Current Feed.",
-        "operationId": "loadCurrentFeed_1",
+        "operationId": "loadCurrentFeed",
+        "parameters": [
+          {
+            "name": "refreshFeed",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -23432,6 +23646,88 @@
           }
         }
       },
+      "HcclAddrGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "type": "string"
+          },
+          "addrLine1": {
+            "type": "string"
+          },
+          "addrLine2": {
+            "type": "string"
+          },
+          "addrLine3": {
+            "type": "string"
+          },
+          "addrLine4": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "stateCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "zipPlus4": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "HcclOrganizationGETData": {
         "type": "object",
         "properties": {
@@ -23495,6 +23791,9 @@
           },
           "parentEntityName": {
             "type": "string"
+          },
+          "primaryAddress": {
+            "$ref": "#/components/schemas/HcclAddrGETData"
           }
         }
       },
@@ -23618,11 +23917,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "errorMessageAsString": {
-            "type": "string"
-          },
           "firstErrorMessage": {
             "$ref": "#/components/schemas/SimpleMessage"
+          },
+          "errorMessageAsString": {
+            "type": "string"
           }
         }
       },
@@ -37177,6 +37476,296 @@
           }
         }
       },
+      "HcclAddrPOSTData": {
+        "type": "object",
+        "properties": {
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine1": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine2": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine3": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine4": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "city": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "stateCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "countryCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zip": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zipPlus4": {
+            "maxLength": 4,
+            "minLength": 0,
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "HcclAddrGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclAddrGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "HcclAddrCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "type": "string"
+          },
+          "addrLine1": {
+            "type": "string"
+          },
+          "addrLine2": {
+            "type": "string"
+          },
+          "addrLine3": {
+            "type": "string"
+          },
+          "addrLine4": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "stateCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "zipPlus4": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "HcclAddrPUTData": {
+        "type": "object",
+        "properties": {
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine1": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine2": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine3": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine4": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "city": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "stateCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "countryCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zip": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zipPlus4": {
+            "maxLength": 4,
+            "minLength": 0,
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "HcclOrganizationPOSTData": {
         "required": [
           "available",
@@ -37240,6 +37829,9 @@
           },
           "organizationTypeCode": {
             "type": "string"
+          },
+          "primaryAddress": {
+            "$ref": "#/components/schemas/HcclAddrPOSTData"
           }
         }
       },
@@ -46148,17 +46740,6 @@
           }
         }
       },
-      "UserFeedGETData": {
-        "type": "object",
-        "properties": {
-          "feedEntries": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
-            }
-          }
-        }
-      },
       "SignupBehavior": {
         "type": "object",
         "properties": {
@@ -46365,6 +46946,17 @@
           },
           "family": {
             "$ref": "#/components/schemas/FamilyUnitGETData"
+          }
+        }
+      },
+      "UserFeedGETData": {
+        "type": "object",
+        "properties": {
+          "feedEntries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
+            }
           }
         }
       },

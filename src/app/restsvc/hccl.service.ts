@@ -2785,6 +2785,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<FamilyUnitGETDataSearchResults>(request);
   }
 
+  createHcclAddr(body: HcclAddrPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclAddrById(id: string): Observable<HcclAddrGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id,
+      method: "GET",
+    };
+    return this.request<HcclAddrGETData>(request);
+  }
+
+  updateHcclAddrById(id: string, body: HcclAddrPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclAddrById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclAddrs(body: HcclAddrCriteria): Observable<HcclAddrGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclAddrGETDataSearchResults>(request);
+  }
+
+  getHcclAddrByIdWithHint(id: string, hint: string): Observable<HcclAddrGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<HcclAddrGETData>(request);
+  }
+
   createHcclOrganization(body: HcclOrganizationPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization",
@@ -4505,14 +4557,6 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<CreateActivationCodeResponse>(request);
   }
 
-  loadCurrentFeed(): Observable<UserFeedGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/parents/current-feed",
-      method: "GET",
-    };
-    return this.request<UserFeedGETData>(request);
-  }
-
   resolveParentDashSignupUIData(interest_id: string): Observable<SignupUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/parents/dash-ui/resolve-signup-ui-data/" + interest_id,
@@ -4646,10 +4690,11 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HandleActivationCodeResponse>(request);
   }
 
-  loadCurrentFeedGet(): Observable<UserFeedGETData> {
+  loadCurrentFeed(refreshFeed: boolean): Observable<UserFeedGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/current-feed",
       method: "GET",
+      params: { refreshFeed: this.convertToString(refreshFeed) },
     };
     return this.request<UserFeedGETData>(request);
   }
@@ -5388,6 +5433,33 @@ export interface EntityStateTransitionGETData {
   stateMachineName?: string;
 }
 
+export interface HcclAddrGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
 export interface HcclOrganizationGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -5408,6 +5480,7 @@ export interface HcclOrganizationGETData {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+  primaryAddress?: HcclAddrGETData;
 }
 
 export interface MenuControlData {
@@ -9235,6 +9308,82 @@ export interface FamilyUnitPUTData {
   familyName: string;
 }
 
+export interface HcclAddrPOSTData {
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface HcclAddrGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclAddrGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclAddrCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface HcclAddrPUTData {
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
 export interface HcclOrganizationPOSTData {
   name: string;
   businessCode: string;
@@ -9249,6 +9398,7 @@ export interface HcclOrganizationPOSTData {
   parentEntityEntityType?: string;
   parentEntityName?: string;
   organizationTypeCode: string;
+  primaryAddress?: HcclAddrPOSTData;
 }
 
 export interface HcclOrganizationGETDataSearchResults {
@@ -11743,10 +11893,6 @@ export interface CreateActivationCodeRequest {
   emailAddress?: string;
 }
 
-export interface UserFeedGETData {
-  feedEntries?: FeedEntryInstanceGETData[];
-}
-
 export interface SignupBehavior {
   code?: string;
   name?: string;
@@ -11824,6 +11970,10 @@ export interface ResumeUpdateEntryPOSTData {
 export interface HandleActivationCodeResponse {
   messages?: SimpleMessageList;
   family?: FamilyUnitGETData;
+}
+
+export interface UserFeedGETData {
+  feedEntries?: FeedEntryInstanceGETData[];
 }
 
 export interface StudentDashUIGETData {
