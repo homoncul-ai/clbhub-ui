@@ -11,12 +11,13 @@ import { PersonalStatementCrudComponent } from '@app/components/_crud/personalst
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { CRUD_MODES } from '@app/@core/constants';
 import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocationencoding/vocationencoding-display.component';
+import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 
 @Component({
   selector: 'app-student-personalstatement-details',
   standalone: true,
   imports: [CommonModule, PersonalStatementCrudComponent, 
-    CatalogEntryCrudComponent, VocationEncodingDisplayComponent],
+    CatalogEntryCrudComponent, VocationEncodingDisplayComponent, MdbAccordionModule],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -47,130 +48,126 @@ import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocation
                   </a>
                 </div>
 
-                <!-- Personal Statement with Progress Tracker -->
-                <div class="personal-statement-card mb-4" *ngIf="personalStatement">
-                  <div class="card statement-card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                      <h5 class="mb-0">
-                        <i class="fas fa-compass me-2"></i>
-                        {{ personalStatement.name }}
-                      </h5>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <!-- Left: Personal Statement Card -->
-                        <div class="col-md-4">
-                          <app-personalstatement-crud [modeName]="CRUD_MODES.CARD" [id]="personalStatementId"></app-personalstatement-crud>
-                        </div>
+                <mdb-accordion [multiple]="false" class="mb-4">
+                  <mdb-accordion-item
+                    [collapsed]="isAccordionCollapsed('personalGoal')"
+                    (itemShow)="openAccordion('personalGoal')">
+                    <ng-template mdbAccordionItemHeader>
+                      <i class="fas fa-compass me-2"></i>
+                      Personal Goal : {{ personalStatement?.name }}
+                    </ng-template>
+                    <ng-template mdbAccordionItemBody>
+                      <div class="accordion-body-content">
+                        <div class="personal-statement-card" *ngIf="personalStatement">
+                          <div class="card statement-card">
+                            <div class="card-body">
+                              <div class="row">
+                                <!-- Left: Personal Statement Card -->
+                                <div class="col-md-4">
+                                  <app-personalstatement-crud [modeName]="CRUD_MODES.CARD" [id]="personalStatementId"></app-personalstatement-crud>
+                                </div>
 
-                        <!-- Center: Progress Ring -->
-                        <div class="col-md-3 text-center">
-                          <div class="progress-ring-container">
-                            <div class="progress-ring" 
-                                 [style.--progress]="personalStatement.progress?.progressPercent || 0">
-                              <div class="progress-ring-inner">
-                                <span class="progress-percent">{{ personalStatement.progress?.progressPercent || 0 }}%</span>
-                                <span class="progress-label">Complete</span>
+                                <!-- Center: Progress Ring -->
+                                <div class="col-md-3 text-center">
+                                  <div class="progress-ring-container">
+                                    <div class="progress-ring"
+                                         [style.--progress]="personalStatement.progress?.progressPercent || 0">
+                                      <div class="progress-ring-inner">
+                                        <span class="progress-percent">{{ personalStatement.progress?.progressPercent || 0 }}%</span>
+                                        <span class="progress-label">Complete</span>
+                                      </div>
+                                    </div>
+                                    <div class="mt-2" *ngIf="personalStatement.progress?.progressSummary">
+                                      <small class="text-muted">{{ personalStatement.progress?.progressSummary }}</small>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- Right: Milestones Checklist -->
+                                <div class="col-md-5">
+                                  <div class="milestones-section">
+                                    <h6 class="milestones-title mb-3">
+                                      <i class="fas fa-tasks me-2"></i>Career Milestones
+                                    </h6>
+                                    <div class="milestone-list">
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.completedResume">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedResume"
+                                           [class.fa-circle]="!personalStatement.progress?.completedResume"></i>
+                                        <span>Resume Completed</span>
+                                      </div>
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.showedInterestForJob">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.showedInterestForJob"
+                                           [class.fa-circle]="!personalStatement.progress?.showedInterestForJob"></i>
+                                        <span>Expressed Interest in Job</span>
+                                      </div>
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.showedInterestForCourse">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.showedInterestForCourse"
+                                           [class.fa-circle]="!personalStatement.progress?.showedInterestForCourse"></i>
+                                        <span>Expressed Interest in Course</span>
+                                      </div>
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.completedSignupForJob">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedSignupForJob"
+                                           [class.fa-circle]="!personalStatement.progress?.completedSignupForJob"></i>
+                                        <span>Applied for Job</span>
+                                      </div>
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.completedSignupForCourse">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedSignupForCourse"
+                                           [class.fa-circle]="!personalStatement.progress?.completedSignupForCourse"></i>
+                                        <span>Enrolled in Course</span>
+                                      </div>
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.contactedProvider">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.contactedProvider"
+                                           [class.fa-circle]="!personalStatement.progress?.contactedProvider"></i>
+                                        <span>Contacted Provider</span>
+                                      </div>
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.acceptedForJob">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.acceptedForJob"
+                                           [class.fa-circle]="!personalStatement.progress?.acceptedForJob"></i>
+                                        <span>Accepted for Job</span>
+                                      </div>
+                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.acceptedForCourse">
+                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.acceptedForCourse"
+                                           [class.fa-circle]="!personalStatement.progress?.acceptedForCourse"></i>
+                                        <span>Accepted for Course</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                            <div class="mt-2" *ngIf="personalStatement.progress?.progressSummary">
-                              <small class="text-muted">{{ personalStatement.progress?.progressSummary }}</small>
+
+                              <div class="next-step-banner mt-3" *ngIf="personalStatement.progress?.nextStep">
+                                <div class="d-flex align-items-center">
+                                  <i class="fas fa-lightbulb text-warning me-2"></i>
+                                  <strong>Next Step:</strong>
+                                  <span class="ms-2">{{ personalStatement.progress?.nextStep }}</span>
+                                </div>
+                              </div>
+
+                              <div class="no-progress-state text-center py-3" *ngIf="!personalStatement.progress">
+                                <i class="fas fa-rocket fa-2x text-muted mb-2"></i>
+                                <p class="text-muted mb-0">Start your career journey to track your progress!</p>
+                              </div>
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </ng-template>
+                  </mdb-accordion-item>
 
-                        <!-- Right: Milestones Checklist -->
-                        <div class="col-md-5">
-                          <div class="milestones-section">
-                            <h6 class="milestones-title mb-3">
-                              <i class="fas fa-tasks me-2"></i>Career Milestones
-                            </h6>
-                            <div class="milestone-list">
-                              <!-- Resume -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.completedResume">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedResume" 
-                                   [class.fa-circle]="!personalStatement.progress?.completedResume"></i>
-                                <span>Resume Completed</span>
-                              </div>
-                              <!-- Showed Interest Job -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.showedInterestForJob">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.showedInterestForJob" 
-                                   [class.fa-circle]="!personalStatement.progress?.showedInterestForJob"></i>
-                                <span>Expressed Interest in Job</span>
-                              </div>
-                              <!-- Showed Interest Course -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.showedInterestForCourse">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.showedInterestForCourse" 
-                                   [class.fa-circle]="!personalStatement.progress?.showedInterestForCourse"></i>
-                                <span>Expressed Interest in Course</span>
-                              </div>
-                              <!-- Signed Up Job -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.completedSignupForJob">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedSignupForJob" 
-                                   [class.fa-circle]="!personalStatement.progress?.completedSignupForJob"></i>
-                                <span>Applied for Job</span>
-                              </div>
-                              <!-- Signed Up Course -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.completedSignupForCourse">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedSignupForCourse" 
-                                   [class.fa-circle]="!personalStatement.progress?.completedSignupForCourse"></i>
-                                <span>Enrolled in Course</span>
-                              </div>
-                              <!-- Contacted Provider -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.contactedProvider">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.contactedProvider" 
-                                   [class.fa-circle]="!personalStatement.progress?.contactedProvider"></i>
-                                <span>Contacted Provider</span>
-                              </div>
-                              <!-- Accepted Job -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.acceptedForJob">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.acceptedForJob" 
-                                   [class.fa-circle]="!personalStatement.progress?.acceptedForJob"></i>
-                                <span>Accepted for Job</span>
-                              </div>
-                              <!-- Accepted Course -->
-                              <div class="milestone-item" [class.completed]="personalStatement.progress?.acceptedForCourse">
-                                <i class="fas" [class.fa-check-circle]="personalStatement.progress?.acceptedForCourse" 
-                                   [class.fa-circle]="!personalStatement.progress?.acceptedForCourse"></i>
-                                <span>Accepted for Course</span>
-                              </div>
-                            </div>
-                          </div>
+                  <mdb-accordion-item
+                    [collapsed]="isAccordionCollapsed('resumes')"
+                    (itemShow)="openAccordion('resumes')">
+                    <ng-template mdbAccordionItemHeader>
+                      <i class="fas fa-file-alt me-2"></i>
+                      Resumes
+                    </ng-template>
+                    <ng-template mdbAccordionItemBody>
+                      <div class="accordion-body-content">
+                        <div class="mb-3">
+                          <a [href]="'/student-dashboard/personalstatements/' + personalStatementId + '/resumes'" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-plus me-1"></i> Manage Resumes
+                          </a>
                         </div>
-                      </div>
-
-                      <!-- Next Step Banner -->
-                      <div class="next-step-banner mt-3" *ngIf="personalStatement.progress?.nextStep">
-                        <div class="d-flex align-items-center">
-                          <i class="fas fa-lightbulb text-warning me-2"></i>
-                          <strong>Next Step:</strong>
-                          <span class="ms-2">{{ personalStatement.progress?.nextStep }}</span>
-                        </div>
-                      </div>
-
-                      <!-- No Progress State -->
-                      <div class="no-progress-state text-center py-3" *ngIf="!personalStatement.progress">
-                        <i class="fas fa-rocket fa-2x text-muted mb-2"></i>
-                        <p class="text-muted mb-0">Start your career journey to track your progress!</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Resumes Section -->
-                <div class="row mb-4">
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">
-                          <i class="fas fa-file-alt me-2"></i>
-                          Resumes
-                        </h5>
-                        <a [href]="'/student-dashboard/personalstatements/' + personalStatementId + '/resumes'" class="btn btn-sm btn-outline-primary">
-                          <i class="fas fa-plus me-1"></i> Manage Resumes
-                        </a>
-                      </div>
-                      <div class="card-body">
                         <div *ngIf="resumes.length === 0" class="text-center py-4">
                           <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
                           <p class="text-muted">No resumes have been created yet for this personal statement.</p>
@@ -178,7 +175,6 @@ import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocation
                             <i class="fas fa-plus me-1"></i> Create a Resume
                           </a>
                         </div>
-                        
                         <div *ngIf="resumes.length > 0" class="resumes-list">
                           <div class="row">
                             <div class="col-md-6 col-lg-4 mb-3" *ngFor="let resume of resumes">
@@ -200,7 +196,7 @@ import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocation
                                   </div>
                                 </div>
                                 <div class="card-footer bg-transparent">
-                                  <a [href]="'/student-dashboard/personalstatements/' + personalStatementId + '/resume/' + resume.id" 
+                                  <a [href]="'/student-dashboard/personalstatements/' + personalStatementId + '/resume/' + resume.id"
                                      class="btn btn-sm btn-outline-primary w-100">
                                     <i class="fas fa-eye me-1"></i> View Resume
                                   </a>
@@ -210,41 +206,32 @@ import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocation
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                    </ng-template>
+                  </mdb-accordion-item>
 
-                <!-- Vocation Encoding Matches Section -->
-                <div class="row mb-4">
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-header">
-                        <h5 class="mb-0">
-                          <i class="fas fa-briefcase me-2"></i>
-                          Vocation Encoding Matches
-                        </h5>
+                  <mdb-accordion-item
+                    [collapsed]="isAccordionCollapsed('vocationEncoding')"
+                    (itemShow)="openAccordion('vocationEncoding')">
+                    <ng-template mdbAccordionItemHeader>
+                      <i class="fas fa-briefcase me-2"></i>
+                      Vocation Encoding Matches
+                    </ng-template>
+                    <ng-template mdbAccordionItemBody>
+                      <div class="accordion-body-content">
+                        <app-vocationencoding-display [id]="personalStatement?.vocationEncodingId || ''"></app-vocationencoding-display>
                       </div>
-                      <div class="card-body">
-                        <app-vocationencoding-display
-                          [id]="personalStatement?.vocationEncodingId || ''"
-                          >
-                        </app-vocationencoding-display>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                    </ng-template>
+                  </mdb-accordion-item>
 
-                <!-- Catalog Entry Interests Section -->
-                <div class="row mb-4">
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-header">
-                        <h5 class="mb-0">
-                          <i class="fas fa-star me-2"></i>
-                          Your Interests for this Personal Statement
-                        </h5>
-                      </div>
-                      <div class="card-body">
+                  <mdb-accordion-item
+                    [collapsed]="isAccordionCollapsed('interests')"
+                    (itemShow)="openAccordion('interests')">
+                    <ng-template mdbAccordionItemHeader>
+                      <i class="fas fa-star me-2"></i>
+                      Your Interests for this Personal Statement
+                    </ng-template>
+                    <ng-template mdbAccordionItemBody>
+                      <div class="accordion-body-content">
                         <div *ngIf="catalogEntryInterests.length === 0" class="text-center py-4">
                           <i class="fas fa-search fa-3x text-muted mb-3"></i>
                           <p class="text-muted">No interests have been expressed yet for this personal statement.</p>
@@ -252,7 +239,6 @@ import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocation
                             <i class="fas fa-search me-1"></i> Search for Opportunities
                           </a>
                         </div>
-                        
                         <div *ngIf="catalogEntryInterests.length > 0" class="interests-list">
                           <div class="table-responsive">
                             <table class="table table-hover">
@@ -297,9 +283,9 @@ import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocation
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                    </ng-template>
+                  </mdb-accordion-item>
+                </mdb-accordion>
 
               </div>
             </div>
@@ -526,6 +512,7 @@ export class StudentPersonalStatementDetailsComponent implements OnInit {
   personalStatementId: string = '';
   catalogEntryInterests: CatalogEntryInterestGETData[] = [];
   resumes: PersonalStatementResumeGETData[] = [];
+  accordionId = 'personalGoal';
 
   constructor() {
     console.log('StudentPersonalStatementDetailsComponent initialized');
@@ -541,6 +528,14 @@ export class StudentPersonalStatementDetailsComponent implements OnInit {
         this.error = 'No personal statement ID provided';
       }
     });
+  }
+
+  openAccordion(id: string): void {
+    this.accordionId = id;
+  }
+
+  isAccordionCollapsed(id: string): boolean {
+    return this.accordionId !== id;
   }
 
   /**
