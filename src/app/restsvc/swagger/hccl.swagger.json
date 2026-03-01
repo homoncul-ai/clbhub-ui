@@ -46883,6 +46883,9 @@
           },
           "inviteUserEmail": {
             "type": "string"
+          },
+          "inviteUserWelcomeNotes": {
+            "type": "string"
           }
         }
       },
@@ -47350,13 +47353,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

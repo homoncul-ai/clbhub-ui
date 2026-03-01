@@ -11928,6 +11928,7 @@ export interface OnboardOrganizationPOSTData {
   companyLogo?: HtmImagePOSTData;
   companyMissionStatementImage?: HtmImagePOSTData;
   inviteUserEmail?: string;
+  inviteUserWelcomeNotes?: string;
 }
 
 export interface OnboardOrganizationUIHelper {
@@ -12093,9 +12094,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

@@ -3,7 +3,7 @@
 <div *ngIf="currentTabId === 'list'">
   <h1>Businesses Administration</h1>
   <button class="btn btn-primary" (click)="onClickAddBusiness()">Add Business</button>
-  <app-hcclorganization-list [criteria]="getCriteria()" [onRowClickBehavior]="onClickOrgRowBehavior()"
+  <app-hcclorganization-list *ngIf="showingBusinessList" [criteria]="getCriteria()" [onRowClickBehavior]="onClickOrgRowBehavior()"
   [showingAddButton]="false" [showingGoButton]="false" [showingIdCheckbox]="false" [showingSearchHeading]="false"
    ></app-hcclorganization-list>
 </div>

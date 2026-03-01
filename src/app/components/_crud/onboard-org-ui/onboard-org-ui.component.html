@@ -106,8 +106,8 @@
                 placeholder="US" />
             </div>
             <div class="col-12">
-              <button class="btn btn-outline-primary" (click)="openAccordion('content')">
-                Continue to Images + Mission
+              <button class="btn btn-outline-primary" (click)="openAccordion('mission')">
+                Continue to Mission Statement
               </button>
             </div>
           </div>
@@ -116,24 +116,44 @@
     </mdb-accordion-item>
 
     <mdb-accordion-item
-      [collapsed]="isAccordionCollapsed('content')"
-      (itemShow)="openAccordion('content')">
+      [collapsed]="isAccordionCollapsed('mission')"
+      (itemShow)="openAccordion('mission')">
       <ng-template mdbAccordionItemHeader>
-        <i class="fas fa-image me-2"></i>
-        3. Images + Mission Statement
+        <i class="fas fa-pen me-2"></i>
+        3. Mission Statement
       </ng-template>
       <ng-template mdbAccordionItemBody>
         <div class="accordion-body-content">
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label">Mission Statement</label>
-              <textarea
-                class="form-control"
-                rows="5"
-                [(ngModel)]="orgData.providerOrganization.mdMissionStatement"
-                name="mdMissionStatement"></textarea>
+              <app-std-markdown-display
+                [markdown]="orgData.providerOrganization.mdMissionStatement || ''"
+                [modeName]="'edit'"
+                [dialect]="'common'"
+                (contentChange)="onMissionMarkdownChange($event)">
+              </app-std-markdown-display>
             </div>
+            <div class="col-12">
+              <button class="btn btn-outline-primary" (click)="openAccordion('logos')">
+                Continue to Logos + Images
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
 
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('logos')"
+      (itemShow)="openAccordion('logos')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-image me-2"></i>
+        4. Logos + Images
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3">
             <div class="col-md-8">
               <label class="form-label">Company Logo URL</label>
               <input
@@ -147,6 +167,12 @@
                 class="form-control"
                 [(ngModel)]="orgData.companyLogo!.alt"
                 name="companyLogoAlt" />
+            </div>
+            <div class="col-12" *ngIf="orgData.companyLogo?.imageUrl">
+              <label class="form-label">Company Logo Preview</label>
+              <div class="image-preview-box">
+                <img [src]="orgData.companyLogo!.imageUrl || ''" [alt]="orgData.companyLogo!.alt || 'Company logo'" />
+              </div>
             </div>
 
             <div class="col-md-8">
@@ -163,6 +189,14 @@
                 [(ngModel)]="orgData.companyMissionStatementImage!.alt"
                 name="companyMissionImageAlt" />
             </div>
+            <div class="col-12" *ngIf="orgData.companyMissionStatementImage?.imageUrl">
+              <label class="form-label">Mission Image Preview</label>
+              <div class="image-preview-box">
+                <img
+                  [src]="orgData.companyMissionStatementImage!.imageUrl || ''"
+                  [alt]="orgData.companyMissionStatementImage!.alt || 'Mission image'" />
+              </div>
+            </div>
             <div class="col-12">
               <button class="btn btn-outline-primary" (click)="openAccordion('submit')">
                 Continue to Submit
@@ -178,7 +212,7 @@
       (itemShow)="openAccordion('submit')">
       <ng-template mdbAccordionItemHeader>
         <i class="fas fa-paper-plane me-2"></i>
-        4. Optional Invite + Create
+        5. Optional Invite + Create
       </ng-template>
       <ng-template mdbAccordionItemBody>
         <div class="accordion-body-content">

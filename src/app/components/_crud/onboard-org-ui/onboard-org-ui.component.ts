@@ -12,11 +12,12 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { SimpleMessageList } from '@app/restsvc/common-request-service.model';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 
 @Component({
   selector: 'app-onboard-org-ui',
   standalone: true,
-  imports: [CommonModule, FormsModule, MdbAccordionModule, SimpleMessagesSectionComponent],
+  imports: [CommonModule, FormsModule, MdbAccordionModule, SimpleMessagesSectionComponent, StdMarkdownDisplayComponent],
   templateUrl: './onboard-org-ui.component.html',
   styleUrls: ['./onboard-org-ui.component.scss'],
 })
@@ -83,7 +84,7 @@ export class OnboardOrgUiComponent implements OnChanges {
       next: (helper) => {
         this.setupLoading = false;
         this.setupHelper = helper;
-        this.orgData = this.normalizeOrgData(helper?.orgData);
+        this.orgData = this.normalizeOrgData(helper);
         this.inviteUserEmail = this.orgData.inviteUserEmail || '';
         this.openAccordion('basics');
       },
@@ -130,37 +131,77 @@ export class OnboardOrgUiComponent implements OnChanges {
     });
   }
 
-  private normalizeOrgData(data?: OnboardOrganizationPOSTData): OnboardOrganizationPOSTData {
+  private normalizeOrgData(source?: OnboardOrganizationUIHelper | OnboardOrganizationPOSTData | any): OnboardOrganizationPOSTData {
     const defaults = this.createDefaultOrgData();
+    const helperAny = (source || {}) as any;
+    const orgDataAny = this.coerceObject(helperAny.orgData ?? helperAny.data ?? helperAny);
+
+    // Support both API shapes:
+    // - orgData.providerOrganization (swagger-generated contract)
+    // - orgData.organization (backend variant)
+    const sourceOrganization = this.coerceObject(
+      orgDataAny.providerOrganization ??
+      orgDataAny.organization ??
+      helperAny.providerOrganization ??
+      helperAny.organization ??
+      {}
+    );
+
+    const sourcePrimaryAddress = this.coerceObject(
+      sourceOrganization.primaryAddress ??
+      orgDataAny.primaryAddress ??
+      helperAny.primaryAddress ??
+      sourceOrganization.address ??
+      {}
+    );
+    const sourceImages = this.coerceObject(orgDataAny.companyLogo ?? helperAny.companyLogo ?? {});
+    const sourceMissionImage = this.coerceObject(
+      orgDataAny.companyMissionStatementImage ?? helperAny.companyMissionStatementImage ?? {}
+    );
 
     const normalized: OnboardOrganizationPOSTData = {
       ...defaults,
-      ...data,
-      orgTypeCode: this.orgTypeCode || data?.orgTypeCode || defaults.orgTypeCode,
+      ...orgDataAny,
+      orgTypeCode: this.orgTypeCode || orgDataAny.orgTypeCode || defaults.orgTypeCode,
       providerOrganization: {
         ...defaults.providerOrganization,
-        ...(data?.providerOrganization || {}),
+        ...sourceOrganization,
+        name: sourceOrganization.name || orgDataAny.name || '',
         organizationTypeCode:
           this.orgTypeCode ||
-          data?.providerOrganization?.organizationTypeCode ||
+          sourceOrganization.organizationTypeCode ||
           defaults.providerOrganization.organizationTypeCode,
-        websiteUrl: data?.providerOrganization?.websiteUrl || this.sourceUrl || undefined,
+        websiteUrl: sourceOrganization.websiteUrl || this.sourceUrl || undefined,
         primaryAddress: {
           ...(defaults.providerOrganization.primaryAddress || {}),
-          ...(data?.providerOrganization?.primaryAddress || {}),
+          ...sourcePrimaryAddress,
         },
       },
       companyLogo: {
         ...(defaults.companyLogo || {}),
-        ...(data?.companyLogo || {}),
+        ...sourceImages,
       },
       companyMissionStatementImage: {
         ...(defaults.companyMissionStatementImage || {}),
-        ...(data?.companyMissionStatementImage || {}),
+        ...sourceMissionImage,
       },
     };
 
     return normalized;
+  }
+
+  private coerceObject(value: any): any {
+    if (!value) {
+      return {};
+    }
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return {};
+      }
+    }
+    return value;
   }
 
   private createDefaultOrgData(): OnboardOrganizationPOSTData {
@@ -204,5 +245,9 @@ export class OnboardOrgUiComponent implements OnChanges {
       this.modalRef.close({ refresh: true });
     }
     this.refreshRequested.emit();
+  }
+
+  onMissionMarkdownChange(markdown: string): void {
+    this.orgData.providerOrganization.mdMissionStatement = markdown;
   }
 }
