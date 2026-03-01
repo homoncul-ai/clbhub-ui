@@ -89,6 +89,8 @@ export class StdMarkdownDisplayComponent implements OnChanges, AfterViewInit {
 
   /** Emits when markdown checkbox changes */
   @Output() markdownChange = new EventEmitter<boolean>();
+  /** Emits when edit mode content changes */
+  @Output() contentChange = new EventEmitter<string>();
 
   constructor(private sanitizer: DomSanitizer) {
     // Configure marked options
@@ -211,6 +213,7 @@ ${this.escapeHtmlForMarkdeep(this.markdown)}
   onEditContentChange(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
     this.editContent = textarea.value;
+    this.contentChange.emit(this.editContent);
     // Re-render preview when content changes
     if (this.isMarkdown) {
       this.renderEditPreview();

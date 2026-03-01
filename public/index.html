@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>clbhub Public</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg-light: #f7f9fc;
+      --bg-dark: #111827;
+      --card-light: #ffffff;
+      --card-dark: #1f2937;
+      --text-light: #111827;
+      --text-dark: #f9fafb;
+      --muted-light: #4b5563;
+      --muted-dark: #d1d5db;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      padding: 2rem 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+      }
+    }
+
+    .card {
+      width: min(760px, 100%);
+      background: var(--card-light);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 14px;
+      padding: 2rem;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .card {
+        background: var(--card-dark);
+        border-color: rgba(148, 163, 184, 0.2);
+        box-shadow: none;
+      }
+    }
+
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0 0 1rem;
+      line-height: 1.6;
+      color: var(--muted-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      p {
+        color: var(--muted-dark);
+      }
+    }
+
+    .actions {
+      margin-top: 1.25rem;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--accent);
+      color: white;
+      background: var(--accent);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    .button:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Welcome to clbhub Public</h1>
+    <p>
+      This area is available without signing in. Use this page as your starting point for
+      public links, onboarding flows, and shared resources.
+    </p>
+    <p>
+      If you are an internal user and need the full application experience, continue to the
+      authenticated app.
+    </p>
+    <h3>Documentation</h3>
+    <ul>
+      <li><a href="/public/docs">Documentation</a></li>
+      <li><a href="/public/docs/clbhub-mvp.md.htm">CLBHub MVP</a></li>
+      <li><a href="/public/docs/clbhub-policy-outline.md.htm">CLBHub Policy Outline</a></li>
+      <li><a href="/public/docs/clbhub-policy-options.md.htm">CLBHub Policy Options</a></li>
+      <li><a href="/public/docs/clbhub-policy-option-level2.md.htm">CLBHub Policy Option Level 2</a></li>
+      <li><a href="/public/docs/clbhub-policy-option-level3.md.htm">CLBHub Policy Option Level 3</a></li>
+      <li><a href="/public/docs/clbhub-policy-appendix.md.htm">CLBHub Policy Appendix</a></li>
+      <li><a href="/public/docs/onboarding_policy.md.htm">Onboarding Policy</a></li>
+    </ul>
+    <h3>Book Bounty</h3>
+    <ul>
+      <li><a href="/public/book-bounty/book_bounty.md.htm">Book Bounty</a></li>
+      <li><a href="/public/book-bounty/future/book_bounty_2fam.md.htm">Book Bounty 2 Family</a></li>
+    </ul>
+    <div class="actions">
+      <a class="button" href="/">Open App</a>
+      <a class="button secondary" href="/public">Stay on Public</a>
+    </div>
+  </main>
+</body>
+</html>

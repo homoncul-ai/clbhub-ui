@@ -1,5 +1,5 @@
 <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
-
+Boomer! Boomer! Boomer!
 <div *ngIf="currentTabId === 'list'">
   <h1>Schools Administration</h1>
   <button class="btn btn-primary" (click)="onClickAddSchool()">Add School</button>
@@ -25,6 +25,11 @@
   [onRowClickBehavior]="onClickOrgStaffRowBehavior()"></app-org-school-staff-list>
 </div>
 
+<div *ngIf="currentTabId === 'invitations'">
+  <app-org-school-crud [id]="id" modeName="section"></app-org-school-crud>
+  <hr/>
+  <app-hccluserinvite-list [criteria]="getCriteriaForInvitations()"></app-hccluserinvite-list>
+</div>
 
 <div *ngIf="currentTabId === 'staffmember'">
   <app-org-school-crud [id]="id" modeName="section"></app-org-school-crud>

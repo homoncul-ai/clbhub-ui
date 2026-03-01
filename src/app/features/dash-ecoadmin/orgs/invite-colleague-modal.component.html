@@ -1,0 +1,86 @@
+<div class="modal-header text-white">
+  <h5 class="modal-title">Invite Colleague</h5>
+  <span class="fa fa-times cursorPointer" (click)="onCancel()"></span>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="inviteForm">
+    <div class="form-symbols-text text-end">
+      <small class="text-muted">
+        <span class="requiredField">* </span>Required fields
+      </small>
+    </div>
+
+    <div *ngIf="hasValidationErrors()" class="validation-errors-alert alert alert-warning">
+      <div *ngIf="validationErrors.email" class="validation-error-item">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span>{{ validationErrors.email }}</span>
+        <a *ngIf="emailExists && emailExists.id"
+           href="javascript:void(0)"
+           class="validation-error-link ms-2"
+           (click)="navigateToUser(emailExists.id)">
+          <i class="fas fa-external-link-alt me-1"></i>View User
+        </a>
+      </div>
+    </div>
+
+    <div *ngIf="error && !isLoading" class="alert alert-danger" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      {{ getSubmitErrorMessage() }}
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-10 offset-md-1">
+          <div class="form-field-with-validation">
+            <app-std-mdb-form-text
+              prefix="inviteColleague"
+              name="emailAddress"
+              label="Email Address"
+              [required]="true"
+              [error]="error"
+              formControlName="emailAddress"
+              (blur)="checkEmailAddress()">
+            </app-std-mdb-form-text>
+            <div *ngIf="checkingEmail" class="validation-spinner">
+              <span class="spinner-border spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">Checking...</span>
+              </span>
+              <small class="ms-2 text-muted">Checking email...</small>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="inviteColleagueNotes" class="form-label">Notes</label>
+            <textarea
+              id="inviteColleagueNotes"
+              class="form-control"
+              rows="4"
+              formControlName="notes"
+              placeholder="Optional note included with invite">
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    (click)="onSubmit()"
+    [disabled]="!inviteForm.valid || isLoading || hasValidationErrors()"
+  >
+    <span [ngClass]="{ 'spinner-border spinner-border-sm': isLoading }">
+      {{ isLoading ? 'Sending...' : 'Send Invite' }}
+    </span>
+  </button>
+  <button type="button" class="btn btn-sm btn-dark" (click)="onCancel()">
+    Cancel
+  </button>
+  <div class="text-muted">
+    Invite Code: {{ inviteCode }}
+  </div>
+</div>

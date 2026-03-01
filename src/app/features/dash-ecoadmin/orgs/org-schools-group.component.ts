@@ -4,7 +4,7 @@ import { HcclOrganizationCrudComponent, HcclOrganizationCrudWrapper } from '@app
 import { AbstractListComponent, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclOrganizationCriteria, HcclService, HcclUserProfileCriteria } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCriteria, HcclService, HcclUserInviteCriteria, HcclUserProfileCriteria } from '@app/restsvc/hccl.service';
 import { HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefCrudWrapper } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 import { HcclOrganizationTypeRefListComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component';
 import { HcclOrganizationListComponent } from '@app/components/_crud/hcclorganization/hcclorganization-list.component';
@@ -13,12 +13,15 @@ import { OrgSchoolStaffListComponent } from './org-school-staff-list.component';
 import { OrgSchoolStaffCrudComponent } from './org-school-staff-crud.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { overrides } from 'node_modules/chart.js/dist/core/core.defaults';
+import { HcclUserInviteListComponent } from '@app/components/_crud/hccluserinvite/hccluserinvite-list.component';
 
 @Component({
   selector: 'app-org-schools-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, HcclOrganizationCrudComponent, HcclOrganizationListComponent,
-    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, OrgSchoolCrudComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent, MdbModalModule],
+    HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent,
+     OrgSchoolCrudComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent, MdbModalModule,
+     HcclUserInviteListComponent],
   templateUrl: './org-schools-group.component.html' 
 })
 export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclOrganizationCrudWrapper> implements OnInit {  
@@ -77,6 +80,16 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
         }
       );
       tabs.push(tab);
+      tab = new SimpleTab('invitations', 'Invitations', '', 
+        () => {
+          //this.currentTabId = 'details';
+          this.router.navigate([baseRoute, this.id, 'invitations']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);      
       tab = new SimpleTab('staffmember', 'Staff Member', '', 
         () => {
           //this.currentTabId = 'details';
@@ -129,7 +142,8 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
 
   protected getCriteriaForStaff(): HcclUserProfileCriteria {
     var x: HcclUserProfileCriteria = { 
-      organizationId: this.id
+      organizationId: this.id,
+      findingColleagues: true
     };
     return x;
   }
@@ -160,6 +174,13 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
     tabId = this.tabId;
 //    alert('tabId: ' + tabId);
     return tabId;
+  }
+
+  protected getCriteriaForInvitations(): HcclUserInviteCriteria {
+    var x: HcclUserInviteCriteria = { 
+      organizationId: this.id
+    };
+    return x;
   }
 
 } 

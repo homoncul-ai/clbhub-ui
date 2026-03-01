@@ -1,17 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HcclOrganizationCrudComponent, HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { AbstractListComponent, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclOrganizationCriteria, HcclService, HcclUserProfileCriteria } from '@app/restsvc/hccl.service';
+import { HcclOrganizationCriteria, HcclService, HcclUserInviteCriteria, HcclUserProfileCriteria } from '@app/restsvc/hccl.service';
 import { HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefCrudWrapper } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-crud.component';
 import { HcclOrganizationTypeRefListComponent } from '@app/components/_crud/hcclorganizationtyperef/hcclorganizationtyperef-list.component';
 import { HcclOrganizationListComponent } from '@app/components/_crud/hcclorganization/hcclorganization-list.component';
 import { OrgSchoolCrudComponent } from './org-school-crud.component';
 import { OrgBusinessStaffListComponent, OrgNonprofitStaffListComponent, OrgSchoolStaffListComponent } from './org-school-staff-list.component';
 import { OrgSchoolStaffCrudComponent } from './org-school-staff-crud.component';
-import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { MdbModalModule, MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { HcclUserInviteListComponent } from '@app/components/_crud/hccluserinvite/hccluserinvite-list.component';
+import { OnboardOrgUiComponent } from '@app/components/_crud/onboard-org-ui/onboard-org-ui.component';
 
 @Component({
   selector: 'app-org-business-group',
@@ -19,10 +21,12 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
   imports: [CommonModule, SimpleTabsetComponent, HcclOrganizationCrudComponent, HcclOrganizationListComponent,
     HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, 
     OrgSchoolCrudComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent, MdbModalModule,
-    OrgBusinessStaffListComponent],
+    OrgBusinessStaffListComponent, HcclUserInviteListComponent, OnboardOrgUiComponent],
   templateUrl: './org-business-group.component.html' 
 })
 export class OrgBusinessGroupComponent extends AbstractEntityGroupComponent<HcclOrganizationCrudWrapper> implements OnInit {  
+  protected modalService = inject(MdbModalService);
+  protected onboardModalRef?: MdbModalRef<OnboardOrgUiComponent>;
 
   constructor() {
     super();    
@@ -78,6 +82,16 @@ export class OrgBusinessGroupComponent extends AbstractEntityGroupComponent<Hccl
         }
       );
       tabs.push(tab);
+       tab = new SimpleTab('invitations', 'Invitations', '', 
+        () => {
+          //this.currentTabId = 'details';
+          this.router.navigate([baseRoute, this.id, 'invitations']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab);
       tab = new SimpleTab('staffmember', 'Staff Member', '', 
         () => {
           //this.currentTabId = 'details';
@@ -117,11 +131,31 @@ export class OrgBusinessGroupComponent extends AbstractEntityGroupComponent<Hccl
   }
 
   entityForCreate?: HcclOrganizationCrudWrapper ;
+  showingBusinessList = true;
+
   onClickAddBusiness(): void {
-    this.currentTabId = 'create';
+    this.onboardModalRef = this.modalService.open(OnboardOrgUiComponent, {
+      modalClass: 'modal-xl',
+      keyboard: false,
+      ignoreBackdropClick: true
+    });
+
+    if (this.onboardModalRef?.component) {
+      this.onboardModalRef.component.orgTypeCode = this.organizationTypeCode;
+    }
+
+    this.onboardModalRef.onClose.subscribe(() => {
+      this.onOnboardCloseRefresh();
+    });
+  }
+
+  onOnboardCloseRefresh(): void {
+    this.currentTabId = 'list';
     this.showingTabset = true;
-    this.entityForCreate = this.newCrudWrapperForCreate();
-    this.entityForCreate.getData().name = 'New Business';
+    this.showingBusinessList = false;
+    setTimeout(() => {
+      this.showingBusinessList = true;
+    });
   }
 
   protected override getBaseRoute(): string {
@@ -147,4 +181,19 @@ export class OrgBusinessGroupComponent extends AbstractEntityGroupComponent<Hccl
     };
     return o;
   }
+
+  protected getCriteriaForInvitations(): HcclUserInviteCriteria {
+    var x: HcclUserInviteCriteria = { 
+      organizationId: this.id
+    };
+    return x;
+  }
+
+  // onClickOrgInvitationsRowBehavior(): OnRowClickBehavior {
+  //   var o : OnRowClickBehavior = new OnRowClickBehavior();
+  //   o.parentId = this.id;
+  //   o.tabId = 'invitations';     
+  //   o.usingNavigateUrl = true;
+  //   return o;
+  // }
 } 

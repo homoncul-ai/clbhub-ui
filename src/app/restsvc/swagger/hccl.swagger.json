@@ -6718,6 +6718,240 @@
         }
       }
     },
+    "/hccl/pattern/pentitytagval": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PEntityTagVal.",
+        "operationId": "createPEntityTagVal_1",
+        "requestBody": {
+          "description": "New PEntityTagVal data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PEntityTagValPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pentitytagval/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPEntityTagValById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PEntityTagValGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PEntityTagVal.",
+        "operationId": "updatePEntityTagValById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PEntityTagVal data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PEntityTagValPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PEntityTagVal.",
+        "operationId": "deletePEntityTagValById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pentitytagval/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PEntityTagVals.",
+        "operationId": "findPEntityTagVals_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PEntityTagValCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PEntityTagValGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pentitytagval/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPEntityTagValByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PEntityTagValGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pattern/pmbucketfolder": {
       "post": {
         "tags": [
@@ -11836,6 +12070,240 @@
         }
       }
     },
+    "/hccl/teams/hccladdr": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new HcclAddr.",
+        "operationId": "createHcclAddr_1",
+        "requestBody": {
+          "description": "New HcclAddr data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclAddrPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccladdr/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclAddrById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclAddrGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing HcclAddr.",
+        "operationId": "updateHcclAddrById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated HcclAddr data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclAddrPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing HcclAddr.",
+        "operationId": "deleteHcclAddrById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccladdr/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all HcclAddrs.",
+        "operationId": "findHcclAddrs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclAddrCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclAddrGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccladdr/{id}/hint": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclAddrByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclAddrGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/teams/hcclorganization": {
       "post": {
         "tags": [
@@ -13128,6 +13596,240 @@
           },
           "206": {
             "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserinvite": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new HcclUserInvite.",
+        "operationId": "createHcclUserInvite_1",
+        "requestBody": {
+          "description": "New HcclUserInvite data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserInvitePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserinvite/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclUserInviteById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserInviteGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing HcclUserInvite.",
+        "operationId": "updateHcclUserInviteById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated HcclUserInvite data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserInvitePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing HcclUserInvite.",
+        "operationId": "deleteHcclUserInviteById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserinvite/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all HcclUserInvites.",
+        "operationId": "findHcclUserInvites_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserInviteCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserInviteGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserinvite/{id}/hint": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclUserInviteByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserInviteGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
           },
           "400": {
             "description": "Invalid Id, No Data Updated or Invalid Data"
@@ -18424,6 +19126,45 @@
         }
       }
     },
+    "/hccl/public/onboard/invite": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Load the setup for the student UI. ",
+        "operationId": "onboardInvited",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardInvitedRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardInvitedResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/public/onboard/student": {
       "post": {
         "tags": [
@@ -18447,6 +19188,46 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/OnboardResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/onboard/invite/setup": {
+      "get": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Load the setup for the student UI. ",
+        "operationId": "resolveOnboardInvitedUIData",
+        "parameters": [
+          {
+            "name": "invitedId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardInvitedUIData"
                 }
               }
             }
@@ -18667,6 +19448,123 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/SimpleRestActionResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/onboard/onboard/organization": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Onboard an organization .",
+        "operationId": "onboardOrg",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardOrganizationPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardOrganizationResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/onboard/onboard/organzation-setup": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Creates an invitation .",
+        "operationId": "onboardOrgSetup",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardOrganizationPOJO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardOrganizationUIHelper"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/onboard/onboard/invite": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Creates an invitation .",
+        "operationId": "onboardStudent_1",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardStudentPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardResponse"
                 }
               }
             }
@@ -19113,36 +20011,6 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateActivationCodeResponse"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/parents/current-feed": {
-      "get": {
-        "tags": [
-          "/options"
-        ],
-        "summary": " Current Feed.",
-        "operationId": "loadCurrentFeed",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserFeedGETData"
                 }
               }
             }
@@ -19741,7 +20609,17 @@
           "/options"
         ],
         "summary": " Current Feed.",
-        "operationId": "loadCurrentFeed_1",
+        "operationId": "loadCurrentFeed",
+        "parameters": [
+          {
+            "name": "refreshFeed",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -22885,6 +23763,88 @@
           }
         }
       },
+      "HcclAddrGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "type": "string"
+          },
+          "addrLine1": {
+            "type": "string"
+          },
+          "addrLine2": {
+            "type": "string"
+          },
+          "addrLine3": {
+            "type": "string"
+          },
+          "addrLine4": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "stateCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "zipPlus4": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "HcclOrganizationGETData": {
         "type": "object",
         "properties": {
@@ -22948,6 +23908,9 @@
           },
           "parentEntityName": {
             "type": "string"
+          },
+          "primaryAddress": {
+            "$ref": "#/components/schemas/HcclAddrGETData"
           }
         }
       },
@@ -24849,6 +25812,9 @@
           },
           "messageHandle": {
             "type": "string"
+          },
+          "languageCode": {
+            "type": "string"
           }
         }
       },
@@ -24903,6 +25869,9 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "languageCode": {
+            "type": "string"
           },
           "person": {
             "$ref": "#/components/schemas/HcclPersonGETData"
@@ -29960,6 +30929,447 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "PEntityTagValPOSTData": {
+        "required": [
+          "dataTypeCode",
+          "subjectEntityId",
+          "subjectEntityName",
+          "subjectEntityType",
+          "tagCode",
+          "valueEntityId",
+          "valueEntityName",
+          "valueEntityType"
+        ],
+        "type": "object",
+        "properties": {
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "valueEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "valueEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "valueEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dataTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tagCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "valueCodeDetail": {
+            "type": "string"
+          },
+          "valueStringValue": {
+            "type": "string"
+          },
+          "valueIntValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valueDoubleValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueBooleanValue": {
+            "type": "boolean"
+          },
+          "valueMinValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueMaxValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "idValue": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateTdsDuration": {
+            "type": "string"
+          },
+          "jsonValue": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PEntityTagValGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "valueEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "valueEntityType": {
+            "type": "string"
+          },
+          "valueEntityName": {
+            "type": "string"
+          },
+          "dataTypeCode": {
+            "type": "string"
+          },
+          "tagCode": {
+            "type": "string"
+          },
+          "valueCodeDetail": {
+            "type": "string"
+          },
+          "valueStringValue": {
+            "type": "string"
+          },
+          "valueIntValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valueDoubleValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueBooleanValue": {
+            "type": "boolean"
+          },
+          "valueMinValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueMaxValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "idValue": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateTdsDuration": {
+            "type": "string"
+          },
+          "jsonValue": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PEntityTagValGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PEntityTagValGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PEntityTagValCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "valueEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "valueEntityType": {
+            "type": "string"
+          },
+          "valueEntityName": {
+            "type": "string"
+          },
+          "dataTypeCode": {
+            "type": "string"
+          },
+          "tagCode": {
+            "type": "string"
+          },
+          "valueCodeDetail": {
+            "type": "string"
+          },
+          "valueStringValue": {
+            "type": "string"
+          },
+          "valueIntValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valueDoubleValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueBooleanValue": {
+            "type": "boolean"
+          },
+          "valueMinValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueMaxValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "idValue": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateTdsDuration": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PEntityTagValPUTData": {
+        "required": [
+          "dataTypeCode",
+          "subjectEntityId",
+          "subjectEntityName",
+          "subjectEntityType",
+          "tagCode",
+          "valueEntityId",
+          "valueEntityName",
+          "valueEntityType"
+        ],
+        "type": "object",
+        "properties": {
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "valueEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "valueEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "valueEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dataTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tagCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "valueCodeDetail": {
+            "type": "string"
+          },
+          "valueStringValue": {
+            "type": "string"
+          },
+          "valueIntValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valueDoubleValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueBooleanValue": {
+            "type": "boolean"
+          },
+          "valueMinValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "valueMaxValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "idValue": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateTdsDuration": {
+            "type": "string"
+          },
+          "jsonValue": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
           }
         }
       },
@@ -36183,6 +37593,296 @@
           }
         }
       },
+      "HcclAddrPOSTData": {
+        "type": "object",
+        "properties": {
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine1": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine2": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine3": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine4": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "city": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "stateCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "countryCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zip": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zipPlus4": {
+            "maxLength": 4,
+            "minLength": 0,
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "HcclAddrGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclAddrGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "HcclAddrCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "type": "string"
+          },
+          "addrLine1": {
+            "type": "string"
+          },
+          "addrLine2": {
+            "type": "string"
+          },
+          "addrLine3": {
+            "type": "string"
+          },
+          "addrLine4": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "stateCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "zipPlus4": {
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "HcclAddrPUTData": {
+        "type": "object",
+        "properties": {
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formattedAddressJson": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressTypeCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine1": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine2": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine3": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addrLine4": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "city": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "stateCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "countryCode": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zip": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "zipPlus4": {
+            "maxLength": 4,
+            "minLength": 0,
+            "type": "string"
+          },
+          "geolocationLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "geolocationLatitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "HcclOrganizationPOSTData": {
         "required": [
           "available",
@@ -36246,6 +37946,9 @@
           },
           "organizationTypeCode": {
             "type": "string"
+          },
+          "primaryAddress": {
+            "$ref": "#/components/schemas/HcclAddrPOSTData"
           }
         }
       },
@@ -36587,6 +38290,7 @@
           "available",
           "businessCode",
           "firstName",
+          "languageCode",
           "lastName",
           "messageHandle",
           "name"
@@ -36652,6 +38356,11 @@
           "messageHandle": {
             "maxLength": 50,
             "minLength": 1,
+            "type": "string"
+          },
+          "languageCode": {
+            "maxLength": 255,
+            "minLength": 2,
             "type": "string"
           }
         }
@@ -36759,6 +38468,9 @@
           },
           "messageHandle": {
             "type": "string"
+          },
+          "languageCode": {
+            "type": "string"
           }
         }
       },
@@ -36767,6 +38479,7 @@
           "available",
           "businessCode",
           "firstName",
+          "languageCode",
           "lastName",
           "messageHandle",
           "name"
@@ -36832,6 +38545,11 @@
           "messageHandle": {
             "maxLength": 50,
             "minLength": 1,
+            "type": "string"
+          },
+          "languageCode": {
+            "maxLength": 255,
+            "minLength": 2,
             "type": "string"
           }
         }
@@ -37730,6 +39448,297 @@
           }
         }
       },
+      "HcclUserInvitePOSTData": {
+        "required": [
+          "available",
+          "currentStateCode",
+          "inviteCode"
+        ],
+        "type": "object",
+        "properties": {
+          "emailAddress": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inviteCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateAccepted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "HcclUserInviteGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inviteCode": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "niceName": {
+            "type": "string"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
+          },
+          "createdByUserProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "callbackUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "HcclUserInviteGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclUserInviteGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "HcclUserInviteCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inviteCode": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateAccepted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "HcclUserInvitePUTData": {
+        "required": [
+          "available",
+          "currentStateCode",
+          "inviteCode"
+        ],
+        "type": "object",
+        "properties": {
+          "emailAddress": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inviteCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateAccepted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "HcclUserProfileRolePOSTData": {
         "required": [
           "organizationId",
@@ -38430,6 +40439,9 @@
             "type": "string",
             "format": "date-time"
           },
+          "findingColleagues": {
+            "type": "boolean"
+          },
           "externalUserIds": {
             "type": "array",
             "items": {
@@ -38541,6 +40553,7 @@
           "available",
           "businessCode",
           "description",
+          "languageCode",
           "name",
           "personId"
         ],
@@ -38582,6 +40595,11 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "languageCode": {
+            "maxLength": 255,
+            "minLength": 2,
+            "type": "string"
           }
         }
       },
@@ -38672,6 +40690,9 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "languageCode": {
+            "type": "string"
           }
         }
       },
@@ -38680,6 +40701,7 @@
           "available",
           "businessCode",
           "description",
+          "languageCode",
           "name",
           "personId"
         ],
@@ -38721,6 +40743,11 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "languageCode": {
+            "maxLength": 255,
+            "minLength": 2,
+            "type": "string"
           }
         }
       },
@@ -44514,6 +46541,17 @@
           }
         }
       },
+      "OnboardInvitedResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "dashboardUrl": {
+            "type": "string"
+          }
+        }
+      },
       "ConsentRequestPOSTData": {
         "type": "object",
         "properties": {
@@ -44537,6 +46575,50 @@
             "items": {
               "$ref": "#/components/schemas/ConsentRequestPOSTData"
             }
+          }
+        }
+      },
+      "OnboardInvitedRequest": {
+        "required": [
+          "consents",
+          "firstName"
+        ],
+        "type": "object",
+        "properties": {
+          "inviteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageHandle": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 32,
+            "minLength": 8,
+            "type": "string"
+          },
+          "acceptNotes": {
+            "type": "string"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
           }
         }
       },
@@ -44601,6 +46683,33 @@
           },
           "orgUserData": {
             "$ref": "#/components/schemas/OnboardOrgUserPOSTData"
+          }
+        }
+      },
+      "OnboardInvitedUIData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          },
+          "languageCodesSb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "schoolsSb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapSchoolIdToCounselorSb": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/MenuControlDataList"
+            }
           }
         }
       },
@@ -44723,6 +46832,94 @@
           }
         }
       },
+      "OnboardOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          }
+        }
+      },
+      "HtmImagePOSTData": {
+        "type": "object",
+        "properties": {
+          "alt": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardOrganizationPOSTData": {
+        "required": [
+          "providerOrganization"
+        ],
+        "type": "object",
+        "properties": {
+          "providerOrganization": {
+            "$ref": "#/components/schemas/HcclOrganizationPOSTData"
+          },
+          "orgTypeCode": {
+            "type": "string"
+          },
+          "creatingAdminUser": {
+            "type": "boolean"
+          },
+          "providerUser": {
+            "$ref": "#/components/schemas/OnboardOrgUserPOSTData"
+          },
+          "companyLogo": {
+            "$ref": "#/components/schemas/HtmImagePOSTData"
+          },
+          "companyMissionStatementImage": {
+            "$ref": "#/components/schemas/HtmImagePOSTData"
+          },
+          "inviteUserEmail": {
+            "type": "string"
+          },
+          "inviteUserWelcomeNotes": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardOrganizationUIHelper": {
+        "type": "object",
+        "properties": {
+          "orgData": {
+            "$ref": "#/components/schemas/OnboardOrganizationPOSTData"
+          },
+          "orgPolicySb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          }
+        }
+      },
+      "OnboardOrganizationPOJO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "profileTypeCode": {
+            "type": "string"
+          },
+          "orgTypeCode": {
+            "type": "string"
+          }
+        }
+      },
       "CreateActivationCodeResponse": {
         "type": "object",
         "properties": {
@@ -44745,17 +46942,6 @@
           },
           "emailAddress": {
             "type": "string"
-          }
-        }
-      },
-      "UserFeedGETData": {
-        "type": "object",
-        "properties": {
-          "feedEntries": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
-            }
           }
         }
       },
@@ -44968,6 +47154,17 @@
           }
         }
       },
+      "UserFeedGETData": {
+        "type": "object",
+        "properties": {
+          "feedEntries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeedEntryInstanceGETData"
+            }
+          }
+        }
+      },
       "StudentDashUIGETData": {
         "type": "object",
         "properties": {
@@ -45156,13 +47353,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

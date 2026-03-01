@@ -28,14 +28,26 @@ export class AppConstants {
     clientId: '',
   });
 
-  private keycloak!: Keycloak;
+  private keycloak: Keycloak | null = null;
   http = inject(HttpClient);
   router = inject(Router);
+
+  private isPublicPath(pathname: string): boolean {
+    const cleanPath = (pathname || '').split('?')[0].split('#')[0];
+    const segments = cleanPath.split('/').filter(Boolean);
+    return segments.includes('public');
+  }
 
   keycloakInitializer() {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         await this.__loadConfig();
+        const isPublicRoute = this.isPublicPath(window.location.pathname);
+        if (isPublicRoute) {
+          resolve(true);
+          return;
+        }
+
         const keycloak: KeycloakConfig = this.keycloakConfig();
         keycloak.clientId = GlobalConstants.keycloak_clientId;
         this.keycloak = new Keycloak({
@@ -43,16 +55,18 @@ export class AppConstants {
           realm: keycloak.realm,
           clientId: keycloak.clientId,
         });
-  
-        await this.keycloak.init({
+
+        const isAuthenticated = await this.keycloak.init({
           onLoad: 'login-required',
           checkLoginIframe: false,
         });
-  
-        await this.loadUser();
-        
-        // Set up automatic token refresh - ADD THIS LINE
-        this.setupTokenRefresh();
+
+        if (isAuthenticated) {
+          await this.loadUser();
+
+          // Set up automatic token refresh - ADD THIS LINE
+          this.setupTokenRefresh();
+        }
         
         // Only redirect if not already on a valid route
         const currentUrl = this.router.url;
@@ -68,9 +82,13 @@ export class AppConstants {
 
   // Method to ensure token is valid (refreshes if needed)
 async ensureTokenValid(): Promise<boolean> {
+  if (!this.isLoggedIn()) {
+    return true;
+  }
+
   try {
     // updateToken(70) will refresh if token expires in less than 70 seconds
-    const refreshed = await this.keycloak.updateToken(70);
+    const refreshed = await this.keycloak!.updateToken(70);
     if (refreshed) {
       this.setUserTokens();
       console.log('Token was refreshed');
@@ -85,8 +103,12 @@ async ensureTokenValid(): Promise<boolean> {
 
 // Method to manually refresh token
 async refreshToken(): Promise<boolean> {
+  if (!this.isLoggedIn()) {
+    return false;
+  }
+
   try {
-    const refreshed = await this.keycloak.updateToken(-1); // Force refresh
+    const refreshed = await this.keycloak!.updateToken(-1); // Force refresh
     if (refreshed) {
       this.setUserTokens();
       console.log('Token refreshed successfully');
@@ -105,7 +127,7 @@ private setupTokenRefresh(): void {
   // Automatically refresh token every 4 minutes
   setInterval(() => {
     if (this.isLoggedIn()) {
-      this.keycloak.updateToken(70).then((refreshed) => {
+      this.keycloak?.updateToken(70).then((refreshed) => {
         if (refreshed) {
           this.setUserTokens();
           console.log('Token auto-refreshed');
@@ -187,6 +209,7 @@ private setupTokenRefresh(): void {
   userTokens = signal<any>({});
 
   async loadUser() {
+    if (!this.keycloak) return;
     const user = await this.keycloak.loadUserProfile();
     this.userDetails.set(user);
     this.setUserTokens();
@@ -194,6 +217,7 @@ private setupTokenRefresh(): void {
   }
 
   setUserTokens() {
+    if (!this.keycloak) return;
     const tokens = {
       token: this.keycloak.token,
       refreshToken: this.keycloak.refreshToken,
@@ -217,23 +241,24 @@ private setupTokenRefresh(): void {
   }
 
   isLoggedIn(): boolean {
-    return !!this.keycloak.token;
+    return !!this.keycloak?.token;
   }
 
   async updateToken(minValidity: number): Promise<void> {
+    if (!this.keycloak) return;
     await this.keycloak.updateToken(minValidity);
   }
 
   getToken(): string | undefined {
-    return this.keycloak.token;
+    return this.keycloak?.token;
   }
 
   getUserRoles(): string[] {
-    return this.keycloak.realmAccess?.roles || [];
+    return this.keycloak?.realmAccess?.roles || [];
   }
 
   logout() {
-    this.keycloak.logout();
+    this.keycloak?.logout();
   }
 
   roles = signal<string[]>([]);

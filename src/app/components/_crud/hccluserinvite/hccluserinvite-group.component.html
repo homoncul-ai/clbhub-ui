@@ -1,0 +1,14 @@
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId"></app-simple-tabset>
+
+<div *ngIf="currentTabId === 'list'">
+  <app-hccluserinvite-list></app-hccluserinvite-list>
+</div>
+
+<div *ngIf="currentTabId === 'details'">
+  <app-hccluserinvite-crud [id]="id" modeName="detail"></app-hccluserinvite-crud>
+</div>
+
+<div *ngIf="currentTabId === 'create'">
+  <h1>Create</h1>
+  <app-hccluserinvite-crud [id]="id" modeName="create"></app-hccluserinvite-crud>
+</div>

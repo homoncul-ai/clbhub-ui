@@ -49,7 +49,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   /**
    * Load the current user's feed
    */
-  private loadFeed(): void {
+  private loadFeed(refreshFeed: boolean = false): void {
     this.loading = true;
     this.error = null;
     this.feedEntries = [];
@@ -63,7 +63,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
           this.loading = false;
           return;
         }
-        this.fetchFeed();
+        this.fetchFeed(refreshFeed);
       },
       error: (err) => {
         console.error('Error waiting for context:', err);
@@ -76,8 +76,8 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   /**
    * Fetch feed data from the service
    */
-  private fetchFeed(): void {
-    this.hcclService.loadCurrentFeed().pipe(
+  private fetchFeed(refreshFeed: boolean = false): void {
+    this.hcclService.loadCurrentFeed(refreshFeed).pipe(
       takeUntil(this.destroy$),
       catchError(err => {
         console.error('Error loading feed:', err);
@@ -108,7 +108,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
    * Refresh the feed
    */
   refreshFeed(): void {
-    this.loadFeed();
+    this.loadFeed(true);
   }
 
   /**

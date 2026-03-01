@@ -11,6 +11,8 @@ import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/studen
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
+          <h1>Student Dashboard </h1>
+          this needs to be more inspiring and less boring
           <!-- Loading State (context) -->
           <div *ngIf="loading" class="text-center py-5">
             <div class="spinner-border" role="status">

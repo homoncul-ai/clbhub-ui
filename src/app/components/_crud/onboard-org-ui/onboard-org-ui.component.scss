@@ -1,0 +1,20 @@
+.onboard-org-ui {
+  .accordion-body-content {
+    padding-top: 0.25rem;
+  }
+
+  .image-preview-box {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+  }
+
+  .image-preview-box img {
+    max-width: 100%;
+    max-height: 220px;
+    width: auto;
+    height: auto;
+    display: block;
+  }
+}

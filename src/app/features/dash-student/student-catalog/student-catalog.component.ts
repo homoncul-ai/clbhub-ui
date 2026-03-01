@@ -85,7 +85,7 @@ export class StudentCatalogComponent implements OnInit {
   }
 
   protected getCatalogEntryImageUrl(): string {
-    return "imgs/TAROT-HR.png";
+    return "public/imgs/TAROT-HR.png";
   }
 
   performSearch() {

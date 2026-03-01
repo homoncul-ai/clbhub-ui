@@ -1562,6 +1562,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PAiPromptRefGETData>(request);
   }
 
+  createPEntityTagVal(body: PEntityTagValPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPEntityTagValById(id: string): Observable<PEntityTagValGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id,
+      method: "GET",
+    };
+    return this.request<PEntityTagValGETData>(request);
+  }
+
+  updatePEntityTagValById(id: string, body: PEntityTagValPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePEntityTagValById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPEntityTagVals(body: PEntityTagValCriteria): Observable<PEntityTagValGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PEntityTagValGETDataSearchResults>(request);
+  }
+
+  getPEntityTagValByIdWithHint(id: string, hint: string): Observable<PEntityTagValGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pentitytagval/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PEntityTagValGETData>(request);
+  }
+
   createPMBucketFolder(body: PMBucketFolderPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pmbucketfolder",
@@ -2733,6 +2785,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<FamilyUnitGETDataSearchResults>(request);
   }
 
+  createHcclAddr(body: HcclAddrPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclAddrById(id: string): Observable<HcclAddrGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id,
+      method: "GET",
+    };
+    return this.request<HcclAddrGETData>(request);
+  }
+
+  updateHcclAddrById(id: string, body: HcclAddrPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclAddrById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclAddrs(body: HcclAddrCriteria): Observable<HcclAddrGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclAddrGETDataSearchResults>(request);
+  }
+
+  getHcclAddrByIdWithHint(id: string, hint: string): Observable<HcclAddrGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccladdr/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<HcclAddrGETData>(request);
+  }
+
   createHcclOrganization(body: HcclOrganizationPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hcclorganization",
@@ -3032,6 +3136,58 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<HcclTeamGETDataSearchResults>(request);
+  }
+
+  createHcclUserInvite(body: HcclUserInvitePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclUserInviteById(id: string): Observable<HcclUserInviteGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id,
+      method: "GET",
+    };
+    return this.request<HcclUserInviteGETData>(request);
+  }
+
+  updateHcclUserInviteById(id: string, body: HcclUserInvitePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclUserInviteById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclUserInvites(body: HcclUserInviteCriteria): Observable<HcclUserInviteGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserInviteGETDataSearchResults>(request);
+  }
+
+  getHcclUserInviteByIdWithHint(id: string, hint: string): Observable<HcclUserInviteGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserinvite/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<HcclUserInviteGETData>(request);
   }
 
   createHcclUserProfileRole(body: HcclUserProfileRolePOSTData): Observable<any> {
@@ -4233,6 +4389,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  onboardInvited(body: OnboardInvitedRequest): Observable<OnboardInvitedResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/invite",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardInvitedResponse>(request);
+  }
+
   onboardStudent(body: OnboardStudentPOSTData): Observable<OnboardResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student",
@@ -4240,6 +4405,15 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<OnboardResponse>(request);
+  }
+
+  resolveOnboardInvitedUIData(invitedId: string): Observable<OnboardInvitedUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/invite/setup",
+      method: "GET",
+      params: { invitedId: this.convertToString(invitedId) },
+    };
+    return this.request<OnboardInvitedUIData>(request);
   }
 
   resolvePublicSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
@@ -4284,6 +4458,33 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<SimpleRestActionResponse>(request);
+  }
+
+  onboardOrg(body: OnboardOrganizationPOSTData): Observable<OnboardOrganizationResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/organization",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardOrganizationResponse>(request);
+  }
+
+  onboardOrgSetup(body: OnboardOrganizationPOJO): Observable<OnboardOrganizationUIHelper> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/organzation-setup",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardOrganizationUIHelper>(request);
+  }
+
+  onboardStudentPost(body: OnboardStudentPOSTData): Observable<OnboardResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/invite",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardResponse>(request);
   }
 
   getMessageEntryAttachments(entryId: string): Observable<PMessageAttachmentGETDataSearchResults> {
@@ -4381,14 +4582,6 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<CreateActivationCodeResponse>(request);
-  }
-
-  loadCurrentFeed(): Observable<UserFeedGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/parents/current-feed",
-      method: "GET",
-    };
-    return this.request<UserFeedGETData>(request);
   }
 
   resolveParentDashSignupUIData(interest_id: string): Observable<SignupUIData> {
@@ -4524,10 +4717,11 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HandleActivationCodeResponse>(request);
   }
 
-  loadCurrentFeedGet(): Observable<UserFeedGETData> {
+  loadCurrentFeed(refreshFeed: boolean): Observable<UserFeedGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/current-feed",
       method: "GET",
+      params: { refreshFeed: this.convertToString(refreshFeed) },
     };
     return this.request<UserFeedGETData>(request);
   }
@@ -5266,6 +5460,33 @@ export interface EntityStateTransitionGETData {
   stateMachineName?: string;
 }
 
+export interface HcclAddrGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
 export interface HcclOrganizationGETData {
   id?: string;
   createdByInfo?: Reference;
@@ -5286,6 +5507,7 @@ export interface HcclOrganizationGETData {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+  primaryAddress?: HcclAddrGETData;
 }
 
 export interface MenuControlData {
@@ -5820,6 +6042,7 @@ export interface HcclPersonGETData {
   firstName?: string;
   lastName?: string;
   messageHandle?: string;
+  languageCode?: string;
 }
 
 export interface HcclUserGETData {
@@ -5838,6 +6061,7 @@ export interface HcclUserGETData {
   externalUserName?: string;
   available?: number;
   personId?: string;
+  languageCode?: string;
   person?: HcclPersonGETData;
   userProfiles?: HcclUserProfileGETData[];
 }
@@ -7255,6 +7479,126 @@ export interface PAiPromptRefPUTData {
   description: string;
   promptText: string;
   available: number;
+}
+
+export interface PEntityTagValPOSTData {
+  subjectEntityId: string;
+  subjectEntityType: string;
+  subjectEntityName: string;
+  valueEntityId: string;
+  valueEntityType: string;
+  valueEntityName: string;
+  dataTypeCode: string;
+  tagCode: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  dateTdsDuration?: string;
+  jsonValue?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface PEntityTagValGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  valueEntityId?: string;
+  valueEntityType?: string;
+  valueEntityName?: string;
+  dataTypeCode?: string;
+  tagCode?: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateTdsDuration?: string;
+  jsonValue?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface PEntityTagValGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PEntityTagValGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PEntityTagValCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  valueEntityId?: string;
+  valueEntityType?: string;
+  valueEntityName?: string;
+  dataTypeCode?: string;
+  tagCode?: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  dateTdsDuration?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface PEntityTagValPUTData {
+  subjectEntityId: string;
+  subjectEntityType: string;
+  subjectEntityName: string;
+  valueEntityId: string;
+  valueEntityType: string;
+  valueEntityName: string;
+  dataTypeCode: string;
+  tagCode: string;
+  valueCodeDetail?: string;
+  valueStringValue?: string;
+  valueIntValue?: number;
+  valueDoubleValue?: number;
+  valueBooleanValue?: boolean;
+  valueMinValue?: number;
+  valueMaxValue?: number;
+  idValue?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  dateTdsDuration?: string;
+  jsonValue?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
 }
 
 export interface PMBucketFolderPOSTData {
@@ -8991,6 +9335,82 @@ export interface FamilyUnitPUTData {
   familyName: string;
 }
 
+export interface HcclAddrPOSTData {
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface HcclAddrGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclAddrGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclAddrCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
+export interface HcclAddrPUTData {
+  parentEntityId?: string;
+  parentEntityType?: string;
+  parentEntityName?: string;
+  organizationId?: string;
+  formattedAddressJson?: string;
+  addressTypeCode?: string;
+  addrLine1?: string;
+  addrLine2?: string;
+  addrLine3?: string;
+  addrLine4?: string;
+  city?: string;
+  stateCode?: string;
+  countryCode?: string;
+  zip?: string;
+  zipPlus4?: string;
+  geolocationLongitude?: number;
+  geolocationLatitude?: number;
+}
+
 export interface HcclOrganizationPOSTData {
   name: string;
   businessCode: string;
@@ -9005,6 +9425,7 @@ export interface HcclOrganizationPOSTData {
   parentEntityEntityType?: string;
   parentEntityName?: string;
   organizationTypeCode: string;
+  primaryAddress?: HcclAddrPOSTData;
 }
 
 export interface HcclOrganizationGETDataSearchResults {
@@ -9117,6 +9538,7 @@ export interface HcclPersonPOSTData {
   firstName: string;
   lastName: string;
   messageHandle: string;
+  languageCode: string;
 }
 
 export interface HcclPersonGETDataSearchResults {
@@ -9149,6 +9571,7 @@ export interface HcclPersonCriteria {
   firstName?: string;
   lastName?: string;
   messageHandle?: string;
+  languageCode?: string;
 }
 
 export interface HcclPersonPUTData {
@@ -9165,6 +9588,7 @@ export interface HcclPersonPUTData {
   firstName: string;
   lastName: string;
   messageHandle: string;
+  languageCode: string;
 }
 
 export interface HcclTeamLogPOSTData {
@@ -9417,6 +9841,89 @@ export interface HcclTeamPUTData {
   available: number;
 }
 
+export interface HcclUserInvitePOSTData {
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode: string;
+  notes?: string;
+  dateExpires?: string;
+  jsonData?: string;
+  available: number;
+  dateAccepted?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface HcclUserInviteGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode?: string;
+  notes?: string;
+  jsonData?: string;
+  available?: number;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  niceName?: string;
+  organization?: HcclOrganizationGETData;
+  createdByUserProfile?: HcclUserProfileGETData;
+  callbackUrl?: string;
+}
+
+export interface HcclUserInviteGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserInviteGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclUserInviteCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode?: string;
+  notes?: string;
+  dateExpires?: string;
+  available?: number;
+  dateAccepted?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface HcclUserInvitePUTData {
+  emailAddress?: string;
+  organizationId?: string;
+  teamId?: string;
+  inviteCode: string;
+  notes?: string;
+  dateExpires?: string;
+  jsonData?: string;
+  available: number;
+  dateAccepted?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
 export interface HcclUserProfileRolePOSTData {
   userId: string;
   roleCode: string;
@@ -9621,6 +10128,7 @@ export interface HcclUserProfileCriteria {
   personId?: string;
   dateFirstLogin?: string;
   dateRegistrationComplete?: string;
+  findingColleagues?: boolean;
   externalUserIds?: string[];
 }
 
@@ -9655,6 +10163,7 @@ export interface HcclUserPOSTData {
   externalUserName?: string;
   available: number;
   personId: string;
+  languageCode: string;
 }
 
 export interface HcclUserGETDataSearchResults {
@@ -9682,6 +10191,7 @@ export interface HcclUserCriteria {
   externalUserName?: string;
   available?: number;
   personId?: string;
+  languageCode?: string;
 }
 
 export interface HcclUserPUTData {
@@ -9693,6 +10203,7 @@ export interface HcclUserPUTData {
   externalUserName?: string;
   available: number;
   personId: string;
+  languageCode: string;
 }
 
 export interface TeamMemberRoleRefPOSTData {
@@ -11302,6 +11813,11 @@ export interface OnboardFamilyPOSTData {
   students?: OnboardFamilyMemberPOSTData[];
 }
 
+export interface OnboardInvitedResponse {
+  messages?: SimpleMessageList;
+  dashboardUrl?: string;
+}
+
 export interface ConsentRequestPOSTData {
   contractVersionId?: string;
   agreeValue?: string;
@@ -11310,6 +11826,17 @@ export interface ConsentRequestPOSTData {
 
 export interface MultiConsentRequestPOSTData {
   consents?: ConsentRequestPOSTData[];
+}
+
+export interface OnboardInvitedRequest {
+  inviteId?: string;
+  messageHandle?: string;
+  userName?: string;
+  firstName: string;
+  lastName?: string;
+  password?: string;
+  acceptNotes?: string;
+  consents: MultiConsentRequestPOSTData;
 }
 
 export interface OnboardOrgUserPOSTData {
@@ -11330,6 +11857,15 @@ export interface OnboardStudentPOSTData {
   counselorId?: string;
   consents: MultiConsentRequestPOSTData;
   orgUserData: OnboardOrgUserPOSTData;
+}
+
+export interface OnboardInvitedUIData {
+  messages?: SimpleMessageList;
+  invite?: HcclUserInviteGETData;
+  languageCodesSb?: MenuControlDataList;
+  schoolsSb?: MenuControlDataList;
+  schoolId?: string;
+  mapSchoolIdToCounselorSb?: any;
 }
 
 export interface ConsentRequestGETData {
@@ -11373,6 +11909,41 @@ export interface SimpleRestActionResponse {
   mapFormElements?: any;
 }
 
+export interface OnboardOrganizationResponse {
+  messages?: SimpleMessageList;
+  organization?: HcclOrganizationGETData;
+  invite?: HcclUserInviteGETData;
+}
+
+export interface HtmImagePOSTData {
+  alt?: string;
+  imageUrl?: string;
+}
+
+export interface OnboardOrganizationPOSTData {
+  providerOrganization: HcclOrganizationPOSTData;
+  orgTypeCode?: string;
+  creatingAdminUser?: boolean;
+  providerUser?: OnboardOrgUserPOSTData;
+  companyLogo?: HtmImagePOSTData;
+  companyMissionStatementImage?: HtmImagePOSTData;
+  inviteUserEmail?: string;
+  inviteUserWelcomeNotes?: string;
+}
+
+export interface OnboardOrganizationUIHelper {
+  orgData?: OnboardOrganizationPOSTData;
+  orgPolicySb?: MenuControlDataList;
+}
+
+export interface OnboardOrganizationPOJO {
+  name?: string;
+  url?: string;
+  notes?: string;
+  profileTypeCode?: string;
+  orgTypeCode?: string;
+}
+
 export interface CreateActivationCodeResponse {
   messages?: SimpleMessageList;
   activationCode?: string;
@@ -11382,10 +11953,6 @@ export interface CreateActivationCodeRequest {
   addingAsChild?: boolean;
   addingAsParent?: boolean;
   emailAddress?: string;
-}
-
-export interface UserFeedGETData {
-  feedEntries?: FeedEntryInstanceGETData[];
 }
 
 export interface SignupBehavior {
@@ -11467,6 +12034,10 @@ export interface HandleActivationCodeResponse {
   family?: FamilyUnitGETData;
 }
 
+export interface UserFeedGETData {
+  feedEntries?: FeedEntryInstanceGETData[];
+}
+
 export interface StudentDashUIGETData {
   profileTypeCode?: string;
   student?: HcclUserProfileGETData;
@@ -11523,9 +12094,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

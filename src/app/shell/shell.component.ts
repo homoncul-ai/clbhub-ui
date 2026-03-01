@@ -159,7 +159,6 @@ onHeaderAction(key: string) {
            
           this.userProfileMenu = context.userProfileMenu;
           this.setupForUserProfileContext(context, currentUrl);
-            //this.updateUserProfile(context.currentUserProfileId || '');
          
         });
     }

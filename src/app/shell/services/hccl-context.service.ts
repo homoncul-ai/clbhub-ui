@@ -19,6 +19,12 @@ export class HcclContextService {
   private hcclService = inject(HcclService);
   private logger = new Logger('HcclContextService');
 
+  private isPublicPath(pathname: string): boolean {
+    const cleanPath = (pathname || '').split('?')[0].split('#')[0];
+    const segments = cleanPath.split('/').filter(Boolean);
+    return segments.includes('public');
+  }
+
   // Private state using signals for reactive updates
   private _state = signal<HcclContextState>({
     isInitialized: false,
@@ -44,7 +50,9 @@ export class HcclContextService {
 
   constructor() {
     // Log service initialization
-    this.initializeContext();
+    if (!this.isPublicPath(window.location.pathname)) {
+      this.initializeContext();
+    }
   }
 
   /**
@@ -115,6 +123,19 @@ export class HcclContextService {
    * @returns Observable of the context data
    */
   public initializeContext(userProfileId: string = ''): Observable<HcclUserContextGETData> {
+    if (this.isPublicPath(window.location.pathname)) {
+      this.logger.info('Skipping HCCL context initialization for public path', {
+        pathname: window.location.pathname
+      });
+      this._state.update(state => ({
+        ...state,
+        isLoading: false,
+        error: null
+      }));
+      this._contextSubject.next(null);
+      return of(null as any);
+    }
+
     // Set loading state
     this._state.update(state => ({
       ...state,

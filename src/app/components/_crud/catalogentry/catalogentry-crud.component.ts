@@ -443,7 +443,7 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
   }
 
   protected getCatalogEntryImageUrl(): string {
-    return "imgs/TAROT-HR.png";
+    return "public/imgs/TAROT-HR.png";
   }
 
 }

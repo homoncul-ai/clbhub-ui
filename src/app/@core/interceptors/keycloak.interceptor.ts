@@ -15,6 +15,11 @@ export class KeycloakInterceptor implements HttpInterceptor {
   constructor(private appConstants: AppConstants) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    if (!this.appConstants.isLoggedIn()) {
+  //    alert('not logged in');
+      return next.handle(request);
+    }
+
     // Ensure token is valid before making the request
     return from(this.appConstants.ensureTokenValid()).pipe(
       switchMap(() => {
@@ -30,7 +35,8 @@ export class KeycloakInterceptor implements HttpInterceptor {
         
         return next.handle(request).pipe(
           catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
+ //           alert('error: ' + JSON.stringify(error) + ' isLoggedIn: ' + this.appConstants.isLoggedIn());
+            if (error.status === 401 && this.appConstants.isLoggedIn()) {
               // Token expired, try to refresh
               return from(this.appConstants.refreshToken()).pipe(
                 switchMap((refreshed) => {
