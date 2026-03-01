@@ -4460,6 +4460,33 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
+  onboardOrg(body: OnboardOrganizationPOSTData): Observable<OnboardOrganizationResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/organization",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardOrganizationResponse>(request);
+  }
+
+  onboardOrgSetup(body: OnboardOrganizationPOJO): Observable<OnboardOrganizationUIHelper> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/organzation-setup",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardOrganizationUIHelper>(request);
+  }
+
+  onboardStudentPost(body: OnboardStudentPOSTData): Observable<OnboardResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/invite",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardResponse>(request);
+  }
+
   getMessageEntryAttachments(entryId: string): Observable<PMessageAttachmentGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/pmessage/entries/" + entryId + "/attachments",
@@ -11880,6 +11907,40 @@ export interface SimpleRestActionResponse {
   data?: any;
   actionFormData?: any;
   mapFormElements?: any;
+}
+
+export interface OnboardOrganizationResponse {
+  messages?: SimpleMessageList;
+  organization?: HcclOrganizationGETData;
+  invite?: HcclUserInviteGETData;
+}
+
+export interface HtmImagePOSTData {
+  alt?: string;
+  imageUrl?: string;
+}
+
+export interface OnboardOrganizationPOSTData {
+  providerOrganization: HcclOrganizationPOSTData;
+  orgTypeCode?: string;
+  creatingAdminUser?: boolean;
+  providerUser?: OnboardOrgUserPOSTData;
+  companyLogo?: HtmImagePOSTData;
+  companyMissionStatementImage?: HtmImagePOSTData;
+  inviteUserEmail?: string;
+}
+
+export interface OnboardOrganizationUIHelper {
+  orgData?: OnboardOrganizationPOSTData;
+  orgPolicySb?: MenuControlDataList;
+}
+
+export interface OnboardOrganizationPOJO {
+  name?: string;
+  url?: string;
+  notes?: string;
+  profileTypeCode?: string;
+  orgTypeCode?: string;
 }
 
 export interface CreateActivationCodeResponse {

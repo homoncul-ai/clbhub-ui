@@ -13,6 +13,7 @@ import { OrgBusinessStaffListComponent, OrgNonprofitStaffListComponent, OrgSchoo
 import { OrgSchoolStaffCrudComponent } from './org-school-staff-crud.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { HcclUserInviteListComponent } from '@app/components/_crud/hccluserinvite/hccluserinvite-list.component';
+import { OnboardOrgUiComponent } from '@app/components/_crud/onboard-org-ui/onboard-org-ui.component';
 
 @Component({
   selector: 'app-org-business-group',
@@ -20,7 +21,7 @@ import { HcclUserInviteListComponent } from '@app/components/_crud/hccluserinvit
   imports: [CommonModule, SimpleTabsetComponent, HcclOrganizationCrudComponent, HcclOrganizationListComponent,
     HcclOrganizationTypeRefCrudComponent, HcclOrganizationTypeRefListComponent, 
     OrgSchoolCrudComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent, MdbModalModule,
-    OrgBusinessStaffListComponent, HcclUserInviteListComponent],
+    OrgBusinessStaffListComponent, HcclUserInviteListComponent, OnboardOrgUiComponent],
   templateUrl: './org-business-group.component.html' 
 })
 export class OrgBusinessGroupComponent extends AbstractEntityGroupComponent<HcclOrganizationCrudWrapper> implements OnInit {  
@@ -135,6 +136,11 @@ export class OrgBusinessGroupComponent extends AbstractEntityGroupComponent<Hccl
     this.entityForCreate.getData().name = 'New Business';
   }
 
+  onOnboardCloseRefresh(): void {
+    this.currentTabId = 'list';
+    this.showingTabset = true;
+  }
+
   protected override getBaseRoute(): string {
     return '/ecoadmin-dashboard/orgs/businesses';
   }
@@ -158,7 +164,7 @@ export class OrgBusinessGroupComponent extends AbstractEntityGroupComponent<Hccl
     };
     return o;
   }
-  
+
   protected getCriteriaForInvitations(): HcclUserInviteCriteria {
     var x: HcclUserInviteCriteria = { 
       organizationId: this.id

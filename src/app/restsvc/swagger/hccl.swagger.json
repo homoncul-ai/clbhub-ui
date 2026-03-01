@@ -19464,6 +19464,123 @@
         }
       }
     },
+    "/hccl/onboard/onboard/organization": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Onboard an organization .",
+        "operationId": "onboardOrg",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardOrganizationPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardOrganizationResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/onboard/onboard/organzation-setup": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Creates an invitation .",
+        "operationId": "onboardOrgSetup",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardOrganizationPOJO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardOrganizationUIHelper"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/onboard/onboard/invite": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Creates an invitation .",
+        "operationId": "onboardStudent_1",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardStudentPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pmessage/entries/{entryId}/attachments": {
       "get": {
         "summary": "Get attachments for a message entry",
@@ -46712,6 +46829,91 @@
             "additionalProperties": {
               "type": "object"
             }
+          }
+        }
+      },
+      "OnboardOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          }
+        }
+      },
+      "HtmImagePOSTData": {
+        "type": "object",
+        "properties": {
+          "alt": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardOrganizationPOSTData": {
+        "required": [
+          "providerOrganization"
+        ],
+        "type": "object",
+        "properties": {
+          "providerOrganization": {
+            "$ref": "#/components/schemas/HcclOrganizationPOSTData"
+          },
+          "orgTypeCode": {
+            "type": "string"
+          },
+          "creatingAdminUser": {
+            "type": "boolean"
+          },
+          "providerUser": {
+            "$ref": "#/components/schemas/OnboardOrgUserPOSTData"
+          },
+          "companyLogo": {
+            "$ref": "#/components/schemas/HtmImagePOSTData"
+          },
+          "companyMissionStatementImage": {
+            "$ref": "#/components/schemas/HtmImagePOSTData"
+          },
+          "inviteUserEmail": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardOrganizationUIHelper": {
+        "type": "object",
+        "properties": {
+          "orgData": {
+            "$ref": "#/components/schemas/OnboardOrganizationPOSTData"
+          },
+          "orgPolicySb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          }
+        }
+      },
+      "OnboardOrganizationPOJO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "profileTypeCode": {
+            "type": "string"
+          },
+          "orgTypeCode": {
+            "type": "string"
           }
         }
       },
