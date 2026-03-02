@@ -2,8 +2,8 @@
 
 <div *ngIf="currentTabId === 'list'">
   <h1>Nonprofits Administration</h1>
-  <button class="btn btn-primary" (click)="onClickAddSchool()">Add School</button>
-  <app-hcclorganization-list [criteria]="getCriteria()" [onRowClickBehavior]="onClickOrgRowBehavior()"
+  <button class="btn btn-primary" (click)="onClickAddNonprofit()">Add Nonprofit</button>
+  <app-hcclorganization-list *ngIf="showingNonprofitList" [criteria]="getCriteria()" [onRowClickBehavior]="onClickOrgRowBehavior()"
   [showingAddButton]="false" [showingGoButton]="false" [showingIdCheckbox]="false" [showingSearchHeading]="false"
    ></app-hcclorganization-list>
 </div>

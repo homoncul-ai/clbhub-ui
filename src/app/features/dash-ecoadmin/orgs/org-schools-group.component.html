@@ -3,7 +3,7 @@ Boomer! Boomer! Boomer!
 <div *ngIf="currentTabId === 'list'">
   <h1>Schools Administration</h1>
   <button class="btn btn-primary" (click)="onClickAddSchool()">Add School</button>
-  <app-hcclorganization-list [criteria]="getCriteria()" [onRowClickBehavior]="onClickOrgRowBehavior()"
+  <app-hcclorganization-list *ngIf="showingSchoolList" [criteria]="getCriteria()" [onRowClickBehavior]="onClickOrgRowBehavior()"
   [showingAddButton]="false" [showingGoButton]="false" [showingIdCheckbox]="false" [showingSearchHeading]="false"
    ></app-hcclorganization-list>
 </div>
