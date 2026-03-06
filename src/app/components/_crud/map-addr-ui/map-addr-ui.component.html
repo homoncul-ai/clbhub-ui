@@ -1,0 +1,37 @@
+<div class="map-addr-ui">
+  <div *ngIf="loading" class="alert alert-info mb-3">
+    Loading map data...
+  </div>
+
+  <div *ngIf="error && !loading" class="alert alert-danger mb-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error" class="map-shell">
+    <div class="map-header d-flex justify-content-between align-items-center mb-2">
+      <div>
+        <strong>Engage Map</strong>
+        <div class="text-muted small">Showing {{ mapResults.length }} of {{ allResults.length }} addresses with geolocation</div>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="loadAddresses()">Refresh</button>
+    </div>
+
+    <div class="map-canvas" *ngIf="mapResults.length > 0">
+      <div class="mapbox-host" #mapContainer></div>
+    </div>
+
+    <div *ngIf="mapResults.length === 0" class="alert alert-warning mb-0">
+      No results with geolocation were found for this criteria.
+    </div>
+
+    <div *ngIf="selectedAddr" class="selected-address card mt-3">
+      <div class="card-body">
+        <h6 class="card-title mb-1">{{ getDisplayName(selectedAddr) }}</h6>
+        <div class="card-text text-muted mb-2">{{ getDisplayAddress(selectedAddr) || 'Address not available' }}</div>
+        <small class="text-muted">
+          Lat: {{ selectedAddr.geolocationLatitude }}, Lng: {{ selectedAddr.geolocationLongitude }}
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

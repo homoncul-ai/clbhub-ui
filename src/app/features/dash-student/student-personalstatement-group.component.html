@@ -26,6 +26,13 @@
   <app-student-personalstatement-engage [id]="id"></app-student-personalstatement-engage>
 </div>
 
+<div *ngIf="currentTabId === 'engage-map'">
+  <app-map-addr-ui
+    [criteria]="engageMapCriteria"
+    (pinClick)="onEngageMapPinClick($event)">
+  </app-map-addr-ui>
+</div>
+
 <div *ngIf="currentTabId === 'resumes'">
   <div class="mb-3">
     <button class="btn btn-primary" (click)="openCreateResumeModal()">Create New Resume</button>
