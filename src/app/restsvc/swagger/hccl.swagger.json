@@ -19464,6 +19464,84 @@
         }
       }
     },
+    "/hccl/onboard/onboard/catalogentry": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Onboard an catalogentry .",
+        "operationId": "onboardCatalogEntry",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardCatalogEntryPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardCatalogEntryResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/onboard/onboard/catalogentry-setup": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Creates an invitation .",
+        "operationId": "onboardCatalogEntrySetup",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardCatalogEntryPOJO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardCatalogEntryUIHelper"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/onboard/onboard/organization": {
       "post": {
         "tags": [
@@ -23465,6 +23543,20 @@
           "subjectEntityName": {
             "type": "string"
           },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ageRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "mdQualifications": {
+            "type": "string"
+          },
           "catalogCode": {
             "type": "string"
           },
@@ -23486,6 +23578,9 @@
           },
           "signupPacketMenu": {
             "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "feedEntry": {
+            "$ref": "#/components/schemas/FeedEntryGETData"
           }
         }
       },
@@ -23763,6 +23858,82 @@
           }
         }
       },
+      "FeedEntryGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "feedTypeCode": {
+            "type": "string"
+          },
+          "feedSubTypeCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "mdMore": {
+            "type": "string"
+          },
+          "imageFileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageFileUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "postedByEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "postedByEntityType": {
+            "type": "string"
+          },
+          "postedByEntityName": {
+            "type": "string"
+          },
+          "postedByEntityExtra": {
+            "type": "string"
+          }
+        }
+      },
       "HcclAddrGETData": {
         "type": "object",
         "properties": {
@@ -23842,6 +24013,12 @@
           "geolocationLatitude": {
             "type": "number",
             "format": "double"
+          },
+          "addrSingleLine": {
+            "type": "string"
+          },
+          "geoAppifyJson": {
+            "type": "string"
           }
         }
       },
@@ -24367,6 +24544,20 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ageRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "mdQualifications": {
+            "type": "string"
           }
         }
       },
@@ -24545,6 +24736,14 @@
           },
           "subjectEntityName": {
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ageRequired": {
+            "type": "integer",
+            "format": "int32"
           },
           "vocationEncodingId": {
             "type": "string",
@@ -24921,6 +25120,20 @@
           "subjectEntityName": {
             "maxLength": 255,
             "minLength": 1,
+            "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ageRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "mdQualifications": {
             "type": "string"
           }
         }
@@ -25815,6 +26028,10 @@
           },
           "languageCode": {
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -25872,6 +26089,18 @@
           },
           "languageCode": {
             "type": "string"
+          },
+          "birthYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "birthMonth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ageVerifiedById": {
+            "type": "string",
+            "format": "uuid"
           },
           "person": {
             "$ref": "#/components/schemas/HcclPersonGETData"
@@ -26932,82 +27161,6 @@
           "personalStatementId": {
             "type": "string",
             "format": "uuid"
-          }
-        }
-      },
-      "FeedEntryGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "entityDisplayName": {
-            "type": "string"
-          },
-          "entityType": {
-            "type": "string"
-          },
-          "feedTypeCode": {
-            "type": "string"
-          },
-          "feedSubTypeCode": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "mdContents": {
-            "type": "string"
-          },
-          "mdMore": {
-            "type": "string"
-          },
-          "imageFileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "imageFileUrl": {
-            "type": "string"
-          },
-          "version": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "subjectEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "subjectEntityType": {
-            "type": "string"
-          },
-          "subjectEntityName": {
-            "type": "string"
-          },
-          "postedByEntityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "postedByEntityType": {
-            "type": "string"
-          },
-          "postedByEntityName": {
-            "type": "string"
-          },
-          "postedByEntityExtra": {
-            "type": "string"
           }
         }
       },
@@ -30945,6 +31098,20 @@
         ],
         "type": "object",
         "properties": {
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
           "subjectEntityId": {
             "type": "string",
             "format": "uuid"
@@ -31059,6 +31226,16 @@
             "type": "string"
           },
           "entityType": {
+            "type": "string"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
             "type": "string"
           },
           "subjectEntityId": {
@@ -31193,6 +31370,16 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
           "subjectEntityId": {
             "type": "string",
             "format": "uuid"
@@ -31282,6 +31469,20 @@
         ],
         "type": "object",
         "properties": {
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "parentEntityName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
           "subjectEntityId": {
             "type": "string",
             "format": "uuid"
@@ -37676,6 +37877,14 @@
           "geolocationLatitude": {
             "type": "number",
             "format": "double"
+          },
+          "addrSingleLine": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "geoAppifyJson": {
+            "type": "string"
           }
         }
       },
@@ -37880,6 +38089,14 @@
           "geolocationLatitude": {
             "type": "number",
             "format": "double"
+          },
+          "addrSingleLine": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string"
+          },
+          "geoAppifyJson": {
+            "type": "string"
           }
         }
       },
@@ -37891,7 +38108,8 @@
           "name",
           "orgPolicyCode",
           "organizationTypeCode",
-          "organizationTypeId"
+          "organizationTypeId",
+          "primaryAddressSingleLine"
         ],
         "type": "object",
         "properties": {
@@ -37945,6 +38163,9 @@
             "type": "string"
           },
           "organizationTypeCode": {
+            "type": "string"
+          },
+          "primaryAddressSingleLine": {
             "type": "string"
           },
           "primaryAddress": {
@@ -38362,6 +38583,10 @@
             "maxLength": 255,
             "minLength": 2,
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -38471,6 +38696,10 @@
           },
           "languageCode": {
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -38551,6 +38780,10 @@
             "maxLength": 255,
             "minLength": 2,
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -40600,6 +40833,18 @@
             "maxLength": 255,
             "minLength": 2,
             "type": "string"
+          },
+          "birthYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "birthMonth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ageVerifiedById": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -40693,6 +40938,18 @@
           },
           "languageCode": {
             "type": "string"
+          },
+          "birthYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "birthMonth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ageVerifiedById": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -40748,6 +41005,18 @@
             "maxLength": 255,
             "minLength": 2,
             "type": "string"
+          },
+          "birthYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "birthMonth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ageVerifiedById": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -46832,17 +47101,14 @@
           }
         }
       },
-      "OnboardOrganizationResponse": {
+      "OnboardCatalogEntryResponse": {
         "type": "object",
         "properties": {
           "messages": {
             "$ref": "#/components/schemas/SimpleMessageList"
           },
-          "organization": {
-            "$ref": "#/components/schemas/HcclOrganizationGETData"
-          },
-          "invite": {
-            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          "catalogEntry": {
+            "$ref": "#/components/schemas/CatalogEntryGETData"
           }
         }
       },
@@ -46854,6 +47120,88 @@
           },
           "imageUrl": {
             "type": "string"
+          }
+        }
+      },
+      "OnboardCatalogEntryPOSTData": {
+        "required": [
+          "catalogEntry"
+        ],
+        "type": "object",
+        "properties": {
+          "catalogEntry": {
+            "$ref": "#/components/schemas/CatalogEntryPOSTData"
+          },
+          "catalogEntryImage": {
+            "$ref": "#/components/schemas/HtmImagePOSTData"
+          },
+          "signupBehaviorCode": {
+            "type": "string"
+          },
+          "webPageContents": {
+            "type": "string"
+          },
+          "aiGenerationNotes": {
+            "type": "string"
+          },
+          "mdSignupInstructions": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardCatalogEntryUIHelper": {
+        "type": "object",
+        "properties": {
+          "catalogEntryData": {
+            "$ref": "#/components/schemas/OnboardCatalogEntryPOSTData"
+          },
+          "catalogTypeSb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "catalogSb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          }
+        }
+      },
+      "OnboardCatalogEntryPOJO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "catalogEntryTypeCode": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "catalogId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "usingYamlCache": {
+            "type": "boolean"
+          }
+        }
+      },
+      "OnboardOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
           }
         }
       },
@@ -46870,6 +47218,9 @@
             "type": "string"
           },
           "creatingAdminUser": {
+            "type": "boolean"
+          },
+          "creatingCatalog": {
             "type": "boolean"
           },
           "providerUser": {
@@ -46912,11 +47263,20 @@
           "notes": {
             "type": "string"
           },
+          "entryUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "profileTypeCode": {
             "type": "string"
           },
           "orgTypeCode": {
             "type": "string"
+          },
+          "usingYamlCache": {
+            "type": "boolean"
           }
         }
       },
@@ -47353,13 +47713,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }
