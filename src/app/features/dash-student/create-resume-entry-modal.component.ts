@@ -8,6 +8,7 @@ import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-te
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { StdMdbDatepickerComponent } from '@app/components/_global/std-mdb-datepicker/std-mdb-datepicker.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 
 @Component({
   selector: 'app-create-resume-entry-modal',
@@ -253,9 +254,9 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
       // Use getRawValue() to include disabled form controls (like title)
       const formData = this.resumeEntryForm.getRawValue();
       
-      // Convert dates to yyyy-MM-dd format
-      const dateStart = formData.dateStart ? new Date(formData.dateStart) : undefined;
-      const dateEnd = formData.dateEnd ? new Date(formData.dateEnd) : undefined;
+      // Normalize dates to backend format: yyyy-MM-dd'T'HH:mm:ss
+      const dateStart = this.formatDateTimeForPost(formData.dateStart);
+      const dateEnd = this.formatDateTimeForPost(formData.dateEnd);
 
       // Build markdown content from the entry data
       // Combine title, organization, position, dates, description, and resumeText into markdown
@@ -267,7 +268,7 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
         entryMdContent += `**${formData.organizationName || ''}${formData.organizationName && formData.position ? ' - ' : ''}${formData.position || ''}**\n\n`;
       }
       if (dateStart || dateEnd) {
-        const dateRange = `${dateStart || 'Start'} - ${dateEnd || 'Present'}`;
+        const dateRange = `${dateStart ? dateStart.substring(0, 10) : 'Start'} - ${dateEnd ? dateEnd.substring(0, 10) : 'Present'}`;
         entryMdContent += `*${dateRange}*\n\n`;
       }
       if (formData.description) {
@@ -291,8 +292,8 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
         position: formData.position || '', // Required field
         organizationName: formData.organizationName || '', // Required field
         longDescription: formData.description || '', // Required field
-        dateStart: dateStart ? dateStart.toISOString() : undefined,
-        dateEnd: dateEnd ? dateEnd.toISOString() : undefined,
+        dateStart: dateStart,
+        dateEnd: dateEnd,
      available: 1
     };
 
@@ -323,47 +324,41 @@ export class CreateResumeEntryModalComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /**
-   * Converts a date string to yyyy-MM-dd format
-   * Handles various input formats: MM/DD/YYYY, YYYY-MM-DD, etc.
-   */
-  private formatDateToYYYYMMDD(dateString: string): string {
+  private formatDateTimeForPost(dateString: string): string | undefined {
     if (!dateString || dateString.trim() === '') {
-      return '';
+      return undefined;
     }
 
-    // If already in yyyy-MM-dd format, return as is
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
-      return dateString;
+    const trimmed = dateString.trim();
+
+    // Already matches backend contract exactly.
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+      return trimmed;
     }
 
-    // Try to parse the date string
+    // Date-only values from UI input.
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+      return `${trimmed}T00:00:00`;
+    }
+
     let date: Date | null = null;
-
-    // Try MM/DD/YYYY format
-    const mmddyyyyMatch = dateString.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    const mmddyyyyMatch = trimmed.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
     if (mmddyyyyMatch) {
-      const month = parseInt(mmddyyyyMatch[1], 10) - 1; // Month is 0-indexed
+      const month = parseInt(mmddyyyyMatch[1], 10) - 1;
       const day = parseInt(mmddyyyyMatch[2], 10);
       const year = parseInt(mmddyyyyMatch[3], 10);
-      date = new Date(year, month, day);
+      date = new Date(year, month, day, 0, 0, 0);
     } else {
-      // Try parsing as a standard date string
-      date = new Date(dateString);
+      // Support values with timezone/milliseconds and normalize shape.
+      const candidate = /(Z|[+-]\d{2}:?\d{2})$/.test(trimmed) ? trimmed : `${trimmed}Z`;
+      date = new Date(candidate);
     }
 
-    // Check if date is valid
     if (!date || isNaN(date.getTime())) {
-      console.warn(`Invalid date format: ${dateString}`);
-      return dateString; // Return original if can't parse
+      return trimmed;
     }
 
-    // Format as yyyy-MM-dd
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
+    return AbstractCrudComponent.formateDateForPost(date);
   }
 }
 

@@ -13,7 +13,7 @@ import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/ca
 import { Router } from '@angular/router';
 import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { AddCatalogEntryModalComponent } from './add-catalog-entry-modal.component';
+import { OnboardCatalogEntryUiComponent } from '@app/components/_crud/onboard-catalogentry-ui/onboard-catalogentry-ui.component';
 
 @Component({
   selector: 'app-provider-catalog-group',
@@ -26,7 +26,7 @@ import { AddCatalogEntryModalComponent } from './add-catalog-entry-modal.compone
 export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<CatalogCrudWrapper> implements OnInit {
 
   private modalService = inject(MdbModalService);
-  modalRef: MdbModalRef<AddCatalogEntryModalComponent> | null = null;
+  modalRef: MdbModalRef<OnboardCatalogEntryUiComponent> | null = null;
 
   @ViewChild(CatalogEntryListComponent) catalogEntryList!: CatalogEntryListComponent;
 
@@ -113,16 +113,22 @@ export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<
   protected onAddButtonClick(): OnAddActionBehavior {
     var x: OnAddActionBehavior = new OnAddActionBehavior();
     x.onAdd = (baseRoute: string, router: Router) => {
-      // Open the add catalog entry modal
-      this.modalRef = this.modalService.open(AddCatalogEntryModalComponent, {
-        modalClass: 'modal-lg',
+      // Open onboarding wizard for creating a catalog entry.
+      this.modalRef = this.modalService.open(OnboardCatalogEntryUiComponent, {
+        modalClass: 'modal-xl',
         keyboard: false,
         ignoreBackdropClick: true,
         data: {
-          catalogId: this.id,
-          catalogTypeId: this.getCurrentEntity().getData().catalogTypeId || ''
+          catalogId: this.id
         }
       }); 
+
+      this.modalRef.onClose.subscribe((result: any) => {
+        if (result?.refresh && this.catalogEntryList) {
+          this.catalogEntryList.refresh();
+        }
+        this.modalRef = null;
+      });
     }
     return x;
   }
