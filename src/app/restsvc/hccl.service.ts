@@ -5225,6 +5225,17 @@ export interface CatalogEntryFeedProfilePOSTData {
   maxDistanceInMiles: number;
   distanceInVocode: number;
   feedProfileDataJson?: string;
+  getFeedProfileData?: FeedInputsPOJO;
+}
+
+export interface FeedInputsPOJO {
+  ageMax?: number;
+  randomInfluence?: number;
+  vocationalPrimaryCodes?: string[];
+  showingNonCatalog?: boolean;
+  locationInfluence?: number;
+  usingLocation?: boolean;
+  usingPersonalStatements?: boolean;
 }
 
 export interface CatalogEntryFeedProfileGETData {
@@ -5240,6 +5251,7 @@ export interface CatalogEntryFeedProfileGETData {
   maxDistanceInMiles?: number;
   distanceInVocode?: number;
   feedProfileDataJson?: string;
+  getFeedProfileData?: FeedInputsPOJO;
 }
 
 export interface CatalogEntryFeedProfileGETDataSearchResults {
@@ -5271,6 +5283,7 @@ export interface CatalogEntryFeedProfilePUTData {
   maxDistanceInMiles: number;
   distanceInVocode: number;
   feedProfileDataJson?: string;
+  getFeedProfileData?: FeedInputsPOJO;
 }
 
 export interface CatalogEntryGroupRefPOSTData {
@@ -5362,6 +5375,8 @@ export interface CatalogEntryGETData {
   entryCost?: number;
   tarotPrompt?: string;
   notes?: string;
+  entryStatusCode?: string;
+  online?: number;
   available?: number;
   url?: string;
   tarotFileId?: string;
@@ -5381,6 +5396,7 @@ export interface CatalogEntryGETData {
   ageRequired?: number;
   mdContents?: string;
   mdQualifications?: string;
+  mdSignupInfo?: string;
   catalogCode?: string;
   distance?: number;
   distanceFromCode?: string;
@@ -5502,6 +5518,7 @@ export interface FeedEntryGETData {
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
+  hcclAddrId?: string;
   postedByEntityId?: string;
   postedByEntityType?: string;
   postedByEntityName?: string;
@@ -5557,6 +5574,7 @@ export interface HcclOrganizationGETData {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+  hcclAddrId?: string;
   primaryAddress?: HcclAddrGETData;
 }
 
@@ -5651,6 +5669,8 @@ export interface CatalogEntryPOSTData {
   entryCost?: number;
   tarotPrompt?: string;
   notes?: string;
+  entryStatusCode?: string;
+  online?: number;
   available: number;
   dateUnavailable?: string;
   url?: string;
@@ -5675,6 +5695,7 @@ export interface CatalogEntryPOSTData {
   ageRequired?: number;
   mdContents?: string;
   mdQualifications?: string;
+  mdSignupInfo?: string;
 }
 
 export interface CatalogEntryGETDataSearchResults {
@@ -5707,6 +5728,7 @@ export interface CatalogEntryCriteria {
   businessSponsor?: string;
   entryPrice?: number;
   entryCost?: number;
+  online?: number;
   available?: number;
   dateUnavailable?: string;
   url?: string;
@@ -5818,6 +5840,8 @@ export interface CatalogEntryPUTData {
   entryCost?: number;
   tarotPrompt?: string;
   notes?: string;
+  entryStatusCode?: string;
+  online?: number;
   available: number;
   dateUnavailable?: string;
   url?: string;
@@ -5842,6 +5866,7 @@ export interface CatalogEntryPUTData {
   ageRequired?: number;
   mdContents?: string;
   mdQualifications?: string;
+  mdSignupInfo?: string;
 }
 
 export interface CatalogEntrySignupPacketPOSTData {
@@ -6104,6 +6129,8 @@ export interface HcclPersonGETData {
   messageHandle?: string;
   languageCode?: string;
   hcclAddrId?: string;
+  monthBorn?: number;
+  yearBorn?: number;
 }
 
 export interface HcclUserGETData {
@@ -6421,6 +6448,7 @@ export interface CatalogTypeRefPUTData {
 
 export interface FeedEntryInstancePOSTData {
   feedEntryId?: string;
+  calcReasonJson?: string;
   userProfileId: string;
   viewCount: number;
   viewTimeMs: number;
@@ -6440,6 +6468,7 @@ export interface FeedEntryInstanceGETData {
   entityDisplayName?: string;
   entityType?: string;
   feedEntryId?: string;
+  calcReasonJson?: string;
   userProfileId?: string;
   viewCount?: number;
   viewTimeMs?: number;
@@ -6479,6 +6508,7 @@ export interface FeedEntryInstanceCriteria {
 
 export interface FeedEntryInstancePUTData {
   feedEntryId?: string;
+  calcReasonJson?: string;
   userProfileId: string;
   viewCount: number;
   viewTimeMs: number;
@@ -6501,6 +6531,7 @@ export interface FeedEntryPOSTData {
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
+  hcclAddrId?: string;
   postedByEntityId?: string;
   postedByEntityType?: string;
   postedByEntityName?: string;
@@ -6533,6 +6564,7 @@ export interface FeedEntryCriteria {
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
+  hcclAddrId?: string;
   postedByEntityId?: string;
   postedByEntityType?: string;
   postedByEntityName?: string;
@@ -6553,6 +6585,7 @@ export interface FeedEntryPUTData {
   subjectEntityId?: string;
   subjectEntityType?: string;
   subjectEntityName?: string;
+  hcclAddrId?: string;
   postedByEntityId?: string;
   postedByEntityType?: string;
   postedByEntityName?: string;
@@ -9479,6 +9512,7 @@ export interface HcclOrganizationPOSTData {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+  hcclAddrId?: string;
   organizationTypeCode: string;
   primaryAddressSingleLine: string;
   primaryAddress?: HcclAddrPOSTData;
@@ -9511,6 +9545,7 @@ export interface HcclOrganizationCriteria {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+  hcclAddrId?: string;
   organizationTypeCode?: string;
 }
 
@@ -9527,6 +9562,7 @@ export interface HcclOrganizationPUTData {
   parentEntityId?: string;
   parentEntityEntityType?: string;
   parentEntityName?: string;
+  hcclAddrId?: string;
 }
 
 export interface HcclOrganizationTypeRefPOSTData {
@@ -9596,6 +9632,8 @@ export interface HcclPersonPOSTData {
   messageHandle: string;
   languageCode: string;
   hcclAddrId?: string;
+  monthBorn?: number;
+  yearBorn: number;
 }
 
 export interface HcclPersonGETDataSearchResults {
@@ -9630,6 +9668,8 @@ export interface HcclPersonCriteria {
   messageHandle?: string;
   languageCode?: string;
   hcclAddrId?: string;
+  monthBorn?: number;
+  yearBorn?: number;
 }
 
 export interface HcclPersonPUTData {
@@ -9648,6 +9688,8 @@ export interface HcclPersonPUTData {
   messageHandle: string;
   languageCode: string;
   hcclAddrId?: string;
+  monthBorn?: number;
+  yearBorn: number;
 }
 
 export interface HcclTeamLogPOSTData {
@@ -11997,6 +12039,7 @@ export interface OnboardCatalogEntryPOSTData {
 }
 
 export interface OnboardCatalogEntryUIHelper {
+  messages?: SimpleMessageList;
   catalogEntryData?: OnboardCatalogEntryPOSTData;
   catalogTypeSb?: MenuControlDataList;
   catalogSb?: MenuControlDataList;
@@ -12147,6 +12190,7 @@ export interface StudentDashUIGETData {
   teams?: HcclTeamGETData[];
   personalStatements?: PersonalStatementGETData[];
   advisoryTeamPMessageId?: string;
+  feedProfile?: CatalogEntryFeedProfileGETData;
   guidanceTeam?: HcclTeamGETData;
   school?: HcclOrganizationGETData;
 }
@@ -12195,9 +12239,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

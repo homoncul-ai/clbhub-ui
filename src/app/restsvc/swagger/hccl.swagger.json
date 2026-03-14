@@ -23022,6 +23022,41 @@
           },
           "feedProfileDataJson": {
             "type": "string"
+          },
+          "getFeedProfileData": {
+            "$ref": "#/components/schemas/FeedInputsPOJO"
+          }
+        }
+      },
+      "FeedInputsPOJO": {
+        "type": "object",
+        "properties": {
+          "ageMax": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "randomInfluence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vocationalPrimaryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "showingNonCatalog": {
+            "type": "boolean"
+          },
+          "locationInfluence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usingLocation": {
+            "type": "boolean"
+          },
+          "usingPersonalStatements": {
+            "type": "boolean"
           }
         }
       },
@@ -23068,6 +23103,9 @@
           },
           "feedProfileDataJson": {
             "type": "string"
+          },
+          "getFeedProfileData": {
+            "$ref": "#/components/schemas/FeedInputsPOJO"
           }
         }
       },
@@ -23177,6 +23215,9 @@
           },
           "feedProfileDataJson": {
             "type": "string"
+          },
+          "getFeedProfileData": {
+            "$ref": "#/components/schemas/FeedInputsPOJO"
           }
         }
       },
@@ -23490,6 +23531,13 @@
           "notes": {
             "type": "string"
           },
+          "entryStatusCode": {
+            "type": "string"
+          },
+          "online": {
+            "type": "integer",
+            "format": "int32"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -23555,6 +23603,9 @@
             "type": "string"
           },
           "mdQualifications": {
+            "type": "string"
+          },
+          "mdSignupInfo": {
             "type": "string"
           },
           "catalogCode": {
@@ -23919,6 +23970,10 @@
           "subjectEntityName": {
             "type": "string"
           },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "postedByEntityId": {
             "type": "string",
             "format": "uuid"
@@ -24085,6 +24140,10 @@
           },
           "parentEntityName": {
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           },
           "primaryAddress": {
             "$ref": "#/components/schemas/HcclAddrGETData"
@@ -24464,6 +24523,15 @@
           "notes": {
             "type": "string"
           },
+          "entryStatusCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "online": {
+            "type": "integer",
+            "format": "int32"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -24557,6 +24625,9 @@
             "type": "string"
           },
           "mdQualifications": {
+            "type": "string"
+          },
+          "mdSignupInfo": {
             "type": "string"
           }
         }
@@ -24663,6 +24734,10 @@
           },
           "entryCost": {
             "type": "number"
+          },
+          "online": {
+            "type": "integer",
+            "format": "int32"
           },
           "available": {
             "type": "integer",
@@ -25041,6 +25116,15 @@
           "notes": {
             "type": "string"
           },
+          "entryStatusCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "online": {
+            "type": "integer",
+            "format": "int32"
+          },
           "available": {
             "type": "integer",
             "format": "int32"
@@ -25134,6 +25218,9 @@
             "type": "string"
           },
           "mdQualifications": {
+            "type": "string"
+          },
+          "mdSignupInfo": {
             "type": "string"
           }
         }
@@ -26032,6 +26119,14 @@
           "hcclAddrId": {
             "type": "string",
             "format": "uuid"
+          },
+          "monthBorn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "yearBorn": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -27130,6 +27225,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "calcReasonJson": {
+            "type": "string"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -27192,6 +27290,9 @@
           "feedEntryId": {
             "type": "string",
             "format": "uuid"
+          },
+          "calcReasonJson": {
+            "type": "string"
           },
           "userProfileId": {
             "type": "string",
@@ -27336,6 +27437,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "calcReasonJson": {
+            "type": "string"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -27422,6 +27526,10 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           },
           "postedByEntityId": {
             "type": "string",
@@ -27535,6 +27643,10 @@
           "subjectEntityName": {
             "type": "string"
           },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "postedByEntityId": {
             "type": "string",
             "format": "uuid"
@@ -27616,6 +27728,10 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           },
           "postedByEntityId": {
             "type": "string",
@@ -38162,6 +38278,10 @@
             "minLength": 1,
             "type": "string"
           },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "organizationTypeCode": {
             "type": "string"
           },
@@ -38267,6 +38387,10 @@
           "parentEntityName": {
             "type": "string"
           },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "organizationTypeCode": {
             "type": "string"
           }
@@ -38331,6 +38455,10 @@
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
+          },
+          "hcclAddrId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -38514,7 +38642,8 @@
           "languageCode",
           "lastName",
           "messageHandle",
-          "name"
+          "name",
+          "yearBorn"
         ],
         "type": "object",
         "properties": {
@@ -38587,6 +38716,16 @@
           "hcclAddrId": {
             "type": "string",
             "format": "uuid"
+          },
+          "monthBorn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "yearBorn": {
+            "maximum": 255,
+            "minimum": 2,
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -38700,6 +38839,14 @@
           "hcclAddrId": {
             "type": "string",
             "format": "uuid"
+          },
+          "monthBorn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "yearBorn": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -38711,7 +38858,8 @@
           "languageCode",
           "lastName",
           "messageHandle",
-          "name"
+          "name",
+          "yearBorn"
         ],
         "type": "object",
         "properties": {
@@ -38784,6 +38932,16 @@
           "hcclAddrId": {
             "type": "string",
             "format": "uuid"
+          },
+          "monthBorn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "yearBorn": {
+            "maximum": 255,
+            "minimum": 2,
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -47152,6 +47310,9 @@
       "OnboardCatalogEntryUIHelper": {
         "type": "object",
         "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
           "catalogEntryData": {
             "$ref": "#/components/schemas/OnboardCatalogEntryPOSTData"
           },
@@ -47559,6 +47720,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "feedProfile": {
+            "$ref": "#/components/schemas/CatalogEntryFeedProfileGETData"
+          },
           "guidanceTeam": {
             "$ref": "#/components/schemas/HcclTeamGETData"
           },
@@ -47713,13 +47877,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

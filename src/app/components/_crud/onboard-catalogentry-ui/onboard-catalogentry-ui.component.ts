@@ -59,6 +59,7 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
 
   signupPacketMenu: MenuControlDataList | null = null;
   signupBehaviorMenu: MenuControlDataList | null = null;
+  catalogMenu: MenuControlDataList | null = null;
   feedEntry: FeedEntryGETData | Record<string, any> | null = null;
 
   ngOnInit(): void {
@@ -85,8 +86,8 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
   submitSourceAndSetup(): void {
     this.setupError = '';
     const url = this.sourceUrl.trim();
-    if (!url || !this.isValidUrl(url)) {
-      this.setupError = 'Please provide a valid URL.';
+    if (url && !this.isValidUrl(url)) {
+      this.setupError = 'Please provide a valid URL when URL is entered.';
       return;
     }
 
@@ -98,12 +99,14 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
     this.createResponse = null;
     this.responseMessages = { messages: [] };
 
-    if (!this.catalogId.trim()) {
+    const activeCatalogId = this.getCatalogIdValue();
+    if (!activeCatalogId) {
       this.createError = 'Catalog ID is required.';
       return;
     }
 
-    this.onboardData.catalogEntry.catalogId = this.catalogId.trim();
+    this.catalogId = activeCatalogId;
+    this.onboardData.catalogEntry.catalogId = activeCatalogId;
     const payload = this.buildSubmitPayload();
 
     this.createLoading = true;
@@ -129,6 +132,10 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
     this.onboardData.catalogEntry.mdQualifications = markdown;
   }
 
+  onMdSignupInfoChange(markdown: string): void {
+    this.onboardData.catalogEntry.mdSignupInfo = markdown;
+  }
+
   onSignupPacketChange(value: string): void {
     this.onboardData.catalogEntry.signupPacketId = value || undefined;
   }
@@ -145,6 +152,18 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
     this.onboardData.signupBehaviorCode = item?.id || undefined;
   }
 
+  onCatalogIdChange(value: string): void {
+    const normalized = (value || '').trim();
+    this.catalogId = normalized;
+    this.onboardData.catalogEntry.catalogId = normalized;
+  }
+
+  onCatalogSelectionChange(item: MenuControlData | null): void {
+    const selectedId = item?.id || '';
+    this.catalogId = selectedId;
+    this.onboardData.catalogEntry.catalogId = selectedId;
+  }
+
   closeModal(): void {
     if (this.modalRef) {
       this.modalRef.close({ refresh: true });
@@ -153,7 +172,7 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
   }
 
   private runInitialSetup(): void {
-    if (this.initialSetupCompleted || !this.catalogId.trim()) {
+    if (this.initialSetupCompleted || !this.getCatalogIdValue()) {
       return;
     }
     this.callSetup(false);
@@ -165,7 +184,7 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
     this.createError = '';
     this.responseMessages = { messages: [] };
 
-    const trimmedCatalogId = this.catalogId.trim();
+    const trimmedCatalogId = this.getCatalogIdValue();
     if (!trimmedCatalogId) {
       this.setupError = 'Catalog ID is required.';
       return;
@@ -223,9 +242,17 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
 
     this.onboardData = mergedData;
 
+    this.catalogMenu = helperAny.catalogSb || null;
     this.signupPacketMenu = helperCatalogEntry.signupPacketMenu || helperAny.signupPacketMenu || null;
     this.signupBehaviorMenu = helperCatalogEntry.signupBehaviorMenu || helperAny.signupBehaviorMenu || null;
     this.feedEntry = helperCatalogEntry.feedEntry || helperAny.feedEntry || null;
+
+    if (!this.catalogId) {
+      this.catalogId = this.onboardData.catalogEntry.catalogId || this.getSelectedMenuId(this.catalogMenu) || '';
+    }
+    if (!this.onboardData.catalogEntry.catalogId) {
+      this.onboardData.catalogEntry.catalogId = this.catalogId || '';
+    }
 
     if (!this.onboardData.catalogEntry.signupPacketId) {
       this.onboardData.catalogEntry.signupPacketId = this.getSelectedMenuId(this.signupPacketMenu) || undefined;
@@ -248,6 +275,10 @@ export class OnboardCatalogEntryUiComponent implements OnInit, OnChanges {
       },
       signupBehaviorCode: '',
     };
+  }
+
+  private getCatalogIdValue(): string {
+    return (this.onboardData.catalogEntry.catalogId || this.catalogId || '').trim();
   }
 
   private buildSubmitPayload(): OnboardCatalogEntryPOSTData {
