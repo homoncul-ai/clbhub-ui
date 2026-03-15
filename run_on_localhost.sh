@@ -19,11 +19,11 @@
 
 appName="TrutestaDevops"
 configDir="./src/assets/commonConfig"
-#port=4200
-#if [ "${port}" != "4200" ]
-#then
-#    export PORT=${port}
-#fi
+port=4200
+if [ "${port}" != "8080" ]
+then
+    export PORT=${port}
+fi
 
 npm install
 
@@ -58,7 +58,7 @@ then
 
     echo "$(grep -n \"constants\" "${targetConfig}")"
 
-    echo "${appName} starting up on : http://localhost:4200/ "
+    echo "${appName} starting up on : http://localhost:${port}/ "
 
     echo ng serve
     ng serve
