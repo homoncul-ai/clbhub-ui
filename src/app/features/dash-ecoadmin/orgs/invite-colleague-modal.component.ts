@@ -5,6 +5,7 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HcclService, HcclUserProfileGETData, HcclUserInvitePOSTData } from '@app/restsvc/hccl.service';
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
+import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -190,6 +191,10 @@ export class InviteColleagueModalComponent implements OnInit {
   }
 
   private toApiDateTime(dateValue: string): string {
-    return new Date(`${dateValue}T00:00:00.000Z`).toISOString();
+    const parsed = new Date(`${dateValue}T00:00:00Z`);
+    if (isNaN(parsed.getTime())) {
+      return `${dateValue}T00:00:00`;
+    }
+    return AbstractCrudComponent.formateDateForPost(parsed);
   }
 }

@@ -172,6 +172,10 @@ export class OnboardOrgUiComponent implements OnChanges {
           sourceOrganization.organizationTypeCode ||
           defaults.providerOrganization.organizationTypeCode,
         websiteUrl: sourceOrganization.websiteUrl || this.sourceUrl || undefined,
+        primaryAddressSingleLine:
+          sourceOrganization.primaryAddressSingleLine ||
+          sourcePrimaryAddress.addrSingleLine ||
+          defaults.providerOrganization.primaryAddressSingleLine,
         primaryAddress: {
           ...(defaults.providerOrganization.primaryAddress || {}),
           ...sourcePrimaryAddress,
@@ -215,6 +219,7 @@ export class OnboardOrgUiComponent implements OnChanges {
         organizationTypeId: '',
         orgPolicyCode: '',
         organizationTypeCode: this.orgTypeCode || 'BUSINESS',
+        primaryAddressSingleLine: '',
         primaryAddress: {},
       },
       inviteUserEmail: '',

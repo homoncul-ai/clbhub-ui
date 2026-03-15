@@ -1,0 +1,332 @@
+<div class="onboard-catalogentry-ui">
+  <mdb-accordion [multiple]="false">
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('source')"
+      (itemShow)="openAccordion('source')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-link me-2"></i>
+        1. Source URL + Notes
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Choose Catalog </label>
+              <app-menu-control-data-list
+                *ngIf="catalogMenu; else catalogIdFallback"
+                [menuControlDataList]="catalogMenu"
+                [placeholder]="'Select catalog...'"
+                [ngModel]="catalogId || onboardData.catalogEntry.catalogId || ''"
+                (ngModelChange)="onCatalogIdChange($event)"
+                (selectionChange)="onCatalogSelectionChange($event)">
+              </app-menu-control-data-list>
+              <ng-template #catalogIdFallback>
+                <input
+                  class="form-control"
+                  [(ngModel)]="catalogId"
+                  (ngModelChange)="onCatalogIdChange($event)"
+                  name="catalogId"
+                  placeholder="Catalog ID" />
+              </ng-template>
+            </div>
+            <div class="col-12">
+              <label class="form-label">URL for this catalog entry</label>
+              <input
+                type="url"
+                class="form-control"
+                [(ngModel)]="sourceUrl"
+                name="sourceUrl"
+                placeholder="https://example.org/program" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Notes - if no URL is available provide a description of the program</label>
+              <textarea
+                class="form-control"
+                rows="3"
+                [(ngModel)]="sourceNotes"
+                name="sourceNotes"></textarea>
+            </div>
+            <div class="col-12">
+              <button
+                class="btn btn-primary"
+                (click)="submitSourceAndSetup()"
+                [disabled]="setupLoading || !(catalogId || onboardData.catalogEntry.catalogId)">
+                <span *ngIf="setupLoading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ setupLoading ? 'Refreshing setup...' : 'Submit and Refresh Setup' }}
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="setupError" class="alert alert-danger mt-3 mb-0">
+            {{ setupError }}
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('details')"
+      (itemShow)="openAccordion('details')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-pen me-2"></i>
+        2. Catalog Entry Details
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Title</label>
+              <input
+                class="form-control"
+                [(ngModel)]="onboardData.catalogEntry.title"
+                name="title" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Short Description</label>
+              <input
+                class="form-control"
+                [(ngModel)]="onboardData.catalogEntry.shortDescription"
+                name="shortDescription" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                rows="4"
+                [(ngModel)]="onboardData.catalogEntry.description"
+                name="description"></textarea>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Date Start</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="onboardData.catalogEntry.dateStart"
+                name="dateStart" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Date End</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="onboardData.catalogEntry.dateEnd"
+                name="dateEnd" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Listing Starts</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="onboardData.catalogEntry.dateListingStarts"
+                name="dateListingStarts" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Listing Ends</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="onboardData.catalogEntry.dateListingEnds"
+                name="dateListingEnds" />
+            </div>
+            <div class="col-12">
+              <button class="btn btn-outline-primary" (click)="openAccordion('content')">
+                Continue to Catalog Entry Content
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('content')"
+      (itemShow)="openAccordion('content')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-file-lines me-2"></i>
+        3. Catalog Entry Content
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Age Required</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="onboardData.catalogEntry.ageRequired"
+                name="ageRequired" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Markdown Contents</label>
+              <app-std-markdown-display
+                [markdown]="onboardData.catalogEntry.mdContents || ''"
+                [modeName]="'edit'"
+                [dialect]="'common'"
+                (contentChange)="onMdContentsChange($event)">
+              </app-std-markdown-display>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Markdown Qualifications</label>
+              <app-std-markdown-display
+                [markdown]="onboardData.catalogEntry.mdQualifications || ''"
+                [modeName]="'edit'"
+                [dialect]="'common'"
+                (contentChange)="onMdQualificationsChange($event)">
+              </app-std-markdown-display>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Signup Information</label>
+              <app-std-markdown-display
+                [markdown]="onboardData.catalogEntry.mdSignupInfo || ''"
+                [modeName]="'edit'"
+                [dialect]="'common'"
+                (contentChange)="onMdSignupInfoChange($event)">
+              </app-std-markdown-display>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-outline-primary" (click)="openAccordion('signup')">
+                Continue to Signup Selection
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('signup')"
+      (itemShow)="openAccordion('signup')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-list-check me-2"></i>
+        4. Signup Packet + Behavior
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Signup Packet</label>
+              <app-menu-control-data-list
+                *ngIf="signupPacketMenu; else signupPacketFallback"
+                [menuControlDataList]="signupPacketMenu"
+                [placeholder]="'Select signup packet...'"
+                [ngModel]="onboardData.catalogEntry.signupPacketId || ''"
+                (ngModelChange)="onSignupPacketChange($event)"
+                (selectionChange)="onSignupPacketSelectionChange($event)">
+              </app-menu-control-data-list>
+              <ng-template #signupPacketFallback>
+                <input
+                  class="form-control"
+                  [(ngModel)]="onboardData.catalogEntry.signupPacketId"
+                  name="signupPacketId"
+                  placeholder="Signup Packet ID" />
+              </ng-template>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Signup Behavior</label>
+              <app-menu-control-data-list
+                *ngIf="signupBehaviorMenu; else signupBehaviorFallback"
+                [menuControlDataList]="signupBehaviorMenu"
+                [placeholder]="'Select signup behavior...'"
+                [ngModel]="onboardData.signupBehaviorCode || ''"
+                (ngModelChange)="onSignupBehaviorChange($event)"
+                (selectionChange)="onSignupBehaviorSelectionChange($event)">
+              </app-menu-control-data-list>
+              <ng-template #signupBehaviorFallback>
+                <input
+                  class="form-control"
+                  [(ngModel)]="onboardData.signupBehaviorCode"
+                  name="signupBehaviorCode"
+                  placeholder="Signup Behavior Code" />
+              </ng-template>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-outline-primary" (click)="openAccordion('feed')">
+                Continue to Feed Entry
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('feed')"
+      (itemShow)="openAccordion('feed')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-rss me-2"></i>
+        5. Feed Entry (Display Only)
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3" *ngIf="feedEntry; else noFeedEntry">
+            <div class="col-12">
+              <label class="form-label">Feed Entry Markdown</label>
+              <app-std-markdown-display
+                [markdown]="$any(feedEntry).mdContents || ''"
+                [modeName]="'display'"
+                [dialect]="'common'">
+              </app-std-markdown-display>
+            </div>
+            <div class="col-12">
+              <label class="form-label">mdMode</label>
+              <div class="readonly-value">{{ ($any(feedEntry).mdMode || '(not provided)') }}</div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-outline-primary" (click)="openAccordion('submit')">
+                Continue to Submit
+              </button>
+            </div>
+          </div>
+          <ng-template #noFeedEntry>
+            <div class="alert alert-secondary mb-3">
+              Feed entry is not available in the setup response.
+            </div>
+            <button class="btn btn-outline-primary" (click)="openAccordion('submit')">
+              Continue to Submit
+            </button>
+          </ng-template>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('submit')"
+      (itemShow)="openAccordion('submit')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-paper-plane me-2"></i>
+        6. Submit Onboarding
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <button
+            class="btn btn-success btn-lg"
+            (click)="createCatalogEntry()"
+            [disabled]="createLoading || setupLoading || !(catalogId || onboardData.catalogEntry.catalogId)">
+            <span *ngIf="createLoading" class="spinner-border spinner-border-sm me-2"></span>
+            {{ createLoading ? 'Submitting...' : 'Go: Onboard Catalog Entry' }}
+          </button>
+
+          <div *ngIf="createError" class="alert alert-danger mt-3 mb-0">
+            {{ createError }}
+          </div>
+
+          <div class="mt-3" *ngIf="responseMessages.messages?.length">
+            <app-simple-messages-section [messagesList]="responseMessages"></app-simple-messages-section>
+          </div>
+
+          <div *ngIf="createResponse?.catalogEntry as createdEntry" class="alert alert-success mt-3 mb-0">
+            <div><strong>Catalog entry onboarded.</strong></div>
+            <div *ngIf="createdEntry.id">Catalog Entry ID: {{ createdEntry.id }}</div>
+            <div *ngIf="createdEntry.title">Title: {{ createdEntry.title }}</div>
+          </div>
+
+          <div class="mt-3 d-flex justify-content-end" *ngIf="modalRef">
+            <button class="btn btn-outline-secondary" (click)="closeModal()">
+              Close
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+  </mdb-accordion>
+</div>

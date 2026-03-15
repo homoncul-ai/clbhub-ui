@@ -20,7 +20,7 @@ RUN npm install --force
 EXPOSE 8080
 
 ##Build the angular app in production mode and store the artifacts in dist folder
-RUN ng build --configuration production --base-href=/c/
+RUN ng build --configuration production --base-href=/
 
 #Run the application.
 CMD npm start

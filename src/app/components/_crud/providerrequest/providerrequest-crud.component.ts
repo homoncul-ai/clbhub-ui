@@ -61,13 +61,14 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
   }
 
   protected override async createEntityDataCall(entity: ProviderRequestCrudWrapper): Promise<any> {
+    const nowForPost = this.formatNowForPost();
     const postData: ProviderRequestPOSTData = {
       name: entity.getData().name || '',
       businessCode: entity.getData().businessCode || '',
       description: entity.getData().description || '',
       currentStateTransitionId: entity.getData().currentStateTransitionId,
       currentStateCode: entity.getData().currentStateCode || '',
-      currentStateDateEntered: new Date().toISOString(), // Default to current date/time
+      currentStateDateEntered: nowForPost, // Backend expects yyyy-MM-dd'T'HH:mm:ss
       rawRequestText: entity.getData().rawRequestText || '',
       requesterUserId: entity.getData().requesterUserId || '',
       advocateUserId: entity.getData().advocateUserId || '',
@@ -89,13 +90,14 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
   }
 
   protected override async updateEntityDataCall(entity: ProviderRequestCrudWrapper): Promise<void> {
+    const nowForPost = this.formatNowForPost();
     const putData: ProviderRequestPUTData = {
       name: entity.getData().name || '',
       businessCode: entity.getData().businessCode || '',
       description: entity.getData().description || '',
       currentStateTransitionId: entity.getData().currentStateTransitionId,
       currentStateCode: entity.getData().currentStateCode || '',
-      currentStateDateEntered: new Date().toISOString(), // Default to current date/time
+      currentStateDateEntered: nowForPost, // Backend expects yyyy-MM-dd'T'HH:mm:ss
       rawRequestText: entity.getData().rawRequestText || '',
       requesterUserId: entity.getData().requesterUserId || '',
       advocateUserId: entity.getData().advocateUserId || '',
@@ -115,6 +117,10 @@ export class ProviderRequestCrudComponent extends AbstractCrudComponent<Provider
       console.error('Error deleting ProviderRequest:', error);
       return false;
     }
+  }
+
+  private formatNowForPost(): string {
+    return AbstractCrudComponent.formatNowForPost();
   }
 
   public override newEmptyWrapper(): ProviderRequestCrudWrapper {

@@ -6,8 +6,8 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
-import { PersonalStatementCrudWrapper, PersonalStatementCrudComponent } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
-import { HcclService, PersonalStatementResumeGETData } from '@app/restsvc/hccl.service';
+import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
+import { HcclAddrCriteria, HcclAddrGETData, HcclService, PersonalStatementResumeGETData } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { StudentPersonalStatementSearchComponent } from './student-personalstatement-search.component';
 import { StudentPersonalStatementEngageComponent } from './student-personalstatement-engage.component';
@@ -17,14 +17,15 @@ import { StudentPersonalStatementResumeComponent } from './student-personalstate
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { StudentPersonalStatementDetailsComponent } from "./student-personalstatement-details.component";
+import { MapAddrUiComponent } from '@app/components/_crud/map-addr-ui/map-addr-ui.component';
 
 @Component({
   selector: 'app-student-personalstatement-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, PersonalStatementCrudComponent, 
+  imports: [CommonModule, SimpleTabsetComponent,
     StudentPersonalStatementSearchComponent, StudentPersonalStatementEngageComponent, 
     StudentPersonalStatementResumeListComponent, StudentPersonalStatementResumeComponent, 
-    StudentPersonalStatementDetailsComponent],
+    StudentPersonalStatementDetailsComponent, MapAddrUiComponent],
   styleUrl: '../../components/_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: 'student-personalstatement-group.component.html',
 })
@@ -32,6 +33,7 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
 
   protected resume: PersonalStatementResumeGETData | null = null;
   protected modalService = inject(MdbModalService);
+  protected engageMapCriteria: HcclAddrCriteria | null = null;
 
   constructor() {
     super();    
@@ -86,6 +88,16 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
         }
       );
       tabs.push(tab) 
+
+      tab =  new SimpleTab('engage-map', 'Engage Map', '',
+        () => {
+          this.router.navigate([baseRoute, this.id, 'engage-map']);
+        },
+        () => {
+          return this.entity !== null;
+        }
+      );
+      tabs.push(tab)
   
       tab = new SimpleTab('resumes', 'Resumes', '', 
         () => {
@@ -153,6 +165,7 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     } else if (!id) {
       this.setupIfNoId();
     } else {
+      this.updateEngageMapCriteria(id);
       this.currentTabId = tabId;
       this.loadEntityById(id).then(entity => {
         this.entity = entity;
@@ -174,6 +187,16 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
         console.error('Error loading :', error);
       });
     }
+  }
+
+  private updateEngageMapCriteria(id: string): void {
+    this.engageMapCriteria = {
+      parentEntityId: id,
+      parentEntityType: 'PersonalStatement',
+      pageNumber: 1,
+      pageSize: 500,
+      isPaging: true
+    };
   }
 
   protected async loadResumeById(resumeId: string): Promise<void> {
@@ -233,5 +256,9 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
    */
   getSearchTypeFromRoute(): string {
     return this.route.snapshot.queryParams['searchType'] || '';
+  }
+
+  onEngageMapPinClick(addr: HcclAddrGETData): void {
+    console.log('Engage map pin clicked:', addr);
   }
 }

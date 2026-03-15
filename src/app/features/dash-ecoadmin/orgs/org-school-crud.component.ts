@@ -150,6 +150,7 @@ export class OrgSchoolCrudComponent extends AbstractCrudComponent<HcclOrganizati
       organizationTypeId: entity.getData().organizationTypeId || '',
       organizationTypeCode: '', // This field is required by POST interface but not available in GET data
       orgPolicyCode: entity.getData().orgPolicyCode || '',
+      primaryAddressSingleLine: entity.getData().primaryAddress?.addrSingleLine || '',
       jsonData: entity.getData().jsonData,
       websiteUrl: entity.getData().websiteUrl,
       parentEntityId: entity.getData().parentEntityId,
