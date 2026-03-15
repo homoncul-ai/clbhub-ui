@@ -25,7 +25,12 @@ import mapboxgl from 'mapbox-gl';
   styleUrl: './map-addr-ui.component.scss',
 })
 export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
-  @Input() criteria: HcclAddrCriteria | null = null;
+  @Input() title: string = '';
+  @Input() criteria?: HcclAddrCriteria;
+  // if entity is provided, use it to display the address on the map
+  // if criteria is provided, use it to load the addresses
+  // if both are provided, use the entity to display the address on the map
+  @Input() entity?: HcclAddrGETData;
   @Output() pinClick = new EventEmitter<HcclAddrGETData>();
   @ViewChild('mapContainer') mapContainer?: ElementRef<HTMLDivElement>;
 
