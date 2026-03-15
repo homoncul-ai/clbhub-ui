@@ -4768,6 +4768,14 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<StudentDashUIGETData>(request);
   }
 
+  resolveStudentProfileData(student_userprofile_id: string): Observable<StudentProfileUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/students/resolve-student-profiled/" + student_userprofile_id,
+      method: "GET",
+    };
+    return this.request<StudentProfileUIGETData>(request);
+  }
+
   resolveStudentSignupUIData(interest_id: string): Observable<SignupUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/dash-ui/resolve-signup-ui-data/" + interest_id,
@@ -12190,6 +12198,15 @@ export interface StudentDashUIGETData {
   teams?: HcclTeamGETData[];
   personalStatements?: PersonalStatementGETData[];
   advisoryTeamPMessageId?: string;
+  feedProfile?: CatalogEntryFeedProfileGETData;
+  guidanceTeam?: HcclTeamGETData;
+  school?: HcclOrganizationGETData;
+}
+
+export interface StudentProfileUIGETData {
+  profileTypeCode?: string;
+  student?: HcclUserProfileGETData;
+  family?: FamilyUnitGETData;
   feedProfile?: CatalogEntryFeedProfileGETData;
   guidanceTeam?: HcclTeamGETData;
   school?: HcclOrganizationGETData;
