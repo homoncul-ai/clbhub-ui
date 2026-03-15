@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const kcName = 'trutesta-hccl-mdb5-ui';
-const kcApplicationPath = '/c/';
+const kcApplicationPath = '/';
 const distDir = path.join(__dirname, 'dist', kcName);
 const publicDir = path.join(__dirname, 'public');
 
