@@ -23,9 +23,13 @@ export class FeedInputsUiComponent implements OnChanges {
 
   randomInfluenceSelectionId = '';
   locationInfluenceSelectionId = '';
+  randomInfluenceMenu: MenuControlDataList | null = null;
+  locationInfluenceMenu: MenuControlDataList | null = null;
+  vocationsMenu: MenuControlDataList | null = null;
 
   ngOnChanges(_changes: SimpleChanges): void {
     this.ensureFeedInputs();
+    this.syncLocalMenus();
     this.syncSelectionsFromFeedInputs();
   }
 
@@ -92,18 +96,18 @@ export class FeedInputsUiComponent implements OnChanges {
   private syncSelectionsFromFeedInputs(): void {
     const feedInputs = this.ensureFeedInputs();
     this.randomInfluenceSelectionId = this.resolveMenuSelectionId(
-      this.catalogEntryFeedProfile?.sbRandomInfluence || null,
+      this.randomInfluenceMenu,
       feedInputs.randomInfluence
     );
     this.locationInfluenceSelectionId = this.resolveMenuSelectionId(
-      this.catalogEntryFeedProfile?.sbLocationInfluence || null,
+      this.locationInfluenceMenu,
       feedInputs.locationInfluence
     );
     this.syncVocationSelections(feedInputs.vocationalPrimaryCodes || []);
   }
 
   private syncVocationSelections(selectedCodes: string[]): void {
-    const menu = this.catalogEntryFeedProfile?.sbVocations;
+    const menu = this.vocationsMenu;
     if (!menu?.menuItems?.length) {
       return;
     }
@@ -138,14 +142,14 @@ export class FeedInputsUiComponent implements OnChanges {
     const feedInputs = this.ensureFeedInputs();
     if (target === 'random') {
       feedInputs.randomInfluence = parsed;
-      this.setSingleMenuSelection(this.catalogEntryFeedProfile?.sbRandomInfluence, selectedId);
+      this.setSingleMenuSelection(this.randomInfluenceMenu, selectedId);
       return;
     }
     feedInputs.locationInfluence = parsed;
-    this.setSingleMenuSelection(this.catalogEntryFeedProfile?.sbLocationInfluence, selectedId);
+    this.setSingleMenuSelection(this.locationInfluenceMenu, selectedId);
   }
 
-  private setSingleMenuSelection(menu: MenuControlDataList | undefined, selectedId: string | undefined): void {
+  private setSingleMenuSelection(menu: MenuControlDataList | null | undefined, selectedId: string | undefined): void {
     if (!menu?.menuItems?.length) {
       return;
     }
@@ -168,5 +172,21 @@ export class FeedInputsUiComponent implements OnChanges {
     }
     const extracted = Number(match[0]);
     return Number.isFinite(extracted) ? extracted : null;
+  }
+
+  private syncLocalMenus(): void {
+    this.randomInfluenceMenu = this.cloneMenuList(this.catalogEntryFeedProfile?.sbRandomInfluence || null);
+    this.locationInfluenceMenu = this.cloneMenuList(this.catalogEntryFeedProfile?.sbLocationInfluence || null);
+    this.vocationsMenu = this.cloneMenuList(this.catalogEntryFeedProfile?.sbVocations || null);
+  }
+
+  private cloneMenuList(menu: MenuControlDataList | null): MenuControlDataList | null {
+    if (!menu) {
+      return null;
+    }
+    return {
+      ...menu,
+      menuItems: (menu.menuItems || []).map((item) => ({ ...item })),
+    };
   }
 }

@@ -3,8 +3,8 @@
     <div class="col-md-6">
       <label class="form-label">Random Influence</label>
       <app-menu-control-data-list
-        *ngIf="catalogEntryFeedProfile?.sbRandomInfluence; else randomInfluenceFallback"
-        [menuControlDataList]="catalogEntryFeedProfile?.sbRandomInfluence || null"
+        *ngIf="randomInfluenceMenu; else randomInfluenceFallback"
+        [menuControlDataList]="randomInfluenceMenu"
         [readonly]="readonly"
         [ngModel]="randomInfluenceSelectionId"
         (ngModelChange)="onRandomInfluenceIdChange($event)"
@@ -25,8 +25,8 @@
     <div class="col-md-6">
       <label class="form-label">Location Influence</label>
       <app-menu-control-data-list
-        *ngIf="catalogEntryFeedProfile?.sbLocationInfluence; else locationInfluenceFallback"
-        [menuControlDataList]="catalogEntryFeedProfile?.sbLocationInfluence || null"
+        *ngIf="locationInfluenceMenu; else locationInfluenceFallback"
+        [menuControlDataList]="locationInfluenceMenu"
         [readonly]="readonly"
         [ngModel]="locationInfluenceSelectionId"
         (ngModelChange)="onLocationInfluenceIdChange($event)"
@@ -42,16 +42,6 @@
           [(ngModel)]="feedInputs.locationInfluence"
           name="locationInfluence" />
       </ng-template>
-    </div>
-
-    <div class="col-12">
-      <label class="form-label">General Interests</label>
-      <app-menu-control-data-list-m
-        [menuControlDataList]="catalogEntryFeedProfile?.sbVocations || null"
-        [readonly]="readonly"
-        [placeholder]="'No vocation options available'"
-        (selectionChange)="onVocationalPrimaryCodesChange($event)">
-      </app-menu-control-data-list-m>
     </div>
 
     <div class="col-md-6">
@@ -82,6 +72,16 @@
           Use Personal Statements
         </label>
       </div>
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">General Interests</label>
+      <app-menu-control-data-list-m
+        [menuControlDataList]="vocationsMenu"
+        [readonly]="readonly"
+        [placeholder]="'No vocation options available'"
+        (selectionChange)="onVocationalPrimaryCodesChange($event)">
+      </app-menu-control-data-list-m>
     </div>
   </div>
 </div>
