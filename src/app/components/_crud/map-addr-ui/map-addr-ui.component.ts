@@ -48,6 +48,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
   private markers: mapboxgl.Marker[] = [];
   private mapReady = false;
   private mapRefreshTimeout: ReturnType<typeof setTimeout> | null = null;
+  private entityHydrationId: string | null = null;
 
   ngAfterViewInit(): void {
     this.scheduleMapRefresh();
@@ -134,6 +135,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   private loadEntityAddress(): void {
     if (!this.entity) {
+      this.entityHydrationId = null;
       this.allResults = [];
       this.mapResults = [];
       this.selectedAddr = null;
@@ -151,6 +153,12 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       : [];
     this.selectedAddr = this.entity;
     this.scheduleMapRefresh();
+
+    // In some callers, entity is a partial object that does not include geolocation.
+    // If we have an id, hydrate from API so a pin can still render when coordinates exist in DB.
+    if (!this.mapResults.length && this.entity.id) {
+      this.hydrateEntityById(this.entity.id);
+    }
   }
 
   getPinImage(addr: HcclAddrGETData): string {
@@ -178,6 +186,19 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
     const parts = [addr.addrLine1, addr.addrLine2, addr.city, addr.stateCode, addr.zip, addr.countryCode]
       .filter(part => !!part && part.trim().length > 0);
     return parts.join(', ');
+  }
+
+  get showMissingGeoEntityAlert(): boolean {
+    if (!this.entity || this.loading || !!this.error) {
+      return false;
+    }
+
+    const entityToCheck = this.selectedAddr || this.entity;
+    return !this.hasGeo(entityToCheck.geolocationLatitude) || !this.hasGeo(entityToCheck.geolocationLongitude);
+  }
+
+  get entityForDebug(): HcclAddrGETData | undefined {
+    return this.selectedAddr || this.entity;
   }
 
   private hasGeo(value: number | undefined): boolean {
@@ -254,6 +275,40 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       this.initMap();
       this.renderMarkers();
     }, 0);
+  }
+
+  private hydrateEntityById(id: string): void {
+    if (this.entityHydrationId === id) {
+      return;
+    }
+    this.entityHydrationId = id;
+    this.loading = true;
+
+    this.hcclService.getHcclAddrById(id).subscribe({
+      next: (fullEntity) => {
+        if (this.entity?.id !== id) {
+          this.loading = false;
+          return;
+        }
+
+        this.loading = false;
+        this.error = '';
+        this.allResults = [fullEntity];
+        this.mapResults = this.hasGeo(fullEntity.geolocationLatitude) && this.hasGeo(fullEntity.geolocationLongitude)
+          ? [fullEntity]
+          : [];
+        this.selectedAddr = fullEntity;
+        this.scheduleMapRefresh();
+      },
+      error: (err) => {
+        console.error('Error hydrating map entity by id:', err);
+        this.loading = false;
+        this.error = 'Unable to load address coordinates for map view.';
+      },
+      complete: () => {
+        this.entityHydrationId = null;
+      }
+    });
   }
 
   private clearMarkers(): void {
