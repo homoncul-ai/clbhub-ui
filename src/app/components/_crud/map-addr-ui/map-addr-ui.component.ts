@@ -47,9 +47,10 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
   private map: mapboxgl.Map | null = null;
   private markers: mapboxgl.Marker[] = [];
   private mapReady = false;
+  private mapRefreshTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngAfterViewInit(): void {
-    this.initMap();
+    this.scheduleMapRefresh();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -64,6 +65,10 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.mapRefreshTimeout) {
+      clearTimeout(this.mapRefreshTimeout);
+      this.mapRefreshTimeout = null;
+    }
     this.clearMarkers();
     this.map?.remove();
     this.map = null;
@@ -85,6 +90,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
     this.map.addControl(new mapboxgl.NavigationControl(), 'top-right');
     this.map.on('load', () => {
       this.mapReady = true;
+      this.map?.resize();
       this.renderMarkers();
     });
   }
@@ -116,7 +122,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
           this.hasGeo(addr.geolocationLatitude) && this.hasGeo(addr.geolocationLongitude)
         );
         this.loading = false;
-        this.renderMarkers();
+        this.scheduleMapRefresh();
       },
       error: (err) => {
         console.error('Error loading map addresses:', err);
@@ -133,7 +139,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       this.selectedAddr = null;
       this.error = '';
       this.loading = false;
-      this.renderMarkers();
+      this.scheduleMapRefresh();
       return;
     }
 
@@ -144,7 +150,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       ? [this.entity]
       : [];
     this.selectedAddr = this.entity;
-    this.renderMarkers();
+    this.scheduleMapRefresh();
   }
 
   getPinImage(addr: HcclAddrGETData): string {
@@ -183,6 +189,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       return;
     }
 
+    this.map.resize();
     this.clearMarkers();
     if (!this.mapResults.length) {
       return;
@@ -236,6 +243,17 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       return;
     }
     this.map.fitBounds(bounds, { padding: 60, maxZoom: 13 });
+  }
+
+  private scheduleMapRefresh(): void {
+    if (this.mapRefreshTimeout) {
+      clearTimeout(this.mapRefreshTimeout);
+    }
+    this.mapRefreshTimeout = setTimeout(() => {
+      this.mapRefreshTimeout = null;
+      this.initMap();
+      this.renderMarkers();
+    }, 0);
   }
 
   private clearMarkers(): void {

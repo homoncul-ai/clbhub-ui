@@ -1,6 +1,7 @@
 @use "styles/variables" as *;
 @use "mdb-angular-ui-kit/assets/scss/mdb.scss" as *;
 @import "@fortawesome/fontawesome-free/css/all.css";
+@import "mapbox-gl/dist/mapbox-gl.css";
 
 
 $input-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MapAddrUiComponent } from '@app/components/_crud/map-addr-ui/map-addr-ui.component';
 import {
@@ -25,6 +25,7 @@ export class StMdbAddrComponent implements OnInit, OnChanges {
   @Input('readonly') readonlyInput: boolean | null = null;
   @Input() addrSingleLine: string | null = null;
   @Input() title = 'Address';
+  @Output() addrCreated = new EventEmitter<string>();
 
   protected hcclService = inject(HcclService);
 
@@ -155,6 +156,7 @@ export class StMdbAddrComponent implements OnInit, OnChanges {
         const createdId = this.resolveIdFromResponse(response);
         if (createdId) {
           this.hcclAddrId = createdId;
+          this.addrCreated.emit(createdId);
         }
 
         this.hcclAddr = {

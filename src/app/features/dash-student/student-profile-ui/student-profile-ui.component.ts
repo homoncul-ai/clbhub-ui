@@ -33,6 +33,9 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
   error = '';
   saveError = '';
   saveSuccess = '';
+  saveaddress = '';
+  saveaddressError = '';
+  deletingAddress = false;
   saving = false;
   feedSaveError = '';
   feedSaveSuccess = '';
@@ -114,6 +117,8 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
 
   onUseAddressForMatchingChange(value: boolean): void {
     this.useAddressForMatching = !!value;
+    this.saveaddress = '';
+    this.saveaddressError = '';
     if (!this.studentProfileUi.feedProfile) {
       this.studentProfileUi.feedProfile = {};
     }
@@ -191,6 +196,100 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
     });
   }
 
+  onAddressCreated(addressId: string): void {
+    if (!addressId) {
+      return;
+    }
+
+    this.personDraft.hcclAddrId = addressId;
+    this.saveaddress = '';
+    this.saveaddressError = '';
+    
+    const personId = this.personDraft.id || '';
+    if (!personId) {
+      this.saveaddressError = 'Address was created, but person id is missing so address link could not be saved.';
+      return;
+    }
+
+    const payload: HcclPersonPUTData = this.toPutPayload(this.personDraft);
+    this.saving = true;
+    this.hcclService.updateHcclPersonById(personId, payload).subscribe({
+      next: () => {
+        this.saving = false;
+        this.useAddressForMatching = true;
+        if (!this.studentProfileUi.feedProfile) {
+          this.studentProfileUi.feedProfile = {};
+        }
+        if (!this.studentProfileUi.feedProfile.feedInputs) {
+          this.studentProfileUi.feedProfile.feedInputs = {};
+        }
+        this.studentProfileUi.feedProfile.feedInputs.usingLocation = true;
+        this.personSnapshot = this.clonePerson(this.personDraft);
+        if (this.studentProfileUi.student?.theUser) {
+          this.studentProfileUi.student.theUser.person = this.clonePerson(this.personDraft);
+        }
+        this.saveaddress = 'Address was created and linked to your profile.';
+      },
+      error: (err) => {
+        this.saving = false;
+        this.saveaddressError =
+          err?.error?.message || err?.message || 'Address was created, but linking it to your profile failed.';
+      },
+    });
+  }
+
+  onDeleteMyAddress(): void {
+    const addressId = (this.personDraft.hcclAddrId || '').trim();
+    const personId = (this.personDraft.id || '').trim();
+
+    this.saveaddress = '';
+    this.saveaddressError = '';
+
+    if (!addressId) {
+      return;
+    }
+    if (!personId) {
+      this.saveaddressError = 'Person id is missing so address deletion could not be completed.';
+      return;
+    }
+
+    this.deletingAddress = true;
+    this.hcclService.deleteHcclAddrById(addressId).subscribe({
+      next: () => {
+        this.personDraft.hcclAddrId = undefined;
+        const payload: HcclPersonPUTData = this.toPutPayload(this.personDraft);
+        (payload as any).hcclAddrId = null;
+        this.hcclService.updateHcclPersonById(personId, payload).subscribe({
+          next: () => {
+            this.deletingAddress = false;
+            this.useAddressForMatching = false;
+            if (!this.studentProfileUi.feedProfile) {
+              this.studentProfileUi.feedProfile = {};
+            }
+            if (!this.studentProfileUi.feedProfile.feedInputs) {
+              this.studentProfileUi.feedProfile.feedInputs = {};
+            }
+            this.studentProfileUi.feedProfile.feedInputs.usingLocation = false;
+            this.personSnapshot = this.clonePerson(this.personDraft);
+            if (this.studentProfileUi.student?.theUser) {
+              this.studentProfileUi.student.theUser.person = this.clonePerson(this.personDraft);
+            }
+            this.saveaddress = 'Address deleted and removed from your profile.';
+          },
+          error: (err) => {
+            this.deletingAddress = false;
+            this.saveaddressError =
+              err?.error?.message || err?.message || 'Address was deleted, but removing it from your profile failed.';
+          },
+        });
+      },
+      error: (err) => {
+        this.deletingAddress = false;
+        this.saveaddressError = err?.error?.message || err?.message || 'Unable to delete your address.';
+      },
+    });
+  }
+
   private loadProfile(): void {
     const explicitId = (this.id || '').trim();
     if (explicitId) {
@@ -225,6 +324,8 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
     this.error = '';
     this.saveError = '';
     this.saveSuccess = '';
+    this.saveaddress = '';
+    this.saveaddressError = '';
     this.feedSaveError = '';
     this.feedSaveSuccess = '';
 
