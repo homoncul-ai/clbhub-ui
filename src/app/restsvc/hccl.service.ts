@@ -4460,6 +4460,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
+  lookupAddress(body: string): Observable<OnboardAddressResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/lookup-address",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardAddressResponse>(request);
+  }
+
   onboardCatalogEntry(body: OnboardCatalogEntryPOSTData): Observable<OnboardCatalogEntryResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/onboard/onboard/catalogentry",
@@ -5259,13 +5268,39 @@ export interface CatalogEntryFeedProfileGETData {
   maxDistanceInMiles?: number;
   distanceInVocode?: number;
   feedProfileDataJson?: string;
-  getFeedProfileData?: FeedInputsPOJO;
+  feedInputs?: FeedInputsPOJO;
+  sbVocations?: MenuControlDataList;
+  sbRandomInfluence?: MenuControlDataList;
+  sbLocationInfluence?: MenuControlDataList;
 }
 
 export interface CatalogEntryFeedProfileGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: CatalogEntryFeedProfileGETData[];
   filter?: BaseCriteria;
+}
+
+export interface MenuControlData {
+  id?: string;
+  name?: string;
+  icon?: string;
+  active?: boolean;
+  selected?: boolean;
+  groupId?: string;
+  roleRequired?: string;
+  helpText?: string;
+  allowedByRole?: boolean;
+  allowedByRule?: boolean;
+}
+
+export interface MenuControlDataList {
+  applicationName?: string;
+  clientId?: string;
+  menuId?: string;
+  menuName?: string;
+  label?: string;
+  menuItems?: MenuControlData[];
+  defaultAllowedByRule?: boolean;
 }
 
 export interface CatalogEntryFeedProfileCriteria {
@@ -5584,29 +5619,6 @@ export interface HcclOrganizationGETData {
   parentEntityName?: string;
   hcclAddrId?: string;
   primaryAddress?: HcclAddrGETData;
-}
-
-export interface MenuControlData {
-  id?: string;
-  name?: string;
-  icon?: string;
-  active?: boolean;
-  selected?: boolean;
-  groupId?: string;
-  roleRequired?: string;
-  helpText?: string;
-  allowedByRole?: boolean;
-  allowedByRule?: boolean;
-}
-
-export interface MenuControlDataList {
-  applicationName?: string;
-  clientId?: string;
-  menuId?: string;
-  menuName?: string;
-  label?: string;
-  menuItems?: MenuControlData[];
-  defaultAllowedByRule?: boolean;
 }
 
 export interface SignupBehaviorPOSTData {
@@ -9642,6 +9654,7 @@ export interface HcclPersonPOSTData {
   hcclAddrId?: string;
   monthBorn?: number;
   yearBorn: number;
+  hcclAddr?: HcclAddrPOSTData;
 }
 
 export interface HcclPersonGETDataSearchResults {
@@ -12027,6 +12040,11 @@ export interface SimpleRestActionResponse {
   mapFormElements?: any;
 }
 
+export interface OnboardAddressResponse {
+  messages?: SimpleMessageList;
+  hcclAddr?: HcclAddrGETData;
+}
+
 export interface OnboardCatalogEntryResponse {
   messages?: SimpleMessageList;
   catalogEntry?: CatalogEntryGETData;
@@ -12207,9 +12225,9 @@ export interface StudentProfileUIGETData {
   profileTypeCode?: string;
   student?: HcclUserProfileGETData;
   family?: FamilyUnitGETData;
-  feedProfile?: CatalogEntryFeedProfileGETData;
   guidanceTeam?: HcclTeamGETData;
   school?: HcclOrganizationGETData;
+  feedProfile?: CatalogEntryFeedProfileGETData;
 }
 
 export interface UtilStatGraphDataPOJO {

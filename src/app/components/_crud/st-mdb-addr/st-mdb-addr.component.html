@@ -1,0 +1,45 @@
+<div class="st-mdb-addr card">
+  <div class="card-body">
+    <div *ngIf="loading" class="alert alert-info mb-0">Loading address...</div>
+
+    <ng-container *ngIf="!loading">
+      <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success mb-3">
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="showReadonlyLayout; else updateLayout" class="addr-header mb-3">
+        <div class="addr-title">{{ title }}</div>
+        <div class="addr-single-line">{{ hcclAddr?.addrSingleLine || '-' }}</div>
+      </div>
+
+      <ng-template #updateLayout>
+        <div class="addr-header-edit mb-3">
+          <div class="addr-title">{{ title }}</div>
+          <div class="addr-input-wrap">
+            <input
+              type="text"
+              class="form-control"
+              [disabled]="saving || lookupLoading"
+              [ngModel]="editableSingleLine"
+              (ngModelChange)="onSingleLineInputChange($event)"
+              (blur)="onAddrSingleLineChanged(editableSingleLine)"
+              placeholder="Enter single-line address">
+          </div>
+          <button type="button" class="btn btn-primary" [disabled]="saving || lookupLoading" (click)="onSaveButtonClick()">
+            {{ saving ? 'Saving...' : 'Save' }}
+          </button>
+          <button type="button" class="btn btn-outline-secondary" [disabled]="saving || lookupLoading" (click)="onResetButtonClick()">
+            Reset
+          </button>
+        </div>
+        <div *ngIf="lookupLoading" class="text-muted small mb-2">Resolving address...</div>
+      </ng-template>
+
+      <app-map-addr-ui [entity]="hcclAddr || undefined" [title]="''"></app-map-addr-ui>
+    </ng-container>
+  </div>
+</div>

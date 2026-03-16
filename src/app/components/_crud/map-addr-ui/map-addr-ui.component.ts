@@ -53,6 +53,11 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['entity']) {
+      this.loadEntityAddress();
+      return;
+    }
+
     if (changes['criteria']) {
       this.loadAddresses();
     }
@@ -85,6 +90,11 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   loadAddresses(): void {
+    if (this.entity) {
+      this.loadEntityAddress();
+      return;
+    }
+
     if (!this.criteria) {
       this.error = 'No address criteria was provided.';
       this.allResults = [];
@@ -114,6 +124,27 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
         this.loading = false;
       }
     });
+  }
+
+  private loadEntityAddress(): void {
+    if (!this.entity) {
+      this.allResults = [];
+      this.mapResults = [];
+      this.selectedAddr = null;
+      this.error = '';
+      this.loading = false;
+      this.renderMarkers();
+      return;
+    }
+
+    this.loading = false;
+    this.error = '';
+    this.allResults = [this.entity];
+    this.mapResults = this.hasGeo(this.entity.geolocationLatitude) && this.hasGeo(this.entity.geolocationLongitude)
+      ? [this.entity]
+      : [];
+    this.selectedAddr = this.entity;
+    this.renderMarkers();
   }
 
   getPinImage(addr: HcclAddrGETData): string {

@@ -19464,6 +19464,45 @@
         }
       }
     },
+    "/hccl/onboard/onboard/lookup-address": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Onboard an catalogentry .",
+        "operationId": "lookupAddress",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardAddressResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/onboard/onboard/catalogentry": {
       "post": {
         "tags": [
@@ -23145,8 +23184,17 @@
           "feedProfileDataJson": {
             "type": "string"
           },
-          "getFeedProfileData": {
+          "feedInputs": {
             "$ref": "#/components/schemas/FeedInputsPOJO"
+          },
+          "sbVocations": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "sbRandomInfluence": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "sbLocationInfluence": {
+            "$ref": "#/components/schemas/MenuControlDataList"
           }
         }
       },
@@ -23164,6 +23212,70 @@
           },
           "filter": {
             "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "MenuControlData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "selected": {
+            "type": "boolean"
+          },
+          "groupId": {
+            "type": "string"
+          },
+          "roleRequired": {
+            "type": "string"
+          },
+          "helpText": {
+            "type": "string"
+          },
+          "allowedByRole": {
+            "type": "boolean"
+          },
+          "allowedByRule": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MenuControlDataList": {
+        "type": "object",
+        "properties": {
+          "applicationName": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "menuId": {
+            "type": "string"
+          },
+          "menuName": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "menuItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MenuControlData"
+            }
+          },
+          "defaultAllowedByRule": {
+            "type": "boolean"
           }
         }
       },
@@ -24188,70 +24300,6 @@
           },
           "primaryAddress": {
             "$ref": "#/components/schemas/HcclAddrGETData"
-          }
-        }
-      },
-      "MenuControlData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "icon": {
-            "type": "string"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "selected": {
-            "type": "boolean"
-          },
-          "groupId": {
-            "type": "string"
-          },
-          "roleRequired": {
-            "type": "string"
-          },
-          "helpText": {
-            "type": "string"
-          },
-          "allowedByRole": {
-            "type": "boolean"
-          },
-          "allowedByRule": {
-            "type": "boolean"
-          }
-        }
-      },
-      "MenuControlDataList": {
-        "type": "object",
-        "properties": {
-          "applicationName": {
-            "type": "string"
-          },
-          "clientId": {
-            "type": "string"
-          },
-          "menuId": {
-            "type": "string"
-          },
-          "menuName": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "menuItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MenuControlData"
-            }
-          },
-          "defaultAllowedByRule": {
-            "type": "boolean"
           }
         }
       },
@@ -38767,6 +38815,9 @@
             "minimum": 2,
             "type": "integer",
             "format": "int32"
+          },
+          "hcclAddr": {
+            "$ref": "#/components/schemas/HcclAddrPOSTData"
           }
         }
       },
@@ -47300,6 +47351,17 @@
           }
         }
       },
+      "OnboardAddressResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "hcclAddr": {
+            "$ref": "#/components/schemas/HcclAddrGETData"
+          }
+        }
+      },
       "OnboardCatalogEntryResponse": {
         "type": "object",
         "properties": {
@@ -47784,14 +47846,14 @@
           "family": {
             "$ref": "#/components/schemas/FamilyUnitGETData"
           },
-          "feedProfile": {
-            "$ref": "#/components/schemas/CatalogEntryFeedProfileGETData"
-          },
           "guidanceTeam": {
             "$ref": "#/components/schemas/HcclTeamGETData"
           },
           "school": {
             "$ref": "#/components/schemas/HcclOrganizationGETData"
+          },
+          "feedProfile": {
+            "$ref": "#/components/schemas/CatalogEntryFeedProfileGETData"
           }
         }
       },

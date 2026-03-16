@@ -1,0 +1,37 @@
+.st-mdb-addr .card-body {
+  padding: 1rem;
+}
+
+.addr-header,
+.addr-header-edit {
+  display: grid;
+  grid-template-columns: 160px 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addr-header {
+  grid-template-columns: 160px 1fr;
+}
+
+.addr-title {
+  font-weight: 600;
+}
+
+.addr-single-line {
+  min-height: 1.5rem;
+}
+
+.addr-input-wrap {
+  min-width: 320px;
+}
+
+@media (max-width: 768px) {
+  .addr-header-edit {
+    grid-template-columns: 1fr;
+  }
+
+  .addr-input-wrap {
+    min-width: 0;
+  }
+}

@@ -13,7 +13,7 @@
         <strong>{{ title.trim() || 'Engage Map' }}</strong>
         <div class="text-muted small">Showing {{ mapResults.length }} of {{ allResults.length }} addresses with geolocation</div>
       </div>
-      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="loadAddresses()">Refresh</button>
+      <button *ngIf="!entity" type="button" class="btn btn-sm btn-outline-secondary" (click)="loadAddresses()">Refresh</button>
     </div>
 
     <div class="map-canvas" *ngIf="mapResults.length > 0">
