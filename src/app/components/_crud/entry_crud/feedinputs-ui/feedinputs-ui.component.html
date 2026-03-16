@@ -1,0 +1,87 @@
+<div class="feedinputs-ui">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Random Influence</label>
+      <app-menu-control-data-list
+        *ngIf="catalogEntryFeedProfile?.sbRandomInfluence; else randomInfluenceFallback"
+        [menuControlDataList]="catalogEntryFeedProfile?.sbRandomInfluence || null"
+        [readonly]="readonly"
+        [ngModel]="randomInfluenceSelectionId"
+        (ngModelChange)="onRandomInfluenceIdChange($event)"
+        (selectionChange)="onRandomInfluenceSelectionChange($event)">
+      </app-menu-control-data-list>
+      <ng-template #randomInfluenceFallback>
+        <input
+          type="number"
+          min="0"
+          max="5"
+          class="form-control"
+          [disabled]="readonly"
+          [(ngModel)]="feedInputs.randomInfluence"
+          name="randomInfluence" />
+      </ng-template>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Location Influence</label>
+      <app-menu-control-data-list
+        *ngIf="catalogEntryFeedProfile?.sbLocationInfluence; else locationInfluenceFallback"
+        [menuControlDataList]="catalogEntryFeedProfile?.sbLocationInfluence || null"
+        [readonly]="readonly"
+        [ngModel]="locationInfluenceSelectionId"
+        (ngModelChange)="onLocationInfluenceIdChange($event)"
+        (selectionChange)="onLocationInfluenceSelectionChange($event)">
+      </app-menu-control-data-list>
+      <ng-template #locationInfluenceFallback>
+        <input
+          type="number"
+          min="0"
+          max="5"
+          class="form-control"
+          [disabled]="readonly"
+          [(ngModel)]="feedInputs.locationInfluence"
+          name="locationInfluence" />
+      </ng-template>
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">General Interests</label>
+      <app-menu-control-data-list-m
+        [menuControlDataList]="catalogEntryFeedProfile?.sbVocations || null"
+        [readonly]="readonly"
+        [placeholder]="'No vocation options available'"
+        (selectionChange)="onVocationalPrimaryCodesChange($event)">
+      </app-menu-control-data-list-m>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-check mt-2">
+        <input
+          id="usingLocation"
+          type="checkbox"
+          class="form-check-input"
+          [disabled]="readonly"
+          [(ngModel)]="feedInputs.usingLocation"
+          name="usingLocation" />
+        <label class="form-check-label" for="usingLocation">
+          Use Location
+        </label>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-check mt-2">
+        <input
+          id="usingPersonalStatements"
+          type="checkbox"
+          class="form-check-input"
+          [disabled]="readonly"
+          [(ngModel)]="feedInputs.usingPersonalStatements"
+          name="usingPersonalStatements" />
+        <label class="form-check-label" for="usingPersonalStatements">
+          Use Personal Statements
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

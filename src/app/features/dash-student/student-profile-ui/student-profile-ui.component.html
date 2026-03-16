@@ -1,0 +1,167 @@
+<div class="student-profile-ui">
+  <div *ngIf="loading" class="alert alert-info mb-3">Loading student profile...</div>
+  <div *ngIf="error && !loading" class="alert alert-danger mb-3">{{ error }}</div>
+
+  <mdb-accordion *ngIf="!loading && !error" [multiple]="false">
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('personal')"
+      (itemShow)="openAccordion('personal')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-user me-2"></i>
+        1. {{ personalSectionTitle }}
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">First Name</label>
+              <input
+                class="form-control"
+                [(ngModel)]="personDraft.firstName"
+                name="personFirstName" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Last Name</label>
+              <input
+                class="form-control"
+                [(ngModel)]="personDraft.lastName"
+                name="personLastName" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Message Handle</label>
+              <input
+                class="form-control"
+                [(ngModel)]="personDraft.messageHandle"
+                name="personMessageHandle" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                [(ngModel)]="personDraft.userEmail"
+                name="personUserEmail" />
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button
+                class="btn btn-primary"
+                (click)="onSavePersonalDetails()"
+                [disabled]="saving || !canSavePerson">
+                <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
+                {{ saving ? 'Saving...' : 'Save' }}
+              </button>
+              <button
+                class="btn btn-outline-secondary"
+                (click)="onResetPersonalDetails()"
+                [disabled]="saving">
+                Reset
+              </button>
+            </div>
+            <div *ngIf="saveError" class="col-12">
+              <div class="alert alert-danger mb-0">{{ saveError }}</div>
+            </div>
+            <div *ngIf="saveSuccess" class="col-12">
+              <div class="alert alert-success mb-0">{{ saveSuccess }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('family')"
+      (itemShow)="openAccordion('family')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-users me-2"></i>
+        2. Family
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <app-familyunit-component
+            [familyUnitGETData]="studentProfile.family"
+            [profileTypeCode]="studentProfile.profileTypeCode">
+          </app-familyunit-component>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('address')"
+      (itemShow)="openAccordion('address')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-location-dot me-2"></i>
+        3. Address
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <label class="form-label d-block">Use my Address for matching</label>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="useAddressYes"
+              name="useAddressForMatching"
+              [value]="true"
+              [ngModel]="useAddressForMatching"
+              (ngModelChange)="onUseAddressForMatchingChange($event)" />
+            <label class="form-check-label" for="useAddressYes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="useAddressNo"
+              name="useAddressForMatching"
+              [value]="false"
+              [ngModel]="useAddressForMatching"
+              (ngModelChange)="onUseAddressForMatchingChange($event)" />
+            <label class="form-check-label" for="useAddressNo">No</label>
+          </div>
+
+          <div class="mt-3" *ngIf="useAddressForMatching">
+            <app-st-mdb-addr
+              [id]="personDraft.hcclAddrId || null"
+              [readonly]="false"
+              [title]="'Address'">
+            </app-st-mdb-addr>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('feed')"
+      (itemShow)="openAccordion('feed')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-sliders me-2"></i>
+        4. Control your content feed
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <p class="text-muted">
+            Setup the following options to controle your feed of information.
+          </p>
+          <app-feedinputs-ui
+            [catalogEntryFeedProfile]="studentProfile.feedProfile"
+            [readonly]="false">
+          </app-feedinputs-ui>
+          <div class="d-flex gap-2 mt-3">
+            <button
+              class="btn btn-primary"
+              (click)="onSaveFeedSettings()"
+              [disabled]="feedSaving">
+              <span *ngIf="feedSaving" class="spinner-border spinner-border-sm me-2"></span>
+              {{ feedSaving ? 'Saving...' : 'Save Feed Settings' }}
+            </button>
+          </div>
+          <div *ngIf="feedSaveError" class="alert alert-danger mt-3 mb-0">
+            {{ feedSaveError }}
+          </div>
+          <div *ngIf="feedSaveSuccess" class="alert alert-success mt-3 mb-0">
+            {{ feedSaveSuccess }}
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+  </mdb-accordion>
+</div>

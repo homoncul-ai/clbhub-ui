@@ -533,6 +533,9 @@ export class MenuService {
     // Add Dashboard with children
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.STUDENT_DASHBOARD);
     this.addMenuItem(menu, dashboard);
+
+    const profile = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROFILE);
+    this.addMenuItem(menu, profile);
     
     var m2 = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
     m2.level = 1
@@ -1668,6 +1671,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-home',
     icon: 'fas fa-tachometer-alt'
+  },
+  STUDENT_PROFILE: {
+    level: 1,
+    label: 'My Profile',
+    route: '/student-dashboard/profile',
+    componentPath: 'src/app/features/dash-student/student-profile-ui',
+    componentName: 'student-profile-ui',
+    icon: 'fas fa-user'
   },
   STUDENT_PERSONALSTATEMENTS: {
     level: 1,

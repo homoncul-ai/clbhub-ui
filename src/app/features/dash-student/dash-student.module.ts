@@ -29,11 +29,21 @@ import { StudentPersonalStatementDetailsComponent } from './student-personalstat
 import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-entity-ui.component';
 import { DashStudentCalendarComponent } from './dash-student-calendar.component';
 import { DashStudentFeedComponent } from './dash-student-feed.component';
+import { StudentProfileUiComponent } from './student-profile-ui/student-profile-ui.component';
 const routes: Routes = [
   {
     path: '',
     component: DashStudentComponent,
     children: [
+      {
+        path: 'profile',
+        component: StudentProfileUiComponent,
+        data: {
+          pageTitle: 'My Profile',
+          pageSubtitle: 'Manage your personal details, family, address, and feed settings',
+          pageIcon: 'fas fa-user',
+        }
+      },
       {
         path: 'home',
         component: DashStudentHomeComponent,
@@ -159,6 +169,7 @@ const routes: Routes = [
     StudentPersonalStatementDetailsComponent,
     DashStudentCalendarComponent,
     DashStudentFeedComponent,
+    StudentProfileUiComponent,
   ],
   declarations: [
     // Non-standalone components would go here
