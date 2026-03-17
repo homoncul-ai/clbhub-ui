@@ -163,9 +163,10 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   getPinImage(addr: HcclAddrGETData): string {
     const label = (this.getDisplayName(addr) || 'A').trim().charAt(0).toUpperCase();
+    const color = 'blue';
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 28 36">
-        <path d="M14 0C6.27 0 0 6.27 0 14c0 9.58 12.51 20.77 13.04 21.24a1.5 1.5 0 0 0 1.92 0C15.49 34.77 28 23.58 28 14 28 6.27 21.73 0 14 0z" fill="#d93025"/>
+        <path d="M14 0C6.27 0 0 6.27 0 14c0 9.58 12.51 20.77 13.04 21.24a1.5 1.5 0 0 0 1.92 0C15.49 34.77 28 23.58 28 14 28 6.27 21.73 0 14 0z" fill="${color}"/>
         <circle cx="14" cy="14" r="8.25" fill="#ffffff"/>
         <text x="14" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#1f2937">${label}</text>
       </svg>
@@ -228,6 +229,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       img.style.width = '28px';
       img.style.height = '36px';
       img.style.filter = 'drop-shadow(0 3px 3px rgba(0,0,0,0.25))';
+      
 
       const markerEl = document.createElement('button');
       markerEl.type = 'button';
@@ -245,8 +247,9 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
 
       const popupHtml = `
         <div class="map-popup">
-          <div class="map-popup-title">${this.escapeHtml(this.getDisplayName(addr))}</div>
+          <div class="map-popup-title">Boomer.${this.escapeHtml(this.getDisplayName(addr))}</div>
           <div>${this.escapeHtml(this.getDisplayAddress(addr) || 'Address not available')}</div>
+          <div><a href="www.google.com" _target="blank">Google Maps</a></div>
         </div>
       `;
 

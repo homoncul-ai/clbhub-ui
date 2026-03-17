@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
-import { HcclAddrCriteria, HcclAddrGETData, HcclService, PersonalStatementResumeGETData } from '@app/restsvc/hccl.service';
+import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData, HcclAddrCriteria, HcclAddrGETData, HcclService, PersonalStatementResumeGETData } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { StudentPersonalStatementSearchComponent } from './student-personalstatement-search.component';
 import { StudentPersonalStatementEngageComponent } from './student-personalstatement-engage.component';
@@ -189,14 +189,45 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     }
   }
 
-  private updateEngageMapCriteria(id: string): void {
-    this.engageMapCriteria = {
-      parentEntityId: id,
-      parentEntityType: 'PersonalStatement',
-      pageNumber: 1,
-      pageSize: 500,
-      isPaging: true
+  getInterestCriteria(): CatalogEntryInterestCriteria {
+    return {
+      personalStatementId: this.id,
+      interestRangeMin: 1,
+      interestRangeMax: 11
     };
+  }
+
+  private updateEngageMapCriteria(id: string): void {
+
+    // Get the catalog entry interests, then go through each 
+    //  catalogEntry.HcclAddrIds for each catalog entry 
+    // then set the mapCriteria.ids to the HcclAddrIds
+    const criteria: CatalogEntryInterestCriteria = this.getInterestCriteria();
+    criteria.optionalDataHint = 'all';
+
+    this.hcclService.findCatalogEntryInterests(criteria).subscribe({
+      next: (catalogEntryInterests) => {
+        this.engageMapCriteria = {
+          ids: [],
+          pageNumber: 1,
+          pageSize: 500,
+          isPaging: true
+        };
+        catalogEntryInterests.searchResults?.forEach((catalogEntryInterest: CatalogEntryInterestGETData) => {
+          if (catalogEntryInterest.catalogEntry?.hcclAddrId) {
+            
+            this.engageMapCriteria?.ids?.push(catalogEntryInterest.catalogEntry?.hcclAddrId);
+          } else if (catalogEntryInterest.catalogEntry?.catalog?.organization?.hcclAddrId) {
+            this.engageMapCriteria?.ids?.push(catalogEntryInterest.catalogEntry?.catalog?.organization?.hcclAddrId);
+          }
+          //alert('entity:' + JSON.stringify(catalogEntryInterest.catalogEntry?.catalog?.organization) );
+
+        });
+      },
+      error: (error) => {
+        console.error('Error getting catalog entry interests:', error);
+      }
+    });
   }
 
   protected async loadResumeById(resumeId: string): Promise<void> {
