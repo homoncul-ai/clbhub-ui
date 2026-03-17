@@ -28,7 +28,7 @@
 
 <div *ngIf="currentTabId === 'engage-map'">
   <app-map-addr-ui
-    [criteria]="engageMapCriteria || undefined"
+    [mapEntryResponse]="engageMapEntryResponse || undefined"
     (pinClick)="onEngageMapPinClick($event)">
   </app-map-addr-ui>
 </div>

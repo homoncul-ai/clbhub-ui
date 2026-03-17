@@ -4514,9 +4514,17 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  lookupEntityMapEntry(entity_type: string, entity_id: string, addr_type_code: string): Observable<SimpleMapEntryResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmap/entity/" + entity_type + "/" + entity_id + "/" + addr_type_code,
+      method: "GET",
+    };
+    return this.request<SimpleMapEntryResponse>(request);
+  }
+
   lookupRelatedMapEntry(entity_type: string, entity_id: string, addr_type_code: string): Observable<SimpleMapEntryResponse> {
     const request: CommonServiceRequest = {
-      url: "/hccl/pmap/" + entity_type + "/" + entity_id + "/" + addr_type_code,
+      url: "/hccl/pmap/related/" + entity_type + "/" + entity_id + "/" + addr_type_code,
       method: "GET",
     };
     return this.request<SimpleMapEntryResponse>(request);

@@ -8,6 +8,7 @@ import {
   HcclAddrPUTData,
   HcclService,
   OnboardAddressResponse,
+  SimpleMapEntryResponse,
 } from '@app/restsvc/hccl.service';
 
 @Component({
@@ -50,6 +51,25 @@ export class StMdbAddrComponent implements OnInit, OnChanges {
 
   get showReadonlyLayout(): boolean {
     return this.isReadonly && !!this.hcclAddrId;
+  }
+
+  get mapEntryResponse(): SimpleMapEntryResponse {
+    if (!this.hcclAddr) {
+      return { searchResults: [] };
+    }
+
+    return {
+      searchResults: [{
+        color: 'blue',
+        title: this.hcclAddr.entityDisplayName || this.hcclAddr.parentEntityName || this.hcclAddr.addrSingleLine || this.title,
+        text: this.hcclAddr.addrSingleLine || '',
+        geolocationLatitude: this.hcclAddr.geolocationLatitude,
+        geolocationLongitude: this.hcclAddr.geolocationLongitude,
+        entityType: this.hcclAddr.entityType || this.hcclAddr.parentEntityType,
+        entityId: this.hcclAddr.id || this.hcclAddrId || undefined,
+        showingLink: true,
+      }]
+    };
   }
 
   ngOnInit(): void {

@@ -39,7 +39,7 @@
         <div *ngIf="lookupLoading" class="text-muted small mb-2">Resolving address...</div>
       </ng-template>
 
-      <app-map-addr-ui [entity]="hcclAddr || undefined" [title]="''"></app-map-addr-ui>
+      <app-map-addr-ui [mapEntryResponse]="mapEntryResponse" [title]="''"></app-map-addr-ui>
     </ng-container>
   </div>
 </div>

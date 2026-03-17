@@ -14,7 +14,7 @@ import {
   inject,
 } from '@angular/core';
 import { environment } from '@env/environment';
-import { HcclAddrCriteria, HcclAddrGETData, HcclService } from '@app/restsvc/hccl.service';
+import { SimpleMapEntry, SimpleMapEntryResponse } from '@app/restsvc/hccl.service';
 import mapboxgl from 'mapbox-gl';
 
 @Component({
@@ -26,42 +26,32 @@ import mapboxgl from 'mapbox-gl';
 })
 export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() title: string = '';
-  @Input() criteria?: HcclAddrCriteria;
-  // if entity is provided, use it to display the address on the map
-  // if criteria is provided, use it to load the addresses
-  // if both are provided, use the entity to display the address on the map
-  @Input() entity?: HcclAddrGETData;
-  @Output() pinClick = new EventEmitter<HcclAddrGETData>();
+  @Input() mapEntryResponse?: SimpleMapEntryResponse;
+  @Output() pinClick = new EventEmitter<SimpleMapEntry>();
   @ViewChild('mapContainer') mapContainer?: ElementRef<HTMLDivElement>;
 
-  protected hcclService = inject(HcclService);
   private ngZone = inject(NgZone);
 
   loading = false;
   error = '';
-  allResults: HcclAddrGETData[] = [];
-  mapResults: HcclAddrGETData[] = [];
-  selectedAddr: HcclAddrGETData | null = null;
+  allResults: SimpleMapEntry[] = [];
+  mapResults: SimpleMapEntry[] = [];
+  selectedEntry: SimpleMapEntry | null = null;
   readonly mapboxAccessToken = environment.mapboxAccessToken;
 
   private map: mapboxgl.Map | null = null;
   private markers: mapboxgl.Marker[] = [];
   private mapReady = false;
   private mapRefreshTimeout: ReturnType<typeof setTimeout> | null = null;
-  private entityHydrationId: string | null = null;
 
   ngAfterViewInit(): void {
+    this.loadMapEntries();
     this.scheduleMapRefresh();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['entity']) {
-      this.loadEntityAddress();
-      return;
-    }
-
-    if (changes['criteria']) {
-      this.loadAddresses();
+    if (changes['mapEntryResponse']) {
+      this.loadMapEntries();
     }
   }
 
@@ -96,74 +86,20 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
     });
   }
 
-  loadAddresses(): void {
-    if (this.entity) {
-      this.loadEntityAddress();
-      return;
-    }
-
-    if (!this.criteria) {
-      this.error = 'No address criteria was provided.';
-      this.allResults = [];
-      this.mapResults = [];
-      this.selectedAddr = null;
-      return;
-    }
-
-    this.loading = true;
-    this.error = '';
-    this.allResults = [];
-    this.mapResults = [];
-    this.selectedAddr = null;
-
-    this.hcclService.findHcclAddrs(this.criteria).subscribe({
-      next: (response) => {
-        this.allResults = response.searchResults || [];
-        this.mapResults = this.allResults.filter(addr =>
-          this.hasGeo(addr.geolocationLatitude) && this.hasGeo(addr.geolocationLongitude)
-        );
-        this.loading = false;
-        this.scheduleMapRefresh();
-      },
-      error: (err) => {
-        console.error('Error loading map addresses:', err);
-        this.error = 'Unable to load addresses for map view.';
-        this.loading = false;
-      }
-    });
-  }
-
-  private loadEntityAddress(): void {
-    if (!this.entity) {
-      this.entityHydrationId = null;
-      this.allResults = [];
-      this.mapResults = [];
-      this.selectedAddr = null;
-      this.error = '';
-      this.loading = false;
-      this.scheduleMapRefresh();
-      return;
-    }
-
+  loadMapEntries(): void {
     this.loading = false;
     this.error = '';
-    this.allResults = [this.entity];
-    this.mapResults = this.hasGeo(this.entity.geolocationLatitude) && this.hasGeo(this.entity.geolocationLongitude)
-      ? [this.entity]
-      : [];
-    this.selectedAddr = this.entity;
+    this.allResults = this.mapEntryResponse?.searchResults || [];
+    this.mapResults = this.allResults.filter(entry =>
+      this.hasGeo(entry.geolocationLatitude) && this.hasGeo(entry.geolocationLongitude)
+    );
+    this.selectedEntry = this.mapResults[0] || null;
     this.scheduleMapRefresh();
-
-    // In some callers, entity is a partial object that does not include geolocation.
-    // If we have an id, hydrate from API so a pin can still render when coordinates exist in DB.
-    if (!this.mapResults.length && this.entity.id) {
-      this.hydrateEntityById(this.entity.id);
-    }
   }
 
-  getPinImage(addr: HcclAddrGETData): string {
-    const label = (this.getDisplayName(addr) || 'A').trim().charAt(0).toUpperCase();
-    const color = 'blue';
+  getPinImage(entry: SimpleMapEntry): string {
+    const label = (this.getDisplayName(entry) || 'A').trim().charAt(0).toUpperCase();
+    const color = entry.color || 'blue';
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 28 36">
         <path d="M14 0C6.27 0 0 6.27 0 14c0 9.58 12.51 20.77 13.04 21.24a1.5 1.5 0 0 0 1.92 0C15.49 34.77 28 23.58 28 14 28 6.27 21.73 0 14 0z" fill="${color}"/>
@@ -174,32 +110,34 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
     return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
   }
 
-  onPinClick(addr: HcclAddrGETData): void {
-    this.selectedAddr = addr;
-    this.pinClick.emit(addr);
+  onPinClick(entry: SimpleMapEntry): void {
+    this.selectedEntry = entry;
+    this.pinClick.emit(entry);
   }
 
-  getDisplayName(addr: HcclAddrGETData): string {
-    return addr.entityDisplayName || addr.parentEntityName || addr.addrLine1 || 'Unknown Location';
+  getDisplayName(entry: SimpleMapEntry): string {
+    return entry.title || entry.entityType || 'Unknown Location';
   }
 
-  getDisplayAddress(addr: HcclAddrGETData): string {
-    const parts = [addr.addrLine1, addr.addrLine2, addr.city, addr.stateCode, addr.zip, addr.countryCode]
-      .filter(part => !!part && part.trim().length > 0);
-    return parts.join(', ');
+  getDisplayText(entry: SimpleMapEntry): string {
+    return (entry.text || '').trim();
   }
 
-  get showMissingGeoEntityAlert(): boolean {
-    if (!this.entity || this.loading || !!this.error) {
+  getLinkUrl(entry: SimpleMapEntry): string {
+    if ((entry.linkUrl || '').trim().length > 0) {
+      return entry.linkUrl as string;
+    }
+    if (this.hasGeo(entry.geolocationLatitude) && this.hasGeo(entry.geolocationLongitude)) {
+      return `https://www.google.com/maps?q=${entry.geolocationLatitude},${entry.geolocationLongitude}`;
+    }
+    return 'https://www.google.com/maps';
+  }
+
+  get showMissingGeoAlert(): boolean {
+    if (this.loading || !!this.error || !this.allResults.length) {
       return false;
     }
-
-    const entityToCheck = this.selectedAddr || this.entity;
-    return !this.hasGeo(entityToCheck.geolocationLatitude) || !this.hasGeo(entityToCheck.geolocationLongitude);
-  }
-
-  get entityForDebug(): HcclAddrGETData | undefined {
-    return this.selectedAddr || this.entity;
+    return this.mapResults.length === 0;
   }
 
   private hasGeo(value: number | undefined): boolean {
@@ -219,17 +157,16 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
 
     const bounds = new mapboxgl.LngLatBounds();
 
-    this.mapResults.forEach((addr) => {
-      const lng = Number(addr.geolocationLongitude ?? 0);
-      const lat = Number(addr.geolocationLatitude ?? 0);
+    this.mapResults.forEach((entry) => {
+      const lng = Number(entry.geolocationLongitude ?? 0);
+      const lat = Number(entry.geolocationLatitude ?? 0);
 
       const img = document.createElement('img');
-      img.src = this.getPinImage(addr);
+      img.src = this.getPinImage(entry);
       img.alt = 'Map pin';
       img.style.width = '28px';
       img.style.height = '36px';
       img.style.filter = 'drop-shadow(0 3px 3px rgba(0,0,0,0.25))';
-      
 
       const markerEl = document.createElement('button');
       markerEl.type = 'button';
@@ -241,13 +178,17 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
 
       markerEl.addEventListener('click', () => {
         this.ngZone.run(() => {
-          this.onPinClick(addr);
+          this.onPinClick(entry);
         });
       });
 
-      var title = `${this.escapeHtml(this.getDisplayName(addr))} on Google Maps`;
-      var text = `${this.escapeHtml(this.getDisplayAddress(addr) || 'Address not available')}`;
-      var linkLine = `<div><a href="www.google.com" _target="blank">Google Maps</a></div>`;
+      const title = `${this.escapeHtml(this.getDisplayName(entry))}`;
+      const text = `${this.escapeHtml(this.getDisplayText(entry) || 'Address not available')}`;
+      const linkText = this.escapeHtml(entry.linkText || 'Google Maps');
+      const showingLink = entry.showingLink !== false;
+      const linkLine = showingLink
+        ? `<div><a href="${this.escapeHtml(this.getLinkUrl(entry))}" target="_blank" rel="noopener noreferrer">${linkText}</a></div>`
+        : '';
       const popupHtml = `
         <div class="map-popup">
           <div class="map-popup-title">${title}</div>
@@ -281,40 +222,6 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       this.initMap();
       this.renderMarkers();
     }, 0);
-  }
-
-  private hydrateEntityById(id: string): void {
-    if (this.entityHydrationId === id) {
-      return;
-    }
-    this.entityHydrationId = id;
-    this.loading = true;
-
-    this.hcclService.getHcclAddrById(id).subscribe({
-      next: (fullEntity) => {
-        if (this.entity?.id !== id) {
-          this.loading = false;
-          return;
-        }
-
-        this.loading = false;
-        this.error = '';
-        this.allResults = [fullEntity];
-        this.mapResults = this.hasGeo(fullEntity.geolocationLatitude) && this.hasGeo(fullEntity.geolocationLongitude)
-          ? [fullEntity]
-          : [];
-        this.selectedAddr = fullEntity;
-        this.scheduleMapRefresh();
-      },
-      error: (err) => {
-        console.error('Error hydrating map entity by id:', err);
-        this.loading = false;
-        this.error = 'Unable to load address coordinates for map view.';
-      },
-      complete: () => {
-        this.entityHydrationId = null;
-      }
-    });
   }
 
   private clearMarkers(): void {

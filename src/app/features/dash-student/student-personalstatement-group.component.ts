@@ -7,7 +7,15 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
-import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData, HcclAddrCriteria, HcclAddrGETData, HcclService, PersonalStatementResumeGETData } from '@app/restsvc/hccl.service';
+import {
+  CatalogEntryInterestCriteria,
+  CatalogEntryInterestGETData,
+  HcclAddrCriteria,
+  HcclService,
+  PersonalStatementResumeGETData,
+  SimpleMapEntry,
+  SimpleMapEntryResponse,
+} from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { StudentPersonalStatementSearchComponent } from './student-personalstatement-search.component';
 import { StudentPersonalStatementEngageComponent } from './student-personalstatement-engage.component';
@@ -33,7 +41,7 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
 
   protected resume: PersonalStatementResumeGETData | null = null;
   protected modalService = inject(MdbModalService);
-  protected engageMapCriteria: HcclAddrCriteria | null = null;
+  protected engageMapEntryResponse: SimpleMapEntryResponse | null = null;
 
   constructor() {
     super();    
@@ -165,7 +173,7 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     } else if (!id) {
       this.setupIfNoId();
     } else {
-      this.updateEngageMapCriteria(id);
+      this.updateEngageMapEntries(id);
       this.currentTabId = tabId;
       this.loadEntityById(id).then(entity => {
         this.entity = entity;
@@ -197,35 +205,22 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     };
   }
 
-  private updateEngageMapCriteria(id: string): void {
+  private updateEngageMapEntries(id: string): void {
 
     // Get the catalog entry interests, then go through each 
     //  catalogEntry.HcclAddrIds for each catalog entry 
     // then set the mapCriteria.ids to the HcclAddrIds
     const criteria: CatalogEntryInterestCriteria = this.getInterestCriteria();
     criteria.optionalDataHint = 'all';
-
-    this.hcclService.findCatalogEntryInterests(criteria).subscribe({
-      next: (catalogEntryInterests) => {
-        this.engageMapCriteria = {
-          ids: [],
-          pageNumber: 1,
-          pageSize: 500,
-          isPaging: true
-        };
-        catalogEntryInterests.searchResults?.forEach((catalogEntryInterest: CatalogEntryInterestGETData) => {
-          if (catalogEntryInterest.catalogEntry?.hcclAddrId) {
-            
-            this.engageMapCriteria?.ids?.push(catalogEntryInterest.catalogEntry?.hcclAddrId);
-          } else if (catalogEntryInterest.catalogEntry?.catalog?.organization?.hcclAddrId) {
-            this.engageMapCriteria?.ids?.push(catalogEntryInterest.catalogEntry?.catalog?.organization?.hcclAddrId);
-          }
-          //alert('entity:' + JSON.stringify(catalogEntryInterest.catalogEntry?.catalog?.organization) );
-
-        });
+    var entityId = this.id;
+    var entityType = "PersonalStatement";
+    this.hcclService.lookupRelatedMapEntry(entityType, entityId, 'all').subscribe({
+      next: (searchResults: SimpleMapEntryResponse) => {
+        this.engageMapEntryResponse = searchResults;
       },
       error: (error) => {
-        console.error('Error getting catalog entry interests:', error);
+        console.error('Error getting addresses for engage map:', error);
+        this.engageMapEntryResponse = { searchResults: [] };
       }
     });
   }
@@ -289,7 +284,7 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     return this.route.snapshot.queryParams['searchType'] || '';
   }
 
-  onEngageMapPinClick(addr: HcclAddrGETData): void {
-    console.log('Engage map pin clicked:', addr);
+  onEngageMapPinClick(entry: SimpleMapEntry): void {
+    console.log('Engage map pin clicked:', entry);
   }
 }
