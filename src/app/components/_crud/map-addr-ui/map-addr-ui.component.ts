@@ -245,11 +245,14 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
         });
       });
 
+      var title = `${this.escapeHtml(this.getDisplayName(addr))} on Google Maps`;
+      var text = `${this.escapeHtml(this.getDisplayAddress(addr) || 'Address not available')}`;
+      var linkLine = `<div><a href="www.google.com" _target="blank">Google Maps</a></div>`;
       const popupHtml = `
         <div class="map-popup">
-          <div class="map-popup-title">Boomer.${this.escapeHtml(this.getDisplayName(addr))}</div>
-          <div>${this.escapeHtml(this.getDisplayAddress(addr) || 'Address not available')}</div>
-          <div><a href="www.google.com" _target="blank">Google Maps</a></div>
+          <div class="map-popup-title">${title}</div>
+          <div>${text}</div>
+          ${linkLine}
         </div>
       `;
 

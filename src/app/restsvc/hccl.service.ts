@@ -4514,6 +4514,14 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  lookupRelatedMapEntry(entity_type: string, entity_id: string, addr_type_code: string): Observable<SimpleMapEntryResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmap/" + entity_type + "/" + entity_id + "/" + addr_type_code,
+      method: "GET",
+    };
+    return this.request<SimpleMapEntryResponse>(request);
+  }
+
   getMessageEntryAttachments(entryId: string): Observable<PMessageAttachmentGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/pmessage/entries/" + entryId + "/attachments",
@@ -9653,7 +9661,7 @@ export interface HcclPersonPOSTData {
   languageCode: string;
   hcclAddrId?: string;
   monthBorn?: number;
-  yearBorn: number;
+  yearBorn?: number;
   hcclAddr?: HcclAddrPOSTData;
 }
 
@@ -9710,7 +9718,7 @@ export interface HcclPersonPUTData {
   languageCode: string;
   hcclAddrId?: string;
   monthBorn?: number;
-  yearBorn: number;
+  yearBorn?: number;
 }
 
 export interface HcclTeamLogPOSTData {
@@ -12114,6 +12122,25 @@ export interface OnboardOrganizationPOJO {
   usingYamlCache?: boolean;
 }
 
+export interface SimpleMapEntry {
+  color?: string;
+  title?: string;
+  text?: string;
+  linkUrl?: string;
+  linkText?: string;
+  geolocationLatitude?: number;
+  geolocationLongitude?: number;
+  entityType?: string;
+  entityId?: string;
+  calculatingUrl?: boolean;
+  showingLink?: boolean;
+}
+
+export interface SimpleMapEntryResponse {
+  messages?: SimpleMessageList;
+  searchResults?: SimpleMapEntry[];
+}
+
 export interface CreateActivationCodeResponse {
   messages?: SimpleMessageList;
   activationCode?: string;
@@ -12228,6 +12255,7 @@ export interface StudentProfileUIGETData {
   guidanceTeam?: HcclTeamGETData;
   school?: HcclOrganizationGETData;
   feedProfile?: CatalogEntryFeedProfileGETData;
+  mapEntry?: SimpleMapEntry;
 }
 
 export interface UtilStatGraphDataPOJO {
