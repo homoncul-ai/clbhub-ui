@@ -123,10 +123,16 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
     return (entry.text || '').trim();
   }
 
-  getLinkUrl(entry: SimpleMapEntry): string {
+  getLinkUrl(entry: SimpleMapEntry): string {    
     if ((entry.linkUrl || '').trim().length > 0) {
       return entry.linkUrl as string;
     }
+    if (entry.calculatingUrl == true) {
+      var xx =  "/e/" + entry.entityType + "/" + entry.entityId;
+      //alert('xx: ' + xx);
+      return xx;
+    }    
+
     if (this.hasGeo(entry.geolocationLatitude) && this.hasGeo(entry.geolocationLongitude)) {
       return `https://www.google.com/maps?q=${entry.geolocationLatitude},${entry.geolocationLongitude}`;
     }
