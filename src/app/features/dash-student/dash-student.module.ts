@@ -24,6 +24,9 @@ import { CLCatalogSearchComponent } from './clcatalog-search/clcatalog-search.co
 import { StudentEngageComponent } from './student-engage.component';
 import { StudentCatalogComponent } from './student-catalog/student-catalog.component';
 import { StudentResearchComponent } from './student-research/student-research.component';
+import { StudentResearchCareersComponent } from './student-research-careers/student-research-careers.component';
+import { StudentResearchOrgsComponent } from './student-research-orgs/student-research-orgs.component';
+import { StudentResearchItemsComponent } from './student-research-items/student-research-items.component';
 import { StudentResumeBuilderComponent } from './student-resumebuilder/student-resumebuilder.component';
 import { StudentPersonalStatementDetailsComponent } from './student-personalstatement-details.component';
 import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-entity-ui.component';
@@ -67,8 +70,12 @@ const routes: Routes = [
 
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
-      { path: 'research/:vocationEncodingRefId', component: StudentResearchComponent },
       { path: 'research', component: StudentResearchComponent },
+      { path: 'research/careers/:vocationEncodingRefId', component: StudentResearchCareersComponent },
+      { path: 'research/careers', component: StudentResearchCareersComponent },
+      { path: 'research/orgs', component: StudentResearchOrgsComponent },
+      { path: 'research/items', component: StudentResearchItemsComponent },
+      { path: 'research/:vocationEncodingRefId', redirectTo: 'research/careers/:vocationEncodingRefId', pathMatch: 'full' },
       { path: 'resumebuilder', component: StudentResumeBuilderComponent },
       { path: 'catalogs', component: StudentCatalogComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
@@ -165,6 +172,9 @@ const routes: Routes = [
     StudentEngageComponent,
     StudentCatalogComponent,
     StudentResearchComponent,
+    StudentResearchCareersComponent,
+    StudentResearchOrgsComponent,
+    StudentResearchItemsComponent,
     StudentResumeBuilderComponent,
     StudentPersonalStatementDetailsComponent,
     DashStudentCalendarComponent,

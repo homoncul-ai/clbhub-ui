@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-student-research',
+  selector: 'app-student-research-orgs',
   standalone: true,
   imports: [CommonModule],
-  template: '<h3>Student Research</h3>'
+  template: ''
 })
-export class StudentResearchComponent {}
+export class StudentResearchOrgsComponent {}

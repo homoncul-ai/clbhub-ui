@@ -602,8 +602,11 @@ export class MenuService {
         // this.addMenuItem(menu, engage);
     
  
-    // Add Research
+    // Add Research with child screens
     const research = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH);
+    this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_CAREERS));
+    this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ORGS));
+    this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ITEMS));
     this.addMenuItem(menu, research);
     
     // Add Resume Builder with Resume Entries as a child
@@ -1709,7 +1712,31 @@ EA_ORGNONPROFITS_LIST: {
     label: 'Research',
     route: '/student-dashboard/research',
     componentPath: 'src/app/features/dash-student',
-    componentName: 'clcatalog-search',
+    componentName: 'student-research',
+    icon: 'fas fa-search'
+  },
+  STUDENT_RESEARCH_CAREERS: {
+    level: 2,
+    label: 'Research Careers',
+    route: '/student-dashboard/research/careers',
+    componentPath: 'src/app/features/dash-student/student-research-careers',
+    componentName: 'student-research-careers',
+    icon: 'fas fa-search'
+  },
+  STUDENT_RESEARCH_ORGS: {
+    level: 2,
+    label: 'Research Orgs',
+    route: '/student-dashboard/research/orgs',
+    componentPath: 'src/app/features/dash-student/student-research-orgs',
+    componentName: 'student-research-orgs',
+    icon: 'fas fa-building'
+  },
+  STUDENT_RESEARCH_ITEMS: {
+    level: 2,
+    label: 'Research Items',
+    route: '/student-dashboard/research/items',
+    componentPath: 'src/app/features/dash-student/student-research-items',
+    componentName: 'student-research-items',
     icon: 'fas fa-search'
   },
   STUDENT_RESUME_BUILDER: {

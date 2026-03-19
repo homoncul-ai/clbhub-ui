@@ -6,4 +6,7 @@ export * from './dash-student-guidance.component';
 export * from './dash-student-schedule.component';
 export * from './dash-student.module';
 export * from './student-research/student-research.component';
+export * from './student-research-careers/student-research-careers.component';
+export * from './student-research-orgs/student-research-orgs.component';
+export * from './student-research-items/student-research-items.component';
 export * from './student-profile-ui/student-profile-ui.component';

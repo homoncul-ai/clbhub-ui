@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-code me-2"></i>
+            Research Careers
+          </h3>
+        </div>
+        <div class="card-body">
+
+          <div class="search-bar-container">
+            <div class="search-input-wrapper">
+              <span class="search-icon material-icons"></span>
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search vocation encoding references..."
+                [(ngModel)]="searchKeyword"
+                (keyup.enter)="performSearch()">
+            </div>
+            <button class="search-button" (click)="performSearch()">
+              <span class="material-icons">search</span>
+              Search
+            </button>
+          </div>
+
+          <div class="filter-row">
+            <div class="available-only-checkbox">
+              <input
+                type="checkbox"
+                id="available-only"
+                [(ngModel)]="showAvailableOnly">
+              <label for="available-only">Show available only</label>
+            </div>
+          </div>
+
+          <div class="loading-container" *ngIf="isLoading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Searching...</p>
+          </div>
+
+          <div class="no-results" *ngIf="!isLoading && hasSearched && searchResults.length === 0">
+            <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+            <p>No results found. Try adjusting your search criteria.</p>
+          </div>
+
+          <div class="results-container" *ngIf="!isLoading && searchResults.length > 0">
+            <h2>Results ({{ searchResults.length }})</h2>
+            <div class="results-grid">
+              <div class="result-card" *ngFor="let result of searchResults; let i = index">
+                <app-vocationencodingref-crud
+                  [id]="result.id"
+                  [modeName]="'section'">
+                </app-vocationencodingref-crud>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
