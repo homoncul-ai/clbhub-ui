@@ -128,7 +128,7 @@ export class MapAddrUiComponent implements OnChanges, AfterViewInit, OnDestroy {
       return entry.linkUrl as string;
     }
     if (entry.calculatingUrl == true) {
-      var xx =  "/e/" + entry.entityType + "/" + entry.entityId;
+      var xx =  "/student-dashboard/e/" + (entry.entityType?.toLowerCase() || 'unknown') + "/" + entry.entityId;
       //alert('xx: ' + xx);
       return xx;
     }    
