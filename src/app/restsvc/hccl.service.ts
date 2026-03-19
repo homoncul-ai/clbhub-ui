@@ -994,6 +994,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<FeedEntryGETData>(request);
   }
 
+  createHcclOrganizationInterest(body: HcclOrganizationInterestPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclOrganizationInterestById(id: string): Observable<HcclOrganizationInterestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest/" + id,
+      method: "GET",
+    };
+    return this.request<HcclOrganizationInterestGETData>(request);
+  }
+
+  updateHcclOrganizationInterestById(id: string, body: HcclOrganizationInterestPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclOrganizationInterestById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclOrganizationInterests(body: HcclOrganizationInterestCriteria): Observable<HcclOrganizationInterestGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclOrganizationInterestGETDataSearchResults>(request);
+  }
+
+  getHcclOrganizationInterestByIdWithHint(id: string, hint: string): Observable<HcclOrganizationInterestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<HcclOrganizationInterestGETData>(request);
+  }
+
   createExperienceLocation(body: ExperienceLocationPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/experiencelocation",
@@ -6626,6 +6678,71 @@ export interface FeedEntryPUTData {
   postedByEntityType?: string;
   postedByEntityName?: string;
   postedByEntityExtra?: string;
+}
+
+export interface HcclOrganizationInterestPOSTData {
+  organizationId: string;
+  userProfileId: string;
+  interest: number;
+  notes?: string;
+  messageId?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface HcclOrganizationInterestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  organizationId?: string;
+  userProfileId?: string;
+  interest?: number;
+  notes?: string;
+  messageId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+}
+
+export interface HcclOrganizationInterestGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclOrganizationInterestGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclOrganizationInterestCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  organizationId?: string;
+  userProfileId?: string;
+  interest?: number;
+  messageId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface HcclOrganizationInterestPUTData {
+  organizationId: string;
+  userProfileId: string;
+  interest: number;
+  notes?: string;
+  messageId?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
 }
 
 export interface ExperienceLocationPOSTData {
