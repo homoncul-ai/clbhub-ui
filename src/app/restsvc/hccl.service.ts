@@ -1037,6 +1037,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HcclOrganizationInterestGETDataSearchResults>(request);
   }
 
+  findMyOrganizations(body: HcclOrganizationInterestCriteria): Observable<HcclOrganizationInterestGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest/findmy",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclOrganizationInterestGETDataSearchResults>(request);
+  }
+
   getHcclOrganizationInterestByIdWithHint(id: string, hint: string): Observable<HcclOrganizationInterestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/hcclorganizationinterest/" + id + "/hint",
@@ -1044,6 +1053,15 @@ export class HcclService extends CommonRequestServiceCaller {
       params: { hint: this.convertToString(hint) },
     };
     return this.request<HcclOrganizationInterestGETData>(request);
+  }
+
+  showInterestInOrg(body: HcclOrganizationInterestPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/hcclorganizationinterest/show-interest",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
   }
 
   createExperienceLocation(body: ExperienceLocationPOSTData): Observable<any> {
@@ -5687,6 +5705,25 @@ export interface HcclOrganizationGETData {
   parentEntityName?: string;
   hcclAddrId?: string;
   primaryAddress?: HcclAddrGETData;
+  organizationInterest?: HcclOrganizationInterestGETData;
+}
+
+export interface HcclOrganizationInterestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  organizationId?: string;
+  userProfileId?: string;
+  interest?: number;
+  notes?: string;
+  messageId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  organization?: HcclOrganizationGETData;
 }
 
 export interface SignupBehaviorPOSTData {
@@ -6691,23 +6728,6 @@ export interface HcclOrganizationInterestPOSTData {
   currentStateDateEntered?: string;
 }
 
-export interface HcclOrganizationInterestGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  entityDisplayName?: string;
-  entityType?: string;
-  organizationId?: string;
-  userProfileId?: string;
-  interest?: number;
-  notes?: string;
-  messageId?: string;
-  currentStateCode?: string;
-  currentStateTransitionId?: string;
-}
-
 export interface HcclOrganizationInterestGETDataSearchResults {
   pagingInfo?: DCPageData;
   searchResults?: HcclOrganizationInterestGETData[];
@@ -6732,6 +6752,7 @@ export interface HcclOrganizationInterestCriteria {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+  organizationIds?: string[];
 }
 
 export interface HcclOrganizationInterestPUTData {

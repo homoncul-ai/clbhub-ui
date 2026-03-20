@@ -4438,6 +4438,48 @@
         }
       }
     },
+    "/hccl/catalog/hcclorganizationinterest/findmy": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches my HcclOrganizations based on my interest.",
+        "operationId": "findMyOrganizations_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclOrganizationInterestCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclOrganizationInterestGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/catalog/hcclorganizationinterest/{id}/hint": {
       "get": {
         "tags": [
@@ -4479,6 +4521,40 @@
           },
           "400": {
             "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/hcclorganizationinterest/show-interest": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new CatalogEntryInterest.",
+        "operationId": "showInterestInOrg_1",
+        "requestBody": {
+          "description": "New or updated showinterest data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclOrganizationInterestPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
           },
           "500": {
             "description": "System Error"
@@ -24636,6 +24712,65 @@
           },
           "primaryAddress": {
             "$ref": "#/components/schemas/HcclAddrGETData"
+          },
+          "organizationInterest": {
+            "$ref": "#/components/schemas/HcclOrganizationInterestGETData"
+          }
+        }
+      },
+      "HcclOrganizationInterestGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "interest": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/HcclOrganizationGETData"
           }
         }
       },
@@ -28222,59 +28357,6 @@
           }
         }
       },
-      "HcclOrganizationInterestGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "entityDisplayName": {
-            "type": "string"
-          },
-          "entityType": {
-            "type": "string"
-          },
-          "organizationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userProfileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "interest": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "messageId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "currentStateCode": {
-            "type": "string"
-          },
-          "currentStateTransitionId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
       "HcclOrganizationInterestGETDataSearchResults": {
         "type": "object",
         "properties": {
@@ -28362,6 +28444,13 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          },
+          "organizationIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
