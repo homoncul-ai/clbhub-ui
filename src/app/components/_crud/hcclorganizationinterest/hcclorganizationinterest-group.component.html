@@ -1,0 +1,10 @@
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId"></app-simple-tabset>
+
+<div *ngIf="currentTabId === 'details'">
+  <app-hcclorganizationinterest-crud [id]="id" modeName="detail"></app-hcclorganizationinterest-crud>
+</div>
+
+<div *ngIf="currentTabId === 'create'">
+  <h1>Create</h1>
+  <app-hcclorganizationinterest-crud [id]="id" modeName="create"></app-hcclorganizationinterest-crud>
+</div>

@@ -1,0 +1,217 @@
+<span *ngIf="getMode() === CRUD_MODES.FK  && !isLoading">{{ getCurrentEntity().getDisplayText() }}</span>
+
+<div *ngIf="getMode() === CRUD_MODES.FK_MENU  && !isLoading" class="fk_menu-mode">
+  <app-menu-control-data-list [menuControlDataList]="this.fkMenu" [id]="this.id"></app-menu-control-data-list>
+</div>
+
+<div *ngIf="!isLoading && getMode() === CRUD_MODES.SECTION" class="section-mode">
+  <div class="details-section">
+    <div class="detail-group">
+      <label>Interest Level:</label>
+      <span>{{ interest }}</span>
+    </div>
+    <div class="detail-group">
+      <label>Notes:</label>
+      <span>{{ notes }}</span>
+    </div>
+    <div class="detail-group">
+      <label>Organization:</label>
+      <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
+    </div>
+    <div class="detail-group">
+      <label>User Profile:</label>
+      <app-hccluserprofile-crud [id]="userProfileId" [modeName]="CRUD_MODES.FK"></app-hccluserprofile-crud>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="getMode() === CRUD_MODES.HEADING  && !isLoading" class="heading-mode">
+  <h3>{{ getCurrentEntity().getDisplayText() }}</h3>
+</div>
+
+<div *ngIf="isCrudModeCUD()" class="crud-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="loading-spinner">Loading...</div>
+  </div>
+
+  <app-simple-messages-section [messagesList]="messages"></app-simple-messages-section>
+
+  <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Create New Organization Interest</h3>
+    </div>
+    <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <form (ngSubmit)="this.createEntity()">
+        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+        </div>
+
+        <div class="form-group">
+          <label>Organization:</label>
+          <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclorganization-crud>
+        </div>
+        <div class="form-group">
+          <label>User Profile:</label>
+          <app-hccluserprofile-crud [id]="userProfileId" [modeName]="CRUD_MODES.FK_MENU"></app-hccluserprofile-crud>
+        </div>
+        <app-std-mdb-form-text
+          prefix="hcclorganizationinterest"
+          name="interest"
+          label="Interest Level"
+          [required]="true"
+          [error]="error"
+          [(ngModel)]="interest">
+        </app-std-mdb-form-text>
+        <app-std-mdb-form-textarea
+          prefix="hcclorganizationinterest"
+          name="notes"
+          label="Notes"
+          [error]="error"
+          [(ngModel)]="notes">
+        </app-std-mdb-form-textarea>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="getMode() === CRUD_MODES.EDIT  && !isLoading" class="edit-mode">
+    <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit Organization Interest</h3>
+    </div>
+    <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
+      <form (ngSubmit)="updateEntity(getCurrentEntity())">
+        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+        </div>
+
+        <div class="form-group">
+          <div class="mb-4">
+            <label>Organization:</label>
+            <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK_MENU"></app-hcclorganization-crud>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="mb-4">
+            <label>User Profile:</label>
+            <app-hccluserprofile-crud [id]="userProfileId" [modeName]="CRUD_MODES.FK_MENU"></app-hccluserprofile-crud>
+          </div>
+        </div>
+        <div class="mb-4">
+          <app-std-mdb-form-text
+            prefix="hcclorganizationinterest"
+            name="interest"
+            label="Interest Level"
+            [required]="true"
+            [error]="error"
+            [(ngModel)]="interest">
+          </app-std-mdb-form-text>
+        </div>
+        <div class="mb-4">
+          <app-std-mdb-form-textarea
+            prefix="hcclorganizationinterest"
+            name="notes"
+            label="Notes"
+            [error]="error"
+            [rows]="4"
+            [maxlength]="1024"
+            [showCharCounter]="true"
+            [(ngModel)]="notes">
+          </app-std-mdb-form-textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading" class="detail-mode">
+    <div class="crud-header">
+      <h3>Organization Interest Details</h3>
+      <div class="action-buttons">
+        <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
+        <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button>
+        <button *ngIf="canDelete" (click)="switchToDeleteMode()" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+    <div class="details-section">
+      <div class="detail-group">
+        <label>ID:</label>
+        <span>{{ id }}</span>
+      </div>
+
+      <div class="detail-group">
+        <label>Interest Level:</label>
+        <span>{{ interest }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Notes:</label>
+        <span>{{ notes }}</span>
+      </div>
+      <div class="detail-group">
+        <label>Organization:</label>
+        <app-hcclorganization-crud [id]="organizationId" [modeName]="CRUD_MODES.FK"></app-hcclorganization-crud>
+      </div>
+      <div class="detail-group">
+        <label>User Profile:</label>
+        <app-hccluserprofile-crud [id]="userProfileId" [modeName]="CRUD_MODES.FK"></app-hccluserprofile-crud>
+      </div>
+
+      <div class="detail-group">
+        <label>Date Created:</label>
+        <app-dategetdata-display [data]="dateCreated"></app-dategetdata-display>
+      </div>
+      <div class="detail-group">
+        <label>Created By:</label>
+        <span><app-reference-data [data]="createdByInfo"></app-reference-data></span>
+      </div>
+      <div class="detail-group">
+        <label>Date Last Updated:</label>
+        <app-dategetdata-display [data]="dateLastUpdated"></app-dategetdata-display>
+      </div>
+      <div class="detail-group">
+        <label>Last Updated By:</label>
+        <span><app-reference-data [data]="lastUpdatedByInfo"></app-reference-data></span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="getMode() === CRUD_MODES.DELETE && !isLoading" class="delete-mode">
+    <h3>Delete Organization Interest</h3>
+    <div class="delete-confirmation">
+      <p>Are you sure you want to delete this Organization Interest?</p>
+      <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
+      <p>This action cannot be undone.</p>
+      <div class="delete-actions">
+        <button *ngIf="canDelete" (click)="deleteEntity(getCurrentEntity().getId() || '')" class="btn btn-danger">Delete</button>
+        <button (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="getMode() === CRUD_MODES.DEBUG">
+  <h3>details Mode</h3>
+  <app-hcclorganizationinterest-crud [modeName]="'details'" [id]="this.id"></app-hcclorganizationinterest-crud>
+  <hr>
+  <h3>create Mode</h3>
+  <app-hcclorganizationinterest-crud [modeName]="'create'"></app-hcclorganizationinterest-crud>
+  <hr>
+  <h3>edit Mode</h3>
+  <app-hcclorganizationinterest-crud [modeName]="'edit'" [id]="this.id"></app-hcclorganizationinterest-crud>
+  <hr>
+  <h3>delete Mode</h3>
+  <app-hcclorganizationinterest-crud [modeName]="'delete'" [id]="this.id"></app-hcclorganizationinterest-crud>
+  <hr>
+  <h3>heading Mode</h3>
+  <app-hcclorganizationinterest-crud [modeName]="'heading'" [id]="this.id"></app-hcclorganizationinterest-crud>
+  <hr>
+  <h3>Section Mode</h3>
+  <app-hcclorganizationinterest-crud [modeName]="'section'" [id]="this.id"></app-hcclorganizationinterest-crud>
+  <hr>
+  <h3>fk Mode</h3>
+  <app-hcclorganizationinterest-crud [modeName]="'fk'" [id]="this.id"></app-hcclorganizationinterest-crud>
+  <hr>
+  <h3>fk_menu Mode</h3>
+  <b>Note - this template is only to show the menu, it is not to be used in a form without callback, etc</b>
+  <app-hcclorganizationinterest-crud [modeName]="'fk_menu'" [id]="this.id"></app-hcclorganizationinterest-crud>
+  <hr>
+</div>

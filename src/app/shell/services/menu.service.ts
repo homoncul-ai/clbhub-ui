@@ -709,6 +709,10 @@ export class MenuService {
     // Add CatalogEntrySignupPacket
     const catalogentrysignuppacketList = this.copyMenuItem(MENU_CONSTANTS.EA_CATALOGENTRYSIGNUPPACKET_LIST);
     this.addChildMenuItem(providerGroup, catalogentrysignuppacketList);
+
+    // Add HcclOrganizationInterest
+    const hcclorganizationinterestList = this.copyMenuItem(MENU_CONSTANTS.EA_HCCLORGANIZATIONINTEREST_LIST);
+    this.addChildMenuItem(providerGroup, hcclorganizationinterestList);
     
 
     // course list
@@ -1583,6 +1587,15 @@ EA_CATALOGENTRYSIGNUPPACKET_LIST: {
   componentPath: 'src/app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component',
   componentName: 'CatalogEntrySignupPacketListComponent',
   icon: 'fas fa-clipboard-list'
+},
+
+EA_HCCLORGANIZATIONINTEREST_LIST: {
+  level: 2,
+  label: 'HCCL Organization Interests',
+  route: '/ecoadmin-dashboard/hcclorganizationinterests',
+  componentPath: 'src/app/components/_crud/hcclorganizationinterest/hcclorganizationinterest-list.component',
+  componentName: 'HcclOrganizationInterestListComponent',
+  icon: 'fas fa-heart'
 },
 
 EA_VOCATIONENCODINGINSTANCE_LIST: {

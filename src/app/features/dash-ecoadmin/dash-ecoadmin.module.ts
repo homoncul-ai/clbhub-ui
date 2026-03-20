@@ -64,6 +64,8 @@ import { PersonalStatementListComponent } from '../../components/_crud/personals
 import { PersonalStatementGroupComponent } from '../../components/_crud/personalstatement/personalstatement-group.component';
 import { CatalogEntryInterestListComponent } from '../../components/_crud/catalogentryinterest/catalogentryinterest-list.component';
 import { CatalogEntryInterestGroupComponent } from '../../components/_crud/catalogentryinterest/catalogentryinterest-group.component';
+import { HcclOrganizationInterestListComponent } from '../../components/_crud/hcclorganizationinterest/hcclorganizationinterest-list.component';
+import { HcclOrganizationInterestGroupComponent } from '../../components/_crud/hcclorganizationinterest/hcclorganizationinterest-group.component';
 import { CatalogTypeRefListComponent } from '../../components/_crud/catalogtyperef/catalogtyperef-list.component';
 import { CatalogTypeRefGroupComponent } from '../../components/_crud/catalogtyperef/catalogtyperef-group.component';
 import { VocationEncodingRefListComponent } from '../../components/_crud/vocationencodingref/vocationencodingref-list.component';
@@ -239,6 +241,12 @@ const routes: Routes = [
       { path: 'catalogentryinterests/:id', redirectTo: 'catalogentryinterests/:id/details', pathMatch: 'full' },
       { path: 'catalogentryinterests', component: CatalogEntryInterestListComponent },
 
+      // HcclOrganizationInterest routes
+      { path: 'hcclorganizationinterests/create', component: HcclOrganizationInterestGroupComponent },
+      { path: 'hcclorganizationinterests/:id/:tabId', component: HcclOrganizationInterestGroupComponent },
+      { path: 'hcclorganizationinterests/:id', redirectTo: 'hcclorganizationinterests/:id/details', pathMatch: 'full' },
+      { path: 'hcclorganizationinterests', component: HcclOrganizationInterestListComponent },
+
       // VocationEncodingRef routes
       { path: 'vocationencodingrefs/create', component: VocationEncodingRefGroupComponent },
       { path: 'vocationencodingrefs/:id/:tabId', component: VocationEncodingRefGroupComponent },
@@ -329,6 +337,8 @@ const routes: Routes = [
     PersonalStatementGroupComponent,
     CatalogEntryInterestListComponent,
     CatalogEntryInterestGroupComponent,
+    HcclOrganizationInterestListComponent,
+    HcclOrganizationInterestGroupComponent,
     CatalogTypeRefListComponent,
     CatalogTypeRefGroupComponent,
     VocationEncodingRefListComponent,

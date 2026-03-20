@@ -5704,6 +5704,7 @@ export interface HcclOrganizationGETData {
   parentEntityEntityType?: string;
   parentEntityName?: string;
   hcclAddrId?: string;
+  organizationType?: HcclOrganizationTypeRefGETData;
   primaryAddress?: HcclAddrGETData;
   organizationInterest?: HcclOrganizationInterestGETData;
 }
@@ -5724,6 +5725,20 @@ export interface HcclOrganizationInterestGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   organization?: HcclOrganizationGETData;
+}
+
+export interface HcclOrganizationTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
 }
 
 export interface SignupBehaviorPOSTData {
@@ -9744,20 +9759,6 @@ export interface HcclOrganizationTypeRefPOSTData {
   businessCode: string;
   description: string;
   available: number;
-}
-
-export interface HcclOrganizationTypeRefGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  entityDisplayName?: string;
-  entityType?: string;
-  name?: string;
-  businessCode?: string;
-  description?: string;
-  available?: number;
 }
 
 export interface HcclOrganizationTypeRefGETDataSearchResults {

@@ -24710,6 +24710,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "organizationType": {
+            "$ref": "#/components/schemas/HcclOrganizationTypeRefGETData"
+          },
           "primaryAddress": {
             "$ref": "#/components/schemas/HcclAddrGETData"
           },
@@ -24771,6 +24774,46 @@
           },
           "organization": {
             "$ref": "#/components/schemas/HcclOrganizationGETData"
+          }
+        }
+      },
+      "HcclOrganizationTypeRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -39222,46 +39265,6 @@
           "businessCode": {
             "maxLength": 50,
             "minLength": 1,
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "HcclOrganizationTypeRefGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "entityDisplayName": {
-            "type": "string"
-          },
-          "entityType": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "businessCode": {
             "type": "string"
           },
           "description": {
