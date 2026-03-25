@@ -542,6 +542,10 @@ export class MenuService {
     m2.route = `/student-dashboard/messages`;
     this.addMenuItem(menu, m2);
 
+    // Add My Organizations (above My Calendar)
+    const myOrganizations = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MY_ORGANIZATIONS);
+    this.addMenuItem(menu, myOrganizations);
+
     // Add My Calendar
     const calendar = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CALENDAR);
     this.addMenuItem(menu, calendar);
@@ -1775,6 +1779,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-messages',
     icon: 'fas fa-envelope'
+  },
+  STUDENT_MY_ORGANIZATIONS: {
+    level: 1,
+    label: 'My Organizations',
+    route: '/student-dashboard/my-organizations',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-my-organizations',
+    icon: 'fas fa-building'
   },
   STUDENT_CALENDAR: {
     level: 1,

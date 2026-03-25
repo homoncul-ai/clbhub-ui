@@ -7028,6 +7028,240 @@
         }
       }
     },
+    "/hccl/pattern/paistructuredqueryjob": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PAiStructuredQueryJob.",
+        "operationId": "createPAiStructuredQueryJob_1",
+        "requestBody": {
+          "description": "New PAiStructuredQueryJob data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PAiStructuredQueryJobPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/paistructuredqueryjob/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPAiStructuredQueryJobById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAiStructuredQueryJobGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PAiStructuredQueryJob.",
+        "operationId": "updatePAiStructuredQueryJobById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PAiStructuredQueryJob data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PAiStructuredQueryJobPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PAiStructuredQueryJob.",
+        "operationId": "deletePAiStructuredQueryJobById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/paistructuredqueryjob/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PAiStructuredQueryJobs.",
+        "operationId": "findPAiStructuredQueryJobs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PAiStructuredQueryJobCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAiStructuredQueryJobGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/paistructuredqueryjob/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPAiStructuredQueryJobByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PAiStructuredQueryJobGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pattern/pentitytagval": {
       "post": {
         "tags": [
@@ -31984,6 +32218,307 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "PAiStructuredQueryJobPOSTData": {
+        "required": [
+          "contextMapJson",
+          "currentStateCode",
+          "html",
+          "jobActionCode",
+          "pipelineTrackerJson",
+          "promptCode",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "jobActionCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "promptCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "url": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          },
+          "contextMapJson": {
+            "type": "string"
+          },
+          "pipelineTrackerJson": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "PAiStructuredQueryJobGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "jobActionCode": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "promptCode": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          },
+          "contextMapJson": {
+            "type": "string"
+          },
+          "pipelineTrackerJson": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          }
+        }
+      },
+      "PAiStructuredQueryJobGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PAiStructuredQueryJobGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PAiStructuredQueryJobCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "jobActionCode": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "promptCode": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "type": "string"
+          },
+          "parentEntityType": {
+            "type": "string"
+          }
+        }
+      },
+      "PAiStructuredQueryJobPUTData": {
+        "required": [
+          "contextMapJson",
+          "currentStateCode",
+          "html",
+          "jobActionCode",
+          "pipelineTrackerJson",
+          "promptCode",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "jobActionCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "promptCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "url": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          },
+          "contextMapJson": {
+            "type": "string"
+          },
+          "pipelineTrackerJson": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           }
         }
       },

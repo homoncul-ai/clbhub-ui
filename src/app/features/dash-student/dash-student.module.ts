@@ -33,6 +33,7 @@ import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-
 import { DashStudentCalendarComponent } from './dash-student-calendar.component';
 import { DashStudentFeedComponent } from './dash-student-feed.component';
 import { StudentProfileUiComponent } from './student-profile-ui/student-profile-ui.component';
+import { DashStudentMyOrganizationsComponent } from './dash-student-my-organizations.component';
 const routes: Routes = [
   {
     path: '',
@@ -93,6 +94,16 @@ const routes: Routes = [
           pageTitle: 'Communications',
           pageSubtitle: 'Message information',
           pageIcon: 'fas fa-envelope',
+        }
+      },
+
+      {
+        path: 'my-organizations',
+        component: DashStudentMyOrganizationsComponent,
+        data: {
+          pageTitle: 'My Organizations',
+          pageSubtitle: 'Track organizations you are interested in',
+          pageIcon: 'fas fa-building',
         }
       },
 
@@ -180,6 +191,7 @@ const routes: Routes = [
     DashStudentCalendarComponent,
     DashStudentFeedComponent,
     StudentProfileUiComponent,
+    DashStudentMyOrganizationsComponent,
   ],
   declarations: [
     // Non-standalone components would go here

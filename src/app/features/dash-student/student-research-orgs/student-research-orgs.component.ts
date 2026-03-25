@@ -99,6 +99,7 @@ export class StudentResearchOrgsComponent implements OnInit {
         result.organizationInterest.interest = interest;
         if (response?.id) {
           result.organizationInterest.id = response.id;
+          alert("id " + response.id + " " + JSON.stringify(result.organizationInterest));
         }
       },
       error: (error) => {

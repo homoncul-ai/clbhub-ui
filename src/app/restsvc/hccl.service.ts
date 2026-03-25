@@ -1632,6 +1632,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PAiPromptRefGETData>(request);
   }
 
+  createPAiStructuredQueryJob(body: PAiStructuredQueryJobPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paistructuredqueryjob",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPAiStructuredQueryJobById(id: string): Observable<PAiStructuredQueryJobGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paistructuredqueryjob/" + id,
+      method: "GET",
+    };
+    return this.request<PAiStructuredQueryJobGETData>(request);
+  }
+
+  updatePAiStructuredQueryJobById(id: string, body: PAiStructuredQueryJobPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paistructuredqueryjob/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePAiStructuredQueryJobById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paistructuredqueryjob/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPAiStructuredQueryJobs(body: PAiStructuredQueryJobCriteria): Observable<PAiStructuredQueryJobGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paistructuredqueryjob/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PAiStructuredQueryJobGETDataSearchResults>(request);
+  }
+
+  getPAiStructuredQueryJobByIdWithHint(id: string, hint: string): Observable<PAiStructuredQueryJobGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/paistructuredqueryjob/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PAiStructuredQueryJobGETData>(request);
+  }
+
   createPEntityTagVal(body: PEntityTagValPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pentitytagval",
@@ -7740,6 +7792,89 @@ export interface PAiPromptRefPUTData {
   description: string;
   promptText: string;
   available: number;
+}
+
+export interface PAiStructuredQueryJobPOSTData {
+  jobActionCode: string;
+  referenceId?: string;
+  promptCode: string;
+  url: string;
+  html: string;
+  contextMapJson: string;
+  pipelineTrackerJson: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+}
+
+export interface PAiStructuredQueryJobGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  jobActionCode?: string;
+  referenceId?: string;
+  promptCode?: string;
+  url?: string;
+  html?: string;
+  contextMapJson?: string;
+  pipelineTrackerJson?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+}
+
+export interface PAiStructuredQueryJobGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PAiStructuredQueryJobGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PAiStructuredQueryJobCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  jobActionCode?: string;
+  referenceId?: string;
+  promptCode?: string;
+  url?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
+}
+
+export interface PAiStructuredQueryJobPUTData {
+  jobActionCode: string;
+  referenceId?: string;
+  promptCode: string;
+  url: string;
+  html: string;
+  contextMapJson: string;
+  pipelineTrackerJson: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  parentEntityId?: string;
+  parentEntityName?: string;
+  parentEntityType?: string;
 }
 
 export interface PEntityTagValPOSTData {
