@@ -546,9 +546,7 @@ export class MenuService {
     const myOrganizations = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MY_ORGANIZATIONS);
     this.addMenuItem(menu, myOrganizations);
 
-    // Add My Calendar
-    const calendar = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CALENDAR);
-    this.addMenuItem(menu, calendar);
+    // My Calendar is intentionally hidden for now; keep constant/route for future re-enable.
 
     // Add My Feed
     const feed = this.copyMenuItem(MENU_CONSTANTS.STUDENT_FEED);
