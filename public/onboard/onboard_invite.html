@@ -251,7 +251,7 @@
 
       if (!inviteId) {
         clearLoading();
-        messagesEl.innerHTML = '<p>No invite Id query parameter found. Enter an Invite ID to continue.</p>';
+        messagesEl.innerHTML = '<p>No invite Id query parameter found. Enter a valid invite ID to continue.</p>';
       } else {
         loadInviteSetup(inviteId).catch(function(err) {
           var msg = err && err.message ? err.message : 'Failed to load invite setup.';
