@@ -1,0 +1,100 @@
+<app-onboard-public-header></app-onboard-public-header>
+
+<main class="onboard-page container py-4">
+  <section class="card border-0 shadow-sm">
+    <div class="card-body p-4 p-md-5">
+      <h1 class="h3 mb-2">Student registration</h1>
+      <p class="text-muted mb-3">
+        Create your account first, then verify your email before logging in. Birth month and year are used for age-policy
+        requirements.
+      </p>
+
+      <div *ngIf="loadingUiData" class="alert alert-info py-2">Loading school options...</div>
+
+      <div *ngIf="messages.length" class="alert alert-secondary">
+        <ul class="mb-0">
+          <li *ngFor="let msg of messages">{{ msg.message || 'Unknown message' }}</li>
+        </ul>
+      </div>
+
+      <div *ngIf="submitted" class="alert alert-success">
+        Account created in pending status. Check your email to verify your account before login.
+        <button type="button" class="btn btn-link p-0 ms-2 align-baseline" (click)="resendVerification()">
+          Resend verification email
+        </button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!submitted">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label" for="email">Email</label>
+            <input id="email" class="form-control" type="email" formControlName="email" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="schoolId">School</label>
+            <select id="schoolId" class="form-select" formControlName="schoolId" [disabled]="preloadFailed || loadingUiData">
+              <option value="">Select school...</option>
+              <option *ngFor="let school of schools" [value]="school.id">{{ school.label }}</option>
+            </select>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label" for="userName">Username</label>
+            <input id="userName" class="form-control" type="text" formControlName="userName" />
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button class="btn btn-outline-primary w-100" type="button" (click)="useEmailForUserName()">Use email</button>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="firstName">First name</label>
+            <input id="firstName" class="form-control" type="text" formControlName="firstName" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="lastName">Last name</label>
+            <input id="lastName" class="form-control" type="text" formControlName="lastName" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="birthMonth">Birth month</label>
+            <select id="birthMonth" class="form-select" formControlName="birthMonth">
+              <option [value]="0">Select month...</option>
+              <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="birthYear">Birth year</label>
+            <select id="birthYear" class="form-select" formControlName="birthYear">
+              <option [value]="0">Select year...</option>
+              <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-check mt-4">
+          <input id="acceptTos" type="checkbox" class="form-check-input" formControlName="acceptTos" />
+          <label class="form-check-label" for="acceptTos">
+            I accept the Terms & Conditions and Privacy Policy.
+          </label>
+        </div>
+
+        <div class="captcha mt-3">
+          <div class="form-check">
+            <input
+              id="captchaSolved"
+              type="checkbox"
+              class="form-check-input"
+              [checked]="!!form.controls.captchaToken.value"
+              (change)="setCaptchaSolved($any($event.target).checked)"
+            />
+            <label class="form-check-label" for="captchaSolved">I am not a robot (placeholder)</label>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button type="submit" class="btn btn-primary" [disabled]="!canSubmit">
+            {{ submitting ? 'Submitting...' : 'Create account' }}
+          </button>
+          <a class="btn btn-outline-secondary" [routerLink]="['/public/onboard']">Back</a>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

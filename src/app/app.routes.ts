@@ -63,6 +63,10 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'public/onboard',
+    loadChildren: () => import('./features/onboard/onboard.routes').then(m => m.ONBOARD_ROUTES)
+  },
+  {
     path: '**',
     redirectTo: 'advocate-dashboard-bungabunga2'
   }

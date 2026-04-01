@@ -17,8 +17,21 @@ app.use('/public', express.static(publicDir));
 
 // For all GET requests, send back index.html
 // so that PathLocationStrategy can be used
-app.use('/public/*', function (req, res) {
-    res.sendFile(path.join(distDir, req.path));
+app.get('/public/*', function (req, res) {
+  const distPath = path.join(distDir, req.path);
+  res.sendFile(distPath, function (distErr) {
+    if (!distErr) {
+      return;
+    }
+
+    const sourcePath = path.join(publicDir, req.path.replace(/^\/public\/?/, ''));
+    res.sendFile(sourcePath, function (sourceErr) {
+      if (!sourceErr) {
+        return;
+      }
+      res.sendFile(path.join(distDir, 'index.html'));
+    });
+  });
 });
 
 // Public landing page routes.
@@ -30,7 +43,8 @@ app.get(['/public', '/public/', '/public/index.html'], function (req, res) {
     }
   });
 });
-
+// /onboard/student 
+// /onboard/parent
 app.get('*', function (req, res) {
   if (req.path == '/assets/servicemanifest.json') {
     res.sendFile(
