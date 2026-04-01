@@ -19631,45 +19631,6 @@
         }
       }
     },
-    "/hccl/public/onboard/family": {
-      "post": {
-        "tags": [
-          "/public"
-        ],
-        "summary": "Onboards a family.",
-        "operationId": "onboardFamily",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "$ref": "#/components/schemas/OnboardFamilyPOSTData"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/OnboardResponse"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
     "/hccl/public/onboard/invite": {
       "post": {
         "tags": [
@@ -19693,6 +19654,45 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/OnboardInvitedResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/onboard/parent": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Onboards a family.",
+        "operationId": "onboardParent",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardFamilyPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardResponse"
                 }
               }
             }
@@ -48140,6 +48140,87 @@
           }
         }
       },
+      "OnboardInvitedResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "dashboardUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "ConsentRequestPOSTData": {
+        "type": "object",
+        "properties": {
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "agreeValue": {
+            "type": "string"
+          },
+          "consenting": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MultiConsentRequestPOSTData": {
+        "type": "object",
+        "properties": {
+          "consents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentRequestPOSTData"
+            }
+          }
+        }
+      },
+      "OnboardInvitedRequest": {
+        "required": [
+          "consents",
+          "firstName"
+        ],
+        "type": "object",
+        "properties": {
+          "inviteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageHandle": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 32,
+            "minLength": 8,
+            "type": "string"
+          },
+          "acceptNotes": {
+            "type": "string"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
+          }
+        }
+      },
       "OnboardResponse": {
         "type": "object",
         "properties": {
@@ -48243,87 +48324,6 @@
             "items": {
               "$ref": "#/components/schemas/OnboardFamilyMemberPOSTData"
             }
-          }
-        }
-      },
-      "OnboardInvitedResponse": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "dashboardUrl": {
-            "type": "string"
-          }
-        }
-      },
-      "ConsentRequestPOSTData": {
-        "type": "object",
-        "properties": {
-          "contractVersionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "agreeValue": {
-            "type": "string"
-          },
-          "consenting": {
-            "type": "boolean"
-          }
-        }
-      },
-      "MultiConsentRequestPOSTData": {
-        "type": "object",
-        "properties": {
-          "consents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ConsentRequestPOSTData"
-            }
-          }
-        }
-      },
-      "OnboardInvitedRequest": {
-        "required": [
-          "consents",
-          "firstName"
-        ],
-        "type": "object",
-        "properties": {
-          "inviteId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "messageHandle": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "userName": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "firstName": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "lastName": {
-            "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "password": {
-            "maxLength": 32,
-            "minLength": 8,
-            "type": "string"
-          },
-          "acceptNotes": {
-            "type": "string"
-          },
-          "consents": {
-            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
           }
         }
       },
@@ -49250,13 +49250,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

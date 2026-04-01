@@ -12,6 +12,7 @@ export { ReferenceDataComponent } from './reference-data/reference-data.componen
 // Control components
 export { MenuControlDataListComponent } from './menu-control-data-list/menu-control-data-list.component';
 export { MenuControlDataListMComponent } from './menu-control-data-list-m/menu-control-data-list-m.component';
+export { ContractSectionComponent } from './contract-section/contract-section.component';
 export { SimpleMessagesSectionComponent } from './simple-messages-section/simple-messages-section.component';
 export { SimpleTabsetComponent, SimpleTab } from './simple-tabset/simple-tabset.component';
 export { SimpleButtonbarComponent, SimpleButton } from './simple-buttonbar/simple-buttonbar.component';

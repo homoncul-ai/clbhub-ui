@@ -1,37 +1,48 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
+import { ContractSectionComponent } from '@app/components/_global/contract-section/contract-section.component';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import {
+  ConsentRequestPOSTData,
+  HcclService,
+  MenuControlData,
+  MenuControlDataList,
+  MultiConsentRequestGETData,
+  OnboardStudentPOSTData,
+} from '@app/restsvc/hccl.service';
 import { OnboardPublicHeaderComponent } from '../components/onboard-public-header.component';
-
-interface SchoolOption {
-  id: string;
-  label: string;
-}
 
 type UiMessage = { message: string; severity?: number };
 
 @Component({
   selector: 'app-onboard-student',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, OnboardPublicHeaderComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    OnboardPublicHeaderComponent,
+    MenuControlDataListComponent,
+    ContractSectionComponent,
+  ],
   templateUrl: './onboard-student.component.html',
   styleUrl: './onboard-student.component.scss',
 })
 export class OnboardStudentComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly http = inject(HttpClient);
-
-  readonly servicePrefix = 'http://localhost:8099/trutesta-hccl-services';
-  readonly tosVersion = '2026-03-01';
+  private readonly hcclService = inject(HcclService);
 
   loadingUiData = false;
   submitting = false;
   submitted = false;
   preloadFailed = false;
-  schools: SchoolOption[] = [];
+  schoolSelectData: MenuControlDataList | null = null;
+  consentData: MultiConsentRequestGETData | null = null;
+  selectedConsents: ConsentRequestPOSTData[] = [];
+  allContractsAccepted = false;
   messages: UiMessage[] = [];
 
   readonly years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i);
@@ -59,7 +70,6 @@ export class OnboardStudentComponent implements OnInit {
     birthMonth: [0, [Validators.required, Validators.min(1), Validators.max(12)]],
     birthYear: [0, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
     captchaToken: ['', [Validators.required]],
-    acceptTos: [false, [Validators.requiredTrue]],
   });
 
   ngOnInit(): void {
@@ -67,7 +77,13 @@ export class OnboardStudentComponent implements OnInit {
   }
 
   get canSubmit(): boolean {
-    return !this.preloadFailed && !this.loadingUiData && !this.submitting && this.form.valid;
+    return (
+      !this.preloadFailed &&
+      !this.loadingUiData &&
+      !this.submitting &&
+      this.form.valid &&
+      this.allContractsAccepted
+    );
   }
 
   private extractMessages(payload: any): UiMessage[] {
@@ -75,37 +91,21 @@ export class OnboardStudentComponent implements OnInit {
     return Array.isArray(msgs) ? msgs : [];
   }
 
-  private parseSchools(payload: any): SchoolOption[] {
-    const rawSchools =
-      payload?.menuControlDataList?.menuControlDataList ||
-      payload?.menuControlDataList ||
-      payload?.schools ||
-      [];
-
-    if (!Array.isArray(rawSchools)) {
-      return [];
-    }
-
-    return rawSchools
-      .map((s: any) => ({
-        id: String(s?.id ?? s?.value ?? '').trim(),
-        label: String(s?.name ?? s?.label ?? s?.description ?? '').trim(),
-      }))
-      .filter((s: SchoolOption) => !!s.id && !!s.label);
-  }
-
   loadOnboardStudentUiData(): void {
     this.loadingUiData = true;
     this.preloadFailed = false;
     this.messages = [];
 
-    this.http
-      .get<any>(`${this.servicePrefix}/hccl/public/onboard/student/ui-data`)
+    this.hcclService
+      .resolvePublicSignupUIData('')
       .pipe(finalize(() => (this.loadingUiData = false)))
       .subscribe({
         next: (res) => {
-          this.schools = this.parseSchools(res);
-          if (!this.schools.length) {
+          this.schoolSelectData = res?.schoolSelectData || null;
+          this.consentData = res?.consents || null;
+          this.allContractsAccepted = !(this.consentData?.contracts?.length || 0);
+          const menuItems = this.schoolSelectData?.menuItems || [];
+          if (!menuItems.length) {
             this.preloadFailed = true;
             this.messages = [{ message: 'School options could not be loaded.', severity: 3 }];
           }
@@ -115,6 +115,20 @@ export class OnboardStudentComponent implements OnInit {
           this.messages = [{ message: 'Failed to load onboarding UI data. Please retry.', severity: 3 }];
         },
       });
+  }
+
+  onSchoolSelectionChange(selected: MenuControlData | null): void {
+    this.form.controls.schoolId.setValue(selected?.id || '');
+    this.form.controls.schoolId.markAsTouched();
+    this.form.controls.schoolId.updateValueAndValidity();
+  }
+
+  onConsentSelectionChange(consents: ConsentRequestPOSTData[]): void {
+    this.selectedConsents = consents;
+  }
+
+  onAllContractsAcceptedChange(isAccepted: boolean): void {
+    this.allContractsAccepted = isAccepted;
   }
 
   useEmailForUserName(): void {
@@ -140,21 +154,26 @@ export class OnboardStudentComponent implements OnInit {
     this.submitting = true;
     this.messages = [];
     const value = this.form.getRawValue();
-    const payload = {
-      email: value.email.trim(),
+    const payload: OnboardStudentPOSTData & Record<string, unknown> = {
       schoolId: value.schoolId,
-      userName: value.userName.trim(),
-      firstName: value.firstName.trim(),
-      lastName: value.lastName.trim(),
+      orgUserData: {
+        organizationCode: value.schoolId,
+        emailAddress: value.email.trim(),
+        userName: value.userName.trim(),
+        firstName: value.firstName.trim(),
+        lastName: value.lastName.trim(),
+      },
+      consents: {
+        consents: this.selectedConsents,
+      },
+      // Keep additional spec fields until API contract is finalized.
       birthMonth: Number(value.birthMonth),
       birthYear: Number(value.birthYear),
       captchaToken: value.captchaToken,
-      acceptTos: value.acceptTos,
-      tosVersion: this.tosVersion,
     };
 
-    this.http
-      .post<any>(`${this.servicePrefix}/api/registration`, payload)
+    this.hcclService
+      .onboardStudent(payload)
       .pipe(finalize(() => (this.submitting = false)))
       .subscribe({
         next: (res) => {
@@ -162,7 +181,7 @@ export class OnboardStudentComponent implements OnInit {
           if (responseMessages.length) {
             this.messages = responseMessages;
           }
-          this.submitted = !!res?.success;
+          this.submitted = !responseMessages.some((msg) => Number(msg?.severity || 0) >= 3);
           if (!this.submitted && !this.messages.length) {
             this.messages = [{ message: 'Registration could not be completed.', severity: 3 }];
           }
@@ -183,7 +202,6 @@ export class OnboardStudentComponent implements OnInit {
       this.messages = [{ message: 'Enter your email to resend verification.', severity: 2 }];
       return;
     }
-    this.http.post(`${this.servicePrefix}/api/registration/resend-verification`, { email }).subscribe();
-    this.messages = [{ message: 'If an account exists, a new verification email will be sent.', severity: 1 }];
+    this.messages = [{ message: 'Resend verification endpoint not yet available in HcclService.', severity: 2 }];
   }
 }

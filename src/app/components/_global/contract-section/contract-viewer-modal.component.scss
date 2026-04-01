@@ -1,0 +1,26 @@
+.contract-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1040;
+}
+
+.contract-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(900px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  z-index: 1050;
+  overflow: hidden;
+
+  .modal-header {
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .modal-body {
+    overflow: auto;
+    max-height: calc(100vh - 140px);
+  }
+}

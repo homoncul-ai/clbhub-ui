@@ -4502,15 +4502,6 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PostmarkWebhookResponse>(request);
   }
 
-  onboardFamily(body: OnboardFamilyPOSTData): Observable<OnboardResponse> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/public/onboard/family",
-      method: "POST",
-      body: body,
-    };
-    return this.request<OnboardResponse>(request);
-  }
-
   onboardInvited(body: OnboardInvitedRequest): Observable<OnboardInvitedResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/invite",
@@ -4518,6 +4509,15 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<OnboardInvitedResponse>(request);
+  }
+
+  onboardParent(body: OnboardFamilyPOSTData): Observable<OnboardResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/parent",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardResponse>(request);
   }
 
   onboardStudent(body: OnboardStudentPOSTData): Observable<OnboardResponse> {
@@ -12205,6 +12205,32 @@ export interface PostmarkWebhookResponse {
   messages?: SimpleMessageList;
 }
 
+export interface OnboardInvitedResponse {
+  messages?: SimpleMessageList;
+  dashboardUrl?: string;
+}
+
+export interface ConsentRequestPOSTData {
+  contractVersionId?: string;
+  agreeValue?: string;
+  consenting?: boolean;
+}
+
+export interface MultiConsentRequestPOSTData {
+  consents?: ConsentRequestPOSTData[];
+}
+
+export interface OnboardInvitedRequest {
+  inviteId?: string;
+  messageHandle?: string;
+  userName?: string;
+  firstName: string;
+  lastName?: string;
+  password?: string;
+  acceptNotes?: string;
+  consents: MultiConsentRequestPOSTData;
+}
+
 export interface OnboardResponse {
   messages?: SimpleMessageList;
   loginUrl?: string;
@@ -12232,32 +12258,6 @@ export interface OnboardFamilyPOSTData {
   family?: FamilyUnitPOSTData;
   parents?: OnboardFamilyMemberPOSTData[];
   students?: OnboardFamilyMemberPOSTData[];
-}
-
-export interface OnboardInvitedResponse {
-  messages?: SimpleMessageList;
-  dashboardUrl?: string;
-}
-
-export interface ConsentRequestPOSTData {
-  contractVersionId?: string;
-  agreeValue?: string;
-  consenting?: boolean;
-}
-
-export interface MultiConsentRequestPOSTData {
-  consents?: ConsentRequestPOSTData[];
-}
-
-export interface OnboardInvitedRequest {
-  inviteId?: string;
-  messageHandle?: string;
-  userName?: string;
-  firstName: string;
-  lastName?: string;
-  password?: string;
-  acceptNotes?: string;
-  consents: MultiConsentRequestPOSTData;
 }
 
 export interface OnboardOrgUserPOSTData {
@@ -12585,9 +12585,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {

@@ -1,0 +1,33 @@
+<section class="contract-section">
+  <h6 class="mb-2">Terms and agreements</h6>
+
+  <div *ngIf="!hasContracts" class="text-muted small">
+    No contracts available for this registration.
+  </div>
+
+  <div *ngFor="let contract of contracts" class="contract-row">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [id]="'contract-' + getContractId(contract)"
+        [checked]="isAccepted(contract)"
+        [disabled]="disabled"
+        (change)="onConsentChange(contract, $any($event.target).checked)" />
+      <label class="form-check-label" [for]="'contract-' + getContractId(contract)">
+        {{ contract.consentMessage || 'I agree to this contract.' }}
+      </label>
+    </div>
+
+    <button type="button" class="btn btn-link p-0 contract-link" (click)="openContract(contract)">
+      Show {{ contract.title || 'terms and conditions' }}
+    </button>
+  </div>
+</section>
+
+<app-contract-viewer-modal
+  *ngIf="activeContract"
+  [title]="activeContract.title || 'Contract details'"
+  [markdown]="activeContract.mdContents || ''"
+  (close)="closeContract()">
+</app-contract-viewer-modal>

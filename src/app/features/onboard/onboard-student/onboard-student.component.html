@@ -32,10 +32,13 @@
           </div>
           <div class="col-md-6">
             <label class="form-label" for="schoolId">School</label>
-            <select id="schoolId" class="form-select" formControlName="schoolId" [disabled]="preloadFailed || loadingUiData">
-              <option value="">Select school...</option>
-              <option *ngFor="let school of schools" [value]="school.id">{{ school.label }}</option>
-            </select>
+            <app-menu-control-data-list
+              [menuControlDataList]="schoolSelectData"
+              [placeholder]="'Select school...'"
+              [disabled]="preloadFailed || loadingUiData"
+              [readonly]="false"
+              (selectionChange)="onSchoolSelectionChange($event)">
+            </app-menu-control-data-list>
           </div>
           <div class="col-md-8">
             <label class="form-label" for="userName">Username</label>
@@ -68,11 +71,13 @@
           </div>
         </div>
 
-        <div class="form-check mt-4">
-          <input id="acceptTos" type="checkbox" class="form-check-input" formControlName="acceptTos" />
-          <label class="form-check-label" for="acceptTos">
-            I accept the Terms & Conditions and Privacy Policy.
-          </label>
+        <div class="mt-4">
+          <app-contract-section
+            [consents]="consentData"
+            [disabled]="submitting"
+            (consentSelectionChange)="onConsentSelectionChange($event)"
+            (allAcceptedChange)="onAllContractsAcceptedChange($event)">
+          </app-contract-section>
         </div>
 
         <div class="captcha mt-3">
