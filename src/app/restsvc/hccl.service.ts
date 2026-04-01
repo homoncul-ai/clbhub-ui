@@ -12302,6 +12302,7 @@ export interface MultiConsentRequestGETData {
 }
 
 export interface OnboardStudentUIData {
+  messages?: SimpleMessageList;
   schoolSelectData?: MenuControlDataList;
   consents?: MultiConsentRequestGETData;
 }
