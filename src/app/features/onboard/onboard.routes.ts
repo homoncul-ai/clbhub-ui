@@ -7,6 +7,13 @@ export const ONBOARD_ROUTES: Routes = [
       import('./onboard-dashboard/onboard-dashboard.component').then((m) => m.OnboardDashboardComponent),
   },
   {
+    path: 'student/onboard-complete',
+    loadComponent: () =>
+      import('./onboard-student-complete/onboard-student-complete.component').then(
+        (m) => m.OnboardStudentCompleteComponent
+      ),
+  },
+  {
     path: 'student',
     loadComponent: () =>
       import('./onboard-student/onboard-student.component').then((m) => m.OnboardStudentComponent),
