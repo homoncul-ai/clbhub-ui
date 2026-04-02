@@ -19714,13 +19714,52 @@
         "tags": [
           "/public"
         ],
-        "summary": "Onboards a student.",
+        "summary": "Start onboard invite.",
         "operationId": "onboardStudent",
         "requestBody": {
           "content": {
             "*/*": {
               "schema": {
                 "$ref": "#/components/schemas/OnboardStudentPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/onboard/student-finish": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Finsh onboards a student.",
+        "operationId": "onboardStudentFinish",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string"
               }
             }
           }
@@ -49250,13 +49289,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

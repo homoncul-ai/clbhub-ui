@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ContractSectionComponent } from '@app/components/_global/contract-section/contract-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import {
   ConsentRequestPOSTData,
   HcclService,
@@ -13,9 +14,18 @@ import {
   MultiConsentRequestGETData,
   OnboardStudentPOSTData,
 } from '@app/restsvc/hccl.service';
+import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
 import { OnboardPublicHeaderComponent } from '../components/onboard-public-header.component';
 
-type UiMessage = { message: string; severity?: number };
+declare global {
+  interface Window {
+    grecaptcha?: {
+      render: (container: HTMLElement, parameters: Record<string, unknown>) => number;
+      reset: (widgetId?: number) => void;
+    };
+    __onRecaptchaLoad?: () => void;
+  }
+}
 
 @Component({
   selector: 'app-onboard-student',
@@ -27,13 +37,18 @@ type UiMessage = { message: string; severity?: number };
     OnboardPublicHeaderComponent,
     MenuControlDataListComponent,
     ContractSectionComponent,
+    SimpleMessagesSectionComponent,
   ],
   templateUrl: './onboard-student.component.html',
   styleUrl: './onboard-student.component.scss',
 })
-export class OnboardStudentComponent implements OnInit {
+export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
+  @ViewChild('captchaContainer') captchaContainer?: ElementRef<HTMLDivElement>;
+  private recaptchaWidgetId: number | null = null;
+  private recaptchaScriptPromise: Promise<void> | null = null;
+  readonly recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
   loadingUiData = false;
   submitting = false;
@@ -43,7 +58,7 @@ export class OnboardStudentComponent implements OnInit {
   consentData: MultiConsentRequestGETData | null = null;
   selectedConsents: ConsentRequestPOSTData[] = [];
   allContractsAccepted = false;
-  messages: UiMessage[] = [];
+  messagesList: SimpleMessageList = { messages: [] };
 
   readonly years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i);
   readonly months = [
@@ -65,36 +80,133 @@ export class OnboardStudentComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     schoolId: ['', [Validators.required]],
     userName: ['', [Validators.required, Validators.minLength(3)]],
+    messageHandle: ['', [Validators.required, Validators.minLength(2)]],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
+    initialPassword: ['', [Validators.required, Validators.minLength(8)]],
+    verifyPassword: ['', [Validators.required]],
     birthMonth: [0, [Validators.required, Validators.min(1), Validators.max(12)]],
     birthYear: [0, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
     captchaToken: ['', [Validators.required]],
-  });
+  }, { validators: [this.passwordsMatchValidator] });
 
   ngOnInit(): void {
     this.loadOnboardStudentUiData();
   }
 
-  get canSubmit(): boolean {
-    return (
-      !this.preloadFailed &&
-      !this.loadingUiData &&
-      !this.submitting &&
-      this.form.valid &&
-      this.allContractsAccepted
-    );
+  async ngAfterViewInit(): Promise<void> {
+    await this.initializeRecaptcha();
   }
 
-  private extractMessages(payload: any): UiMessage[] {
+  ngOnDestroy(): void {
+    if (this.recaptchaWidgetId !== null && window.grecaptcha) {
+      window.grecaptcha.reset(this.recaptchaWidgetId);
+    }
+  }
+
+  get canSubmit(): boolean {
+    return !this.loadingUiData && !this.submitting;
+  }
+
+  private extractMessages(payload: any): SimpleMessage[] {
     const msgs = payload?.messages?.messages || payload?.messages || payload?.errorList || [];
-    return Array.isArray(msgs) ? msgs : [];
+    if (!Array.isArray(msgs)) {
+      return [];
+    }
+    return msgs.map((msg: any) => ({
+      message: msg?.message || msg?.exceptionMessage || msg?.messageCode || 'Unknown message',
+      severity: Number(msg?.severity ?? 1),
+      messageCode: msg?.messageCode,
+    }));
+  }
+
+  private setMessages(messages: SimpleMessage[]): void {
+    this.messagesList = { messages };
+  }
+
+  private buildValidationMessages(): SimpleMessage[] {
+    const messages: SimpleMessage[] = [];
+    const v = this.form.controls;
+
+    if (this.loadingUiData) messages.push({ message: 'Onboarding data is still loading.', severity: 2 });
+    if (this.preloadFailed) messages.push({ message: 'School options could not be loaded.', severity: 1 });
+    if (!v.schoolId.value) messages.push({ message: 'Select a school.', severity: 1 });
+    if (v.email.hasError('required')) messages.push({ message: 'Email is required.', severity: 1 });
+    if (v.email.hasError('email')) messages.push({ message: 'Enter a valid email address (example: name@example.com).', severity: 1 });
+    if (!v.userName.value?.trim()) messages.push({ message: 'Username is required.', severity: 1 });
+    if (!v.messageHandle.value?.trim()) messages.push({ message: 'Message handle is required.', severity: 1 });
+    if (!v.firstName.value?.trim()) messages.push({ message: 'First name is required.', severity: 1 });
+    if (!v.lastName.value?.trim()) messages.push({ message: 'Last name is required.', severity: 1 });
+    if (!v.initialPassword.value?.trim()) messages.push({ message: 'Password is required.', severity: 1 });
+    if (v.initialPassword.hasError('minlength')) messages.push({ message: 'Password must be at least 8 characters.', severity: 1 });
+    if (!v.verifyPassword.value?.trim()) messages.push({ message: 'Verify password is required.', severity: 1 });
+    if (this.form.hasError('passwordMismatch')) messages.push({ message: 'Passwords must match.', severity: 1 });
+    if (!v.captchaToken.value) messages.push({ message: 'Complete the captcha challenge.', severity: 1 });
+    if (!this.allContractsAccepted) messages.push({ message: 'Accept all contract checkboxes to continue.', severity: 1 });
+
+    return messages;
+  }
+
+  private passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('initialPassword')?.value;
+    const verifyPassword = control.get('verifyPassword')?.value;
+    if (!password || !verifyPassword) {
+      return null;
+    }
+    return password === verifyPassword ? null : { passwordMismatch: true };
+  }
+
+  private async initializeRecaptcha(): Promise<void> {
+    if (!this.captchaContainer?.nativeElement) {
+      return;
+    }
+    await this.loadRecaptchaScript();
+    if (!window.grecaptcha || this.recaptchaWidgetId !== null) {
+      return;
+    }
+    this.recaptchaWidgetId = window.grecaptcha.render(this.captchaContainer.nativeElement, {
+      sitekey: this.recaptchaSiteKey,
+      callback: (token: string) => this.form.controls.captchaToken.setValue(token || ''),
+      'expired-callback': () => this.form.controls.captchaToken.setValue(''),
+      'error-callback': () => this.form.controls.captchaToken.setValue(''),
+    });
+  }
+
+  private loadRecaptchaScript(): Promise<void> {
+    if (window.grecaptcha?.render) {
+      return Promise.resolve();
+    }
+    if (this.recaptchaScriptPromise) {
+      return this.recaptchaScriptPromise;
+    }
+
+    this.recaptchaScriptPromise = new Promise<void>((resolve, reject) => {
+      const existingScript = document.querySelector('script[data-recaptcha-script="true"]') as HTMLScriptElement | null;
+      if (existingScript) {
+        existingScript.addEventListener('load', () => resolve(), { once: true });
+        existingScript.addEventListener('error', () => reject(new Error('Failed to load reCAPTCHA script.')), {
+          once: true,
+        });
+        return;
+      }
+
+      window.__onRecaptchaLoad = () => resolve();
+      const script = document.createElement('script');
+      script.setAttribute('data-recaptcha-script', 'true');
+      script.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
+      script.async = true;
+      script.defer = true;
+      script.onerror = () => reject(new Error('Failed to load reCAPTCHA script.'));
+      document.head.appendChild(script);
+    });
+
+    return this.recaptchaScriptPromise;
   }
 
   loadOnboardStudentUiData(): void {
     this.loadingUiData = true;
     this.preloadFailed = false;
-    this.messages = [];
+    this.setMessages([]);
 
     this.hcclService
       .resolvePublicSignupUIData('')
@@ -107,12 +219,12 @@ export class OnboardStudentComponent implements OnInit {
           const menuItems = this.schoolSelectData?.menuItems || [];
           if (!menuItems.length) {
             this.preloadFailed = true;
-            this.messages = [{ message: 'School options could not be loaded.', severity: 3 }];
+            this.setMessages([{ message: 'School options could not be loaded.', severity: 1 }]);
           }
         },
         error: () => {
           this.preloadFailed = true;
-          this.messages = [{ message: 'Failed to load onboarding UI data. Please retry.', severity: 3 }];
+          this.setMessages([{ message: 'Failed to load onboarding UI data. Please retry.', severity: 1 }]);
         },
       });
   }
@@ -140,19 +252,16 @@ export class OnboardStudentComponent implements OnInit {
     this.form.controls.userName.markAsDirty();
   }
 
-  // Placeholder for CAPTCHA integration until site key wiring is in place.
-  setCaptchaSolved(checked: boolean): void {
-    this.form.controls.captchaToken.setValue(checked ? 'captcha-placeholder-token' : '');
-  }
-
   submit(): void {
-    if (!this.canSubmit) {
-      this.form.markAllAsTouched();
+    this.form.markAllAsTouched();
+    const validationMessages = this.buildValidationMessages();
+    if (validationMessages.length) {
+      this.setMessages(validationMessages);
       return;
     }
 
     this.submitting = true;
-    this.messages = [];
+    this.setMessages([]);
     const value = this.form.getRawValue();
     const payload: OnboardStudentPOSTData & Record<string, unknown> = {
       schoolId: value.schoolId,
@@ -160,8 +269,10 @@ export class OnboardStudentComponent implements OnInit {
         organizationCode: value.schoolId,
         emailAddress: value.email.trim(),
         userName: value.userName.trim(),
+        messageHandle: value.messageHandle.trim(),
         firstName: value.firstName.trim(),
         lastName: value.lastName.trim(),
+        initialPassword: value.initialPassword,
       },
       consents: {
         consents: this.selectedConsents,
@@ -179,18 +290,19 @@ export class OnboardStudentComponent implements OnInit {
         next: (res) => {
           const responseMessages = this.extractMessages(res);
           if (responseMessages.length) {
-            this.messages = responseMessages;
+            this.setMessages(responseMessages);
           }
-          this.submitted = !responseMessages.some((msg) => Number(msg?.severity || 0) >= 3);
-          if (!this.submitted && !this.messages.length) {
-            this.messages = [{ message: 'Registration could not be completed.', severity: 3 }];
+          this.submitted = !responseMessages.some((msg) => Number(msg?.severity || 0) <= 1);
+          if (!this.submitted && !(this.messagesList.messages?.length || 0)) {
+            this.setMessages([{ message: 'Registration could not be completed.', severity: 1 }]);
           }
         },
         error: (err) => {
           this.submitted = false;
-          this.messages = this.extractMessages(err?.error);
-          if (!this.messages.length) {
-            this.messages = [{ message: 'Registration failed. Please try again.', severity: 3 }];
+          const responseMessages = this.extractMessages(err?.error);
+          this.setMessages(responseMessages);
+          if (!responseMessages.length) {
+            this.setMessages([{ message: 'Registration failed. Please try again.', severity: 1 }]);
           }
         },
       });
@@ -199,9 +311,9 @@ export class OnboardStudentComponent implements OnInit {
   resendVerification(): void {
     const email = String(this.form.controls.email.value || '').trim();
     if (!email) {
-      this.messages = [{ message: 'Enter your email to resend verification.', severity: 2 }];
+      this.setMessages([{ message: 'Enter your email to resend verification.', severity: 2 }]);
       return;
     }
-    this.messages = [{ message: 'Resend verification endpoint not yet available in HcclService.', severity: 2 }];
+    this.setMessages([{ message: 'Resend verification endpoint not yet available in HcclService.', severity: 2 }]);
   }
 }

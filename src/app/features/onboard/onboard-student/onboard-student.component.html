@@ -9,13 +9,9 @@
         requirements.
       </p>
 
-      <div *ngIf="loadingUiData" class="alert alert-info py-2">Loading school options...</div>
+      <app-simple-messages-section [messagesList]="messagesList"></app-simple-messages-section>
 
-      <div *ngIf="messages.length" class="alert alert-secondary">
-        <ul class="mb-0">
-          <li *ngFor="let msg of messages">{{ msg.message || 'Unknown message' }}</li>
-        </ul>
-      </div>
+      <div *ngIf="loadingUiData" class="alert alert-info py-2">Loading school options...</div>
 
       <div *ngIf="submitted" class="alert alert-success">
         Account created in pending status. Check your email to verify your account before login.
@@ -27,10 +23,6 @@
       <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!submitted">
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label" for="email">Email</label>
-            <input id="email" class="form-control" type="email" formControlName="email" />
-          </div>
-          <div class="col-md-6">
             <label class="form-label" for="schoolId">School</label>
             <app-menu-control-data-list
               [menuControlDataList]="schoolSelectData"
@@ -40,12 +32,9 @@
               (selectionChange)="onSchoolSelectionChange($event)">
             </app-menu-control-data-list>
           </div>
-          <div class="col-md-8">
-            <label class="form-label" for="userName">Username</label>
-            <input id="userName" class="form-control" type="text" formControlName="userName" />
-          </div>
-          <div class="col-md-4 d-flex align-items-end">
-            <button class="btn btn-outline-primary w-100" type="button" (click)="useEmailForUserName()">Use email</button>
+          <div class="col-12">
+            <label class="form-label" for="email">Email</label>
+            <input id="email" class="form-control" type="email" formControlName="email" />
           </div>
           <div class="col-md-6">
             <label class="form-label" for="firstName">First name</label>
@@ -55,18 +44,40 @@
             <label class="form-label" for="lastName">Last name</label>
             <input id="lastName" class="form-control" type="text" formControlName="lastName" />
           </div>
+          <div class="col-12">
+            <label class="form-label" for="messageHandle">Message handle</label>
+            <input id="messageHandle" class="form-control" type="text" formControlName="messageHandle" />
+          </div>
+          <div class="col-md-8">
+            <label class="form-label" for="userName">Username</label>
+            <input id="userName" class="form-control" type="text" formControlName="userName" />
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button class="btn btn-outline-primary w-100" type="button" (click)="useEmailForUserName()">Use email</button>
+          </div>
           <div class="col-md-6">
-            <label class="form-label" for="birthMonth">Birth month</label>
-            <select id="birthMonth" class="form-select" formControlName="birthMonth">
-              <option [value]="0">Select month...</option>
-              <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
-            </select>
+            <label class="form-label" for="initialPassword">Password</label>
+            <input id="initialPassword" class="form-control" type="password" formControlName="initialPassword" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="verifyPassword">Verify password</label>
+            <input id="verifyPassword" class="form-control" type="password" formControlName="verifyPassword" />
+          </div>
+          <div class="col-12" *ngIf="form.errors?.['passwordMismatch'] && (form.controls.verifyPassword.dirty || form.controls.verifyPassword.touched)">
+            <small class="text-danger">Passwords must match.</small>
           </div>
           <div class="col-md-6">
             <label class="form-label" for="birthYear">Birth year</label>
             <select id="birthYear" class="form-select" formControlName="birthYear">
               <option [value]="0">Select year...</option>
               <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="birthMonth">Birth month</label>
+            <select id="birthMonth" class="form-select" formControlName="birthMonth">
+              <option [value]="0">Select month...</option>
+              <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
             </select>
           </div>
         </div>
@@ -81,20 +92,13 @@
         </div>
 
         <div class="captcha mt-3">
-          <div class="form-check">
-            <input
-              id="captchaSolved"
-              type="checkbox"
-              class="form-check-input"
-              [checked]="!!form.controls.captchaToken.value"
-              (change)="setCaptchaSolved($any($event.target).checked)"
-            />
-            <label class="form-check-label" for="captchaSolved">I am not a robot (placeholder)</label>
-          </div>
+          <label class="form-label d-block mb-2">Captcha</label>
+          <div #captchaContainer></div>
+          <small class="text-muted d-block mt-2">Complete the reCAPTCHA challenge to continue.</small>
         </div>
 
         <div class="d-flex gap-2 mt-4">
-          <button type="submit" class="btn btn-primary" [disabled]="!canSubmit">
+          <button type="submit" class="btn btn-primary" [disabled]="submitting">
             {{ submitting ? 'Submitting...' : 'Create account' }}
           </button>
           <a class="btn btn-outline-secondary" [routerLink]="['/public/onboard']">Back</a>

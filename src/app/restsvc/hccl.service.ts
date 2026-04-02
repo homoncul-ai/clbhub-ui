@@ -4529,6 +4529,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  onboardStudentFinish(body: string): Observable<OnboardResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/student-finish",
+      method: "POST",
+      body: body,
+    };
+    return this.request<OnboardResponse>(request);
+  }
+
   resolveOnboardInvitedUIData(invitedId: string): Observable<OnboardInvitedUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/invite/setup",
@@ -12585,9 +12594,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {
