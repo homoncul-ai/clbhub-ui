@@ -38,11 +38,15 @@ export class AppConstants {
     return segments.includes('public');
   }
 
+  isPublicRoute(pathname?: string): boolean {
+    return this.isPublicPath(pathname || window.location.pathname);
+  }
+
   keycloakInitializer() {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         await this.__loadConfig();
-        const isPublicRoute = this.isPublicPath(window.location.pathname);
+        const isPublicRoute = this.isPublicRoute(window.location.pathname);
         if (isPublicRoute) {
           resolve(true);
           return;

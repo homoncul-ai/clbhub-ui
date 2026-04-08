@@ -14,7 +14,15 @@ import { AppConstants } from '@app/shell/services/config.service';
 export class KeycloakInterceptor implements HttpInterceptor {
   constructor(private appConstants: AppConstants) {}
 
+  private isPublicApiRequest(url: string): boolean {
+    return /\/hccl\/public(\/|$)/.test(url || '');
+  }
+
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    if (this.isPublicApiRequest(request.url)) {
+      return next.handle(request);
+    }
+
     if (!this.appConstants.isLoggedIn()) {
   //    alert('not logged in');
       return next.handle(request);

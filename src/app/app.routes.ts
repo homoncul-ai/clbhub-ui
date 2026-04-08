@@ -2,7 +2,29 @@ import { Routes } from '@angular/router';
 import { ShellComponent } from './shell/shell.component';
 
 export const routes: Routes = [
- 
+  {
+    path: 'public',
+    children: [
+      {
+        path: '',
+        redirectTo: 'onboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'onboard-student',
+        redirectTo: 'onboard/student',
+        pathMatch: 'full',
+      },
+      {
+        path: 'onboard',
+        loadChildren: () => import('./features/onboard/onboard.routes').then(m => m.ONBOARD_ROUTES)
+      },
+      {
+        path: '**',
+        redirectTo: 'onboard',
+      },
+    ],
+  },
   {
     path: '',
     component: ShellComponent,
@@ -61,10 +83,6 @@ export const routes: Routes = [
         pathMatch: 'full'
       },
     ]
-  },
-  {
-    path: 'public/onboard',
-    loadChildren: () => import('./features/onboard/onboard.routes').then(m => m.ONBOARD_ROUTES)
   },
   {
     path: '**',

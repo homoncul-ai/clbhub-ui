@@ -13,10 +13,18 @@ import { AppConstants } from '@app/shell/services/config.service';
 export class HttpTokenInterceptor implements HttpInterceptor {
   constructor(private appConstants: AppConstants) {}
 
+  private isPublicApiRequest(url: string): boolean {
+    return /\/hccl\/public(\/|$)/.test(url || '');
+  }
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (this.isPublicApiRequest(req.url)) {
+      return next.handle(req);
+    }
+
     return from(this.appConstants.getTenantId()).pipe(
       mergeMap((tenant: any) => {
         if (tenant && tenant.tenantId ) {

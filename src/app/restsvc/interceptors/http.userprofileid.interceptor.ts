@@ -12,10 +12,18 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
 export class HttpUserProfileIdInterceptor implements HttpInterceptor { 
   constructor(private hcclContextService: HcclContextService) {}
 
+  private isPublicApiRequest(url: string): boolean {
+    return /\/hccl\/public(\/|$)/.test(url || '');
+  }
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (this.isPublicApiRequest(req.url)) {
+      return next.handle(req);
+    }
+
     const userProfileId = this.hcclContextService.getCurrentUserProfileId();
     
     if (userProfileId && userProfileId.trim() !== '') {
