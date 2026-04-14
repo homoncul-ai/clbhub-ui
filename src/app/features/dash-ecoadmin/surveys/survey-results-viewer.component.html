@@ -60,6 +60,13 @@
               <button type="button" class="btn btn-sm btn-outline-secondary" (click)="nextEvent()" [disabled]="!canGoNext">
                 Next
               </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                (click)="deleteSelectedEvent()"
+                [disabled]="!canDelete">
+                {{ deleting ? 'Deleting...' : 'Delete' }}
+              </button>
             </div>
           </div>
           <div class="card-body" *ngIf="selectedEvent as event">

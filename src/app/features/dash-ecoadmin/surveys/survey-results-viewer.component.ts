@@ -38,6 +38,7 @@ export class SurveyResultsViewerComponent implements OnInit {
   };
 
   loading = false;
+  deleting = false;
   error = '';
   surveyKey = 'npo_job_finder';
   events: UtilmonReportingEventGETData[] = [];
@@ -121,6 +122,10 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   get canGoNext(): boolean {
     return this.selectedAbsoluteIndex >= 0 && this.selectedAbsoluteIndex < this.events.length - 1;
+  }
+
+  get canDelete(): boolean {
+    return !!this.selectedEvent && !this.deleting;
   }
 
   getSelectedHelpAreas(data: Record<string, any>): string[] {
@@ -208,6 +213,43 @@ export class SurveyResultsViewerComponent implements OnInit {
     }
     this.selectedAbsoluteIndex -= 1;
     this.activeBucketIndex = Math.floor(this.selectedAbsoluteIndex / this.pageBucketSize);
+  }
+
+  deleteSelectedEvent(): void {
+    const event = this.selectedEvent;
+    const id = event?.id || '';
+    if (!id || this.deleting) {
+      return;
+    }
+
+    const ok = window.confirm('Deleting - are you sure ?');
+    if (!ok) {
+      return;
+    }
+
+    this.deleting = true;
+    this.error = '';
+    this.hcclService.deleteUtilmonReportingEventById(id).subscribe({
+      next: () => {
+        this.deleting = false;
+        const removedIndex = this.selectedAbsoluteIndex;
+        this.events = this.events.filter((x) => x.id !== id);
+
+        if (!this.events.length) {
+          this.selectedAbsoluteIndex = -1;
+          this.activeBucketIndex = 0;
+          return;
+        }
+
+        const newIndex = Math.min(removedIndex, this.events.length - 1);
+        this.selectedAbsoluteIndex = Math.max(newIndex, 0);
+        this.activeBucketIndex = Math.floor(this.selectedAbsoluteIndex / this.pageBucketSize);
+      },
+      error: () => {
+        this.deleting = false;
+        this.error = 'Unable to delete survey response.';
+      },
+    });
   }
 
   eventLabel(event: UtilmonReportingEventGETData): string {
