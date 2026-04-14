@@ -1,0 +1,45 @@
+.surveys-page {
+  padding-top: 140px;
+  max-width: 980px;
+}
+
+.surveys-page .card .card-body {
+  padding-top: 2rem !important;
+}
+
+.survey-page-title {
+  font-size: clamp(1.75rem, 2.8vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.survey-subtitle {
+  font-size: clamp(1rem, 1.7vw, 1.25rem);
+  line-height: 1.35;
+  margin: 0 0 1rem;
+  color: #6c757d;
+}
+
+.intro-box {
+  background: #f8fafc;
+  border: 1px solid #d6dbe7;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.checkbox-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 0;
+}
+
+.form-check-input {
+  margin-left: 0;
+}

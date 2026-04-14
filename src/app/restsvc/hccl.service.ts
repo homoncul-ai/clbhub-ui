@@ -4555,6 +4555,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardStudentUIData>(request);
   }
 
+  saveSurveyResponse(body: SurveyResponsePOSTData): Observable<SimpleResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/survey/save",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SimpleResponse>(request);
+  }
+
   getEntityMapForFK(entity_type: string, body: any): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/mapfk/" + entity_type,
@@ -12316,6 +12325,17 @@ export interface OnboardStudentUIData {
   consents?: MultiConsentRequestGETData;
 }
 
+export interface SimpleResponse {
+  messages?: SimpleMessageList;
+}
+
+export interface SurveyResponsePOSTData {
+  surveyCode?: string;
+  subject?: string;
+  emailFrom?: string;
+  mapJsonData?: any;
+}
+
 export interface HcclUserContextGETData {
   currentUserProfileId: string;
   messages: SimpleMessageList;
@@ -12594,9 +12614,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {

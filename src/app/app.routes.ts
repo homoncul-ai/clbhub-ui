@@ -20,6 +20,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/onboard/onboard.routes').then(m => m.ONBOARD_ROUTES)
       },
       {
+        path: 'surveys',
+        loadChildren: () => import('./features/surveys/surveys.routes').then(m => m.SURVEYS_ROUTES)
+      },
+      {
         path: '**',
         redirectTo: 'onboard',
       },
