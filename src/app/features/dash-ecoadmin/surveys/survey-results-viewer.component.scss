@@ -1,0 +1,46 @@
+.survey-viewer {
+  .bucket-nav {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+  }
+
+  .response-list {
+    max-height: 70vh;
+    overflow: auto;
+  }
+
+  .top-facts {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.75rem;
+  }
+
+  .fact-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+  }
+
+  .fact-value {
+    font-size: 0.98rem;
+    color: #1f2937;
+  }
+
+  .qa-block {
+    margin-bottom: 1rem;
+  }
+
+  .qa-label {
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    color: #334155;
+  }
+
+  .qa-value {
+    white-space: pre-wrap;
+    color: #0f172a;
+  }
+}

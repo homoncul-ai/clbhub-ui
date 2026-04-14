@@ -77,6 +77,7 @@ import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/c
 import { PAIPromptRefGroupComponent } from '../../components/_crud/paiprompt/paipromptref-group.component';
 import { PAIPromptRefListComponent } from '../../components/_crud/paiprompt/paipromptref-list.component';
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
+import { SurveyResultsViewerComponent } from './surveys/survey-results-viewer.component';
 
 const routes: Routes = [
   {
@@ -273,6 +274,10 @@ const routes: Routes = [
 
       // UI starter route
       { path: 'uistarter', component: UistarterHomeComponent },
+
+      // Survey reporting routes
+      { path: 'surveys/:surveyKey', component: SurveyResultsViewerComponent },
+      { path: 'surveys', redirectTo: 'surveys/npo_job_finder', pathMatch: 'full' },
     ]
   }
 ];
@@ -350,7 +355,8 @@ const routes: Routes = [
     PAIPromptRefGroupComponent,
     PAIPromptRefListComponent,
     OrgSchoolsGroupComponent,
-    UistarterHomeComponent
+    UistarterHomeComponent,
+    SurveyResultsViewerComponent
   ]
 })
 export class DashEcoAdminModule { } 

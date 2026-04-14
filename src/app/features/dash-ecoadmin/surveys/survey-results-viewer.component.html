@@ -1,0 +1,109 @@
+<div class="survey-viewer container-fluid py-3">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
+      <h2 class="mb-1">Surveys: {{ currentSurvey.label }}</h2>
+      <div class="text-muted small">{{ currentSurvey.description }}</div>
+    </div>
+    <div class="text-muted small">
+      Subject filter: <span class="fw-semibold">{{ currentSurvey.subject }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="alert alert-info">Loading survey responses...</div>
+  <div *ngIf="error && !loading" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="!loading && !error && !events.length" class="alert alert-warning">
+    No survey responses found for this subject.
+  </div>
+
+  <div *ngIf="!loading && !error && events.length">
+    <div class="bucket-nav mb-3">
+      <span class="me-2 fw-semibold">Pages:</span>
+      <button
+        *ngFor="let label of bucketLabels; let i = index"
+        type="button"
+        class="btn btn-sm me-1 mb-1"
+        [class.btn-primary]="i === activeBucketIndex"
+        [class.btn-outline-primary]="i !== activeBucketIndex"
+        (click)="selectBucket(i)">
+        {{ label }}
+      </button>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-4">
+        <div class="card h-100">
+          <div class="card-header fw-semibold">Responses ({{ events.length }})</div>
+          <div class="list-group list-group-flush response-list">
+            <button
+              *ngFor="let event of bucketEvents"
+              type="button"
+              class="list-group-item list-group-item-action text-start"
+              [class.active]="selectedEvent?.id === event.id"
+              (click)="selectEvent(event)">
+              <div class="fw-semibold">{{ eventLabel(event) }}</div>
+              <div class="small" [class.text-light]="selectedEvent?.id === event.id" [class.text-muted]="selectedEvent?.id !== event.id">
+                {{ eventDate(event) }}
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center gap-2">
+            <div class="fw-semibold">Response details</div>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary" (click)="prevEvent()" [disabled]="!canGoPrev">
+                Prev
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" (click)="nextEvent()" [disabled]="!canGoNext">
+                Next
+              </button>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="selectedEvent as event">
+            <div class="row g-2 mb-3 top-facts">
+              <div class="col-md-4">
+                <div class="fact-label">Name</div>
+                <div class="fact-value">{{ selectedSurveyData['name'] || '-' }}</div>
+              </div>
+              <div class="col-md-4">
+                <div class="fact-label">Organization</div>
+                <div class="fact-value">{{ selectedSurveyData['organization'] || '-' }}</div>
+              </div>
+              <div class="col-md-4">
+                <div class="fact-label">Email</div>
+                <div class="fact-value">{{ selectedSurveyData['email'] || '-' }}</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div class="fact-label">Submitted</div>
+              <div class="fact-value">{{ eventDate(event) || '-' }}</div>
+            </div>
+
+            <hr />
+
+            <div class="qa-block" *ngFor="let qa of getPrimaryAnswers(selectedSurveyData)">
+              <div class="qa-label">{{ qa.label }}</div>
+              <div class="qa-value">{{ qa.value }}</div>
+            </div>
+
+            <div class="qa-block" *ngIf="getSelectedHelpAreas(selectedSurveyData).length">
+              <div class="qa-label">How could software help?</div>
+              <ul class="mb-0">
+                <li *ngFor="let area of getSelectedHelpAreas(selectedSurveyData)">{{ area }}</li>
+              </ul>
+            </div>
+
+            <div class="qa-block" *ngFor="let qa of getAdditionalAnswers(selectedSurveyData)">
+              <div class="qa-label">{{ qa.label }}</div>
+              <div class="qa-value">{{ qa.value }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

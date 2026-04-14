@@ -814,6 +814,10 @@ export class MenuService {
     const vocodeGroup = this.newGroupMenuItem('Vocode', 'fas fa-code');
     this.addMenuItem(menu, vocodeGroup);
 
+    // Add Surveys group
+    const surveysGroup = this.newGroupMenuItem('Surveys', 'fas fa-clipboard-list');
+    this.addMenuItem(menu, surveysGroup);
+
     // Add PersonalStatement
     const personalStatementList = this.copyMenuItem(MENU_CONSTANTS.EA_PERSONALSTATEMENT_LIST);
     this.addChildMenuItem(vocodeGroup, personalStatementList);
@@ -829,6 +833,10 @@ export class MenuService {
     // Add VocationEncodingRef
     const vocationEncodingRefList = this.copyMenuItem(MENU_CONSTANTS.EA_VOCATIONENCODINGREF_LIST);
     this.addChildMenuItem(vocodeGroup, vocationEncodingRefList);
+
+    // Add survey reporting views
+    const surveyNpoJobFinder = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEY_NPO_JOB_FINDER_LIST);
+    this.addChildMenuItem(surveysGroup, surveyNpoJobFinder);
 
     // Add UI Starter as the last top-level menu item
     const uiStarter = this.copyMenuItem(MENU_CONSTANTS.EA_UISTARTER);
@@ -1625,6 +1633,15 @@ EA_UISTARTER: {
   componentPath: 'src/app/views/uistarter',
   componentName: 'uistarter-home',
   icon: 'fas fa-palette'
+},
+
+EA_SURVEY_NPO_JOB_FINDER_LIST: {
+  level: 2,
+  label: 'Non-profit job search assistance',
+  route: '/ecoadmin-dashboard/surveys/npo_job_finder',
+  componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
+  componentName: 'SurveyResultsViewerComponent',
+  icon: 'fas fa-list-check'
 },
 
 EA_VOCATIONENCODING_LIST: {
