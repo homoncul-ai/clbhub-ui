@@ -3,8 +3,8 @@ import { Routes } from '@angular/router';
 export const SURVEYS_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'npo_job_finder',
-    pathMatch: 'full',
+    loadComponent: () =>
+      import('./surveys-dashboard/surveys-dashboard.component').then((m) => m.SurveysDashboardComponent),
   },
   {
     path: 'npo_job_finder',
