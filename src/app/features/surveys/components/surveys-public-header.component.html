@@ -2,7 +2,8 @@
   <div class="container-fluid px-3 px-md-4">
     <a class="navbar-brand text-white d-flex align-items-center gap-2" [routerLink]="['/public/surveys']">
       <img src="public/imgs/clbhub-logo.png" alt="TruTesta logo" width="120" />
-      <span>Surveys</span>
+      <span class="survey-section-pill">{{ sectionLabel }}</span>
+      <span class="survey-title-text">{{ surveyTitle }}</span>
     </a>
   </div>
 </nav>

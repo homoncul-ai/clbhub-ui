@@ -27,7 +27,7 @@ interface HelpOption {
 export class SurveyJobFinderComponent implements OnInit {
   private readonly hcclService = inject(HcclService);
   private readonly location = inject(Location);
-  readonly pageTitle = 'Survey: Non-profit job search assistance.';
+  readonly pageTitle = 'Non-profit job search assistance.';
   readonly surveyTitle = 'Survey: Do you have a job for me?';
   submitting = false;
   submitted = false;
@@ -52,7 +52,7 @@ export class SurveyJobFinderComponent implements OnInit {
     {
       id: 'currentProcess',
       label:
-        "What's the current process? Do you help with introductions, work permits, introductions, searching for jobs (paper, online, apps)?",
+        'What does your current process look like (introductions, work permits, and job search support across paper, online, or apps)?',
     },
     { id: 'educationGiven', label: 'What kind of education do you give your clients around the job search?' },
     { id: 'timeSink', label: 'What part of helping clients find jobs is the most time consuming?' },

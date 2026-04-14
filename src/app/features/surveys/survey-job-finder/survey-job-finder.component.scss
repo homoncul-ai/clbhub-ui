@@ -1,36 +1,92 @@
 .surveys-page {
-  padding-top: 24px;
-  max-width: 980px;
+  padding-top: 20px;
+  max-width: 960px;
 }
 
 .surveys-page .card .card-body {
-  padding-top: 1.5rem !important;
+  padding-top: 1.25rem !important;
 }
 
-.survey-page-title {
-  font-size: clamp(1.75rem, 2.8vw, 2.4rem);
-  line-height: 1.2;
+.survey-hero {
+  text-align: center;
+}
+
+.survey-kicker {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f5132;
+  background: #d1e7dd;
 }
 
-.survey-subtitle {
-  font-size: clamp(1rem, 1.7vw, 1.25rem);
-  line-height: 1.35;
-  margin: 0 0 1rem;
-  color: #6c757d;
+.survey-body-title {
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.survey-lead {
+  color: #5f6b7a;
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  max-width: 56ch;
+  margin: 0 auto;
 }
 
 .intro-box {
   background: #f8fafc;
   border: 1px solid #d6dbe7;
-  border-radius: 10px;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  color: #2f3a49;
+  line-height: 1.55;
+}
+
+.form-section {
+  border-top: 1px solid #eef1f5;
+  padding-top: 1.1rem;
+}
+
+.form-section-highlight {
+  background: #fafcff;
+  border: 1px solid #e5ecf6;
+  border-radius: 12px;
   padding: 1rem;
+}
+
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.55rem;
+  color: #243447;
+}
+
+.section-muted {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.question-banner {
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  text-align: center;
+  font-style: italic;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.section-caption {
+  margin: 0 auto 0.25rem;
+  text-align: center;
+  color: #617084;
+  max-width: 66ch;
 }
 
 .checkbox-grid {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .form-check {
@@ -38,8 +94,13 @@
   align-items: center;
   gap: 0.5rem;
   padding-left: 0;
+  margin: 0;
 }
 
 .form-check-input {
   margin-left: 0;
+}
+
+.form-actions {
+  justify-content: flex-end;
 }

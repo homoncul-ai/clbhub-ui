@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -9,4 +9,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './surveys-public-header.component.html',
   styleUrl: './surveys-public-header.component.scss',
 })
-export class SurveysPublicHeaderComponent {}
+export class SurveysPublicHeaderComponent {
+  @Input() surveyTitle = 'Surveys';
+  @Input() sectionLabel = 'Surveys';
+}
