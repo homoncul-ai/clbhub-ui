@@ -75,6 +75,7 @@ export class SurveyJobFinderComponent implements OnInit {
     orgCollab: false,
     providerCollab: false,
   };
+  sendInviteToClbHub = false;
 
   ngOnInit(): void {
     // Ensure public survey pages always start at top instead of restoring old scroll.
@@ -89,6 +90,7 @@ export class SurveyJobFinderComponent implements OnInit {
     this.helpOptions.forEach((option) => {
       surveyData[`help_${option.id}`] = this.selectedHelp[option.id] ? 'true' : 'false';
     });
+    surveyData['sendInviteToClbHub'] = this.sendInviteToClbHub ? 'true' : 'false';
     surveyData['surveyCode'] = 'npo_job_finder';
     surveyData['pagePath'] = '/public/surveys/npo_job_finder';
 
@@ -132,6 +134,7 @@ export class SurveyJobFinderComponent implements OnInit {
     this.helpOptions.forEach((option) => {
       this.selectedHelp[option.id] = false;
     });
+    this.sendInviteToClbHub = false;
   }
 
   goBack(): void {

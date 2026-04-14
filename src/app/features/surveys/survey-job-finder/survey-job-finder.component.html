@@ -31,24 +31,6 @@
 
       <form (ngSubmit)="submit()">
         <div class="form-section mb-4">
-          <h2 class="section-title">About you <span class="section-muted">(optional)</span></h2>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="name">Name</label>
-              <input id="name" name="name" class="form-control" [(ngModel)]="model['name']" />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label" for="email">Email</label>
-              <input id="email" name="email" type="email" class="form-control" [(ngModel)]="model['email']" />
-            </div>
-            <div class="col-12">
-              <label class="form-label" for="organization">Organization</label>
-              <input id="organization" name="organization" class="form-control" [(ngModel)]="model['organization']" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-section mb-4">
           <h2 class="question-banner">“Do you have a job for me?”</h2>
           <p class="section-caption">
             Tell us how your team handles this today and where support is most needed.
@@ -96,6 +78,36 @@
             class="form-control"
             rows="3"
             [(ngModel)]="model['anythingElse']"></textarea>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="form-section mb-4">
+          <h2 class="section-title">Contact for follow-up <span class="section-muted">(optional)</span></h2>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="name">Name</label>
+              <input id="name" name="name" class="form-control" [(ngModel)]="model['name']" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="email">Email</label>
+              <input id="email" name="email" type="email" class="form-control" [(ngModel)]="model['email']" />
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="organization">Organization</label>
+              <input id="organization" name="organization" class="form-control" [(ngModel)]="model['organization']" />
+            </div>
+            <div class="col-12">
+              <label class="form-check invite-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="sendInviteToClbHub"
+                  [(ngModel)]="sendInviteToClbHub" />
+                <span class="form-check-label">Please send me an invitation to join clbhub.org!</span>
+              </label>
+            </div>
+          </div>
         </div>
 
         <div class="d-flex flex-wrap gap-2 mt-4 form-actions">
