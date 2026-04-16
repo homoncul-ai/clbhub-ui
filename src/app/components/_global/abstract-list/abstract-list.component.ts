@@ -44,10 +44,11 @@ implements OnInit, AfterViewInit, OnDestroy {
   @Input() showingIdCheckbox: boolean = false;
   @Input() hideInternalButtons: boolean = false; // When true, hides Go and Add buttons for external control
   @Input() onRowClickBehavior: OnRowClickBehavior = new OnRowClickBehavior();
+  @Input() onDeleteClickBehavior: OnDeleteClickBehavior | undefined = undefined;
   @Input() onGoClickAction: OnGoClickActionBehavior = new OnGoClickActionBehavior();
   @Input() onAddAction: OnAddActionBehavior | null = null;
   @Input() otherData: any = {};
-  @Input() showingDiagnostics: boolean = true;
+  @Input() showingDiagnostics: boolean = false;
   @Input() onFinishLoading: OnFinishLoadingBehavior | null = null;
   
   // Auto-height settings - grid height adjusts to content, with max rows before scrolling
@@ -187,8 +188,14 @@ implements OnInit, AfterViewInit, OnDestroy {
       // Add row click event listener
       this.grid.events.on('cellClick', (row: any, col: any, e: any) => {
         console.log('Cell clicked:', row, col);
-        // Don't trigger on checkbox column or if no row data
-        if (col && col.id !== 'select' && col.id !== 'action' && row && row.id) {
+
+        if (col && col.id === 'delete_action' && row && row.id && this.onDeleteClickBehavior) {
+          this.onDeleteClickBehavior.clicked(row.id);
+          return;
+        }
+
+        // Don't trigger on checkbox column, action column, delete column, or if no row data
+        if (col && col.id !== 'select' && col.id !== 'action' && col.id !== 'delete_action' && row && row.id) {
           console.log('Calling onRowClick with entityId:', row.id);
           this.onRowClick(row.id);
         }
@@ -284,8 +291,20 @@ implements OnInit, AfterViewInit, OnDestroy {
     const entityColumns = this.getGridColumns();
     columns.push(...entityColumns);
 
+    // Add delete action column if onDeleteClickBehavior is provided
+    if (this.onDeleteClickBehavior) {
+      columns.push({
+        id: 'delete_action',
+        header: [{ text: '' }],
+        width: 50,
+        align: 'center',
+        htmlEnable: true,
+        template: () => `<div style="cursor:pointer;display:inline-flex;align-items:center;justify-content:center;height:100%;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#000000" style="pointer-events:none;"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></div>`,
+      });
+    }
+
     // Build footer array based on column count
-    const footerCount = this.showingIdCheckbox ? entityColumns.length + 1 : entityColumns.length;
+    const footerCount = columns.length;
     const footer = Array(footerCount).fill({ text: '' });
 
     // Get calculated height or use auto
@@ -923,5 +942,11 @@ export class OnFinishLoadingBehavior {
     // Default implementation - subclasses should override
     // Default behavior is to do nothing
     //console.log('OnFinishLoadingBehavior.onFinishLoading called with entities:');
+  }
+}
+
+export class OnDeleteClickBehavior {
+  clicked(entityId: string): void {
+    console.log('OnDeleteClickBehavior.clicked called with entityId:', entityId);
   }
 }

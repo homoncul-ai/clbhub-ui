@@ -10,6 +10,7 @@ import {
   HcclService,
 } from '@app/restsvc/hccl.service';
 import { MapAddrUiComponent } from '@app/components/_crud/map-addr-ui/map-addr-ui.component';
+import { OnDeleteClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 
 @Component({
   selector: 'app-dash-student-my-organizations',
@@ -47,7 +48,8 @@ import { MapAddrUiComponent } from '@app/components/_crud/map-addr-ui/map-addr-u
                   [showingSearchHeading]="false"
                   [showingGoButton]="false"
                   [showingAddButton]="false"
-                  [showingIdCheckbox]="false">
+                  [showingIdCheckbox]="false"
+                  [onDeleteClickBehavior]="getMyOrganizationInterestDeleteBehavior()">
                 </app-hcclorganizationinterest-list>
               </ng-template>
             </mdb-accordion-item>
@@ -118,6 +120,24 @@ export class DashStudentMyOrganizationsComponent implements OnInit {
       pageSize: 50,
       isPaging: true,
     };
+  }
+
+  getMyOrganizationInterestDeleteBehavior(): OnDeleteClickBehavior {
+    var x: OnDeleteClickBehavior = new OnDeleteClickBehavior();
+    x.clicked = (entityId: string) => {
+      // call the hcclService to delete the organization interest
+      this.hcclService.deleteHcclOrganizationInterestById(entityId).subscribe({
+        next: () => {
+          this.updateMapEntries();
+          alert('Organization interest deleted successfully');
+        },
+        error: () => {
+          alert('Error deleting organization interest');
+        },
+      });
+      //alert('My organization interest delete behavior clicked with entityId:' + entityId);
+    };
+    return x;
   }
 
   private updateMapEntries(): void {
