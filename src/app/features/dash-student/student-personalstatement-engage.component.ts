@@ -5,7 +5,7 @@ import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData, HcclService 
 import { PersonalStatementCrudWrapper } from '@app/components/_crud/personalstatement/personalstatement-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
 import { CatalogEntryInterestListComponent } from "@app/components/_crud/catalogentryinterest/catalogentryinterest-list.component";
-import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnDeleteClickBehavior, OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { StudentEngageInterestComponent } from './student-engage-interest/student-engage-interest.component';
 
 @Component({
@@ -77,6 +77,24 @@ export class StudentPersonalStatementEngageComponent extends AbstractMultimodeCo
     var x: OnFinishLoadingBehavior = new OnFinishLoadingBehavior();
     x.onFinishLoading = (id: string, data: any) => {
      // this.setSelectedInterestId(id);
+    };
+    return x;
+  }
+
+  getInterestDeleteBehavior(): OnDeleteClickBehavior {
+    var x: OnDeleteClickBehavior = new OnDeleteClickBehavior();
+    x.clicked = (entityId: string) => {
+      this.hcclService.deleteCatalogEntryInterestById(entityId).subscribe({
+        next: () => {
+          this.interestId = '';
+          this.setSelectedInterestId('');
+          this.onChildComponentRefresh();
+          alert('Interest deleted successfully');
+        },
+        error: () => {
+          alert('Error deleting interest');
+        },
+      });
     };
     return x;
   }

@@ -12,7 +12,8 @@
   [autoHeight]="true"
   [maxRows]="20"
   [onRowClickBehavior]="onInterestRowClickBehavior()"
-  [onFinishLoading]="onFinishLoadingBehavior()">
+  [onFinishLoading]="onFinishLoadingBehavior()"
+  [onDeleteClickBehavior]="getInterestDeleteBehavior()">
 </app-catalogentryinterest-list>
 
 <div class="row" *ngIf="getSelectedInterestId() !== ''">

@@ -7,7 +7,7 @@ import { CatalogEntryInterestCrudComponent } from '@app/components/_crud/catalog
 import { HcclUserProfileCrudComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
-import { OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnDeleteClickBehavior, OnFinishLoadingBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { HcclUserProfileCrudWrapper } from '../dash-ecoadmin/orgs/org-school-staff-crud.component';
 import { CatalogEntryInterestCriteria, CatalogEntryInterestGETData } from '@app/restsvc/hccl.service';
 import { PersonalStatementSelectorComponent } from "@app/components/_global/personal-statement-selector/personal-statement-selector.component";
@@ -46,7 +46,8 @@ import { FormsModule } from '@angular/forms';
               [showingAddButton]="false" 
               [showingIdCheckbox]="false"
               [onRowClickBehavior]="onInterestRowClickBehavior()"
-              [onFinishLoading]="onFinishLoadingBehavior()">
+              [onFinishLoading]="onFinishLoadingBehavior()"
+              [onDeleteClickBehavior]="this.getInterestDeleteBehavior()">
             </app-catalogentryinterest-list> 
             </div>
           </div>
@@ -188,6 +189,24 @@ extends AbstractEntityGroupComponent<HcclUserProfileCrudWrapper> implements OnIn
     var x: OnFinishLoadingBehavior = new OnFinishLoadingBehavior();
     x.onFinishLoading = (id: string, data: any) => {
       this.setSelectedInterestId(id);
+    };
+    return x;
+  }
+
+  protected getInterestDeleteBehavior(): OnDeleteClickBehavior {
+    var x: OnDeleteClickBehavior = new OnDeleteClickBehavior();
+    x.clicked = (entityId: string) => {
+      this.hcclService.deleteCatalogEntryInterestById(entityId).subscribe({
+        next: () => {
+          this.interestId = '';
+          this.setSelectedInterestId('');
+          this.onChildComponentRefresh();
+          alert('Interest deleted successfully');
+        },
+        error: () => {
+          alert('Error deleting interest');
+        },
+      });
     };
     return x;
   }
