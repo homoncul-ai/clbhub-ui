@@ -1138,6 +1138,105 @@
         }
       }
     },
+    "/hccl/audit-event-logs/{audit-event-log-id}": {
+      "get": {
+        "tags": [
+          "/"
+        ],
+        "summary": "Fetches a Audit Event Log based on its Id.",
+        "operationId": "getAuditEventLogById",
+        "parameters": [
+          {
+            "name": "audit-event-log-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isError",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/query-audit-event-logs": {
+      "post": {
+        "tags": [
+          "/"
+        ],
+        "summary": "Fetches all Audit Event Logs.",
+        "operationId": "getAuditEventLogs",
+        "requestBody": {
+          "description": "Fetches all Audit Event Logs.",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/AuditEventLogCriteria"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/audit-operations": {
+      "get": {
+        "tags": [
+          "/"
+        ],
+        "summary": "Fetches all Audit Operations.",
+        "operationId": "getAuditOperations",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/catalog/catalogentryfeedinstance": {
       "post": {
         "tags": [
@@ -23414,6 +23513,40 @@
           }
         }
       },
+      "AuditEventLogCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityName": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string"
+          }
+        }
+      },
       "CatalogEntryFeedInstancePOSTData": {
         "required": [
           "catalogEntryId",
@@ -24274,7 +24407,6 @@
       "CatalogEntryInterestPOSTData": {
         "required": [
           "catalogEntryId",
-          "catalogId",
           "currentStateCode",
           "interest",
           "personalStatementId",
@@ -49356,13 +49488,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

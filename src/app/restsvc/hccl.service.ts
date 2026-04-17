@@ -285,6 +285,32 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  getAuditEventLogById(audit_event_log_id: string, isError: boolean): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/audit-event-logs/" + audit_event_log_id,
+      method: "GET",
+      params: { isError: this.convertToString(isError) },
+    };
+    return this.request<any>(request);
+  }
+
+  getAuditEventLogs(body: AuditEventLogCriteria): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/query-audit-event-logs",
+      method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  getAuditOperations(): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/audit-operations",
+      method: "GET",
+    };
+    return this.request<any>(request);
+  }
+
   createCatalogEntryFeedInstance(body: CatalogEntryFeedInstancePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentryfeedinstance",
@@ -5285,6 +5311,16 @@ export interface ServiceEventLogPUTData {
   parentId?: string;
 }
 
+export interface AuditEventLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  entityId?: string;
+  entityName?: string;
+  operation?: string;
+}
+
 export interface CatalogEntryFeedInstancePOSTData {
   catalogId: string;
   catalogEntryId: string;
@@ -5536,7 +5572,7 @@ export interface CatalogEntryGroupRefPUTData {
 }
 
 export interface CatalogEntryInterestPOSTData {
-  catalogId: string;
+  catalogId?: string;
   catalogEntryId: string;
   personalStatementId: string;
   userProfileId: string;
@@ -12614,9 +12650,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {
