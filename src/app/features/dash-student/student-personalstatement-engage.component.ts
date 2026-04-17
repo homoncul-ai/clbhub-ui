@@ -15,7 +15,8 @@ import { StudentEngageInterestComponent } from './student-engage-interest/studen
   templateUrl: './student-personalstatement-engage.component.html',
   styleUrl: '../../components/_global/abstract-crud/abstract-crud.component.scss'
 })
-export class StudentPersonalStatementEngageComponent extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
+export class StudentPersonalStatementEngageComponent 
+extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnInit  {
   
   @ViewChild(CatalogEntryInterestListComponent) interestListComponent?: CatalogEntryInterestListComponent;
 

@@ -23,7 +23,7 @@ import { StudentPersonalStatementResumeListComponent } from './student-personals
 import { CreateResumeModalComponent } from './create-resume-modal.component';
 import { StudentPersonalStatementResumeComponent } from './student-personalstatement-resume.component';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnDeleteClickBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { StudentPersonalStatementDetailsComponent } from "./student-personalstatement-details.component";
 import { MapAddrUiComponent } from '@app/components/_crud/map-addr-ui/map-addr-ui.component';
 
@@ -280,6 +280,22 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
       return [baseRoute, this.id, 'resume', entityId];
     };
     return o;
+  }
+
+  getResumeDeleteBehavior(): OnDeleteClickBehavior {
+    var x: OnDeleteClickBehavior = new OnDeleteClickBehavior();
+    x.clicked = (entityId: string) => {
+      this.hcclService.deletePersonalStatementResumeById(entityId).subscribe({
+        next: () => {
+          this.refreshComponent();
+          alert('Resume deleted successfully');
+        },
+        error: () => {
+          alert('Error deleting resume');
+        },
+      });
+    };
+    return x;
   }
 
   /**
