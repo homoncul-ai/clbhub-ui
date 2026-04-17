@@ -53,6 +53,17 @@
   <app-student-personalstatement-resume [resumeId]="childId || ''"></app-student-personalstatement-resume>
 </div>
 
+<div *ngIf="showingDebug">
+  <li>currentTabId: {{currentTabId}}</li>
+  <li>id: {{id}}</li>
+  <li>childId: {{childId}}</li>
+  <li>tabId: {{tabId}}</li>
+  <li>childTabId: {{childTabId}}</li>
+  <li>showingTabset: {{showingTabset}}</li>
+  <li>showingDebug: {{showingDebug}}</li>
+  <li>readonly: {{readonly}}</li>
+  <li>onRowClickBehavior: {{onRowClickBehavior}}</li>
+</div>
 <!--
 <div *ngIf="currentTabId === 'debug'">
   <h1>CRUD Modes DEBUG</h1>

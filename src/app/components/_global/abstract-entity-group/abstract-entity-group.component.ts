@@ -86,18 +86,18 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
 
   protected calculateTabIdFromUrl(tabId_in: string): string {
     let tabId = tabId_in;
-    const urlSegments = this.router.url.split('/').filter(segment => segment.length > 0);
+    const cleanUrl = this.router.url.split('#')[0] || this.router.url;
+    const urlSegments = cleanUrl.split('/').filter(segment => segment.length > 0);
     if (urlSegments.length > 0) {
-      let tabIdT = urlSegments[urlSegments.length - 1];
-      if (tabIdT.includes('#')) {
-        tabIdT = tabIdT.split('#')[0];
-      }
-      tabId = tabIdT;
+      tabId = urlSegments[urlSegments.length - 1];
     }
+    tabId = tabId || tabId_in;
+   // alert('calculateTabIdFromUrl: '+ tabId + ' '+ tabId_in + ' ' + this.tabId + ' ' + this.router.url );
     return tabId;
   }
 
   protected calculateTabIds(): void {
+   // debugger;
     let tabId = this.calculateTabIdFromUrl(this.tabId);
  
       var id = this.id;
@@ -119,10 +119,10 @@ export abstract class AbstractEntityGroupComponent< T extends EntityWrapper<any>
             tabId = defaultTabId;
           }
 
-          //debugger
           const finalTabId = tabId || defaultTabId;
           this.currentTabId = finalTabId;
 		  this.loading=false;
+          this.cdr.detectChanges();
             
         }).catch(error => {
           console.error('Error loading :', error);

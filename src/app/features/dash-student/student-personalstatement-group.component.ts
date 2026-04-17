@@ -47,6 +47,11 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     super();    
   }
 
+  public override ngOnInit(): void {
+    //this.showingDebug = true;
+    super.ngOnInit();
+
+  }
   protected newCrudWrapperForCreate(): PersonalStatementCrudWrapper {
     return PersonalStatementCrudWrapper.newInstanceForCreate(this.hcclService);
   }
