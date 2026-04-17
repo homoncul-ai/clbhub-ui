@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { HcclService, UserFeedGETData, FeedEntryInstanceGETData, FeedEntryGETData } from '@app/restsvc/hccl.service';
+import { HcclService, UserFeedGETData, FeedEntryInstanceGETData, FeedEntryGETData, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.service';
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 import { catchError } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
@@ -147,11 +147,35 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   }
 
   thumbUp(entry: FeedEntryDisplayData) {
-    alert('👍 thumbs up');
+    this.recordInterest(entry, 10);
   }
   
   thumbDown(entry: FeedEntryDisplayData) {
-    alert('👎 thumbs down');
+    this.recordInterest(entry, 0);
+  }
+
+  private recordInterest(entry: FeedEntryDisplayData, interest: number): void {
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId() || '';
+    const feedEntry = entry.feedEntry;
+
+    const interestData: CatalogEntryInterestPOSTData = {
+      catalogId: '',
+      catalogEntryId: feedEntry?.subjectEntityId || '',
+      personalStatementId: entry.personalStatementId || '',
+      userProfileId: userProfileId,
+      interest: interest,
+      currentStateCode: '--ChangedOnEntry--'
+    };
+    //alert(entry.id + ' ' + feedEntry?.subjectEntityId + ' ' + entry.personalStatementId + ' ' + userProfileId + ' ' + interest);
+
+    this.hcclService.showInterest(interestData).subscribe({
+      next: (response) => {
+        console.log('Interest recorded from feed:', response);
+      },
+      error: (error) => {
+        console.error('Error recording interest from feed:', error);
+      }
+    });
   }
   
   moreActions(entry: FeedEntryDisplayData) {
