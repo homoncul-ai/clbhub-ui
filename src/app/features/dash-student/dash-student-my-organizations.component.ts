@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
-import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclOrganizationInterestListComponent } from '@app/components/_crud/hcclorganizationinterest/hcclorganizationinterest-list.component';
 import {
@@ -12,12 +11,12 @@ import {
 } from '@app/restsvc/hccl.service';
 import { MapAddrUiComponent } from '@app/components/_crud/map-addr-ui/map-addr-ui.component';
 import { OnDeleteClickBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
-import { StdEntityUiModalComponent } from '@app/components/_global/std-entity-ui/std-entity-ui-modal.component';
+import { HcclOrganizationUiComponent } from '@app/components/_crud/hcclorganization-ui/hcclorganization-ui.component';
 
 @Component({
   selector: 'app-dash-student-my-organizations',
   standalone: true,
-  imports: [CommonModule, MdbAccordionModule, HcclOrganizationInterestListComponent, MapAddrUiComponent],
+  imports: [CommonModule, MdbAccordionModule, HcclOrganizationInterestListComponent, MapAddrUiComponent, HcclOrganizationUiComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -54,6 +53,16 @@ import { StdEntityUiModalComponent } from '@app/components/_global/std-entity-ui
                   [onRowClickBehavior]="getOrganizationRowClickBehavior()"
                   [onDeleteClickBehavior]="getMyOrganizationInterestDeleteBehavior()">
                 </app-hcclorganizationinterest-list>
+
+                <div *ngIf="selectedOrganizationId" class="mt-3">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">{{ selectedOrganizationName }}</h5>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="clearSelectedOrganization()">
+                      <i class="fas fa-times me-1"></i>Close
+                    </button>
+                  </div>
+                  <app-hcclorganization-ui [id]="selectedOrganizationId"></app-hcclorganization-ui>
+                </div>
               </ng-template>
             </mdb-accordion-item>
 
@@ -81,14 +90,14 @@ import { StdEntityUiModalComponent } from '@app/components/_global/std-entity-ui
 export class DashStudentMyOrganizationsComponent implements OnInit {
   private hcclContextService = inject(HcclContextService);
   private hcclService = inject(HcclService);
-  private modalService = inject(MdbModalService);
-  private modalRef: MdbModalRef<StdEntityUiModalComponent> | null = null;
 
   accordionId = 'organizations';
   loading = true;
   error = '';
   private userProfileId = '';
   protected organizationMapEntryResponse: SimpleMapEntryResponse | null = null;
+  selectedOrganizationId: string = '';
+  selectedOrganizationName: string = '';
 
   ngOnInit(): void {
     this.hcclContextService.waitForReady$().subscribe({
@@ -162,7 +171,7 @@ export class DashStudentMyOrganizationsComponent implements OnInit {
       this.hcclService.getHcclOrganizationInterestById(interestId).subscribe({
         next: (interest) => {
           if (interest.organizationId) {
-            this.openOrganizationModal(interest.organizationId, interest.organization?.name);
+            this.selectOrganization(interest.organizationId, interest.organization?.name);
           }
         },
         error: (err) => console.error('Error loading organization interest:', err),
@@ -171,20 +180,20 @@ export class DashStudentMyOrganizationsComponent implements OnInit {
     return behavior;
   }
 
-  private openOrganizationModal(organizationId: string, orgName?: string): void {
-    this.modalRef = this.modalService.open(StdEntityUiModalComponent, {
-      modalClass: 'modal-xl',
-      data: {
-        entityType: 'hcclorganization',
-        entityId: organizationId,
-        title: orgName || 'Organization Details',
-      },
-    });
+  private selectOrganization(organizationId: string, orgName?: string): void {
+    this.selectedOrganizationId = organizationId;
+    this.selectedOrganizationName = orgName || 'Organization Details';
+  }
+
+  clearSelectedOrganization(): void {
+    this.selectedOrganizationId = '';
+    this.selectedOrganizationName = '';
   }
 
   onOrganizationMapPinClick(entry: SimpleMapEntry): void {
     if (entry.entityId) {
-      this.openOrganizationModal(entry.entityId, entry.title);
+      this.selectOrganization(entry.entityId, entry.title);
+      this.openAccordion('organizations');
     }
   }
 }
