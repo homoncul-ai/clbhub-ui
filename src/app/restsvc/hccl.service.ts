@@ -4626,6 +4626,24 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<SimpleRestActionResponse>(request);
   }
 
+  handleInviteAction(body: HandleInviteActionPOSTData): Observable<HandleInviteActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/invitation/user-invite-action",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HandleInviteActionResponse>(request);
+  }
+
+  inviteActionUI(inviteId: string): Observable<HandleInviteActionUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/invitation/user-invite-action/ui",
+      method: "GET",
+      params: { inviteId: this.convertToString(inviteId) },
+    };
+    return this.request<HandleInviteActionUIData>(request);
+  }
+
   lookupAddress(body: string): Observable<OnboardAddressResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/onboard/onboard/lookup-address",
@@ -10320,6 +10338,8 @@ export interface HcclUserInvitePOSTData {
   currentStateCode: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+  inviteeId?: string;
+  invitedById?: string;
 }
 
 export interface HcclUserInviteGETData {
@@ -10339,6 +10359,8 @@ export interface HcclUserInviteGETData {
   available?: number;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  inviteeId?: string;
+  invitedById?: string;
   niceName?: string;
   organization?: HcclOrganizationGETData;
   createdByUserProfile?: HcclUserProfileGETData;
@@ -10373,6 +10395,8 @@ export interface HcclUserInviteCriteria {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+  inviteeId?: string;
+  invitedById?: string;
 }
 
 export interface HcclUserInvitePUTData {
@@ -10388,6 +10412,8 @@ export interface HcclUserInvitePUTData {
   currentStateCode: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+  inviteeId?: string;
+  invitedById?: string;
 }
 
 export interface HcclUserProfileRolePOSTData {
@@ -12394,6 +12420,25 @@ export interface SimpleRestActionResponse {
   data?: any;
   actionFormData?: any;
   mapFormElements?: any;
+}
+
+export interface HandleInviteActionResponse {
+  messages?: SimpleMessageList;
+  notes?: string;
+  tuple?: EntityTuple;
+}
+
+export interface HandleInviteActionPOSTData {
+  inviteId?: string;
+  notes?: string;
+  accepted?: boolean;
+}
+
+export interface HandleInviteActionUIData {
+  messages?: SimpleMessageList;
+  invite?: HcclUserInviteGETData;
+  notes?: string;
+  invitedByUser?: HcclUserProfileGETData;
 }
 
 export interface OnboardAddressResponse {

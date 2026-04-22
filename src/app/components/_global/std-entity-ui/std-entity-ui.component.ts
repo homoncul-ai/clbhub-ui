@@ -13,6 +13,8 @@ import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/cata
 import { WorkRequestDeliverableUiComponent } from '@app/components/_crud/workrequestdeliverable-ui/workrequestdeliverable-ui.component';
 import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocationencoding/vocationencoding-display.component';
 import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
+import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+import { EntityNameCrudComponent } from "trutesta-hccl-service/tooling/prompts-ui/templates/template-crud.component";
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -32,6 +34,7 @@ import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/studen
     CommonModule,
     CatalogEntryUiComponent,
     CatalogEntrySignupPacketGroupComponent,
+    HcclOrganizationCrudComponent,
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,
@@ -39,7 +42,8 @@ import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/studen
     VocationEncodingDisplayComponent,
     WorkItemDeliverableGroupComponent,
     WorkRequestGroupUIComponent,
-    WorkRequestDeliverableUiComponent
+    WorkRequestDeliverableUiComponent,
+    EntityNameCrudComponent
 ],
   templateUrl: './std-entity-ui.component.html',
   styleUrl: './std-entity-ui.component.scss'
@@ -80,6 +84,7 @@ export class StdEntityUiComponent implements OnInit, OnDestroy {
   /** List of supported entity types */
   private readonly supportedEntityTypes = [
     'catalogentry', 'catalogentrysignuppacket',
+    'hcclorganization',
     'pmessage', 'pmfile', 'pmfilegroup',
     'studentui',
     'studentmonitoring',

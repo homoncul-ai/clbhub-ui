@@ -20185,6 +20185,85 @@
         }
       }
     },
+    "/hccl/invitation/user-invite-action": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Handle an invitation.",
+        "operationId": "handleInviteAction",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/HandleInviteActionPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HandleInviteActionResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/invitation/user-invite-action/ui": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Invite UI info.",
+        "operationId": "inviteActionUI",
+        "parameters": [
+          {
+            "name": "inviteId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HandleInviteActionUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/onboard/onboard/lookup-address": {
       "post": {
         "tags": [
@@ -41383,6 +41462,14 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          },
+          "inviteeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "invitedById": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -41439,6 +41526,14 @@
             "type": "string"
           },
           "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inviteeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "invitedById": {
             "type": "string",
             "format": "uuid"
           },
@@ -41556,6 +41651,14 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          },
+          "inviteeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "invitedById": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -41615,6 +41718,14 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          },
+          "inviteeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "invitedById": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -48775,6 +48886,52 @@
             "additionalProperties": {
               "type": "object"
             }
+          }
+        }
+      },
+      "HandleInviteActionResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "tuple": {
+            "$ref": "#/components/schemas/EntityTuple"
+          }
+        }
+      },
+      "HandleInviteActionPOSTData": {
+        "type": "object",
+        "properties": {
+          "inviteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "accepted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "HandleInviteActionUIData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "invitedByUser": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
           }
         }
       },

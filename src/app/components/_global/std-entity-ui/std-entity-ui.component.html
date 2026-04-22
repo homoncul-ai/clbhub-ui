@@ -1,11 +1,16 @@
 <!-- This is for fully-routable group components. ie {dashboard}/e/{entityType}/{entityId} -->
-<!-- PMessage entity UI -->
+<!-- CatalogEntry entity UI -->
 <div *ngIf="entityType === 'catalogentry'">
   <app-catalogentry-ui [id]="entityId" ></app-catalogentry-ui>
 </div>
 <div *ngIf="entityType === 'catalogentrysignuppacket'">
   <app-catalogentrysignuppacket-group [id]="entityId" ></app-catalogentrysignuppacket-group>
 </div>
+
+<div *ngIf="entityType === 'hcclorganization'">
+  <app-hcclorganization-crud [id]="entityId" [modeName]="'section'"></app-hcclorganization-crud>
+</div>
+
 
 <div *ngIf="entityType === 'pmessage'">
   <app-pmessage-ui [id]="entityId" [readonly]="readonly"></app-pmessage-ui>

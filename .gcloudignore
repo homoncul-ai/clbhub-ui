@@ -1,0 +1,11 @@
+.git
+.gitignore
+.angular
+node_modules/
+dist/
+tooling/
+trutesta-hccl-service/
+*.log
+.idea/
+.DS_Store
+TEST*.xml

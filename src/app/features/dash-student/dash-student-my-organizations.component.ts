@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { HcclOrganizationInterestListComponent } from '@app/components/_crud/hcclorganizationinterest/hcclorganizationinterest-list.component';
 import {
@@ -10,7 +11,8 @@ import {
   HcclService,
 } from '@app/restsvc/hccl.service';
 import { MapAddrUiComponent } from '@app/components/_crud/map-addr-ui/map-addr-ui.component';
-import { OnDeleteClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { OnDeleteClickBehavior, OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { StdEntityUiModalComponent } from '@app/components/_global/std-entity-ui/std-entity-ui-modal.component';
 
 @Component({
   selector: 'app-dash-student-my-organizations',
@@ -49,6 +51,7 @@ import { OnDeleteClickBehavior } from '@app/components/_global/abstract-list/abs
                   [showingGoButton]="false"
                   [showingAddButton]="false"
                   [showingIdCheckbox]="false"
+                  [onRowClickBehavior]="getOrganizationRowClickBehavior()"
                   [onDeleteClickBehavior]="getMyOrganizationInterestDeleteBehavior()">
                 </app-hcclorganizationinterest-list>
               </ng-template>
@@ -78,6 +81,8 @@ import { OnDeleteClickBehavior } from '@app/components/_global/abstract-list/abs
 export class DashStudentMyOrganizationsComponent implements OnInit {
   private hcclContextService = inject(HcclContextService);
   private hcclService = inject(HcclService);
+  private modalService = inject(MdbModalService);
+  private modalRef: MdbModalRef<StdEntityUiModalComponent> | null = null;
 
   accordionId = 'organizations';
   loading = true;
@@ -151,7 +156,35 @@ export class DashStudentMyOrganizationsComponent implements OnInit {
     });
   }
 
+  getOrganizationRowClickBehavior(): OnRowClickBehavior {
+    const behavior = OnRowClickBehavior.getOnRowClickDoNothing();
+    behavior.onRowClick = (interestId: string) => {
+      this.hcclService.getHcclOrganizationInterestById(interestId).subscribe({
+        next: (interest) => {
+          if (interest.organizationId) {
+            this.openOrganizationModal(interest.organizationId, interest.organization?.name);
+          }
+        },
+        error: (err) => console.error('Error loading organization interest:', err),
+      });
+    };
+    return behavior;
+  }
+
+  private openOrganizationModal(organizationId: string, orgName?: string): void {
+    this.modalRef = this.modalService.open(StdEntityUiModalComponent, {
+      modalClass: 'modal-xl',
+      data: {
+        entityType: 'hcclorganization',
+        entityId: organizationId,
+        title: orgName || 'Organization Details',
+      },
+    });
+  }
+
   onOrganizationMapPinClick(entry: SimpleMapEntry): void {
-    console.log('My organizations map pin clicked:', entry);
+    if (entry.entityId) {
+      this.openOrganizationModal(entry.entityId, entry.title);
+    }
   }
 }
