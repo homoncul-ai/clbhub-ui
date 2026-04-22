@@ -13,7 +13,7 @@ import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/cata
 import { WorkRequestDeliverableUiComponent } from '@app/components/_crud/workrequestdeliverable-ui/workrequestdeliverable-ui.component';
 import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocationencoding/vocationencoding-display.component';
 import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
-import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
+import { HcclOrganizationUiComponent } from '@app/components/_crud/hcclorganization-ui/hcclorganization-ui.component';
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -33,7 +33,7 @@ import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganiz
     CommonModule,
     CatalogEntryUiComponent,
     CatalogEntrySignupPacketGroupComponent,
-    HcclOrganizationCrudComponent,
+    HcclOrganizationUiComponent,
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,
