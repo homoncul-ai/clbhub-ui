@@ -14,7 +14,6 @@ import { WorkRequestDeliverableUiComponent } from '@app/components/_crud/workreq
 import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocationencoding/vocationencoding-display.component';
 import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
 import { HcclOrganizationCrudComponent } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
-import { EntityNameCrudComponent } from "trutesta-hccl-service/tooling/prompts-ui/templates/template-crud.component";
 
 /**
  * A polymorphic entity display component that renders the appropriate
@@ -42,8 +41,7 @@ import { EntityNameCrudComponent } from "trutesta-hccl-service/tooling/prompts-u
     VocationEncodingDisplayComponent,
     WorkItemDeliverableGroupComponent,
     WorkRequestGroupUIComponent,
-    WorkRequestDeliverableUiComponent,
-    EntityNameCrudComponent
+    WorkRequestDeliverableUiComponent
 ],
   templateUrl: './std-entity-ui.component.html',
   styleUrl: './std-entity-ui.component.scss'
