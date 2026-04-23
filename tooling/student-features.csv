@@ -1,0 +1,43 @@
+Path,Feature Label,Component,Icon,Menu Level,Description
+/student-dashboard/home,My Dashboard,DashStudentHomeComponent,fas fa-tachometer-alt,1,"Welcome back — here's what's new"
+/student-dashboard/profile,My Profile,StudentProfileUiComponent,fas fa-user,1,"Manage your personal details, family, address, and feed settings"
+/student-dashboard/messages,My Communications,DashStudentMessagesComponent,fas fa-envelope,1,Message information
+/student-dashboard/messages/:messageId,Message Detail (redirect),DashStudentMessagesComponent,fas fa-envelope,,Redirects to messages/:messageId/message
+/student-dashboard/messages/:messageId/:tabId,Message Detail Tab,DashStudentMessagesComponent,fas fa-envelope,,View a specific message with tab
+/student-dashboard/my-organizations,My Organizations,DashStudentMyOrganizationsComponent,fas fa-building,1,Track organizations you are interested in
+/student-dashboard/calendar,My Calendar,DashStudentCalendarComponent,fas fa-calendar-alt,1,"Track your appointments, deadlines, and important events"
+/student-dashboard/feed,My Feed,DashStudentFeedComponent,fas fa-stream,1,"Stay updated with the latest posts and announcements"
+/student-dashboard/personalstatements,Personal Goals,DashStudentPersonalStatementsComponent,fas fa-book,1,List of personal goal statements
+/student-dashboard/personalstatement-details/:id,Personal Statement Details,StudentPersonalStatementDetailsComponent,fas fa-book,,View details of a personal statement
+/student-dashboard/personalstatements/:id,Personal Statement Group,StudentPersonalStatementGroupComponent,fas fa-book,,Personal statement with default tab
+/student-dashboard/personalstatements/:id/:tabId,Personal Statement Tab,StudentPersonalStatementGroupComponent,fas fa-book,,Personal statement with specific tab
+/student-dashboard/personalstatements/:id/:tabId/:childId,Personal Statement Child,StudentPersonalStatementGroupComponent,fas fa-book,,Personal statement with child entity
+/student-dashboard/interests,Interests,DashStudentInterestsComponent,,1,Saved catalog entry interests
+/student-dashboard/interests/:interestId,Interest Detail (redirect),DashStudentInterestsComponent,,,Redirects to interests/:interestId/interest
+/student-dashboard/interests/:interestId/interest,Interest Detail,DashStudentInterestComponent,,,View a specific interest
+/student-dashboard/interests/:interestId/:tabId,Interest Tab,DashStudentInterestsComponent,,,View interest with specific tab
+/student-dashboard/engage,Engage,StudentEngageComponent,fas fa-envelope,1,Engage with catalog entries
+/student-dashboard/research,Research,StudentResearchComponent,fas fa-search,1,Research hub for careers and opportunities
+/student-dashboard/research/careers,Research Careers,StudentResearchCareersComponent,fas fa-search,2,Search vocation encodings and career paths
+/student-dashboard/research/careers/:vocationEncodingRefId,Research Career Detail,StudentResearchCareersComponent,fas fa-search,,View specific career research
+/student-dashboard/research/orgs,Research Orgs,StudentResearchOrgsComponent,fas fa-building,2,Research organizations
+/student-dashboard/research/items,Research Items,StudentResearchItemsComponent,fas fa-search,2,Research catalog items
+/student-dashboard/catalogs,Catalog Search,StudentCatalogComponent,fas fa-list,2,Search catalogs for opportunities
+/student-dashboard/resumebuilder,Resume Builder,StudentResumeBuilderComponent,fas fa-file-alt,1,Build and manage resumes
+/student-dashboard/resumeentries,Resume Entries,StudentResumeEntryGroupComponent,fas fa-file-alt,2,Manage resume entries
+/student-dashboard/resumeentries/:id,Resume Entry Detail (redirect),StudentResumeEntryGroupComponent,fas fa-file-alt,,Redirects to resumeentries/:id/details
+/student-dashboard/resumeentries/:id/:tabId,Resume Entry Tab,StudentResumeEntryGroupComponent,fas fa-file-alt,,View resume entry with specific tab
+/student-dashboard/resumes,Resumes,DashStudentResumesGroupComponent,fas fa-file-alt,1,List of resumes
+/student-dashboard/resumes/:resumeId,Resume Detail (redirect),DashStudentResumesGroupComponent,fas fa-file-alt,,Redirects to resumes/:resumeId/resume
+/student-dashboard/resumes/:resumeId/resume,Resume Detail,DashStudentResumesGroupComponent,fas fa-file-alt,,View a specific resume
+/student-dashboard/resumes/:resumeId/:tabId,Resume Tab,DashStudentResumesGroupComponent,fas fa-file-alt,,View resume with specific tab
+/student-dashboard/progress,Progress,DashStudentProgressComponent,fas fa-chart-line,1,Track progress
+/student-dashboard/guidance,Guidance & Support,DashStudentGuidanceComponent,fas fa-life-ring,1,Connect with guidance team
+/student-dashboard/guidance/workrequests,Guidance Tickets,StudentWorkRequestsComponent,fas fa-life-ring,,List of guidance work requests
+/student-dashboard/guidance/workrequests/:ticketId,Guidance Ticket (redirect),StudentWorkRequestsComponent,fas fa-life-ring,,Redirects to guidance/workrequests/:ticketId/ticket
+/student-dashboard/guidance/workrequests/:ticketId/:tabId,Guidance Ticket Tab,StudentWorkRequestsComponent,fas fa-life-ring,,View specific guidance ticket with tab
+/student-dashboard/uistarter,UI Starter,UistarterHomeComponent,fas fa-palette,1,UI component playground
+/student-dashboard/e/:entityType/:entityId,Entity UI,StdEntityUiComponent,,,Generic entity display
+/student-dashboard/e/:entityType/:entityId/:tabId,Entity UI Tab,StdEntityUiComponent,,,Generic entity display with tab
+/student-dashboard/e/:entityType/:entityId/:tabId/:childId,Entity UI Child,StdEntityUiComponent,,,Generic entity display with child
+/student-dashboard/e/:entityType/:entityId/:tabId/:childId/:childTabId,Entity UI Child Tab,StdEntityUiComponent,,,Generic entity display with child tab
