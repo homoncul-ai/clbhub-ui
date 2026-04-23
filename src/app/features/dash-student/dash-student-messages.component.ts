@@ -5,13 +5,15 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
-import { HcclService, PMessageCriteria, PMessageGETData } from '@app/restsvc/hccl.service';
+import { HcclService, PMessageCriteria, PMessageGETData, HcclUserInviteCriteria } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { PMessageListComponent } from '@app/components/_crud/pmessage/pmessage-list.component';
 import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
+import { HcclUserInviteListComponent } from '@app/components/_crud/hccluserinvite/hccluserinvite-list.component';
 import { Subject, takeUntil } from 'rxjs';
 
 /**
@@ -35,7 +37,7 @@ class InlinePanelRowClickBehavior extends OnRowClickBehavior {
 @Component({
   selector: 'app-dash-student-messages',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, PMessageListComponent, PMessageUiComponent],
+  imports: [CommonModule, MdbAccordionModule, PMessageListComponent, PMessageUiComponent, HcclUserInviteListComponent],
   styleUrl: './dash-student-messages.component.scss',
   templateUrl: './dash-student-messages.component.html',
 })
@@ -47,9 +49,11 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
   private pmessage: PMessageGETData | null = null;
   private destroy$ = new Subject<void>();
   
-  // Track selected message for inline panel display
   selectedMessageId: string = '';
   selectedMessageTitle: string = '';
+
+  override loading = true;
+  private openAccordionId: string = 'invitations';
 
   constructor() {
     super();    
@@ -92,13 +96,13 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
       this.defaultId = context.currentUserProfileId || '';
       this.id = this.defaultId;
       this.organizationId = context.currentUserProfile.organizationId || '';
-      // Call parent ngOnInit after setting the ID
       super.ngOnInit();
+      this.loading = false;
       
-      // If messageId was passed as input, set it as selected
       if (this.messageId) {
         this.selectedMessageId = this.messageId;
         this.loadMessageTitle(this.messageId);
+        this.openAccordionId = 'messages';
         setTimeout(() => this.scrollToPanel(), 100);
       }
     });
@@ -207,6 +211,23 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
       return ['student-dashboard', 'messages', id, 'message'];
     };
     return x;
+  }
+
+  isAccordionCollapsed(accordionId: string): boolean {
+    return this.openAccordionId !== accordionId;
+  }
+
+  openAccordion(accordionId: string): void {
+    this.openAccordionId = accordionId;
+  }
+
+  getInviteCriteria(): HcclUserInviteCriteria {
+    return {
+      inviteeId: this.id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
   }
 
   getPMessageCriteria(): PMessageCriteria {
