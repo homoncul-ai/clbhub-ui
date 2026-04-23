@@ -33,11 +33,11 @@ export class HcclOrganizationContactListComponent extends AbstractListComponent<
 
   protected getGridColumns(): any[] {
     return [
-      { id: 'contactName', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
-      { id: 'messageHandle', header: [{ text: 'Handle', align: 'center' }, { content: 'inputFilter' }], minWidth: 160, adjust: true },
-      { id: 'cellPhoneNumber', header: [{ text: 'Phone', align: 'center' }, { content: 'inputFilter' }], minWidth: 140, adjust: true },
-      { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
-      { id: 'action', header: [{ text: '', align: 'center' }], width: 60, htmlEnable: true, template: () => {
+      { id: 'contactName', header: [{ text: 'Name', align: 'center' }, { content: 'inputFilter' }], width: '20%' },
+      { id: 'messageHandle', header: [{ text: 'Handle', align: 'center' }, { content: 'inputFilter' }], width: '20%' },
+      { id: 'cellPhoneNumber', header: [{ text: 'Phone', align: 'center' }, { content: 'inputFilter' }], width: '15%' },
+      { id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], width: '40%' },
+      { id: 'action', header: [{ text: '', align: 'center' }], width: '5%', htmlEnable: true, template: () => {
         return `<i class="fas fa-envelope text-primary" style="cursor:pointer;font-size:1.1rem;" title="Send Message"></i>`;
       }},
     ];
