@@ -4635,6 +4635,24 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<HandleInviteActionResponse>(request);
   }
 
+  newMessageInviteUI(inviteeId: string): Observable<CreateInviteActionUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/invitation/user-invite-create/newmessage",
+      method: "GET",
+      params: { inviteeId: this.convertToString(inviteeId) },
+    };
+    return this.request<CreateInviteActionUIData>(request);
+  }
+
+  handleNewMessageInviteCreate(body: CreateInviteActionPOSTData): Observable<CreateInviteActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/invitation/user-invite-create/newmessage",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CreateInviteActionResponse>(request);
+  }
+
   inviteActionUI(inviteId: string): Observable<HandleInviteActionUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/invitation/user-invite-action/ui",
@@ -12434,11 +12452,37 @@ export interface HandleInviteActionPOSTData {
   accepted?: boolean;
 }
 
+export interface CreateInviteActionResponse {
+  messages?: SimpleMessageList;
+  invite?: HcclUserInviteGETData;
+  notes?: string;
+  invitedByUser?: HcclUserProfileGETData;
+  inviteeUser?: HcclUserProfileGETData;
+}
+
+export interface CreateInviteActionPOSTData {
+  messages?: SimpleMessageList;
+  inviteCode?: string;
+  notes?: string;
+  invitedByUserId?: string;
+  inviteeUserId?: string;
+}
+
 export interface HandleInviteActionUIData {
   messages?: SimpleMessageList;
   invite?: HcclUserInviteGETData;
   notes?: string;
   invitedByUser?: HcclUserProfileGETData;
+}
+
+export interface CreateInviteActionUIData {
+  messages?: SimpleMessageList;
+  inviteCode?: string;
+  invite?: HcclUserInviteGETData;
+  notes?: string;
+  invitedByUser?: HcclUserProfileGETData;
+  inviteeUser?: HcclUserProfileGETData;
+  message?: PMessageGETData;
 }
 
 export interface OnboardAddressResponse {

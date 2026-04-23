@@ -20224,6 +20224,83 @@
         }
       }
     },
+    "/hccl/invitation/user-invite-create/newmessage": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "New Invitation for the user .",
+        "operationId": "newMessageInviteUI",
+        "parameters": [
+          {
+            "name": "inviteeId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateInviteActionUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "New Invitation for the user .",
+        "operationId": "handleNewMessageInviteCreate",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInviteActionPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateInviteActionResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/invitation/user-invite-action/ui": {
       "get": {
         "tags": [
@@ -48918,6 +48995,48 @@
           }
         }
       },
+      "CreateInviteActionResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "invitedByUser": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "inviteeUser": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          }
+        }
+      },
+      "CreateInviteActionPOSTData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "inviteCode": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "invitedByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inviteeUserId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
       "HandleInviteActionUIData": {
         "type": "object",
         "properties": {
@@ -48932,6 +49051,32 @@
           },
           "invitedByUser": {
             "$ref": "#/components/schemas/HcclUserProfileGETData"
+          }
+        }
+      },
+      "CreateInviteActionUIData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "inviteCode": {
+            "type": "string"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "invitedByUser": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "inviteeUser": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          },
+          "message": {
+            "$ref": "#/components/schemas/PMessageGETData"
           }
         }
       },
