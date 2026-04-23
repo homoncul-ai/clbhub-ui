@@ -12,16 +12,15 @@
 
           <div class="search-bar-container">
             <div class="search-input-wrapper">
-              <span class="search-icon material-icons"></span>
               <input
                 type="text"
                 class="search-input"
-                placeholder="Search vocation encoding references..."
+                placeholder="Enter search terms to find career opportunities"
                 [(ngModel)]="searchKeyword"
                 (keyup.enter)="performSearch()">
             </div>
             <button class="search-button" (click)="performSearch()">
-              <span class="material-icons">search</span>
+              <i class="fas fa-search me-1"></i>
               Search
             </button>
           </div>
