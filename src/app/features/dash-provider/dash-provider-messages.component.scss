@@ -1,0 +1,103 @@
+/* Dash Provider Messages Component Styles */
+
+.messages-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.message-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 0;
+  z-index: 9999999;
+  border: 1px solid var(--mdb-border-color, #dee2e6);
+  border-radius: 8px;
+  background-color: var(--mdb-body-bg, #fff);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #8db392 0%, #3f7446 100%);
+  color: #fff;
+  border-bottom: 1px solid var(--mdb-border-color, #dee2e6);
+
+  h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #fff !important;
+  }
+}
+
+.close-panel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  i {
+    font-size: 0.875rem;
+  }
+}
+
+.message-panel-content {
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .message-panel {
+    margin-top: 0.75rem;
+    border-radius: 6px;
+  }
+
+  .message-panel-header {
+    padding: 0.5rem 0.75rem;
+
+    h4 {
+      font-size: 0.9rem;
+    }
+  }
+
+  .message-panel-content {
+    padding: 0.75rem;
+    max-height: 60vh;
+  }
+
+  .close-panel-btn {
+    width: 28px;
+    height: 28px;
+  }
+}

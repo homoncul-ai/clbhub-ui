@@ -1,0 +1,57 @@
+<div *ngIf="loading" class="text-center py-4">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-2">Loading communications...</p>
+</div>
+
+<mdb-accordion *ngIf="!loading" [multiple]="false">
+
+  <mdb-accordion-item
+    [collapsed]="isAccordionCollapsed('invitations')"
+    (itemShow)="openAccordion('invitations')">
+    <ng-template mdbAccordionItemHeader>
+      <i class="fas fa-envelope-open-text me-2"></i>
+      Invitations
+    </ng-template>
+    <ng-template mdbAccordionItemBody>
+      <app-hccluserinvite-list
+        [criteria]="getInviteCriteria()"
+        [showingSearchHeading]="false"
+        [showingGoButton]="false"
+        [showingAddButton]="false"
+        [showingIdCheckbox]="false">
+      </app-hccluserinvite-list>
+    </ng-template>
+  </mdb-accordion-item>
+
+  <mdb-accordion-item
+    [collapsed]="isAccordionCollapsed('messages')"
+    (itemShow)="openAccordion('messages')">
+    <ng-template mdbAccordionItemHeader>
+      <i class="fas fa-comments me-2"></i>
+      Messages
+    </ng-template>
+    <ng-template mdbAccordionItemBody>
+      <app-pmessage-list [criteria]="getPMessageCriteria()"
+        [onRowClickBehavior]="onMessageRowClickBehavior()"
+        [showingSearch]="false" [showingSearchHeading]="false" [showingGoButton]="false"
+        [showingAddButton]="false" [showingIdCheckbox]="false">
+      </app-pmessage-list>
+
+      <!-- Inline Message Panel -->
+      <div *ngIf="selectedMessageId" #messagePanel class="message-panel">
+        <div class="message-panel-header">
+          <h4>{{ selectedMessageTitle }}</h4>
+          <button class="close-panel-btn" (click)="closeMessagePanel()" title="Close panel">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="message-panel-content">
+          <app-pmessage-ui [id]="selectedMessageId"></app-pmessage-ui>
+        </div>
+      </div>
+    </ng-template>
+  </mdb-accordion-item>
+
+</mdb-accordion>

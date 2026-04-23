@@ -457,6 +457,12 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DASHBOARD);
     this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DASHBOARD_TAB_MYDASH));
     this.addMenuItem(menu, dashboard);
+
+    // Add My Communications
+    const messages = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_MESSAGES);
+    messages.level = 1;
+    messages.route = '/provider-dashboard/messages';
+    this.addMenuItem(menu, messages);
     
     // Add Provider Details with children
     const details = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DETAILS);
@@ -1101,6 +1107,14 @@ export const MENU_CONSTANTS = {
     componentPath: 'src/app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component',
     componentName: 'CatalogEntrySignupPacketListComponent',
     icon: 'fas fa-clipboard-list' 
+  },
+  PROVIDER_MESSAGES: {
+    level: 1,
+    label: 'My Communications',
+    route: '/provider-dashboard/messages',
+    componentPath: 'src/app/features/dash-provider',
+    componentName: 'dash-provider-messages',
+    icon: 'fas fa-envelope'
   },
 
   // Employee Dashboard Menu Items

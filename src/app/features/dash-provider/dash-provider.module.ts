@@ -15,6 +15,7 @@ import { ProviderCatalogTabDashComponent } from './catalog/provider-catalog-tab-
 import { CatalogEntrySignupPacketListComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component';
 import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
 import { StdEntityUiComponent } from '@app/components/_global';
+import { DashProviderMessagesComponent } from './dash-provider-messages.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard/:tabId', component: ProviderDashboardGroupComponent },
       { path: 'dashboard', component: ProviderDashboardGroupComponent },
+
+      { path: 'messages/:messageId/:tabId', component: DashProviderMessagesComponent },
+      { path: 'messages/:messageId', redirectTo: 'messages/:messageId/message', pathMatch: 'full' },
+      { path: 'messages', component: DashProviderMessagesComponent },
       { path: 'details/:tabId/:childId', component: ProviderDetailsGroupComponent },
       { path: 'details/:tabId', component: ProviderDetailsGroupComponent },
       { path: 'details', component: ProviderDetailsGroupComponent },
@@ -68,7 +73,8 @@ const routes: Routes = [
     ProviderWorkrequestGroupComponent,
     ProviderCatalogGroupComponent,
     CatalogEntrySignupPacketListComponent,
-    CatalogEntrySignupPacketGroupComponent
+    CatalogEntrySignupPacketGroupComponent,
+    DashProviderMessagesComponent
   ]
 })
 export class DashProviderModule { }
