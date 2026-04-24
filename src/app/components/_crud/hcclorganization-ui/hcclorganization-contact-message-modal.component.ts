@@ -15,7 +15,7 @@ import {
   imports: [CommonModule, FormsModule, MdbFormsModule],
   template: `
     <div class="modal-header">
-      <h5 class="modal-title">Send Message</h5>
+      <h5 class="modal-title">Send Message to {{ inviteeHandle }}</h5>
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
     </div>
     <div class="modal-body">
@@ -63,12 +63,14 @@ import {
 
     <!-- Debug -->
     <div class="modal-footer bg-light" style="font-size:0.75rem;">
-      <pre class="mb-0 text-muted">inviteeId: {{ inviteeId | json }}
-inviteeUser.id: {{ uiData?.inviteeUser?.id | json }}
-invitedByUser.id: {{ uiData?.invitedByUser?.id | json }}
-inviteCode: {{ uiData?.inviteCode | json }}
-invite: {{ uiData?.invite ? 'exists' : 'null' }}
-message: {{ uiData?.message ? uiData?.message?.id : 'null' }}</pre>
+      <details>
+        <summary class="text-muted" style="cursor:pointer;">Debug: CreateInviteActionUIData</summary>
+        <textarea class="mb-0 text-muted mt-1" 
+        >
+        inviteeId: {{ inviteeId }}
+uiData: {{ uiData | json }}
+modalRef.data: {{ debugModalData | json }}</textarea> 
+      </details>
     </div>
   `,
 })
@@ -82,17 +84,15 @@ export class HcclOrganizationContactMessageModalComponent implements OnInit {
   sending = false;
   successMessage = '';
   errorMessage = '';
+  debugModalData: any = null;
 
   constructor(public modalRef: MdbModalRef<HcclOrganizationContactMessageModalComponent>) {}
 
   ngOnInit(): void {
-    const data = (this.modalRef as any).data;
-    if (data?.uiData) {
-      this.uiData = data.uiData;
-      this.inviteeHandle = this.uiData?.inviteeUser?.messageHandle || 'contact';
-    }
-    if (data?.inviteeId) {
-      this.inviteeId = data.inviteeId;
+    this.debugModalData = { uiData: this.uiData, inviteeId: this.inviteeId };
+    console.log('ContactMessageModal - uiData:', JSON.stringify(this.uiData), 'inviteeId:', this.inviteeId);
+    if (this.uiData) {
+      this.inviteeHandle = this.uiData.inviteeUser?.entityDisplayName || 'contact';
     }
   }
 

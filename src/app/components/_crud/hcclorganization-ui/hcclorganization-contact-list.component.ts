@@ -86,10 +86,11 @@ export class HcclOrganizationContactListComponent extends AbstractListComponent<
   }
 
   private sendMessage(userProfileId: string): void {
-    console.log('sendMessage: ' + userProfileId);
+    console.log('sendMessage called with userProfileId:', userProfileId);
     this.hcclService.newMessageInviteUI(userProfileId).subscribe({
       next: (uiData: CreateInviteActionUIData) => {
-        if (uiData.message?.id) {
+        console.log('newMessageInviteUI response:', JSON.stringify(uiData));
+        if (uiData?.message?.id) {
           this.openPmessageModal(uiData.message.id, uiData.message.title);
         } else {
           this.openInviteModal(uiData, userProfileId);

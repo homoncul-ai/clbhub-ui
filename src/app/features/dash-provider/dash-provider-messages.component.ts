@@ -178,7 +178,7 @@ export class DashProviderMessagesComponent extends AbstractEntityGroupComponent<
 
   getInviteCriteria(): HcclUserInviteCriteria {
     return {
-      inviteeId: this.id,
+      inviteeId: this.hcclContextService.getCurrentUserProfileId() || this.id,
       pageNumber: 1,
       pageSize: 50,
       isPaging: true
