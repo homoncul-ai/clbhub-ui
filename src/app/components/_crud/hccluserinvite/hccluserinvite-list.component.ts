@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   HcclService,
   HcclUserInviteGETData,
   HcclUserInviteCriteria,
-  HcclUserInviteGETDataSearchResults
+  HcclUserInviteGETDataSearchResults,
+  HandleInviteActionResponse,
 } from '@app/restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
 import { Observable } from 'rxjs';
+import { HcclUserInviteActionModalComponent } from './hccluserinvite-action-modal.component';
 
 @Component({
   selector: 'app-hccluserinvite-list',
@@ -21,6 +23,8 @@ export class HcclUserInviteListComponent extends AbstractListComponent<
   HcclUserInviteCriteria,
   HcclUserInviteGETDataSearchResults
 > {
+  @Output() inviteActionCompleted = new EventEmitter<HandleInviteActionResponse>();
+
   constructor() {
     super();
     this.searchHeading = 'Hccl User Invites';
@@ -30,15 +34,40 @@ export class HcclUserInviteListComponent extends AbstractListComponent<
 
   protected getGridColumns(): any[] {
     return [
-      { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'emailAddress', header: [{ text: 'Email', align: 'center' }, { content: 'inputFilter' }], minWidth: 220, adjust: true },
-      { id: 'inviteCode', header: [{ text: 'Invite Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 160, adjust: true },
-      { id: 'organizationId', header: [{ text: 'Organization ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
- //     { id: 'teamId', header: [{ text: 'Team ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 180, adjust: true },
-      { id: 'currentStateCode', header: [{ text: 'Current State', align: 'center' }, { content: 'inputFilter' }], minWidth: 140, adjust: true },
-      { id: 'available', header: [{ text: 'Available', align: 'center' }, { content: 'selectFilter' }], minWidth: 110, adjust: true },
-      { id: 'dateExpires', header: [{ text: 'Date Expires', align: 'center' }], minWidth: 150, adjust: true }
+      { id: 'inviteCode', header: [{ text: 'Invite Code', align: 'center' }, { content: 'inputFilter' }], width: '20%' },
+      { id: 'invitedByName', header: [{ text: 'Invited By', align: 'center' }, { content: 'inputFilter' }], width: '20%' },
+      { id: 'currentStateCode', header: [{ text: 'Status', align: 'center' }, { content: 'inputFilter' }], width: '15%' },
+      { id: 'organizationName', header: [{ text: 'Organization', align: 'center' }, { content: 'inputFilter' }], width: '20%' },
+      { id: 'dateCreated', header: [{ text: 'Date', align: 'center' }], width: '15%' },
+      { id: 'action', header: [{ text: '', align: 'center' }], width: '10%', htmlEnable: true, template: () => {
+        return `<i class="fas fa-envelope text-primary" style="cursor:pointer;font-size:1.1rem;" title="Open Invitation"></i>`;
+      }},
     ];
+  }
+
+  protected override addGridEventListeners(grid: any): void {
+    grid.events.on('cellClick', (row: any, col: any) => {
+      if (col && col.id === 'action') {
+        const inviteId = typeof row === 'string' ? row : row?.id;
+        if (inviteId) {
+          this.openInviteActionModal(inviteId);
+        }
+      }
+    });
+  }
+
+  private openInviteActionModal(inviteId: string): void {
+    const modalRef = this.modalService.open(HcclUserInviteActionModalComponent, {
+      modalClass: 'modal-lg',
+      data: { inviteId },
+    });
+
+    modalRef.onClose.subscribe((response: HandleInviteActionResponse | null) => {
+      if (response) {
+        this.inviteActionCompleted.emit(response);
+        this.onRefresh();
+      }
+    });
   }
 
   protected createCriteria(): HcclUserInviteCriteria {
@@ -61,24 +90,11 @@ export class HcclUserInviteListComponent extends AbstractListComponent<
     return response.searchResults || [];
   }
 
-  protected override async formatEntityDataAsync(entity: HcclUserInviteGETData): Promise<any> {
-    return {
-      available: entity.available ?? '',
-      createdByInfo: entity.createdByInfo?.name || '',
-      lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
-      dateCreated: entity.dateCreated?.formattedDate || '',
-      dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
-    //  dateExpires: entity.dateExpires?.formattedDate || ''
-    };
-  }
-
   protected override formatEntityData(entity: HcclUserInviteGETData): any {
     return {
-      createdByInfo: entity.createdByInfo?.name || '',
-      lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
+      invitedByName: entity.createdByUserProfile?.entityDisplayName || entity.createdByInfo?.name || '',
+      organizationName: entity.organization?.entityDisplayName || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
-      dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
-  //    dateExpires: entity.dateExpires?.formattedDate || ''
     };
   }
 }

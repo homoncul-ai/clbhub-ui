@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
-import { HcclService, PMessageCriteria, PMessageGETData, HcclUserInviteCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, PMessageCriteria, PMessageGETData, HcclUserInviteCriteria, HandleInviteActionResponse, HcclUserInviteGETDataSearchResults } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { PMessageListComponent } from '@app/components/_crud/pmessage/pmessage-list.component';
@@ -53,7 +53,8 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
   selectedMessageTitle: string = '';
 
   override loading = true;
-  private openAccordionId: string = 'invitations';
+  hasInvitations = false;
+  private openAccordionId: string = 'messages';
 
   constructor() {
     super();    
@@ -97,8 +98,23 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
       this.id = this.defaultId;
       this.organizationId = context.currentUserProfile.organizationId || '';
       super.ngOnInit();
-      this.loading = false;
-      
+
+      this.hcclService.findHcclUserInvites(this.getInviteCriteria())
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (results: HcclUserInviteGETDataSearchResults) => {
+            this.hasInvitations = !!(results.searchResults && results.searchResults.length > 0);
+            if (this.hasInvitations && !this.messageId) {
+              this.openAccordionId = 'invitations';
+            }
+            this.loading = false;
+          },
+          error: () => {
+            this.hasInvitations = false;
+            this.loading = false;
+          }
+        });
+
       if (this.messageId) {
         this.selectedMessageId = this.messageId;
         this.loadMessageTitle(this.messageId);
@@ -211,6 +227,13 @@ export class DashStudentMessagesComponent extends AbstractEntityGroupComponent<H
       return ['student-dashboard', 'messages', id, 'message'];
     };
     return x;
+  }
+
+  onInviteActionCompleted(response: HandleInviteActionResponse): void {
+    if (response.tuple?.entityName === 'PMessage' && response.tuple?.entityId) {
+      this.openAccordionId = 'messages';
+      this.onMessageSelected(response.tuple.entityId);
+    }
   }
 
   isAccordionCollapsed(accordionId: string): boolean {

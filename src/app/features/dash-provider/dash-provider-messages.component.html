@@ -7,7 +7,7 @@
 
 <mdb-accordion *ngIf="!loading" [multiple]="false">
 
-  <mdb-accordion-item
+  <mdb-accordion-item *ngIf="hasInvitations"
     [collapsed]="isAccordionCollapsed('invitations')"
     (itemShow)="openAccordion('invitations')">
     <ng-template mdbAccordionItemHeader>
@@ -20,7 +20,8 @@
         [showingSearchHeading]="false"
         [showingGoButton]="false"
         [showingAddButton]="false"
-        [showingIdCheckbox]="false">
+        [showingIdCheckbox]="false"
+        (inviteActionCompleted)="onInviteActionCompleted($event)">
       </app-hccluserinvite-list>
     </ng-template>
   </mdb-accordion-item>
