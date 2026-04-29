@@ -840,9 +840,11 @@ export class MenuService {
     const vocationEncodingRefList = this.copyMenuItem(MENU_CONSTANTS.EA_VOCATIONENCODINGREF_LIST);
     this.addChildMenuItem(vocodeGroup, vocationEncodingRefList);
 
-    // Add survey reporting views
+    // Add survey reporting views (alphabetical)
     const surveyNpoJobFinder = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEY_NPO_JOB_FINDER_LIST);
     this.addChildMenuItem(surveysGroup, surveyNpoJobFinder);
+    const surveyRegisterInterest = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEY_REGISTER_INTEREST_LIST);
+    this.addChildMenuItem(surveysGroup, surveyRegisterInterest);
 
     // Add UI Starter as the last top-level menu item
     const uiStarter = this.copyMenuItem(MENU_CONSTANTS.EA_UISTARTER);
@@ -1656,6 +1658,15 @@ EA_SURVEY_NPO_JOB_FINDER_LIST: {
   componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
   componentName: 'SurveyResultsViewerComponent',
   icon: 'fas fa-list-check'
+},
+
+EA_SURVEY_REGISTER_INTEREST_LIST: {
+  level: 2,
+  label: 'Register Interest',
+  route: '/ecoadmin-dashboard/surveys/register_interest',
+  componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
+  componentName: 'SurveyResultsViewerComponent',
+  icon: 'fas fa-envelope'
 },
 
 EA_VOCATIONENCODING_LIST: {

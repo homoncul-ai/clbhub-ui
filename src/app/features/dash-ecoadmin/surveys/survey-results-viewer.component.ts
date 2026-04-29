@@ -35,6 +35,12 @@ export class SurveyResultsViewerComponent implements OnInit {
       subject: 'Survey: Do you have a job for me?',
       description: 'Feedback on how nonprofit teams support job seekers.',
     },
+    register_interest: {
+      key: 'register_interest',
+      label: 'Register Interest',
+      subject: 'Survey: Register Interest',
+      description: 'Pre-launch interest registration and email collection.',
+    },
   };
 
   loading = false;

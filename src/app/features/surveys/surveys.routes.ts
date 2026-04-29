@@ -11,4 +11,11 @@ export const SURVEYS_ROUTES: Routes = [
     loadComponent: () =>
       import('./survey-job-finder/survey-job-finder.component').then((m) => m.SurveyJobFinderComponent),
   },
+  {
+    path: 'register-interest',
+    loadComponent: () =>
+      import('./survey-register-interest/survey-register-interest.component').then(
+        (m) => m.SurveyRegisterInterestComponent,
+      ),
+  },
 ];
