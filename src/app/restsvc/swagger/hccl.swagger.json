@@ -277,7 +277,7 @@
         }
       }
     },
-    "/hccl/job-definitions/{id}": {
+    "/hccl/job-definitions/{job-definition-id}": {
       "get": {
         "tags": [
           "/job-definitions"
@@ -286,7 +286,7 @@
         "operationId": "getJobDefinitionById",
         "parameters": [
           {
-            "name": "id",
+            "name": "job-definition-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -326,7 +326,7 @@
         "operationId": "updateJobDefinition",
         "parameters": [
           {
-            "name": "id",
+            "name": "job-definition-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -369,7 +369,7 @@
         "operationId": "deleteJobDefinition",
         "parameters": [
           {
-            "name": "id",
+            "name": "job-definition-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -578,7 +578,7 @@
         }
       }
     },
-    "/hccl/job-definitions/{definition-id}/process-logs/{id}": {
+    "/hccl/job-definitions/{definition-id}/process-logs/{log-id}": {
       "get": {
         "tags": [
           "/job-definitions"
@@ -596,7 +596,7 @@
             }
           },
           {
-            "name": "id",
+            "name": "log-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -637,7 +637,7 @@
             }
           },
           {
-            "name": "id",
+            "name": "log-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -689,7 +689,7 @@
             }
           },
           {
-            "name": "id",
+            "name": "log-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -754,7 +754,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/{id}/cancel": {
+    "/hccl/service-event-logs/{service-event-log-id}/cancel": {
       "put": {
         "tags": [
           "/service-event-logs"
@@ -763,7 +763,7 @@
         "operationId": "cancelServiceEventLog",
         "parameters": [
           {
-            "name": "id",
+            "name": "service-event-log-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -859,7 +859,7 @@
         }
       }
     },
-    "/hccl/service-event-logs/{id}": {
+    "/hccl/service-event-logs/{service-event-log-id}": {
       "get": {
         "tags": [
           "/service-event-logs"
@@ -868,12 +868,20 @@
         "operationId": "getServiceEventLogById",
         "parameters": [
           {
-            "name": "id",
+            "name": "service-event-log-id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "isError",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
             }
           }
         ],
@@ -900,7 +908,7 @@
         "operationId": "updateServiceEventLog",
         "parameters": [
           {
-            "name": "id",
+            "name": "service-event-log-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -943,7 +951,7 @@
         "operationId": "deleteServiceEventLog",
         "parameters": [
           {
-            "name": "id",
+            "name": "service-event-log-id",
             "in": "path",
             "required": true,
             "schema": {
@@ -1029,6 +1037,68 @@
           },
           "400": {
             "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/service-event-logs/cancel": {
+      "put": {
+        "tags": [
+          "/service-event-logs"
+        ],
+        "summary": "Mark Service Event Logs as Canceled.",
+        "operationId": "markServiceEventLogsAsCanceled",
+        "requestBody": {
+          "description": "Mark Service Event Logs as Canceled.",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceEventLogCancelPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/service-event-logs/fail": {
+      "put": {
+        "tags": [
+          "/service-event-logs"
+        ],
+        "summary": "Mark Service Event Logs as Failed.",
+        "operationId": "markServiceEventLogsAsFailed",
+        "requestBody": {
+          "description": "Mark Service Event Logs as Failed.",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceEventLogFailPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "204": {
+            "description": "No Content"
           },
           "500": {
             "description": "System Error"
@@ -21330,6 +21400,46 @@
         }
       }
     },
+    "/hccl/realm/info": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Get realm information..",
+        "operationId": "newMessageInviteUI_1",
+        "parameters": [
+          {
+            "name": "inviteeId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealmInfoGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/resume/{id}/add-entries": {
       "post": {
         "summary": "Add resume entries to a resume",
@@ -23407,139 +23517,6 @@
           }
         }
       },
-      "DocumentEventLogGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "serviceEventLog": {
-            "$ref": "#/components/schemas/RelationshipGETData"
-          },
-          "applicationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "fileName": {
-            "type": "string"
-          },
-          "fileSize": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "mediaType": {
-            "type": "string"
-          },
-          "aboutPath": {
-            "type": "string"
-          },
-          "fileUuidReference": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "dateUploaded": {
-            "$ref": "#/components/schemas/DateGETData"
-          }
-        }
-      },
-      "ServiceEventLogGETData": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "lastUpdatedByInfo": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "dateLastUpdated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "referenceId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityName": {
-            "type": "string"
-          },
-          "eventName": {
-            "type": "string"
-          },
-          "eventJson": {
-            "type": "string"
-          },
-          "errorMessage": {
-            "type": "string"
-          },
-          "retries": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statusValue": {
-            "type": "string"
-          },
-          "responseStatus": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "responseStatusFamily": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "successMessage": {
-            "type": "string"
-          },
-          "nextEventName": {
-            "type": "string"
-          },
-          "displayName": {
-            "type": "string"
-          },
-          "groupId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "dateDue": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "applicationCode": {
-            "type": "string"
-          },
-          "parentId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "documentEventLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DocumentEventLogGETData"
-            }
-          }
-        }
-      },
       "ServiceEventLogCriteria": {
         "type": "object",
         "properties": {
@@ -23611,6 +23588,52 @@
             "format": "uuid"
           },
           "createdByName": {
+            "type": "string"
+          }
+        }
+      },
+      "ServiceEventLogCancelPUTData": {
+        "required": [
+          "eventName",
+          "referenceIds"
+        ],
+        "type": "object",
+        "properties": {
+          "referenceIds": {
+            "minItems": 1,
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "eventName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "ServiceEventLogFailPUTData": {
+        "required": [
+          "eventName",
+          "referenceIds"
+        ],
+        "type": "object",
+        "properties": {
+          "referenceIds": {
+            "minItems": 1,
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "eventName": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           }
         }
@@ -49519,6 +49542,22 @@
           }
         }
       },
+      "RealmInfoGETData": {
+        "required": [
+          "mapLocus",
+          "mapRadiusMiles"
+        ],
+        "type": "object",
+        "properties": {
+          "mapLocus": {
+            "$ref": "#/components/schemas/HcclAddrGETData"
+          },
+          "mapRadiusMiles": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "ResumeAddEntriesPOSTData": {
         "type": "object",
         "properties": {
@@ -49790,13 +49829,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

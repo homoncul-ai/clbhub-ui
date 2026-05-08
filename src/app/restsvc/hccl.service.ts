@@ -95,27 +95,27 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.requestCreate<any>(request);
   }
 
-  getJobDefinitionById(id: string, isError: boolean): Observable<any> {
+  getJobDefinitionById(job_definition_id: string, isError: boolean): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/job-definitions/" + id,
+      url: "/hccl/job-definitions/" + job_definition_id,
       method: "GET",
       params: { isError: this.convertToString(isError) },
     };
     return this.request<any>(request);
   }
 
-  updateJobDefinition(id: string, body: JobDefinitionPUTData): Observable<any> {
+  updateJobDefinition(job_definition_id: string, body: JobDefinitionPUTData): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/job-definitions/" + id,
+      url: "/hccl/job-definitions/" + job_definition_id,
       method: "PUT",
       body: body,
     };
     return this.request<any>(request);
   }
 
-  deleteJobDefinition(id: string): Observable<any> {
+  deleteJobDefinition(job_definition_id: string): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/job-definitions/" + id,
+      url: "/hccl/job-definitions/" + job_definition_id,
       method: "DELETE",
     };
     return this.request<any>(request);
@@ -157,26 +157,26 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.requestCreate<any>(request);
   }
 
-  getJobProcessLogById(definition_id: string, id: string): Observable<any> {
+  getJobProcessLogById(definition_id: string, log_id: string): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/job-definitions/" + definition_id + "/process-logs/" + id,
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs/" + log_id,
       method: "GET",
     };
     return this.request<any>(request);
   }
 
-  updateJobProcessLog(definition_id: string, id: string, body: JobProcessLogPUTData): Observable<any> {
+  updateJobProcessLog(definition_id: string, log_id: string, body: JobProcessLogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/job-definitions/" + definition_id + "/process-logs/" + id,
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs/" + log_id,
       method: "PUT",
       body: body,
     };
     return this.request<any>(request);
   }
 
-  deleteJobProcessLog(definition_id: string, id: string): Observable<any> {
+  deleteJobProcessLog(definition_id: string, log_id: string): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/job-definitions/" + definition_id + "/process-logs/" + id,
+      url: "/hccl/job-definitions/" + definition_id + "/process-logs/" + log_id,
       method: "DELETE",
     };
     return this.request<any>(request);
@@ -190,9 +190,9 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
-  cancelServiceEventLog(id: string): Observable<any> {
+  cancelServiceEventLog(service_event_log_id: string): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/service-event-logs/" + id + "/cancel",
+      url: "/hccl/service-event-logs/" + service_event_log_id + "/cancel",
       method: "PUT",
     };
     return this.request<any>(request);
@@ -216,26 +216,27 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.requestCreate<any>(request);
   }
 
-  getServiceEventLogById(id: string): Observable<any> {
+  getServiceEventLogById(service_event_log_id: string, isError: boolean): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/service-event-logs/" + id,
+      url: "/hccl/service-event-logs/" + service_event_log_id,
       method: "GET",
+      params: { isError: this.convertToString(isError) },
     };
     return this.request<any>(request);
   }
 
-  updateServiceEventLog(id: string, body: ServiceEventLogPUTData): Observable<any> {
+  updateServiceEventLog(service_event_log_id: string, body: ServiceEventLogPUTData): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/service-event-logs/" + id,
+      url: "/hccl/service-event-logs/" + service_event_log_id,
       method: "PUT",
       body: body,
     };
     return this.request<any>(request);
   }
 
-  deleteServiceEventLog(id: string): Observable<any> {
+  deleteServiceEventLog(service_event_log_id: string): Observable<any> {
     const request: CommonServiceRequest = {
-      url: "/hccl/service-event-logs/" + id,
+      url: "/hccl/service-event-logs/" + service_event_log_id,
       method: "DELETE",
     };
     return this.request<any>(request);
@@ -253,6 +254,24 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/query-logs",
       method: "POST",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  markServiceEventLogsAsCanceled(body: ServiceEventLogCancelPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/cancel",
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  markServiceEventLogsAsFailed(body: ServiceEventLogFailPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/service-event-logs/fail",
+      method: "PUT",
       body: body,
     };
     return this.request<any>(request);
@@ -4877,6 +4896,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<WorkRequestDashboardUIGETData>(request);
   }
 
+  newMessageInviteUIGet(inviteeId: string): Observable<RealmInfoGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/realm/info",
+      method: "GET",
+      params: { inviteeId: this.convertToString(inviteeId) },
+    };
+    return this.request<RealmInfoGETData>(request);
+  }
+
   addResumeEntries(id: string, body: ResumeAddEntriesPOSTData): Observable<PersonalStatementResumeGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/resume/" + id + "/add-entries",
@@ -5273,48 +5301,6 @@ export interface ServiceEventLogPOSTData {
   parentId?: string;
 }
 
-export interface DocumentEventLogGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  serviceEventLog?: RelationshipGETData;
-  applicationId?: string;
-  fileName?: string;
-  fileSize?: number;
-  mediaType?: string;
-  aboutPath?: string;
-  fileUuidReference?: string;
-  dateUploaded?: DateGETData;
-}
-
-export interface ServiceEventLogGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  referenceId?: string;
-  entityName?: string;
-  eventName?: string;
-  eventJson?: string;
-  errorMessage?: string;
-  retries?: number;
-  status?: number;
-  statusValue?: string;
-  responseStatus?: number;
-  responseStatusFamily?: number;
-  successMessage?: string;
-  nextEventName?: string;
-  displayName?: string;
-  groupId?: string;
-  dateDue?: DateGETData;
-  applicationCode?: string;
-  parentId?: string;
-  documentEventLogs?: DocumentEventLogGETData[];
-}
-
 export interface ServiceEventLogCriteria {
   pageNumber?: number;
   pageSize?: number;
@@ -5332,6 +5318,16 @@ export interface ServiceEventLogCriteria {
   applicationCode?: string;
   parentId?: string;
   createdByName?: string;
+}
+
+export interface ServiceEventLogCancelPUTData {
+  referenceIds: string[];
+  eventName: string;
+}
+
+export interface ServiceEventLogFailPUTData {
+  referenceIds: string[];
+  eventName: string;
 }
 
 export interface ServiceEventLogPUTData {
@@ -12651,6 +12647,11 @@ export interface WorkRequestDashboardUIGETData {
   mapStats?: any;
 }
 
+export interface RealmInfoGETData {
+  mapLocus: HcclAddrGETData;
+  mapRadiusMiles: number;
+}
+
 export interface ResumeAddEntriesPOSTData {
   entryIds?: string[];
 }
@@ -12739,9 +12740,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
