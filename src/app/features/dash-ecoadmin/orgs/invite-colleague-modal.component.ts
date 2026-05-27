@@ -164,6 +164,7 @@ export class InviteColleagueModalComponent implements OnInit {
         this.validationErrors.email = undefined;
         return this.hcclService.findHcclUserProfiles({
           userEmail: email,
+          organizationId: this.organizationId,
           pageSize: 1,
           isPaging: true
         });
@@ -173,7 +174,7 @@ export class InviteColleagueModalComponent implements OnInit {
         this.checkingEmail = false;
         if (response.searchResults && response.searchResults.length > 0) {
           this.emailExists = response.searchResults[0];
-          this.validationErrors.email = 'A user with this email already exists.';
+          this.validationErrors.email = 'This user already has a profile for this organization.';
         } else {
           this.emailExists = null;
           this.validationErrors.email = undefined;

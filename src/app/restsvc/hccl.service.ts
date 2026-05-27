@@ -4547,6 +4547,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PostmarkWebhookResponse>(request);
   }
 
+  jobsSpreadsheetChange(body: string): Observable<string> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/webhooks/jobs-spreadsheet-change",
+      method: "POST",
+      body: body,
+    };
+    return this.request<string>(request);
+  }
+
   onboardInvited(body: OnboardInvitedRequest): Observable<OnboardInvitedResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/invite",
@@ -5424,6 +5433,7 @@ export interface CatalogEntryFeedInstanceCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   catalogId?: string;
   catalogEntryId?: string;
   catalogEntryFeedContentId?: string;
@@ -5436,6 +5446,11 @@ export interface CatalogEntryFeedInstanceCriteria {
   distanceInMiles?: number;
   distanceInVocode?: number;
   feedTypeCode?: string;
+}
+
+export interface CriteriaDateRange {
+  dateStart?: string;
+  dateEnd?: string;
 }
 
 export interface CriteriaPredicateHint {
@@ -5538,6 +5553,7 @@ export interface CatalogEntryFeedProfileCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileId?: string;
   minScore?: number;
   maxDistanceInMiles?: number;
@@ -5591,6 +5607,7 @@ export interface CatalogEntryGroupRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   businessCode?: string;
   nameText?: string;
   available?: number;
@@ -5899,6 +5916,7 @@ export interface CatalogEntryInterestCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   catalogId?: string;
   catalogEntryId?: string;
   personalStatementId?: string;
@@ -5994,6 +6012,7 @@ export interface CatalogEntryCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   catalogId?: string;
   signupPacketId?: string;
   entryCode?: string;
@@ -6197,6 +6216,7 @@ export interface CatalogEntrySignupPacketCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   catalogId?: string;
   catalogEntryId?: string;
@@ -6271,6 +6291,7 @@ export interface CatalogEntryTagCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   catalogId?: string;
   catalogEntryId?: string;
   tagId?: string;
@@ -6336,6 +6357,7 @@ export interface CatalogSearchResultEntryCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   catalogSearchResultId?: string;
   catalogEntryId?: string;
   catalogId?: string;
@@ -6475,6 +6497,7 @@ export interface CatalogSearchResultCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   catalogId?: string;
   subjectEntityId?: string;
   subjectEntityType?: string;
@@ -6539,6 +6562,7 @@ export interface CatalogSearchCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   searchName?: string;
   businessCode?: string;
   description?: string;
@@ -6591,6 +6615,7 @@ export interface CatalogCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -6659,6 +6684,7 @@ export interface CatalogTagRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   tagCode?: string;
   tagValueType?: string;
   tagMaxValue?: number;
@@ -6712,6 +6738,7 @@ export interface CatalogTypeRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   businessCode?: string;
   name?: string;
   signupPacketId?: string;
@@ -6774,6 +6801,7 @@ export interface FeedEntryInstanceCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   feedEntryId?: string;
   userProfileId?: string;
   viewCount?: number;
@@ -6833,6 +6861,7 @@ export interface FeedEntryCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   feedTypeCode?: string;
   feedSubTypeCode?: string;
   title?: string;
@@ -6898,6 +6927,7 @@ export interface HcclOrganizationInterestCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   userProfileId?: string;
   interest?: number;
@@ -6961,6 +6991,7 @@ export interface ExperienceLocationCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -7015,6 +7046,7 @@ export interface ExperienceRegRuleCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -7087,6 +7119,7 @@ export interface ExperienceCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -7167,6 +7200,7 @@ export interface ExperienceTypeCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -7238,6 +7272,7 @@ export interface ParticipantCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileId?: string;
   catalogEntryInterestId?: string;
   catalogEntryId?: string;
@@ -7342,6 +7377,7 @@ export interface PersonalStatementResumeCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileId?: string;
   personalStatmentId?: string;
   title?: string;
@@ -7413,6 +7449,7 @@ export interface ResumeEntryCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileId?: string;
   participantId?: string;
   title?: string;
@@ -7482,6 +7519,7 @@ export interface ResumeUserInfoCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileId?: string;
 }
 
@@ -7544,6 +7582,7 @@ export interface CLCourseCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -7626,6 +7665,7 @@ export interface CLGuidanceCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -7709,6 +7749,7 @@ export interface CLSchoolCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -7792,6 +7833,7 @@ export interface CLStudentCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -7865,6 +7907,7 @@ export interface PAiPromptRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   businessCode?: string;
   pojoClassName?: string;
   name?: string;
@@ -7935,6 +7978,7 @@ export interface PAiStructuredQueryJobCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   jobActionCode?: string;
   referenceId?: string;
   promptCode?: string;
@@ -8041,6 +8085,7 @@ export interface PEntityTagValCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   parentEntityId?: string;
   parentEntityType?: string;
   parentEntityName?: string;
@@ -8137,6 +8182,7 @@ export interface PMBucketFolderCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   nameText?: string;
   businessCode?: string;
   bucketName?: string;
@@ -8191,6 +8237,7 @@ export interface PMFileBlobCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   pmfileId?: string;
   pathToFile?: string;
   md5Hash?: string;
@@ -8227,6 +8274,7 @@ export interface PMFileGroupEntryCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   pmfileGroupId?: string;
   pmfileId?: string;
   folderName?: string;
@@ -8308,6 +8356,7 @@ export interface PMFileGroupCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   title?: string;
   instructions?: string;
   available?: boolean;
@@ -8380,6 +8429,7 @@ export interface PMFileCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   downloadAs?: string;
   folderPath?: string;
   fileAccessCode?: string;
@@ -8468,6 +8518,7 @@ export interface PMessageAttachmentCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   pmessageId?: string;
   pmessageEntryId?: string;
   attachmentEntityId?: string;
@@ -8532,6 +8583,7 @@ export interface PMessageEntryCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   pmessageId?: string;
   authorUserProfileId?: string;
   messageParticipantId?: string;
@@ -8592,6 +8644,7 @@ export interface PMessageParticipantCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   pmessageId?: string;
   userProfileId?: string;
   dateLastViewed?: string;
@@ -8653,6 +8706,7 @@ export interface PMessageCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   authorUserProfileId?: string;
   teamId?: string;
   title?: string;
@@ -8720,6 +8774,7 @@ export interface PContractActivationCodeCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileId?: string;
   activationActionCode?: string;
   userProfileUsername?: string;
@@ -8789,6 +8844,7 @@ export interface PContractParticipantCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileUsername?: string;
   contractVersionInstanceId?: string;
   contractVersionId?: string;
@@ -8854,6 +8910,7 @@ export interface PContractCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   groupCode?: string;
@@ -8918,6 +8975,7 @@ export interface PContractVersionInstanceCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   contractVersionId?: string;
   contractCode?: string;
   instanceCode?: string;
@@ -8995,6 +9053,7 @@ export interface PContractVersionCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   contractId?: string;
   contractCode?: string;
   languageCode?: string;
@@ -9069,6 +9128,7 @@ export interface ProviderCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -9126,6 +9186,7 @@ export interface ProviderTypeRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -9175,6 +9236,7 @@ export interface ProviderUserCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userCode?: string;
 }
 
@@ -9237,6 +9299,7 @@ export interface ProviderRequestCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -9303,6 +9366,7 @@ export interface ProviderRequestTypeRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -9372,6 +9436,7 @@ export interface StateTransitionLogCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   nameText?: string;
   transactionReferenceId?: string;
   parentId?: string;
@@ -9472,6 +9537,7 @@ export interface SwWorkProductCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   available?: number;
@@ -9566,6 +9632,7 @@ export interface TaxonomyEntryCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -9627,6 +9694,7 @@ export interface TaxonomyLevelCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -9684,6 +9752,7 @@ export interface TaxonomyCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   nameText?: string;
   businessCode?: string;
   available?: number;
@@ -9738,6 +9807,7 @@ export interface FamilyUnitMemberCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   familyUnitId?: string;
   personId?: string;
   role?: string;
@@ -9802,6 +9872,7 @@ export interface FamilyUnitCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -9868,6 +9939,7 @@ export interface HcclAddrCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   parentEntityId?: string;
   parentEntityType?: string;
   parentEntityName?: string;
@@ -9945,6 +10017,7 @@ export interface HcclOrganizationCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -9999,6 +10072,7 @@ export interface HcclOrganizationTypeRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -10050,6 +10124,7 @@ export interface HcclPersonCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   organizationId?: string;
   name?: string;
   businessCode?: string;
@@ -10133,6 +10208,7 @@ export interface HcclTeamLogCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   nameText?: string;
   description?: string;
   teamId?: string;
@@ -10189,6 +10265,7 @@ export interface HcclTeamMemberRoleCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   teamId?: string;
   teamMemberId?: string;
   teamMemberRoleId?: string;
@@ -10247,6 +10324,7 @@ export interface HcclTeamMemberCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   teamId?: string;
   userId?: string;
@@ -10315,6 +10393,7 @@ export interface HcclTeamCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -10398,6 +10477,7 @@ export interface HcclUserInviteCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   emailAddress?: string;
   organizationId?: string;
   teamId?: string;
@@ -10468,6 +10548,7 @@ export interface HcclUserProfileRoleCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   roleCode?: string;
   userProfileId?: string;
   organizationId?: string;
@@ -10618,6 +10699,7 @@ export interface HcclUserProfileCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userId?: string;
   userCode?: string;
   messageHandle?: string;
@@ -10692,6 +10774,7 @@ export interface HcclUserCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -10759,6 +10842,7 @@ export interface TeamMemberRoleRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -10808,6 +10892,7 @@ export interface TeamTypeMemberRoleRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   teamType?: RelationshipGETData;
   teamMemberRole?: RelationshipGETData;
   available?: number;
@@ -10857,6 +10942,7 @@ export interface TeamTypeRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -10937,6 +11023,7 @@ export interface WorkItemDeliverableCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   workRequestId?: string;
   workRequestItemId?: string;
   parentDeliverableId?: string;
@@ -11034,6 +11121,7 @@ export interface WorkQueueCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -11099,6 +11187,7 @@ export interface WorkQueueTypeRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -11161,6 +11250,7 @@ export interface WorkRequestDeliverableSectionCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   workRequestDeliverableId?: string;
   sequenceOrder?: number;
   workRequestId?: string;
@@ -11230,6 +11320,7 @@ export interface WorkRequestDeliverableCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   workRequestId?: string;
   nameText?: string;
   pmfileGroupId?: string;
@@ -11282,6 +11373,7 @@ export interface WorkRequestItemCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   workRequestId?: string;
   nameText?: string;
   businessCode?: string;
@@ -11369,6 +11461,7 @@ export interface WorkRequestLogCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   nameText?: string;
   description?: string;
   transactionReferenceId?: string;
@@ -11439,6 +11532,7 @@ export interface WorkRequestRoutingReasonCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -11495,6 +11589,7 @@ export interface WorkRequestCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -11590,6 +11685,7 @@ export interface WorkRequestTeamCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -11634,6 +11730,7 @@ export interface WorkRequestTypeRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -11704,6 +11801,7 @@ export interface UtilmonLoginYearmoCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   yearmo?: string;
   orgId?: string;
   realmName?: string;
@@ -11796,6 +11894,7 @@ export interface UtilmonReportingEventCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   subject?: string;
   eventTypeCode?: string;
   realmName?: string;
@@ -11886,6 +11985,7 @@ export interface UtilmonStatCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   yearmo?: string;
   quarter?: number;
   orgId?: string;
@@ -11967,6 +12067,7 @@ export interface PersonalStatementActivityLogCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   userProfileId?: string;
   personalStatmentId?: string;
   nameText?: string;
@@ -12056,6 +12157,7 @@ export interface PersonalStatementCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -12127,6 +12229,7 @@ export interface VocationEncodingInstanceCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   vocationEncodingId?: string;
   encodingName?: string;
   vocationEncodingRefId?: string;
@@ -12176,6 +12279,7 @@ export interface VocationEncodingRefCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   name?: string;
   businessCode?: string;
   description?: string;
@@ -12247,6 +12351,7 @@ export interface VocationEncodingCriteria {
   orderByHint?: string;
   optionalDataHint?: string;
   predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
   encodingTypeCode?: string;
   parentEntityId?: string;
   parentEntityType?: string;

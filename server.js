@@ -79,6 +79,39 @@ app.post('/public/survey', async function (req, res) {
   }
 });
 
+// Proxy all /trutesta-hccl-services/ requests to the Java backend.
+app.all('/trutesta-hccl-services/*', async function (req, res) {
+  const serviceUrl = getServiceUrlPrefix() + req.path.replace('/trutesta-hccl-services', '');
+  try {
+    const headers = { 'Accept': req.headers['accept'] || 'application/json' };
+    if (req.headers['content-type']) {
+      headers['Content-Type'] = req.headers['content-type'];
+    }
+
+    const fetchOpts = { method: req.method, headers: headers };
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      fetchOpts.body = JSON.stringify(req.body);
+    }
+
+    const response = await fetch(serviceUrl, fetchOpts);
+    const contentType = response.headers.get('content-type') || '';
+    res.status(response.status);
+    if (contentType.includes('json')) {
+      const payload = await response.json();
+      res.json(payload);
+    } else {
+      const text = await response.text();
+      res.set('Content-Type', contentType);
+      res.send(text);
+    }
+  } catch (error) {
+    res.status(502).json({
+      status: 'error',
+      message: error && error.message ? error.message : 'Unable to reach backend service.',
+    });
+  }
+});
+
 // For all GET requests, send back index.html
 // so that PathLocationStrategy can be used
 app.get('/public/*', function (req, res) {

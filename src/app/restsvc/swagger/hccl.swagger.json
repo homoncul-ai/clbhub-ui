@@ -19800,6 +19800,45 @@
         }
       }
     },
+    "/hccl/public/webhooks/jobs-spreadsheet-change": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Secure handler for the change events.",
+        "operationId": "jobsSpreadsheetChange",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/public/onboard/invite": {
       "post": {
         "tags": [
@@ -23980,6 +24019,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -24026,6 +24068,19 @@
           },
           "feedTypeCode": {
             "type": "string"
+          }
+        }
+      },
+      "CriteriaDateRange": {
+        "type": "object",
+        "properties": {
+          "dateStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEnd": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -24359,6 +24414,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -24540,6 +24598,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "businessCode": {
             "type": "string"
@@ -25496,11 +25557,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "errorMessageAsString": {
-            "type": "string"
-          },
           "firstErrorMessage": {
             "$ref": "#/components/schemas/SimpleMessage"
+          },
+          "errorMessageAsString": {
+            "type": "string"
           }
         }
       },
@@ -25547,6 +25608,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "catalogId": {
             "type": "string",
@@ -25921,6 +25985,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "catalogId": {
             "type": "string",
@@ -26628,6 +26695,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -26890,6 +26960,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -27111,6 +27184,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "catalogSearchResultId": {
             "type": "string",
@@ -27570,6 +27646,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "catalogId": {
             "type": "string",
             "format": "uuid"
@@ -27790,6 +27869,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "searchName": {
             "type": "string"
           },
@@ -27979,6 +28061,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "organizationId": {
             "type": "string",
@@ -28216,6 +28301,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "tagCode": {
             "type": "string"
           },
@@ -28396,6 +28484,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "businessCode": {
             "type": "string"
@@ -28613,6 +28704,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "feedEntryId": {
             "type": "string",
@@ -28838,6 +28932,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "feedTypeCode": {
             "type": "string"
@@ -29084,6 +29181,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -29308,6 +29408,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -29492,6 +29595,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -29749,6 +29855,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -30043,6 +30152,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -30298,6 +30410,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "userProfileId": {
             "type": "string",
@@ -30663,6 +30778,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -30915,6 +31033,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -31157,6 +31278,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "userProfileId": {
             "type": "string",
             "format": "uuid"
@@ -31375,6 +31499,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "organizationId": {
             "type": "string",
@@ -31680,6 +31807,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "organizationId": {
             "type": "string",
@@ -31988,6 +32118,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -32293,6 +32426,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "organizationId": {
             "type": "string",
             "format": "uuid"
@@ -32557,6 +32693,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "businessCode": {
             "type": "string"
           },
@@ -32805,6 +32944,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "jobActionCode": {
             "type": "string"
@@ -33196,6 +33338,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "parentEntityId": {
             "type": "string",
             "format": "uuid"
@@ -33549,6 +33694,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "nameText": {
             "type": "string"
           },
@@ -33738,6 +33886,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "pmfileId": {
             "type": "string",
             "format": "uuid"
@@ -33866,6 +34017,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "pmfileGroupId": {
             "type": "string",
@@ -34178,6 +34332,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "title": {
             "type": "string"
           },
@@ -34424,6 +34581,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "downloadAs": {
             "type": "string"
@@ -34738,6 +34898,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "pmessageId": {
             "type": "string",
             "format": "uuid"
@@ -34968,6 +35131,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "pmessageId": {
             "type": "string",
             "format": "uuid"
@@ -35170,6 +35336,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "pmessageId": {
             "type": "string",
@@ -35383,6 +35552,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "authorUserProfileId": {
             "type": "string",
@@ -35622,6 +35794,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "userProfileId": {
             "type": "string",
@@ -35870,6 +36045,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "userProfileUsername": {
             "type": "string"
           },
@@ -36104,6 +36282,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -36330,6 +36511,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "contractVersionId": {
             "type": "string",
@@ -36614,6 +36798,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "contractId": {
             "type": "string",
             "format": "uuid"
@@ -36890,6 +37077,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -37093,6 +37283,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -37259,6 +37452,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "userCode": {
             "type": "string"
@@ -37479,6 +37675,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -37720,6 +37919,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -37970,6 +38172,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "nameText": {
             "type": "string"
@@ -38352,6 +38557,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -38700,6 +38908,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "nameText": {
             "type": "string"
           },
@@ -38910,6 +39121,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "nameText": {
             "type": "string"
           },
@@ -39108,6 +39322,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "nameText": {
             "type": "string"
           },
@@ -39290,6 +39507,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "familyUnitId": {
             "type": "string",
@@ -39518,6 +39738,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "organizationId": {
             "type": "string",
@@ -39774,6 +39997,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "parentEntityId": {
             "type": "string",
@@ -40064,6 +40290,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -40260,6 +40489,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -40459,6 +40691,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "organizationId": {
             "type": "string",
@@ -40766,6 +41001,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "nameText": {
             "type": "string"
           },
@@ -40961,6 +41199,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "teamId": {
             "type": "string",
@@ -41162,6 +41403,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -41415,6 +41659,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -41712,6 +41959,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "emailAddress": {
             "type": "string"
           },
@@ -41959,6 +42209,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "roleCode": {
             "type": "string"
@@ -42474,6 +42727,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "userId": {
             "type": "string",
             "format": "uuid"
@@ -42766,6 +43022,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -43006,6 +43265,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -43167,6 +43429,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "teamType": {
             "$ref": "#/components/schemas/RelationshipGETData"
           },
@@ -43327,6 +43592,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -43610,6 +43878,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "workRequestId": {
             "type": "string",
@@ -43964,6 +44235,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -44200,6 +44474,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -44414,6 +44691,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "workRequestDeliverableId": {
             "type": "string",
@@ -44656,6 +44936,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "workRequestId": {
             "type": "string",
             "format": "uuid"
@@ -44852,6 +45135,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "workRequestId": {
             "type": "string",
@@ -45175,6 +45461,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "nameText": {
             "type": "string"
           },
@@ -45429,6 +45718,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -45646,6 +45938,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -46002,6 +46297,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -46167,6 +46465,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -46428,6 +46729,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "yearmo": {
             "type": "string"
@@ -46775,6 +47079,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "subject": {
             "type": "string"
           },
@@ -47111,6 +47418,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "yearmo": {
             "type": "string"
           },
@@ -47410,6 +47720,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "userProfileId": {
             "type": "string",
@@ -47717,6 +48030,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "name": {
             "type": "string"
           },
@@ -47970,6 +48286,9 @@
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
           },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "vocationEncodingId": {
             "type": "string",
             "format": "uuid"
@@ -48150,6 +48469,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "name": {
             "type": "string"
@@ -48402,6 +48724,9 @@
           },
           "predicateHint": {
             "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
           },
           "encodingTypeCode": {
             "type": "string"
