@@ -9,11 +9,12 @@ import { DategetdataDisplayComponent } from "../../components/_global/dategetdat
 import { AbstractListComponent } from '@app/components/_global';
 import { StdMdbFormTextareaComponent } from "../../components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component";
 import { StdMdbFormTextComponent } from "../../components/_global/std-mdb-form-text/std-mdb-form-text.component";
+import { CareerInterestWizardComponent } from './career-interest-wizard/career-interest-wizard.component';
 
 @Component({
   selector: 'app-dash-student-courses',
   standalone: true,
-  imports: [CommonModule, FormsModule, DategetdataDisplayComponent, StdMdbFormTextareaComponent, StdMdbFormTextComponent],
+  imports: [CommonModule, FormsModule, DategetdataDisplayComponent, StdMdbFormTextareaComponent, StdMdbFormTextComponent, CareerInterestWizardComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -87,11 +88,17 @@ import { StdMdbFormTextComponent } from "../../components/_global/std-mdb-form-t
                 </div>
               </div>
 
-              <!-- Empty state -->
+              <!-- Empty state with wizard prompt -->
               <div *ngIf="!loading && !error && personalStatements.length === 0" class="text-center py-4">
-                <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
-                <h5>No Personal Statements Found</h5>
-                <p class="text-muted">You haven't created any personal statements yet.</p>
+                <i class="fas fa-compass fa-3x text-primary mb-3"></i>
+                <h5>Discover Your Career Interests</h5>
+                <p class="text-muted mb-3">
+                  Use the wizard to explore career paths, or click "New Statement" to add your own interests manually.
+                </p>
+                <button class="btn btn-primary btn-lg" (click)="openWizard()">
+                  <i class="fas fa-magic me-2"></i>
+                  Launch Career Wizard
+                </button>
               </div>
             </div>
           </div>
@@ -185,6 +192,13 @@ import { StdMdbFormTextComponent } from "../../components/_global/std-mdb-form-t
       </div>
     </div>
     <div *ngIf="showModal" class="modal-backdrop fade show"></div>
+
+    <!-- Career Interest Wizard -->
+    <app-career-interest-wizard
+      *ngIf="showWizard"
+      (closed)="closeWizard()"
+      (completed)="onWizardComplete()">
+    </app-career-interest-wizard>
   `
 })
 export class DashStudentPersonalStatementsComponent implements OnInit {
@@ -208,6 +222,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
   };
   creating = false;
   showModal = false;
+  showWizard = false;
 
   constructor(
     private hcclService: HcclService,
@@ -312,6 +327,19 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
       const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=events`;
       AbstractListComponent.openUrlInNewTab(url);
     }
+  }
+
+  openWizard(): void {
+    this.showWizard = true;
+  }
+
+  closeWizard(): void {
+    this.showWizard = false;
+  }
+
+  onWizardComplete(): void {
+    this.showWizard = false;
+    this.loadPersonalStatements();
   }
 
   /**

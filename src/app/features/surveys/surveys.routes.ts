@@ -18,4 +18,9 @@ export const SURVEYS_ROUTES: Routes = [
         (m) => m.SurveyRegisterInterestComponent,
       ),
   },
+  {
+    path: 'checkin',
+    loadComponent: () =>
+      import('./survey-checkin/survey-checkin.component').then((m) => m.SurveyCheckinComponent),
+  },
 ];

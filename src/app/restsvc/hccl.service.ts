@@ -4477,6 +4477,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  catalogSpreadsheetChange(body: string): Observable<string> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/webhooks/catalog-spreadsheet-change",
+      method: "POST",
+      body: body,
+    };
+    return this.request<string>(request);
+  }
+
   downloadClientDocumentGet(record_id: string, file_name: string): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/download/" + record_id + "/" + file_name,
@@ -4547,15 +4556,6 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PostmarkWebhookResponse>(request);
   }
 
-  jobsSpreadsheetChange(body: string): Observable<string> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/public/webhooks/jobs-spreadsheet-change",
-      method: "POST",
-      body: body,
-    };
-    return this.request<string>(request);
-  }
-
   onboardInvited(body: OnboardInvitedRequest): Observable<OnboardInvitedResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/invite",
@@ -4607,6 +4607,15 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "GET",
     };
     return this.request<OnboardStudentUIData>(request);
+  }
+
+  saveCheckinSurvey(body: CheckinSurveyPOSTData): Observable<SimpleResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/survey/checkin",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SimpleResponse>(request);
   }
 
   saveSurveyResponse(body: SurveyResponsePOSTData): Observable<SimpleResponse> {
@@ -12508,6 +12517,21 @@ export interface OnboardStudentUIData {
 
 export interface SimpleResponse {
   messages?: SimpleMessageList;
+}
+
+export interface CheckinSurveyPOSTData {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  schoolId?: string;
+  birthMonth?: number;
+  birthYear?: number;
+  selectedCourseId?: string;
+  courseGoals?: string;
+  wantsGuidance?: boolean;
+  interests?: string[];
+  otherInterest?: string;
+  captchaToken?: string;
 }
 
 export interface SurveyResponsePOSTData {

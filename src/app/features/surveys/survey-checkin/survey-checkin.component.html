@@ -1,0 +1,237 @@
+<app-surveys-public-header [surveyTitle]="'Event Check-in'"></app-surveys-public-header>
+
+<main class="surveys-page container py-4">
+  <section class="card border-0 shadow-sm">
+    <div class="card-body p-4 p-md-5">
+
+      <!-- Progress indicator -->
+      <div class="step-indicator mb-4">
+        <div class="d-flex justify-content-center align-items-center gap-2">
+          <span *ngFor="let s of [1, 2, 3, 4]"
+                class="step-dot"
+                [class.active]="currentStep === s"
+                [class.completed]="currentStep > s">
+            {{ s }}
+          </span>
+        </div>
+        <p class="text-center text-muted mt-2 mb-0 small">
+          Step {{ currentStep }} of {{ totalSteps }}
+        </p>
+      </div>
+
+      <!-- Success state -->
+      <div *ngIf="submitted" class="text-center py-4">
+        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+        <h2 class="h4 mb-3">You're signed up!</h2>
+        <p class="text-muted mb-2">
+          Check your email and click the link to set your password and complete your CLBHub account setup.
+        </p>
+        <p class="small text-muted">The link expires in 24 hours.</p>
+      </div>
+
+      <!-- Form -->
+      <div *ngIf="!submitted">
+        <app-simple-messages-section [messagesList]="messagesList"></app-simple-messages-section>
+
+        <!-- STEP 1: Account + School -->
+        <div *ngIf="currentStep === 1" [formGroup]="form">
+          <div class="survey-hero mb-4">
+            <p class="survey-kicker mb-1">JM Chamber of Commerce &middot; AI Class</p>
+            <h1 class="survey-body-title mb-2">Welcome to CLBHub</h1>
+          </div>
+
+          <div class="intro-box mb-4">
+            <p class="mb-1">
+              We're signing you up for <strong>CLBHub</strong> and setting you up to participate in the AI class
+              sponsored by JM (Chamber of Commerce).
+            </p>
+            <p class="mb-0 small text-muted">
+              We'll never sell your data. Your information is used for analytics to make the site better.
+              <a href="https://clbhub.org/privacy" target="_blank">More info</a>
+            </p>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="birthMonth">Birth month <span class="required-marker">*</span></label>
+              <select id="birthMonth" class="form-select" formControlName="birthMonth">
+                <option [value]="0">Month...</option>
+                <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="birthYear">Birth year <span class="required-marker">*</span></label>
+              <select id="birthYear" class="form-select" formControlName="birthYear">
+                <option [value]="0">Year...</option>
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+              </select>
+            </div>
+
+            <div class="col-12" *ngIf="showSchoolSelector">
+              <label class="form-label" for="schoolId">School affiliation <span class="text-muted small">(optional)</span></label>
+              <app-menu-control-data-list
+                [menuControlDataList]="schoolSelectData"
+                [placeholder]="'Select school...'"
+                [disabled]="preloadFailed || loadingUiData"
+                [readonly]="false"
+                (selectionChange)="onSchoolSelectionChange($event)">
+              </app-menu-control-data-list>
+              <div *ngIf="loadingUiData" class="small text-muted mt-1">Loading schools...</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="firstName">First name <span class="required-marker">*</span></label>
+              <input id="firstName" class="form-control" type="text" formControlName="firstName" placeholder="First name" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="lastName">Last name <span class="required-marker">*</span></label>
+              <input id="lastName" class="form-control" type="text" formControlName="lastName" placeholder="Last name" />
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="email">Email <span class="required-marker">*</span></label>
+              <input id="email" class="form-control" type="email" formControlName="email" placeholder="you@example.com" />
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button type="button" class="btn btn-primary px-4" (click)="nextStep()">
+              Next <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Course + Interests -->
+        <div *ngIf="currentStep === 2">
+          <h2 class="h5 mb-1">Pick your AI course</h2>
+          <p class="text-muted small mb-2">Select one program to get started with. You can always change later.</p>
+          <p class="mb-3">
+            <a [href]="aiHubUrl" target="_blank" rel="noopener" class="ai-hub-link">
+              <i class="fas fa-external-link-alt me-1"></i>
+              Learn AI with Google &amp; MA AI Hub
+            </a>
+          </p>
+
+          <div class="course-cards row g-3 mb-4">
+            <div *ngFor="let course of courses" class="col-12 col-md-4">
+              <div class="course-card card h-100"
+                   [class.selected]="selectedCourseId === course.id"
+                   (click)="selectCourse(course.id)">
+                <div class="card-body text-center">
+                  <i [class]="course.icon + ' fa-2x mb-2 course-icon'"></i>
+                  <h6 class="card-title mb-1">{{ course.title }}</h6>
+                  <p class="card-text small text-muted mb-2">{{ course.shortDescription }}</p>
+                  <ul class="modules-preview">
+                    <li class="module-pill" *ngFor="let m of course.modules.slice(0, 3)">{{ m }}</li>
+                    <li *ngIf="course.modules.length > 3" class="module-pill module-pill-more">+{{ course.modules.length - 3 }} more</li>
+                  </ul>
+                </div>
+                <div class="card-footer text-center border-0 bg-transparent">
+                  <i class="fas" [class.fa-check-circle]="selectedCourseId === course.id"
+                     [class.fa-circle]="selectedCourseId !== course.id"
+                     [class.text-success]="selectedCourseId === course.id"
+                     [class.text-muted]="selectedCourseId !== course.id"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-12">
+              <label class="form-label">What do you hope to accomplish? <span class="text-muted small">(optional)</span></label>
+              <textarea class="form-control" [(ngModel)]="courseGoals" rows="4"
+                        placeholder="e.g. Learn to use AI at work, start a side project, switch careers... Tell us more about your goals."
+                        maxlength="1000"></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-check">
+                <input type="checkbox" class="form-check-input" [(ngModel)]="wantsGuidance" />
+                <span class="form-check-label">I'd like guidance/help during the class</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
+              <i class="fas fa-arrow-left me-1"></i> Back
+            </button>
+            <button type="button" class="btn btn-primary px-4" (click)="nextStep()">
+              Next <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Career Interests -->
+        <div *ngIf="currentStep === 3">
+          <h2 class="h5 mb-1">Career interests <span class="text-muted small fw-normal">(optional)</span></h2>
+          <p class="text-muted small mb-3">Tap any that interest you. You can explore more in-app later.</p>
+
+          <div class="interest-grid mb-3">
+            <button *ngFor="let ladder of careerLadders"
+                    type="button"
+                    class="interest-chip"
+                    [class.selected]="isInterestSelected(ladder.id)"
+                    (click)="toggleInterest(ladder.id)">
+              <i [class]="ladder.icon + ' me-1'"></i>
+              {{ ladder.name }}
+            </button>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small">Other interest</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="otherInterest"
+                   placeholder="Something else? Type it here..." maxlength="200" />
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
+              <i class="fas fa-arrow-left me-1"></i> Back
+            </button>
+            <button type="button" class="btn btn-primary px-4" (click)="nextStep()">
+              Next <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: T&C + Captcha + Submit -->
+        <div *ngIf="currentStep === 4" [formGroup]="form">
+          <h2 class="h5 mb-3">Almost done!</h2>
+
+          <div class="form-section-highlight mb-4">
+            <label class="form-check">
+              <input type="checkbox" class="form-check-input" formControlName="acceptTos" />
+              <span class="form-check-label">
+                I accept the <a href="https://clbhub.org/terms" target="_blank">Terms & Conditions</a>
+                and <a href="https://clbhub.org/privacy" target="_blank">Privacy Policy</a>
+              </span>
+            </label>
+          </div>
+
+          <div class="captcha mb-4">
+            <label class="form-label d-block mb-2">Verify you're human</label>
+            <div #captchaContainer></div>
+            <small class="text-muted d-block mt-2">Complete the reCAPTCHA challenge to continue.</small>
+          </div>
+
+          <div class="summary-box mb-4">
+            <h6 class="mb-2">Summary</h6>
+            <p class="mb-1 small"><strong>Name:</strong> {{ form.controls.firstName.value }} {{ form.controls.lastName.value }}</p>
+            <p class="mb-1 small"><strong>Email:</strong> {{ form.controls.email.value }}</p>
+            <p class="mb-1 small" *ngIf="selectedCourseId"><strong>Course:</strong> {{ getCourseName(selectedCourseId) }}</p>
+            <p class="mb-0 small" *ngIf="selectedInterests.size"><strong>Interests:</strong> {{ getInterestNames() }}</p>
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
+              <i class="fas fa-arrow-left me-1"></i> Back
+            </button>
+            <button type="button" class="btn btn-primary btn-lg px-4" (click)="submit()" [disabled]="submitting">
+              <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+              {{ submitting ? 'Signing up...' : 'Sign Me Up' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>

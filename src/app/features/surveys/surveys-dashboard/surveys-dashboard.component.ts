@@ -22,6 +22,14 @@ interface SurveyListItem {
 export class SurveysDashboardComponent {
   readonly surveys: SurveyListItem[] = [
     {
+      route: '/public/surveys/checkin',
+      title: 'Event Check-in: JM Chamber AI Class',
+      subtitle: 'Sign up for CLBHub and register for an AI course',
+      liveDate: 'May 31, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       route: '/public/surveys/npo_job_finder',
       title: 'Non-profit job search assistance',
       subtitle: 'Survey: Do you have a job for me?',

@@ -1,0 +1,201 @@
+.surveys-page {
+  padding-top: 20px;
+  max-width: 960px;
+}
+
+.surveys-page .card .card-body {
+  padding-top: 1.25rem !important;
+}
+
+.survey-hero {
+  text-align: center;
+}
+
+.survey-kicker {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f5132;
+  background: #d1e7dd;
+}
+
+.survey-body-title {
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.intro-box {
+  background: #f8fafc;
+  border: 1px solid #d6dbe7;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  color: #2f3a49;
+  line-height: 1.55;
+}
+
+.required-marker {
+  color: #dc3545;
+  font-weight: 700;
+}
+
+// Step indicator
+.step-indicator {
+  .step-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: #e9ecef;
+    color: #6c757d;
+    transition: all 0.2s ease;
+
+    &.active {
+      background: #0d6efd;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+    }
+
+    &.completed {
+      background: #198754;
+      color: #fff;
+    }
+  }
+}
+
+// Course cards
+.course-card {
+  cursor: pointer;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #0d6efd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &.selected {
+    border-color: #0d6efd;
+    background: #f0f7ff;
+    box-shadow: 0 4px 16px rgba(13, 110, 253, 0.15);
+  }
+
+  .course-icon {
+    color: #0d6efd;
+  }
+
+  .modules-preview {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+
+    .module-pill {
+      display: block;
+      max-width: 100%;
+      padding: 0.25rem 0.6rem;
+      border-radius: 8px;
+      background: #eef2f7;
+      color: #495057;
+      font-size: 0.7rem;
+      font-weight: 500;
+      line-height: 1.25;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      text-align: center;
+    }
+
+    .module-pill-more {
+      background: transparent;
+      color: #6c757d;
+      font-style: italic;
+    }
+  }
+}
+
+.ai-hub-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0d6efd;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Interest chips
+.interest-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.interest-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0.85rem;
+  border: 1.5px solid #dee2e6;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: #0d6efd;
+    color: #0d6efd;
+  }
+
+  &.selected {
+    border-color: #0d6efd;
+    background: #0d6efd;
+    color: #fff;
+  }
+}
+
+// Form section highlight
+.form-section-highlight {
+  background: #fafcff;
+  border: 1px solid #e5ecf6;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+// Summary box
+.summary-box {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 0;
+  margin: 0;
+}
+
+.form-check-input {
+  margin-left: 0;
+}

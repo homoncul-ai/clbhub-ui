@@ -1,0 +1,146 @@
+<div class="wizard-backdrop" (click)="close()"></div>
+<div class="wizard-modal">
+  <div class="wizard-header">
+    <h4 class="mb-0">
+      <i class="fas fa-compass me-2"></i>
+      Discover Career Interests
+    </h4>
+    <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
+  </div>
+
+  <div class="wizard-progress">
+    <div class="progress" style="height: 4px;">
+      <div class="progress-bar" [style.width.%]="(currentPage / totalPages) * 100"></div>
+    </div>
+    <small class="text-muted d-block text-center mt-1">Page {{ currentPage }} of {{ totalPages }}</small>
+  </div>
+
+  <div class="wizard-body">
+
+    <!-- PAGE 1: Career Icon Grid -->
+    <div *ngIf="currentPage === 1" class="wizard-page">
+      <h5 class="mb-2">What careers interest you?</h5>
+      <p class="text-muted small mb-4">Tap the careers that sound interesting. Don't overthink it — you can always change later.</p>
+
+      <div class="icon-grid">
+        <div *ngFor="let ladder of careerLadders"
+             class="icon-tile"
+             [class.selected]="isIconSelected(ladder.id)"
+             (click)="toggleIcon(ladder)">
+          <div class="icon-tile-icon">
+            <i [class]="ladder.icon + ' fa-2x'"></i>
+          </div>
+          <div class="icon-tile-label">{{ ladder.name }}</div>
+          <div class="icon-tile-desc">{{ ladder.description }}</div>
+          <div class="icon-tile-check" *ngIf="isIconSelected(ladder.id)">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2: Search VocodeRef -->
+    <div *ngIf="currentPage === 2" class="wizard-page">
+      <h5 class="mb-2">Search for specific careers</h5>
+
+      <div *ngIf="selectedFromIcons.size > 0" class="selected-summary mb-3">
+        <small class="text-muted d-block mb-1">Selected from previous page:</small>
+        <span *ngFor="let sel of getIconSelections()" class="badge bg-primary me-1 mb-1">
+          {{ sel.name }}
+        </span>
+      </div>
+
+      <div class="search-box mb-3">
+        <div class="input-group">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+          <input type="text" class="form-control" placeholder="Search careers (e.g. nursing, welding, IT...)"
+                 [(ngModel)]="searchText" (ngModelChange)="onSearchChange()" />
+        </div>
+      </div>
+
+      <div *ngIf="searching" class="text-center py-3">
+        <div class="spinner-border spinner-border-sm"></div>
+        <span class="ms-2 small">Searching...</span>
+      </div>
+
+      <div *ngIf="!searching && searchResults.length > 0" class="search-results">
+        <div *ngFor="let ref of searchResults"
+             class="search-result-item"
+             [class.selected]="isSearchResultSelected(ref.id!)"
+             (click)="toggleSearchResult(ref)">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fw-medium">{{ ref.name || ref.entityDisplayName }}</span>
+              <small class="text-muted d-block" *ngIf="ref.description">{{ ref.description }}</small>
+            </div>
+            <i class="fas fa-check-circle text-success" *ngIf="isSearchResultSelected(ref.id!)"></i>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!searching && searchText.length >= 2 && searchResults.length === 0" class="text-center py-3 text-muted">
+        <i class="fas fa-inbox me-1"></i> No results found for "{{ searchText }}"
+      </div>
+
+      <div *ngIf="selectedFromSearch.size > 0" class="selected-search-summary mt-3">
+        <small class="text-muted d-block mb-1">Selected from search:</small>
+        <span *ngFor="let entry of selectedFromSearch | keyvalue" class="badge bg-success me-1 mb-1">
+          {{ entry.value.name || entry.value.entityDisplayName }}
+          <i class="fas fa-times ms-1 cursor-pointer" (click)="toggleSearchResult(entry.value); $event.stopPropagation()"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- PAGE 3: Review & Submit -->
+    <div *ngIf="currentPage === 3" class="wizard-page">
+      <h5 class="mb-2">Review your selections</h5>
+      <p class="text-muted small mb-3">These will be added as your career interests in CLBHub.</p>
+
+      <div *ngIf="error" class="alert alert-danger py-2 small">{{ error }}</div>
+
+      <div *ngIf="!hasSelections()" class="text-center py-4 text-muted">
+        <i class="fas fa-info-circle fa-2x mb-2"></i>
+        <p>You haven't selected any interests yet. Go back to choose some!</p>
+      </div>
+
+      <div *ngIf="hasSelections()" class="selections-list">
+        <div *ngFor="let sel of getAllSelections()" class="selection-item">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+              <i [class]="sel.icon" [class.text-primary]="sel.source === 'icon'" [class.text-success]="sel.source === 'search'"></i>
+              <span>{{ sel.name }}</span>
+              <span class="badge bg-light text-muted small">{{ sel.source === 'icon' ? 'Career Ladder' : 'Search' }}</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeSelection(sel)">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="wizard-footer">
+    <div class="d-flex justify-content-between w-100">
+      <button *ngIf="currentPage > 1" type="button" class="btn btn-outline-secondary" (click)="prevPage()">
+        <i class="fas fa-arrow-left me-1"></i> Back
+      </button>
+      <div *ngIf="currentPage === 1"></div>
+
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="close()">Cancel</button>
+
+        <button *ngIf="currentPage < totalPages" type="button" class="btn btn-primary" (click)="nextPage()">
+          Next <i class="fas fa-arrow-right ms-1"></i>
+        </button>
+
+        <button *ngIf="currentPage === totalPages" type="button" class="btn btn-success"
+                (click)="submitInterests()" [disabled]="submitting || !hasSelections()">
+          <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+          {{ submitting ? 'Adding...' : 'Add Interests' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
