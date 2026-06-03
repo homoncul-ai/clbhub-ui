@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
   HcclService,
   UtilmonReportingEventCriteria,
@@ -12,12 +12,17 @@ interface SurveyDefinition {
   label: string;
   subject: string;
   description: string;
+  /**
+   * When set, results are queried by applicationCode instead of an exact subject
+   * match (used for surveys whose subject varies per submission, e.g. check-in).
+   */
+  applicationCode?: string;
 }
 
 @Component({
   selector: 'app-survey-results-viewer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './survey-results-viewer.component.html',
   styleUrl: './survey-results-viewer.component.scss',
 })
@@ -29,6 +34,13 @@ export class SurveyResultsViewerComponent implements OnInit {
   private readonly maxResults = 50;
 
   readonly surveys: Record<string, SurveyDefinition> = {
+    checkin: {
+      key: 'checkin',
+      label: 'Event Check-in: JM Chamber AI Class',
+      subject: 'Event Check-in',
+      description: 'CLBHub sign-ups and AI course registrations captured at events.',
+      applicationCode: 'EventCheckin',
+    },
     npo_job_finder: {
       key: 'npo_job_finder',
       label: 'Non-profit job search assistance',
@@ -274,8 +286,12 @@ export class SurveyResultsViewerComponent implements OnInit {
       pageNumber: 1,
       pageSize: this.maxResults,
       isPaging: true,
-      subject: this.currentSurvey.subject,
     };
+    if (this.currentSurvey.applicationCode) {
+      criteria.applicationCode = this.currentSurvey.applicationCode;
+    } else {
+      criteria.subject = this.currentSurvey.subject;
+    }
 
     this.hcclService.findUtilmonReportingEvents(criteria).subscribe({
       next: (response) => {

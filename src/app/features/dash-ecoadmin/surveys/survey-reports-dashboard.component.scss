@@ -1,0 +1,57 @@
+.survey-reports-page {
+  padding-top: 20px;
+  max-width: 960px;
+}
+
+.list-group-header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.survey-row {
+  display: flex;
+  align-items: center;
+}
+
+.col-survey {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.col-live {
+  flex: 0 0 120px;
+  text-align: center;
+}
+
+.col-status {
+  flex: 0 0 72px;
+  text-align: right;
+}
+
+@media (max-width: 575.98px) {
+  .survey-row {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .col-survey {
+    flex: 1 1 100%;
+  }
+
+  .col-live {
+    flex: 1 1 auto;
+    text-align: left;
+  }
+
+  .col-status {
+    flex: 0 0 auto;
+    text-align: right;
+  }
+}
