@@ -45,6 +45,7 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
 
   currentStep = 1;
   totalSteps = 4;
+  maxStepReached = 1;
   submitting = false;
   submitted = false;
   loadingUiData = false;
@@ -70,6 +71,7 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
   selectedCourseId = '';
   courseGoals = '';
   wantsGuidance = false;
+  selectedSchoolName = '';
 
   readonly form = this.fb.nonNullable.group({
     firstName: ['', [Validators.required]],
@@ -120,6 +122,7 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
   onSchoolSelectionChange(selected: MenuControlData | null): void {
     this.form.controls.schoolId.setValue(selected?.id || '');
     this.form.controls.schoolId.markAsTouched();
+    this.selectedSchoolName = selected?.name || '';
   }
 
   get computedAge(): number | null {
@@ -168,6 +171,7 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
     }
     this.setMessages([]);
     this.currentStep = Math.min(this.currentStep + 1, this.totalSteps);
+    this.maxStepReached = Math.max(this.maxStepReached, this.currentStep);
 
     if (this.currentStep === this.totalSteps) {
       setTimeout(() => this.initializeRecaptcha(), 100);
@@ -177,6 +181,23 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
   prevStep(): void {
     this.setMessages([]);
     this.currentStep = Math.max(this.currentStep - 1, 1);
+  }
+
+  /** True when the given step has already been reached and can be navigated to directly. */
+  canNavigateTo(step: number): boolean {
+    return step >= 1 && step <= this.maxStepReached && step !== this.currentStep;
+  }
+
+  /** Jump directly to a previously reached step (via the dots). */
+  goToStep(step: number): void {
+    if (!this.canNavigateTo(step)) {
+      return;
+    }
+    this.setMessages([]);
+    this.currentStep = step;
+    if (this.currentStep === this.totalSteps) {
+      setTimeout(() => this.initializeRecaptcha(), 100);
+    }
   }
 
   private validateStep1(): SimpleMessage[] {

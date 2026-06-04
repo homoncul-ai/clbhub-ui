@@ -5,14 +5,19 @@
     <div class="card-body p-4 p-md-5">
 
       <!-- Progress indicator -->
-      <div class="step-indicator mb-4">
+      <div class="step-indicator mb-4" *ngIf="!submitted">
         <div class="d-flex justify-content-center align-items-center gap-2">
-          <span *ngFor="let s of [1, 2, 3, 4]"
-                class="step-dot"
-                [class.active]="currentStep === s"
-                [class.completed]="currentStep > s">
+          <button *ngFor="let s of [1, 2, 3, 4]"
+                  type="button"
+                  class="step-dot"
+                  [class.active]="currentStep === s"
+                  [class.completed]="currentStep > s"
+                  [class.clickable]="canNavigateTo(s)"
+                  [disabled]="!canNavigateTo(s)"
+                  [attr.aria-label]="'Go to step ' + s"
+                  (click)="goToStep(s)">
             {{ s }}
-          </span>
+          </button>
         </div>
         <p class="text-center text-muted mt-2 mb-0 small">
           Step {{ currentStep }} of {{ totalSteps }}
@@ -192,9 +197,22 @@
           </div>
         </div>
 
-        <!-- STEP 4: T&C + Captcha + Submit -->
+        <!-- STEP 4: Summary + T&C + Captcha + Submit -->
         <div *ngIf="currentStep === 4" [formGroup]="form">
-          <h2 class="h5 mb-3">Almost done!</h2>
+          <h2 class="h5 mb-3">Review &amp; confirm</h2>
+
+          <div class="summary-box mb-4">
+            <h6 class="mb-2">Summary</h6>
+            <p class="mb-1 small"><strong>Name:</strong> {{ form.controls.firstName.value }} {{ form.controls.lastName.value }}</p>
+            <p class="mb-1 small"><strong>Email:</strong> {{ form.controls.email.value }}</p>
+            <p class="mb-1 small" *ngIf="computedAge !== null"><strong>Age:</strong> {{ computedAge }}</p>
+            <p class="mb-1 small" *ngIf="selectedSchoolName"><strong>School:</strong> {{ selectedSchoolName }}</p>
+            <p class="mb-1 small" *ngIf="selectedCourseId"><strong>Course:</strong> {{ getCourseName(selectedCourseId) }}</p>
+            <p class="mb-1 small" *ngIf="courseGoals.trim()"><strong>Goals:</strong> {{ courseGoals.trim() }}</p>
+            <p class="mb-1 small"><strong>Wants guidance:</strong> {{ wantsGuidance ? 'Yes' : 'No' }}</p>
+            <p class="mb-1 small" *ngIf="selectedInterests.size"><strong>Interests:</strong> {{ getInterestNames() }}</p>
+            <p class="mb-0 small" *ngIf="otherInterest.trim()"><strong>Other interest:</strong> {{ otherInterest.trim() }}</p>
+          </div>
 
           <div class="form-section-highlight mb-4">
             <label class="form-check">
@@ -210,14 +228,6 @@
             <label class="form-label d-block mb-2">Verify you're human</label>
             <div #captchaContainer></div>
             <small class="text-muted d-block mt-2">Complete the reCAPTCHA challenge to continue.</small>
-          </div>
-
-          <div class="summary-box mb-4">
-            <h6 class="mb-2">Summary</h6>
-            <p class="mb-1 small"><strong>Name:</strong> {{ form.controls.firstName.value }} {{ form.controls.lastName.value }}</p>
-            <p class="mb-1 small"><strong>Email:</strong> {{ form.controls.email.value }}</p>
-            <p class="mb-1 small" *ngIf="selectedCourseId"><strong>Course:</strong> {{ getCourseName(selectedCourseId) }}</p>
-            <p class="mb-0 small" *ngIf="selectedInterests.size"><strong>Interests:</strong> {{ getInterestNames() }}</p>
           </div>
 
           <div class="d-flex justify-content-between mt-4">
