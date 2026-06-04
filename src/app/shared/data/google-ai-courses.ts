@@ -8,21 +8,6 @@ export interface GoogleAICourse {
 
 export const GOOGLE_AI_COURSES: GoogleAICourse[] = [
   {
-    id: 'ai-professional',
-    title: 'Google AI Professional Certificate',
-    shortDescription: 'Go beyond the basics with 7 hands-on courses. Build a job-ready portfolio that validates your AI expertise.',
-    modules: [
-      'AI Fundamentals',
-      'AI for Brainstorming & Planning',
-      'AI for Research & Insights',
-      'AI for Writing & Communicating',
-      'AI for Content Creation',
-      'AI for Data Analysis',
-      'AI for App Building (Capstone)',
-    ],
-    icon: 'fas fa-robot',
-  },
-  {
     id: 'ai-essentials',
     title: 'Google AI Essentials',
     shortDescription: 'New to AI? Learn the fundamentals of generative AI with hands-on experience in just a few hours.',
@@ -45,5 +30,20 @@ export const GOOGLE_AI_COURSES: GoogleAICourse[] = [
       'Organize Projects & Measure Productivity',
     ],
     icon: 'fas fa-tasks',
+  },
+  {
+    id: 'ai-professional',
+    title: 'Google AI Professional Certificate',
+    shortDescription: 'Go beyond the basics with 7 hands-on courses. Build a job-ready portfolio that validates your AI expertise.',
+    modules: [
+      'AI Fundamentals',
+      'AI for Brainstorming & Planning',
+      'AI for Research & Insights',
+      'AI for Writing & Communicating',
+      'AI for Content Creation',
+      'AI for Data Analysis',
+      'AI for App Building (Capstone)',
+    ],
+    icon: 'fas fa-robot',
   },
 ];

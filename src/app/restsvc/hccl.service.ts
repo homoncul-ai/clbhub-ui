@@ -12523,6 +12523,7 @@ export interface CheckinSurveyPOSTData {
   firstName?: string;
   lastName?: string;
   email?: string;
+  messageHandle?: string;
   schoolId?: string;
   birthMonth?: number;
   birthYear?: number;

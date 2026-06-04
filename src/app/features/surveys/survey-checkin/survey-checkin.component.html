@@ -57,6 +57,32 @@
           </div>
 
           <div class="row g-3">
+            <!-- Line 1: first, last -->
+            <div class="col-md-6">
+              <label class="form-label" for="firstName">First name <span class="required-marker">*</span></label>
+              <input id="firstName" class="form-control" type="text" formControlName="firstName" placeholder="First name" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="lastName">Last name <span class="required-marker">*</span></label>
+              <input id="lastName" class="form-control" type="text" formControlName="lastName" placeholder="Last name" />
+            </div>
+
+            <!-- Line 2: email -->
+            <div class="col-12">
+              <label class="form-label" for="email">Email <span class="required-marker">*</span></label>
+              <input id="email" class="form-control" type="email" formControlName="email"
+                     placeholder="you@example.com" (input)="onEmailInput()" />
+              <div class="form-text">Your username will be your email address.</div>
+            </div>
+
+            <!-- Line 3: message handle (pre-filled with email) -->
+            <div class="col-12">
+              <label class="form-label" for="messageHandle">Message handle</label>
+              <input id="messageHandle" class="form-control" type="text" formControlName="messageHandle"
+                     placeholder="How others see you in messages" (input)="onMessageHandleInput()" />
+            </div>
+
+            <!-- Line 4: month / year -->
             <div class="col-md-6">
               <label class="form-label" for="birthMonth">Birth month <span class="required-marker">*</span></label>
               <select id="birthMonth" class="form-select" formControlName="birthMonth">
@@ -72,6 +98,7 @@
               </select>
             </div>
 
+            <!-- Line 5: (optional) school -->
             <div class="col-12" *ngIf="showSchoolSelector">
               <label class="form-label" for="schoolId">School affiliation <span class="text-muted small">(optional)</span></label>
               <app-menu-control-data-list
@@ -82,19 +109,6 @@
                 (selectionChange)="onSchoolSelectionChange($event)">
               </app-menu-control-data-list>
               <div *ngIf="loadingUiData" class="small text-muted mt-1">Loading schools...</div>
-            </div>
-
-            <div class="col-md-6">
-              <label class="form-label" for="firstName">First name <span class="required-marker">*</span></label>
-              <input id="firstName" class="form-control" type="text" formControlName="firstName" placeholder="First name" />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label" for="lastName">Last name <span class="required-marker">*</span></label>
-              <input id="lastName" class="form-control" type="text" formControlName="lastName" placeholder="Last name" />
-            </div>
-            <div class="col-12">
-              <label class="form-label" for="email">Email <span class="required-marker">*</span></label>
-              <input id="email" class="form-control" type="email" formControlName="email" placeholder="you@example.com" />
             </div>
           </div>
 
@@ -107,7 +121,7 @@
 
         <!-- STEP 2: Course + Interests -->
         <div *ngIf="currentStep === 2">
-          <h2 class="h5 mb-1">Pick your AI course</h2>
+          <h2 class="h5 mb-1">Pick your AI course <span class="required-marker">*</span></h2>
           <p class="text-muted small mb-2">Select one program to get started with. You can always change later.</p>
           <p class="mb-3">
             <a [href]="aiHubUrl" target="_blank" rel="noopener" class="ai-hub-link">

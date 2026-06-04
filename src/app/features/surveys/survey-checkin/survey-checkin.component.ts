@@ -73,10 +73,13 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
   wantsGuidance = false;
   selectedSchoolName = '';
 
+  messageHandleEdited = false;
+
   readonly form = this.fb.nonNullable.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
+    messageHandle: [''],
     birthMonth: [0, [Validators.required, Validators.min(1), Validators.max(12)]],
     birthYear: [0, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
     schoolId: [''],
@@ -117,6 +120,16 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
         this.preloadFailed = true;
       },
     });
+  }
+
+  onEmailInput(): void {
+    if (!this.messageHandleEdited) {
+      this.form.controls.messageHandle.setValue(this.form.controls.email.value);
+    }
+  }
+
+  onMessageHandleInput(): void {
+    this.messageHandleEdited = true;
   }
 
   onSchoolSelectionChange(selected: MenuControlData | null): void {
@@ -168,6 +181,10 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
         this.setMessages(msgs);
         return;
       }
+    }
+    if (this.currentStep === 2 && !this.selectedCourseId) {
+      this.setMessages([{ message: 'Please select an AI course to continue.', severity: 1 }]);
+      return;
     }
     this.setMessages([]);
     this.currentStep = Math.min(this.currentStep + 1, this.totalSteps);
@@ -233,6 +250,7 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
       firstName: value.firstName.trim(),
       lastName: value.lastName.trim(),
       email: value.email.trim(),
+      messageHandle: (value.messageHandle || value.email).trim(),
       schoolId: value.schoolId,
       birthMonth: value.birthMonth,
       birthYear: value.birthYear,
