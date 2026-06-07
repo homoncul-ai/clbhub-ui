@@ -49,7 +49,7 @@ interface ParticipationEntry {
             </mdb-accordion-item>
 
             <!-- Dynamically opened CatalogEntry accordions -->
-            <mdb-accordion-item *ngFor="let entry of selectedEntries" [collapsed]="entry.collapsed">
+            <mdb-accordion-item *ngFor="let entry of selectedEntries" [collapsed]="entry.collapsed" [attr.id]="'participation-entry-' + entry.id">
               <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-book me-2"></i>
                 <span class="fw-bold">{{ entry.title }}</span>
@@ -118,6 +118,7 @@ export class DashStudentMyParticipationComponent implements OnInit {
     const existing = this.selectedEntries.find((e) => e.id === interestId);
     if (existing) {
       existing.collapsed = false;
+      this.scrollToEntry(interestId);
       return;
     }
 
@@ -125,12 +126,22 @@ export class DashStudentMyParticipationComponent implements OnInit {
       next: (interest) => {
         const title = interest?.catalogEntry?.title || 'Catalog Entry';
         this.selectedEntries.push({ id: interestId, title, collapsed: false });
+        this.scrollToEntry(interestId);
       },
       error: (err) => {
         console.error('Failed to load catalog entry interest:', err);
         this.selectedEntries.push({ id: interestId, title: 'Catalog Entry', collapsed: false });
+        this.scrollToEntry(interestId);
       },
     });
+  }
+
+  private scrollToEntry(interestId: string): void {
+    // Wait for the accordion item to render/expand, then bring it into view.
+    setTimeout(() => {
+      const el = document.getElementById('participation-entry-' + interestId);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
   }
 
   onChildComponentRefresh(): void {
