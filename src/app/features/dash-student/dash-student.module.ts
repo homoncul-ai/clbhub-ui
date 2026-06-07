@@ -72,7 +72,15 @@ const routes: Routes = [
 
       { path: 'progress', component: DashStudentProgressComponent },
       { path: 'guidance', component: DashStudentGuidanceComponent },
-      { path: 'research', component: StudentResearchComponent },
+      {
+        path: 'research',
+        component: StudentResearchComponent,
+        data: {
+          pageTitle: 'Research',
+          pageSubtitle: 'Explore careers, organizations, and opportunities',
+          pageIcon: 'fas fa-search',
+        }
+      },
       { path: 'research/careers/:vocationEncodingRefId', component: StudentResearchCareersComponent },
       { path: 'research/careers', component: StudentResearchCareersComponent },
       { path: 'research/orgs', component: StudentResearchOrgsComponent },

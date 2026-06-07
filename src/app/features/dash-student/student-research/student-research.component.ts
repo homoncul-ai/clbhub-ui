@@ -1,8 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
-import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { WhatsNewModalComponent } from '../whats-new-modal.component';
+
+interface ResearchSection {
+  key: string;
+  title: string;
+  icon: string;
+  gradient: string;
+}
 
 @Component({
   selector: 'app-student-research',
@@ -13,9 +18,7 @@ import { WhatsNewModalComponent } from '../whats-new-modal.component';
       <div class="row">
         <div class="col-12">
 
-          <h1 class="mb-4">Research</h1>
-
-          <!-- What's New Accordion -->
+          <!-- What's New Accordion (acts as a tabset) -->
           <mdb-accordion class="whats-new-accordion mb-4">
             <mdb-accordion-item [collapsed]="whatsNewCollapsed" (itemShow)="whatsNewCollapsed = false" (itemHide)="whatsNewCollapsed = true">
               <ng-template mdbAccordionItemHeader>
@@ -24,87 +27,30 @@ import { WhatsNewModalComponent } from '../whats-new-modal.component';
               </ng-template>
               <ng-template mdbAccordionItemBody>
                 <div class="whats-new-grid">
-                  <div class="whats-new-card" (click)="openWhatsNewModal('new-listings')">
-                    <div class="whats-new-icon-wrap bg-gradient-primary">
-                      <i class="fas fa-clipboard-list"></i>
+                  <div
+                    class="whats-new-card"
+                    *ngFor="let section of sections"
+                    [class.whats-new-card--active]="activeSection === section.key"
+                    (click)="showSection(section.key)">
+                    <div class="whats-new-icon-wrap" [ngClass]="section.gradient">
+                      <i [class]="section.icon"></i>
                     </div>
-                    <span class="whats-new-label">New Listings</span>
-                  </div>
-
-                  <div class="whats-new-card" (click)="openWhatsNewModal('tutorials')">
-                    <div class="whats-new-icon-wrap bg-gradient-success">
-                      <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <span class="whats-new-label">Tutorials</span>
-                  </div>
-
-                  <div class="whats-new-card" (click)="openWhatsNewModal('career-news')">
-                    <div class="whats-new-icon-wrap bg-gradient-info">
-                      <i class="fas fa-newspaper"></i>
-                    </div>
-                    <span class="whats-new-label">Career News</span>
-                  </div>
-
-                  <div class="whats-new-card" (click)="openWhatsNewModal('state-of-ma')">
-                    <div class="whats-new-icon-wrap bg-gradient-warning">
-                      <i class="fas fa-landmark"></i>
-                    </div>
-                    <span class="whats-new-label">State of MA</span>
+                    <span class="whats-new-label">{{ section.title }}</span>
                   </div>
                 </div>
               </ng-template>
             </mdb-accordion-item>
           </mdb-accordion>
 
-          <!-- Section Accordions -->
-          <mdb-accordion class="whats-new-accordion mb-4">
-            <mdb-accordion-item>
+          <!-- Section Accordion (only the active one is shown) -->
+          <mdb-accordion class="whats-new-accordion mb-4" *ngIf="activeSectionObj as section">
+            <mdb-accordion-item [collapsed]="false">
               <ng-template mdbAccordionItemHeader>
-                <i class="fas fa-landmark me-2"></i>
-                <span class="fw-bold">State of MA</span>
+                <i [class]="section.icon + ' me-2'"></i>
+                <span class="fw-bold">{{ section.title }}</span>
               </ng-template>
               <ng-template mdbAccordionItemBody>
-                <h5>State of MA</h5>
-              </ng-template>
-            </mdb-accordion-item>
-
-            <mdb-accordion-item>
-              <ng-template mdbAccordionItemHeader>
-                <i class="fas fa-briefcase me-2"></i>
-                <span class="fw-bold">Careers</span>
-              </ng-template>
-              <ng-template mdbAccordionItemBody>
-                <h5>Careers</h5>
-              </ng-template>
-            </mdb-accordion-item>
-
-            <mdb-accordion-item>
-              <ng-template mdbAccordionItemHeader>
-                <i class="fas fa-globe me-2"></i>
-                <span class="fw-bold">Ecosystem</span>
-              </ng-template>
-              <ng-template mdbAccordionItemBody>
-                <h5>Ecosystem</h5>
-              </ng-template>
-            </mdb-accordion-item>
-
-            <mdb-accordion-item>
-              <ng-template mdbAccordionItemHeader>
-                <i class="fas fa-search me-2"></i>
-                <span class="fw-bold">Catalog Search</span>
-              </ng-template>
-              <ng-template mdbAccordionItemBody>
-                <h5>Catalog Search</h5>
-              </ng-template>
-            </mdb-accordion-item>
-
-            <mdb-accordion-item>
-              <ng-template mdbAccordionItemHeader>
-                <i class="fas fa-clipboard-list me-2"></i>
-                <span class="fw-bold">New Listings</span>
-              </ng-template>
-              <ng-template mdbAccordionItemBody>
-                <h5>New Listings</h5>
+                <h5>{{ section.title }}</h5>
               </ng-template>
             </mdb-accordion-item>
           </mdb-accordion>
@@ -121,14 +67,14 @@ import { WhatsNewModalComponent } from '../whats-new-modal.component';
 
     .whats-new-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
       padding: 0.75rem 0;
     }
 
     @media (max-width: 768px) {
       .whats-new-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
       }
     }
 
@@ -136,11 +82,11 @@ import { WhatsNewModalComponent } from '../whats-new-modal.component';
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.75rem;
-      padding: 1.25rem 0.75rem;
+      gap: 0.5rem;
+      padding: 0.875rem 0.5rem;
       border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       background: #fff;
       border: 1px solid #e9ecef;
     }
@@ -150,14 +96,19 @@ import { WhatsNewModalComponent } from '../whats-new-modal.component';
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
     }
 
+    .whats-new-card--active {
+      border-color: #3a8877;
+      box-shadow: 0 4px 14px rgba(58, 136, 119, 0.25);
+    }
+
     .whats-new-icon-wrap {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       color: #fff;
       transition: transform 0.2s ease;
     }
@@ -178,9 +129,12 @@ import { WhatsNewModalComponent } from '../whats-new-modal.component';
     .bg-gradient-warning {
       background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
     }
+    .bg-gradient-teal {
+      background: linear-gradient(135deg, #3a8877 0%, #8db392 100%);
+    }
 
     .whats-new-label {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       font-weight: 600;
       color: #495057;
       text-align: center;
@@ -188,34 +142,22 @@ import { WhatsNewModalComponent } from '../whats-new-modal.component';
   `],
 })
 export class StudentResearchComponent {
-  private modalService = inject(MdbModalService);
-
   whatsNewCollapsed = false;
+  activeSection: string | null = null;
 
-  private whatsNewModalRef: MdbModalRef<WhatsNewModalComponent> | null = null;
+  sections: ResearchSection[] = [
+    { key: 'state-of-ma', title: 'State of MA', icon: 'fas fa-landmark', gradient: 'bg-gradient-warning' },
+    { key: 'careers', title: 'Careers', icon: 'fas fa-briefcase', gradient: 'bg-gradient-success' },
+    { key: 'ecosystem', title: 'Ecosystem', icon: 'fas fa-globe', gradient: 'bg-gradient-info' },
+    { key: 'catalog-search', title: 'Catalog Search', icon: 'fas fa-search', gradient: 'bg-gradient-teal' },
+    { key: 'new-listings', title: 'New Listings', icon: 'fas fa-clipboard-list', gradient: 'bg-gradient-primary' },
+  ];
 
-  openWhatsNewModal(section: string): void {
-    const titles: Record<string, string> = {
-      'new-listings': 'New Listings',
-      'tutorials': 'Tutorials',
-      'career-news': 'Career News',
-      'state-of-ma': 'State of MA',
-    };
+  get activeSectionObj(): ResearchSection | undefined {
+    return this.sections.find((s) => s.key === this.activeSection);
+  }
 
-    const icons: Record<string, string> = {
-      'new-listings': 'fas fa-clipboard-list',
-      'tutorials': 'fas fa-graduation-cap',
-      'career-news': 'fas fa-newspaper',
-      'state-of-ma': 'fas fa-landmark',
-    };
-
-    this.whatsNewModalRef = this.modalService.open(WhatsNewModalComponent, {
-      modalClass: 'modal-lg modal-dialog-centered',
-      data: {
-        title: titles[section] || section,
-        icon: icons[section] || 'fas fa-info-circle',
-        section,
-      },
-    }) as MdbModalRef<WhatsNewModalComponent>;
+  showSection(key: string): void {
+    this.activeSection = this.activeSection === key ? null : key;
   }
 }
