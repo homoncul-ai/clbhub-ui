@@ -34,6 +34,7 @@ import { DashStudentCalendarComponent } from './dash-student-calendar.component'
 import { DashStudentFeedComponent } from './dash-student-feed.component';
 import { StudentProfileUiComponent } from './student-profile-ui/student-profile-ui.component';
 import { DashStudentMyOrganizationsComponent } from './dash-student-my-organizations.component';
+import { DashStudentMyParticipationComponent } from './dash-student-my-participation.component';
 const routes: Routes = [
   {
     path: '',
@@ -127,6 +128,16 @@ const routes: Routes = [
         }
       },
 
+      {
+        path: 'participation',
+        component: DashStudentMyParticipationComponent,
+        data: {
+          pageTitle: 'My Participation',
+          pageSubtitle: '',
+          pageIcon: 'fas fa-people-group',
+        }
+      },
+
       { path: 'interests/:interestId/interest', component:DashStudentInterestComponent },
       { path: 'interests/:interestId/:tabId', component:DashStudentInterestsComponent },
       { path: 'interests/:interestId', redirectTo: 'interests/:interestId/interest', pathMatch: 'full' },
@@ -192,6 +203,7 @@ const routes: Routes = [
     DashStudentFeedComponent,
     StudentProfileUiComponent,
     DashStudentMyOrganizationsComponent,
+    DashStudentMyParticipationComponent,
   ],
   declarations: [
     // Non-standalone components would go here

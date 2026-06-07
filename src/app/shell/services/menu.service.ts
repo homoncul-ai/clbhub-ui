@@ -540,27 +540,23 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.STUDENT_DASHBOARD);
     this.addMenuItem(menu, dashboard);
 
-    const profile = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROFILE);
-    this.addMenuItem(menu, profile);
-    
-    var m2 = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
-    m2.level = 1
-    m2.route = `/student-dashboard/messages`;
-    this.addMenuItem(menu, m2);
-
-    // Add My Organizations (above My Calendar)
-    const myOrganizations = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MY_ORGANIZATIONS);
-    this.addMenuItem(menu, myOrganizations);
-
     // My Calendar is intentionally hidden for now; keep constant/route for future re-enable.
 
     // Add My Feed
     const feed = this.copyMenuItem(MENU_CONSTANTS.STUDENT_FEED);
     this.addMenuItem(menu, feed);
 
+    // Add My Participation (after My Feed)
+    const participation = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PARTICIPATION);
+    this.addMenuItem(menu, participation);
+
     // Add Career Goals (Personal Statements list)
     var courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
+
+    // Add My Organizations under Personal Goals
+    const myOrganizations = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MY_ORGANIZATIONS);
+    this.addMenuItem(menu, myOrganizations);
     
     // Add dynamic menu items for each personal statement
     if (this.personalStatements && this.personalStatements.length > 0) {
@@ -610,6 +606,12 @@ export class MenuService {
         // this.addMenuItem(menu, engage);
     
  
+    // Add My Communications (top-level, after Personal Goals)
+    const m2 = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
+    m2.level = 1;
+    m2.route = `/student-dashboard/messages`;
+    this.addMenuItem(menu, m2);
+
     // Add Research with child screens
     const research = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH);
     this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_CAREERS));
@@ -625,9 +627,9 @@ export class MenuService {
     const resumeEntriesForBuilder = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
     this.addChildMenuItem(resumeBuilder, resumeEntriesForBuilder);
 
-    // Add Progress with children
-    const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
-    this.addMenuItem(menu, guidance);
+    // Guidance & Support is intentionally hidden for now.
+    // const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
+    // this.addMenuItem(menu, guidance);
     
     // const progress = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROGRESS);
     // this.addMenuItem(menu, progress);
@@ -635,7 +637,11 @@ export class MenuService {
     // Add Schedule with children
     //const schedule = this.copyMenuItem(MENU_CONSTANTS.STUDENT_SCHEDULE);
     //this.addMenuItem(menu, schedule);
-    
+
+    // Add My Profile last so it sits right above Logout in the menu
+    const profile = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PROFILE);
+    this.addMenuItem(menu, profile);
+
     return menu;
   }
 
@@ -1843,6 +1849,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-feed',
     icon: 'fas fa-stream'
+  },
+  STUDENT_PARTICIPATION: {
+    level: 1,
+    label: 'My Participation',
+    route: '/student-dashboard/participation',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-my-participation',
+    icon: 'fas fa-people-group'
   },
   STUDENT_INTERESTS: {
     level: 1,
