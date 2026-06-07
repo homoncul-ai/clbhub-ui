@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
+import { CatalogEntryListComponent } from "@app/components/_crud/catalogentry/catalogentry-list.component";
+import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry-ui/catalogentry-ui.component';
+import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
+import { CatalogEntryCriteria } from '@app/restsvc/hccl.service';
 
 interface ResearchSection {
   key: string;
@@ -12,7 +16,7 @@ interface ResearchSection {
 @Component({
   selector: 'app-student-research',
   standalone: true,
-  imports: [CommonModule, MdbAccordionModule],
+  imports: [CommonModule, MdbAccordionModule, CatalogEntryListComponent, CatalogEntryUiComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -50,7 +54,18 @@ interface ResearchSection {
                 <span class="fw-bold">{{ section.title }}</span>
               </ng-template>
               <ng-template mdbAccordionItemBody>
-                <h5>{{ section.title }}</h5>
+                <app-catalogentry-list
+                  [criteria]="getCatalogEntryListCriteria()"
+                  [showingSearchHeading]="false"
+                  [showingGoButton]="false"
+                  [showingAddButton]="false"
+                  [showingIdCheckbox]="false"
+                  [onRowClickBehavior]="getCatalogEntryRowClickBehavior()">
+                </app-catalogentry-list>
+
+                <div class="mt-3" *ngIf="selectedCatalogEntryId">
+                  <app-catalogentry-ui [catalogEntryId]="selectedCatalogEntryId"></app-catalogentry-ui>
+                </div>
               </ng-template>
             </mdb-accordion-item>
           </mdb-accordion>
@@ -153,11 +168,34 @@ export class StudentResearchComponent {
     { key: 'new-listings', title: 'New Listings', icon: 'fas fa-clipboard-list', gradient: 'bg-gradient-primary' },
   ];
 
+  selectedCatalogEntryId = '';
+
   get activeSectionObj(): ResearchSection | undefined {
     return this.sections.find((s) => s.key === this.activeSection);
   }
 
   showSection(key: string): void {
     this.activeSection = this.activeSection === key ? null : key;
+    // Reset any selected catalog entry when switching sections.
+    this.selectedCatalogEntryId = '';
+  }
+
+  getCatalogEntryListCriteria(): CatalogEntryCriteria {
+    return {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      orderByHint: 'dateLastUpdated desc',
+    };
+  }
+
+  getCatalogEntryRowClickBehavior(): OnRowClickBehavior {
+    const x = new OnRowClickBehavior();
+    x.usingNavigateUrl = false;
+    x.doNotNavigate = true;
+    x.onRowClick = (id: string) => {
+      this.selectedCatalogEntryId = id;
+    };
+    return x;
   }
 }
