@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { CatalogEntryListComponent } from "@app/components/_crud/catalogentry/catalogentry-list.component";
@@ -63,7 +63,7 @@ interface ResearchSection {
                   [onRowClickBehavior]="getCatalogEntryRowClickBehavior()">
                 </app-catalogentry-list>
 
-                <div class="mt-3" *ngIf="selectedCatalogEntryId">
+                <div #selectedEntry class="mt-3" *ngIf="selectedCatalogEntryId">
                   <app-catalogentry-ui [catalogEntryId]="selectedCatalogEntryId"></app-catalogentry-ui>
                 </div>
               </ng-template>
@@ -170,6 +170,8 @@ export class StudentResearchComponent {
 
   selectedCatalogEntryId = '';
 
+  @ViewChild('selectedEntry') selectedEntryRef?: ElementRef<HTMLElement>;
+
   get activeSectionObj(): ResearchSection | undefined {
     return this.sections.find((s) => s.key === this.activeSection);
   }
@@ -195,6 +197,10 @@ export class StudentResearchComponent {
     x.doNotNavigate = true;
     x.onRowClick = (id: string) => {
       this.selectedCatalogEntryId = id;
+      // Wait for the entry to render, then scroll it into view.
+      setTimeout(() => {
+        this.selectedEntryRef?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     };
     return x;
   }

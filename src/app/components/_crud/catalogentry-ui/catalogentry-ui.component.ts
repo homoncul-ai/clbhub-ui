@@ -264,11 +264,12 @@ export class CatalogEntryUiComponent implements OnChanges {
 
   private recordInterest(result: CatalogEntryGETData, interest: number): void {
     const userProfileId = this.hcclContextService.getCurrentUserProfileId() || '';
-
+    const personalStatementId = this.personalStatementId == ''?  '00000000-0000-0000-0000-000000000000': this.personalStatementId;
+    
     const interestData: CatalogEntryInterestPOSTData = {
       catalogId: result.catalogId || '',
       catalogEntryId: result.id || '',
-      personalStatementId: this.personalStatementId,
+      personalStatementId: personalStatementId,
       userProfileId: userProfileId,
       interest: interest,
       currentStateCode: '--ChangedOnEntry--',
