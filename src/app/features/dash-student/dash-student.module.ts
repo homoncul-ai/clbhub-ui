@@ -121,11 +121,6 @@ const routes: Routes = [
 
       {
         path: 'feed', component: DashStudentFeedComponent,
-        data: {
-          pageTitle: 'My Feed',
-          pageSubtitle: 'Stay updated with the latest posts and announcements',
-          pageIcon: 'fas fa-stream',
-        }
       },
 
       {

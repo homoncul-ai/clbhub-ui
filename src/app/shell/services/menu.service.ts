@@ -1748,7 +1748,7 @@ EA_ORGNONPROFITS_LIST: {
   },
   STUDENT_PERSONALSTATEMENTS: {
     level: 1,
-    label: 'Personal Goals',
+    label: 'My Pursuits',
     route: '/student-dashboard/personalstatements',
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-personalstatements',
