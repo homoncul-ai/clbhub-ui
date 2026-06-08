@@ -133,11 +133,11 @@ export class ExperienceCreateModalComponent implements OnInit {
       available: 1,
       exprienceTypeId: EXPERIENCE_TYPE_SENTINEL,
       catalogEntryId: this.catalogEntryId || undefined,
-      currentStateCode: '',
-      dateStart: this.model.dateStart || undefined,
-      dateEnd: this.model.dateEnd || undefined,
-      dateRegistrationStart: this.model.dateRegistrationStart || undefined,
-      dateRegistrationEnd: this.model.dateRegistrationEnd || undefined,
+      currentStateCode: 'initial',
+      dateStart: this.toApiDateTime(this.model.dateStart),
+      dateEnd: this.toApiDateTime(this.model.dateEnd),
+      dateRegistrationStart: this.toApiDateTime(this.model.dateRegistrationStart),
+      dateRegistrationEnd: this.toApiDateTime(this.model.dateRegistrationEnd),
       metadataJson: '',
       indexMd: '',
     };
@@ -153,6 +153,17 @@ export class ExperienceCreateModalComponent implements OnInit {
         this.error = 'Unable to create experience.';
       },
     });
+  }
+
+  /**
+   * Convert a date-only input value (yyyy-MM-dd) to the datetime format the
+   * backend expects (yyyy-MM-dd'T'HH:mm:ss). Returns undefined when empty.
+   */
+  private toApiDateTime(value: string): string | undefined {
+    if (!value) {
+      return undefined;
+    }
+    return value.length === 10 ? `${value}T00:00:00` : value;
   }
 
   closeModal(): void {

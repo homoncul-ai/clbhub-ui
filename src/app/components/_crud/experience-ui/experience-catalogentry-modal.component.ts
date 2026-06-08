@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
+import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry-ui/catalogentry-ui.component';
 
 /**
  * Modal wrapper used by the Experience UI "Details" tab to pop up the
  * catalog entry associated with the experience.
+ *
+ * Uses the lightweight display catalogentry-ui (components/_crud/catalogentry-ui)
+ * rather than the full editor to avoid a circular dependency
+ * (catalogentry editor -> experience-ui -> this modal -> catalogentry editor).
  */
 @Component({
   selector: 'app-experience-catalogentry-modal',
@@ -17,7 +21,7 @@ import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/cata
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-      <app-catalogentry-ui *ngIf="catalogEntryId" [id]="catalogEntryId" [readonly]="true"></app-catalogentry-ui>
+      <app-catalogentry-ui *ngIf="catalogEntryId" [catalogEntryId]="catalogEntryId"></app-catalogentry-ui>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>

@@ -58,7 +58,8 @@
         <hr />
         <app-experience-ui
           [experienceId]="selectedExperienceId"
-          [readonly]="false"
+          [readonly]="true"
+          [canEdit]="true"
           [catalogEntry]="getCurrentEntity().getData()">
         </app-experience-ui>
       </div>

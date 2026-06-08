@@ -1,41 +1,32 @@
-import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import {
   CatalogEntryGETData,
   ExperienceGETData,
-  ExperiencePUTData,
   HcclService,
   ParticipantCriteria,
   ParticipantGETData,
 } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { StdBubaComponent } from '@app/components/_global/std-buba/std-buba.component';
+import { ExperienceEditComponent } from './experience-edit.component';
+import { ExperienceCatalogEntryModalComponent } from './experience-catalogentry-modal.component';
+import { ExperienceEditModalComponent } from './experience-edit-modal.component';
 import { ParticipantUiModalComponent } from '@app/components/_crud/participant-ui/participant-ui-modal.component';
-
-interface ExperienceEditModel {
-  name: string;
-  description: string;
-  dateStart: string;
-  dateEnd: string;
-  dateRegistrationStart: string;
-  dateRegistrationEnd: string;
-}
 
 /**
  * Displays a single Experience.
  *
- * When `readonly` is true (default), it shows the name + dates header and a
- * tabset with Details (catalog entry), Participants, and Materials tabs.
+ * When `readonly` is true (default) it shows the name + dates header and a
+ * tabset with Details (catalog entry), Participants and Materials tabs. If
+ * `canEdit` is also true, an Edit button opens the editable form in a modal.
  *
- * When `readonly` is false, it shows an edit interface with Info, Dates,
- * Costs, and Location sections.
+ * When `readonly` is false it renders the editable form (app-experience-edit).
  */
 @Component({
   selector: 'app-experience-ui',
   standalone: true,
-  imports: [CommonModule, FormsModule, SimpleTabsetComponent, StdBubaComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ExperienceEditComponent],
   template: `
     <div *ngIf="loading" class="exp-loading">
       <div class="spinner-border" role="status">
@@ -51,11 +42,16 @@ interface ExperienceEditModel {
     <!-- READ-ONLY VIEW -->
     <div class="exp-ui" *ngIf="experience && !loading && readonly">
       <!-- Header: name + dates -->
-      <div class="exp-header">
-        <h2 class="exp-name">{{ experience.name }}</h2>
-        <div class="exp-dates" *ngIf="getDateRange() as range">
-          <i class="fas fa-calendar-alt me-2"></i>{{ range }}
+      <div class="exp-header d-flex justify-content-between align-items-start">
+        <div>
+          <h2 class="exp-name">{{ experience.name }}</h2>
+          <div class="exp-dates" *ngIf="getDateRange() as range">
+            <i class="fas fa-calendar-alt me-2"></i>{{ range }}
+          </div>
         </div>
+        <button *ngIf="canEdit" type="button" class="btn btn-outline-primary btn-sm" (click)="openEditModal()">
+          <i class="fas fa-pen me-2"></i>Edit
+        </button>
       </div>
 
       <!-- Tabset -->
@@ -111,99 +107,12 @@ interface ExperienceEditModel {
     </div>
 
     <!-- EDIT VIEW -->
-    <div class="exp-ui exp-edit" *ngIf="experience && !loading && !readonly">
-      <div class="exp-header">
-        <h2 class="exp-name">{{ editModel.name || experience.name || 'Experience' }}</h2>
-      </div>
-
-      <div *ngIf="saveSuccess" class="alert alert-success py-2 mb-3">
-        <i class="fas fa-check-circle me-2"></i>Experience saved.
-      </div>
-      <div *ngIf="saveError" class="alert alert-danger py-2 mb-3">
-        <i class="fas fa-exclamation-circle me-2"></i>{{ saveError }}
-      </div>
-
-      <!-- Info -->
-      <section class="exp-section">
-        <h5 class="exp-section-title"><i class="fas fa-circle-info me-2"></i>Info</h5>
-        <div class="mb-3">
-          <label class="form-label">Name</label>
-          <input type="text" class="form-control" [(ngModel)]="editModel.name" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Details</label>
-          <textarea class="form-control" rows="4" [(ngModel)]="editModel.description"></textarea>
-        </div>
-      </section>
-
-      <!-- Dates -->
-      <section class="exp-section">
-        <h5 class="exp-section-title"><i class="fas fa-calendar-alt me-2"></i>Dates</h5>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Start Date</label>
-            <input type="date" class="form-control" [(ngModel)]="editModel.dateStart" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">End Date</label>
-            <input type="date" class="form-control" [(ngModel)]="editModel.dateEnd" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Registration Start</label>
-            <input type="date" class="form-control" [(ngModel)]="editModel.dateRegistrationStart" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Registration End</label>
-            <input type="date" class="form-control" [(ngModel)]="editModel.dateRegistrationEnd" />
-          </div>
-        </div>
-      </section>
-
-      <!-- Costs -->
-      <section class="exp-section">
-        <h5 class="exp-section-title"><i class="fas fa-dollar-sign me-2"></i>Costs</h5>
-        <div class="row" *ngIf="catalogEntry; else noCosts">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Price</label>
-            <div class="form-control-plaintext">
-              {{ catalogEntry.entryPrice != null ? (catalogEntry.entryPrice | currency) : '—' }}
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Cost</label>
-            <div class="form-control-plaintext">
-              {{ catalogEntry.entryCost != null ? (catalogEntry.entryCost | currency) : '—' }}
-            </div>
-          </div>
-        </div>
-        <ng-template #noCosts>
-          <p class="text-muted mb-0">No cost information available.</p>
-        </ng-template>
-      </section>
-
-      <!-- Location -->
-      <section class="exp-section">
-        <h5 class="exp-section-title"><i class="fas fa-location-dot me-2"></i>Location</h5>
-        <div *ngIf="catalogEntry && catalogEntry.hcclAddrId; else noLocation">
-          <app-std-buba
-            entityName="HcclAddr"
-            [entityId]="catalogEntry.hcclAddrId || ''"
-            [showLink]="false"
-            [showName]="true">
-          </app-std-buba>
-        </div>
-        <ng-template #noLocation>
-          <p class="text-muted mb-0">No location is set on the catalog entry.</p>
-        </ng-template>
-      </section>
-
-      <div class="exp-edit-actions">
-        <button class="btn btn-primary" (click)="saveExperience()" [disabled]="saving">
-          <i *ngIf="saving" class="fas fa-spinner fa-spin me-2"></i>
-          <i *ngIf="!saving" class="fas fa-save me-2"></i>
-          {{ saving ? 'Saving...' : 'Save Experience' }}
-        </button>
-      </div>
+    <div class="exp-ui exp-edit" *ngIf="!readonly">
+      <app-experience-edit
+        [experienceId]="experienceId"
+        [catalogEntry]="catalogEntry"
+        (saved)="saved.emit()">
+      </app-experience-edit>
     </div>
   `,
   styles: [`
@@ -235,30 +144,15 @@ interface ExperienceEditModel {
     .exp-participant-row {
       cursor: pointer;
     }
-
-    .exp-section {
-      padding: 16px 0;
-      border-top: 1px solid #eef0f2;
-    }
-
-    .exp-section:first-of-type {
-      border-top: none;
-    }
-
-    .exp-section-title {
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .exp-edit-actions {
-      padding-top: 8px;
-    }
   `],
 })
 export class ExperienceUiComponent implements OnChanges {
   @Input() experienceId: string = '';
   @Input() readonly: boolean = true;
+  @Input() canEdit: boolean = false;
   @Input() catalogEntry: CatalogEntryGETData | null = null;
+
+  @Output() saved = new EventEmitter<void>();
 
   private hcclService = inject(HcclService);
   private modalService = inject(MdbModalService);
@@ -270,11 +164,6 @@ export class ExperienceUiComponent implements OnChanges {
 
   currentTabId = 'details';
   tabs: SimpleTab[] = this.buildTabs();
-
-  editModel: ExperienceEditModel = this.emptyEditModel();
-  saving = false;
-  saveSuccess = false;
-  saveError: string | null = null;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['experienceId']) {
@@ -304,13 +193,10 @@ export class ExperienceUiComponent implements OnChanges {
 
     this.loading = true;
     this.error = '';
-    this.saveSuccess = false;
-    this.saveError = null;
 
     this.hcclService.getExperienceById(this.experienceId).subscribe({
       next: (experience) => {
         this.experience = experience;
-        this.editModel = this.buildEditModel(experience);
         this.loading = false;
         this.loadParticipants();
       },
@@ -361,102 +247,34 @@ export class ExperienceUiComponent implements OnChanges {
     return value.formattedDate || value.formattedDateTime || '';
   }
 
-  private emptyEditModel(): ExperienceEditModel {
-    return {
-      name: '',
-      description: '',
-      dateStart: '',
-      dateEnd: '',
-      dateRegistrationStart: '',
-      dateRegistrationEnd: '',
-    };
-  }
-
-  private buildEditModel(experience: ExperienceGETData): ExperienceEditModel {
-    const exp = experience as any;
-    return {
-      name: experience.name || '',
-      description: experience.description || '',
-      dateStart: this.toDateInput(exp?.dateStart),
-      dateEnd: this.toDateInput(exp?.dateEnd),
-      dateRegistrationStart: this.toDateInput(exp?.dateRegistrationStart),
-      dateRegistrationEnd: this.toDateInput(exp?.dateRegistrationEnd),
-    };
-  }
-
-  /** Normalize various date shapes to a yyyy-MM-dd value for <input type="date">. */
-  private toDateInput(value: any): string {
-    if (!value) {
-      return '';
-    }
-    if (typeof value === 'string') {
-      return value.substring(0, 10);
-    }
-    const iso = value.isoDate || value.isoDateTime || value.formattedDate || '';
-    if (typeof iso === 'string' && iso.length >= 10) {
-      return iso.substring(0, 10);
-    }
-    return '';
-  }
-
-  saveExperience(): void {
-    if (!this.experience || !this.experienceId || this.saving) {
+  /**
+   * Open the editable experience form in a modal. After it closes following a
+   * save, reload so the read-only view reflects the changes.
+   */
+  openEditModal(): void {
+    if (!this.experienceId) {
       return;
     }
-
-    this.saving = true;
-    this.saveSuccess = false;
-    this.saveError = null;
-
-    const exp = this.experience as any;
-    const putData: ExperiencePUTData = {
-      name: this.editModel.name,
-      businessCode: this.experience.businessCode || '',
-      description: this.editModel.description,
-      available: this.experience.available ?? 1,
-      exprienceTypeId: this.experience.exprienceTypeId || '',
-      catalogEntryId: this.experience.catalogEntryId,
-      currentStateCode: this.experience.currentStateCode || '',
-      currentStateTransitionId: this.experience.currentStateTransitionId,
-      dateStart: this.editModel.dateStart || undefined,
-      dateEnd: this.editModel.dateEnd || undefined,
-      dateRegistrationStart: this.editModel.dateRegistrationStart || undefined,
-      dateRegistrationEnd: this.editModel.dateRegistrationEnd || undefined,
-      maxParticipants: this.experience.maxParticipants,
-      minParticipants: this.experience.minParticipants,
-      metadataJson: exp?.metadataJson || '',
-      indexMd: exp?.indexMd || '',
-    };
-
-    this.hcclService.updateExperienceById(this.experienceId, putData).subscribe({
-      next: () => {
-        this.saving = false;
-        this.saveSuccess = true;
-        // Reflect saved values back onto the loaded experience.
-        if (this.experience) {
-          this.experience.name = this.editModel.name;
-          this.experience.description = this.editModel.description;
-          (this.experience as any).dateStart = this.editModel.dateStart;
-          (this.experience as any).dateEnd = this.editModel.dateEnd;
-          (this.experience as any).dateRegistrationStart = this.editModel.dateRegistrationStart;
-          (this.experience as any).dateRegistrationEnd = this.editModel.dateRegistrationEnd;
-        }
+    const modalRef = this.modalService.open(ExperienceEditModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        experienceId: this.experienceId,
+        catalogEntry: this.catalogEntry,
+        title: this.experience?.name || 'Edit Experience',
       },
-      error: (err) => {
-        console.error('Failed to save experience:', err);
-        this.saving = false;
-        this.saveError = 'Unable to save experience.';
-      },
+    });
+
+    modalRef.onClose.subscribe((result: any) => {
+      if (result) {
+        this.loadExperience();
+      }
     });
   }
 
-  async openCatalogEntry(): Promise<void> {
+  openCatalogEntry(): void {
     if (!this.experience?.catalogEntryId) {
       return;
     }
-    // Imported dynamically to avoid a circular dependency:
-    // catalogentry-ui -> experience-ui -> (modal) -> catalogentry-ui.
-    const { ExperienceCatalogEntryModalComponent } = await import('./experience-catalogentry-modal.component');
     this.modalService.open(ExperienceCatalogEntryModalComponent, {
       modalClass: 'modal-xl',
       data: {
