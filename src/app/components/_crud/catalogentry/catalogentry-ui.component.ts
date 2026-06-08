@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { CatalogEntryCrudWrapper, CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
@@ -14,6 +15,7 @@ import { StdBubaComponent } from "@app/components/_global/std-buba/std-buba.comp
 import { AbstractCrudComponent } from "@app/components/_global";
 import { VocationEncodingDisplayComponent } from "../vocationencoding/vocationencoding-display.component";
 import { ExperienceUiComponent } from "@app/components/_crud/experience-ui/experience-ui.component";
+import { ExperienceCreateModalComponent } from "@app/components/_crud/experience-ui/experience-create-modal.component";
 
 // UI component for editing/maintaining the catalog entry.
 @Component({
@@ -51,6 +53,7 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
 
   // Experiences tab state
   @ViewChild('experienceArea') experienceAreaRef?: ElementRef<HTMLElement>;
+  private modalService = inject(MdbModalService);
   public experiences: ExperienceGETData[] = [];
   public experiencesLoading: boolean = false;
   public selectedExperienceId: string = '';
@@ -95,6 +98,28 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
     setTimeout(() => {
       this.experienceAreaRef?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
+  }
+
+  /**
+   * Open the "Add Experience" modal, pre-filled from this catalog entry.
+   * On create, refresh the experiences list.
+   */
+  public openAddExperienceModal(): void {
+    const catalogEntry = this.getCurrentEntity().getData();
+    const modalRef = this.modalService.open(ExperienceCreateModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        catalogEntry: catalogEntry,
+        catalogEntryId: this.id,
+        title: 'Add Experience',
+      },
+    });
+
+    modalRef.onClose.subscribe((result: any) => {
+      if (result) {
+        this.loadExperiences();
+      }
+    });
   }
 
 
