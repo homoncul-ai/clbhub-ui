@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { CatalogEntryCrudWrapper, CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
-import { HcclService, MenuControlDataList, MenuControlData, CatalogEntryPUTData } from '@app/restsvc/hccl.service';
+import { HcclService, MenuControlDataList, MenuControlData, CatalogEntryPUTData, ExperienceGETData } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { StdEntitySectionComponent } from "@app/components/_global/std-entity-section/std-entity-section.component";
 import { CatalogEntrySignupPacketUiComponent } from '../catalogentrysignuppacket/catalogentrysignuppacket-ui.component';
@@ -12,7 +12,8 @@ import { CatalogEntrySignupPacketGroupComponent } from "../catalogentrysignuppac
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { StdBubaComponent } from "@app/components/_global/std-buba/std-buba.component";
 import { AbstractCrudComponent } from "@app/components/_global";
-import { VocationEncodingDisplayComponent } from "../vocationencoding/vocationencoding-display.component"; 
+import { VocationEncodingDisplayComponent } from "../vocationencoding/vocationencoding-display.component";
+import { ExperienceUiComponent } from "@app/components/_crud/experience-ui/experience-ui.component";
 
 // UI component for editing/maintaining the catalog entry.
 @Component({
@@ -20,7 +21,8 @@ import { VocationEncodingDisplayComponent } from "../vocationencoding/vocationen
   standalone: true,
   imports: [CommonModule, FormsModule, SimpleTabsetComponent, CatalogEntryCrudComponent,
     CatalogEntrySignupPacketUiComponent, CatalogEntrySignupPacketGroupComponent,
-    MenuControlDataListComponent, RouterLink, StdBubaComponent, VocationEncodingDisplayComponent, CommonModule],
+    MenuControlDataListComponent, RouterLink, StdBubaComponent, VocationEncodingDisplayComponent,
+    ExperienceUiComponent, CommonModule],
   styleUrl: '../../_global/abstract-entity-group/abstract-entity-group.component.scss',
   templateUrl: './catalogentry-ui.component.html',
 })
@@ -46,6 +48,54 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
   public savingSignupPacket: boolean = false;
   public saveSuccess: boolean = false;
   public saveError: string | null = null;
+
+  // Experiences tab state
+  @ViewChild('experienceArea') experienceAreaRef?: ElementRef<HTMLElement>;
+  public experiences: ExperienceGETData[] = [];
+  public experiencesLoading: boolean = false;
+  public selectedExperienceId: string = '';
+
+  /**
+   * Load the experiences associated with this catalog entry.
+   */
+  public loadExperiences(): void {
+    if (!this.id) {
+      this.experiences = [];
+      return;
+    }
+
+    this.experiencesLoading = true;
+    this.hcclService.findExperiences({
+      catalogEntryId: this.id,
+      pageNumber: 1,
+      pageSize: 100,
+      isPaging: true,
+      orderByHint: 'dateCreated desc',
+    }).subscribe({
+      next: (response) => {
+        this.experiences = response?.searchResults || [];
+        this.experiencesLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load experiences:', err);
+        this.experiences = [];
+        this.experiencesLoading = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  /**
+   * Select an experience to open the editable experience-ui below the list,
+   * then scroll the browser to it.
+   */
+  public selectExperience(exp: ExperienceGETData): void {
+    this.selectedExperienceId = exp?.id || '';
+    setTimeout(() => {
+      this.experienceAreaRef?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
 
 
   protected getSignupPacketId(): string {
@@ -178,6 +228,17 @@ export class CatalogEntryUiComponent extends AbstractEntityGroupComponent<Catalo
       tab = new SimpleTab('vocode', 'Vocation Encoding', '', 
         () => {
           this.currentTabId = 'vocode';
+        },
+        () => {
+          return true;
+        }
+      );
+      tabs.push(tab);
+
+      tab = new SimpleTab('experiences', 'Experiences', '', 
+        () => {
+          this.currentTabId = 'experiences';
+          this.loadExperiences();
         },
         () => {
           return true;

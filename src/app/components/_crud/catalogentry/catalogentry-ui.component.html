@@ -19,6 +19,50 @@
   <app-vocationencoding-display [id]="getCurrentEntity().getData().vocodeInstanceId || ''" [readonly]="this.isReadOnly()"></app-vocationencoding-display>
 </div>
 
+<div *ngIf="currentTabId === 'experiences'">
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0"><i class="fas fa-compass me-2"></i>Experiences</h5>
+    </div>
+    <div class="card-body">
+      <div *ngIf="experiencesLoading" class="text-center py-3">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div *ngIf="!experiencesLoading">
+        <div *ngIf="experiences.length === 0" class="alert alert-info mb-0">
+          <i class="fas fa-info-circle me-2"></i>No experiences are associated with this catalog entry.
+        </div>
+
+        <div class="list-group" *ngIf="experiences.length > 0">
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            *ngFor="let exp of experiences"
+            [class.active]="exp.id === selectedExperienceId"
+            (click)="selectExperience(exp)">
+            <div class="d-flex justify-content-between align-items-center">
+              <span><i class="fas fa-compass me-2"></i>{{ exp.name }}</span>
+              <span class="badge bg-secondary" *ngIf="exp.currentStateCode">{{ exp.currentStateCode }}</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div #experienceArea class="mt-4" *ngIf="selectedExperienceId">
+        <hr />
+        <app-experience-ui
+          [experienceId]="selectedExperienceId"
+          [readonly]="false"
+          [catalogEntry]="getCurrentEntity().getData()">
+        </app-experience-ui>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div *ngIf="currentTabId === 'signupPacket'">
   <app-catalogentrysignuppacket-ui [id]="getCurrentEntity().getData().signupPacketId || ''" [readonly] ="this.isReadOnly()"></app-catalogentrysignuppacket-ui>
 </div>
@@ -73,6 +117,8 @@
     <i class="fas fa-info-circle me-2"></i>No signup packet selected. Select a signup packet from the dropdown above to view its details.
   </div>
 </div>
+
+
 
 <pre *ngIf="false">
 currentTabId: {{currentTabId}}
