@@ -16,6 +16,7 @@ import { CatalogEntrySignupPacketListComponent } from '../../components/_crud/ca
 import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-group.component';
 import { StdEntityUiComponent } from '@app/components/_global';
 import { DashProviderMessagesComponent } from './dash-provider-messages.component';
+import { ProviderExperiencesComponent } from './experiences/provider-experiences.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,8 @@ const routes: Routes = [
       { path: 'catalogs/:id', redirectTo: 'catalogs/:id/dash', pathMatch: 'full'  },
       { path: 'catalogs/:id/:tabId', component: ProviderCatalogGroupComponent },
 
+      { path: 'experiences', component: ProviderExperiencesComponent },
+
       // CatalogEntrySignupPacket routes
       { path: 'catalogentrysignuppackets/create', component: CatalogEntrySignupPacketGroupComponent },
       { path: 'catalogentrysignuppackets/:id/:tabId', component: CatalogEntrySignupPacketGroupComponent },
@@ -74,7 +77,8 @@ const routes: Routes = [
     ProviderCatalogGroupComponent,
     CatalogEntrySignupPacketListComponent,
     CatalogEntrySignupPacketGroupComponent,
-    DashProviderMessagesComponent
+    DashProviderMessagesComponent,
+    ProviderExperiencesComponent
   ]
 })
 export class DashProviderModule { }

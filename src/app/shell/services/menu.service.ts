@@ -488,6 +488,10 @@ export class MenuService {
     //this.addChildMenuItem(catalogMenu, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOG_TAB_DASH));
     this.addMenuItem(menu, catalogMenu);
 
+    // Add Experiences (after Catalogs)
+    const experiences = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_EXPERIENCES);
+    this.addMenuItem(menu, experiences);
+
     // Add Catalog Entry Signup Packets
     const signupPackets = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOGENTRYSIGNUPPACKET_LIST);
     this.addMenuItem(menu, signupPackets);
@@ -1123,6 +1127,14 @@ export const MENU_CONSTANTS = {
     componentPath: 'src/app/features/dash-provider',
     componentName: 'dash-provider-messages',
     icon: 'fas fa-envelope'
+  },
+  PROVIDER_EXPERIENCES: {
+    level: 1,
+    label: 'Experiences',
+    route: '/provider-dashboard/experiences',
+    componentPath: 'src/app/features/dash-provider/experiences',
+    componentName: 'provider-experiences',
+    icon: 'fas fa-compass'
   },
 
   // Employee Dashboard Menu Items
