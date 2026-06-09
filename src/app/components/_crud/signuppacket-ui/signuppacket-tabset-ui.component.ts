@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { CatalogEntrySignupPacketGETData, HcclService } from '@app/restsvc/hccl.service';
+import { CatalogEntrySignupPacketGETData, HcclService, MenuControlDataList } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { SignupPacketEditModalComponent } from './signuppacket-edit-modal.component';
 
@@ -31,7 +31,7 @@ import { SignupPacketEditModalComponent } from './signuppacket-edit-modal.compon
       <div class="sp-header d-flex justify-content-between align-items-start">
         <div>
           <h2 class="sp-name">{{ packet.name }}</h2>
-          <span class="badge bg-secondary" *ngIf="packet.signupBehaviorCode">{{ packet.signupBehaviorCode }}</span>
+          <span class="badge bg-secondary" *ngIf="packet.signupBehaviorCode">{{ behaviorName(packet.signupBehaviorCode) }}</span>
         </div>
         <button *ngIf="canEdit" type="button" class="btn btn-outline-primary btn-sm" (click)="openEditModal()">
           <i class="fas fa-pen me-2"></i>Edit
@@ -54,7 +54,7 @@ import { SignupPacketEditModalComponent } from './signuppacket-edit-modal.compon
             <dt>Available</dt>
             <dd>{{ availableLabel(packet.available) }}</dd>
             <dt>Signup Behavior</dt>
-            <dd>{{ packet.signupBehaviorCode || '—' }}</dd>
+            <dd>{{ behaviorName(packet.signupBehaviorCode) }}</dd>
           </dl>
         </div>
 
@@ -109,7 +109,7 @@ import { SignupPacketEditModalComponent } from './signuppacket-edit-modal.compon
     }
   `],
 })
-export class SignupPacketTabsetUiComponent implements OnChanges {
+export class SignupPacketTabsetUiComponent implements OnInit, OnChanges {
   @Input() id: string = '';
   @Input() canEdit: boolean = false;
 
@@ -122,14 +122,43 @@ export class SignupPacketTabsetUiComponent implements OnChanges {
   loading = false;
   error = '';
 
+  signupBehaviorSelectData: MenuControlDataList | null = null;
+
   currentTabId = 'details';
   tabs: SimpleTab[] = this.buildTabs();
+
+  ngOnInit(): void {
+    this.loadSetupData();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['id']) {
       this.currentTabId = 'details';
       this.loadPacket();
     }
+  }
+
+  private loadSetupData(): void {
+    this.hcclService.getSignupPacketsSetupData().subscribe({
+      next: (data) => {
+        this.signupBehaviorSelectData = data?.signupBehaviorSelectData || null;
+      },
+      error: (err) => {
+        console.error('Failed to load signup packet setup data:', err);
+      },
+    });
+  }
+
+  /**
+   * Resolve a signup behavior code to its display name via the setup data.
+   * Falls back to the raw code (or em dash) when no match is found.
+   */
+  behaviorName(code: string | undefined): string {
+    if (!code) {
+      return '—';
+    }
+    const match = this.signupBehaviorSelectData?.menuItems?.find((item) => item.id === code);
+    return match?.name || code;
   }
 
   private buildTabs(): SimpleTab[] {

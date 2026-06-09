@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   CatalogEntrySignupPacketGETData,
   CatalogEntrySignupPacketPUTData,
   HcclService,
+  MenuControlDataList,
 } from '@app/restsvc/hccl.service';
+import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 
 interface SignupPacketEditModel {
   name: string;
@@ -23,7 +25,7 @@ interface SignupPacketEditModel {
 @Component({
   selector: 'app-signuppacket-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MenuControlDataListComponent],
   template: `
     <div *ngIf="loading" class="sp-loading">
       <div class="spinner-border" role="status">
@@ -51,8 +53,12 @@ interface SignupPacketEditModel {
           <input type="text" class="form-control" [(ngModel)]="editModel.name" />
         </div>
         <div class="mb-3">
-          <label class="form-label">Signup Behavior Code</label>
-          <input type="text" class="form-control" [(ngModel)]="editModel.signupBehaviorCode" />
+          <label class="form-label">Signup Behavior</label>
+          <app-menu-control-data-list
+            [menuControlDataList]="signupBehaviorSelectData"
+            placeholder="Select a signup behavior..."
+            [(ngModel)]="editModel.signupBehaviorCode">
+          </app-menu-control-data-list>
         </div>
         <div class="mb-3">
           <label class="form-label">Description</label>
@@ -111,7 +117,7 @@ interface SignupPacketEditModel {
     }
   `],
 })
-export class SignupPacketEditComponent implements OnChanges {
+export class SignupPacketEditComponent implements OnInit, OnChanges {
   @Input() id: string = '';
 
   @Output() saved = new EventEmitter<void>();
@@ -122,15 +128,32 @@ export class SignupPacketEditComponent implements OnChanges {
   loading = false;
   error = '';
 
+  signupBehaviorSelectData: MenuControlDataList | null = null;
+
   editModel: SignupPacketEditModel = this.emptyEditModel();
   saving = false;
   saveSuccess = false;
   saveError: string | null = null;
 
+  ngOnInit(): void {
+    this.loadSetupData();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['id']) {
       this.loadPacket();
     }
+  }
+
+  private loadSetupData(): void {
+    this.hcclService.getSignupPacketsSetupData().subscribe({
+      next: (data) => {
+        this.signupBehaviorSelectData = data?.signupBehaviorSelectData || null;
+      },
+      error: (err) => {
+        console.error('Failed to load signup packet setup data:', err);
+      },
+    });
   }
 
   private loadPacket(): void {
