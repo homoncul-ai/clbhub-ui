@@ -1116,8 +1116,8 @@ export const MENU_CONSTANTS = {
     level: 1,
     label: 'Signup Packets',
     route: '/provider-dashboard/catalogentrysignuppackets',
-    componentPath: 'src/app/components/_crud/catalogentrysignuppacket/catalogentrysignuppacket-list.component',
-    componentName: 'CatalogEntrySignupPacketListComponent',
+    componentPath: 'src/app/features/dash-provider/dash-provider-signuppackets.component',
+    componentName: 'DashProviderSignupPacketsComponent',
     icon: 'fas fa-clipboard-list' 
   },
   PROVIDER_MESSAGES: {
