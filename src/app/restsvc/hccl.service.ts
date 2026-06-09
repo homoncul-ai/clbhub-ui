@@ -1729,6 +1729,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PAiStructuredQueryJobGETData>(request);
   }
 
+  createPEmailMessage(body: PEmailMessagePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pemailmessage",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPEmailMessageById(id: string): Observable<PEmailMessageGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pemailmessage/" + id,
+      method: "GET",
+    };
+    return this.request<PEmailMessageGETData>(request);
+  }
+
+  updatePEmailMessageById(id: string, body: PEmailMessagePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pemailmessage/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePEmailMessageById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pemailmessage/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPEmailMessages(body: PEmailMessageCriteria): Observable<PEmailMessageGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pemailmessage/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PEmailMessageGETDataSearchResults>(request);
+  }
+
+  getPEmailMessageByIdWithHint(id: string, hint: string): Observable<PEmailMessageGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pattern/pemailmessage/" + id + "/hint",
+      method: "GET",
+      params: { hint: this.convertToString(hint) },
+    };
+    return this.request<PEmailMessageGETData>(request);
+  }
+
   createPEntityTagVal(body: PEntityTagValPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pentitytagval",
@@ -4547,6 +4599,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PostmarkWebhookResponse>(request);
   }
 
+  handlePublicInviteAction(inviteId: string, actionCode: string, r: string, sig: string): Observable<HandleInviteActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/handle-invite-action",
+      method: "GET",
+      params: { inviteId: this.convertToString(inviteId), actionCode: this.convertToString(actionCode), r: this.convertToString(r), sig: this.convertToString(sig) },
+    };
+    return this.request<HandleInviteActionResponse>(request);
+  }
+
   handleSpamComplaint(X_Postmark_Signature: string, body: string): Observable<PostmarkWebhookResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/email/spam-complaint",
@@ -4605,6 +4666,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student/setup",
       method: "GET",
+      params: { "interest_id": this.convertToString(interest_id) },
     };
     return this.request<OnboardStudentUIData>(request);
   }
@@ -8016,6 +8078,184 @@ export interface PAiStructuredQueryJobPUTData {
   parentEntityType?: string;
 }
 
+export interface PEmailMessagePOSTData {
+  authorUserProfileId?: string;
+  bodyHtml?: string;
+  messageTemplateCode: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  directionCode?: string;
+  statusCode?: string;
+  messageStream?: string;
+  fromEmail?: string;
+  fromName?: string;
+  toEmail?: string;
+  toName?: string;
+  ccEmails?: string;
+  bccEmails?: string;
+  replyToEmail?: string;
+  mailboxHash?: string;
+  subject?: string;
+  bodyText?: string;
+  tag?: string;
+  providerMessageId?: string;
+  inReplyToMessageId?: string;
+  threadId?: string;
+  referencesHeader?: string;
+  errorCode?: string;
+  errorMessage?: string;
+  spamScore?: number;
+  openCount?: number;
+  dateSent?: string;
+  dateDelivered?: string;
+  dateReceived?: string;
+  dateOpened?: string;
+  dateBounced?: string;
+  attachmentFolder?: string;
+  attachmentCount?: number;
+  headersJson?: string;
+  metadataJson?: string;
+  rawPayloadJson?: string;
+}
+
+export interface PEmailMessageGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  authorUserProfileId?: string;
+  bodyHtml?: string;
+  messageTemplateCode?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  directionCode?: string;
+  statusCode?: string;
+  messageStream?: string;
+  fromEmail?: string;
+  fromName?: string;
+  toEmail?: string;
+  toName?: string;
+  ccEmails?: string;
+  bccEmails?: string;
+  replyToEmail?: string;
+  mailboxHash?: string;
+  subject?: string;
+  bodyText?: string;
+  tag?: string;
+  providerMessageId?: string;
+  inReplyToMessageId?: string;
+  threadId?: string;
+  referencesHeader?: string;
+  errorCode?: string;
+  errorMessage?: string;
+  spamScore?: number;
+  openCount?: number;
+  attachmentFolder?: string;
+  attachmentCount?: number;
+  headersJson?: string;
+  metadataJson?: string;
+  rawPayloadJson?: string;
+}
+
+export interface PEmailMessageGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PEmailMessageGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PEmailMessageCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  authorUserProfileId?: string;
+  bodyHtml?: string;
+  messageTemplateCode?: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  directionCode?: string;
+  statusCode?: string;
+  messageStream?: string;
+  fromEmail?: string;
+  fromName?: string;
+  toEmail?: string;
+  toName?: string;
+  ccEmails?: string;
+  bccEmails?: string;
+  replyToEmail?: string;
+  mailboxHash?: string;
+  subject?: string;
+  bodyText?: string;
+  tag?: string;
+  providerMessageId?: string;
+  inReplyToMessageId?: string;
+  threadId?: string;
+  errorCode?: string;
+  spamScore?: number;
+  openCount?: number;
+  dateSent?: string;
+  dateDelivered?: string;
+  dateReceived?: string;
+  dateOpened?: string;
+  dateBounced?: string;
+  attachmentFolder?: string;
+  attachmentCount?: number;
+}
+
+export interface PEmailMessagePUTData {
+  authorUserProfileId?: string;
+  bodyHtml?: string;
+  messageTemplateCode: string;
+  subjectEntityId?: string;
+  subjectEntityType?: string;
+  subjectEntityName?: string;
+  directionCode?: string;
+  statusCode?: string;
+  messageStream?: string;
+  fromEmail?: string;
+  fromName?: string;
+  toEmail?: string;
+  toName?: string;
+  ccEmails?: string;
+  bccEmails?: string;
+  replyToEmail?: string;
+  mailboxHash?: string;
+  subject?: string;
+  bodyText?: string;
+  tag?: string;
+  providerMessageId?: string;
+  inReplyToMessageId?: string;
+  threadId?: string;
+  referencesHeader?: string;
+  errorCode?: string;
+  errorMessage?: string;
+  spamScore?: number;
+  openCount?: number;
+  dateSent?: string;
+  dateDelivered?: string;
+  dateReceived?: string;
+  dateOpened?: string;
+  dateBounced?: string;
+  attachmentFolder?: string;
+  attachmentCount?: number;
+  headersJson?: string;
+  metadataJson?: string;
+  rawPayloadJson?: string;
+}
+
 export interface PEntityTagValPOSTData {
   parentEntityId?: string;
   parentEntityType?: string;
@@ -10441,6 +10681,9 @@ export interface HcclUserInvitePOSTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   inviteeId?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
   invitedById?: string;
 }
 
@@ -10462,6 +10705,9 @@ export interface HcclUserInviteGETData {
   currentStateCode?: string;
   currentStateTransitionId?: string;
   inviteeId?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
   invitedById?: string;
   niceName?: string;
   organization?: HcclOrganizationGETData;
@@ -10499,6 +10745,9 @@ export interface HcclUserInviteCriteria {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   inviteeId?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
   invitedById?: string;
 }
 
@@ -10516,6 +10765,9 @@ export interface HcclUserInvitePUTData {
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   inviteeId?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
   invitedById?: string;
 }
 
@@ -12413,6 +12665,12 @@ export interface PostmarkWebhookResponse {
   messages?: SimpleMessageList;
 }
 
+export interface HandleInviteActionResponse {
+  messages?: SimpleMessageList;
+  notes?: string;
+  tuple?: EntityTuple;
+}
+
 export interface OnboardInvitedResponse {
   messages?: SimpleMessageList;
   dashboardUrl?: string;
@@ -12477,6 +12735,7 @@ export interface OnboardOrgUserPOSTData {
   emailAddress?: string;
   cellPhone?: string;
   initialPassword?: string;
+  requiringImmediatePasswordUpdate?: boolean;
   roles?: string[];
   profileTypeCode?: string;
 }
@@ -12564,12 +12823,6 @@ export interface SimpleRestActionResponse {
   data?: any;
   actionFormData?: any;
   mapFormElements?: any;
-}
-
-export interface HandleInviteActionResponse {
-  messages?: SimpleMessageList;
-  notes?: string;
-  tuple?: EntityTuple;
 }
 
 export interface HandleInviteActionPOSTData {

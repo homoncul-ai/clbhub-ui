@@ -7431,6 +7431,240 @@
         }
       }
     },
+    "/hccl/pattern/pemailmessage": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Create a new PEmailMessage.",
+        "operationId": "createPEmailMessage_1",
+        "requestBody": {
+          "description": "New PEmailMessage data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PEmailMessagePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pemailmessage/{id}": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPEmailMessageById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PEmailMessageGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Updates and existing PEmailMessage.",
+        "operationId": "updatePEmailMessageById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PEmailMessage data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PEmailMessagePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Deletes an existing PEmailMessage.",
+        "operationId": "deletePEmailMessageById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pemailmessage/query": {
+      "post": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches all PEmailMessages.",
+        "operationId": "findPEmailMessages_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PEmailMessageCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PEmailMessageGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pattern/pemailmessage/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pattern"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPEmailMessageByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PEmailMessageGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pattern/pentitytagval": {
       "post": {
         "tags": [
@@ -19791,6 +20025,67 @@
         }
       }
     },
+    "/hccl/public/handle-invite-action": {
+      "get": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Handle an invitation.",
+        "operationId": "handlePublicInviteAction",
+        "parameters": [
+          {
+            "name": "inviteId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "actionCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "r",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sig",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HandleInviteActionResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/public/email/spam-complaint": {
       "post": {
         "tags": [
@@ -20045,8 +20340,7 @@
         "parameters": [
           {
             "name": "interest-id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -33089,6 +33383,588 @@
           }
         }
       },
+      "PEmailMessagePOSTData": {
+        "required": [
+          "messageTemplateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bodyHtml": {
+            "type": "string"
+          },
+          "messageTemplateCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "directionCode": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "messageStream": {
+            "type": "string"
+          },
+          "fromEmail": {
+            "type": "string"
+          },
+          "fromName": {
+            "type": "string"
+          },
+          "toEmail": {
+            "type": "string"
+          },
+          "toName": {
+            "type": "string"
+          },
+          "ccEmails": {
+            "type": "string"
+          },
+          "bccEmails": {
+            "type": "string"
+          },
+          "replyToEmail": {
+            "type": "string"
+          },
+          "mailboxHash": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "bodyText": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "providerMessageId": {
+            "type": "string"
+          },
+          "inReplyToMessageId": {
+            "type": "string"
+          },
+          "threadId": {
+            "type": "string"
+          },
+          "referencesHeader": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "spamScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "openCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateSent": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateDelivered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateReceived": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateOpened": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateBounced": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attachmentFolder": {
+            "type": "string"
+          },
+          "attachmentCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "headersJson": {
+            "type": "string"
+          },
+          "metadataJson": {
+            "type": "string"
+          },
+          "rawPayloadJson": {
+            "type": "string"
+          }
+        }
+      },
+      "PEmailMessageGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bodyHtml": {
+            "type": "string"
+          },
+          "messageTemplateCode": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "directionCode": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "messageStream": {
+            "type": "string"
+          },
+          "fromEmail": {
+            "type": "string"
+          },
+          "fromName": {
+            "type": "string"
+          },
+          "toEmail": {
+            "type": "string"
+          },
+          "toName": {
+            "type": "string"
+          },
+          "ccEmails": {
+            "type": "string"
+          },
+          "bccEmails": {
+            "type": "string"
+          },
+          "replyToEmail": {
+            "type": "string"
+          },
+          "mailboxHash": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "bodyText": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "providerMessageId": {
+            "type": "string"
+          },
+          "inReplyToMessageId": {
+            "type": "string"
+          },
+          "threadId": {
+            "type": "string"
+          },
+          "referencesHeader": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "spamScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "openCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "attachmentFolder": {
+            "type": "string"
+          },
+          "attachmentCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "headersJson": {
+            "type": "string"
+          },
+          "metadataJson": {
+            "type": "string"
+          },
+          "rawPayloadJson": {
+            "type": "string"
+          }
+        }
+      },
+      "PEmailMessageGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PEmailMessageGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PEmailMessageCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bodyHtml": {
+            "type": "string"
+          },
+          "messageTemplateCode": {
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "type": "string"
+          },
+          "directionCode": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "messageStream": {
+            "type": "string"
+          },
+          "fromEmail": {
+            "type": "string"
+          },
+          "fromName": {
+            "type": "string"
+          },
+          "toEmail": {
+            "type": "string"
+          },
+          "toName": {
+            "type": "string"
+          },
+          "ccEmails": {
+            "type": "string"
+          },
+          "bccEmails": {
+            "type": "string"
+          },
+          "replyToEmail": {
+            "type": "string"
+          },
+          "mailboxHash": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "bodyText": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "providerMessageId": {
+            "type": "string"
+          },
+          "inReplyToMessageId": {
+            "type": "string"
+          },
+          "threadId": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "spamScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "openCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateSent": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateDelivered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateReceived": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateOpened": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateBounced": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attachmentFolder": {
+            "type": "string"
+          },
+          "attachmentCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PEmailMessagePUTData": {
+        "required": [
+          "messageTemplateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "authorUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bodyHtml": {
+            "type": "string"
+          },
+          "messageTemplateCode": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subjectEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectEntityName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "directionCode": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "messageStream": {
+            "type": "string"
+          },
+          "fromEmail": {
+            "type": "string"
+          },
+          "fromName": {
+            "type": "string"
+          },
+          "toEmail": {
+            "type": "string"
+          },
+          "toName": {
+            "type": "string"
+          },
+          "ccEmails": {
+            "type": "string"
+          },
+          "bccEmails": {
+            "type": "string"
+          },
+          "replyToEmail": {
+            "type": "string"
+          },
+          "mailboxHash": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "bodyText": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "providerMessageId": {
+            "type": "string"
+          },
+          "inReplyToMessageId": {
+            "type": "string"
+          },
+          "threadId": {
+            "type": "string"
+          },
+          "referencesHeader": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "spamScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "openCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateSent": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateDelivered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateReceived": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateOpened": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateBounced": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attachmentFolder": {
+            "type": "string"
+          },
+          "attachmentCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "headersJson": {
+            "type": "string"
+          },
+          "metadataJson": {
+            "type": "string"
+          },
+          "rawPayloadJson": {
+            "type": "string"
+          }
+        }
+      },
       "PEntityTagValPOSTData": {
         "required": [
           "dataTypeCode",
@@ -41850,6 +42726,20 @@
             "type": "string",
             "format": "uuid"
           },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
           "invitedById": {
             "type": "string",
             "format": "uuid"
@@ -41915,6 +42805,16 @@
           "inviteeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentName": {
+            "type": "string"
           },
           "invitedById": {
             "type": "string",
@@ -42042,6 +42942,16 @@
             "type": "string",
             "format": "uuid"
           },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentName": {
+            "type": "string"
+          },
           "invitedById": {
             "type": "string",
             "format": "uuid"
@@ -42108,6 +43018,20 @@
           "inviteeId": {
             "type": "string",
             "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
           },
           "invitedById": {
             "type": "string",
@@ -48922,6 +49846,20 @@
           }
         }
       },
+      "HandleInviteActionResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "tuple": {
+            "$ref": "#/components/schemas/EntityTuple"
+          }
+        }
+      },
       "OnboardInvitedResponse": {
         "type": "object",
         "properties": {
@@ -49139,6 +50077,9 @@
           "initialPassword": {
             "type": "string"
           },
+          "requiringImmediatePasswordUpdate": {
+            "type": "boolean"
+          },
           "roles": {
             "type": "array",
             "items": {
@@ -49264,6 +50205,9 @@
             "type": "string"
           },
           "email": {
+            "type": "string"
+          },
+          "messageHandle": {
             "type": "string"
           },
           "schoolId": {
@@ -49394,20 +50338,6 @@
             "additionalProperties": {
               "type": "object"
             }
-          }
-        }
-      },
-      "HandleInviteActionResponse": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "tuple": {
-            "$ref": "#/components/schemas/EntityTuple"
           }
         }
       },
