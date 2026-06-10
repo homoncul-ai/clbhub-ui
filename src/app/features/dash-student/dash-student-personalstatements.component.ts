@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, PersonalStatementPOSTData } from '@app/restsvc/hccl.service';
+import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, PersonalStatementPOSTData, CatalogEntryCriteria } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { firstValueFrom } from 'rxjs';
 import { DategetdataDisplayComponent } from "../../components/_global/dategetdata-display/dategetdata-display.component";
@@ -10,11 +10,16 @@ import { AbstractListComponent } from '@app/components/_global';
 import { StdMdbFormTextareaComponent } from "../../components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component";
 import { StdMdbFormTextComponent } from "../../components/_global/std-mdb-form-text/std-mdb-form-text.component";
 import { CareerInterestWizardComponent } from './career-interest-wizard/career-interest-wizard.component';
+import {
+  CatalogEntryCriteriaResolver,
+  PURSUIT_RESEARCH_SECTIONS,
+  StudentResearchComponent
+} from './student-research/student-research.component';
 
 @Component({
   selector: 'app-dash-student-courses',
   standalone: true,
-  imports: [CommonModule, FormsModule, DategetdataDisplayComponent, StdMdbFormTextareaComponent, StdMdbFormTextComponent, CareerInterestWizardComponent],
+  imports: [CommonModule, FormsModule, DategetdataDisplayComponent, StdMdbFormTextareaComponent, StdMdbFormTextComponent, CareerInterestWizardComponent, StudentResearchComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -53,7 +58,10 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let statement of personalStatements" class="pursuit-row" (click)="openStatementDetails(statement.id!)">
+                    <tr *ngFor="let statement of personalStatements"
+                      class="pursuit-row"
+                      [class.table-active]="selectedPursuit?.id === statement.id"
+                      (click)="explorePursuit(statement)">
                       <td class="fw-semibold">{{ statement.name || 'Untitled Pursuit' }}</td>
                       <td>
                         <span class="badge" [ngClass]="getStatusClass(statement.status)">
@@ -65,11 +73,9 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
                       </td>
                       <td class="text-end" (click)="$event.stopPropagation()">
                         <button type="button" class="btn btn-sm btn-outline-primary me-1"
-                          (click)="findMatchingJobs(statement)" title="Search Jobs">Jobs</button>
-                        <button type="button" class="btn btn-sm btn-outline-success me-1"
-                          (click)="findMatchingCourses(statement)" title="Search Courses">Courses</button>
-                        <button type="button" class="btn btn-sm btn-outline-info me-1"
-                          (click)="findMatchingEvents(statement)" title="Search Events">Events</button>
+                          (click)="explorePursuit(statement)" title="Search opportunities">
+                          <i class="fas fa-search"></i>
+                        </button>
                         <button type="button" class="btn btn-sm btn-secondary"
                           (click)="openStatementDetails(statement.id!)" title="View Details">View</button>
                       </td>
@@ -91,6 +97,17 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
                 </button>
               </div>
             </div>
+          </div>
+
+          <!-- Pursuit research (jobs / courses / careers) -->
+          <div #researchPanel class="mt-4" *ngIf="showResearchPanel && selectedPursuit">
+            <app-student-research
+              #researchComponent
+              [sections]="pursuitResearchSections"
+              [accordionTitle]="researchAccordionTitle"
+              [vocationEncodingId]="selectedPursuit.vocationEncodingId ?? null"
+              [criteriaResolver]="pursuitCriteriaResolver">
+            </app-student-research>
           </div>
         </div>
       </div>
@@ -196,6 +213,9 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
     .pursuit-row {
       cursor: pointer;
     }
+    .pursuit-row.table-active {
+      --bs-table-bg: rgba(58, 136, 119, 0.08);
+    }
   `]
 })
 export class DashStudentPersonalStatementsComponent implements OnInit {
@@ -221,6 +241,19 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
   creating = false;
   showModal = false;
   showWizard = false;
+
+  readonly pursuitResearchSections = PURSUIT_RESEARCH_SECTIONS;
+  selectedPursuit: PersonalStatementGETData | null = null;
+  showResearchPanel = false;
+  pursuitCriteriaResolver?: CatalogEntryCriteriaResolver;
+
+  @ViewChild('researchPanel') researchPanelRef?: ElementRef<HTMLElement>;
+  @ViewChild('researchComponent') researchComponent?: StudentResearchComponent;
+
+  get researchAccordionTitle(): string {
+    const name = this.selectedPursuit?.name || 'Pursuit';
+    return `Explore: ${name}`;
+  }
 
   constructor(
     private hcclService: HcclService,
@@ -303,23 +336,58 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
     }
   }
 
-  findMatchingJobs(statement: PersonalStatementGETData): void {
-    if (statement.id) {
-      const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=jobs`;
-      AbstractListComponent.openUrlInNewTab(url);
+  /**
+   * Show inline research for a pursuit and optionally open a section (jobs / courses / careers).
+   */
+  explorePursuit(statement: PersonalStatementGETData, sectionKey?: string): void {
+    const samePursuit = this.selectedPursuit?.id === statement.id;
+    this.selectedPursuit = statement;
+    this.pursuitCriteriaResolver = this.buildPursuitCriteriaResolver(statement);
+
+    if (!samePursuit) {
+      this.showResearchPanel = false;
+    }
+
+    const openPanel = (): void => {
+      this.showResearchPanel = true;
+      setTimeout(() => {
+        this.researchPanelRef?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (sectionKey) {
+          this.researchComponent?.activateSection(sectionKey);
+        }
+      }, samePursuit ? 0 : 50);
+    };
+
+    if (samePursuit) {
+      openPanel();
+    } else {
+      setTimeout(openPanel, 0);
     }
   }
 
-  findMatchingCourses(statement: PersonalStatementGETData): void {
-    if (statement.id) {
-      const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=courses`;
-      AbstractListComponent.openUrlInNewTab(url);    }
+  /** Build criteria per pursuit section using the pursuit's vocation encoding. */
+  buildPursuitCriteriaResolver(statement: PersonalStatementGETData): CatalogEntryCriteriaResolver {
+    return (sectionKey: string) => this.resolvePursuitCatalogCriteria(sectionKey, statement);
   }
 
-  findMatchingEvents(statement: PersonalStatementGETData): void {
-    if (statement.id) {
-      const url = `/student-dashboard/personalstatements/${statement.id}/search?searchType=events`;
-      AbstractListComponent.openUrlInNewTab(url);
+  resolvePursuitCatalogCriteria(sectionKey: string, statement: PersonalStatementGETData): CatalogEntryCriteria {
+    const base: CatalogEntryCriteria = {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+      ignoringWithInterest: true,
+      vocationEncodingId: statement.vocationEncodingId || undefined,
+    };
+
+    switch (sectionKey) {
+      case 'jobs':
+        return { ...base, catalogTypeCode: 'job' };
+      case 'courses':
+        return { ...base, catalogTypeCode: 'course' };
+      case 'careers':
+        return { ...base, catalogTypeCode: 'career' };
+      default:
+        return base;
     }
   }
 

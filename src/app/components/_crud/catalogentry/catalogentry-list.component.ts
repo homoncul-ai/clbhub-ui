@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { CatalogEntryGETData, CatalogEntryCriteria, CatalogEntryGETDataSearchResults } from '../../../restsvc/hccl.service';
 import { AbstractListComponent } from '@app/components/_global/abstract-list/abstract-list.component';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 
 /**
@@ -66,7 +66,11 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
   }
 
   protected findEntities(criteria: CatalogEntryCriteria): Observable<CatalogEntryGETDataSearchResults> {
-    //alert('findEntities' + JSON.stringify(criteria));
+    if (criteria.vocationEncodingId) {
+      return this.hcclService.findCatalogEntrysUsingVocode(criteria).pipe(
+        map(response => response.catalogEntries ?? { searchResults: [] })
+      );
+    }
     return this.hcclService.findCatalogEntrys(criteria);
   }
 

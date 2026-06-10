@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { CatalogEntryListComponent } from "@app/components/_crud/catalogentry/catalogentry-list.component";
@@ -12,6 +12,25 @@ interface ResearchSection {
   icon: string;
   gradient: string;
 }
+
+export const DEFAULT_STUDENT_RESEARCH_SECTIONS: ResearchSection[] = [
+  { key: 'state-of-ma', title: 'State of MA', icon: 'fas fa-landmark', gradient: 'bg-gradient-warning' },
+  { key: 'careers', title: 'Careers', icon: 'fas fa-briefcase', gradient: 'bg-gradient-success' },
+  { key: 'ecosystem', title: 'Ecosystem', icon: 'fas fa-globe', gradient: 'bg-gradient-info' },
+  { key: 'catalog-search', title: 'Catalog Search', icon: 'fas fa-search', gradient: 'bg-gradient-teal' },
+  { key: 'new-listings', title: 'New Listings', icon: 'fas fa-clipboard-list', gradient: 'bg-gradient-primary' },
+];
+
+/** Sections used on the My Pursuits page (jobs / courses / careers). */
+export const PURSUIT_RESEARCH_SECTIONS: ResearchSection[] = [
+  { key: 'jobs', title: 'Jobs', icon: 'fas fa-briefcase', gradient: 'bg-gradient-primary' },
+  { key: 'courses', title: 'Courses', icon: 'fas fa-graduation-cap', gradient: 'bg-gradient-success' },
+  { key: 'careers', title: 'Careers', icon: 'fas fa-user-tie', gradient: 'bg-gradient-info' },
+];
+
+/** Optional override for catalog entry list criteria per research section. */
+export type CatalogEntryCriteriaResolver = (sectionKey: string) => CatalogEntryCriteria;
+export type { ResearchSection };
 
 @Component({
   selector: 'app-student-research',
@@ -27,7 +46,7 @@ interface ResearchSection {
             <mdb-accordion-item [collapsed]="whatsNewCollapsed" (itemShow)="whatsNewCollapsed = false" (itemHide)="whatsNewCollapsed = true">
               <ng-template mdbAccordionItemHeader>
                 <i class="fas fa-sparkles me-2"></i>
-                <span class="fw-bold">What's New</span>
+                <span class="fw-bold">{{ accordionTitle }}</span>
               </ng-template>
               <ng-template mdbAccordionItemBody>
                 <div class="whats-new-grid">
@@ -55,7 +74,7 @@ interface ResearchSection {
               </ng-template>
               <ng-template mdbAccordionItemBody>
                 <app-catalogentry-list
-                  [criteria]="getCatalogEntryListCriteria()"
+                  [criteria]="getCatalogEntryListCriteria(section.key)"
                   [showingSearchHeading]="false"
                   [showingGoButton]="false"
                   [showingAddButton]="false"
@@ -82,7 +101,7 @@ interface ResearchSection {
 
     .whats-new-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 1rem;
       padding: 0.75rem 0;
     }
@@ -157,16 +176,20 @@ interface ResearchSection {
   `],
 })
 export class StudentResearchComponent {
+  /** Research section cards; defaults to the standard five sections when not provided. */
+  @Input() sections: ResearchSection[] = DEFAULT_STUDENT_RESEARCH_SECTIONS;
+
+  /** When set, replaces default section-based catalog entry criteria. */
+  @Input() criteriaResolver?: CatalogEntryCriteriaResolver;
+
+  /** When set, passed through on catalog entry query criteria. */
+  @Input() vocationEncodingId: string | null = null;
+
+  /** Label for the section-picker accordion header. */
+  @Input() accordionTitle = "What's New";
+
   whatsNewCollapsed = false;
   activeSection: string | null = null;
-
-  sections: ResearchSection[] = [
-    { key: 'state-of-ma', title: 'State of MA', icon: 'fas fa-landmark', gradient: 'bg-gradient-warning' },
-    { key: 'careers', title: 'Careers', icon: 'fas fa-briefcase', gradient: 'bg-gradient-success' },
-    { key: 'ecosystem', title: 'Ecosystem', icon: 'fas fa-globe', gradient: 'bg-gradient-info' },
-    { key: 'catalog-search', title: 'Catalog Search', icon: 'fas fa-search', gradient: 'bg-gradient-teal' },
-    { key: 'new-listings', title: 'New Listings', icon: 'fas fa-clipboard-list', gradient: 'bg-gradient-primary' },
-  ];
 
   selectedCatalogEntryId = '';
 
@@ -182,13 +205,52 @@ export class StudentResearchComponent {
     this.selectedCatalogEntryId = '';
   }
 
-  getCatalogEntryListCriteria(): CatalogEntryCriteria {
-    return {
+  /** Open a section without toggling it closed (for parent-driven focus). */
+  activateSection(key: string): void {
+    this.activeSection = key;
+    this.selectedCatalogEntryId = '';
+  }
+
+  getCatalogEntryListCriteria(sectionKey: string): CatalogEntryCriteria {
+    const criteria = this.criteriaResolver
+      ? this.criteriaResolver(sectionKey)
+      : this.getCatalogEntryListCriteriaBySectionKey(sectionKey);
+    return this.applyVocationEncodingId(criteria);
+  }
+
+  private applyVocationEncodingId(criteria: CatalogEntryCriteria): CatalogEntryCriteria {
+    if (this.vocationEncodingId) {
+      return { ...criteria, vocationEncodingId: this.vocationEncodingId };
+    }
+    return criteria;
+  }
+
+  getCatalogEntryListCriteriaBySectionKey(sectionKey: string): CatalogEntryCriteria {
+    const base: CatalogEntryCriteria = {
       pageNumber: 1,
       pageSize: 50,
       isPaging: true,
       orderByHint: 'dateLastUpdated desc',
     };
+
+    switch (sectionKey) {
+      case 'state-of-ma':
+        // criteria.catalogTypeCodes = ['state-of-ma', 'online-course';
+        // criteria.online = 1;
+        return { ...base };
+      case 'careers':
+        // criteria.catalogTypeCodes = ['career', 'career-ladder']';
+        return { ...base };
+      case 'ecosystem':
+        // criteria.catalogTypeCodes = ['ecosystem', 'main', 'non-profit', 'business', 'school';
+        return { ...base };
+      case 'catalog-search':
+        return { ...base };
+      case 'new-listings':
+        return { ...base, orderByHint: 'dateLastUpdated desc' };
+      default:
+        return base;
+    }
   }
 
   getCatalogEntryRowClickBehavior(): OnRowClickBehavior {
