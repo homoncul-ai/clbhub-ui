@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
-import { DebugLog } from '@app/shell/services/debug-log';
 
 @Injectable({
   providedIn: 'root'
@@ -36,17 +35,6 @@ export class CommonRequestServiceCaller {
       headers: new HttpHeaders(req.headers || {}),
       params: new HttpParams({ fromObject: req.params || {} })
     };
-
-    // write to debug window :  reqUrl params here.  If post, put the body here, 
-    if (DebugLog.enabled) {
-      const paramsStr = req.params ? JSON.stringify(req.params) : '';
-      let line = `${req.method} ${url}${paramsStr ? ' params=' + paramsStr : ''}`;
-      if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') && req.body !== undefined) {
-        const bodyType = req.body === null ? 'null' : (Array.isArray(req.body) ? 'Array' : (req.body?.constructor?.name || typeof req.body));
-        line += ` body(${bodyType})=${JSON.stringify(req.body)}`;
-      }
-      DebugLog.append(line);
-    }
 
     let httpRequest: Observable<T>;
 

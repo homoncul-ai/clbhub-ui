@@ -197,11 +197,33 @@ implements OnInit, OnDestroy, OnChanges {
   }
 
   cancelSignUp(): void {
-    // TODO: Implement actual cancel signup API call
-    alert("Canceling signup");
-    this.loadInterestData();
-    // Notify parent component to refresh
-    this.componentRequiresRefresh.emit();
+    if (!this.interestGETData) {
+      return;
+    }
+
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId();
+    if (!userProfileId) {
+      this.signupError = 'User profile ID is not available. Please refresh the page.';
+      return;
+    }
+
+    const cancelData: SignupBehaviorPOSTData = {
+      catalogEntryInterestId: this.interestGETData.id || this.interestId,
+      studentUserProfileId: userProfileId,
+    };
+
+    this.hcclService.callCancelSignupRequest(cancelData).subscribe({
+      next: (response) => {
+        console.log('Signup canceled successfully:', response);
+        this.loadInterestData();
+        // Notify parent component to refresh
+        this.componentRequiresRefresh.emit();
+      },
+      error: (err) => {
+        console.error('Error canceling signup:', err);
+        this.signupError = err?.error?.message || err?.message || 'Failed to cancel signup. Please try again.';
+      },
+    });
   }
 
   /**
@@ -360,7 +382,7 @@ implements OnInit, OnDestroy, OnChanges {
       consents: { consents: this.selectedConsents } as MultiConsentRequestPOSTData
     };
 
-    this.hcclService.callCreateSignupRequest(signupData).subscribe({
+    this.hcclService.callHandleSignupRequest(signupData).subscribe({
       next: (response) => {
         console.log('Signup request created successfully:', response);
         this.submittingSignup = false;

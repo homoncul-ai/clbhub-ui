@@ -330,16 +330,30 @@ export class DashStudentInterestComponent implements OnInit {
   }
 
   cancelSignUp(): void {
-    alert("Cancleling signup");
-    // this.hcclService.cancelSignup(this.interestId).subscribe({
-    //   next: (response) => {
-    //     console.log('Signup canceled successfully:', response);
-    //     this.loadCatalogEntryInterest();
-    //   },
-    //   error: (err) => {
-    //     console.error('Error canceling signup:', err);
-    //   }
-    // });
+    if (!this.catalogEntryInterest) {
+      return;
+    }
+
+    const userProfileId = this.hcclContextService.getCurrentUserProfileId();
+    if (!userProfileId) {
+      console.error('User profile ID is not available.');
+      return;
+    }
+
+    const cancelData: SignupBehaviorPOSTData = {
+      catalogEntryInterestId: this.catalogEntryInterest.id || this.interestId,
+      studentUserProfileId: userProfileId,
+    };
+
+    this.hcclService.callCancelSignupRequest(cancelData).subscribe({
+      next: (response) => {
+        console.log('Signup canceled successfully:', response);
+        this.loadCatalogEntryInterest();
+      },
+      error: (err) => {
+        console.error('Error canceling signup:', err);
+      }
+    });
   }
   /**
    * Determine if the Sign Up button should be shown
@@ -487,7 +501,7 @@ export class DashStudentInterestComponent implements OnInit {
 
     console.log('Submitting signup request:', signupData);
 
-    this.hcclService.callCreateSignupRequest(signupData).subscribe({
+    this.hcclService.callHandleSignupRequest(signupData).subscribe({
       next: (response) => {
         console.log('Signup request created successfully:', response);
         this.submittingSignup = false;

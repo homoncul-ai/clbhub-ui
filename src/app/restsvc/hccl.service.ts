@@ -4511,6 +4511,24 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<VocationEncodingGETDataSearchResults>(request);
   }
 
+  callCancelSignupRequest(body: SignupBehaviorPOSTData): Observable<SignupBehaviorResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/citizens/cancel-signup-request",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SignupBehaviorResponse>(request);
+  }
+
+  callHandleSignupRequest(body: SignupBehaviorPOSTData): Observable<SignupBehaviorResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/citizens/handle-signup-request",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SignupBehaviorResponse>(request);
+  }
+
   encodeContent(body: EncodingPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/ai/encode",
@@ -4960,15 +4978,6 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PersonalStatementUIGETData>(request);
   }
 
-  callHandleSignupRequest(body: SignupBehaviorPOSTData): Observable<SignupBehaviorResponse> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/providers/handle-signup-request",
-      method: "POST",
-      body: body,
-    };
-    return this.request<SignupBehaviorResponse>(request);
-  }
-
   getSignupPacketsSetupData(): Observable<ManageSignupPacketUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/providers/setup/signup-packets-setup-data",
@@ -5156,15 +5165,6 @@ export class HcclService extends CommonRequestServiceCaller {
   acceptTicket(tix_id: string, body: RoutingActionPOSTData): Observable<WorkRequestGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/" + tix_id + "/accept",
-      method: "POST",
-      body: body,
-    };
-    return this.request<WorkRequestGETData>(request);
-  }
-
-  callCreateSignupRequest(body: SignupBehaviorPOSTData): Observable<WorkRequestGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/tixui/create-signup-request",
       method: "POST",
       body: body,
     };
@@ -12661,6 +12661,13 @@ export interface VocationEncodingPUTData {
   available?: number;
 }
 
+export interface SignupBehaviorResponse {
+  messages?: SimpleMessageList;
+  postSignupInstructions?: string;
+  signupActionCode?: string;
+  participant?: ParticipantGETData;
+}
+
 export interface SearchDistancePOJO {
   datapointId?: string;
   distance?: number;
@@ -13033,13 +13040,6 @@ export interface PersonalStatementUIGETData {
   catalogEntryInterestCriteria?: CatalogEntryInterestCriteria;
 }
 
-export interface SignupBehaviorResponse {
-  messages?: SimpleMessageList;
-  postSignupInstructions?: string;
-  signupActionCode?: string;
-  participant?: ParticipantGETData;
-}
-
 export interface ManageSignupPacketUIData {
   signupBehaviors?: SignupBehavior[];
   signupBehaviorSelectData?: MenuControlDataList;
@@ -13149,9 +13149,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
