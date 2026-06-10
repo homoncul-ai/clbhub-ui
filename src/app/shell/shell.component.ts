@@ -23,6 +23,7 @@ import { effect } from '@angular/core';
 import { AppConstants } from './services/config.service';
 import { HcclUserContextGETData, MenuControlData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from './services/hccl-context.service';
+import { PageHeaderAction, PageHeaderActionService } from './services/page-header-action.service';
 import { MenuControlDataListComponent } from '../components/_global/menu-control-data-list/menu-control-data-list.component';
 
 declare const dhx: any; // DHTMLX global
@@ -55,7 +56,13 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private appConstants: AppConstants,
     private hcclContextService: HcclContextService,
     private activatedRoute: ActivatedRoute,
+    private pageHeaderActionService: PageHeaderActionService,
   ) {
+    this.pageHeaderActionService.actions$
+      .pipe(untilDestroyed(this))
+      .subscribe(actions => {
+        this.headerActions = actions;
+      });
     // Listen to Route Changes
     this._router.events
       .pipe(filter(event => event instanceof NavigationEnd), untilDestroyed(this))
@@ -78,6 +85,7 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   pageHeader: any = null;
+  headerActions: PageHeaderAction[] = [];
 
 private updatePageHeaderFromRoute() {
   const data:any = this.getDeepestRouteData();
@@ -101,15 +109,8 @@ private updatePageHeaderFromRoute() {
   return route.snapshot?.data || {};
 }
 
-onHeaderAction(key: string) {
-  switch (key) {
-    case 'refresh':
-      // emit event, call a refresh service, etc.
-      console.log('refresh action');
-      break;
-    default:
-      console.log('header action:', key);
-  }
+onHeaderAction(key: string): void {
+  this.pageHeaderActionService.emitAction(key);
 }
 
 

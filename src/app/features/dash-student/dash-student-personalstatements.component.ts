@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, PersonalStatementPOSTData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
-import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { DategetdataDisplayComponent } from "../../components/_global/dategetdata-display/dategetdata-display.component";
 import { AbstractListComponent } from '@app/components/_global';
 import { StdMdbFormTextareaComponent } from "../../components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component";
@@ -20,14 +20,10 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-file-alt me-2"></i>
-                My Personal Goals
-              </h3>
-              <button class="btn btn-primary btn-sm" (click)="openCreateModal()" title="Create New Personal Statement">
+            <div class="card-header d-flex justify-content-end">
+              <button class="btn btn-primary btn-sm" (click)="openCreateModal()" title="Create New Pursuit">
                 <i class="fas fa-plus me-1"></i>
-                New Statement
+                New Pursuit
               </button>
             </div>
             <div class="card-body">
@@ -36,64 +32,58 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
                 <div class="spinner-border" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
-                <p class="mt-2">Loading personal statements...</p>
+                <p class="mt-2">Loading pursuits...</p>
               </div>
 
               <!-- Error state -->
-              <div *ngIf="error" class="alert alert-danger" role="alert">
+              <div *ngIf="listError" class="alert alert-danger" role="alert">
                 <i class="fas fa-exclamation-triangle me-2"></i>
-                {{ error }}
+                {{ listError }}
               </div>
 
-              <!-- Personal statements list -->
-              <div *ngIf="!loading && !error && personalStatements.length > 0" class="row">
-                <div *ngFor="let statement of personalStatements" class="col-md-6 col-lg-4 mb-4">
-                  <div class="card statement-card">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ statement.name || 'Untitled Statement' }}</h5>
-                      <!-- <p class="card-text">{{ statement.description || 'No description available' }}</p> -->
-                      <div class="status-badge mb-3">
+              <!-- Pursuits list -->
+              <div *ngIf="!loading && !listError && personalStatements.length > 0" class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Status</th>
+                      <th>Created</th>
+                      <th class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let statement of personalStatements" class="pursuit-row" (click)="openStatementDetails(statement.id!)">
+                      <td class="fw-semibold">{{ statement.name || 'Untitled Pursuit' }}</td>
+                      <td>
                         <span class="badge" [ngClass]="getStatusClass(statement.status)">
                           {{ getStatusText(statement.status) }}
                         </span>
-                      </div>
-                      <small class="text-muted mb-3 d-block">
-                        <i class="fas fa-calendar me-1"></i>
-                        Created: <app-dategetdata-display [data]="statement.dateCreated"></app-dategetdata-display>
-                      </small>
-                      
-                      <!-- Action buttons for each card -->
-                      <div class="card-actions">
-                        <button class="btn btn-xs btn-primary me-1" (click)="findMatchingJobs(statement)" title="Search Jobs">
-                          <i class="fas fa-briefcase me-1"></i>
-                          
-                        </button>
-                        <button class="btn btn-xs btn-success me-1" (click)="findMatchingCourses(statement)" title="Search Courses">
-                          <i class="fas fa-graduation-cap me-1"></i>
-                  
-                        </button>
-                        <button class="btn btn-xs btn-info" (click)="findMatchingEvents(statement)" title="Search Events">
-                          <i class="fas fa-calendar-alt me-1"></i>
-                          
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-footer">
-                      <button class="btn btn-outline-secondary btn-sm w-100" (click)="openStatementDetails(statement.id!)">
-                        <i class="fas fa-eye me-1"></i>
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                      </td>
+                      <td class="text-muted">
+                        <app-dategetdata-display [data]="statement.dateCreated"></app-dategetdata-display>
+                      </td>
+                      <td class="text-end" (click)="$event.stopPropagation()">
+                        <button type="button" class="btn btn-sm btn-outline-primary me-1"
+                          (click)="findMatchingJobs(statement)" title="Search Jobs">Jobs</button>
+                        <button type="button" class="btn btn-sm btn-outline-success me-1"
+                          (click)="findMatchingCourses(statement)" title="Search Courses">Courses</button>
+                        <button type="button" class="btn btn-sm btn-outline-info me-1"
+                          (click)="findMatchingEvents(statement)" title="Search Events">Events</button>
+                        <button type="button" class="btn btn-sm btn-secondary"
+                          (click)="openStatementDetails(statement.id!)" title="View Details">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
               <!-- Empty state with wizard prompt -->
-              <div *ngIf="!loading && !error && personalStatements.length === 0" class="text-center py-4">
+              <div *ngIf="!loading && !listError && personalStatements.length === 0" class="text-center py-4">
                 <i class="fas fa-compass fa-3x text-primary mb-3"></i>
-                <h5>Discover Your Career Interests</h5>
+                <h5>Start a Pursuit</h5>
                 <p class="text-muted mb-3">
-                  Use the wizard to explore career paths, or click "New Statement" to add your own interests manually.
+                  Use the wizard to explore career paths, or click "New Pursuit" to add your interests manually.
                 </p>
                 <button class="btn btn-primary btn-lg" (click)="openWizard()">
                   <i class="fas fa-magic me-2"></i>
@@ -113,11 +103,15 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
           <div class="modal-header">
             <h5 class="modal-title" id="createPersonalStatementModalLabel">
               <i class="fas fa-plus me-2"></i>
-              Create New Personal Statement
+              Create New Pursuit
             </h5>
             <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div *ngIf="modalError" class="alert alert-danger mb-3" role="alert">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              {{ modalError }}
+            </div>
             <form #createForm="ngForm" (ngSubmit)="createPersonalStatement(createForm)">
               <!-- Hidden inputs for required fields -->
               <input type="hidden" name="businessCode" [(ngModel)]="newStatement.businessCode">
@@ -132,10 +126,9 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
               <app-std-mdb-form-text 
                 prefix="personalstatement"
                 name="name"
-                label="Statement Name *"
+                label="Pursuit Name *"
                 [required]="true"
                 [maxlength]="255"
-                [error]="error"
                 [(ngModel)]="newStatement.name">
               </app-std-mdb-form-text>
               <!--
@@ -160,7 +153,6 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
                 label="Describe your professional dreams and goals"
                 [required]="true"
                 [maxlength]="1024"
-                [error]="error"
                 [(ngModel)]="newStatement.rawText">
               </app-std-mdb-form-textarea>
               <!--
@@ -183,9 +175,9 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
             <button type="button" class="btn btn-primary" (click)="createPersonalStatement(createForm)" 
-                    [disabled]="!createForm.form.valid || creating">
+                    [disabled]="!createForm.valid || creating">
               <span *ngIf="creating" class="spinner-border spinner-border-sm me-2" role="status"></span>
-              {{ creating ? 'Creating...' : 'Create Statement' }}
+              {{ creating ? 'Creating...' : 'Create Pursuit' }}
             </button>
           </div>
         </div>
@@ -199,12 +191,18 @@ import { CareerInterestWizardComponent } from './career-interest-wizard/career-i
       (closed)="closeWizard()"
       (completed)="onWizardComplete()">
     </app-career-interest-wizard>
-  `
+  `,
+  styles: [`
+    .pursuit-row {
+      cursor: pointer;
+    }
+  `]
 })
 export class DashStudentPersonalStatementsComponent implements OnInit {
   personalStatements: PersonalStatementGETData[] = [];
   loading = false;
-  error = '';
+  listError = '';
+  modalError = '';
 
   // Modal and form properties
   newStatement: Partial<PersonalStatementPOSTData> = {
@@ -236,18 +234,15 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
     this.loadPersonalStatements();
   }
 
-  async loadPersonalStatements(): Promise<void> {
+  loadPersonalStatements(): Promise<void> {
     this.loading = true;
-    this.error = '';
+    this.listError = '';
 
-    try {
-      // Wait for context to be ready
-      await this.hcclContextService.waitForReady();
-      
+    return this.hcclContextService.waitForReady().then(() => {
       const currentUserId = this.hcclContextService.getCurrentUserProfileId();
-      
+
       if (!currentUserId) {
-        this.error = 'Unable to determine current user. Please try logging in again.';
+        this.listError = 'Unable to determine current user. Please try logging in again.';
         this.loading = false;
         return;
       }
@@ -258,22 +253,21 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
         maxResults: 50
       };
 
-      this.hcclService.findPersonalStatements(criteria).subscribe({
-        next: (results) => {
+      return firstValueFrom(this.hcclService.findPersonalStatements(criteria))
+        .then((results) => {
           this.personalStatements = results.searchResults || [];
           this.loading = false;
-        },
-        error: (err) => {
+        })
+        .catch((err) => {
           console.error('Error loading personal statements:', err);
-          this.error = 'Failed to load personal statements. Please try again.';
+          this.listError = this.formatErrorMessage(err, 'Failed to load pursuits. Please try again.');
           this.loading = false;
-        }
-      });
-    } catch (err) {
+        });
+    }).catch((err) => {
       console.error('Error in loadPersonalStatements:', err);
-      this.error = 'An unexpected error occurred. Please try again.';
+      this.listError = this.formatErrorMessage(err, 'An unexpected error occurred. Please try again.');
       this.loading = false;
-    }
+    });
   }
 
   openStatementDetails(statementId: string): void {
@@ -346,7 +340,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
    * Open the create personal statement modal
    */
   openCreateModal(): void {
-    // Reset form with default values for hidden fields
+    this.modalError = '';
     this.newStatement = {
       name: '',
       description: '',
@@ -370,32 +364,46 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
    */
   closeModal(): void {
     this.showModal = false;
+    this.modalError = '';
+    this.creating = false;
+  }
+
+  private formatErrorMessage(err: unknown, fallback: string): string {
+    if (err && typeof err === 'object') {
+      const e = err as { message?: string; error?: { message?: string } | string };
+      if (typeof e.error === 'string' && e.error.trim()) {
+        return e.error;
+      }
+      if (e.error && typeof e.error === 'object' && e.error.message) {
+        return e.error.message;
+      }
+      if (e.message && e.message.trim()) {
+        return e.message;
+      }
+    }
+    return fallback;
   }
 
   /**
    * Create a new personal statement
    */
-  async createPersonalStatement(form: any): Promise<void> {
-    if (!form.form.valid) {
+  createPersonalStatement(form: NgForm): void {
+    if (!form.valid) {
       return;
     }
 
     this.creating = true;
-    this.error = '';
+    this.modalError = '';
 
-    try {
-      // Wait for context to be ready
-      await this.hcclContextService.waitForReady();
-      
+    this.hcclContextService.waitForReady().then(() => {
       const currentUserId = this.hcclContextService.getCurrentUserProfileId();
-      
+
       if (!currentUserId) {
-        this.error = 'Unable to determine current user. Please try logging in again.';
+        this.modalError = 'Unable to determine current user. Please try logging in again.';
         this.creating = false;
         return;
       }
 
-      // Prepare the data for creation using form values
       const postData: PersonalStatementPOSTData = {
         name: this.newStatement.name || '',
         businessCode: this.newStatement.businessCode || 'autocalc',
@@ -410,24 +418,28 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
         status: this.newStatement.status || 0
       };
 
-      // Create the personal statement
-      const response = await this.hcclService.createPersonalStatement(postData).toPromise();
-      
-      if (response) {
-        // Close modal
-        this.closeModal();
-        
-        // Reload the list
-        await this.loadPersonalStatements();
-        
-        // Show success message or navigate to the new statement
-        console.log('Personal statement created successfully:', response);
-      }
-    } catch (err) {
-      console.error('Error creating personal statement:', err);
-      this.error = 'Failed to create personal statement. Please try again.';
-    } finally {
+      this.hcclService.createPersonalStatement(postData).subscribe({
+        next: () => {
+          this.creating = false;
+          this.closeModal();
+          this.loadPersonalStatements();
+        },
+        error: (err) => {
+          console.error('Error creating personal statement:', err);
+          this.modalError = this.formatErrorMessage(
+            err,
+            'Failed to create pursuit. Please try again.'
+          );
+          this.creating = false;
+        }
+      });
+    }).catch((err) => {
+      console.error('Error waiting for context:', err);
+      this.modalError = this.formatErrorMessage(
+        err,
+        'Unable to determine current user. Please try logging in again.'
+      );
       this.creating = false;
-    }
+    });
   }
 }

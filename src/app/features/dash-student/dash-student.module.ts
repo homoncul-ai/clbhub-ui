@@ -59,7 +59,15 @@ const routes: Routes = [
         }
       },
       
-      { path: 'personalstatements', component: DashStudentPersonalStatementsComponent },
+      {
+        path: 'personalstatements',
+        component: DashStudentPersonalStatementsComponent,
+        data: {
+          pageTitle: 'My Pursuits',
+          pageSubtitle: 'Track and manage your pursuits',
+          pageIcon: 'fas fa-bullseye',
+        }
+      },
       { path: 'personalstatement-details/:id', component: StudentPersonalStatementDetailsComponent },
       { path: 'personalstatements/:id/:tabId/:childId', component: StudentPersonalStatementGroupComponent },
       { path: 'personalstatements/:id/:tabId', component: StudentPersonalStatementGroupComponent },
@@ -81,12 +89,32 @@ const routes: Routes = [
           pageIcon: 'fas fa-search',
         }
       },
-      { path: 'research/careers/:vocationEncodingRefId', component: StudentResearchCareersComponent },
-      { path: 'research/careers', component: StudentResearchCareersComponent },
-      { path: 'research/orgs', component: StudentResearchOrgsComponent },
-      { path: 'research/items', component: StudentResearchItemsComponent },
+      {
+        path: 'research/careers/:vocationEncodingRefId',
+        component: StudentResearchCareersComponent,
+        data: { pageTitle: 'Research Careers', pageSubtitle: 'Explore career opportunities', pageIcon: 'fas fa-briefcase' }
+      },
+      {
+        path: 'research/careers',
+        component: StudentResearchCareersComponent,
+        data: { pageTitle: 'Research Careers', pageSubtitle: 'Explore career opportunities', pageIcon: 'fas fa-briefcase' }
+      },
+      {
+        path: 'research/orgs',
+        component: StudentResearchOrgsComponent,
+        data: { pageTitle: 'Research Organizations', pageSubtitle: 'Explore organizations', pageIcon: 'fas fa-building' }
+      },
+      {
+        path: 'research/items',
+        component: StudentResearchItemsComponent,
+        data: { pageTitle: 'Research Items', pageSubtitle: 'Explore listings and opportunities', pageIcon: 'fas fa-clipboard-list' }
+      },
       { path: 'research/:vocationEncodingRefId', redirectTo: 'research/careers/:vocationEncodingRefId', pathMatch: 'full' },
-      { path: 'resumebuilder', component: StudentResumeBuilderComponent },
+      {
+        path: 'resumebuilder',
+        component: StudentResumeBuilderComponent,
+        data: { pageTitle: 'Resume Builder', pageSubtitle: 'Build and manage your professional resumes', pageIcon: 'fas fa-file-alt' }
+      },
       { path: 'catalogs', component: StudentCatalogComponent },
       { path: 'interests', component: DashStudentInterestsComponent },
 
@@ -128,7 +156,13 @@ const routes: Routes = [
       },
 
       {
-        path: 'feed', component: DashStudentFeedComponent,
+        path: 'feed',
+        component: DashStudentFeedComponent,
+        data: {
+          pageTitle: 'My Feed',
+          pageSubtitle: 'Stay updated with the latest posts and announcements',
+          pageIcon: 'fas fa-stream',
+        }
       },
 
       {

@@ -17,12 +17,6 @@ import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganizat
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-tachometer-alt me-2"></i>
-                Provider Dashboard
-              </h3>
-            </div>
             <div class="card-body">
               <!-- Provider Request Stats -->
               <div class="row mb-4">                 

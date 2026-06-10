@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { PageHeaderActionService } from '@app/shell/services/page-header-action.service';
 import { HcclService, UserFeedGETData, FeedEntryInstanceGETData, FeedEntryGETData, CatalogEntryInterestPOSTData } from '@app/restsvc/hccl.service';
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
-import { catchError } from 'rxjs/operators';
+import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 /**
  * Extended FeedEntryInstanceGETData to track UI state for "more" expansion
@@ -26,6 +26,7 @@ interface FeedEntryDisplayData extends FeedEntryInstanceGETData {
 export class DashStudentFeedComponent implements OnInit, OnDestroy {
   private hcclContextService = inject(HcclContextService);
   private hcclService = inject(HcclService);
+  private pageHeaderActionService = inject(PageHeaderActionService);
   private destroy$ = new Subject<void>();
   
   // Feed data
@@ -38,12 +39,32 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.syncHeaderActions();
+    this.pageHeaderActionService.actionClick$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(key => key === 'refreshFeed')
+      )
+      .subscribe(() => this.refreshFeed());
     this.loadFeed();
   }
 
   ngOnDestroy(): void {
+    this.pageHeaderActionService.clearActions();
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private syncHeaderActions(): void {
+    this.pageHeaderActionService.setActions([
+      {
+        key: 'refreshFeed',
+        label: 'Refresh Feed',
+        icon: 'fas fa-sync-alt',
+        disabled: this.loading,
+        loading: this.loading
+      }
+    ]);
   }
 
   /**
@@ -51,6 +72,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
    */
   private loadFeed(refreshFeed: boolean = false): void {
     this.loading = true;
+    this.syncHeaderActions();
     this.error = null;
     this.feedEntries = [];
 
@@ -61,6 +83,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
         if (!context || !context.currentUserProfileId) {
           this.error = 'User context not available';
           this.loading = false;
+          this.syncHeaderActions();
           return;
         }
         this.fetchFeed(refreshFeed);
@@ -69,6 +92,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
         console.error('Error waiting for context:', err);
         this.error = 'Failed to load user context';
         this.loading = false;
+        this.syncHeaderActions();
       }
     });
   }
@@ -95,11 +119,13 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
           }));
         }
         this.loading = false;
+        this.syncHeaderActions();
       },
       error: (err) => {
         console.error('Error loading feed:', err);
         this.error = 'Failed to load feed';
         this.loading = false;
+        this.syncHeaderActions();
       }
     });
   }

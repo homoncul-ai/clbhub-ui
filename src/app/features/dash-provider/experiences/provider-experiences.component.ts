@@ -13,12 +13,6 @@ import { ExperienceUiComponent } from '@app/components/_crud/experience-ui/exper
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title mb-0">
-                <i class="fas fa-compass me-2"></i>
-                Experiences
-              </h3>
-            </div>
             <div class="card-body">
               <!-- Search bar -->
               <form class="d-flex gap-2 mb-4" (ngSubmit)="search()">

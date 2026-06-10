@@ -15,12 +15,6 @@ import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofil
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-school me-2"></i>
-                My School Information
-              </h3>
-            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6">

@@ -22,8 +22,6 @@ interface ParticipationEntry {
       <div class="row">
         <div class="col-12">
 
-          <h1 class="mb-4">My Participation</h1>
-
           <mdb-accordion class="participation-accordion" [multiple]="true">
             <!-- Interests and Engagement -->
             <mdb-accordion-item [collapsed]="false">

@@ -17,11 +17,7 @@ import { EditCatalogModalComponent } from './edit-catalog-modal.component';
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title mb-0">
-                <i class="fas fa-book me-2"></i>
-                Catalog Dashboard
-              </h3>
+            <div class="card-header d-flex justify-content-end align-items-center">
               <button class="btn btn-primary btn-sm" (click)="addCatalog()">
                 <i class="fas fa-plus me-1"></i>
                 Add Catalog

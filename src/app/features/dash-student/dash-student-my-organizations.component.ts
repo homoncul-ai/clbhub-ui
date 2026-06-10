@@ -21,7 +21,6 @@ import { HcclOrganizationUiComponent } from '@app/components/_crud/hcclorganizat
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          <h1>My Organizations</h1>
 
           <div *ngIf="loading" class="text-center py-4">
             <div class="spinner-border" role="status">

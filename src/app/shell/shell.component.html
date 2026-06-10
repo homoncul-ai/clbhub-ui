@@ -197,16 +197,28 @@
   <mdb-sidenav-content #sidenavContent>
  <div class="body-wrapper">
     <div class="feed-header" *ngIf="pageHeader?.title">
-    <div class="header-content">
-      <div class="header-icon">
-        <i [class]="pageHeader.icon || 'fas fa-circle-info'"></i>
+      <div class="header-content">
+        <div class="header-icon">
+          <i [class]="pageHeader.icon || 'fas fa-circle-info'"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">{{ pageHeader.title }}</h1>
+          <p class="page-subtitle">{{ pageHeader.subtitle }}</p>
+        </div>
       </div>
-      <div class="header-text">
-        <h1 class="page-title">{{ pageHeader.title }}</h1>
-        <p class="page-subtitle"> {{ pageHeader.subtitle }}</p>
+      <div class="header-actions" *ngIf="headerActions.length">
+        <button
+          *ngFor="let action of headerActions"
+          type="button"
+          class="header-action-btn"
+          (click)="onHeaderAction(action.key)"
+          [disabled]="action.disabled"
+        >
+          <i *ngIf="action.icon" [class]="action.icon" [class.fa-spin]="action.loading"></i>
+          {{ action.label }}
+        </button>
       </div>
     </div>
-  </div>
 
   <!-- Optional Breadcrumbs -->
 <!--   <nav class="page-breadcrumbs" aria-label="breadcrumb" *ngIf="pageHeader?.breadcrumbs?.length">

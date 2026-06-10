@@ -54,7 +54,7 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
                     (itemShow)="openAccordion('personalGoal')">
                     <ng-template mdbAccordionItemHeader>
                       <i class="fas fa-compass me-2"></i>
-                      Personal Goal : {{ personalStatement?.name }}
+                      Pursuit: {{ personalStatement?.name }}
                     </ng-template>
                     <ng-template mdbAccordionItemBody>
                       <div class="accordion-body-content">
