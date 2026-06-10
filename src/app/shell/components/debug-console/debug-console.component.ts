@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { DebugLog } from '@app/shell/services/debug-log';
 
 /**
  * A small fixed debug console pinned to the bottom of the screen. Visible only
@@ -103,7 +103,7 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
 export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('scrollArea') scrollArea?: ElementRef<HTMLElement>;
 
-  enabled = HcclContextService.debugEnabled;
+  enabled = DebugLog.enabled;
   collapsed = false;
   messages: string[] = [];
 
@@ -111,7 +111,7 @@ export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecke
   private shouldScroll = false;
 
   ngOnInit(): void {
-    this.sub = HcclContextService.debug$.subscribe((messages) => {
+    this.sub = DebugLog.messages$.subscribe((messages) => {
       this.messages = messages;
       this.shouldScroll = true;
     });
@@ -130,8 +130,7 @@ export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   clear(): void {
-    HcclContextService.debugMessages.length = 0;
-    HcclContextService.debug$.next(HcclContextService.debugMessages);
+    DebugLog.clear();
   }
 
   toggleCollapsed(): void {
