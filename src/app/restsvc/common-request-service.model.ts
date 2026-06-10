@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
+import { DebugLog } from '@app/shell/services/debug-log';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class CommonRequestServiceCaller {
 
   request<T>(req: CommonServiceRequest): Observable<T> {
     const url = `${this.baseUrl}${req.url}`;
+    this.logRequest(req, url);
     const options = {
       headers: new HttpHeaders(req.headers || {}),
       params: new HttpParams({ fromObject: req.params || {} })
@@ -66,6 +68,7 @@ export class CommonRequestServiceCaller {
   // Special method for create operations that return status 201 and the id in the response body
   requestCreate<T>(req: CommonServiceRequest): Observable<T> {
     const url = `${this.baseUrl}${req.url}`;
+    this.logRequest(req, url);
     const options = {
       headers: new HttpHeaders(req.headers || {}),
       params: new HttpParams({ fromObject: req.params || {} }),
@@ -119,15 +122,34 @@ export class CommonRequestServiceCaller {
     );
   }
 
+  private logRequest(req: CommonServiceRequest, url: string): void {
+    if (!DebugLog.enabled) {
+      return;
+    }
+
+    const paramsStr = req.params ? JSON.stringify(req.params) : '';
+    let line = `${req.method} ${req.url}${paramsStr ? ' params=' + paramsStr : ''}`;
+    if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') && req.body !== undefined) {
+      line += ` body=${JSON.stringify(req.body)}`;
+    }
+    DebugLog.append(line);
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // Client-side or network error
       console.error('A client-side or network error occurred:', error.error.message);
+      if (DebugLog.enabled) {
+        DebugLog.append(`ERROR ${error.error.message}`);
+      }
     } else {
       // Backend returned an unsuccessful response code
       console.error(
         `Backend returned code ${error.status}, body was: ${JSON.stringify(error.error)}`
       );
+      if (DebugLog.enabled) {
+        DebugLog.append(`ERROR HTTP ${error.status} ${error.url || ''} body=${JSON.stringify(error.error)}`);
+      }
     }
     // Return an observable with a user-facing error message
     return throwError(() => new Error('Something went wrong; please try again later.'));

@@ -97,7 +97,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
     const onNavigationEnd = this._router.events.pipe(filter((event) => event instanceof NavigationEnd));
-``
+
     merge(this._translateService.onLangChange, onNavigationEnd)
       .pipe(untilDestroyed(this))
       .subscribe((event:any) => {
