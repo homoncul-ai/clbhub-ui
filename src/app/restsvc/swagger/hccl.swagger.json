@@ -26514,6 +26514,12 @@
             "type": "integer",
             "format": "int32"
           },
+          "catalogTypeCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "vocationEncodingId": {
             "type": "string",
             "format": "uuid"

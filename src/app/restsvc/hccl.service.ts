@@ -6140,6 +6140,7 @@ export interface CatalogEntryCriteria {
   subjectEntityName?: string;
   hcclAddrId?: string;
   ageRequired?: number;
+  catalogTypeCodes?: string[];
   vocationEncodingId?: string;
   searchingForEditVersion?: boolean;
   ignoringWithInterest?: boolean;
