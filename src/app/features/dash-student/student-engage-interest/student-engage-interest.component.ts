@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global';
-import { HcclService, CatalogEntryInterestGETData, PMessageGETData, CatalogEntryGETData, SignupUIData, SignupBehaviorPOSTData } from '@app/restsvc/hccl.service';
+import { HcclService, CatalogEntryInterestGETData, PMessageGETData, CatalogEntryGETData, SignupUIData, SignupBehaviorPOSTData, ConsentRequestPOSTData, MultiConsentRequestPOSTData } from '@app/restsvc/hccl.service';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '../../dash-ecoadmin/orgs/org-school-staff-crud.component';
 import { CatalogEntryInterestCrudWrapper } from '@app/components/_crud/catalogentryinterest/catalogentryinterest-crud.component';
@@ -10,9 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { PMessageCrudComponent } from '@app/components/_crud/pmessage/pmessage-crud.component';
 import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
-import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
-import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boolean.component';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
+import { ContractSectionComponent } from '@app/components/_global/contract-section/contract-section.component';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
@@ -24,9 +23,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     FormsModule,
     PMessageUiComponent, 
     CatalogEntryCrudComponent,
-    MenuControlDataListComponent,
-    StdBooleanComponent,
-    SimpleMessagesSectionComponent
+    SimpleMessagesSectionComponent,
+    ContractSectionComponent
   ],
   templateUrl: './student-engage-interest.component.html',
   styleUrl: './student-engage-interest.component.scss'
@@ -64,6 +62,10 @@ implements OnInit, OnDestroy, OnChanges {
   // Signup submission state
   protected submittingSignup = false;
   protected signupError: string | null = null;
+
+  // Consent capture state (from app-contract-section)
+  protected selectedConsents: ConsentRequestPOSTData[] = [];
+  protected allConsentsAccepted = true;
 
   constructor() {
    // super();    
@@ -206,6 +208,7 @@ implements OnInit, OnDestroy, OnChanges {
    * Determine if the Sign Up button should be shown
    */
   protected canSignUp(): boolean {
+    
     if (!this.interestGETData?.catalogEntry) {
       return false;
     }
@@ -214,12 +217,31 @@ implements OnInit, OnDestroy, OnChanges {
     }
     const catalogEntry = this.interestGETData.catalogEntry;
     const catalogTypeCode = catalogEntry.catalogTypeCode?.toLowerCase() || '';
-    const canSignUpTypes = ['course', 'event', 'program'];
+    const canSignUpTypes = ['course', 'event', 'main'];
     
     return canSignUpTypes.some(type => catalogTypeCode.includes(type)) && 
            catalogEntry.available === 1;
   }
+ /**
+  * Returns a human-readable string listing all the variables that determine
+  * whether canSignUp() is true or false. Displayed when canSignUp() is false.
+  */
+ protected canSignUpReason(): string {
+  const entry = this.interestGETData?.catalogEntry;
+  const state = this.getCurrentStateCode();
+  const catalogTypeCode = entry?.catalogTypeCode || '';
+  const canSignUpTypes = ['course', 'event', 'program'];
+  const typeMatches = canSignUpTypes.some(type => catalogTypeCode.toLowerCase().includes(type));
+  const available = entry?.available;
 
+  const parts: string[] = [
+    `hasCatalogEntry=${!!entry}`,
+    `currentStateCode='${state}' (required 'initial')`,
+    `catalogTypeCode='${catalogTypeCode}' matchesSignupType=${typeMatches} (one of: ${canSignUpTypes.join(', ')})`,
+    `available=${available} (required 1)`,
+  ];
+  return parts.join('; ');
+ }  
   /**
    * Determine if the Apply button should be shown
    */
@@ -282,7 +304,26 @@ implements OnInit, OnDestroy, OnChanges {
       return false;
     }
 
+    // All presented consent contracts must be accepted
+    if (!this.allConsentsAccepted) {
+      return false;
+    }
+
     return true;
+  }
+
+  /**
+   * Capture the accepted consents emitted by app-contract-section.
+   */
+  protected onConsentSelectionChange(consents: ConsentRequestPOSTData[]): void {
+    this.selectedConsents = consents;
+  }
+
+  /**
+   * Track whether every presented consent contract has been accepted.
+   */
+  protected onAllConsentsAcceptedChange(allAccepted: boolean): void {
+    this.allConsentsAccepted = allAccepted;
   }
 
   /**
@@ -316,7 +357,7 @@ implements OnInit, OnDestroy, OnChanges {
       consentToSendTranscript: this.signupUIData.signupBehavior?.consentingToSendTranscript ? 
         (this.signupFormData.allowingProviderToMessage || false) : undefined,
       signupMessage: this.signupFormData.signupMessage || undefined,
-      
+      consents: { consents: this.selectedConsents } as MultiConsentRequestPOSTData
     };
 
     this.hcclService.callCreateSignupRequest(signupData).subscribe({

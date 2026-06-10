@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { HcclService, HcclUserContextGETData } from '@app/restsvc/hccl.service';
 import { Logger } from '@core/services';
+import { DebugLog } from './debug-log';
 
 export interface HcclContextState {
   isInitialized: boolean;
@@ -18,6 +19,35 @@ export interface HcclContextState {
 export class HcclContextService {
   private hcclService = inject(HcclService);
   private logger = new Logger('HcclContextService');
+
+  // ---------------------------------------------------------------------------
+  // Debug console support (delegates to the dependency-free DebugLog)
+  // ---------------------------------------------------------------------------
+  /** When true, the on-screen debug console is shown at the bottom of the app. */
+  public static get debugEnabled(): boolean {
+    return DebugLog.enabled;
+  }
+  public static set debugEnabled(value: boolean) {
+    DebugLog.enabled = value;
+  }
+
+  /** In-memory buffer of debug messages. */
+  public static get debugMessages(): string[] {
+    return DebugLog.messages;
+  }
+
+  /** Stream of debug messages so UI can react to appends. */
+  public static get debug$() {
+    return DebugLog.messages$;
+  }
+
+  /**
+   * Append a line of text to the debug console. Static so it can be called from
+   * anywhere without a service instance, e.g. HcclContextService.appendDebug('...').
+   */
+  public static appendDebug(text: string): void {
+    DebugLog.append(text);
+  }
 
   private isPublicPath(pathname: string): boolean {
     const cleanPath = (pathname || '').split('?')[0].split('#')[0];

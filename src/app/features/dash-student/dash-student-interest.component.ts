@@ -2,13 +2,14 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HcclService, CatalogEntryInterestGETData, SignupUIData, SignupBehaviorPOSTData } from '@app/restsvc/hccl.service';
+import { HcclService, CatalogEntryInterestGETData, SignupUIData, SignupBehaviorPOSTData, ConsentRequestPOSTData, MultiConsentRequestPOSTData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CatalogEntryCrudComponent } from '@app/components/_crud/catalogentry/catalogentry-crud.component';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boolean.component';
+import { ContractSectionComponent } from '@app/components/_global/contract-section/contract-section.component';
 
 @Component({
   selector: 'app-dash-student-interest',
@@ -18,7 +19,8 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
     FormsModule,
     CatalogEntryCrudComponent,
     MenuControlDataListComponent,
-    StdBooleanComponent
+    StdBooleanComponent,
+    ContractSectionComponent
   ],
   template: `
     <div class="container-fluid">
@@ -137,36 +139,13 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
 
             <!-- Signup Form -->
             <form *ngIf="!loadingSignupUIData && signupUIData" (ngSubmit)="onSubmitSignup()">
-              <!-- Resume Dropdown (if required) -->
-              <div *ngIf="signupUIData.signupBehavior?.requiringResume" class="mb-3">
-                <label class="form-label">Resume <span class="text-danger">*</span></label>
-                <app-menu-control-data-list
-                  [menuControlDataList]="signupUIData.resumeSelectData || null"
-                  placeholder="Select a resume"
-                  [(ngModel)]="signupFormData.resumeId"
-                  name="resumeId"
-                  [required]="signupUIData.signupBehavior?.requiringResume || false">
-                </app-menu-control-data-list>
-                <div class="form-text">Please select a resume to include with your signup.</div>
-              </div>
-
-              <!-- Provider Messaging Consent Checkbox (if required) -->
-              <div *ngIf="signupUIData.signupBehavior?.ackingProviderContact" class="mb-3">
-                <app-std-boolean
-                  prefix="signup"
-                  name="allowingProviderToMessage"
-                  [label]="'Allow ' + (signupUIData.providerOrganizationName || 'Provider') + ' to Message'"
-                  [required]="false"
-                  mode="checkbox"
-                  [(ngModel)]="signupFormData.allowingProviderToMessage">
-                </app-std-boolean>
-              </div>
-
-              <!-- Error message -->
-              <div *ngIf="signupError" class="alert alert-danger mt-3">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                {{ signupError }}
-              </div>
+              <!-- Consents from SignupUIData rendered via the shared contract-section component -->
+              <app-contract-section
+                [consents]="signupUIData.consents || null"
+                [disabled]="submittingSignup"
+                (consentSelectionChange)="onConsentSelectionChange($event)"
+                (allAcceptedChange)="onAllConsentsAcceptedChange($event)">
+              </app-contract-section>
             </form>
 
             <!-- No signup data available -->
@@ -263,6 +242,10 @@ export class DashStudentInterestComponent implements OnInit {
   // Signup submission state
   submittingSignup = false;
   signupError: string | null = null;
+
+  // Consent capture state (from app-contract-section)
+  selectedConsents: ConsentRequestPOSTData[] = [];
+  allConsentsAccepted = true;
 
   private modalService = inject(MdbModalService);
 
@@ -446,7 +429,26 @@ export class DashStudentInterestComponent implements OnInit {
       return false;
     }
 
+    // All presented consent contracts must be accepted
+    if (!this.allConsentsAccepted) {
+      return false;
+    }
+
     return true;
+  }
+
+  /**
+   * Capture the accepted consents emitted by app-contract-section.
+   */
+  onConsentSelectionChange(consents: ConsentRequestPOSTData[]): void {
+    this.selectedConsents = consents;
+  }
+
+  /**
+   * Track whether every presented consent contract has been accepted.
+   */
+  onAllConsentsAcceptedChange(allAccepted: boolean): void {
+    this.allConsentsAccepted = allAccepted;
   }
 
   /**
@@ -479,7 +481,8 @@ export class DashStudentInterestComponent implements OnInit {
       consentToProviderMessaging: this.signupFormData.allowingProviderToMessage || false,
       consentToSendTranscript: this.signupUIData.signupBehavior?.consentingToSendTranscript ? 
         (this.signupFormData.allowingProviderToMessage || false) : undefined,
-      signupMessage: undefined
+      signupMessage: undefined,
+      consents: { consents: this.selectedConsents } as MultiConsentRequestPOSTData
     };
 
     console.log('Submitting signup request:', signupData);

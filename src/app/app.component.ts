@@ -11,13 +11,14 @@ import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import { effect } from '@angular/core';
 import { HcclContextService } from './shell/services/hccl-context.service';
 import { MenuService } from './shell/services/menu.service';
+import { DebugConsoleComponent } from './shell/components/debug-console/debug-console.component';
 import { routes } from './app.routes';
 
 @UntilDestroy()
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TranslateModule],
-  template: ' <div id="main-wrapper" ><router-outlet></router-outlet></div>',
+  imports: [RouterOutlet, TranslateModule, DebugConsoleComponent],
+  template: ' <div id="main-wrapper" ><router-outlet></router-outlet></div><app-debug-console></app-debug-console>',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
@@ -78,6 +78,8 @@ export class DashStudentMyParticipationComponent implements OnInit {
   private hcclContextService = inject(HcclContextService);
   private hcclService = inject(HcclService);
 
+  @ViewChild(CatalogEntryInterestListComponent) interestList?: CatalogEntryInterestListComponent;
+
   userProfileId = '';
   selectedEntries: ParticipationEntry[] = [];
 
@@ -145,6 +147,6 @@ export class DashStudentMyParticipationComponent implements OnInit {
   }
 
   onChildComponentRefresh(): void {
-    console.log('onChildComponentRefresh called');
+    this.interestList?.refresh();
   }
 }

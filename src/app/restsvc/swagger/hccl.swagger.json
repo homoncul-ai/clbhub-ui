@@ -25903,9 +25903,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "consents": {
-            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
-          },
           "studentUserProfileId": {
             "type": "string",
             "format": "uuid"
@@ -25922,6 +25919,9 @@
           },
           "signupMessage": {
             "type": "string"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
           }
         }
       },

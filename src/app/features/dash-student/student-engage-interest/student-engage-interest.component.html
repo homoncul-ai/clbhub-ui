@@ -36,6 +36,10 @@
         Cancel Sign Up
       </button>
 
+      <small *ngIf="!canSignUp()" class="text-muted" title="Sign Up unavailable">
+        <i class="fas fa-info-circle me-1"></i>{{ canSignUpReason() }}
+      </small>
+
     </div>
   </div>
 </div>
@@ -101,30 +105,13 @@
 
         <!-- Signup Form -->
         <form *ngIf="!loadingSignupUIData && signupUIData" (ngSubmit)="onSubmitSignup()">
-          <!-- Resume Dropdown (if required) -->
-          <div *ngIf="signupUIData.signupBehavior?.requiringResume" class="mb-3">
-            <label class="form-label">Resume <span class="text-danger">*</span></label>
-            <app-menu-control-data-list
-              [menuControlDataList]="signupUIData.resumeSelectData || null"
-              placeholder="Select a resume"
-              [(ngModel)]="signupFormData.resumeId"
-              name="resumeId"
-              [required]="signupUIData.signupBehavior?.requiringResume || false">
-            </app-menu-control-data-list>
-            <div class="form-text">Please select a resume to include with your signup.</div>
-          </div>
-
-          <!-- Provider Messaging Consent Checkbox (if required) -->
-          <div *ngIf="signupUIData.signupBehavior?.ackingProviderContact" class="mb-3">
-            <app-std-boolean
-              prefix="signup"
-              name="allowingProviderToMessage"
-              [label]="'Allow ' + (signupUIData.providerOrganizationName || 'Provider') + ' to Message'"
-              [required]="false"
-              mode="checkbox"
-              [(ngModel)]="signupFormData.allowingProviderToMessage">
-            </app-std-boolean>
-          </div>
+          <!-- Consents from SignupUIData rendered via the shared contract-section component -->
+          <app-contract-section
+            [consents]="signupUIData.consents || null"
+            [disabled]="submittingSignup"
+            (consentSelectionChange)="onConsentSelectionChange($event)"
+            (allAcceptedChange)="onAllConsentsAcceptedChange($event)">
+          </app-contract-section>
 
           <!-- Comments/Message Textarea -->
           <div class="mb-3">

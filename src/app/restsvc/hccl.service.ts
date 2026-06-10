@@ -5989,12 +5989,12 @@ export interface MultiConsentRequestPOSTData {
 export interface SignupBehaviorPOSTData {
   signupActionCode?: string;
   catalogEntryInterestId?: string;
-  consents?: MultiConsentRequestPOSTData;
   studentUserProfileId?: string;
   resumeId?: string;
   consentToProviderMessaging?: boolean;
   consentToSendTranscript?: boolean;
   signupMessage?: string;
+  consents?: MultiConsentRequestPOSTData;
 }
 
 export interface CatalogEntryInterestCriteria {
