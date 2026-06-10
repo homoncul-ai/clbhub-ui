@@ -42,7 +42,8 @@ export class CommonRequestServiceCaller {
       const paramsStr = req.params ? JSON.stringify(req.params) : '';
       let line = `${req.method} ${url}${paramsStr ? ' params=' + paramsStr : ''}`;
       if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') && req.body !== undefined) {
-        line += ` body=${JSON.stringify(req.body)}`;
+        const bodyType = req.body === null ? 'null' : (Array.isArray(req.body) ? 'Array' : (req.body?.constructor?.name || typeof req.body));
+        line += ` body(${bodyType})=${JSON.stringify(req.body)}`;
       }
       DebugLog.append(line);
     }
