@@ -39,6 +39,7 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
      // { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       //{ id: 'catalogId', header: [{ text: 'Catalog ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'entryCode', header: [{ text: 'Entry Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      { id: 'entryTypeCode', header: [{ text: 'Entry Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'title', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, maxWidth: 300, adjust: true },
       { id: 'shortDescription', header: [{ text: 'Short Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true, wordWrap: true },
       //{ id: 'description', header: [{ text: 'Description', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, adjust: true },
@@ -82,7 +83,8 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
       createdByInfo: entity.createdByInfo?.name || '',
       lastUpdatedByInfo: entity.lastUpdatedByInfo?.name || '',
       dateCreated: entity.dateCreated?.formattedDate || '',
-      dateLastUpdated: entity.dateLastUpdated?.formattedDate || ''
+      dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
+      entryTypeCode: entity.catalogTypeCode || ''
     };
   }
 
