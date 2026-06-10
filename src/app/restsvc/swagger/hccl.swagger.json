@@ -20339,7 +20339,7 @@
         "operationId": "resolvePublicSignupUIData",
         "parameters": [
           {
-            "name": "interest-id",
+            "name": "interest_id",
             "in": "query",
             "schema": {
               "type": "string",
@@ -21699,6 +21699,42 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/PersonalStatementUIGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/providers/handle-signup-request": {
+      "post": {
+        "summary": "Fetches Create the ticket",
+        "operationId": "callHandleSignupRequest",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupBehaviorPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupBehaviorResponse"
                 }
               }
             }
@@ -25399,6 +25435,21 @@
           }
         }
       },
+      "ConsentRequestPOSTData": {
+        "type": "object",
+        "properties": {
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "agreeValue": {
+            "type": "string"
+          },
+          "consenting": {
+            "type": "boolean"
+          }
+        }
+      },
       "DateRangeGETData": {
         "type": "object",
         "properties": {
@@ -25831,12 +25882,29 @@
           }
         }
       },
+      "MultiConsentRequestPOSTData": {
+        "type": "object",
+        "properties": {
+          "consents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentRequestPOSTData"
+            }
+          }
+        }
+      },
       "SignupBehaviorPOSTData": {
         "type": "object",
         "properties": {
+          "signupActionCode": {
+            "type": "string"
+          },
           "catalogEntryInterestId": {
             "type": "string",
             "format": "uuid"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
           },
           "studentUserProfileId": {
             "type": "string",
@@ -30677,6 +30745,9 @@
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
+          },
+          "experience": {
+            "$ref": "#/components/schemas/ExperienceGETData"
           }
         }
       },
@@ -49871,32 +49942,6 @@
           }
         }
       },
-      "ConsentRequestPOSTData": {
-        "type": "object",
-        "properties": {
-          "contractVersionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "agreeValue": {
-            "type": "string"
-          },
-          "consenting": {
-            "type": "boolean"
-          }
-        }
-      },
-      "MultiConsentRequestPOSTData": {
-        "type": "object",
-        "properties": {
-          "consents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ConsentRequestPOSTData"
-            }
-          }
-        }
-      },
       "OnboardInvitedRequest": {
         "required": [
           "consents",
@@ -50353,6 +50398,15 @@
           },
           "accepted": {
             "type": "boolean"
+          },
+          "mapContext": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
           }
         }
       },
@@ -50723,7 +50777,19 @@
           "name": {
             "type": "string"
           },
+          "actionCode": {
+            "type": "string"
+          },
           "requiringResume": {
+            "type": "boolean"
+          },
+          "consentingToProviderMessaging": {
+            "type": "boolean"
+          },
+          "consentingToProviderEmail": {
+            "type": "boolean"
+          },
+          "consentingToProviderText": {
             "type": "boolean"
           },
           "consentingToSendTranscript": {
@@ -50754,6 +50820,9 @@
           },
           "messages": {
             "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestGETData"
           },
           "workRequestId": {
             "type": "string",
@@ -50834,6 +50903,23 @@
           },
           "catalogEntryInterestCriteria": {
             "$ref": "#/components/schemas/CatalogEntryInterestCriteria"
+          }
+        }
+      },
+      "SignupBehaviorResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "postSignupInstructions": {
+            "type": "string"
+          },
+          "signupActionCode": {
+            "type": "string"
+          },
+          "participant": {
+            "$ref": "#/components/schemas/ParticipantGETData"
           }
         }
       },
@@ -51167,13 +51253,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { CatalogEntrySignupPacketGETData, HcclService, MenuControlDataList } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
+import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 import { SignupPacketEditModalComponent } from './signuppacket-edit-modal.component';
 
 /**
@@ -13,7 +14,7 @@ import { SignupPacketEditModalComponent } from './signuppacket-edit-modal.compon
 @Component({
   selector: 'app-signuppacket-tabset-ui',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent],
+  imports: [CommonModule, SimpleTabsetComponent, StdMarkdownDisplayComponent],
   template: `
     <div *ngIf="loading" class="sp-loading">
       <div class="spinner-border" role="status">
@@ -60,7 +61,11 @@ import { SignupPacketEditModalComponent } from './signuppacket-edit-modal.compon
 
         <!-- Instructions -->
         <div *ngIf="currentTabId === 'instructions'">
-          <div class="sp-pre" *ngIf="packet.instructionsMd; else noInstructions">{{ packet.instructionsMd }}</div>
+          <app-std-markdown-display
+            *ngIf="packet.instructionsMd; else noInstructions"
+            [markdown]="packet.instructionsMd"
+            modeName="display">
+          </app-std-markdown-display>
           <ng-template #noInstructions>
             <p class="text-muted">No instructions provided.</p>
           </ng-template>

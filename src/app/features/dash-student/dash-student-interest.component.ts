@@ -114,7 +114,7 @@ import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boo
         </div>
       </div>
     </div>
-BOOGER
+
     <!-- Sign Up Modal -->
     <div *ngIf="showSignUpModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="false">
       <div class="modal-dialog modal-lg">

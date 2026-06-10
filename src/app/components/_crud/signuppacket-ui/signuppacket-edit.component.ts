@@ -8,6 +8,7 @@ import {
   MenuControlDataList,
 } from '@app/restsvc/hccl.service';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
+import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 
 interface SignupPacketEditModel {
   name: string;
@@ -25,7 +26,7 @@ interface SignupPacketEditModel {
 @Component({
   selector: 'app-signuppacket-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule, MenuControlDataListComponent],
+  imports: [CommonModule, FormsModule, MenuControlDataListComponent, StdMarkdownDisplayComponent],
   template: `
     <div *ngIf="loading" class="sp-loading">
       <div class="spinner-border" role="status">
@@ -78,7 +79,11 @@ interface SignupPacketEditModel {
         <h5 class="sp-section-title"><i class="fas fa-file-lines me-2"></i>Instructions</h5>
         <div class="mb-3">
           <label class="form-label">Instructions (Markdown)</label>
-          <textarea class="form-control" rows="6" [(ngModel)]="editModel.instructionsMd"></textarea>
+          <app-std-markdown-display
+            [markdown]="editModel.instructionsMd"
+            modeName="edit"
+            (contentChange)="editModel.instructionsMd = $event">
+          </app-std-markdown-display>
         </div>
       </section>
 

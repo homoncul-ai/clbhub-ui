@@ -4666,7 +4666,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student/setup",
       method: "GET",
-      params: { "interest_id": this.convertToString(interest_id) },
+      params: { interest_id: this.convertToString(interest_id) },
     };
     return this.request<OnboardStudentUIData>(request);
   }
@@ -4958,6 +4958,15 @@ export class HcclService extends CommonRequestServiceCaller {
       method: "GET",
     };
     return this.request<PersonalStatementUIGETData>(request);
+  }
+
+  callHandleSignupRequest(body: SignupBehaviorPOSTData): Observable<SignupBehaviorResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/providers/handle-signup-request",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SignupBehaviorResponse>(request);
   }
 
   getSignupPacketsSetupData(): Observable<ManageSignupPacketUIData> {
@@ -5822,6 +5831,12 @@ export interface CatalogStatsPOJO {
   interestCount?: number;
 }
 
+export interface ConsentRequestPOSTData {
+  contractVersionId?: string;
+  agreeValue?: string;
+  consenting?: boolean;
+}
+
 export interface DateRangeGETData {
   theStart?: DateGETData;
   theEnd?: DateGETData;
@@ -5967,8 +5982,14 @@ export interface HcclOrganizationTypeRefGETData {
   available?: number;
 }
 
+export interface MultiConsentRequestPOSTData {
+  consents?: ConsentRequestPOSTData[];
+}
+
 export interface SignupBehaviorPOSTData {
+  signupActionCode?: string;
   catalogEntryInterestId?: string;
+  consents?: MultiConsentRequestPOSTData;
   studentUserProfileId?: string;
   resumeId?: string;
   consentToProviderMessaging?: boolean;
@@ -7324,6 +7345,7 @@ export interface ParticipantGETData {
   comments?: string;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  experience?: ExperienceGETData;
 }
 
 export interface ParticipantGETDataSearchResults {
@@ -12676,16 +12698,6 @@ export interface OnboardInvitedResponse {
   dashboardUrl?: string;
 }
 
-export interface ConsentRequestPOSTData {
-  contractVersionId?: string;
-  agreeValue?: string;
-  consenting?: boolean;
-}
-
-export interface MultiConsentRequestPOSTData {
-  consents?: ConsentRequestPOSTData[];
-}
-
 export interface OnboardInvitedRequest {
   inviteId?: string;
   messageHandle?: string;
@@ -12829,6 +12841,8 @@ export interface HandleInviteActionPOSTData {
   inviteId?: string;
   notes?: string;
   accepted?: boolean;
+  mapContext?: any;
+  consents?: MultiConsentRequestPOSTData;
 }
 
 export interface CreateInviteActionResponse {
@@ -12971,7 +12985,11 @@ export interface CreateActivationCodeRequest {
 export interface SignupBehavior {
   code?: string;
   name?: string;
+  actionCode?: string;
   requiringResume?: boolean;
+  consentingToProviderMessaging?: boolean;
+  consentingToProviderEmail?: boolean;
+  consentingToProviderText?: boolean;
   consentingToSendTranscript?: boolean;
   ackingProviderContact?: boolean;
 }
@@ -12983,6 +13001,7 @@ export interface SignupUIData {
   signupBehavior?: SignupBehavior;
   providerOrganizationName?: string;
   messages?: SimpleMessageList;
+  consents?: MultiConsentRequestGETData;
   workRequestId?: string;
   stateTransitionLog?: StateTransitionLogGETData;
 }
@@ -13012,6 +13031,13 @@ export interface PersonalStatementUIGETData {
   personalStatement?: PersonalStatementGETData;
   personalStatementResumeCriteria?: PersonalStatementResumeCriteria;
   catalogEntryInterestCriteria?: CatalogEntryInterestCriteria;
+}
+
+export interface SignupBehaviorResponse {
+  messages?: SimpleMessageList;
+  postSignupInstructions?: string;
+  signupActionCode?: string;
+  participant?: ParticipantGETData;
 }
 
 export interface ManageSignupPacketUIData {
@@ -13123,9 +13149,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {
