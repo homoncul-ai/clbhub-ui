@@ -432,7 +432,7 @@ $radius-lg: 14px;
   align-items: center;
   gap: 8px;
   margin-top: 10px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   color: #3a8877;
@@ -464,7 +464,7 @@ $radius-lg: 14px;
 .feed-source-tooltip {
   position: absolute;
   left: 0;
-  bottom: calc(100% + 8px);
+  top: calc(100% + 8px);
   z-index: 20;
   max-width: min(420px, 85vw);
   padding: 8px 10px;
@@ -480,7 +480,7 @@ $radius-lg: 14px;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(4px);
+  transform: translateY(-4px);
   transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
 }
 
@@ -531,6 +531,24 @@ $radius-lg: 14px;
 .action-btn-labeled {
   span {
     line-height: 1;
+  }
+}
+
+.action-btn-liked,
+.action-btn:disabled {
+  cursor: default;
+  color: #3a8877;
+  border-color: rgba(58, 136, 119, 0.35);
+  background: rgba(58, 136, 119, 0.1);
+
+  i {
+    color: #3a8877;
+  }
+
+  &:hover {
+    transform: none;
+    background: rgba(58, 136, 119, 0.1);
+    border-color: rgba(58, 136, 119, 0.35);
   }
 }
 

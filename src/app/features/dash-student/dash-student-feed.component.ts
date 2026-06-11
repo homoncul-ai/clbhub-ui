@@ -7,7 +7,9 @@ import {
   HcclService,
   UserFeedGETData,
   FeedEntryInstanceGETData,
+  CatalogEntryGETData,
   CatalogEntryInterestPOSTData,
+  CatalogEntryInterestGETData,
   MenuControlDataList
 } from '@app/restsvc/hccl.service';
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
@@ -237,7 +239,21 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
     alert('Map view (coming soon)');
   }
 
+  isLiked(entry: FeedEntryDisplayData): boolean {
+    const catalogEntry = entry.catalogEntry;
+    if (!catalogEntry) {
+      return false;
+    }
+    const interestId =
+      (catalogEntry as CatalogEntryGETData & { catalogEntryInterestId?: string }).catalogEntryInterestId ||
+      catalogEntry.catalogEntryInterest?.id;
+    return !!interestId;
+  }
+
   thumbUp(entry: FeedEntryDisplayData): void {
+    if (this.isLiked(entry)) {
+      return;
+    }
     this.recordInterest(entry, 10);
   }
 
@@ -361,6 +377,15 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
     this.hcclService.showInterest(interestData).subscribe({
       next: (response) => {
         console.log('Interest recorded from feed:', response);
+        if (interest > 0 && entry.catalogEntry) {
+          if (!entry.catalogEntry.catalogEntryInterest) {
+            entry.catalogEntry.catalogEntryInterest = {} as CatalogEntryInterestGETData;
+          }
+          entry.catalogEntry.catalogEntryInterest.interest = interest;
+          if (response?.id) {
+            entry.catalogEntry.catalogEntryInterest.id = response.id;
+          }
+        }
       },
       error: (error) => {
         console.error('Error recording interest from feed:', error);

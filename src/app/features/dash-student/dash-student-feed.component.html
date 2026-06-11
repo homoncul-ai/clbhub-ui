@@ -104,7 +104,8 @@
           [href]="sourceUrl"
           target="_blank"
           rel="noopener noreferrer"
-          [attr.aria-label]="'Source Url: ' + sourceUrl">
+          [attr.aria-label]="'Source Url: ' + sourceUrl"
+          [attr.title]="sourceUrl">
           <i class="fas fa-external-link-alt"></i>
           <span>Source: {{ getSourceLabel(entry) }}</span>
           <span class="feed-source-tooltip" role="tooltip">{{ sourceUrl }}</span>
@@ -112,9 +113,15 @@
 
         <!-- Footer actions -->
         <div class="feed-actions">
-          <button class="action-btn action-btn-labeled" type="button" (click)="thumbUp(entry)" title="Like">
-            <i class="far fa-thumbs-up"></i>
-            <span>Like</span>
+          <button
+            class="action-btn action-btn-labeled"
+            [class.action-btn-liked]="isLiked(entry)"
+            type="button"
+            [disabled]="isLiked(entry)"
+            (click)="thumbUp(entry)"
+            [title]="isLiked(entry) ? 'Already liked' : 'Like'">
+            <i [class]="isLiked(entry) ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"></i>
+            <span>{{ isLiked(entry) ? 'Liked' : 'Like' }}</span>
           </button>
           <button class="action-btn action-btn-labeled" type="button" (click)="openMap(entry)" title="Map">
             <i class="far fa-map"></i>
