@@ -23,4 +23,11 @@ export const SURVEYS_ROUTES: Routes = [
     loadComponent: () =>
       import('./survey-checkin/survey-checkin.component').then((m) => m.SurveyCheckinComponent),
   },
+  {
+    path: 'ai-summit-signin',
+    loadComponent: () =>
+      import('./survey-ai-summit-signin/survey-ai-summit-signin.component').then(
+        (m) => m.SurveyAiSummitSigninComponent,
+      ),
+  },
 ];

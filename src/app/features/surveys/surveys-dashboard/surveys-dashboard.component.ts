@@ -22,8 +22,16 @@ interface SurveyListItem {
 export class SurveysDashboardComponent {
   readonly surveys: SurveyListItem[] = [
     {
+      route: '/public/surveys/ai-summit-signin',
+      title: 'AI Summit Sign-in — Jun 10, 2026',
+      subtitle: 'Sign in and explore AI-enabled career paths',
+      liveDate: 'Jun 10, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       route: '/public/surveys/checkin',
-      title: 'Event Check-in: JM Chamber AI Class',
+      title: 'Event Check-in: JM Chamber AI Class — May 31, 2026',
       subtitle: 'Sign up for CLBHub and register for an AI course',
       liveDate: 'May 31, 2026',
       badge: 'New',
@@ -31,7 +39,7 @@ export class SurveysDashboardComponent {
     },
     {
       route: '/public/surveys/npo_job_finder',
-      title: 'Non-profit job search assistance',
+      title: 'Non-profit job search assistance — Mar 10, 2025',
       subtitle: 'Survey: Do you have a job for me?',
       liveDate: 'Mar 10, 2025',
       badge: 'Open',
@@ -39,7 +47,7 @@ export class SurveysDashboardComponent {
     },
     {
       route: '/public/surveys/register-interest',
-      title: 'Register your interest in CLBHub',
+      title: 'Register your interest in CLBHub — Apr 29, 2026',
       subtitle: "We haven't launched yet — let us know you're interested!",
       liveDate: 'Apr 29, 2026',
       badge: 'New',

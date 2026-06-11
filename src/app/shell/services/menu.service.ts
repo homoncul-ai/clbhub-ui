@@ -831,7 +831,7 @@ export class MenuService {
     this.addMenuItem(menu, vocodeGroup);
 
     // Add Surveys group
-    const surveysGroup = this.newGroupMenuItem('Surveys', 'fas fa-clipboard-list');
+    const surveysGroup = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEYS_DASHBOARD);
     this.addMenuItem(menu, surveysGroup);
 
     // Add PersonalStatement
@@ -1669,9 +1669,18 @@ EA_UISTARTER: {
   icon: 'fas fa-palette'
 },
 
+EA_SURVEYS_DASHBOARD: {
+  level: 1,
+  label: 'Surveys',
+  route: '/ecoadmin-dashboard/surveys',
+  componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-reports-dashboard.component',
+  componentName: 'SurveyReportsDashboardComponent',
+  icon: 'fas fa-clipboard-list',
+},
+
 EA_SURVEY_NPO_JOB_FINDER_LIST: {
   level: 2,
-  label: 'Non-profit job search assistance',
+  label: 'Non-profit job search assistance — Mar 10, 2025',
   route: '/ecoadmin-dashboard/surveys/npo_job_finder',
   componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
   componentName: 'SurveyResultsViewerComponent',
@@ -1680,7 +1689,7 @@ EA_SURVEY_NPO_JOB_FINDER_LIST: {
 
 EA_SURVEY_REGISTER_INTEREST_LIST: {
   level: 2,
-  label: 'Register Interest',
+  label: 'Register your interest in CLBHub — Apr 29, 2026',
   route: '/ecoadmin-dashboard/surveys/register_interest',
   componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
   componentName: 'SurveyResultsViewerComponent',

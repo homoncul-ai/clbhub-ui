@@ -25,11 +25,6 @@
   min-width: 0;
 }
 
-.col-live {
-  flex: 0 0 120px;
-  text-align: center;
-}
-
 .col-status {
   flex: 0 0 72px;
   text-align: right;
@@ -43,11 +38,6 @@
 
   .col-survey {
     flex: 1 1 100%;
-  }
-
-  .col-live {
-    flex: 1 1 auto;
-    text-align: left;
   }
 
   .col-status {

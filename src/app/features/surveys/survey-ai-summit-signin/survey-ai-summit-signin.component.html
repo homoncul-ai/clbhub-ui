@@ -1,0 +1,446 @@
+<app-surveys-public-header [surveyTitle]="surveyTitle"></app-surveys-public-header>
+
+<main class="surveys-page container py-4">
+  <section class="card border-0 shadow-sm">
+    <div class="card-body p-4 p-md-5">
+
+      <div class="step-indicator mb-4" *ngIf="!submitted">
+        <div class="step-dots-row">
+          <button *ngFor="let step of stepNumbers"
+                  type="button"
+                  class="step-dot"
+                  [class.active]="currentStep === step"
+                  [class.completed]="currentStep > step"
+                  [class.clickable]="canNavigateTo(step)"
+                  [disabled]="!canNavigateTo(step)"
+                  [attr.aria-label]="'Go to step ' + step"
+                  (click)="goToStep(step)">
+            {{ step }}
+          </button>
+        </div>
+        <p class="text-center text-muted mt-2 mb-0 small">
+          Step {{ currentStep }} of {{ totalSteps }} — {{ currentStepDefinition.title }}
+        </p>
+      </div>
+
+      <div *ngIf="submitted" class="thank-you-page text-center py-4 px-2">
+        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+        <h2 class="h4 mb-3">Thank you!</h2>
+        <p class="thank-you-message mb-0" *ngIf="optedInToContact">
+          Your AI Summit sign-in has been submitted. Because you agreed to be contacted, someone will
+          reach out with information about opportunities that match your interests.
+        </p>
+        <p class="thank-you-message mb-0" *ngIf="!optedInToContact">
+          Your AI Summit sign-in has been submitted. Your responses will help us plan programs and
+          resources for the community.
+        </p>
+      </div>
+
+      <div *ngIf="!submitted">
+        <app-simple-messages-section [messagesList]="messagesList"></app-simple-messages-section>
+
+        <!-- Step 1: Intro -->
+        <div *ngIf="currentStep === 1">
+          <div class="survey-hero mb-4">
+            <p class="survey-kicker mb-1">Greater Haverhill Chamber of Commerce</p>
+            <h1 class="survey-body-title mb-2">Haverhill AI Summit</h1>
+            <p class="intro-subtitle mb-0">Responsible Preparation for the AI Economy</p>
+          </div>
+
+          <div class="intro-purpose mb-4">
+            <p class="mb-0">
+              <strong>We're collecting information to gauge interest and plan for community needs.</strong>
+              Please take a few minutes to share your background and interests so we can connect you with
+              relevant opportunities from the summit and beyond.
+            </p>
+          </div>
+
+          <div class="intro-content">
+            <p>
+              The Greater Haverhill Chamber of Commerce has announced the Haverhill AI Summit, an event
+              designed to bring together workers, students, educators, businesses, and community leaders
+              to prepare for the AI economy responsibly and practically. Rather than focusing on fear,
+              the summit will emphasize awareness, preparation, and opportunity for the region.
+            </p>
+
+            <blockquote class="intro-quote">
+              "Artificial Intelligence is already changing the way we work, learn, hire, manufacture,
+              and compete. The risk is not AI taking away jobs; it's being outcompeted by those who know
+              how to use it. That is why this summit matters."
+              <footer>— City Council Vice President John Michitson</footer>
+            </blockquote>
+
+            <h3 class="intro-section-title">Key themes</h3>
+            <ul class="intro-theme-list">
+              <li>AI workforce readiness</li>
+              <li>Education and business integration</li>
+              <li>Responsible AI use</li>
+              <li>Small business adoption</li>
+              <li>Advanced manufacturing applications</li>
+              <li>Economic opportunity and community readiness</li>
+            </ul>
+
+            <h3 class="intro-section-title">Featured speakers</h3>
+            <ul class="intro-speaker-list">
+              <li>
+                <strong>Professor Scott Latham</strong>, University of Massachusetts Lowell — keynote on
+                how innovation and AI are transforming industries, organizations, and jobs.
+              </li>
+              <li>
+                <strong>Dan Sarofian-Butin</strong>, Merrimack College — education, workforce, and
+                business integration.
+              </li>
+              <li>
+                <strong>Perry Bailes</strong>, Support Forge LLC — practical AI integration for small
+                businesses and advanced manufacturing.
+              </li>
+              <li>
+                <strong>Seth Cordes</strong>, Uncommon Catalyst — ethics, trust, cybersecurity, and
+                responsible AI.
+              </li>
+            </ul>
+
+            <p>
+              The summit is expected to showcase
+              <a href="https://clbhub.org" target="_blank" rel="noopener noreferrer">clbhub.org</a>,
+              the collaborative workforce and career pathway platform connecting workers, students,
+              employers, educators, and training opportunities into one ecosystem. Organizers envision
+              the event as the start of ongoing collaboration, with planned outcomes including monthly
+              cohorts and face-to-face working groups focused on AI learning, workforce transition,
+              business adoption, education collaboration, and community readiness.
+            </p>
+
+            <blockquote class="intro-quote intro-quote-closing">
+              "Technology alone will not determine success. Collaboration, relationships, and shared
+              learning will. The communities that prepare together will be the communities that succeed
+              together."
+              <footer>— John Michitson</footer>
+            </blockquote>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button type="button" class="btn btn-primary px-4" (click)="nextStep()">
+              Get Started <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: General Info -->
+        <div *ngIf="currentStep === 2" [formGroup]="form">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Tell us a little about yourself.</p>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label" for="name">Name</label>
+              <input id="name" class="form-control" type="text" formControlName="name" placeholder="Your name" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="organization">Organization</label>
+              <input id="organization" class="form-control" type="text" formControlName="organization"
+                     placeholder="Company, school, or group (optional)" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="email">Email</label>
+              <input id="email" class="form-control" type="email" formControlName="email" placeholder="you@example.com" />
+            </div>
+
+            <div class="col-12">
+              <fieldset class="contact-consent-fieldset">
+                <legend class="form-label mb-2">
+                  Can we contact you to get feedback?
+                </legend>
+                <div class="option-list contact-consent-list" role="radiogroup" aria-label="Contact for feedback">
+                  <label class="option-card option-card-radio contact-consent-option"
+                         [class.selected]="form.controls.canContactForFeedback.value === 'yes'">
+                    <input class="option-card-radio-input"
+                           type="radio"
+                           formControlName="canContactForFeedback"
+                           value="yes" />
+                    <span class="option-card-label">Yes</span>
+                  </label>
+                  <label class="option-card option-card-radio contact-consent-option"
+                         [class.selected]="form.controls.canContactForFeedback.value === 'no'">
+                    <input class="option-card-radio-input"
+                           type="radio"
+                           formControlName="canContactForFeedback"
+                           value="no" />
+                    <span class="option-card-label">No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 3: Attendee Interest -->
+        <div *ngIf="currentStep === 3">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">
+            Select all that apply.
+          </p>
+
+          <div class="option-list" role="group" aria-label="Attendee interest">
+            <label *ngFor="let option of attendeeInterestOptions"
+                   class="option-card option-card-checkbox"
+                   [class.selected]="isSelected(selectedAttendeeInterests, option)">
+              <input type="checkbox"
+                     class="option-card-checkbox-input"
+                     [checked]="isSelected(selectedAttendeeInterests, option)"
+                     (change)="toggleMultiSelection(selectedAttendeeInterests, option)" />
+              <span class="option-card-label">{{ option }}</span>
+            </label>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 4: Example AI-Enabled Careers -->
+        <div *ngIf="currentStep === 4">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Select all careers that interest you.</p>
+
+          <div *ngFor="let section of aiEnabledCareerSections" class="interest-section">
+            <h3 class="interest-section-title">{{ section.interest }}</h3>
+            <div class="option-list mb-4" role="group" [attr.aria-label]="section.interest + ' careers'">
+              <label *ngFor="let career of section.options"
+                     class="option-card option-card-checkbox"
+                     [class.selected]="isInterestOptionSelected(selectedAiEnabledCareers, section.interest, career)">
+                <input type="checkbox"
+                       class="option-card-checkbox-input"
+                       [checked]="isInterestOptionSelected(selectedAiEnabledCareers, section.interest, career)"
+                       (change)="toggleInterestOption(selectedAiEnabledCareers, section.interest, career)" />
+                <span class="option-card-label">{{ career }}</span>
+              </label>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 5: Skills to Start -->
+        <div *ngIf="currentStep === 5">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Select all skills you want to build.</p>
+
+          <div *ngFor="let section of skillsToStartSections" class="interest-section">
+            <h3 class="interest-section-title">{{ section.interest }}</h3>
+            <div class="option-list mb-4" role="group" [attr.aria-label]="section.interest + ' skills'">
+              <label *ngFor="let skill of section.options"
+                     class="option-card option-card-checkbox"
+                     [class.selected]="isInterestOptionSelected(selectedSkillsToStart, section.interest, skill)">
+                <input type="checkbox"
+                       class="option-card-checkbox-input"
+                       [checked]="isInterestOptionSelected(selectedSkillsToStart, section.interest, skill)"
+                       (change)="toggleInterestOption(selectedSkillsToStart, section.interest, skill)" />
+                <span class="option-card-label">{{ skill }}</span>
+              </label>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 6: Best Local Starting Point -->
+        <div *ngIf="currentStep === 6">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Select one starting point for each interest area.</p>
+
+          <div *ngFor="let section of localStartingPointSections" class="interest-section">
+            <h3 class="interest-section-title">{{ section.interest }}</h3>
+            <div class="option-list mb-4" role="radiogroup" [attr.aria-label]="section.interest + ' starting points'">
+              <label *ngFor="let option of section.options"
+                     class="option-card option-card-radio"
+                     [class.selected]="isLocalStartingPointSelected(section.interest, option)">
+                <input type="radio"
+                       class="option-card-radio-input"
+                       [name]="'local-start-' + section.interest"
+                       [checked]="isLocalStartingPointSelected(section.interest, option)"
+                       (change)="selectLocalStartingPoint(section.interest, option)" />
+                <span class="option-card-label">{{ option }}</span>
+              </label>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 7: Opportunity Example -->
+        <div *ngIf="currentStep === 7">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Select all opportunity examples that interest you.</p>
+
+          <div *ngFor="let section of opportunityExampleSections" class="interest-section">
+            <h3 class="interest-section-title">{{ section.interest }}</h3>
+            <div class="option-list mb-4" role="group" [attr.aria-label]="section.interest + ' opportunity examples'">
+              <label *ngFor="let option of section.options"
+                     class="option-card option-card-checkbox"
+                     [class.selected]="isInterestOptionSelected(selectedOpportunityExamples, section.interest, option)">
+                <input type="checkbox"
+                       class="option-card-checkbox-input"
+                       [checked]="isInterestOptionSelected(selectedOpportunityExamples, section.interest, option)"
+                       (change)="toggleInterestOption(selectedOpportunityExamples, section.interest, option)" />
+                <span class="option-card-label">{{ option }}</span>
+              </label>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 8: One Next Step -->
+        <div *ngIf="currentStep === 8">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Select all next steps you would like to take.</p>
+
+          <div *ngFor="let section of nextStepSections" class="interest-section">
+            <h3 class="interest-section-title">{{ section.interest }}</h3>
+            <div class="option-list mb-4" role="group" [attr.aria-label]="section.interest + ' next steps'">
+              <label *ngFor="let option of section.options"
+                     class="option-card option-card-checkbox"
+                     [class.selected]="isInterestOptionSelected(selectedNextSteps, section.interest, option)">
+                <input type="checkbox"
+                       class="option-card-checkbox-input"
+                       [checked]="isInterestOptionSelected(selectedNextSteps, section.interest, option)"
+                       (change)="toggleInterestOption(selectedNextSteps, section.interest, option)" />
+                <span class="option-card-label">{{ option }}</span>
+              </label>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 9: Results & Follow-Up -->
+        <div *ngIf="currentStep === 9">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Select one follow-up partner for each interest area.</p>
+
+          <div *ngFor="let section of followUpPartnerSections" class="interest-section">
+            <h3 class="interest-section-title">{{ section.interest }}</h3>
+            <div class="option-list mb-4" role="radiogroup" [attr.aria-label]="section.interest + ' follow-up partners'">
+              <label *ngFor="let partner of section.options"
+                     class="option-card option-card-radio"
+                     [class.selected]="isFollowUpPartnerSelected(section.interest, partner)">
+                <input type="radio"
+                       class="option-card-radio-input"
+                       [name]="'follow-up-' + section.interest"
+                       [checked]="isFollowUpPartnerSelected(section.interest, partner)"
+                       (change)="selectFollowUpPartner(section.interest, partner)" />
+                <span class="option-card-label">{{ partner }}</span>
+              </label>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 10: Submit Results -->
+        <div *ngIf="currentStep === 10">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Review your responses below, then submit.</p>
+
+          <div class="summary-box summary-general mb-4">
+            <h6 class="summary-heading">Your information</h6>
+            <p class="mb-1 small"><strong>Name:</strong> {{ form.controls.name.value || '—' }}</p>
+            <p class="mb-1 small"><strong>Organization:</strong> {{ form.controls.organization.value || '—' }}</p>
+            <p class="mb-1 small"><strong>Email:</strong> {{ form.controls.email.value || '—' }}</p>
+            <p class="mb-0 small"><strong>Contact for feedback:</strong> {{ formatContactConsent(form.controls.canContactForFeedback.value) }}</p>
+          </div>
+
+          <div *ngIf="!interestSubmissionSummaries.length" class="summary-empty text-muted small mb-4">
+            No interests were selected on page 3. Go back to select at least one interest to see your summary here.
+          </div>
+
+          <div *ngFor="let summary of interestSubmissionSummaries" class="interest-summary-section">
+            <h3 class="interest-section-title">{{ summary.interest }}</h3>
+            <dl class="summary-detail-list">
+              <div class="summary-detail-item">
+                <dt>Example AI-enabled careers</dt>
+                <dd>
+                  <ul *ngIf="summary.careers.length" class="summary-choice-list">
+                    <li *ngFor="let item of summary.careers">{{ item }}</li>
+                  </ul>
+                  <span *ngIf="!summary.careers.length" class="text-muted">None selected</span>
+                </dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Skills to start</dt>
+                <dd>
+                  <ul *ngIf="summary.skills.length" class="summary-choice-list">
+                    <li *ngFor="let item of summary.skills">{{ item }}</li>
+                  </ul>
+                  <span *ngIf="!summary.skills.length" class="text-muted">None selected</span>
+                </dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Best local starting point</dt>
+                <dd>
+                  <span *ngIf="summary.localStartingPoint">{{ summary.localStartingPoint }}</span>
+                  <span *ngIf="!summary.localStartingPoint" class="text-muted">None selected</span>
+                </dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Opportunity examples</dt>
+                <dd>
+                  <ul *ngIf="summary.opportunityExamples.length" class="summary-choice-list">
+                    <li *ngFor="let item of summary.opportunityExamples">{{ item }}</li>
+                  </ul>
+                  <span *ngIf="!summary.opportunityExamples.length" class="text-muted">None selected</span>
+                </dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Next steps</dt>
+                <dd>
+                  <ul *ngIf="summary.nextSteps.length" class="summary-choice-list">
+                    <li *ngFor="let item of summary.nextSteps">{{ item }}</li>
+                  </ul>
+                  <span *ngIf="!summary.nextSteps.length" class="text-muted">None selected</span>
+                </dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Follow-up partner</dt>
+                <dd>
+                  <span *ngIf="summary.followUpPartner">{{ summary.followUpPartner }}</span>
+                  <span *ngIf="!summary.followUpPartner" class="text-muted">None selected</span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="captcha mb-4">
+            <label class="form-label d-block mb-2">Verify you're human</label>
+            <div #captchaContainer></div>
+            <small class="text-muted d-block mt-2">Complete the reCAPTCHA challenge to submit.</small>
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
+              <i class="fas fa-arrow-left me-1"></i> Back
+            </button>
+            <button type="button" class="btn btn-primary btn-lg px-4" (click)="submit()" [disabled]="submitting">
+              <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+              {{ submitting ? 'Submitting...' : 'Submit Results' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<ng-template #navButtons>
+  <div class="d-flex justify-content-between mt-4">
+    <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
+      <i class="fas fa-arrow-left me-1"></i> Back
+    </button>
+    <button type="button" class="btn btn-primary px-4" (click)="nextStep()">
+      Next <i class="fas fa-arrow-right ms-1"></i>
+    </button>
+  </div>
+</ng-template>

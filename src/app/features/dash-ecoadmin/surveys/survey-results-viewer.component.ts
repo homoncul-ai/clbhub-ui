@@ -36,20 +36,26 @@ export class SurveyResultsViewerComponent implements OnInit {
   readonly surveys: Record<string, SurveyDefinition> = {
     checkin: {
       key: 'checkin',
-      label: 'Event Check-in: JM Chamber AI Class',
+      label: 'Event Check-in: JM Chamber AI Class — May 31, 2026',
       subject: 'Event Check-in',
       description: 'CLBHub sign-ups and AI course registrations captured at events.',
       applicationCode: 'EventCheckin',
     },
+    ai_summit_signin: {
+      key: 'ai_summit_signin',
+      label: 'AI Summit Sign-in — Jun 10, 2026',
+      subject: 'Survey: AI Summit Sign-in',
+      description: 'AI Summit attendee sign-in and career exploration responses.',
+    },
     npo_job_finder: {
       key: 'npo_job_finder',
-      label: 'Non-profit job search assistance',
+      label: 'Non-profit job search assistance — Mar 10, 2025',
       subject: 'Survey: Do you have a job for me?',
       description: 'Feedback on how nonprofit teams support job seekers.',
     },
     register_interest: {
       key: 'register_interest',
-      label: 'Register Interest',
+      label: 'Register your interest in CLBHub — Apr 29, 2026',
       subject: 'Survey: Register Interest',
       description: 'Pre-launch interest registration and email collection.',
     },

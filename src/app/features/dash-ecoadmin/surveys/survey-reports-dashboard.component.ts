@@ -25,8 +25,16 @@ export class SurveyReportsDashboardComponent {
 
   readonly surveys: SurveyReportItem[] = [
     {
+      key: 'ai_summit_signin',
+      title: 'AI Summit Sign-in — Jun 10, 2026',
+      subtitle: 'Sign in and explore AI-enabled career paths',
+      liveDate: 'Jun 10, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       key: 'checkin',
-      title: 'Event Check-in: JM Chamber AI Class',
+      title: 'Event Check-in: JM Chamber AI Class — May 31, 2026',
       subtitle: 'CLBHub sign-ups and AI course registrations',
       liveDate: 'May 31, 2026',
       badge: 'New',
@@ -34,7 +42,7 @@ export class SurveyReportsDashboardComponent {
     },
     {
       key: 'npo_job_finder',
-      title: 'Non-profit job search assistance',
+      title: 'Non-profit job search assistance — Mar 10, 2025',
       subtitle: 'Survey: Do you have a job for me?',
       liveDate: 'Mar 10, 2025',
       badge: 'Open',
@@ -42,8 +50,8 @@ export class SurveyReportsDashboardComponent {
     },
     {
       key: 'register_interest',
-      title: 'Register your interest in CLBHub',
-      subtitle: "Pre-launch interest registration and email collection",
+      title: 'Register your interest in CLBHub — Apr 29, 2026',
+      subtitle: 'Pre-launch interest registration and email collection',
       liveDate: 'Apr 29, 2026',
       badge: 'New',
       badgeClass: 'text-bg-success',
