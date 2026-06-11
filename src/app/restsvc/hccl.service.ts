@@ -5893,6 +5893,7 @@ export interface FeedEntryGETData {
   postedByEntityType?: string;
   postedByEntityName?: string;
   postedByEntityExtra?: string;
+  catalogEntryId?: string;
 }
 
 export interface HcclAddrGETData {
@@ -6875,6 +6876,7 @@ export interface FeedEntryInstanceGETData {
   distanceInVocode?: number;
   personalStatementId?: string;
   feedEntry?: FeedEntryGETData;
+  catalogEntry?: CatalogEntryGETData;
 }
 
 export interface FeedEntryInstanceGETDataSearchResults {

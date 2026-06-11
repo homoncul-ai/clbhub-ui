@@ -185,71 +185,149 @@ $radius-lg: 14px;
   padding: 16px 18px 12px;
 }
 
-// Header row
-.feed-card-header {
+// Card top: type icon + two-line header + dismiss
+.feed-card-top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
   gap: 12px;
   margin-top: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.org {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0; // allows ellipsis
-}
-
-.org-logo {
+.feed-type-icon {
   width: 42px;
   height: 42px;
   border-radius: 999px;
-  background: $surface-2;
-  border: 1px solid $stroke;
+  background: rgba(58, 136, 119, 0.12);
+  border: 1px solid rgba(58, 136, 119, 0.22);
   display: grid;
   place-items: center;
   flex: 0 0 42px;
-  overflow: hidden;
+  color: #2f6f61;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  i {
+    font-size: 17px;
   }
 }
 
-.org-initials {
-  font-weight: 800;
-  color: $text-sub;
-  letter-spacing: -0.3px;
-}
-
-.org-meta {
+.feed-card-main {
+  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  line-height: 1.15;
+  gap: 6px;
 }
 
-.org-name {
-  font-size: 15px;
-  font-weight: 800;
+.feed-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.feed-line-org {
+  .org-name {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #166534;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
+
+.feed-line-title {
+  align-items: flex-start;
+}
+
+.listing-title {
+  font-size: 0.875rem;
+  line-height: 1.35;
+  font-weight: 500;
   color: $text;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex: 1 1 180px;
+  min-width: 0;
 }
 
-.org-extra {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: $text-muted;
+.feed-meta-icons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+.meta-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: $text-sub;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+  i {
+    font-size: 0.8rem;
+    color: #475569;
+  }
+}
+
+.meta-badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(58, 136, 119, 0.12);
+  border: 1px solid rgba(58, 136, 119, 0.18);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #166534;
+}
+
+.meta-icon-label {
+  font-weight: 600;
+}
+
+.meta-icon-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 120ms ease;
+
+  &:hover {
+    color: #3a8877;
+
+    i {
+      color: #3a8877;
+    }
+  }
+}
+
+.meta-icon-over18 {
+  color: #b45309;
+
+  i {
+    color: #b45309;
+  }
+}
+
+.meta-icon-under18 {
+  color: #2563eb;
+
+  i {
+    color: #2563eb;
+  }
+}
+
+.meta-icon-all-ages {
+  color: #15803d;
+
+  i {
+    color: #15803d;
+  }
 }
 
 // X button
@@ -264,6 +342,8 @@ $radius-lg: 14px;
   place-items: center;
   cursor: pointer;
   transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+  flex: 0 0 36px;
+  margin-left: auto;
 
   i {
     font-size: 14px;
@@ -279,28 +359,6 @@ $radius-lg: 14px;
     transform: scale(0.96);
   }
 }
-
-// Heading (catalog / group)
-.feed-heading {
-  font-size: 12.5px;
-  font-weight: 800;
-  color: $text-muted;
-  margin: 6px 0 6px;
-  text-transform: none;
-}
-
-// Title (course)
-.feed-title {
-  font-size: 21px;
-  font-weight: 900;
-  letter-spacing: -0.3px;
-  color: $text;
-  line-height: 1.25;
-  margin: 0 0 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
-}
-
 
 // Entry Image (optional)
 .feed-image {
@@ -358,7 +416,7 @@ $radius-lg: 14px;
   background: none;
   border: none;
   padding: 0;
-  color: #5b6eea;
+  color: #3a8877;
   font-size: 13.5px;
   font-weight: 800;
   cursor: pointer;
@@ -366,6 +424,64 @@ $radius-lg: 14px;
   &:hover {
     text-decoration: underline;
   }
+}
+
+.feed-source {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #3a8877;
+  text-decoration: none;
+  line-height: 1.4;
+
+  i {
+    font-size: 0.85rem;
+    color: #3a8877;
+  }
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+    color: #2f6f61;
+
+    i {
+      color: #2f6f61;
+    }
+
+    .feed-source-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+}
+
+.feed-source-tooltip {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 8px);
+  z-index: 20;
+  max-width: min(420px, 85vw);
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #f8fafc;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.35;
+  white-space: normal;
+  word-break: break-all;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
 }
 
 // Action bar
@@ -379,16 +495,22 @@ $radius-lg: 14px;
 }
 
 .action-btn {
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.25);
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(8px);
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 12px;
   cursor: pointer;
   transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+  color: $text-sub;
+  font-size: 0.8rem;
+  font-weight: 600;
 
   i {
     font-size: 16px;
@@ -406,6 +528,12 @@ $radius-lg: 14px;
   }
 }
 
+.action-btn-labeled {
+  span {
+    line-height: 1;
+  }
+}
+
 .spacer {
   flex: 1;
 }
@@ -414,33 +542,25 @@ $radius-lg: 14px;
 // Mobile tweaks
 @media (max-width: 768px) {
   .feed-item { border-radius: 16px; }
-  .feed-title { font-size: 18px; }
-  .action-btn { width: 38px; height: 38px; }
+  .action-btn { height: 38px; }
 }
 
 @media (max-width: 480px) {
-  .page-title {
-    font-size: 22px;
-  }
-
-  .org-name {
-    font-size: 14px;
-  }
-
-  .org-extra {
-    font-size: 12px;
-  }
-
-  .feed-title {
-    font-size: 15px;
+  .action-btn-labeled span {
+    display: none;
   }
 
   .action-btn {
     width: 36px;
-    height: 36px;
+    min-width: 36px;
+    padding: 0;
 
     i {
       font-size: 15px;
     }
+  }
+
+  .meta-icon-label {
+    display: none;
   }
 }

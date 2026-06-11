@@ -25619,6 +25619,10 @@
           },
           "postedByEntityExtra": {
             "type": "string"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -29048,6 +29052,9 @@
           },
           "feedEntry": {
             "$ref": "#/components/schemas/FeedEntryGETData"
+          },
+          "catalogEntry": {
+            "$ref": "#/components/schemas/CatalogEntryGETData"
           }
         }
       },

@@ -30,50 +30,59 @@
   <div class="feed-container" *ngIf="!loading && feedEntries.length > 0">
     <div class="feed-item" *ngFor="let entry of feedEntries; let i = index">
       <ng-container *ngIf="entry.feedEntry as feedEntry">
-    
-        <!-- Card Header: logo + org + X -->
-        <div class="feed-card-header">
-          <div class="org">
-            <div class="org-logo">
-              <!-- If you have a logo URL field, bind it here -->
-              <img
-                *ngIf="feedEntry.imageFileUrl; else initials"
-                [src]="feedEntry.imageFileUrl"
-                alt="Org logo"
-              />
-              <ng-template #initials>
-                <span class="org-initials">
-                  {{ (feedEntry.postedByEntityName || '?') | slice:0:1 }}
-                </span>
-              </ng-template>
+
+        <div class="feed-card-top">
+          <div class="feed-type-icon" [attr.aria-label]="getTypeBadge(entry)">
+            <i [class]="getTypeIcon(entry)"></i>
+          </div>
+
+          <div class="feed-card-main">
+            <!-- Line 1: organization -->
+            <div class="feed-line feed-line-org">
+              <span class="org-name">{{ feedEntry.postedByEntityName }}</span>
             </div>
-    
-            <div class="org-meta">
-              <div class="org-name">
-                {{ feedEntry.postedByEntityName }}
-              </div>
-              <div class="org-extra" *ngIf="feedEntry.postedByEntityExtra">
-                {{ feedEntry.postedByEntityExtra }}
+
+            <!-- Line 2: title + icon row -->
+            <div class="feed-line feed-line-title">
+              <span class="listing-title" *ngIf="feedEntry.title">{{ feedEntry.title }}</span>
+
+              <div class="feed-meta-icons">
+                <span
+                  class="meta-icon meta-badge"
+                  *ngIf="getTypeBadge(entry)"
+                  [title]="getTypeBadge(entry)">
+                  {{ getTypeBadge(entry) }}
+                </span>
+
+                <span
+                  class="meta-icon"
+                  *ngFor="let signup of getSignupIcons(entry)"
+                  [title]="signup.tooltip">
+                  <i [class]="signup.icon"></i>
+                  <span class="meta-icon-label">{{ signup.label }}</span>
+                </span>
+
+                <span
+                  class="meta-icon"
+                  *ngIf="getAgeRestriction(entry) as ageIcon"
+                  [class.meta-icon-over18]="ageIcon.kind === 'over18'"
+                  [class.meta-icon-under18]="ageIcon.kind === 'under18'"
+                  [class.meta-icon-all-ages]="ageIcon.kind === 'all_ages'"
+                  [title]="ageIcon.tooltip">
+                  <i [class]="ageIcon.icon"></i>
+                  <span class="meta-icon-label">{{ ageIcon.label }}</span>
+                </span>
+
               </div>
             </div>
           </div>
-    
-          <button class="dismiss-btn" type="button" (click)="dismiss(entry)">
+
+          <button class="dismiss-btn" type="button" (click)="dismiss(entry)" title="Dismiss">
             <i class="fas fa-times"></i>
           </button>
         </div>
-    
-        <!-- Heading (catalog name) -->
-        <div class="feed-heading" *ngIf="feedEntry.postedByEntityExtra">
-          {{ feedEntry.postedByEntityExtra }}
-        </div>
-    
-        <!-- Title (course name) -->
-        <div class="feed-title" *ngIf="feedEntry.title">
-          {{ feedEntry.title }}
-        </div>
-    
-        <!-- Markdown -->
+
+        <!-- Markdown body -->
         <div class="feed-content" *ngIf="entry.displayMarkdown">
           <app-std-markdown-display
             [markdown]="entry.displayMarkdown"
@@ -81,32 +90,49 @@
             dialect="common">
           </app-std-markdown-display>
         </div>
-    
+
         <!-- More/Less -->
         <div class="feed-more" *ngIf="hasMore(entry)">
           <button class="more-btn" type="button" (click)="toggleMore(entry)">
             {{ entry.isExpanded ? '(less ...)' : '(more ...)' }}
           </button>
         </div>
-    
-        <!-- Action bar -->
+
+        <a
+          class="feed-source"
+          *ngIf="getSourceUrl(entry) as sourceUrl"
+          [href]="sourceUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="'Source Url: ' + sourceUrl">
+          <i class="fas fa-external-link-alt"></i>
+          <span>Source: {{ getSourceLabel(entry) }}</span>
+          <span class="feed-source-tooltip" role="tooltip">{{ sourceUrl }}</span>
+        </a>
+
+        <!-- Footer actions -->
         <div class="feed-actions">
-          <button class="action-btn" type="button" (click)="thumbUp(entry)">
+          <button class="action-btn action-btn-labeled" type="button" (click)="thumbUp(entry)" title="Like">
             <i class="far fa-thumbs-up"></i>
+            <span>Like</span>
           </button>
-          <button class="action-btn" type="button" (click)="thumbDown(entry)">
-            <i class="far fa-thumbs-down"></i>
+          <button class="action-btn action-btn-labeled" type="button" (click)="openMap(entry)" title="Map">
+            <i class="far fa-map"></i>
+            <span>Map</span>
           </button>
-    
+          <button class="action-btn action-btn-labeled" type="button" (click)="openDetails(entry)" title="View full listing details">
+            <i class="far fa-file-alt"></i>
+            <span>Details</span>
+          </button>
+
           <div class="spacer"></div>
-    
-          <button class="action-btn" type="button" (click)="moreActions(entry)">
+
+          <button class="action-btn" type="button" (click)="moreActions(entry)" title="More options">
             <i class="fas fa-ellipsis-h"></i>
           </button>
         </div>
-    
+
       </ng-container>
     </div>
-    
   </div>
 </div>
