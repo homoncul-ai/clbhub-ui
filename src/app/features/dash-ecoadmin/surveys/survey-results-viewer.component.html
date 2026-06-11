@@ -76,41 +76,112 @@
             <div class="row g-2 mb-3 top-facts">
               <div class="col-md-4">
                 <div class="fact-label">Name</div>
-                <div class="fact-value">{{ selectedSurveyData['name'] || '-' }}</div>
+                <div class="fact-value">{{ selectedSurveyData['name'] || '—' }}</div>
               </div>
               <div class="col-md-4">
                 <div class="fact-label">Organization</div>
-                <div class="fact-value">{{ selectedSurveyData['organization'] || '-' }}</div>
+                <div class="fact-value">{{ selectedSurveyData['organization'] || '—' }}</div>
               </div>
               <div class="col-md-4">
                 <div class="fact-label">Email</div>
-                <div class="fact-value">{{ selectedSurveyData['email'] || '-' }}</div>
+                <div class="fact-value">{{ selectedSurveyData['email'] || '—' }}</div>
               </div>
             </div>
 
             <div class="mb-3">
               <div class="fact-label">Submitted</div>
-              <div class="fact-value">{{ eventDate(event) || '-' }}</div>
+              <div class="fact-value">{{ eventDate(event) || '—' }}</div>
             </div>
 
-            <hr />
+            <ng-container *ngIf="isAiSummitSignin; else defaultSurveyAnswers">
+              <div class="summary-box summary-general mb-4">
+                <h6 class="summary-heading">Contact for feedback</h6>
+                <p class="mb-0 small">
+                  {{ formatContactConsent(selectedSurveyData['canContactForFeedback']) }}
+                </p>
+              </div>
 
-            <div class="qa-block" *ngFor="let qa of getPrimaryAnswers(selectedSurveyData)">
-              <div class="qa-label">{{ qa.label }}</div>
-              <div class="qa-value">{{ qa.value }}</div>
-            </div>
+              <div *ngIf="!aiSummitSubmissionSummaries.length" class="summary-empty text-muted small mb-0">
+                No interest selections were recorded for this response.
+              </div>
 
-            <div class="qa-block" *ngIf="getSelectedHelpAreas(selectedSurveyData).length">
-              <div class="qa-label">How could software help?</div>
-              <ul class="mb-0">
-                <li *ngFor="let area of getSelectedHelpAreas(selectedSurveyData)">{{ area }}</li>
-              </ul>
-            </div>
+              <div *ngFor="let summary of aiSummitSubmissionSummaries" class="interest-summary-section">
+                <h3 class="interest-section-title">{{ summary.interest }}</h3>
+                <dl class="summary-detail-list">
+                  <div class="summary-detail-item">
+                    <dt>Example AI-enabled careers</dt>
+                    <dd>
+                      <ul *ngIf="summary.careers.length" class="summary-choice-list">
+                        <li *ngFor="let item of summary.careers">{{ item }}</li>
+                      </ul>
+                      <span *ngIf="!summary.careers.length" class="text-muted">None selected</span>
+                    </dd>
+                  </div>
+                  <div class="summary-detail-item">
+                    <dt>Skills to start</dt>
+                    <dd>
+                      <ul *ngIf="summary.skills.length" class="summary-choice-list">
+                        <li *ngFor="let item of summary.skills">{{ item }}</li>
+                      </ul>
+                      <span *ngIf="!summary.skills.length" class="text-muted">None selected</span>
+                    </dd>
+                  </div>
+                  <div class="summary-detail-item">
+                    <dt>Best local starting point</dt>
+                    <dd>
+                      <span *ngIf="summary.localStartingPoint">{{ summary.localStartingPoint }}</span>
+                      <span *ngIf="!summary.localStartingPoint" class="text-muted">None selected</span>
+                    </dd>
+                  </div>
+                  <div class="summary-detail-item">
+                    <dt>Opportunity examples</dt>
+                    <dd>
+                      <ul *ngIf="summary.opportunityExamples.length" class="summary-choice-list">
+                        <li *ngFor="let item of summary.opportunityExamples">{{ item }}</li>
+                      </ul>
+                      <span *ngIf="!summary.opportunityExamples.length" class="text-muted">None selected</span>
+                    </dd>
+                  </div>
+                  <div class="summary-detail-item">
+                    <dt>Next steps</dt>
+                    <dd>
+                      <ul *ngIf="summary.nextSteps.length" class="summary-choice-list">
+                        <li *ngFor="let item of summary.nextSteps">{{ item }}</li>
+                      </ul>
+                      <span *ngIf="!summary.nextSteps.length" class="text-muted">None selected</span>
+                    </dd>
+                  </div>
+                  <div class="summary-detail-item">
+                    <dt>Follow-up partner</dt>
+                    <dd>
+                      <span *ngIf="summary.followUpPartner">{{ summary.followUpPartner }}</span>
+                      <span *ngIf="!summary.followUpPartner" class="text-muted">None selected</span>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </ng-container>
 
-            <div class="qa-block" *ngFor="let qa of getAdditionalAnswers(selectedSurveyData)">
-              <div class="qa-label">{{ qa.label }}</div>
-              <div class="qa-value">{{ qa.value }}</div>
-            </div>
+            <ng-template #defaultSurveyAnswers>
+              <hr />
+
+              <div class="qa-block" *ngFor="let qa of getPrimaryAnswers(selectedSurveyData)">
+                <div class="qa-label">{{ qa.label }}</div>
+                <div class="qa-value">{{ qa.value }}</div>
+              </div>
+
+              <div class="qa-block" *ngIf="getSelectedHelpAreas(selectedSurveyData).length">
+                <div class="qa-label">How could software help?</div>
+                <ul class="mb-0">
+                  <li *ngFor="let area of getSelectedHelpAreas(selectedSurveyData)">{{ area }}</li>
+                </ul>
+              </div>
+
+              <div class="qa-block" *ngFor="let qa of getAdditionalAnswers(selectedSurveyData)">
+                <div class="qa-label">{{ qa.label }}</div>
+                <div class="qa-value">{{ qa.value }}</div>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

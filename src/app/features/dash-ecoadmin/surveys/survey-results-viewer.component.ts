@@ -19,6 +19,16 @@ interface SurveyDefinition {
   applicationCode?: string;
 }
 
+interface InterestSubmissionSummary {
+  interest: string;
+  careers: string[];
+  skills: string[];
+  localStartingPoint: string | null;
+  opportunityExamples: string[];
+  nextSteps: string[];
+  followUpPartner: string | null;
+}
+
 @Component({
   selector: 'app-survey-results-viewer',
   standalone: true,
@@ -152,6 +162,24 @@ export class SurveyResultsViewerComponent implements OnInit {
     return !!this.selectedEvent && !this.deleting;
   }
 
+  get isAiSummitSignin(): boolean {
+    return this.surveyKey === 'ai_summit_signin';
+  }
+
+  get aiSummitSubmissionSummaries(): InterestSubmissionSummary[] {
+    return this.buildAiSummitSummaries(this.selectedSurveyData);
+  }
+
+  formatContactConsent(value: unknown): string {
+    if (value === 'yes') {
+      return 'Yes';
+    }
+    if (value === 'no') {
+      return 'No';
+    }
+    return '—';
+  }
+
   getSelectedHelpAreas(data: Record<string, any>): string[] {
     return Object.keys(this.helpOptionLabels)
       .filter((key) => this.asBoolean(data[key]))
@@ -186,8 +214,10 @@ export class SurveyResultsViewerComponent implements OnInit {
       'organization',
       'surveyCode',
       'pagePath',
+      'captchaToken',
       ...this.answerOrder,
       ...Object.keys(this.helpOptionLabels),
+      ...(this.isAiSummitSignin ? this.aiSummitReservedFields : []),
     ]);
     const extras: Array<{ label: string; value: string }> = [];
     Object.keys(data).forEach((key) => {
@@ -195,13 +225,25 @@ export class SurveyResultsViewerComponent implements OnInit {
         return;
       }
       const value = data[key];
-      if (value === undefined || value === null || `${value}`.trim() === '') {
+      const formatted = this.formatDisplayValue(value);
+      if (!formatted) {
         return;
       }
-      extras.push({ label: key, value: `${value}` });
+      extras.push({ label: key, value: formatted });
     });
     return extras;
   }
+
+  private readonly aiSummitReservedFields = [
+    'canContactForFeedback',
+    'attendeeInterest',
+    'aiEnabledCareers',
+    'skillsToStart',
+    'localStartingPoint',
+    'opportunityExamples',
+    'nextSteps',
+    'followUpPartners',
+  ];
 
   selectBucket(index: number): void {
     if (index < 0 || index >= this.totalBuckets) {
@@ -369,5 +411,115 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   private asBoolean(raw: any): boolean {
     return raw === true || raw === 'true' || raw === 1 || raw === '1';
+  }
+
+  private buildAiSummitSummaries(data: Record<string, any>): InterestSubmissionSummary[] {
+    const interests = this.getAiSummitInterests(data);
+    return interests.map((interest) => ({
+      interest,
+      careers: this.getGroupedListValues(data['aiEnabledCareers'], interest),
+      skills: this.getGroupedListValues(data['skillsToStart'], interest),
+      localStartingPoint: this.getGroupedSingleValue(data['localStartingPoint'], interest),
+      opportunityExamples: this.getGroupedListValues(data['opportunityExamples'], interest),
+      nextSteps: this.getGroupedListValues(data['nextSteps'], interest),
+      followUpPartner: this.getGroupedSingleValue(data['followUpPartners'], interest),
+    }));
+  }
+
+  private getAiSummitInterests(data: Record<string, any>): string[] {
+    const fromSelection = this.asStringArray(data['attendeeInterest']);
+    if (fromSelection.length) {
+      return fromSelection;
+    }
+
+    const keys = new Set<string>();
+    for (const field of this.aiSummitReservedFields) {
+      if (field === 'canContactForFeedback' || field === 'attendeeInterest') {
+        continue;
+      }
+      this.collectInterestKeys(data[field], keys);
+    }
+    return Array.from(keys);
+  }
+
+  private collectInterestKeys(field: unknown, keys: Set<string>): void {
+    const record = this.asRecord(field);
+    if (!record) {
+      return;
+    }
+    Object.keys(record).forEach((key) => keys.add(key));
+  }
+
+  private getGroupedListValues(field: unknown, interest: string): string[] {
+    const record = this.asRecord(field);
+    if (!record) {
+      return [];
+    }
+    return this.asStringArray(record[interest]);
+  }
+
+  private getGroupedSingleValue(field: unknown, interest: string): string | null {
+    const record = this.asRecord(field);
+    if (!record) {
+      return null;
+    }
+    const value = record[interest];
+    if (value === undefined || value === null || `${value}`.trim() === '') {
+      return null;
+    }
+    return `${value}`;
+  }
+
+  private asRecord(value: unknown): Record<string, unknown> | null {
+    if (!value) {
+      return null;
+    }
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      return value as Record<string, unknown>;
+    }
+    if (typeof value === 'string') {
+      const parsed = this.parseUnknown(value);
+      return Object.keys(parsed).length ? parsed : null;
+    }
+    return null;
+  }
+
+  private asStringArray(value: unknown): string[] {
+    if (value === undefined || value === null) {
+      return [];
+    }
+    if (Array.isArray(value)) {
+      return value.map((item) => `${item}`.trim()).filter(Boolean);
+    }
+    if (typeof value === 'string') {
+      return value
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+    return [];
+  }
+
+  private formatDisplayValue(value: unknown): string {
+    if (value === undefined || value === null) {
+      return '';
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map((item) => this.formatDisplayValue(item))
+        .filter(Boolean)
+        .join(', ');
+    }
+    if (typeof value === 'object') {
+      return Object.entries(value as Record<string, unknown>)
+        .map(([key, nested]) => {
+          const nestedValue = this.formatDisplayValue(nested);
+          return nestedValue ? `${key}: ${nestedValue}` : key;
+        })
+        .filter(Boolean)
+        .join('; ');
+    }
+    const text = `${value}`.trim();
+    return text === '[object Object]' ? '' : text;
   }
 }
