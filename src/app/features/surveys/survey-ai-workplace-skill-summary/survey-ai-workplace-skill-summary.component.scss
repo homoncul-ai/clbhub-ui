@@ -1,0 +1,137 @@
+@import '../survey-ai-summit-signin/survey-ai-summit-signin.component.scss';
+
+.question-block + .question-block {
+  padding-top: 1.25rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.question-text {
+  font-size: 0.95rem;
+  color: #334155;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.graduate-tier-section + .graduate-tier-section {
+  margin-top: 0.25rem;
+}
+
+.matrix-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.baseline-matrix {
+  margin-bottom: 0;
+  min-width: 640px;
+
+  thead th {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: #f8fafc;
+    border-bottom-width: 2px;
+    vertical-align: bottom;
+    padding: 0.75rem 0.65rem;
+  }
+
+  tbody td {
+    padding: 0.85rem 0.65rem;
+    border-color: #e2e8f0;
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.matrix-competency-col {
+  width: 52%;
+}
+
+.matrix-check-col {
+  width: 24%;
+}
+
+.matrix-competency-cell {
+  strong {
+    display: block;
+    color: #1e293b;
+    font-size: 0.92rem;
+  }
+}
+
+.matrix-competency-desc {
+  margin-top: 0.2rem;
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.matrix-check-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
+}
+
+.matrix-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: #0d6efd;
+  cursor: pointer;
+}
+
+.matrix-mobile-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.matrix-mobile-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.95rem 1rem;
+  background: #fff;
+}
+
+.matrix-mobile-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.35rem;
+}
+
+.matrix-mobile-desc {
+  font-size: 0.86rem;
+  color: #64748b;
+  line-height: 1.45;
+  margin-bottom: 0.75rem;
+}
+
+.matrix-mobile-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+@media (min-width: 768px) {
+  .matrix-mobile-cards {
+    display: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .matrix-scroll {
+    display: none;
+  }
+}
