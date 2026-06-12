@@ -22,6 +22,14 @@ interface SurveyListItem {
 export class SurveysDashboardComponent {
   readonly surveys: SurveyListItem[] = [
     {
+      route: '/public/surveys/ai-workplace-skill-summary',
+      title: 'AI Workplace Skill Summary — Jun 10, 2026',
+      subtitle: 'Employer perspectives on AI-era graduate readiness',
+      liveDate: 'Jun 10, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       route: '/public/surveys/ai-summit-signin',
       title: 'AI Summit Sign-in — Jun 10, 2026',
       subtitle: 'Sign in and explore AI-enabled career paths',

@@ -25,6 +25,14 @@ export class SurveyReportsDashboardComponent {
 
   readonly surveys: SurveyReportItem[] = [
     {
+      key: 'ai_workplace_skill_summary',
+      title: 'AI Workplace Skill Summary — Jun 10, 2026',
+      subtitle: 'Employer perspectives on AI-era graduate readiness',
+      liveDate: 'Jun 10, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       key: 'ai_summit_signin',
       title: 'AI Summit Sign-in — Jun 10, 2026',
       subtitle: 'Sign in and explore AI-enabled career paths',
