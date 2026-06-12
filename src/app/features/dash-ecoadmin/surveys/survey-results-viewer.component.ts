@@ -57,6 +57,12 @@ export class SurveyResultsViewerComponent implements OnInit {
       subject: 'Survey: AI Summit Sign-in',
       description: 'AI Summit attendee sign-in and career exploration responses.',
     },
+    ai_workplace_skill_summary: {
+      key: 'ai_workplace_skill_summary',
+      label: 'AI Workplace Skill Summary — Jun 10, 2026',
+      subject: 'Survey: AI Workplace Skill Summary',
+      description: 'Employer perspectives on baseline digital readiness for AI-era graduates.',
+    },
     npo_job_finder: {
       key: 'npo_job_finder',
       label: 'Non-profit job search assistance — Mar 10, 2025',
@@ -166,8 +172,48 @@ export class SurveyResultsViewerComponent implements OnInit {
     return this.surveyKey === 'ai_summit_signin';
   }
 
+  get isAiWorkplaceSkillSummary(): boolean {
+    return this.surveyKey === 'ai_workplace_skill_summary';
+  }
+
   get aiSummitSubmissionSummaries(): InterestSubmissionSummary[] {
     return this.buildAiSummitSummaries(this.selectedSurveyData);
+  }
+
+  displayPrimaryIndustry(data: Record<string, any>): string {
+    const sector = `${data['primaryIndustry'] || ''}`.trim();
+    if (!sector) {
+      return '—';
+    }
+    if (sector === 'Other') {
+      const other = `${data['primaryIndustryOther'] || ''}`.trim();
+      return other ? `Other: ${other}` : 'Other';
+    }
+    return sector;
+  }
+
+  getTierStringList(data: Record<string, any>, field: string, tier: string): string[] {
+    const record = this.asRecord(data[field]);
+    if (!record) {
+      return [];
+    }
+    return this.asStringArray(record[tier]);
+  }
+
+  getTierStringValue(data: Record<string, any>, field: string, tier: string): string {
+    const record = this.asRecord(data[field]);
+    if (!record) {
+      return '—';
+    }
+    const value = record[tier];
+    if (value === undefined || value === null || `${value}`.trim() === '') {
+      return '—';
+    }
+    return `${value}`;
+  }
+
+  getStringList(data: Record<string, any>, field: string): string[] {
+    return this.asStringArray(data[field]);
   }
 
   formatContactConsent(value: unknown): string {
@@ -218,6 +264,7 @@ export class SurveyResultsViewerComponent implements OnInit {
       ...this.answerOrder,
       ...Object.keys(this.helpOptionLabels),
       ...(this.isAiSummitSignin ? this.aiSummitReservedFields : []),
+      ...(this.isAiWorkplaceSkillSummary ? this.aiWorkplaceSkillSummaryReservedFields : []),
     ]);
     const extras: Array<{ label: string; value: string }> = [];
     Object.keys(data).forEach((key) => {
@@ -243,6 +290,16 @@ export class SurveyResultsViewerComponent implements OnInit {
     'opportunityExamples',
     'nextSteps',
     'followUpPartners',
+  ];
+
+  private readonly aiWorkplaceSkillSummaryReservedFields = [
+    'canContactForFeedback',
+    'primaryIndustry',
+    'primaryIndustryOther',
+    'baselineEssentials',
+    'graduatePreparedness',
+    'expectedSupervision',
+    'aiProficiencyImpact',
   ];
 
   selectBucket(index: number): void {

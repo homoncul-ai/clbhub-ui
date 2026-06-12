@@ -93,7 +93,7 @@
               <div class="fact-value">{{ eventDate(event) || '—' }}</div>
             </div>
 
-            <ng-container *ngIf="isAiSummitSignin; else defaultSurveyAnswers">
+            <ng-container *ngIf="isAiSummitSignin; else workplaceOrDefaultSurveyAnswers">
               <div class="summary-box summary-general mb-4">
                 <h6 class="summary-heading">Contact for feedback</h6>
                 <p class="mb-0 small">
@@ -161,6 +161,88 @@
                 </dl>
               </div>
             </ng-container>
+
+            <ng-template #workplaceOrDefaultSurveyAnswers>
+              <ng-container *ngIf="isAiWorkplaceSkillSummary; else defaultSurveyAnswers">
+                <div class="summary-box summary-general mb-4">
+                  <h6 class="summary-heading">Contact for feedback</h6>
+                  <p class="mb-0 small">
+                    {{ formatContactConsent(selectedSurveyData['canContactForFeedback']) }}
+                  </p>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Part 1: Industry &amp; Demographics</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Primary industry</dt>
+                      <dd>{{ displayPrimaryIndustry(selectedSurveyData) }}</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Part 2: Core Readiness</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Essential for High School Graduates</dt>
+                      <dd>
+                        <ul *ngIf="getTierStringList(selectedSurveyData, 'baselineEssentials', 'highSchool').length" class="summary-choice-list">
+                          <li *ngFor="let item of getTierStringList(selectedSurveyData, 'baselineEssentials', 'highSchool')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getTierStringList(selectedSurveyData, 'baselineEssentials', 'highSchool').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Essential for College Graduates</dt>
+                      <dd>
+                        <ul *ngIf="getTierStringList(selectedSurveyData, 'baselineEssentials', 'college').length" class="summary-choice-list">
+                          <li *ngFor="let item of getTierStringList(selectedSurveyData, 'baselineEssentials', 'college')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getTierStringList(selectedSurveyData, 'baselineEssentials', 'college').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Part 3: Performance &amp; Onboarding</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>High School Graduate Preparedness</dt>
+                      <dd>{{ getTierStringValue(selectedSurveyData, 'graduatePreparedness', 'highSchool') }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>College Graduate Preparedness</dt>
+                      <dd>{{ getTierStringValue(selectedSurveyData, 'graduatePreparedness', 'college') }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Expected Supervision — High School</dt>
+                      <dd>{{ getTierStringValue(selectedSurveyData, 'expectedSupervision', 'highSchool') }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Expected Supervision — College</dt>
+                      <dd>{{ getTierStringValue(selectedSurveyData, 'expectedSupervision', 'college') }}</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-0">
+                  <h3 class="interest-section-title">Part 4: Market Value</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>AI proficiency impact on hiring</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'aiProficiencyImpact').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'aiProficiencyImpact')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'aiProficiencyImpact').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </ng-container>
+            </ng-template>
 
             <ng-template #defaultSurveyAnswers>
               <hr />

@@ -30,4 +30,11 @@ export const SURVEYS_ROUTES: Routes = [
         (m) => m.SurveyAiSummitSigninComponent,
       ),
   },
+  {
+    path: 'ai-workplace-skill-summary',
+    loadComponent: () =>
+      import('./survey-ai-workplace-skill-summary/survey-ai-workplace-skill-summary.component').then(
+        (m) => m.SurveyAiWorkplaceSkillSummaryComponent,
+      ),
+  },
 ];
