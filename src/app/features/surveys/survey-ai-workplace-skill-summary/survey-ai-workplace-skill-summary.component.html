@@ -414,7 +414,7 @@
             </dl>
           </div>
 
-          <div class="captcha mb-4">
+          <div class="captcha mb-4" *ngIf="captchaEnabled">
             <label class="form-label d-block mb-2">Verify you're human</label>
             <div #captchaContainer></div>
             <small class="text-muted d-block mt-2">Complete the reCAPTCHA challenge to submit.</small>

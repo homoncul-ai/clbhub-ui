@@ -13,6 +13,9 @@ WORKDIR /usr/src/app
 #Copy all the content to the working directory
 COPY . /usr/src/app
 
+# cluster_config.json is gitignored; ensure a config file ships with the build.
+RUN cp src/assets/commonConfig/cluster_config.default.json src/assets/commonConfig/cluster_config.json
+
 #install node packages to node_modules
 RUN npm install --force
 

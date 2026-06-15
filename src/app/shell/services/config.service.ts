@@ -148,40 +148,64 @@ private setupTokenRefresh(): void {
     try {
       if (this.endPointsLoaded()) return;
 
-      const results = await Promise.all([
-        fetch('assets/commonConfig/cluster_config.json'),
-        fetch('assets/commonConfig/keycloak.json'),
-      ]);
-      const dataArr = await Promise.all(results.map((res) => res.json()));
+      const clusterConfig = await this.__fetchClusterConfig();
+      const keycloakTemplate = await this.__fetchJson('assets/commonConfig/keycloak.json');
+      if (!clusterConfig || !keycloakTemplate) {
+        throw new Error('Could not load cluster_config or keycloak config.');
+      }
 
       const hostname = document.location.hostname;
-      const commonConfig = dataArr[0];
-
-      let realmInfo = commonConfig.realms[hostname] || commonConfig.realms['default'];
+      const realms = clusterConfig['realms'] as Record<string, [string, string]> | undefined;
+      const realmInfo = realms?.[hostname] || realms?.['default'];
+      if (!realmInfo) {
+        throw new Error(`No realm mapping for hostname "${hostname}".`);
+      }
       const [realmName, realmTenantId] = realmInfo;
 
-      const keyCloakConfig = this.__templateReplace(dataArr[1], commonConfig.constants);
+      const constants = clusterConfig['constants'] as Record<string, string>;
+      const keyCloakConfig = this.__templateReplace(keycloakTemplate, constants);
       keyCloakConfig.realm = realmName;
       keyCloakConfig.logoutUrl = GlobalConstants.keycloakLogoutUrl;
 
-      const apiConfig = this.__templateReplace(GlobalConstants.apiServicesConstants, commonConfig.constants);
+      const apiConfig = this.__templateReplace(GlobalConstants.apiServicesConstants, constants);
       apiConfig.tenantId = realmTenantId;
 
-      if (commonConfig.debugEndpoints) {
-        this.__resolveDebugEndpoints(apiConfig, commonConfig.debugEndpoints);
+      if (clusterConfig['debugEndpoints']) {
+        this.__resolveDebugEndpoints(apiConfig, clusterConfig['debugEndpoints']);
       }
 
-      this.serviceUrlPrefix.set(commonConfig.constants.serviceUrlPrefix);
+      this.serviceUrlPrefix.set(constants['serviceUrlPrefix'] ?? '');
       this.endPoints.set(apiConfig.constants);
       this.keycloakConfig.set(keyCloakConfig);
       this.endPointsLoaded.set(true);
 
       return { keycloak: keyCloakConfig, apiconfig: apiConfig };
     } catch (err) {
-      console.error(err);
+      console.error('Failed to load app config', err);
       return;
     }
   };
+
+  private async __fetchClusterConfig(): Promise<Record<string, any> | null> {
+    const primary = await this.__fetchJson('assets/commonConfig/cluster_config.json');
+    if (primary) {
+      return primary;
+    }
+    console.warn('cluster_config.json not found; falling back to cluster_config.default.json');
+    return this.__fetchJson('assets/commonConfig/cluster_config.default.json');
+  }
+
+  private async __fetchJson(path: string): Promise<Record<string, any> | null> {
+    try {
+      const response = await fetch(path);
+      if (!response.ok) {
+        return null;
+      }
+      return await response.json();
+    } catch {
+      return null;
+    }
+  }
 
   __templateReplace(obj: any, config: any) {
     let str = JSON.stringify(obj);

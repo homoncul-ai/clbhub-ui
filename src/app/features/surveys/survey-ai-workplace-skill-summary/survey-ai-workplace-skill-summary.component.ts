@@ -67,6 +67,8 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
   private recaptchaWidgetId: number | null = null;
   private recaptchaScriptPromise: Promise<void> | null = null;
   readonly recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+  /** Set to true when reCAPTCHA should be required again. */
+  readonly captchaEnabled = false;
 
   readonly surveyTitle = 'AI Workplace Skill Summary';
   readonly surveyCode = 'ai_workplace_skill_summary';
@@ -398,7 +400,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
   }
 
   submit(): void {
-    if (!this.form.controls.captchaToken.value) {
+    if (this.captchaEnabled && !this.form.controls.captchaToken.value) {
       this.setMessages([{ message: 'Please complete the captcha.', severity: 1 }]);
       return;
     }
@@ -415,7 +417,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
       pagePath: this.pagePath,
       email,
       wantsFollowUpSurvey,
-      captchaToken: value.captchaToken,
+      ...(this.captchaEnabled ? { captchaToken: value.captchaToken } : {}),
       primaryIndustry: this.selectedIndustrySector,
       primaryIndustryOther: value.primaryIndustryOther.trim(),
       baselineEssentials: {
@@ -461,7 +463,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
         error: (error) => {
           const fallback = { message: 'Unable to submit. Please try again later.', severity: 1 };
           this.messagesList = error?.error?.messages || { messages: [fallback] };
-          if (this.recaptchaWidgetId !== null && window.grecaptcha) {
+          if (this.captchaEnabled && this.recaptchaWidgetId !== null && window.grecaptcha) {
             window.grecaptcha.reset(this.recaptchaWidgetId);
             this.form.controls.captchaToken.setValue('');
           }
@@ -480,6 +482,9 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
   }
 
   private maybeInitCaptcha(): void {
+    if (!this.captchaEnabled) {
+      return;
+    }
     if (this.currentStep === this.totalSteps && !this.submitted) {
       setTimeout(() => void this.initializeRecaptcha(), 100);
     }

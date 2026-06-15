@@ -9,14 +9,37 @@ import { AppConstants } from '@app/shell/services/config.service';
   providedIn: 'root'
 })
 export class HcclService extends CommonRequestServiceCaller {
-  constructor(http: HttpClient, appConstants: AppConstants) {
-    super(http);
+  /** Same-origin path proxied by server.js when cluster_config is unavailable. */
+  private static readonly sameOriginBaseUrl = '/trutesta-hccl-services';
 
-  // Hard code it if you want
-   // const baseUrl: string = "http://localhost:8099/trutesta-hccl-services";
-    const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
-    console.log("Setting HcclService baseUrl to " + baseUrl);
-    this.setBaseUrl(baseUrl);
+  constructor(http: HttpClient, private readonly appConstants: AppConstants) {
+    super(http);
+    this.syncBaseUrl();
+  }
+
+  override getBaseUrl(): string {
+    this.syncBaseUrl();
+    return super.getBaseUrl();
+  }
+
+  private syncBaseUrl(): void {
+    const baseUrl = this.resolveHcclBaseUrl();
+    if (baseUrl !== super.getBaseUrl()) {
+      console.log('Setting HcclService baseUrl to ' + baseUrl);
+      this.setBaseUrl(baseUrl);
+    }
+  }
+
+  private resolveHcclBaseUrl(): string {
+    const configured = this.appConstants.endPoints().hcclServicesEndPoint?.trim();
+    if (!configured) {
+      return HcclService.sameOriginBaseUrl;
+    }
+    const onLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (!onLocalhost && configured.includes('localhost')) {
+      return HcclService.sameOriginBaseUrl;
+    }
+    return configured;
   }
 
   getCurrentManifest(): Observable<any> {
