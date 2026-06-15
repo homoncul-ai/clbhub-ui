@@ -74,7 +74,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
 
   readonly steps: SurveyStepDefinition[] = [
     { step: 1, title: 'Intro', subtitle: 'Help us understand workplace readiness expectations for AI-era graduates.' },
-    { step: 2, title: 'Your Information' },
+    { step: 2, title: 'Attendee Information' },
     { step: 3, title: 'Part 1: Industry & Demographics' },
     { step: 4, title: 'Part 2: Core Readiness & Graduate Comparisons' },
     { step: 5, title: 'Part 3: Performance & Onboarding Expectations' },
@@ -209,10 +209,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
   selectedMarketValueImpacts = new Set<string>();
 
   readonly form = this.fb.nonNullable.group({
-    name: [''],
-    organization: [''],
     email: [''],
-    canContactForFeedback: [''],
     primaryIndustryOther: [''],
     captchaToken: [''],
   });
@@ -262,7 +259,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
     }
   }
 
-  get optedInToContact(): boolean {
+  get optedInToFollowUpSurvey(): boolean {
     return this.contactConsentAtSubmit === 'yes';
   }
 
@@ -406,17 +403,18 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
       return;
     }
 
+    const value = this.form.getRawValue();
+    const email = value.email.trim();
+    const wantsFollowUpSurvey = !!email;
+
     this.submitting = true;
     this.setMessages([]);
 
-    const value = this.form.getRawValue();
     const surveyData: Record<string, unknown> = {
       surveyCode: this.surveyCode,
       pagePath: this.pagePath,
-      name: value.name.trim(),
-      organization: value.organization.trim(),
-      email: value.email.trim(),
-      canContactForFeedback: value.canContactForFeedback,
+      email,
+      wantsFollowUpSurvey,
       captchaToken: value.captchaToken,
       primaryIndustry: this.selectedIndustrySector,
       primaryIndustryOther: value.primaryIndustryOther.trim(),
@@ -438,7 +436,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
     const payload: SurveyResponsePOSTData = {
       surveyCode: this.surveyCode,
       subject: `Survey: ${this.surveyTitle}`,
-      emailFrom: value.email.trim(),
+      emailFrom: email || undefined,
       mapJsonData: surveyData,
     };
 
@@ -448,7 +446,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
       .subscribe({
         next: (response) => {
           this.messagesList = response?.messages || { messages: [] };
-          this.contactConsentAtSubmit = value.canContactForFeedback;
+          this.contactConsentAtSubmit = wantsFollowUpSurvey ? 'yes' : 'no';
           sessionStorage.setItem(
             SurveyAiWorkplaceSkillSummaryComponent.CONTACT_CONSENT_STORAGE_KEY,
             this.contactConsentAtSubmit,

@@ -293,7 +293,11 @@ export class SurveyResultsViewerComponent implements OnInit {
   ];
 
   private readonly aiWorkplaceSkillSummaryReservedFields = [
+    'wantsFollowUpSurvey',
     'canContactForFeedback',
+    'ageBracket',
+    'company',
+    'email',
     'primaryIndustry',
     'primaryIndustryOther',
     'baselineEssentials',
@@ -377,7 +381,24 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   eventLabel(event: UtilmonReportingEventGETData): string {
     const map = this.extractSurveyData(event);
+    if (this.isAiWorkplaceSkillSummary) {
+      return map['email'] || event.parentEntityName || event.id || 'Survey response';
+    }
     return map['name'] || map['email'] || event.parentEntityName || event.id || 'Survey response';
+  }
+
+  workplaceCompany(data: Record<string, any>): string {
+    return `${data['company'] || data['organization'] || ''}`.trim() || '—';
+  }
+
+  wantsFollowUpSurvey(data: Record<string, any>): boolean {
+    if (data['wantsFollowUpSurvey'] === true || data['wantsFollowUpSurvey'] === 'true') {
+      return true;
+    }
+    if (`${data['canContactForFeedback'] || ''}` === 'yes') {
+      return true;
+    }
+    return !!(`${data['email'] || ''}`.trim());
   }
 
   eventDate(event: UtilmonReportingEventGETData): string {

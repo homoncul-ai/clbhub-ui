@@ -73,20 +73,33 @@
             </div>
           </div>
           <div class="card-body" *ngIf="selectedEvent as event">
-            <div class="row g-2 mb-3 top-facts">
-              <div class="col-md-4">
-                <div class="fact-label">Name</div>
-                <div class="fact-value">{{ selectedSurveyData['name'] || '—' }}</div>
-              </div>
-              <div class="col-md-4">
-                <div class="fact-label">Organization</div>
-                <div class="fact-value">{{ selectedSurveyData['organization'] || '—' }}</div>
-              </div>
-              <div class="col-md-4">
+            <div class="row g-2 mb-3 top-facts" *ngIf="isAiWorkplaceSkillSummary; else defaultTopFacts">
+              <div class="col-md-6">
                 <div class="fact-label">Email</div>
                 <div class="fact-value">{{ selectedSurveyData['email'] || '—' }}</div>
               </div>
+              <div class="col-md-6">
+                <div class="fact-label">Follow-up survey</div>
+                <div class="fact-value">{{ wantsFollowUpSurvey(selectedSurveyData) ? 'Requested' : 'Not requested' }}</div>
+              </div>
             </div>
+
+            <ng-template #defaultTopFacts>
+              <div class="row g-2 mb-3 top-facts">
+                <div class="col-md-4">
+                  <div class="fact-label">Name</div>
+                  <div class="fact-value">{{ selectedSurveyData['name'] || '—' }}</div>
+                </div>
+                <div class="col-md-4">
+                  <div class="fact-label">Organization</div>
+                  <div class="fact-value">{{ selectedSurveyData['organization'] || '—' }}</div>
+                </div>
+                <div class="col-md-4">
+                  <div class="fact-label">Email</div>
+                  <div class="fact-value">{{ selectedSurveyData['email'] || '—' }}</div>
+                </div>
+              </div>
+            </ng-template>
 
             <div class="mb-3">
               <div class="fact-label">Submitted</div>
@@ -165,10 +178,12 @@
             <ng-template #workplaceOrDefaultSurveyAnswers>
               <ng-container *ngIf="isAiWorkplaceSkillSummary; else defaultSurveyAnswers">
                 <div class="summary-box summary-general mb-4">
-                  <h6 class="summary-heading">Contact for feedback</h6>
-                  <p class="mb-0 small">
-                    {{ formatContactConsent(selectedSurveyData['canContactForFeedback']) }}
+                  <h6 class="summary-heading">Attendee information</h6>
+                  <p class="mb-1 small">
+                    <strong>Follow-up survey:</strong>
+                    {{ wantsFollowUpSurvey(selectedSurveyData) ? 'Requested' : 'Not requested' }}
                   </p>
+                  <p class="mb-0 small"><strong>Email:</strong> {{ selectedSurveyData['email'] || '—' }}</p>
                 </div>
 
                 <div class="interest-summary-section mb-3">
