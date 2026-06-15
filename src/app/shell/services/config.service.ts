@@ -5,6 +5,7 @@ import Keycloak, { KeycloakConfig } from 'keycloak-js';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { EndPoints } from '@app/models/endpoints';
 import { GlobalConstants } from '@app/global-constants';
+import { DebugLog } from '@app/shell/services/debug-log';
 
 export const initialState: EndPoints = {
   tenantEndPoint: '',
@@ -20,6 +21,7 @@ export class AppConstants {
   facility = signal({});
   isUserActive = signal<boolean>(false);
   serviceUrlPrefix = signal<string>('');
+  clusterType = signal<string>('');
   checksprigAvailable = toObservable(signal<any>({}));
   endPointsLoaded = signal<boolean>(false);
   keycloakConfig = signal<KeycloakConfig>({
@@ -40,6 +42,11 @@ export class AppConstants {
 
   isPublicRoute(pathname?: string): boolean {
     return this.isPublicPath(pathname || window.location.pathname);
+  }
+
+  isProduction(): boolean {
+    const type = this.clusterType().trim().toLowerCase();
+    return type === 'prod' || type === 'production';
   }
 
   keycloakInitializer() {
@@ -175,6 +182,8 @@ private setupTokenRefresh(): void {
       }
 
       this.serviceUrlPrefix.set(constants['serviceUrlPrefix'] ?? '');
+      this.clusterType.set(constants['clusterType'] ?? '');
+      DebugLog.enabled = !this.isProduction();
       this.endPoints.set(apiConfig.constants);
       this.keycloakConfig.set(keyCloakConfig);
       this.endPointsLoaded.set(true);
