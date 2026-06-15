@@ -26,11 +26,11 @@
       <div *ngIf="submitted" class="thank-you-page text-center py-4 px-2">
         <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
         <h2 class="h4 mb-3">Thank you!</h2>
-        <p class="thank-you-message mb-0" *ngIf="optedInToContact">
-          Your AI Workplace Skill Summary has been submitted. Because you agreed to be contacted,
-          someone may follow up with you about this research.
+        <p class="thank-you-message mb-0" *ngIf="optedInToFollowUpSurvey">
+          Your AI Workplace Skill Summary has been submitted. We may invite you to participate in our
+          follow-up survey after the summit to analyse its effectiveness.
         </p>
-        <p class="thank-you-message mb-0" *ngIf="!optedInToContact">
+        <p class="thank-you-message mb-0" *ngIf="!optedInToFollowUpSurvey">
           Your AI Workplace Skill Summary has been submitted. Your responses will help us understand
           employer expectations for AI-era workplace readiness.
         </p>
@@ -89,44 +89,29 @@
           </div>
         </div>
 
-        <!-- Step 2: Your Information -->
+        <!-- Step 2: Attendee Information -->
         <div *ngIf="currentStep === 2" [formGroup]="form">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-          <p class="text-muted small mb-4">Tell us a little about yourself or your organization.</p>
+
+          <div class="intro-purpose mb-4">
+            <p class="mb-0">
+              <strong>Why we're asking.</strong> We're working on a plan to help people navigate AI, and as
+              early movers in this process, responses from this group will provide insight into how AI
+              adoption might work in Haverhill.
+            </p>
+          </div>
 
           <div class="row g-3">
             <div class="col-12">
-              <label class="form-label" for="name">Name</label>
-              <input id="name" class="form-control" type="text" formControlName="name" placeholder="Your name" />
-            </div>
-
-            <div class="col-12">
-              <label class="form-label" for="organization">Organization</label>
-              <input id="organization" class="form-control" type="text" formControlName="organization"
-                     placeholder="Company or employer (optional)" />
-            </div>
-
-            <div class="col-12">
-              <label class="form-label" for="email">Email</label>
+              <p class="follow-up-note mb-2">
+                After our summit, we will prepare a follow-up survey to analyse its effectiveness.
+                If you would like to participate, please supply your e-mail address.
+              </p>
+              <p class="follow-up-note mb-2 text-muted small">
+                We will only use this email to send you the follow-up survey.
+              </p>
+              <label class="form-label" for="email">Email <span class="text-muted fw-normal">(optional)</span></label>
               <input id="email" class="form-control" type="email" formControlName="email" placeholder="you@example.com" />
-            </div>
-
-            <div class="col-12">
-              <fieldset class="contact-consent-fieldset">
-                <legend class="form-label mb-2">Can we contact you to get feedback?</legend>
-                <div class="option-list contact-consent-list" role="radiogroup" aria-label="Contact for feedback">
-                  <label class="option-card option-card-radio contact-consent-option"
-                         [class.selected]="form.controls.canContactForFeedback.value === 'yes'">
-                    <input class="option-card-radio-input" type="radio" formControlName="canContactForFeedback" value="yes" />
-                    <span class="option-card-label">Yes</span>
-                  </label>
-                  <label class="option-card option-card-radio contact-consent-option"
-                         [class.selected]="form.controls.canContactForFeedback.value === 'no'">
-                    <input class="option-card-radio-input" type="radio" formControlName="canContactForFeedback" value="no" />
-                    <span class="option-card-label">No</span>
-                  </label>
-                </div>
-              </fieldset>
             </div>
           </div>
 
@@ -354,11 +339,8 @@
           <p class="text-muted small mb-4">Review your responses below, then submit.</p>
 
           <div class="summary-box summary-general mb-4">
-            <h6 class="summary-heading">Your information</h6>
-            <p class="mb-1 small"><strong>Name:</strong> {{ form.controls.name.value || '—' }}</p>
-            <p class="mb-1 small"><strong>Organization:</strong> {{ form.controls.organization.value || '—' }}</p>
-            <p class="mb-1 small"><strong>Email:</strong> {{ form.controls.email.value || '—' }}</p>
-            <p class="mb-0 small"><strong>Contact for feedback:</strong> {{ formatContactConsent(form.controls.canContactForFeedback.value) }}</p>
+            <h6 class="summary-heading">Attendee information</h6>
+            <p class="mb-0 small"><strong>Email:</strong> {{ form.controls.email.value || '—' }}</p>
           </div>
 
           <div class="interest-summary-section mb-3">
