@@ -66,7 +66,7 @@ steps:
         
       
 substitutions:
-    _KC_DEPLOY_TAG: QA
+    _KC_DEPLOY_TAG: BIZOPS_PROD
     _KC_PROJECT_NAME: trutesta-hccl-mdb5-ui
     _MVN_EXTRA_BUILD_DIRS: 
 
