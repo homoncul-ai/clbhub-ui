@@ -173,7 +173,7 @@ export class CareerInterestWizardComponent {
           parentEntityName: 'ParentEntityName',
           encodingText: sel.name,
           vocationEncodingId: sel.vocodeRefId || '',
-          status: 0,
+          status: 1,
         };
         await this.hcclService.createPersonalStatement(postData).toPromise();
       }

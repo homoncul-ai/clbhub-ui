@@ -53,99 +53,42 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
                     [collapsed]="isAccordionCollapsed('personalGoal')"
                     (itemShow)="openAccordion('personalGoal')">
                     <ng-template mdbAccordionItemHeader>
-                      <i class="fas fa-compass me-2"></i>
-                      Pursuit: {{ personalStatement?.name }}
+                      <div>
+                        <div>
+                          <i class="fas fa-compass me-2"></i>
+                          Pursuit: {{ personalStatement?.name }}
+                        </div>
+                        <div class="text-muted small ms-4 ps-1" *ngIf="isStatementHidden()">hidden</div>
+                      </div>
                     </ng-template>
                     <ng-template mdbAccordionItemBody>
                       <div class="accordion-body-content">
                         <div class="personal-statement-card" *ngIf="personalStatement">
                           <div class="card statement-card">
                             <div class="card-body">
-                              <div class="row">
-                                <!-- Left: Personal Statement Card -->
-                                <div class="col-md-4">
+                              <div class="row g-3">
+                                <div class="col-md-6">
                                   <app-personalstatement-crud [modeName]="CRUD_MODES.CARD" [id]="personalStatementId"></app-personalstatement-crud>
+                                  <div class="text-muted small mt-2" *ngIf="isStatementHidden()">hidden</div>
                                 </div>
 
-                                <!-- Center: Progress Ring -->
-                                <div class="col-md-3 text-center">
-                                  <div class="progress-ring-container">
-                                    <div class="progress-ring"
-                                         [style.--progress]="personalStatement.progress?.progressPercent || 0">
-                                      <div class="progress-ring-inner">
-                                        <span class="progress-percent">{{ personalStatement.progress?.progressPercent || 0 }}%</span>
-                                        <span class="progress-label">Complete</span>
-                                      </div>
-                                    </div>
-                                    <div class="mt-2" *ngIf="personalStatement.progress?.progressSummary">
-                                      <small class="text-muted">{{ personalStatement.progress?.progressSummary }}</small>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <!-- Right: Milestones Checklist -->
-                                <div class="col-md-5">
-                                  <div class="milestones-section">
-                                    <h6 class="milestones-title mb-3">
-                                      <i class="fas fa-tasks me-2"></i>Career Milestones
+                                <div class="col-md-6">
+                                  <div class="recent-interests-tile h-100">
+                                    <h6 class="recent-interests-title mb-3">
+                                      <i class="fas fa-star me-2"></i>Recent Interests
                                     </h6>
-                                    <div class="milestone-list">
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.completedResume">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedResume"
-                                           [class.fa-circle]="!personalStatement.progress?.completedResume"></i>
-                                        <span>Resume Completed</span>
-                                      </div>
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.showedInterestForJob">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.showedInterestForJob"
-                                           [class.fa-circle]="!personalStatement.progress?.showedInterestForJob"></i>
-                                        <span>Expressed Interest in Job</span>
-                                      </div>
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.showedInterestForCourse">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.showedInterestForCourse"
-                                           [class.fa-circle]="!personalStatement.progress?.showedInterestForCourse"></i>
-                                        <span>Expressed Interest in Course</span>
-                                      </div>
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.completedSignupForJob">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedSignupForJob"
-                                           [class.fa-circle]="!personalStatement.progress?.completedSignupForJob"></i>
-                                        <span>Applied for Job</span>
-                                      </div>
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.completedSignupForCourse">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.completedSignupForCourse"
-                                           [class.fa-circle]="!personalStatement.progress?.completedSignupForCourse"></i>
-                                        <span>Enrolled in Course</span>
-                                      </div>
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.contactedProvider">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.contactedProvider"
-                                           [class.fa-circle]="!personalStatement.progress?.contactedProvider"></i>
-                                        <span>Contacted Provider</span>
-                                      </div>
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.acceptedForJob">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.acceptedForJob"
-                                           [class.fa-circle]="!personalStatement.progress?.acceptedForJob"></i>
-                                        <span>Accepted for Job</span>
-                                      </div>
-                                      <div class="milestone-item" [class.completed]="personalStatement.progress?.acceptedForCourse">
-                                        <i class="fas" [class.fa-check-circle]="personalStatement.progress?.acceptedForCourse"
-                                           [class.fa-circle]="!personalStatement.progress?.acceptedForCourse"></i>
-                                        <span>Accepted for Course</span>
+                                    <div *ngIf="recentCatalogEntryInterests.length === 0" class="text-muted small py-3">
+                                      No interests recorded yet for this pursuit.
+                                    </div>
+                                    <div *ngFor="let interest of recentCatalogEntryInterests" class="recent-interest-item">
+                                      <app-catalogentry-crud [id]="interest.catalogEntryId" [modeName]="CRUD_MODES.FK"></app-catalogentry-crud>
+                                      <div class="d-flex align-items-center gap-2 mt-1">
+                                        <span class="badge bg-info">{{ interest.currentStateCode || 'New' }}</span>
+                                        <small class="text-muted">{{ interest.dateCreated?.formattedDate || '-' }}</small>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-
-                              <div class="next-step-banner mt-3" *ngIf="personalStatement.progress?.nextStep">
-                                <div class="d-flex align-items-center">
-                                  <i class="fas fa-lightbulb text-warning me-2"></i>
-                                  <strong>Next Step:</strong>
-                                  <span class="ms-2">{{ personalStatement.progress?.nextStep }}</span>
-                                </div>
-                              </div>
-
-                              <div class="no-progress-state text-center py-3" *ngIf="!personalStatement.progress">
-                                <i class="fas fa-rocket fa-2x text-muted mb-2"></i>
-                                <p class="text-muted mb-0">Start your career journey to track your progress!</p>
                               </div>
                             </div>
                           </div>
@@ -315,61 +258,15 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
 
-    /* Progress Ring Styles */
-    .progress-ring-container {
-      padding: 1rem;
-    }
-
-    .progress-ring {
-      --progress: 0;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: conic-gradient(
-        #4285f4 calc(var(--progress) * 3.6deg),
-        #e9ecef calc(var(--progress) * 3.6deg)
-      );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .progress-ring-inner {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .progress-percent {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #4285f4;
-      line-height: 1;
-    }
-
-    .progress-label {
-      font-size: 0.7rem;
-      color: #6c757d;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* Milestones Styles */
-    .milestones-section {
+    /* Recent interests tile */
+    .recent-interests-tile {
       background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
       border-radius: 8px;
       padding: 1rem;
       border: 1px solid #e9ecef;
     }
 
-    .milestones-title {
+    .recent-interests-title {
       color: #495057;
       font-size: 0.9rem;
       font-weight: 600;
@@ -377,56 +274,14 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
       padding-bottom: 0.5rem;
     }
 
-    .milestone-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
+    .recent-interest-item {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e9ecef;
     }
 
-    .milestone-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.6rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      color: #6c757d;
-      background: white;
-      border: 1px solid #e9ecef;
-      transition: all 0.2s ease;
-    }
-
-    .milestone-item i {
-      font-size: 0.9rem;
-      color: #dee2e6;
-    }
-
-    .milestone-item.completed {
-      color: #28a745;
-      background: #d4edda;
-      border-color: #c3e6cb;
-    }
-
-    .milestone-item.completed i {
-      color: #28a745;
-    }
-
-    /* Next Step Banner */
-    .next-step-banner {
-      background: linear-gradient(90deg, #fff3cd 0%, #ffeeba 100%);
-      border: 1px solid #ffc107;
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      font-size: 0.9rem;
-    }
-
-    .next-step-banner i {
-      font-size: 1.1rem;
-    }
-
-    /* No Progress State */
-    .no-progress-state i {
-      display: block;
+    .recent-interest-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
     }
 
     /* Resume Card Styles */
@@ -473,24 +328,6 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
     }
 
     @media (max-width: 768px) {
-      .milestone-list {
-        grid-template-columns: 1fr;
-      }
-      
-      .progress-ring {
-        width: 100px;
-        height: 100px;
-      }
-      
-      .progress-ring-inner {
-        width: 75px;
-        height: 75px;
-      }
-      
-      .progress-percent {
-        font-size: 1.2rem;
-      }
-
       .notes-text {
         max-width: 100px;
       }
@@ -498,6 +335,7 @@ import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
   `]
 })
 export class StudentPersonalStatementDetailsComponent implements OnInit {
+  private static readonly ACTIVE_STATUS = 1;
   private hcclContextService = inject(HcclContextService);
   private hcclService = inject(HcclService);
   private route = inject(ActivatedRoute);
@@ -513,6 +351,20 @@ export class StudentPersonalStatementDetailsComponent implements OnInit {
   catalogEntryInterests: CatalogEntryInterestGETData[] = [];
   resumes: PersonalStatementResumeGETData[] = [];
   accordionId = 'personalGoal';
+
+  get recentCatalogEntryInterests(): CatalogEntryInterestGETData[] {
+    return [...this.catalogEntryInterests]
+      .sort((a, b) => {
+        const aMs = a.dateCreated?.dateMilliseconds ?? 0;
+        const bMs = b.dateCreated?.dateMilliseconds ?? 0;
+        return bMs - aMs;
+      })
+      .slice(0, 4);
+  }
+
+  isStatementHidden(): boolean {
+    return (this.personalStatement?.status ?? 0) !== StudentPersonalStatementDetailsComponent.ACTIVE_STATUS;
+  }
 
   constructor() {
     console.log('StudentPersonalStatementDetailsComponent initialized');

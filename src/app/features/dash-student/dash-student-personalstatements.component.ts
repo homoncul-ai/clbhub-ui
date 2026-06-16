@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, PersonalStatementPOSTData, CatalogEntryCriteria } from '@app/restsvc/hccl.service';
+import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, PersonalStatementPOSTData, PersonalStatementPUTData, CatalogEntryCriteria } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { firstValueFrom } from 'rxjs';
 import { DategetdataDisplayComponent } from "../../components/_global/dategetdata-display/dategetdata-display.component";
@@ -25,11 +25,20 @@ import {
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header d-flex justify-content-end">
-              <button class="btn btn-primary btn-sm" (click)="openCreateModal()" title="Create New Pursuit">
+            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="toggleShowAll()">
+                {{ showAllPursuits ? 'Show Active' : 'Show All' }}
+              </button>
+              <div class="d-flex gap-2">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="openWizard()" title="Open Career Wizard">
+                <i class="fas fa-compass me-1"></i>
+                Choose Pursuit
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" (click)="openCreateModal()" title="Create New Pursuit">
                 <i class="fas fa-plus me-1"></i>
                 New Pursuit
               </button>
+              </div>
             </div>
             <div class="card-body">
               <!-- Loading state -->
@@ -62,7 +71,10 @@ import {
                       class="pursuit-row"
                       [class.table-active]="selectedPursuit?.id === statement.id"
                       (click)="explorePursuit(statement)">
-                      <td class="fw-semibold">{{ statement.name || 'Untitled Pursuit' }}</td>
+                      <td>
+                        <div class="fw-semibold">{{ statement.name || 'Untitled Pursuit' }}</div>
+                        <div class="text-muted small" *ngIf="isHidden(statement)">hidden</div>
+                      </td>
                       <td>
                         <span class="badge" [ngClass]="getStatusClass(statement.status)">
                           {{ getStatusText(statement.status) }}
@@ -72,6 +84,16 @@ import {
                         <app-dategetdata-display [data]="statement.dateCreated"></app-dategetdata-display>
                       </td>
                       <td class="text-end" (click)="$event.stopPropagation()">
+                        <button type="button" class="btn btn-sm btn-outline-secondary me-1"
+                          (click)="openEditModal(statement)" title="Edit pursuit">
+                          Edit
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-warning me-1"
+                          (click)="togglePursuitVisibility(statement)"
+                          [disabled]="visibilityUpdatingId === statement.id"
+                          [title]="isHidden(statement) ? 'Show pursuit' : 'Hide pursuit'">
+                          {{ isHidden(statement) ? 'Show' : 'Hide' }}
+                        </button>
                         <button type="button" class="btn btn-sm btn-outline-primary me-1"
                           (click)="explorePursuit(statement)" title="Search opportunities">
                           <i class="fas fa-search"></i>
@@ -89,11 +111,11 @@ import {
                 <i class="fas fa-compass fa-3x text-primary mb-3"></i>
                 <h5>Start a Pursuit</h5>
                 <p class="text-muted mb-3">
-                  Use the wizard to explore career paths, or click "New Pursuit" to add your interests manually.
+                  Use the Career Wizard to explore career paths, or click "New Pursuit" to add your interests manually.
                 </p>
-                <button class="btn btn-primary btn-lg" (click)="openWizard()">
-                  <i class="fas fa-magic me-2"></i>
-                  Launch Career Wizard
+                <button type="button" class="btn btn-primary btn-lg" (click)="openWizard()">
+                  <i class="fas fa-compass me-2"></i>
+                  Choose Pursuit
                 </button>
               </div>
             </div>
@@ -202,6 +224,54 @@ import {
     </div>
     <div *ngIf="showModal" class="modal-backdrop fade show"></div>
 
+    <!-- Edit Pursuit Modal -->
+    <div *ngIf="showEditModal" class="modal fade show" style="display: block;" tabindex="-1" aria-labelledby="editPersonalStatementModalLabel" aria-hidden="false">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editPersonalStatementModalLabel">
+              <i class="fas fa-edit me-2"></i>
+              Edit Pursuit
+            </h5>
+            <button type="button" class="btn-close" (click)="closeEditModal()" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="editModalError" class="alert alert-danger mb-3" role="alert">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              {{ editModalError }}
+            </div>
+            <form #editForm="ngForm">
+              <app-std-mdb-form-text
+                prefix="personalstatement"
+                name="editName"
+                label="Pursuit Name *"
+                [required]="true"
+                [maxlength]="255"
+                [(ngModel)]="editStatement.name">
+              </app-std-mdb-form-text>
+              <app-std-mdb-form-textarea
+                prefix="personalstatement"
+                name="editRawText"
+                label="Describe your professional dreams and goals"
+                [required]="true"
+                [maxlength]="1024"
+                [(ngModel)]="editStatement.rawText">
+              </app-std-mdb-form-textarea>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="saveEditPursuit(editForm)"
+                    [disabled]="!editForm.valid || editing">
+              <span *ngIf="editing" class="spinner-border spinner-border-sm me-2" role="status"></span>
+              {{ editing ? 'Saving...' : 'Save Changes' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showEditModal" class="modal-backdrop fade show"></div>
+
     <!-- Career Interest Wizard -->
     <app-career-interest-wizard
       *ngIf="showWizard"
@@ -219,10 +289,15 @@ import {
   `]
 })
 export class DashStudentPersonalStatementsComponent implements OnInit {
+  private static readonly ACTIVE_STATUS = 1;
+  private static readonly HIDDEN_STATUS = 0;
+
   personalStatements: PersonalStatementGETData[] = [];
   loading = false;
   listError = '';
   modalError = '';
+  editModalError = '';
+  showAllPursuits = false;
 
   // Modal and form properties
   newStatement: Partial<PersonalStatementPOSTData> = {
@@ -236,11 +311,20 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
     parentEntityName: '',
     encodingText: '',
     vocationEncodingId: '',
-    status: 0
+    status: DashStudentPersonalStatementsComponent.ACTIVE_STATUS
+  };
+  editStatement: { id: string; name: string; rawText: string; source: PersonalStatementGETData | null } = {
+    id: '',
+    name: '',
+    rawText: '',
+    source: null,
   };
   creating = false;
+  editing = false;
   showModal = false;
+  showEditModal = false;
   showWizard = false;
+  visibilityUpdatingId: string | null = null;
 
   readonly pursuitResearchSections = PURSUIT_RESEARCH_SECTIONS;
   selectedPursuit: PersonalStatementGETData | null = null;
@@ -285,6 +369,9 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
         isPaging: false,
         maxResults: 50
       };
+      if (!this.showAllPursuits) {
+        criteria.status = DashStudentPersonalStatementsComponent.ACTIVE_STATUS;
+      }
 
       return firstValueFrom(this.hcclService.findPersonalStatements(criteria))
         .then((results) => {
@@ -310,11 +397,11 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
 
   getStatusClass(status?: number): string {
     switch (status) {
-      case 1:
+      case DashStudentPersonalStatementsComponent.ACTIVE_STATUS:
         return 'badge-active';
-      case 0:
+      case DashStudentPersonalStatementsComponent.HIDDEN_STATUS:
         return 'badge-draft';
-      case 2:
+      case 200:
         return 'badge-archived';
       default:
         return 'badge-draft';
@@ -322,18 +409,25 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
   }
 
   getStatusText(status?: number): string {
-    //alert(status);
     switch (status) {
-      case 2: 
-      case 1:
+      case DashStudentPersonalStatementsComponent.ACTIVE_STATUS:
         return 'Active';
-      case 0:
-        return 'Draft';
+      case DashStudentPersonalStatementsComponent.HIDDEN_STATUS:
+        return 'Hidden';
       case 200:
         return 'Archived';
       default:
         return 'Unknown';
     }
+  }
+
+  isHidden(statement: PersonalStatementGETData): boolean {
+    return statement.status !== DashStudentPersonalStatementsComponent.ACTIVE_STATUS;
+  }
+
+  toggleShowAll(): void {
+    this.showAllPursuits = !this.showAllPursuits;
+    this.loadPersonalStatements();
   }
 
   /**
@@ -420,11 +514,126 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
       parentEntityName: 'ParentEntityName',
       encodingText: '',
       vocationEncodingId: '',
-      status: 0
+      status: DashStudentPersonalStatementsComponent.ACTIVE_STATUS
     };
     
     // Show modal using Angular
     this.showModal = true;
+  }
+
+  openEditModal(statement: PersonalStatementGETData): void {
+    if (!statement.id) {
+      return;
+    }
+    this.editModalError = '';
+    this.editing = false;
+    this.showEditModal = true;
+    this.editStatement = {
+      id: statement.id,
+      name: statement.name || '',
+      rawText: statement.rawText || '',
+      source: statement,
+    };
+
+    this.hcclService.getPersonalStatementById(statement.id).subscribe({
+      next: (full) => {
+        this.editStatement = {
+          id: statement.id!,
+          name: full.name || '',
+          rawText: full.rawText || '',
+          source: full,
+        };
+      },
+      error: (err) => {
+        console.error('Error loading pursuit for edit:', err);
+        this.editModalError = this.formatErrorMessage(err, 'Failed to load pursuit details.');
+      }
+    });
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.editModalError = '';
+    this.editing = false;
+    this.editStatement = { id: '', name: '', rawText: '', source: null };
+  }
+
+  saveEditPursuit(form: NgForm): void {
+    if (!form.valid || !this.editStatement.source?.id) {
+      return;
+    }
+
+    this.editing = true;
+    this.editModalError = '';
+    const source = this.editStatement.source;
+    const putData = this.buildPutData(source);
+    putData.name = this.editStatement.name.trim();
+    putData.rawText = this.editStatement.rawText.trim();
+
+    this.hcclService.updatePersonalStatementById(source.id!, putData).subscribe({
+      next: () => {
+        this.editing = false;
+        this.closeEditModal();
+        this.loadPersonalStatements();
+      },
+      error: (err) => {
+        console.error('Error updating pursuit:', err);
+        this.editModalError = this.formatErrorMessage(err, 'Failed to save pursuit. Please try again.');
+        this.editing = false;
+      }
+    });
+  }
+
+  togglePursuitVisibility(statement: PersonalStatementGETData): void {
+    if (!statement.id) {
+      return;
+    }
+
+    this.visibilityUpdatingId = statement.id;
+    this.hcclService.getPersonalStatementById(statement.id).subscribe({
+      next: (full) => {
+        const putData = this.buildPutData(full);
+        putData.status = this.isHidden(full)
+          ? DashStudentPersonalStatementsComponent.ACTIVE_STATUS
+          : DashStudentPersonalStatementsComponent.HIDDEN_STATUS;
+
+        this.hcclService.updatePersonalStatementById(statement.id!, putData).subscribe({
+          next: () => {
+            this.visibilityUpdatingId = null;
+            if (this.selectedPursuit?.id === statement.id) {
+              this.selectedPursuit = { ...this.selectedPursuit, status: putData.status };
+            }
+            this.loadPersonalStatements();
+          },
+          error: (err) => {
+            console.error('Error updating pursuit visibility:', err);
+            this.listError = this.formatErrorMessage(err, 'Failed to update pursuit visibility.');
+            this.visibilityUpdatingId = null;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error loading pursuit for visibility toggle:', err);
+        this.listError = this.formatErrorMessage(err, 'Failed to load pursuit details.');
+        this.visibilityUpdatingId = null;
+      }
+    });
+  }
+
+  private buildPutData(from: PersonalStatementGETData): PersonalStatementPUTData {
+    return {
+      name: from.name || '',
+      businessCode: from.businessCode || 'autocalc',
+      description: from.description || '',
+      statementTypeCode: from.statementTypeCode || 'student_vocation',
+      parentEntityId: from.parentEntityId || '',
+      parentEntityType: from.parentEntityType || 'HcclUserProfile',
+      parentEntityName: from.parentEntityName || 'ParentEntityName',
+      rawText: from.rawText || '',
+      encodingText: from.encodingText || '',
+      vocationEncodingId: from.vocationEncodingId || '',
+      status: from.status ?? DashStudentPersonalStatementsComponent.HIDDEN_STATUS,
+    };
   }
 
   /**
@@ -483,7 +692,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
         rawText: this.newStatement.rawText || '',
         encodingText: this.newStatement.encodingText || '',
         vocationEncodingId: this.newStatement.vocationEncodingId || '',
-        status: this.newStatement.status || 0
+        status: DashStudentPersonalStatementsComponent.ACTIVE_STATUS
       };
 
       this.hcclService.createPersonalStatement(postData).subscribe({
