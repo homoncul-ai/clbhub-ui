@@ -19725,6 +19725,32 @@
         }
       }
     },
+    "/hccl/monitoring/diagnostics": {
+      "post": {
+        "summary": "Run dependency diagnostics for external services.",
+        "operationId": "runDiagnostics",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiagnosticQueryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/public/webhooks/catalog-spreadsheet-change": {
       "post": {
         "tags": [
@@ -49919,6 +49945,58 @@
           }
         }
       },
+      "DiagnosticQueryResponse": {
+        "type": "object",
+        "properties": {
+          "requestedDiagnosticName": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticResultsPOJO"
+            }
+          },
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          }
+        }
+      },
+      "DiagnosticResultsPOJO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "configMap": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "errors": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "statusNotes": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "DiagnosticQueryRequest": {
+        "type": "object",
+        "properties": {
+          "diagnosticName": {
+            "type": "string"
+          }
+        }
+      },
       "CreateTicketSetupUIData": {
         "type": "object",
         "properties": {
@@ -51269,13 +51347,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

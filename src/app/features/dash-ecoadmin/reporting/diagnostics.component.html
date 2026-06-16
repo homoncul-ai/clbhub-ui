@@ -1,0 +1,89 @@
+<main class="diagnostics-page container py-4">
+  <section class="card border-0 shadow-sm">
+    <div class="card-body p-4 p-md-5">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+        <div>
+          <h1 class="h4 mb-2">System diagnostics</h1>
+          <p class="text-muted mb-0">
+            Configuration and availability checks for external services used by HCCL.
+          </p>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="loading"
+          (click)="runAllDiagnostics()">
+          {{ loading ? 'Running…' : 'Run all diagnostics' }}
+        </button>
+      </div>
+
+      <div *ngIf="loading" class="alert alert-info mb-0">
+        Running dependency checks…
+      </div>
+
+      <div *ngIf="errorMessage && !loading" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="topLevelMessages().length > 0 && !loading" class="alert alert-warning">
+        <div *ngFor="let msg of topLevelMessages()">{{ msg.message || msg.messageCode }}</div>
+      </div>
+
+      <div *ngIf="!loading && response" class="diagnostics-results">
+        <p class="text-muted small mb-3" *ngIf="response.requestedDiagnosticName">
+          Requested: <strong>{{ response.requestedDiagnosticName }}</strong>
+        </p>
+
+        <div *ngIf="results().length === 0" class="alert alert-secondary mb-0">
+          No diagnostic results were returned.
+        </div>
+
+        <article
+          *ngFor="let result of results()"
+          class="diagnostic-card card mb-3">
+          <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+              <h2 class="h5 mb-0">{{ result.name || 'Diagnostic' }}</h2>
+              <span class="badge rounded-pill" [ngClass]="statusBadgeClass(result.status)">
+                {{ result.status }} — {{ result.statusNotes || 'Unknown' }}
+              </span>
+            </div>
+
+            <p class="text-muted mb-3" *ngIf="result.notes">{{ result.notes }}</p>
+
+            <div *ngIf="errorMessages(result).length > 0" class="alert alert-danger py-2 mb-3">
+              <div *ngFor="let err of errorMessages(result)" class="small">
+                <strong *ngIf="err.messageCode">{{ err.messageCode }}:</strong>
+                {{ err.message || err.exceptionMessage }}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary"
+              (click)="toggleConfig(result.name || '')">
+              {{ isConfigExpanded(result.name || '') ? 'Hide configuration' : 'Show configuration' }}
+            </button>
+
+            <div *ngIf="isConfigExpanded(result.name || '')" class="table-responsive mt-3">
+              <table class="table table-sm table-striped align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">Property</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let entry of result.configMap | keyvalue">
+                    <td class="text-nowrap">{{ entry.key }}</td>
+                    <td class="font-monospace small">{{ formatConfigValue(entry.value) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>

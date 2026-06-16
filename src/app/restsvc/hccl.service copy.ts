@@ -9,14 +9,37 @@ import { AppConstants } from '@app/shell/services/config.service';
   providedIn: 'root'
 })
 export class HcclService extends CommonRequestServiceCaller {
-  constructor(http: HttpClient, appConstants: AppConstants) {
-    super(http);
+  /** Same-origin path proxied by server.js when cluster_config is unavailable. */
+  private static readonly sameOriginBaseUrl = '/trutesta-hccl-services';
 
-  // Hard code it if you want
-   // const baseUrl: string = "http://localhost:8099/trutesta-hccl-services";
-    const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
-    console.log("Setting HcclService baseUrl to " + baseUrl);
-    this.setBaseUrl(baseUrl);
+  constructor(http: HttpClient, private readonly appConstants: AppConstants) {
+    super(http);
+    this.syncBaseUrl();
+  }
+
+  override getBaseUrl(): string {
+    this.syncBaseUrl();
+    return super.getBaseUrl();
+  }
+
+  protected syncBaseUrl(): void {
+    const baseUrl = this.resolveHcclBaseUrl();
+    if (baseUrl !== super.getBaseUrl()) {
+      console.log('Setting HcclService baseUrl to ' + baseUrl);
+      this.setBaseUrl(baseUrl);
+    }
+  }
+
+  protected resolveHcclBaseUrl(): string {
+    const configured = this.appConstants.endPoints().hcclServicesEndPoint?.trim();
+    if (!configured) {
+      return HcclService.sameOriginBaseUrl;
+    }
+    const onLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (!onLocalhost && configured.includes('localhost')) {
+      return HcclService.sameOriginBaseUrl;
+    }
+    return configured;
   }
 
   getCurrentManifest(): Observable<any> {
@@ -4545,15 +4568,6 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<any>(request);
-  }
-
-  runDiagnostics(body: DiagnosticQueryRequest): Observable<DiagnosticQueryResponse> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/monitoring/diagnostics",
-      method: "POST",
-      body: body,
-    };
-    return this.request<DiagnosticQueryResponse>(request);
   }
 
   catalogSpreadsheetChange(body: string): Observable<string> {
@@ -12693,25 +12707,6 @@ export interface EncodingPOSTData {
   sourceOfText: string;
 }
 
-export interface DiagnosticQueryResponse {
-  requestedDiagnosticName?: string;
-  results?: DiagnosticResultsPOJO[];
-  messages?: SimpleMessageList;
-}
-
-export interface DiagnosticResultsPOJO {
-  name?: string;
-  configMap?: any;
-  errors?: SimpleMessageList;
-  status?: number;
-  statusNotes?: string;
-  notes?: string;
-}
-
-export interface DiagnosticQueryRequest {
-  diagnosticName?: string;
-}
-
 export interface CreateTicketSetupUIData {
   data?: CreateTicketPOSTData;
   queuesMenu?: MenuControlDataList;
@@ -13180,9 +13175,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {

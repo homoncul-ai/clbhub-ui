@@ -856,6 +856,12 @@ export class MenuService {
     const surveyRegisterInterest = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEY_REGISTER_INTEREST_LIST);
     this.addChildMenuItem(surveysGroup, surveyRegisterInterest);
 
+    // Reporting group
+    const reportingGroup = this.newGroupMenuItem('Reporting', 'fas fa-chart-bar');
+    this.addMenuItem(menu, reportingGroup);
+    const diagnosticsItem = this.copyMenuItem(MENU_CONSTANTS.EA_DIAGNOSTICS);
+    this.addChildMenuItem(reportingGroup, diagnosticsItem);
+
     // Add UI Starter as the last top-level menu item
     const uiStarter = this.copyMenuItem(MENU_CONSTANTS.EA_UISTARTER);
     this.addMenuItem(menu, uiStarter);
@@ -1694,6 +1700,15 @@ EA_SURVEY_REGISTER_INTEREST_LIST: {
   componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
   componentName: 'SurveyResultsViewerComponent',
   icon: 'fas fa-envelope'
+},
+
+EA_DIAGNOSTICS: {
+  level: 2,
+  label: 'Diagnostics',
+  route: '/ecoadmin-dashboard/reporting/diagnostics',
+  componentPath: 'src/app/features/dash-ecoadmin/reporting/diagnostics.component',
+  componentName: 'DiagnosticsComponent',
+  icon: 'fas fa-stethoscope'
 },
 
 EA_VOCATIONENCODING_LIST: {
