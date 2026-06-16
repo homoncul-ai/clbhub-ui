@@ -28,7 +28,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 - Guidance team is configured
 
 **Main Flow:**
-1. Student navigates to `/student-dashboard2/home`
+1. Student navigates to `/student-dashboard/home`
 2. System displays personalized greeting with student's name
 3. System loads and displays:
    - Quick Actions section (3 action cards)
@@ -143,7 +143,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 
 **Preconditions:**
 - Student has no personal statements created
-- Student navigates to `/student-dashboard2/statements`
+- Student navigates to `/student-dashboard/statements`
 
 **Main Flow:**
 1. Student clicks "Statements" in navigation or "Write a Statement" quick action
@@ -240,7 +240,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 
 **Main Flow:**
 1. Student clicks on a statement card
-2. System navigates to `/student-dashboard2/statements/{id}`
+2. System navigates to `/student-dashboard/statements/{id}`
 3. System displays statement detail page:
    - Breadcrumb navigation (Statements / Statement Name)
    - Page title with statement name
@@ -357,7 +357,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 **Main Flow:**
 1. Student clicks "Find Jobs" action card in "Find Matching Opportunities" section
 2. System opens new browser tab
-3. System navigates to `/student-dashboard2/search?type=job&statement={statementId}`
+3. System navigates to `/student-dashboard/search?type=job&statement={statementId}`
 4. System automatically:
    - Sets filter to "Jobs" type
    - Pre-fills search with statement keywords (if implemented)
@@ -435,7 +435,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 **Actor:** Student
 
 **Preconditions:**
-- Student navigates to `/student-dashboard2/search`
+- Student navigates to `/student-dashboard/search`
 - Or clicks "Explore Careers" quick action
 
 **Main Flow:**
@@ -552,7 +552,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 
 **Preconditions:**
 - Student has saved at least one interest
-- Student navigates to `/student-dashboard2/interests`
+- Student navigates to `/student-dashboard/interests`
 
 **Main Flow:**
 1. System displays interests list page:
@@ -597,7 +597,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 - Student clicks on an interest card
 
 **Main Flow:**
-1. System navigates to `/student-dashboard2/interests/{id}`
+1. System navigates to `/student-dashboard/interests/{id}`
 2. System displays interest detail page:
    - Breadcrumb: My Interests / Opportunity Title
    - Type badge and availability badge
@@ -668,7 +668,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 **Actor:** Student
 
 **Preconditions:**
-- Student navigates to `/student-dashboard2/guidance`
+- Student navigates to `/student-dashboard/guidance`
 - Or clicks "Get Help" quick action
 
 **Main Flow:**
@@ -825,7 +825,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 
 **Main Flow:**
 1. Student clicks on a ticket in "Recent Requests" list
-2. System navigates to `/student-dashboard2/guidance/tickets/{id}`
+2. System navigates to `/student-dashboard/guidance/tickets/{id}`
 3. System displays ticket detail page:
    - Breadcrumb: Guidance / Ticket Code
    - Status badge
@@ -859,7 +859,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 **Actor:** Student
 
 **Preconditions:**
-- Student navigates to `/student-dashboard2/messages`
+- Student navigates to `/student-dashboard/messages`
 - Or clicks "Messages" in navigation
 
 **Main Flow:**
@@ -903,7 +903,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 - Student clicks on a message
 
 **Main Flow:**
-1. System navigates to `/student-dashboard2/messages/{id}`
+1. System navigates to `/student-dashboard/messages/{id}`
 2. System displays message detail page:
    - Breadcrumb: Messages / Message Title
    - Message header with title and date
@@ -933,7 +933,7 @@ Login → Dashboard Home → Explore Features → Write Statement → Search Opp
 **Actor:** Student
 
 **Preconditions:**
-- Student navigates to `/student-dashboard2/progress`
+- Student navigates to `/student-dashboard/progress`
 - Or clicks "Progress" in navigation
 
 **Main Flow:**
