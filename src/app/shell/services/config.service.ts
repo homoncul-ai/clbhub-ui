@@ -156,9 +156,18 @@ private setupTokenRefresh(): void {
       if (this.endPointsLoaded()) return;
 
       const clusterConfig = await this.__fetchClusterConfig();
+      if (!clusterConfig) {
+        throw new Error('Could not load cluster_config.');
+      }
+
+      const constants = clusterConfig['constants'] as Record<string, string>;
+      this.serviceUrlPrefix.set(constants['serviceUrlPrefix'] ?? '');
+      this.clusterType.set(constants['clusterType'] ?? '');
+      DebugLog.setEnabled(!this.isProduction());
+
       const keycloakTemplate = await this.__fetchJson('assets/commonConfig/keycloak.json');
-      if (!clusterConfig || !keycloakTemplate) {
-        throw new Error('Could not load cluster_config or keycloak config.');
+      if (!keycloakTemplate) {
+        throw new Error('Could not load keycloak config.');
       }
 
       const hostname = document.location.hostname;
@@ -168,8 +177,6 @@ private setupTokenRefresh(): void {
         throw new Error(`No realm mapping for hostname "${hostname}".`);
       }
       const [realmName, realmTenantId] = realmInfo;
-
-      const constants = clusterConfig['constants'] as Record<string, string>;
       const keyCloakConfig = this.__templateReplace(keycloakTemplate, constants);
       keyCloakConfig.realm = realmName;
       keyCloakConfig.logoutUrl = GlobalConstants.keycloakLogoutUrl;
@@ -181,9 +188,6 @@ private setupTokenRefresh(): void {
         this.__resolveDebugEndpoints(apiConfig, clusterConfig['debugEndpoints']);
       }
 
-      this.serviceUrlPrefix.set(constants['serviceUrlPrefix'] ?? '');
-      this.clusterType.set(constants['clusterType'] ?? '');
-      DebugLog.enabled = !this.isProduction();
       this.endPoints.set(apiConfig.constants);
       this.keycloakConfig.set(keyCloakConfig);
       this.endPointsLoaded.set(true);

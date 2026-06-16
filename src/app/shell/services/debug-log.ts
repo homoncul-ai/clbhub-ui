@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
  */
 export class DebugLog {
   /** When true, the on-screen debug console is shown at the bottom of the app. */
-  static enabled = true;
+  static enabled = false;
 
   /** Maximum number of debug lines retained in the buffer. */
   private static readonly MAX_LINES = 500;
@@ -19,6 +19,14 @@ export class DebugLog {
 
   /** Stream of debug messages so the UI can react to appends. */
   static messages$ = new BehaviorSubject<string[]>(DebugLog.messages);
+
+  /** Stream so the debug console can show/hide when config loads. */
+  static enabled$ = new BehaviorSubject<boolean>(DebugLog.enabled);
+
+  static setEnabled(value: boolean): void {
+    DebugLog.enabled = value;
+    DebugLog.enabled$.next(value);
+  }
 
   /** Append a timestamped line of text to the debug console. */
   static append(text: string): void {

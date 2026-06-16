@@ -116,6 +116,11 @@ export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecke
       this.messages = messages;
       this.shouldScroll = true;
     });
+    this.sub.add(
+      DebugLog.enabled$.subscribe((enabled) => {
+        this.enabled = enabled;
+      }),
+    );
   }
 
   ngAfterViewChecked(): void {

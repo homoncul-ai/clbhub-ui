@@ -28,7 +28,7 @@ export class HcclContextService {
     return DebugLog.enabled;
   }
   public static set debugEnabled(value: boolean) {
-    DebugLog.enabled = value;
+    DebugLog.setEnabled(value);
   }
 
   /** In-memory buffer of debug messages. */
