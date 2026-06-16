@@ -61,6 +61,7 @@ steps:
         docker push ${dockerImageName}
 
       docker tag ${dockerImageName} ${dockerImageRoot}:${imageTag}
+      docker tag ${dockerImageName} ${dockerImageRoot}:QA
       docker push ${dockerImageRoot}:${imageTag}
       echo Pushed ${dockerImageRoot}:${imageTag}
         
