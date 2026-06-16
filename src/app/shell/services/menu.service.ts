@@ -622,14 +622,6 @@ export class MenuService {
     this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ORGS));
     this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ITEMS));
     this.addMenuItem(menu, research);
-    
-    // Add Resume Builder with Resume Entries as a child
-    const resumeBuilder = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_BUILDER);
-    this.addMenuItem(menu, resumeBuilder);
-
-    // Add Resume Entries as a child of Resume Builder
-    const resumeEntriesForBuilder = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESUME_ENTRIES);
-    this.addChildMenuItem(resumeBuilder, resumeEntriesForBuilder);
 
     // Guidance & Support is intentionally hidden for now.
     // const guidance = this.copyMenuItem(MENU_CONSTANTS.STUDENT_GUIDANCE);
