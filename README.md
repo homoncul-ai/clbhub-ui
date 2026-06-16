@@ -1,5 +1,9 @@
 # TrutestaHcclMdb5Ui
 
+## 20260615 - prep for AI Summitt.
+
+
+
 ## Transferred to trutesta bitbucket. 2025-07-10
 
 Whoa..
