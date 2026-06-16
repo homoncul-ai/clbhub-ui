@@ -61,13 +61,13 @@ steps:
         docker push ${dockerImageName}
 
       docker tag ${dockerImageName} ${dockerImageRoot}:${imageTag}
-      docker tag ${dockerImageName} ${dockerImageRoot}:QA
       docker push ${dockerImageRoot}:${imageTag}
+
       echo Pushed ${dockerImageRoot}:${imageTag}
         
       
 substitutions:
-    _KC_DEPLOY_TAG: BIZOPS_PROD
+    _KC_DEPLOY_TAG: QA
     _KC_PROJECT_NAME: trutesta-hccl-mdb5-ui
     _MVN_EXTRA_BUILD_DIRS: 
 
