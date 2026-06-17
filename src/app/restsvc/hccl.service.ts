@@ -10744,6 +10744,7 @@ export interface HcclUserInviteGETData {
   parentName?: string;
   invitedById?: string;
   niceName?: string;
+  dateExpires?: DateGETData;
   organization?: HcclOrganizationGETData;
   createdByUserProfile?: HcclUserProfileGETData;
   callbackUrl?: string;

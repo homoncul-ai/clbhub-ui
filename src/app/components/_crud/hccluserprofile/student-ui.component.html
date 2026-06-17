@@ -14,9 +14,74 @@
   </div>
 
   <!-- Content -->
-  <div *ngIf="!loading && !error && dashData" class="student-ui-content">
+  <div *ngIf="!loading && !error && userProfileId" class="student-ui-content">
+
+    <div *ngIf="inviteActionError" class="alert alert-danger" role="alert">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{ inviteActionError }}
+    </div>
 
     <mdb-accordion [multiple]="false">
+
+      <!-- Invitations -->
+      <mdb-accordion-item
+        *ngIf="hasOpenInvitations"
+        [collapsed]="isAccordionCollapsed('invitations')"
+        (itemShow)="openAccordion('invitations')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-envelope-open-text me-2"></i>
+          Invitations
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>From</th>
+                    <th>Type</th>
+                    <th>Subject</th>
+                    <th>Expires</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let invite of openInvites">
+                    <td>{{ getInviteFrom(invite) }}</td>
+                    <td>{{ getInviteType(invite) }}</td>
+                    <td>{{ getInviteSubject(invite) }}</td>
+                    <td>{{ getInviteExpires(invite) }}</td>
+                    <td>
+                      <span class="badge bg-info text-dark">{{ invite.currentStateCode }}</span>
+                    </td>
+                    <td class="text-end">
+                      <button
+                        type="button"
+                        class="btn btn-success btn-sm me-2"
+                        [disabled]="isInviteProcessing(invite)"
+                        (click)="handleInviteAction(invite, true)">
+                        <i class="fas fa-check me-1"></i>
+                        {{ isInviteProcessing(invite) ? 'Processing...' : 'Accept' }}
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        [disabled]="isInviteProcessing(invite)"
+                        (click)="handleInviteAction(invite, false)">
+                        <i class="fas fa-times me-1"></i>
+                        Reject
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <ng-container *ngIf="dashData">
       <!-- Accordion 1: Student Information and Family Unit -->
       <!-- <mdb-accordion-item
         [collapsed]="isAccordionCollapsed('studentInfo')"
@@ -136,7 +201,8 @@
         </div>
       </ng-template>
     </mdb-accordion-item>
-  </mdb-accordion>
+      </ng-container>
+    </mdb-accordion>
   </div>
 
   
