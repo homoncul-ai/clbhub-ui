@@ -224,7 +224,7 @@
                   <h3 class="interest-section-title">Part 2a: Core Readiness - Other</h3>
                   <dl class="summary-detail-list">
                     <div class="summary-detail-item">
-                      <dt>Non-Degreed Job Seekers</dt>
+                      <dt>Non-Traditional Job Seekers</dt>
                       <dd>
                         <ul *ngIf="getTierStringList(selectedSurveyData, 'baselineEssentials', 'nonDegreed').length" class="summary-choice-list">
                           <li *ngFor="let item of getTierStringList(selectedSurveyData, 'baselineEssentials', 'nonDegreed')">{{ item }}</li>
@@ -239,11 +239,11 @@
                   <h3 class="interest-section-title">Part 3a: Performance &amp; Onboarding Expectations</h3>
                   <dl class="summary-detail-list">
                     <div class="summary-detail-item">
-                      <dt>Non-Degreed Job Seeker Preparedness</dt>
+                      <dt>Non-Traditional Job Seeker Preparedness</dt>
                       <dd>{{ getTierStringValue(selectedSurveyData, 'graduatePreparedness', 'nonDegreed') }}</dd>
                     </div>
                     <div class="summary-detail-item">
-                      <dt>Expected Supervision — Non-Degreed</dt>
+                      <dt>Expected Supervision — Non-Traditional</dt>
                       <dd>{{ getTierStringValue(selectedSurveyData, 'expectedSupervision', 'nonDegreed') }}</dd>
                     </div>
                   </dl>

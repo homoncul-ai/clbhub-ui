@@ -70,7 +70,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     { step: 3, title: 'Part 1: Industry & Demographics' },
     { step: 4, title: 'Part 2: Core Readiness & Graduate Comparisons' },
     { step: 5, title: 'Part 3: Performance & Onboarding Expectations' },
-    { step: 6, title: 'Part 4:  Non-Degreed Job Seekers' },
+    { step: 6, title: 'Part 4: Non-Traditional Job Seekers' },
     { step: 7, title: 'Part 5: Market Value' },
     { step: 8, title: 'Submit Results', subtitle: 'Review and submit your responses.' },
   ];
@@ -177,7 +177,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     },
     {
       id: 'not_applicable',
-      label: 'N/A – We do not hire non-degreed job seekers for entry-level roles.',
+      label: 'N/A – We do not hire non-traditional job seekers for entry-level roles.',
     },
   ];
 
@@ -206,7 +206,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   readonly graduateTierLabels: Record<GraduateTier, string> = {
     highSchool: 'High School Graduates',
     college: 'College Graduates',
-    nonDegreed: 'Non-Degreed Job Seekers',
+    nonDegreed: 'Non-Traditional Job Seekers',
   };
 
   currentStep = 1;

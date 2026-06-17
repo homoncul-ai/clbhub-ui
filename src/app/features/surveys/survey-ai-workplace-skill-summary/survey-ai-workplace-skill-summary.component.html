@@ -73,7 +73,7 @@
               <li>Part 1 — Industry &amp; demographics</li>
               <li>Part 2 — Core readiness &amp; graduate comparisons</li>
               <li>Part 3 — Performance &amp; onboarding expectations</li>
-              <li>Part 4 — Non-degreed job seekers</li>
+              <li>Part 4 — Non-traditional job seekers</li>
               <li>Part 5 — Market value of AI proficiency</li>
             </ul>
 
@@ -309,7 +309,7 @@
           <ng-container *ngTemplateOutlet="navButtons"></ng-container>
         </div>
 
-        <!-- Step 6: Part 4 — Non-Degreed Job Seekers -->
+        <!-- Step 6: Part 4 — Non-Traditional Job Seekers -->
         <div *ngIf="currentStep === 6">
           <p class="text-body small mb-4">
             Many of the job seekers we work with are adult learners, career changers, and individuals
@@ -320,7 +320,7 @@
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
           
           <p class="text-muted small mb-2">
-            Which baseline skills do you consider essential for non-degreed job seekers to possess on
+            Which baseline skills do you consider essential for non-traditional job seekers to possess on
             Day 1 to be hired? Select all that apply.
           </p>
           
@@ -329,7 +329,7 @@
               <thead>
                 <tr>
                   <th scope="col" class="matrix-competency-col">Baseline Competency - Essentials</th>
-                  <th scope="col" class="matrix-check-col text-center">Non-Degreed<br />Job Seekers</th>
+                  <th scope="col" class="matrix-check-col text-center">Non-Traditional<br />Job Seekers</th>
                 </tr>
               </thead>
               <tbody>
@@ -344,7 +344,7 @@
                              class="matrix-checkbox"
                              [checked]="isBaselineEssentialSelected(competency.id, 'nonDegreed')"
                              (change)="toggleBaselineEssential(competency.id, 'nonDegreed')"
-                             [attr.aria-label]="competency.label + ' essential for non-degreed job seekers'" />
+                             [attr.aria-label]="competency.label + ' essential for non-traditional job seekers'" />
                     </label>
                   </td>
                 </tr>
@@ -363,7 +363,7 @@
                          class="option-card-checkbox-input"
                          [checked]="isBaselineEssentialSelected(competency.id, 'nonDegreed')"
                          (change)="toggleBaselineEssential(competency.id, 'nonDegreed')" />
-                  <span class="option-card-label">Non-Degreed Job Seekers</span>
+                  <span class="option-card-label">Non-Traditional Job Seekers</span>
                 </label>
               </div>
             </div>
@@ -373,19 +373,19 @@
 
           <div class="question-block mb-4">
             <p class="question-text mb-3">
-              In your experience, how well-prepared are non-degreed job seekers in these baseline digital and
+              In your experience, how well-prepared are non-traditional job seekers in these baseline digital and
               adaptive skills when they enter your workplace? Select one response per row.
             </p>
 
             <div class="graduate-tier-section">
               <h3 class="interest-section-title">{{ graduateTierLabels.nonDegreed }}</h3>
-              <div class="option-list" role="radiogroup" aria-label="Non-degreed job seeker preparedness">
+              <div class="option-list" role="radiogroup" aria-label="Non-traditional job seeker preparedness">
                 <label *ngFor="let option of nonDegreedPrepOptions"
                        class="option-card option-card-radio"
                        [class.selected]="isGraduatePrepSelected('nonDegreed', option.id)">
                   <input type="radio"
                          class="option-card-radio-input"
-                         name="prep-non-degreed"
+                         name="prep-non-traditional"
                          [checked]="isGraduatePrepSelected('nonDegreed', option.id)"
                          (change)="selectGraduatePrep('nonDegreed', option.id)" />
                   <span class="option-card-label">{{ option.label }}</span>
@@ -396,19 +396,19 @@
 
           <div class="question-block">
             <p class="question-text mb-3">
-              What level of daily supervision do you expect non-degreed job seekers to require during their
+              What level of daily supervision do you expect non-traditional job seekers to require during their
               first 6 months on the job? Select one response.
             </p>
 
             <div class="graduate-tier-section">
               <h3 class="interest-section-title">{{ graduateTierLabels.nonDegreed }}</h3>
-              <div class="option-list" role="radiogroup" aria-label="Non-degreed job seeker supervision">
+              <div class="option-list" role="radiogroup" aria-label="Non-traditional job seeker supervision">
                 <label *ngFor="let option of supervisionLevelOptions"
                        class="option-card option-card-radio"
                        [class.selected]="isSupervisionLevelSelected('nonDegreed', option.id)">
                   <input type="radio"
                          class="option-card-radio-input"
-                         name="supervision-non-degreed"
+                         name="supervision-non-traditional"
                          [checked]="isSupervisionLevelSelected('nonDegreed', option.id)"
                          (change)="selectSupervisionLevel('nonDegreed', option.id)" />
                   <span class="option-card-label">{{ option.label }}</span>
@@ -511,7 +511,7 @@
           </div>
 
           <div class="interest-summary-section mb-3">
-            <h3 class="interest-section-title">Part 4: Non-Degreed Job Seekers</h3>
+            <h3 class="interest-section-title">Part 4: Non-Traditional Job Seekers</h3>
             <dl class="summary-detail-list">
               <div class="summary-detail-item">
                 <dt>Baseline Essentials</dt>
