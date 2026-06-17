@@ -1,22 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { HcclService, SurveyResponsePOSTData } from '@app/restsvc/hccl.service';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
+import { RecaptchaDisclosureComponent } from '@app/shared/components/recaptcha-disclosure/recaptcha-disclosure.component';
+import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { SurveysPublicHeaderComponent } from '../components/surveys-public-header.component';
-
-declare global {
-  interface Window {
-    grecaptcha?: {
-      render: (container: HTMLElement, parameters: Record<string, unknown>) => number;
-      reset: (widgetId?: number) => void;
-    };
-    __onRecaptchaLoad?: () => void;
-  }
-}
 
 interface SurveyStepDefinition {
   step: number;
@@ -50,22 +42,19 @@ interface InterestSubmissionSummary {
     ReactiveFormsModule,
     SimpleMessagesSectionComponent,
     SurveysPublicHeaderComponent,
+    RecaptchaDisclosureComponent,
   ],
   templateUrl: './survey-ai-summit-signin.component.html',
   styleUrl: './survey-ai-summit-signin.component.scss',
 })
-export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SurveyAiSummitSigninComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly recaptchaService = inject(RecaptchaService);
 
   private static readonly CONTACT_CONSENT_STORAGE_KEY = 'ai-summit-signin-contact-consent';
-
-  @ViewChild('captchaContainer') captchaContainer?: ElementRef<HTMLDivElement>;
-  private recaptchaWidgetId: number | null = null;
-  private recaptchaScriptPromise: Promise<void> | null = null;
-  readonly recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
   readonly surveyTitle = 'AI Summit Sign-in';
   readonly surveyCode = 'ai_summit_signin';
@@ -372,7 +361,6 @@ export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnD
     organization: [''],
     email: [''],
     canContactForFeedback: [''],
-    captchaToken: [''],
   });
 
   ngOnInit(): void {
@@ -400,24 +388,13 @@ export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnD
         this.setMessages([]);
         this.currentStep = page;
         this.scrollToTop();
-        this.maybeInitCaptcha();
       }
     });
 
+    void this.recaptchaService.preload();
     setTimeout(() => {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      this.maybeInitCaptcha();
     }, 0);
-  }
-
-  ngAfterViewInit(): void {
-    this.maybeInitCaptcha();
-  }
-
-  ngOnDestroy(): void {
-    if (this.recaptchaWidgetId !== null && window.grecaptcha) {
-      window.grecaptcha.reset(this.recaptchaWidgetId);
-    }
   }
 
   get optedInToContact(): boolean {
@@ -509,7 +486,6 @@ export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnD
     this.currentStep = target;
     this.syncPageQueryParam(target);
     this.scrollToTop();
-    this.maybeInitCaptcha();
   }
 
   interestSelectionKey(interest: string, option: string): string {
@@ -613,14 +589,18 @@ export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnD
     return '—';
   }
 
-  submit(): void {
-    if (!this.form.controls.captchaToken.value) {
-      this.setMessages([{ message: 'Please complete the captcha.', severity: 1 }]);
-      return;
-    }
-
+  async submit(): Promise<void> {
     this.submitting = true;
     this.setMessages([]);
+
+    let captchaToken: string;
+    try {
+      captchaToken = await this.recaptchaService.execute('ai_summit_signin');
+    } catch {
+      this.submitting = false;
+      this.setMessages([{ message: 'Security verification failed. Please try again.', severity: 1 }]);
+      return;
+    }
 
     const value = this.form.getRawValue();
     const surveyData: Record<string, unknown> = {
@@ -630,7 +610,7 @@ export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnD
       organization: value.organization.trim(),
       email: value.email.trim(),
       canContactForFeedback: value.canContactForFeedback,
-      captchaToken: value.captchaToken,
+      captchaToken,
       attendeeInterest: Array.from(this.selectedAttendeeInterests),
       aiEnabledCareers: this.formatInterestGroupedForSubmit(this.selectedAiEnabledCareers),
       skillsToStart: this.formatInterestGroupedForSubmit(this.selectedSkillsToStart),
@@ -668,10 +648,6 @@ export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnD
         error: (error) => {
           const fallback = { message: 'Unable to submit. Please try again later.', severity: 1 };
           this.messagesList = error?.error?.messages || { messages: [fallback] };
-          if (this.recaptchaWidgetId !== null && window.grecaptcha) {
-            window.grecaptcha.reset(this.recaptchaWidgetId);
-            this.form.controls.captchaToken.setValue('');
-          }
         },
       });
   }
@@ -684,57 +660,6 @@ export class SurveyAiSummitSigninComponent implements OnInit, AfterViewInit, OnD
 
   private readStoredContactConsent(): string {
     return sessionStorage.getItem(SurveyAiSummitSigninComponent.CONTACT_CONSENT_STORAGE_KEY) ?? '';
-  }
-
-  private maybeInitCaptcha(): void {
-    if (this.currentStep === this.totalSteps && !this.submitted) {
-      setTimeout(() => void this.initializeRecaptcha(), 100);
-    }
-  }
-
-  private async initializeRecaptcha(): Promise<void> {
-    if (!this.captchaContainer?.nativeElement || this.submitted) {
-      return;
-    }
-    await this.loadRecaptchaScript();
-    if (!window.grecaptcha || this.recaptchaWidgetId !== null) {
-      return;
-    }
-    this.recaptchaWidgetId = window.grecaptcha.render(this.captchaContainer.nativeElement, {
-      sitekey: this.recaptchaSiteKey,
-      callback: (token: string) => this.form.controls.captchaToken.setValue(token || ''),
-      'expired-callback': () => this.form.controls.captchaToken.setValue(''),
-      'error-callback': () => this.form.controls.captchaToken.setValue(''),
-    });
-  }
-
-  private loadRecaptchaScript(): Promise<void> {
-    if (window.grecaptcha?.render) {
-      return Promise.resolve();
-    }
-    if (this.recaptchaScriptPromise) {
-      return this.recaptchaScriptPromise;
-    }
-
-    this.recaptchaScriptPromise = new Promise<void>((resolve, reject) => {
-      const existing = document.querySelector('script[data-recaptcha-script="true"]') as HTMLScriptElement | null;
-      if (existing) {
-        existing.addEventListener('load', () => resolve(), { once: true });
-        existing.addEventListener('error', () => reject(new Error('Failed to load reCAPTCHA.')), { once: true });
-        return;
-      }
-
-      window.__onRecaptchaLoad = () => resolve();
-      const script = document.createElement('script');
-      script.setAttribute('data-recaptcha-script', 'true');
-      script.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
-      script.async = true;
-      script.defer = true;
-      script.onerror = () => reject(new Error('Failed to load reCAPTCHA.'));
-      document.head.appendChild(script);
-    });
-
-    return this.recaptchaScriptPromise;
   }
 
   private buildInterestOptionSections(optionsByInterest: Record<string, string[]>): InterestOptionSection[] {

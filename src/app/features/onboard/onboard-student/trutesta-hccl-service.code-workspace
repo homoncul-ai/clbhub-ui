@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../trutesta-hccl-service"
+		},
+		{
+			"path": "../../../../.."
+		},
+		{
+			"path": "../../../../../../clbhub-website"
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.debug.settings.onBuildFailureProceed": true
+	}
+}

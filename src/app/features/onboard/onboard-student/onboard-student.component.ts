@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -15,17 +15,9 @@ import {
   OnboardStudentPOSTData,
 } from '@app/restsvc/hccl.service';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
+import { RecaptchaDisclosureComponent } from '@app/shared/components/recaptcha-disclosure/recaptcha-disclosure.component';
+import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { OnboardPublicHeaderComponent } from '../components/onboard-public-header.component';
-
-declare global {
-  interface Window {
-    grecaptcha?: {
-      render: (container: HTMLElement, parameters: Record<string, unknown>) => number;
-      reset: (widgetId?: number) => void;
-    };
-    __onRecaptchaLoad?: () => void;
-  }
-}
 
 @Component({
   selector: 'app-onboard-student',
@@ -38,17 +30,15 @@ declare global {
     MenuControlDataListComponent,
     ContractSectionComponent,
     SimpleMessagesSectionComponent,
+    RecaptchaDisclosureComponent,
   ],
   templateUrl: './onboard-student.component.html',
   styleUrl: './onboard-student.component.scss',
 })
-export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class OnboardStudentComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
-  @ViewChild('captchaContainer') captchaContainer?: ElementRef<HTMLDivElement>;
-  private recaptchaWidgetId: number | null = null;
-  private recaptchaScriptPromise: Promise<void> | null = null;
-  readonly recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+  private readonly recaptchaService = inject(RecaptchaService);
 
   loadingUiData = false;
   submitting = false;
@@ -87,21 +77,11 @@ export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy
     verifyPassword: ['', [Validators.required]],
     birthMonth: [0, [Validators.required, Validators.min(1), Validators.max(12)]],
     birthYear: [0, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
-    captchaToken: ['', [Validators.required]],
   }, { validators: [this.passwordsMatchValidator] });
 
   ngOnInit(): void {
     this.loadOnboardStudentUiData();
-  }
-
-  async ngAfterViewInit(): Promise<void> {
-    await this.initializeRecaptcha();
-  }
-
-  ngOnDestroy(): void {
-    if (this.recaptchaWidgetId !== null && window.grecaptcha) {
-      window.grecaptcha.reset(this.recaptchaWidgetId);
-    }
+    void this.recaptchaService.preload();
   }
 
   get canSubmit(): boolean {
@@ -141,7 +121,6 @@ export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy
     if (v.initialPassword.hasError('minlength')) messages.push({ message: 'Password must be at least 8 characters.', severity: 1 });
     if (!v.verifyPassword.value?.trim()) messages.push({ message: 'Verify password is required.', severity: 1 });
     if (this.form.hasError('passwordMismatch')) messages.push({ message: 'Passwords must match.', severity: 1 });
-    if (!v.captchaToken.value) messages.push({ message: 'Complete the captcha challenge.', severity: 1 });
     if (!this.allContractsAccepted) messages.push({ message: 'Accept all contract checkboxes to continue.', severity: 1 });
 
     return messages;
@@ -154,53 +133,6 @@ export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy
       return null;
     }
     return password === verifyPassword ? null : { passwordMismatch: true };
-  }
-
-  private async initializeRecaptcha(): Promise<void> {
-    if (!this.captchaContainer?.nativeElement) {
-      return;
-    }
-    await this.loadRecaptchaScript();
-    if (!window.grecaptcha || this.recaptchaWidgetId !== null) {
-      return;
-    }
-    this.recaptchaWidgetId = window.grecaptcha.render(this.captchaContainer.nativeElement, {
-      sitekey: this.recaptchaSiteKey,
-      callback: (token: string) => this.form.controls.captchaToken.setValue(token || ''),
-      'expired-callback': () => this.form.controls.captchaToken.setValue(''),
-      'error-callback': () => this.form.controls.captchaToken.setValue(''),
-    });
-  }
-
-  private loadRecaptchaScript(): Promise<void> {
-    if (window.grecaptcha?.render) {
-      return Promise.resolve();
-    }
-    if (this.recaptchaScriptPromise) {
-      return this.recaptchaScriptPromise;
-    }
-
-    this.recaptchaScriptPromise = new Promise<void>((resolve, reject) => {
-      const existingScript = document.querySelector('script[data-recaptcha-script="true"]') as HTMLScriptElement | null;
-      if (existingScript) {
-        existingScript.addEventListener('load', () => resolve(), { once: true });
-        existingScript.addEventListener('error', () => reject(new Error('Failed to load reCAPTCHA script.')), {
-          once: true,
-        });
-        return;
-      }
-
-      window.__onRecaptchaLoad = () => resolve();
-      const script = document.createElement('script');
-      script.setAttribute('data-recaptcha-script', 'true');
-      script.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
-      script.async = true;
-      script.defer = true;
-      script.onerror = () => reject(new Error('Failed to load reCAPTCHA script.'));
-      document.head.appendChild(script);
-    });
-
-    return this.recaptchaScriptPromise;
   }
 
   loadOnboardStudentUiData(): void {
@@ -252,7 +184,7 @@ export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy
     this.form.controls.userName.markAsDirty();
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     this.form.markAllAsTouched();
     const validationMessages = this.buildValidationMessages();
     if (validationMessages.length) {
@@ -262,6 +194,16 @@ export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.submitting = true;
     this.setMessages([]);
+
+    let captchaToken: string;
+    try {
+      captchaToken = await this.recaptchaService.execute('onboard_student');
+    } catch {
+      this.submitting = false;
+      this.setMessages([{ message: 'Security verification failed. Please try again.', severity: 1 }]);
+      return;
+    }
+
     const value = this.form.getRawValue();
     const payload: OnboardStudentPOSTData & Record<string, unknown> = {
       schoolId: value.schoolId,
@@ -277,10 +219,9 @@ export class OnboardStudentComponent implements OnInit, AfterViewInit, OnDestroy
       consents: {
         consents: this.selectedConsents,
       },
-      // Keep additional spec fields until API contract is finalized.
       birthMonth: Number(value.birthMonth),
       birthYear: Number(value.birthYear),
-      captchaToken: value.captchaToken,
+      captchaToken,
     };
 
     this.hcclService

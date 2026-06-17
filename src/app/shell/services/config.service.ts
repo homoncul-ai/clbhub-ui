@@ -22,6 +22,7 @@ export class AppConstants {
   isUserActive = signal<boolean>(false);
   serviceUrlPrefix = signal<string>('');
   clusterType = signal<string>('');
+  captchaSiteKey = signal<string>(GlobalConstants.defaultCaptchaSiteKey);
   checksprigAvailable = toObservable(signal<any>({}));
   endPointsLoaded = signal<boolean>(false);
   keycloakConfig = signal<KeycloakConfig>({
@@ -42,6 +43,11 @@ export class AppConstants {
 
   isPublicRoute(pathname?: string): boolean {
     return this.isPublicPath(pathname || window.location.pathname);
+  }
+
+  private resolveCaptchaSiteKey(constants: Record<string, string>): string {
+    const configuredCaptchaSiteKey = constants['clbhub.captchaSiteKey']?.trim();
+    return configuredCaptchaSiteKey || GlobalConstants.defaultCaptchaSiteKey;
   }
 
   isProduction(): boolean {
@@ -163,6 +169,7 @@ private setupTokenRefresh(): void {
       const constants = clusterConfig['constants'] as Record<string, string>;
       this.serviceUrlPrefix.set(constants['serviceUrlPrefix'] ?? '');
       this.clusterType.set(constants['clusterType'] ?? '');
+      this.captchaSiteKey.set(this.resolveCaptchaSiteKey(constants));
       DebugLog.setEnabled(!this.isProduction());
 
       const keycloakTemplate = await this.__fetchJson('assets/commonConfig/keycloak.json');

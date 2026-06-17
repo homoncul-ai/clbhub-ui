@@ -1,24 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { HcclService, MenuControlData, MenuControlDataList, CheckinSurveyPOSTData } from '@app/restsvc/hccl.service';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
+import { RecaptchaDisclosureComponent } from '@app/shared/components/recaptcha-disclosure/recaptcha-disclosure.component';
+import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { SurveysPublicHeaderComponent } from '../components/surveys-public-header.component';
 import { CAREER_LADDERS, CareerLadder } from '@app/shared/data/career-ladders';
 import { GOOGLE_AI_COURSES, GoogleAICourse } from '@app/shared/data/google-ai-courses';
-
-declare global {
-  interface Window {
-    grecaptcha?: {
-      render: (container: HTMLElement, parameters: Record<string, unknown>) => number;
-      reset: (widgetId?: number) => void;
-    };
-    __onRecaptchaLoad?: () => void;
-  }
-}
 
 @Component({
   selector: 'app-survey-checkin',
@@ -30,18 +22,15 @@ declare global {
     SimpleMessagesSectionComponent,
     MenuControlDataListComponent,
     SurveysPublicHeaderComponent,
+    RecaptchaDisclosureComponent,
   ],
   templateUrl: './survey-checkin.component.html',
   styleUrl: './survey-checkin.component.scss',
 })
-export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SurveyCheckinComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
-
-  @ViewChild('captchaContainer') captchaContainer?: ElementRef<HTMLDivElement>;
-  private recaptchaWidgetId: number | null = null;
-  private recaptchaScriptPromise: Promise<void> | null = null;
-  readonly recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+  private readonly recaptchaService = inject(RecaptchaService);
 
   currentStep = 1;
   totalSteps = 4;
@@ -84,24 +73,14 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
     birthYear: [0, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
     schoolId: [''],
     acceptTos: [false, [Validators.requiredTrue]],
-    captchaToken: ['', [Validators.required]],
   });
 
   readonly aiHubUrl = 'https://aihub.masstech.org/google-certificates';
 
   ngOnInit(): void {
     this.loadSchoolData();
+    void this.recaptchaService.preload();
     setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }), 0);
-  }
-
-  async ngAfterViewInit(): Promise<void> {
-    // Captcha init deferred until step 3
-  }
-
-  ngOnDestroy(): void {
-    if (this.recaptchaWidgetId !== null && window.grecaptcha) {
-      window.grecaptcha.reset(this.recaptchaWidgetId);
-    }
   }
 
   loadSchoolData(): void {
@@ -189,10 +168,6 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
     this.setMessages([]);
     this.currentStep = Math.min(this.currentStep + 1, this.totalSteps);
     this.maxStepReached = Math.max(this.maxStepReached, this.currentStep);
-
-    if (this.currentStep === this.totalSteps) {
-      setTimeout(() => this.initializeRecaptcha(), 100);
-    }
   }
 
   prevStep(): void {
@@ -212,9 +187,6 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
     }
     this.setMessages([]);
     this.currentStep = step;
-    if (this.currentStep === this.totalSteps) {
-      setTimeout(() => this.initializeRecaptcha(), 100);
-    }
   }
 
   private validateStep1(): SimpleMessage[] {
@@ -229,13 +201,10 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
     return msgs;
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     const msgs: SimpleMessage[] = [];
     if (!this.form.controls.acceptTos.value) {
       msgs.push({ message: 'You must accept the Terms & Conditions.', severity: 1 });
-    }
-    if (!this.form.controls.captchaToken.value) {
-      msgs.push({ message: 'Please complete the captcha.', severity: 1 });
     }
     if (msgs.length) {
       this.setMessages(msgs);
@@ -244,6 +213,15 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.submitting = true;
     this.setMessages([]);
+
+    let captchaToken: string;
+    try {
+      captchaToken = await this.recaptchaService.execute('survey_checkin');
+    } catch {
+      this.submitting = false;
+      this.setMessages([{ message: 'Security verification failed. Please try again.', severity: 1 }]);
+      return;
+    }
 
     const value = this.form.getRawValue();
     const payload: CheckinSurveyPOSTData = {
@@ -259,7 +237,7 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
       wantsGuidance: this.wantsGuidance,
       interests: Array.from(this.selectedInterests),
       otherInterest: this.otherInterest.trim(),
-      captchaToken: value.captchaToken,
+      captchaToken,
     };
 
     this.hcclService.saveCheckinSurvey(payload).pipe(
@@ -288,40 +266,5 @@ export class SurveyCheckinComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private setMessages(messages: SimpleMessage[]): void {
     this.messagesList = { messages };
-  }
-
-  private async initializeRecaptcha(): Promise<void> {
-    if (!this.captchaContainer?.nativeElement) return;
-    await this.loadRecaptchaScript();
-    if (!window.grecaptcha || this.recaptchaWidgetId !== null) return;
-    this.recaptchaWidgetId = window.grecaptcha.render(this.captchaContainer.nativeElement, {
-      sitekey: this.recaptchaSiteKey,
-      callback: (token: string) => this.form.controls.captchaToken.setValue(token || ''),
-      'expired-callback': () => this.form.controls.captchaToken.setValue(''),
-      'error-callback': () => this.form.controls.captchaToken.setValue(''),
-    });
-  }
-
-  private loadRecaptchaScript(): Promise<void> {
-    if (window.grecaptcha?.render) return Promise.resolve();
-    if (this.recaptchaScriptPromise) return this.recaptchaScriptPromise;
-
-    this.recaptchaScriptPromise = new Promise<void>((resolve, reject) => {
-      const existing = document.querySelector('script[data-recaptcha-script="true"]') as HTMLScriptElement | null;
-      if (existing) {
-        existing.addEventListener('load', () => resolve(), { once: true });
-        existing.addEventListener('error', () => reject(new Error('Failed to load reCAPTCHA.')), { once: true });
-        return;
-      }
-      window.__onRecaptchaLoad = () => resolve();
-      const script = document.createElement('script');
-      script.setAttribute('data-recaptcha-script', 'true');
-      script.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
-      script.async = true;
-      script.defer = true;
-      script.onerror = () => reject(new Error('Failed to load reCAPTCHA.'));
-      document.head.appendChild(script);
-    });
-    return this.recaptchaScriptPromise;
   }
 }

@@ -16,7 +16,8 @@
     "serviceUrlPrefix": "http://localhost:8099",
     "cdnUrlPrefix": "https://cdn.trutesta.io",
     "keycloakUrlPrefix": "https://keycloak-gbs-qa.trutesta.io",
-    "gbsUrlPrefix": "https://gbs-stage.intertek.com"
+    "gbsUrlPrefix": "https://gbs-stage.intertek.com",
+    "clbhub.captchaSiteKey": "6LeNSiQtAAAAAHQjexlK52yRi8F4lwgPnyaZltpK"
   },
   "constantsDev": { 
     "clusterType": "dev",

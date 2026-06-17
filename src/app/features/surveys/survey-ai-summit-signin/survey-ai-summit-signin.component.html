@@ -412,12 +412,6 @@
             </dl>
           </div>
 
-          <div class="captcha mb-4">
-            <label class="form-label d-block mb-2">Verify you're human</label>
-            <div #captchaContainer></div>
-            <small class="text-muted d-block mt-2">Complete the reCAPTCHA challenge to submit.</small>
-          </div>
-
           <div class="d-flex justify-content-between mt-4">
             <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
               <i class="fas fa-arrow-left me-1"></i> Back
@@ -426,6 +420,10 @@
               <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
               {{ submitting ? 'Submitting...' : 'Submit Results' }}
             </button>
+          </div>
+
+          <div class="captcha mt-3">
+            <app-recaptcha-disclosure></app-recaptcha-disclosure>
           </div>
         </div>
       </div>

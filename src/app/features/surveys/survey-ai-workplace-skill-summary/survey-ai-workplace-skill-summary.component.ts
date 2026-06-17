@@ -1,22 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { HcclService, SurveyResponsePOSTData } from '@app/restsvc/hccl.service';
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
+import { RecaptchaDisclosureComponent } from '@app/shared/components/recaptcha-disclosure/recaptcha-disclosure.component';
+import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { SurveysPublicHeaderComponent } from '../components/surveys-public-header.component';
-
-declare global {
-  interface Window {
-    grecaptcha?: {
-      render: (container: HTMLElement, parameters: Record<string, unknown>) => number;
-      reset: (widgetId?: number) => void;
-    };
-    __onRecaptchaLoad?: () => void;
-  }
-}
 
 interface SurveyStepDefinition {
   step: number;
@@ -51,24 +43,22 @@ type GraduateTier = 'highSchool' | 'college';
     ReactiveFormsModule,
     SimpleMessagesSectionComponent,
     SurveysPublicHeaderComponent,
+    RecaptchaDisclosureComponent,
   ],
   templateUrl: './survey-ai-workplace-skill-summary.component.html',
   styleUrl: './survey-ai-workplace-skill-summary.component.scss',
 })
-export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly recaptchaService = inject(RecaptchaService);
 
   private static readonly CONTACT_CONSENT_STORAGE_KEY = 'ai-workplace-skill-summary-contact-consent';
 
-  @ViewChild('captchaContainer') captchaContainer?: ElementRef<HTMLDivElement>;
-  private recaptchaWidgetId: number | null = null;
-  private recaptchaScriptPromise: Promise<void> | null = null;
-  readonly recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
-  /** Set to true when reCAPTCHA should be required again. */
-  readonly captchaEnabled = false;
+  /** Requires reCAPTCHA v3 verification before submit on the final step. */
+  readonly captchaEnabled = true;
 
   readonly surveyTitle = 'AI Workplace Skill Summary';
   readonly surveyCode = 'ai_workplace_skill_summary';
@@ -213,7 +203,6 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
   readonly form = this.fb.nonNullable.group({
     email: [''],
     primaryIndustryOther: [''],
-    captchaToken: [''],
   });
 
   ngOnInit(): void {
@@ -241,24 +230,15 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
         this.setMessages([]);
         this.currentStep = page;
         this.scrollToTop();
-        this.maybeInitCaptcha();
       }
     });
 
+    if (this.captchaEnabled) {
+      void this.recaptchaService.preload();
+    }
     setTimeout(() => {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      this.maybeInitCaptcha();
     }, 0);
-  }
-
-  ngAfterViewInit(): void {
-    this.maybeInitCaptcha();
-  }
-
-  ngOnDestroy(): void {
-    if (this.recaptchaWidgetId !== null && window.grecaptcha) {
-      window.grecaptcha.reset(this.recaptchaWidgetId);
-    }
   }
 
   get optedInToFollowUpSurvey(): boolean {
@@ -307,7 +287,9 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
     this.currentStep = target;
     this.syncPageQueryParam(target);
     this.scrollToTop();
-    this.maybeInitCaptcha();
+    if (this.captchaEnabled && target === this.totalSteps) {
+      void this.recaptchaService.preload();
+    }
   }
 
   selectIndustrySector(sector: string): void {
@@ -399,12 +381,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
     return values.size ? Array.from(values).join(', ') : '—';
   }
 
-  submit(): void {
-    if (this.captchaEnabled && !this.form.controls.captchaToken.value) {
-      this.setMessages([{ message: 'Please complete the captcha.', severity: 1 }]);
-      return;
-    }
-
+  async submit(): Promise<void> {
     const value = this.form.getRawValue();
     const email = value.email.trim();
     const wantsFollowUpSurvey = !!email;
@@ -412,12 +389,23 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
     this.submitting = true;
     this.setMessages([]);
 
+    let captchaToken: string | undefined;
+    if (this.captchaEnabled) {
+      try {
+        captchaToken = await this.recaptchaService.execute('ai_workplace_skill_summary');
+      } catch {
+        this.submitting = false;
+        this.setMessages([{ message: 'Security verification failed. Please try again.', severity: 1 }]);
+        return;
+      }
+    }
+
     const surveyData: Record<string, unknown> = {
       surveyCode: this.surveyCode,
       pagePath: this.pagePath,
       email,
       wantsFollowUpSurvey,
-      ...(this.captchaEnabled ? { captchaToken: value.captchaToken } : {}),
+      ...(captchaToken ? { captchaToken } : {}),
       primaryIndustry: this.selectedIndustrySector,
       primaryIndustryOther: value.primaryIndustryOther.trim(),
       baselineEssentials: {
@@ -463,10 +451,6 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
         error: (error) => {
           const fallback = { message: 'Unable to submit. Please try again later.', severity: 1 };
           this.messagesList = error?.error?.messages || { messages: [fallback] };
-          if (this.captchaEnabled && this.recaptchaWidgetId !== null && window.grecaptcha) {
-            window.grecaptcha.reset(this.recaptchaWidgetId);
-            this.form.controls.captchaToken.setValue('');
-          }
         },
       });
   }
@@ -479,60 +463,6 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, AfterView
 
   private readStoredContactConsent(): string {
     return sessionStorage.getItem(SurveyAiWorkplaceSkillSummaryComponent.CONTACT_CONSENT_STORAGE_KEY) ?? '';
-  }
-
-  private maybeInitCaptcha(): void {
-    if (!this.captchaEnabled) {
-      return;
-    }
-    if (this.currentStep === this.totalSteps && !this.submitted) {
-      setTimeout(() => void this.initializeRecaptcha(), 100);
-    }
-  }
-
-  private async initializeRecaptcha(): Promise<void> {
-    if (!this.captchaContainer?.nativeElement || this.submitted) {
-      return;
-    }
-    await this.loadRecaptchaScript();
-    if (!window.grecaptcha || this.recaptchaWidgetId !== null) {
-      return;
-    }
-    this.recaptchaWidgetId = window.grecaptcha.render(this.captchaContainer.nativeElement, {
-      sitekey: this.recaptchaSiteKey,
-      callback: (token: string) => this.form.controls.captchaToken.setValue(token || ''),
-      'expired-callback': () => this.form.controls.captchaToken.setValue(''),
-      'error-callback': () => this.form.controls.captchaToken.setValue(''),
-    });
-  }
-
-  private loadRecaptchaScript(): Promise<void> {
-    if (window.grecaptcha?.render) {
-      return Promise.resolve();
-    }
-    if (this.recaptchaScriptPromise) {
-      return this.recaptchaScriptPromise;
-    }
-
-    this.recaptchaScriptPromise = new Promise<void>((resolve, reject) => {
-      const existing = document.querySelector('script[data-recaptcha-script="true"]') as HTMLScriptElement | null;
-      if (existing) {
-        existing.addEventListener('load', () => resolve(), { once: true });
-        existing.addEventListener('error', () => reject(new Error('Failed to load reCAPTCHA.')), { once: true });
-        return;
-      }
-
-      window.__onRecaptchaLoad = () => resolve();
-      const script = document.createElement('script');
-      script.setAttribute('data-recaptcha-script', 'true');
-      script.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
-      script.async = true;
-      script.defer = true;
-      script.onerror = () => reject(new Error('Failed to load reCAPTCHA.'));
-      document.head.appendChild(script);
-    });
-
-    return this.recaptchaScriptPromise;
   }
 
   private parsePageParam(raw: string | null): number | null {
