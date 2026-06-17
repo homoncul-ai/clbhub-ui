@@ -69,9 +69,9 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     { step: 2, title: 'Attendee Information' },
     { step: 3, title: 'Part 1: Industry & Demographics' },
     { step: 4, title: 'Part 2: Core Readiness & Graduate Comparisons' },
-    { step: 5, title: 'Part 2a: Core Readiness - Other' },
-    { step: 6, title: 'Part 3: Performance & Onboarding Expectations' },
-    { step: 7, title: 'Part 4: Market Value' },
+    { step: 5, title: 'Part 3: Performance & Onboarding Expectations' },
+    { step: 6, title: 'Part 4:  Non-Degreed Job Seekers' },
+    { step: 7, title: 'Part 5: Market Value' },
     { step: 8, title: 'Submit Results', subtitle: 'Review and submit your responses.' },
   ];
 
@@ -267,7 +267,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   }
 
   get currentStepDefinition(): SurveyStepDefinition {
-    return this.steps[this.currentStep - 1];
+    return this.steps.find((s) => s.step === this.currentStep) ?? this.steps[0];
   }
 
   get showIndustryOtherField(): boolean {

@@ -72,10 +72,9 @@
             <ul class="intro-theme-list">
               <li>Part 1 — Industry &amp; demographics</li>
               <li>Part 2 — Core readiness &amp; graduate comparisons</li>
-              <li>Part 2a — Core readiness — other</li>
-              <li>Part 3a — Performance &amp; onboarding expectations (non-degreed job seekers)</li>
               <li>Part 3 — Performance &amp; onboarding expectations</li>
-              <li>Part 4 — Market value of AI proficiency</li>
+              <li>Part 4 — Non-degreed job seekers</li>
+              <li>Part 5 — Market value of AI proficiency</li>
             </ul>
 
             <p class="mb-0">
@@ -226,124 +225,14 @@
           <ng-container *ngTemplateOutlet="navButtons"></ng-container>
         </div>
 
-        <!-- Step 5: Part 2a — Core Readiness - Other -->
+        <!-- Step 5: Part 3 — Performance & Onboarding -->
         <div *ngIf="currentStep === 5">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
           <p class="text-muted small mb-2">
-            Which baseline skills do you consider essential for an entry-level graduate to possess on
-            Day 1 to be hired? Select all that apply.
+            In your experience, how well-prepared are recent graduates in these baseline digital and
+            adaptive skills when they enter your workplace? Select one response per row.
           </p>
-          <p class="text-muted small mb-4">
-            Many of the job seekers we work with are adult learners, career changers, and individuals
-            without a traditional degree who are actively using AI tools to increase their skills and
-            improve their chances of finding living wage employment.
-          </p>
-
-          <div class="matrix-scroll">
-            <table class="baseline-matrix table table-sm align-middle mb-0">
-              <thead>
-                <tr>
-                  <th scope="col" class="matrix-competency-col">Baseline Competency - Essentials</th>
-                  <th scope="col" class="matrix-check-col text-center">Non-Degreed<br />Job Seekers</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let competency of baselineCompetencies">
-                  <td class="matrix-competency-cell">
-                    <strong>{{ competency.label }}</strong>
-                    <span class="matrix-competency-desc d-block">{{ competency.description }}</span>
-                  </td>
-                  <td class="text-center">
-                    <label class="matrix-check-label">
-                      <input type="checkbox"
-                             class="matrix-checkbox"
-                             [checked]="isBaselineEssentialSelected(competency.id, 'nonDegreed')"
-                             (change)="toggleBaselineEssential(competency.id, 'nonDegreed')"
-                             [attr.aria-label]="competency.label + ' essential for non-degreed job seekers'" />
-                    </label>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="matrix-mobile-cards d-md-none mt-3">
-            <div *ngFor="let competency of baselineCompetencies" class="matrix-mobile-card">
-              <h3 class="matrix-mobile-title">{{ competency.label }}</h3>
-              <p class="matrix-mobile-desc">{{ competency.description }}</p>
-              <div class="matrix-mobile-checks">
-                <label class="option-card option-card-checkbox"
-                       [class.selected]="isBaselineEssentialSelected(competency.id, 'nonDegreed')">
-                  <input type="checkbox"
-                         class="option-card-checkbox-input"
-                         [checked]="isBaselineEssentialSelected(competency.id, 'nonDegreed')"
-                         (change)="toggleBaselineEssential(competency.id, 'nonDegreed')" />
-                  <span class="option-card-label">Non-Degreed Job Seekers</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <h3 class="interest-section-title mt-4 mb-3">Part 3a: Performance &amp; Onboarding Expectations</h3>
-
           <div class="question-block mb-4">
-            <p class="question-text mb-3">
-              In your experience, how well-prepared are recent graduates in these baseline digital and
-              adaptive skills when they enter your workplace? Select one response per row.
-            </p>
-
-            <div class="graduate-tier-section">
-              <h3 class="interest-section-title">{{ graduateTierLabels.nonDegreed }}</h3>
-              <div class="option-list" role="radiogroup" aria-label="Non-degreed job seeker preparedness">
-                <label *ngFor="let option of nonDegreedPrepOptions"
-                       class="option-card option-card-radio"
-                       [class.selected]="isGraduatePrepSelected('nonDegreed', option.id)">
-                  <input type="radio"
-                         class="option-card-radio-input"
-                         name="prep-non-degreed"
-                         [checked]="isGraduatePrepSelected('nonDegreed', option.id)"
-                         (change)="selectGraduatePrep('nonDegreed', option.id)" />
-                  <span class="option-card-label">{{ option.label }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="question-block">
-            <p class="question-text mb-3">
-              What level of daily supervision do you expect each graduate tier to require during their
-              first 6 months on the job? Select one per column.
-            </p>
-
-            <div class="graduate-tier-section">
-              <h3 class="interest-section-title">{{ graduateTierLabels.nonDegreed }}</h3>
-              <div class="option-list" role="radiogroup" aria-label="Non-degreed job seeker supervision">
-                <label *ngFor="let option of supervisionLevelOptions"
-                       class="option-card option-card-radio"
-                       [class.selected]="isSupervisionLevelSelected('nonDegreed', option.id)">
-                  <input type="radio"
-                         class="option-card-radio-input"
-                         name="supervision-non-degreed"
-                         [checked]="isSupervisionLevelSelected('nonDegreed', option.id)"
-                         (change)="selectSupervisionLevel('nonDegreed', option.id)" />
-                  <span class="option-card-label">{{ option.label }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
-        </div>
-
-        <!-- Step 6: Part 3 — Performance & Onboarding -->
-        <div *ngIf="currentStep === 6">
-          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-
-          <div class="question-block mb-4">
-            <p class="question-text mb-3">
-              In your experience, how well-prepared are recent graduates in these baseline digital and
-              adaptive skills when they enter your workplace? Select one response per row.
-            </p>
 
             <div class="graduate-tier-section">
               <h3 class="interest-section-title">{{ graduateTierLabels.highSchool }}</h3>
@@ -420,7 +309,118 @@
           <ng-container *ngTemplateOutlet="navButtons"></ng-container>
         </div>
 
-        <!-- Step 7: Part 4 — Market Value -->
+        <!-- Step 6: Part 4 — Non-Degreed Job Seekers -->
+        <div *ngIf="currentStep === 6">
+          <p class="text-body small mb-4">
+            Many of the job seekers we work with are adult learners, career changers, and individuals
+            without a traditional degree who are actively using AI tools to increase their skills and
+            improve their chances of finding living wage employment.
+          </p>
+
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          
+          <p class="text-muted small mb-2">
+            Which baseline skills do you consider essential for non-degreed job seekers to possess on
+            Day 1 to be hired? Select all that apply.
+          </p>
+          
+          <div class="matrix-scroll">
+            <table class="baseline-matrix table table-sm align-middle mb-0">
+              <thead>
+                <tr>
+                  <th scope="col" class="matrix-competency-col">Baseline Competency - Essentials</th>
+                  <th scope="col" class="matrix-check-col text-center">Non-Degreed<br />Job Seekers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let competency of baselineCompetencies">
+                  <td class="matrix-competency-cell">
+                    <strong>{{ competency.label }}</strong>
+                    <span class="matrix-competency-desc d-block">{{ competency.description }}</span>
+                  </td>
+                  <td class="text-center">
+                    <label class="matrix-check-label">
+                      <input type="checkbox"
+                             class="matrix-checkbox"
+                             [checked]="isBaselineEssentialSelected(competency.id, 'nonDegreed')"
+                             (change)="toggleBaselineEssential(competency.id, 'nonDegreed')"
+                             [attr.aria-label]="competency.label + ' essential for non-degreed job seekers'" />
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="matrix-mobile-cards d-md-none mt-3">
+            <div *ngFor="let competency of baselineCompetencies" class="matrix-mobile-card">
+              <h3 class="matrix-mobile-title">{{ competency.label }}</h3>
+              <p class="matrix-mobile-desc">{{ competency.description }}</p>
+              <div class="matrix-mobile-checks">
+                <label class="option-card option-card-checkbox"
+                       [class.selected]="isBaselineEssentialSelected(competency.id, 'nonDegreed')">
+                  <input type="checkbox"
+                         class="option-card-checkbox-input"
+                         [checked]="isBaselineEssentialSelected(competency.id, 'nonDegreed')"
+                         (change)="toggleBaselineEssential(competency.id, 'nonDegreed')" />
+                  <span class="option-card-label">Non-Degreed Job Seekers</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="interest-section-title mt-4 mb-3">Part 3a: Performance &amp; Onboarding Expectations</h3>
+
+          <div class="question-block mb-4">
+            <p class="question-text mb-3">
+              In your experience, how well-prepared are non-degreed job seekers in these baseline digital and
+              adaptive skills when they enter your workplace? Select one response per row.
+            </p>
+
+            <div class="graduate-tier-section">
+              <h3 class="interest-section-title">{{ graduateTierLabels.nonDegreed }}</h3>
+              <div class="option-list" role="radiogroup" aria-label="Non-degreed job seeker preparedness">
+                <label *ngFor="let option of nonDegreedPrepOptions"
+                       class="option-card option-card-radio"
+                       [class.selected]="isGraduatePrepSelected('nonDegreed', option.id)">
+                  <input type="radio"
+                         class="option-card-radio-input"
+                         name="prep-non-degreed"
+                         [checked]="isGraduatePrepSelected('nonDegreed', option.id)"
+                         (change)="selectGraduatePrep('nonDegreed', option.id)" />
+                  <span class="option-card-label">{{ option.label }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text mb-3">
+              What level of daily supervision do you expect non-degreed job seekers to require during their
+              first 6 months on the job? Select one response.
+            </p>
+
+            <div class="graduate-tier-section">
+              <h3 class="interest-section-title">{{ graduateTierLabels.nonDegreed }}</h3>
+              <div class="option-list" role="radiogroup" aria-label="Non-degreed job seeker supervision">
+                <label *ngFor="let option of supervisionLevelOptions"
+                       class="option-card option-card-radio"
+                       [class.selected]="isSupervisionLevelSelected('nonDegreed', option.id)">
+                  <input type="radio"
+                         class="option-card-radio-input"
+                         name="supervision-non-degreed"
+                         [checked]="isSupervisionLevelSelected('nonDegreed', option.id)"
+                         (change)="selectSupervisionLevel('nonDegreed', option.id)" />
+                  <span class="option-card-label">{{ option.label }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- Step 7: Part 5 — Market Value -->
         <div *ngIf="currentStep === 7">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
           <p class="text-muted small mb-4">
@@ -489,35 +489,6 @@
           </div>
 
           <div class="interest-summary-section mb-3">
-            <h3 class="interest-section-title">Part 2a: Core Readiness - Other</h3>
-            <dl class="summary-detail-list">
-              <div class="summary-detail-item">
-                <dt>Non-Degreed Job Seekers</dt>
-                <dd>
-                  <ul *ngIf="getBaselineEssentialsForTier('nonDegreed').length" class="summary-choice-list">
-                    <li *ngFor="let item of getBaselineEssentialsForTier('nonDegreed')">{{ item }}</li>
-                  </ul>
-                  <span *ngIf="!getBaselineEssentialsForTier('nonDegreed').length" class="text-muted">None selected</span>
-                </dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="interest-summary-section mb-3">
-            <h3 class="interest-section-title">Part 3a: Performance &amp; Onboarding Expectations</h3>
-            <dl class="summary-detail-list">
-              <div class="summary-detail-item">
-                <dt>Non-Degreed Job Seeker Preparedness</dt>
-                <dd>{{ getGraduatePrepLabel('nonDegreed') }}</dd>
-              </div>
-              <div class="summary-detail-item">
-                <dt>Expected Supervision — Non-Degreed</dt>
-                <dd>{{ getSupervisionLevelLabel('nonDegreed') }}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="interest-summary-section mb-3">
             <h3 class="interest-section-title">Part 3: Performance &amp; Onboarding</h3>
             <dl class="summary-detail-list">
               <div class="summary-detail-item">
@@ -539,8 +510,31 @@
             </dl>
           </div>
 
+          <div class="interest-summary-section mb-3">
+            <h3 class="interest-section-title">Part 4: Non-Degreed Job Seekers</h3>
+            <dl class="summary-detail-list">
+              <div class="summary-detail-item">
+                <dt>Baseline Essentials</dt>
+                <dd>
+                  <ul *ngIf="getBaselineEssentialsForTier('nonDegreed').length" class="summary-choice-list">
+                    <li *ngFor="let item of getBaselineEssentialsForTier('nonDegreed')">{{ item }}</li>
+                  </ul>
+                  <span *ngIf="!getBaselineEssentialsForTier('nonDegreed').length" class="text-muted">None selected</span>
+                </dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Preparedness</dt>
+                <dd>{{ getGraduatePrepLabel('nonDegreed') }}</dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Expected Supervision</dt>
+                <dd>{{ getSupervisionLevelLabel('nonDegreed') }}</dd>
+              </div>
+            </dl>
+          </div>
+
           <div class="interest-summary-section mb-4">
-            <h3 class="interest-section-title">Part 4: Market Value</h3>
+            <h3 class="interest-section-title">Part 5: Market Value</h3>
             <dl class="summary-detail-list">
               <div class="summary-detail-item">
                 <dt>AI proficiency impact on hiring</dt>
