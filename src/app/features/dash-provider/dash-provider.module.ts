@@ -17,6 +17,7 @@ import { CatalogEntrySignupPacketGroupComponent } from '../../components/_crud/c
 import { StdEntityUiComponent } from '@app/components/_global';
 import { DashProviderMessagesComponent } from './dash-provider-messages.component';
 import { DashProviderSignupPacketsComponent } from './dash-provider-signuppackets.component';
+import { DashProviderCohortsComponent } from './dash-provider-cohorts.component';
 import { ProviderExperiencesComponent } from './experiences/provider-experiences.component';
 
 // Shared page-header data so the shell renders a consistent title banner on
@@ -29,6 +30,7 @@ const HDR_WORKQUEUE = { pageTitle: 'Work Queue', pageSubtitle: 'Manage your work
 const HDR_CATALOGS = { pageTitle: 'Catalogs', pageSubtitle: 'Manage your catalogs and entries', pageIcon: 'fas fa-book' };
 const HDR_CATALOG = { pageTitle: 'Catalog', pageSubtitle: 'Manage this catalog', pageIcon: 'fas fa-book' };
 const HDR_EXPERIENCES = { pageTitle: 'Experiences', pageSubtitle: 'Search and manage experiences', pageIcon: 'fas fa-compass' };
+const HDR_COHORTS = { pageTitle: 'Cohorts', pageSubtitle: 'Manage cohorts and memberships', pageIcon: 'fas fa-users' };
 const HDR_SIGNUPPACKETS = { pageTitle: 'Signup Packets', pageSubtitle: 'Manage signup packets', pageIcon: 'fas fa-clipboard-list' };
 
 const routes: Routes = [
@@ -63,6 +65,8 @@ const routes: Routes = [
 
       { path: 'experiences', component: ProviderExperiencesComponent, data: HDR_EXPERIENCES },
 
+      { path: 'cohorts', component: DashProviderCohortsComponent, data: HDR_COHORTS },
+
       // CatalogEntrySignupPacket routes
       { path: 'catalogentrysignuppackets/create', component: CatalogEntrySignupPacketGroupComponent, data: HDR_SIGNUPPACKETS },
       { path: 'catalogentrysignuppackets/:id/:tabId', component: CatalogEntrySignupPacketGroupComponent, data: HDR_SIGNUPPACKETS },
@@ -92,6 +96,7 @@ const routes: Routes = [
     CatalogEntrySignupPacketGroupComponent,
     DashProviderMessagesComponent,
     DashProviderSignupPacketsComponent,
+    DashProviderCohortsComponent,
     ProviderExperiencesComponent
   ]
 })

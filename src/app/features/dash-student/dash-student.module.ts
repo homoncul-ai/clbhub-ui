@@ -35,6 +35,7 @@ import { DashStudentFeedComponent } from './dash-student-feed.component';
 import { StudentProfileUiComponent } from './student-profile-ui/student-profile-ui.component';
 import { DashStudentMyOrganizationsComponent } from './dash-student-my-organizations.component';
 import { DashStudentMyParticipationComponent } from './dash-student-my-participation.component';
+import { DashStudentCohortsComponent } from './dash-student-cohorts.component';
 const routes: Routes = [
   {
     path: '',
@@ -172,6 +173,16 @@ const routes: Routes = [
           pageTitle: 'My Participation',
           pageSubtitle: '',
           pageIcon: 'fas fa-people-group',
+        }
+      },
+
+      {
+        path: 'cohorts',
+        component: DashStudentCohortsComponent,
+        data: {
+          pageTitle: 'My Cohorts',
+          pageSubtitle: 'View cohorts you belong to and participate in cohort discussions',
+          pageIcon: 'fas fa-users',
         }
       },
 

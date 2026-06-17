@@ -492,6 +492,9 @@ export class MenuService {
     const experiences = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_EXPERIENCES);
     this.addMenuItem(menu, experiences);
 
+    const cohorts = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_COHORTS);
+    this.addMenuItem(menu, cohorts);
+
     // Add Catalog Entry Signup Packets
     const signupPackets = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_CATALOGENTRYSIGNUPPACKET_LIST);
     this.addMenuItem(menu, signupPackets);
@@ -553,6 +556,9 @@ export class MenuService {
     // Add My Participation (after My Feed)
     const participation = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PARTICIPATION);
     this.addMenuItem(menu, participation);
+
+    const cohorts = this.copyMenuItem(MENU_CONSTANTS.STUDENT_COHORTS);
+    this.addMenuItem(menu, cohorts);
 
     // Add Career Goals (Personal Statements list)
     var courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
@@ -1133,6 +1139,14 @@ export const MENU_CONSTANTS = {
     componentPath: 'src/app/features/dash-provider/experiences',
     componentName: 'provider-experiences',
     icon: 'fas fa-compass'
+  },
+  PROVIDER_COHORTS: {
+    level: 1,
+    label: 'Cohorts',
+    route: '/provider-dashboard/cohorts',
+    componentPath: 'src/app/features/dash-provider/dash-provider-cohorts.component',
+    componentName: 'DashProviderCohortsComponent',
+    icon: 'fas fa-users'
   },
 
   // Employee Dashboard Menu Items
@@ -1885,6 +1899,14 @@ EA_ORGNONPROFITS_LIST: {
     componentPath: 'src/app/features/dash-student',
     componentName: 'dash-student-my-participation',
     icon: 'fas fa-people-group'
+  },
+  STUDENT_COHORTS: {
+    level: 1,
+    label: 'Cohorts',
+    route: '/student-dashboard/cohorts',
+    componentPath: 'src/app/features/dash-student',
+    componentName: 'dash-student-cohorts',
+    icon: 'fas fa-users'
   },
   STUDENT_INTERESTS: {
     level: 1,

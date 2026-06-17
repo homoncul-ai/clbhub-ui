@@ -1,0 +1,46 @@
+<div *ngIf="loading" class="text-center py-4">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-2">Loading cohorts...</p>
+</div>
+
+<mdb-accordion *ngIf="!loading" [multiple]="false">
+
+  <mdb-accordion-item
+    [collapsed]="isAccordionCollapsed('cohorts')"
+    (itemShow)="openAccordion('cohorts')">
+    <ng-template mdbAccordionItemHeader>
+      <div class="d-flex justify-content-between align-items-center w-100 me-3">
+        <span>
+          <i class="fas fa-users me-2"></i>
+          Cohorts
+        </span>
+        <button type="button" class="btn btn-sm btn-primary"
+          (click)="openCreateModal(); $event.stopPropagation()">
+          <i class="fas fa-plus me-2"></i>New
+        </button>
+      </div>
+    </ng-template>
+    <ng-template mdbAccordionItemBody>
+      <app-cohort-list [criteria]="getCohortCriteria()"
+        [onRowClickBehavior]="onCohortRowClickBehavior()"
+        [showingSearch]="false" [showingSearchHeading]="false" [showingGoButton]="false"
+        [showingAddButton]="false" [showingIdCheckbox]="false">
+      </app-cohort-list>
+
+      <div *ngIf="selectedCohortId" #cohortPanel class="cohort-panel">
+        <div class="cohort-panel-header">
+          <h4>{{ selectedCohortTitle }}</h4>
+          <button class="close-panel-btn" (click)="closeCohortPanel()" title="Close panel">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="cohort-panel-content">
+          <app-cohort-tabset-ui [id]="selectedCohortId"></app-cohort-tabset-ui>
+        </div>
+      </div>
+    </ng-template>
+  </mdb-accordion-item>
+
+</mdb-accordion>
