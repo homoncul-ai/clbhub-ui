@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { CohortUIData, HcclService } from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { CohortInviteModalComponent } from './cohort-invite-modal.component';
 
 @Component({
   selector: 'app-cohort-tabset-ui',
@@ -27,6 +29,16 @@ import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-
           <span class="badge bg-secondary me-2">{{ uiData.cohort?.businessCode }}</span>
           <span class="badge bg-info">{{ uiData.cohort?.currentStateCode }}</span>
         </div>
+      </div>
+
+      <div *ngIf="inviteError" class="alert alert-danger py-2">{{ inviteError }}</div>
+      <div *ngIf="inviteSuccess" class="alert alert-success py-2">{{ inviteSuccess }}</div>
+
+      <div class="cohort-toolbar">
+        <button type="button" class="btn btn-sm btn-primary" (click)="openInviteModal()">
+          <i class="fas fa-envelope me-2"></i>
+          Invite User
+        </button>
       </div>
 
       <app-simple-tabset
@@ -119,15 +131,24 @@ import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-
     .cohort-tab-content {
       padding-top: 1rem;
     }
+
+    .cohort-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 0.75rem;
+    }
   `],
 })
 export class CohortTabsetUiComponent implements OnChanges {
   private hcclService = inject(HcclService);
+  private modalService = inject(MdbModalService);
 
   @Input() id = '';
 
   loading = false;
   error = '';
+  inviteError = '';
+  inviteSuccess = '';
   uiData: CohortUIData | null = null;
   currentTabId = 'details';
 
@@ -152,15 +173,52 @@ export class CohortTabsetUiComponent implements OnChanges {
     return this.uiData?.cohort?.messageId ?? '';
   }
 
+  openInviteModal(): void {
+    if (!this.id) {
+      this.inviteError = 'Cohort is not loaded.';
+      return;
+    }
+
+    this.inviteError = '';
+    this.inviteSuccess = '';
+
+    const modalRef = this.modalService.open(CohortInviteModalComponent, {
+      modalClass: 'modal-lg modal-dialog-centered',
+      data: { cohortId: this.id },
+    });
+
+    modalRef.onClose.subscribe((result: { invited?: boolean; email?: string; isNewUser?: boolean }) => {
+      if (result?.invited) {
+        this.inviteSuccess = result.isNewUser
+          ? `Invitation sent to ${result.email}. They will be prompted to create an account before joining the cohort.`
+          : `Invitation sent to ${result.email || 'the selected user'}.`;
+        this.selectTab('invites');
+        this.refreshUiData();
+      }
+    });
+  }
+
   reload(): void {
     if (this.id) {
       this.loadCohort();
     }
   }
 
+  private refreshUiData(): void {
+    if (!this.id) {
+      return;
+    }
+    this.hcclService.loadCohortUIData(this.id).subscribe({
+      next: (data) => {
+        this.uiData = data;
+      },
+    });
+  }
+
   private loadCohort(): void {
     this.loading = true;
     this.error = '';
+    this.inviteSuccess = '';
     this.hcclService.loadCohortUIData(this.id).subscribe({
       next: (data) => {
         this.uiData = data;

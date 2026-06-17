@@ -32,7 +32,7 @@ interface SupervisionLevelOption {
   label: string;
 }
 
-type GraduateTier = 'highSchool' | 'college';
+type GraduateTier = 'highSchool' | 'college' | 'nonDegreed';
 
 @Component({
   selector: 'app-survey-ai-workplace-skill-summary',
@@ -69,9 +69,10 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     { step: 2, title: 'Attendee Information' },
     { step: 3, title: 'Part 1: Industry & Demographics' },
     { step: 4, title: 'Part 2: Core Readiness & Graduate Comparisons' },
-    { step: 5, title: 'Part 3: Performance & Onboarding Expectations' },
-    { step: 6, title: 'Part 4: Market Value' },
-    { step: 7, title: 'Submit Results', subtitle: 'Review and submit your responses.' },
+    { step: 5, title: 'Part 2a: Core Readiness - Other' },
+    { step: 6, title: 'Part 3: Performance & Onboarding Expectations' },
+    { step: 7, title: 'Part 4: Market Value' },
+    { step: 8, title: 'Submit Results', subtitle: 'Review and submit your responses.' },
   ];
 
   readonly totalSteps = this.steps.length;
@@ -161,6 +162,25 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     },
   ];
 
+  readonly nonDegreedPrepOptions: GraduatePrepOption[] = [
+    {
+      id: 'highly_prepared',
+      label: 'Highly Prepared – Ready to leverage advanced tools and manage tasks autonomously.',
+    },
+    {
+      id: 'somewhat_prepared',
+      label: 'Somewhat Prepared – Strong academic knowledge, but struggle with fast-paced software adaptation and critical data auditing.',
+    },
+    {
+      id: 'unprepared',
+      label: 'Unprepared – Rely too heavily on automated tools without understanding underlying concepts or data verification.',
+    },
+    {
+      id: 'not_applicable',
+      label: 'N/A – We do not hire non-degreed job seekers for entry-level roles.',
+    },
+  ];
+
   readonly supervisionLevelOptions: SupervisionLevelOption[] = [
     {
       id: 'high',
@@ -186,6 +206,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   readonly graduateTierLabels: Record<GraduateTier, string> = {
     highSchool: 'High School Graduates',
     college: 'College Graduates',
+    nonDegreed: 'Non-Degreed Job Seekers',
   };
 
   currentStep = 1;
@@ -335,7 +356,12 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     if (!optionId) {
       return '—';
     }
-    const options = tier === 'highSchool' ? this.highSchoolPrepOptions : this.collegePrepOptions;
+    const options =
+      tier === 'highSchool'
+        ? this.highSchoolPrepOptions
+        : tier === 'college'
+          ? this.collegePrepOptions
+          : this.nonDegreedPrepOptions;
     return options.find((option) => option.id === optionId)?.label ?? '—';
   }
 
@@ -411,14 +437,17 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
       baselineEssentials: {
         highSchool: this.getBaselineEssentialsForTier('highSchool'),
         college: this.getBaselineEssentialsForTier('college'),
+        nonDegreed: this.getBaselineEssentialsForTier('nonDegreed'),
       },
       graduatePreparedness: {
         highSchool: this.getGraduatePrepLabel('highSchool'),
         college: this.getGraduatePrepLabel('college'),
+        nonDegreed: this.getGraduatePrepLabel('nonDegreed'),
       },
       expectedSupervision: {
         highSchool: this.getSupervisionLevelLabel('highSchool'),
         college: this.getSupervisionLevelLabel('college'),
+        nonDegreed: this.getSupervisionLevelLabel('nonDegreed'),
       },
       aiProficiencyImpact: Array.from(this.selectedMarketValueImpacts),
     };

@@ -221,6 +221,35 @@
                 </div>
 
                 <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Part 2a: Core Readiness - Other</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Non-Degreed Job Seekers</dt>
+                      <dd>
+                        <ul *ngIf="getTierStringList(selectedSurveyData, 'baselineEssentials', 'nonDegreed').length" class="summary-choice-list">
+                          <li *ngFor="let item of getTierStringList(selectedSurveyData, 'baselineEssentials', 'nonDegreed')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getTierStringList(selectedSurveyData, 'baselineEssentials', 'nonDegreed').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Part 3a: Performance &amp; Onboarding Expectations</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Non-Degreed Job Seeker Preparedness</dt>
+                      <dd>{{ getTierStringValue(selectedSurveyData, 'graduatePreparedness', 'nonDegreed') }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Expected Supervision — Non-Degreed</dt>
+                      <dd>{{ getTierStringValue(selectedSurveyData, 'expectedSupervision', 'nonDegreed') }}</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
                   <h3 class="interest-section-title">Part 3: Performance &amp; Onboarding</h3>
                   <dl class="summary-detail-list">
                     <div class="summary-detail-item">
