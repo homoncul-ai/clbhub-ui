@@ -45,6 +45,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   private tree: any;
   private resizeSubscription!: Subscription;
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
+  private hcclContextService = inject(HcclContextService);
+  protected readonly contextLoading = this.hcclContextService.isLoading;
   
   constructor(
     private _router: Router,
@@ -54,7 +56,6 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
     private _menuService: MenuService,
     private ngZone: NgZone,
     private appConstants: AppConstants,
-    private hcclContextService: HcclContextService,
     private activatedRoute: ActivatedRoute,
     private pageHeaderActionService: PageHeaderActionService,
   ) {

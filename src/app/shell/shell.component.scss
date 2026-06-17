@@ -24,6 +24,25 @@ $transition-speed: 0.3s;
   background-color: $secondary-color;
 }
 
+.context-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(255, 255, 255, 0.88);
+  @include flex-center;
+  flex-direction: column;
+}
+
+.context-loading-content {
+  text-align: center;
+}
+
+.context-loading-text {
+  margin: 1rem 0 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
 // Sidenav styles
 mdb-sidenav-layout {
   height: 100%;

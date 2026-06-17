@@ -1,3 +1,12 @@
+<div class="context-loading-overlay" *ngIf="contextLoading()">
+  <div class="context-loading-content">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="context-loading-text">Loading your workspace...</p>
+  </div>
+</div>
+
 <mdb-sidenav-layout>
   <!-- Common Header -->
   <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-primary fixed-top w-100">

@@ -15,6 +15,14 @@ import { WhatsNewModalComponent } from './whats-new-modal.component';
       <div class="row">
         <div class="col-12">
 
+          <!-- Error State -->
+          <div *ngIf="error && !contextLoading()" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ error }}
+          </div>
+
+          <ng-container *ngIf="!contextLoading() && !error && userProfileId">
+
           <!-- What's New Accordion -->
           <mdb-accordion class="whats-new-accordion mb-4">
             <mdb-accordion-item [collapsed]="whatsNewCollapsed" (itemShow)="whatsNewCollapsed = false" (itemHide)="whatsNewCollapsed = true">
@@ -56,22 +64,10 @@ import { WhatsNewModalComponent } from './whats-new-modal.component';
             </mdb-accordion-item>
           </mdb-accordion>
 
-          <!-- Loading State (context) -->
-          <div *ngIf="loading" class="text-center py-5">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mt-2">Loading student information...</p>
-          </div>
-
-          <!-- Error State -->
-          <div *ngIf="error && !loading" class="alert alert-danger" role="alert">
-            <i class="fas fa-exclamation-triangle me-2"></i>
-            {{ error }}
-          </div>
-
           <!-- Student UI Content -->
-          <app-student-ui *ngIf="!loading && !error && userProfileId" [userProfileId]="userProfileId"></app-student-ui>
+          <app-student-ui [userProfileId]="userProfileId"></app-student-ui>
+
+          </ng-container>
         </div>
       </div>
     </div>
@@ -155,7 +151,7 @@ export class DashStudentHomeComponent implements OnInit {
   private hcclContextService = inject(HcclContextService);
   private modalService = inject(MdbModalService);
 
-  loading = true;
+  protected readonly contextLoading = this.hcclContextService.isLoading;
   error: string | null = null;
   userProfileId: string | null = null;
   whatsNewCollapsed = false;
@@ -192,22 +188,18 @@ export class DashStudentHomeComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.loading = true;
     this.error = null;
 
     this.hcclContextService.waitForReady$().subscribe({
       next: (context) => {
         if (!context || !context.currentUserProfileId) {
           this.error = 'User context not available';
-          this.loading = false;
           return;
         }
         this.userProfileId = context.currentUserProfileId;
-        this.loading = false;
       },
-      error: (err) => {
+      error: () => {
         this.error = 'Failed to load user context';
-        this.loading = false;
       },
     });
   }
