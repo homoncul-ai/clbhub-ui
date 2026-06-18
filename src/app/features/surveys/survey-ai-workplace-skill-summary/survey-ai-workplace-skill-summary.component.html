@@ -100,6 +100,7 @@
               early movers in this process, responses from this group will provide insight into how AI
               adoption might work in Haverhill.
             </p>
+            <p class="mb-0">&nbsp;        </p>
             <p class="mb-0">
               After our summit, we will prepare a follow-up survey to analyse its effectiveness.
               If you would like to participate, please supply your e-mail address.
@@ -107,7 +108,14 @@
           </div>
 
           <div class="row g-3">
-            <div class="col-12">            
+            <div class="col-12">
+              <label class="form-label" for="ageRange">Age Range <span class="text-muted fw-normal">(optional)</span></label>
+              <select id="ageRange" class="form-select" formControlName="ageRange">
+                <option value="">Select an age range</option>
+                <option *ngFor="let range of ageRangeOptions" [value]="range">{{ range }}</option>
+              </select>
+            </div>
+            <div class="col-12">
               <p class="follow-up-note mb-2 text-muted small">
                 We will only use this email to send you the follow-up survey.
               </p>
@@ -451,6 +459,7 @@
 
           <div class="summary-box summary-general mb-4">
             <h6 class="summary-heading">Attendee information</h6>
+            <p class="mb-1 small"><strong>Age range:</strong> {{ form.controls.ageRange.value || '—' }}</p>
             <p class="mb-0 small"><strong>Email:</strong> {{ form.controls.email.value || '—' }}</p>
           </div>
 

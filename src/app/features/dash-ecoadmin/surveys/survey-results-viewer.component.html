@@ -183,6 +183,7 @@
                     <strong>Follow-up survey:</strong>
                     {{ wantsFollowUpSurvey(selectedSurveyData) ? 'Requested' : 'Not requested' }}
                   </p>
+                  <p class="mb-1 small"><strong>Age range:</strong> {{ selectedSurveyData['ageRange'] || '—' }}</p>
                   <p class="mb-0 small"><strong>Email:</strong> {{ selectedSurveyData['email'] || '—' }}</p>
                 </div>
 

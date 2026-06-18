@@ -209,6 +209,16 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     nonDegreed: 'Non-Traditional Job Seekers',
   };
 
+  readonly ageRangeOptions: string[] = [
+    'No Thanks',
+    'Under 25',
+    '25-35',
+    '35-45',
+    '45-55',
+    '55-65',
+    'Over 65',
+  ];
+
   currentStep = 1;
   submitting = false;
   submitted = false;
@@ -222,6 +232,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   selectedMarketValueImpacts = new Set<string>();
 
   readonly form = this.fb.nonNullable.group({
+    ageRange: [''],
     email: [''],
     primaryIndustryOther: [''],
   });
@@ -431,6 +442,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
       pagePath: this.pagePath,
       email,
       wantsFollowUpSurvey,
+      ageRange: value.ageRange.trim(),
       ...(captchaToken ? { captchaToken } : {}),
       primaryIndustry: this.selectedIndustrySector,
       primaryIndustryOther: value.primaryIndustryOther.trim(),
