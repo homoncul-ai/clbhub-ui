@@ -248,23 +248,6 @@
     <!-- PROGRESS -->
     <div *ngIf="currentTabId === 'progress'" class="ui-section">
       <div class="row g-3">
-        <div class="col-12">
-          <div class="ui-card">
-            <div class="ui-card-header">
-              <h5>
-                Welcome checklist
-                <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Checklist"></app-cohort-mvp-doc-link>
-              </h5>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li *ngFor="let item of mockWelcomeChecklist" class="list-group-item">
-                <input type="checkbox" class="form-check-input me-2" [checked]="item.done" disabled />
-                {{ item.step }}
-              </li>
-            </ul>
-          </div>
-        </div>
-
         <div class="col-md-6">
           <div class="ui-card h-100">
             <div class="ui-card-header">
@@ -349,31 +332,40 @@
       </div>
     </div>
 
-    <!-- CONSENTS -->
-    <div *ngIf="currentTabId === 'consents'" class="ui-section">
-      <div class="ui-card">
+    <!-- SETUP -->
+    <div *ngIf="currentTabId === 'setup'" class="ui-section">
+      <div class="ui-card mb-3">
         <div class="ui-card-header">
           <h5>
-            Consents at enrollment
-            <app-cohort-mvp-doc-link docId="consent-privacy"></app-cohort-mvp-doc-link>
+            Welcome checklist
+            <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Checklist"></app-cohort-mvp-doc-link>
+          </h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let item of mockWelcomeChecklist" class="list-group-item">
+            <input type="checkbox" class="form-check-input me-2" [checked]="item.done" disabled />
+            {{ item.step }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="ui-card mb-3">
+        <div class="ui-card-header">
+          <h5>
+            Setup Goals
+            <app-cohort-mvp-doc-link docId="leader-goals-tracking" label="Personal goals"></app-cohort-mvp-doc-link>
           </h5>
         </div>
         <div class="p-3">
-          <div *ngFor="let c of mockConsentsAtSignup" class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" [checked]="c.checked" disabled />
-            <label class="form-check-label">{{ c.label }}</label>
+          <p class="small text-muted">Set 1–3 personal goals at cohort start. You can revisit these mid-cohort and at the end.</p>
+          <div *ngFor="let goal of mockSetupGoals; let i = index" class="mb-3">
+            <label class="form-label small fw-semibold">Goal {{ i + 1 }}</label>
+            <input class="form-control form-control-sm" [value]="goal" [placeholder]="i === 0 ? 'e.g. Learn if nursing is right for me' : 'Optional'" readonly />
           </div>
-          <p class="small text-muted mb-0 mt-2">
-            Participant role assignment:
-            <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Roles"></app-cohort-mvp-doc-link>
-            — you are a <strong>Participant</strong> (not Leader, Observer, or Sponsor).
-          </p>
+          <button class="btn btn-sm btn-primary" disabled>Save goals</button>
         </div>
       </div>
-    </div>
 
-    <!-- PREFERENCES -->
-    <div *ngIf="currentTabId === 'preferences'" class="ui-section">
       <div class="row g-3">
         <div class="col-md-6">
           <div class="ui-card h-100">
@@ -428,6 +420,26 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="ui-card mt-3">
+        <div class="ui-card-header">
+          <h5>
+            Consents at enrollment
+            <app-cohort-mvp-doc-link docId="consent-privacy"></app-cohort-mvp-doc-link>
+          </h5>
+        </div>
+        <div class="p-3">
+          <div *ngFor="let c of mockConsentsAtSignup" class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" [checked]="c.checked" disabled />
+            <label class="form-check-label">{{ c.label }}</label>
+          </div>
+          <p class="small text-muted mb-0 mt-2">
+            Participant role assignment:
+            <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Roles"></app-cohort-mvp-doc-link>
+            — you are a <strong>Participant</strong> (not Leader, Observer, or Sponsor).
+          </p>
         </div>
       </div>
     </div>

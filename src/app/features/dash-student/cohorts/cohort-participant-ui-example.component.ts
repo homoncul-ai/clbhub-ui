@@ -21,8 +21,7 @@ export class CohortParticipantUiExampleComponent {
     new SimpleTab('activities', 'Activities', '', () => this.selectTab('activities'), () => true),
     new SimpleTab('community', 'Community', '', () => this.selectTab('community'), () => true),
     new SimpleTab('progress', 'My Progress', '', () => this.selectTab('progress'), () => true),
-    new SimpleTab('consents', 'Consents', '', () => this.selectTab('consents'), () => true),
-    new SimpleTab('preferences', 'Preferences', '', () => this.selectTab('preferences'), () => true),
+    new SimpleTab('setup', 'Setup', '', () => this.selectTab('setup'), () => true),
     new SimpleTab('notifications', 'Notifications', '', () => this.selectTab('notifications'), () => true),
   ];
 
@@ -96,6 +95,12 @@ export class CohortParticipantUiExampleComponent {
   mockReflectionWall = [
     { author: 'Maria S.', takeaway: 'I did not know how many allied health roles exist beyond nursing.' },
     { author: 'Chris T.', takeaway: 'The panel made me want to explore physical therapy.' },
+  ];
+
+  mockSetupGoals = [
+    'Learn if nursing is right for me',
+    'Complete one job shadow',
+    '',
   ];
 
   mockPersonalGoals = [
