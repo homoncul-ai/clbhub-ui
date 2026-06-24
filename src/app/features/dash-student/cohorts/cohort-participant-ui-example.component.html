@@ -1,0 +1,482 @@
+<div class="cohort-participant-ui-example">
+
+  <div class="ui-spec-banner">
+    <div>
+      <span class="badge bg-warning text-dark me-2">UI Spec Only</span>
+      <span class="text-muted">Participant view — static mock, no backend. Click <i class="fas fa-book-open"></i> for MVP documentation.</span>
+    </div>
+  </div>
+
+  <div class="cohort-participant-header">
+    <div>
+      <h2 class="mb-1">
+        My Cohort
+        <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Participant view"></app-cohort-mvp-doc-link>
+      </h2>
+      <p class="text-muted mb-0">{{ mockCohort.name }} · {{ mockParticipant.name }}</p>
+    </div>
+    <div class="header-badges">
+      <span class="badge bg-success">{{ mockParticipant.status }}</span>
+      <span class="badge bg-secondary">{{ mockParticipant.role }}</span>
+      <span class="badge bg-info">Phase: {{ mockCohort.currentPhase }}</span>
+    </div>
+  </div>
+
+  <app-simple-tabset
+    [tabs]="tabs"
+    [currentTabId]="currentTabId"
+    (tabSelected)="selectTab($event)">
+  </app-simple-tabset>
+
+  <div class="ui-spec-content">
+
+    <!-- HOME -->
+    <div *ngIf="currentTabId === 'home'" class="ui-section">
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Cohort overview
+                <app-cohort-mvp-doc-link docId="creation-config" label="Cohort structure"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="ui-card-body">
+              <dl class="cohort-dl">
+                <dt>Pathway</dt><dd>{{ mockCohort.topic }}</dd>
+                <dt>Leader</dt><dd>{{ mockCohort.leader }}</dd>
+                <dt>Organization</dt><dd>{{ mockCohort.organization }}</dd>
+                <dt>Schedule</dt><dd>{{ mockCohort.startDate }} – {{ mockCohort.endDate }}</dd>
+              </dl>
+
+              <h6 class="subsection-title mt-3">
+                Milestone phases
+                <app-cohort-mvp-doc-link docId="creation-config" label="Phases"></app-cohort-mvp-doc-link>
+              </h6>
+              <div class="phase-pills">
+                <span *ngFor="let phase of mockPhases"
+                  class="badge me-2 mb-2"
+                  [class.bg-success]="phase.active"
+                  [class.bg-light]="!phase.active"
+                  [class.text-dark]="!phase.active">
+                  {{ phase.name }}<span *ngIf="phase.active"> (current)</span>
+                </span>
+              </div>
+
+              <div class="progress mt-3 progress-thin">
+                <div class="progress-bar bg-success" [style.width.%]="mockCohort.completion"></div>
+              </div>
+              <p class="small text-muted mb-0">{{ mockCohort.completion }}% of cohort activities complete</p>
+            </div>
+          </div>
+
+          <div class="ui-card mt-3">
+            <div class="ui-card-header">
+              <h5>
+                Upcoming
+                <app-cohort-mvp-doc-link docId="notifications-engagement" label="Reminders"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let item of mockUpcoming" class="list-group-item d-flex justify-content-between">
+                <span><i class="fas fa-circle-dot me-2 text-primary"></i>{{ item.title }}</span>
+                <span class="text-muted small">{{ item.date }} · {{ item.type }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Leader announcements
+                <app-cohort-mvp-doc-link docId="bookclub-communication" label="Announcements"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div *ngFor="let ann of mockAnnouncements" class="p-3 border-bottom">
+              <strong>{{ ann.title }}</strong>
+              <div class="small text-muted">{{ ann.date }} · Leader only channel</div>
+            </div>
+          </div>
+
+          <div class="ui-card mt-3">
+            <div class="ui-card-header">
+              <h5>
+                Message from leader
+                <app-cohort-mvp-doc-link docId="leader-checkins" label="1:1 messaging"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="p-3">
+              <div class="msg-incoming">
+                <strong>{{ mockLeaderMessage.from }}</strong>
+                <p class="small mb-0 mt-1">{{ mockLeaderMessage.preview }}</p>
+              </div>
+              <button class="btn btn-sm btn-outline-primary mt-2" disabled>Reply privately</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONBOARDING -->
+    <div *ngIf="currentTabId === 'onboarding'" class="ui-section">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                Welcome checklist
+                <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Checklist"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let item of mockWelcomeChecklist" class="list-group-item">
+                <input type="checkbox" class="form-check-input me-2" [checked]="item.done" disabled />
+                {{ item.step }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                How I joined (citizen-initiated)
+                <app-cohort-mvp-doc-link docId="onboard-citizen-initiated"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ol class="list-group list-group-flush list-group-numbered">
+              <li *ngFor="let step of mockSignupFlow" class="list-group-item d-flex justify-content-between align-items-center">
+                {{ step.step }}
+                <i class="fas fa-check text-success" *ngIf="step.done"></i>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Consents at enrollment
+                <app-cohort-mvp-doc-link docId="consent-privacy"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="p-3">
+              <div *ngFor="let c of mockConsentsAtSignup" class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" [checked]="c.checked" disabled />
+                <label class="form-check-label">{{ c.label }}</label>
+              </div>
+              <p class="small text-muted mb-0 mt-2">
+                Participant role assignment:
+                <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Roles"></app-cohort-mvp-doc-link>
+                — you are a <strong>Participant</strong> (not Leader, Observer, or Sponsor).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITIES -->
+    <div *ngIf="currentTabId === 'activities'" class="ui-section">
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                My activity sequence
+                <app-cohort-mvp-doc-link docId="seminar-program-builder"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr><th>Wk</th><th>Activity</th><th>Type</th><th>Status</th><th>Due</th><th></th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let act of mockActivities">
+                  <td>{{ act.week }}</td>
+                  <td>{{ act.title }}</td>
+                  <td><span class="badge bg-light text-dark">{{ act.type }}</span></td>
+                  <td>
+                    <span class="badge"
+                      [class.bg-success]="act.status === 'Complete'"
+                      [class.bg-primary]="act.status === 'Upcoming'"
+                      [class.bg-secondary]="act.status === 'Not started' || act.status === 'Locked'">
+                      {{ act.status }}
+                    </span>
+                  </td>
+                  <td class="small">{{ act.due }}</td>
+                  <td><button class="btn btn-sm btn-primary" [disabled]="act.status === 'Locked' || act.status === 'Complete'">Start</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Session resources
+                <app-cohort-mvp-doc-link docId="seminar-resource-library"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let res of mockSessionResources" class="list-group-item">
+                <div><i class="fas fa-file me-2"></i>{{ res.title }}</div>
+                <span class="badge bg-light text-dark mt-1">{{ res.linkedTo }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNITY -->
+    <div *ngIf="currentTabId === 'community'" class="ui-section">
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Cohort channels
+                <app-cohort-mvp-doc-link docId="bookclub-communication" label="Channels"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="channel-list">
+              <div class="channel-item active">
+                <i class="fas fa-hashtag me-2"></i>general-lounge
+              </div>
+              <div class="channel-item">
+                <i class="fas fa-bullhorn me-2 text-warning"></i>announcements
+                <span class="badge bg-warning text-dark ms-auto">Read only</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-card mt-3">
+            <div class="ui-card-header">
+              <h5>
+                Activity threads
+                <app-cohort-mvp-doc-link docId="bookclub-communication" label="Threads"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <table class="table table-sm mb-0">
+              <thead><tr><th>Thread</th><th>Replies</th><th></th></tr></thead>
+              <tbody>
+                <tr *ngFor="let t of mockThreads">
+                  <td>{{ t.activity }}</td>
+                  <td>{{ t.replies }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-link p-0" disabled>{{ t.myReply ? 'View my reply' : 'Join thread' }}</button>
+                    <app-cohort-mvp-doc-link docId="bookclub-communication" label="Reactions"></app-cohort-mvp-doc-link>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="p-2 border-top small text-muted">
+              <i class="fas fa-smile me-1"></i>React with emoji — low-friction engagement for quieter participants
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Reflection wall
+                <app-cohort-mvp-doc-link docId="bookclub-communication" label="Reflection wall"></app-cohort-mvp-doc-link>
+              </h5>
+              <span class="badge bg-light text-dark">Weekly takeaway</span>
+            </div>
+            <div *ngFor="let post of mockReflectionWall" class="reflection-post p-3 border-bottom">
+              <strong>{{ post.author }}</strong>
+              <p class="small mb-0">{{ post.takeaway }}</p>
+            </div>
+            <div class="p-3">
+              <label class="form-label small fw-semibold">Share one takeaway this week</label>
+              <textarea class="form-control form-control-sm" rows="2" placeholder="What did you learn?" readonly></textarea>
+              <button class="btn btn-sm btn-primary mt-2" disabled>Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div *ngIf="currentTabId === 'progress'" class="ui-section">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                My personal goals (1–3)
+                <app-cohort-mvp-doc-link docId="leader-goals-tracking" label="Personal goals"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div *ngFor="let g of mockPersonalGoals" class="p-3 border-bottom">
+              <div class="d-flex justify-content-between">
+                <span>{{ g.goal }}</span>
+                <span class="small text-muted">{{ g.progress }}%</span>
+              </div>
+              <div class="progress progress-thin mt-1">
+                <div class="progress-bar" [style.width.%]="g.progress"></div>
+              </div>
+            </div>
+            <div class="p-2 small text-muted border-top">
+              Mid-cohort & end-of-cohort self-assessment against goals
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                My hours log
+                <app-cohort-mvp-doc-link docId="leader-goals-tracking" label="Hours log"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <table class="table table-sm mb-0">
+              <tbody>
+                <tr *ngFor="let row of mockHoursLog">
+                  <td>{{ row.type }}</td>
+                  <td class="text-end">{{ row.hours }}h</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Milestone badges
+                <app-cohort-mvp-doc-link docId="leader-goals-tracking" label="Badges"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="p-3 d-flex flex-wrap gap-2">
+              <span *ngFor="let b of mockBadges"
+                class="badge badge-milestone"
+                [class.earned]="b.earned"
+                [class.locked]="!b.earned">
+                <i class="fas me-1" [class.fa-award]="b.earned" [class.fa-lock]="!b.earned"></i>
+                {{ b.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Periodic check-in
+                <app-cohort-mvp-doc-link docId="leader-checkins"></app-cohort-mvp-doc-link>
+              </h5>
+              <span class="badge bg-warning text-dark">Due</span>
+            </div>
+            <div class="p-3">
+              <p class="small text-muted">Short 3–5 question form:</p>
+              <div *ngFor="let q of mockCheckInQuestions; let i = index" class="mb-3">
+                <label class="form-label small">{{ i + 1 }}. {{ q }}</label>
+                <textarea class="form-control form-control-sm" rows="1" readonly></textarea>
+              </div>
+              <button class="btn btn-sm btn-primary" disabled>Submit check-in</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIVACY -->
+    <div *ngIf="currentTabId === 'privacy'" class="ui-section">
+      <div class="ui-card">
+        <div class="ui-card-header">
+          <h5>
+            My consent preferences
+            <app-cohort-mvp-doc-link docId="consent-privacy"></app-cohort-mvp-doc-link>
+          </h5>
+        </div>
+        <div class="p-3">
+          <p class="small text-muted">Control what sponsors and observers can see. You can update these at any time.</p>
+          <div *ngFor="let pref of mockConsentSettings" class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" [checked]="pref.enabled" disabled />
+            <label class="form-check-label">{{ pref.label }}</label>
+          </div>
+          <div class="alert alert-light border small mb-0">
+            <i class="fas fa-child me-2"></i>
+            Minor/underage: parental consent & guardian-linked account
+            <app-cohort-mvp-doc-link docId="consent-privacy" label="Minor handling"></app-cohort-mvp-doc-link>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div *ngIf="currentTabId === 'notifications'" class="ui-section">
+      <div class="row g-3">
+        <div class="col-md-5">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                Notification preferences
+                <app-cohort-mvp-doc-link docId="notifications-engagement"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="p-3">
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" [checked]="mockNotificationPrefs.email" disabled />
+                <label class="form-check-label">Email reminders</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" [checked]="mockNotificationPrefs.sms" disabled />
+                <label class="form-check-label">SMS reminders</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" [checked]="mockNotificationPrefs.inApp" disabled />
+                <label class="form-check-label">In-app alerts</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" [checked]="mockNotificationPrefs.weeklyDigest" disabled />
+                <label class="form-check-label">
+                  Weekly digest (async over daily pings)
+                  <app-cohort-mvp-doc-link docId="notifications-engagement" label="Digest"></app-cohort-mvp-doc-link>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                Recent notifications
+                <app-cohort-mvp-doc-link docId="notifications-engagement" label="Nudges"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let n of mockRecentNotifications" class="list-group-item">
+                <i class="fas me-2"
+                  [class.fa-bell]="n.type === 'reminder'"
+                  [class.fa-hand-point-right]="n.type === 'nudge'"
+                  [class.fa-bullhorn]="n.type === 'announcement'"
+                  [class.text-primary]="n.type === 'reminder'"
+                  [class.text-warning]="n.type === 'nudge'"
+                  [class.text-info]="n.type === 'announcement'"></i>
+                {{ n.text }}
+                <span class="text-muted small float-end">{{ n.when }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

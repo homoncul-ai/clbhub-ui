@@ -456,6 +456,7 @@ export class MenuService {
     // Add Provider Dashboard with children
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DASHBOARD);
     this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DASHBOARD_TAB_MYDASH));
+    this.addChildMenuItem(dashboard, this.copyMenuItem(MENU_CONSTANTS.PROVIDER_DASHBOARD_TAB_COHORT));
     this.addMenuItem(menu, dashboard);
 
     // Add My Communications
@@ -1060,6 +1061,14 @@ export const MENU_CONSTANTS = {
     componentPath: 'src/app/features/dash-provider/dashboard',
     componentName: 'provider-dashboard-tab-mydash',
     icon: 'fas fa-tachometer-alt'
+  },
+  PROVIDER_DASHBOARD_TAB_COHORT: {
+    level: 2,
+    label: 'Cohort',
+    route: '/provider-dashboard/dashboard/cohort',
+    componentPath: 'src/app/features/dash-provider/cohorts',
+    componentName: 'cohort-leader-ui-example',
+    icon: 'fas fa-users'
   },
   PROVIDER_DETAILS: {
     level: 1,

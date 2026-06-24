@@ -1,0 +1,126 @@
+1. Cohort Structure & Lifecycle
+Creation & Configuration
+Cohort name, topic/pathway (e.g., "Healthcare Careers," "Skilled Trades", “AI Education” ), duration, and capacity
+Type: Cohort type:
+Open enrollment - cohort shows in Catalog.
+Start/end dates with milestone checkpoints — real phases like Explore → Shadow → Reflect, not just a drip schedule
+Add internal events to cohort -  Synchronous meetings, group site visits, and community volunteer days
+Add “Goals” to the Cohort - what people can reasonably achieve during the cohort’s activity
+Add Resources
+Fill out document folder
+Add "Opportunities" for each week for each cohort.  (Zoom Meeting), (Job Search) 
+Created, empty or populated cohort can be used to drive sponsor activity
+
+
+
+Enrollment & Onboarding
+
+Onboard Dialogue
+Welcome checklist — first-time orientation steps before the cohort begins
+Roles: Role assignment:
+Participant
+Leader / Facilitator
+Observer
+Sponsor
+1a. Onboard - Cohort Leader Initiated  
+Cohort Leader adds e-mail address
+User received Email with invitation to join cohort
+Fills out signup form, checks consents
+Cohort Participant Added - Status Accepted - 
+Cohort Sends “Welcome Message” 
+1b. Onboard - Citizen Initiated
+Citizen finds cohort by research or feed
+Adds to “Engagement” - by ‘thumbs up’
+“Signup” process
+Citizen fills out onboarding form
+Citizen checks consents
+Citizen is added as “Cohort Participant” - Status Pending - 
+Cohort Leader - Sees “Pending Request” - agrees - adds to cohort. (Participant Status = Accepted)
+Cohort Sends “Welcome Message” 
+
+
+2. The "Seminar" Layer — Structured Curriculum
+Program Builder
+Session/module builder: each cohort has a sequence of structured activities (not just free-form chat)
+Activity types:
+Read / watch something
+Attend an event
+Take a class
+Complete a job shadow
+Write a reflection
+Take a quiz
+Have a conversation with a professional
+Clone Cohort - somehow and customize per cohort (e.g., a standard "Healthcare Pathway" template)
+
+Resource Library
+Attach articles, videos, local employer profiles, and event listings directly to sessions
+Pull from clbhub's own opportunity feed — jobs, events, courses, and volunteer postings in Haverhill/Merrimack Valley — directly into cohort content
+
+3. The "Book Club" Layer — Peer Participation
+Group Communication
+Cohort-scoped discussion channels — each cohort is its own space, not a global feed
+Threaded discussion per activity/session, not just a single general chat
+Reaction/emoji responses — low-friction way for quieter participants to engage
+Announcements channel controlled by leader only
+Optional: a "reflection wall" — structured weekly post where everyone shares one takeaway
+
+
+4. The "Cohort Leader" Layer — Goals & Progress
+Individual Goal Tracking
+Each participant sets 1–3 personal goals at cohort start (e.g., "I want to learn if nursing is right for me")
+Mid-cohort and end-of-cohort self-assessment against those goals
+Leader can view and comment on individual goals privately
+Exit Interviews 
+
+Progress & Completion Tracking
+Per-participant activity completion status visible to leader
+Hours log: classes attended, events attended, job shadow hours, volunteer hours (grant-reportable)
+Bottleneck detection: leader can see who is falling behind and send a nudge without broadcasting it
+Milestone badges or markers — tied to real activities completed, not gamification for its own sake
+
+Check-ins
+Structured periodic check-in: a short 3–5 question form each participant fills out (e.g., "How are you feeling about this pathway? What's one thing you'd like to explore more?")
+Leader sees aggregated responses plus individual flags for anyone who needs a follow-up conversation
+1:1 messaging between participant and leader — private, separate from group channels
+
+5. Leader & Facilitator Tools
+Leader dashboard: cohort health at a glance — enrollment count, activity completion rates, upcoming deadlines, at-risk participants
+Attendance tracking for live/synchronous sessions (Zoom or in-person)
+Content scheduling: queue up activities, resources, and nudges in advance
+Announcement broadcasts with read-receipt visibility
+Export: participation report for grant compliance, sponsor reporting, and school credit verification
+
+6. Consent & Privacy — First-Class, Not Bolted On
+Per-participant consent matrix at enrollment: what data each sponsor/observer can see
+Consent tiers:
+Aggregate-only (default)
+Progress-visible
+Contact-shareable
+Open to outreach
+Minor/underage handling: parental consent form flow, guardian login linked to youth account
+Participant can update consent preferences at any time
+Audit log of consent changes
+
+7. Sponsor Experience - READ ONLY for MVP
+Sponsor dashboard: aggregate cohort stats (completion rates, activity types, demographics — de-identified by default)
+Opted-in participant cards: for members who consented to contact, sponsor sees a limited profile and the ability to initiate an outreach request (mediated through the platform — not direct contact)
+Sponsor can contribute resources:
+Post a job shadow slot
+Offer an info session
+Contribute a resource to the content library
+Sponsorship impact report: end-of-cohort summary suitable for employer CSR reporting
+
+8. Notifications & Engagement
+Smart nudges: inactivity alerts to participants after X days without engagement
+Upcoming activity reminders (email/SMS/in-app depending on preference)
+Leader alerts:
+Participant hasn't logged in
+Check-in overdue
+Cohort milestone approaching
+Digest option: weekly summary email for participants who prefer async over daily pings
+
+9. Reporting & Data
+Cohort Weekly Status reports for nonprofit accountability
+Cohort completion report (exportable PDF/CSV) for grant applications
+Anonymized cohort-level outcomes for sponsor reporting
+Pathway interest heatmap: across all cohorts, which careers are generating the most engagement — useful for community-level planning and employer recruitment

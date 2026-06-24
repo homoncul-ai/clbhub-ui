@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, ViewChild, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
@@ -30,7 +30,7 @@ class InlinePanelRowClickBehavior extends OnRowClickBehavior {
 @Component({
   selector: 'app-dash-provider-cohorts',
   standalone: true,
-  imports: [CommonModule, MdbAccordionModule, CohortListComponent, CohortTabsetUiComponent],
+  imports: [CommonModule, RouterModule, MdbAccordionModule, CohortListComponent, CohortTabsetUiComponent],
   styleUrl: './dash-provider-cohorts.component.scss',
   templateUrl: './dash-provider-cohorts.component.html',
 })

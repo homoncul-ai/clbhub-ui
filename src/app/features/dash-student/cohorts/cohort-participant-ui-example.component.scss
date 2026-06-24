@@ -1,0 +1,64 @@
+@import '../../dash-provider/cohorts/cohort-leader-ui-example.component.scss';
+
+.cohort-participant-ui-example {
+  padding: 0.5rem 0 2rem;
+}
+
+.cohort-participant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+}
+
+.cohort-dl {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  font-size: 0.9rem;
+
+  dt {
+    font-weight: 600;
+    margin: 0;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.phase-pills .badge {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.65rem;
+}
+
+.msg-incoming {
+  background: #f1f3f5;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.badge-milestone {
+  font-size: 0.75rem;
+  padding: 0.5rem 0.65rem;
+
+  &.earned {
+    background: #e8f5e9;
+    color: #2d5533;
+    border: 1px solid #c8dcc9;
+  }
+
+  &.locked {
+    background: #f1f3f5;
+    color: #9ca3af;
+    border: 1px solid #dee2e6;
+  }
+}

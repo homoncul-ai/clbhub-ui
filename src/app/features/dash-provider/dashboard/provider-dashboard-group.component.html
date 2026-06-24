@@ -22,4 +22,8 @@
   <div *ngIf="currentTabId === 'setup'">
     <app-provider-dashboard-tab-setup [id]="getOrganizationId()" modeName="detail"></app-provider-dashboard-tab-setup>
   </div>
+
+  <div *ngIf="currentTabId === 'cohort'">
+    <app-cohort-leader-ui-example [showBackLink]="false"></app-cohort-leader-ui-example>
+  </div>
 </div>

@@ -7,11 +7,12 @@ import { HcclUserContextGETData, WorkQueueGETData, WorkRequestCriteria } from '@
 import { ProviderDashboardTabMydashComponent } from './provider-dashboard-tab-mydash.component';
 import { ProviderDashboardTabSetupComponent } from './provider-dashboard-tab-setup.component';
 import { ProviderDashboardTabProfileComponent } from './provider-dashboard-tab-profile.component';
+import { CohortLeaderUiExampleComponent } from '../cohorts/cohort-leader-ui-example.component';
 
 @Component({
   selector: 'app-provider-dashboard-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, ProviderDashboardTabMydashComponent, ProviderDashboardTabProfileComponent, ProviderDashboardTabSetupComponent],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderDashboardTabMydashComponent, ProviderDashboardTabProfileComponent, ProviderDashboardTabSetupComponent, CohortLeaderUiExampleComponent],
   templateUrl: './provider-dashboard-group.component.html',
   styleUrl: './provider-dashboard-group.component.scss'
 })
@@ -63,6 +64,14 @@ export class ProviderDashboardGroupComponent extends AbstractEntityGroupComponen
       new SimpleTab('setup', 'Setup', '', 
         () => {
           this.router.navigate([baseRoute, 'setup']);
+        },
+        () => {
+          return true;
+        }
+      ),
+      new SimpleTab('cohort', 'Cohort', '', 
+        () => {
+          this.router.navigate([baseRoute, 'cohort']);
         },
         () => {
           return true;

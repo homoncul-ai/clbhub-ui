@@ -36,6 +36,7 @@ import { StudentProfileUiComponent } from './student-profile-ui/student-profile-
 import { DashStudentMyOrganizationsComponent } from './dash-student-my-organizations.component';
 import { DashStudentMyParticipationComponent } from './dash-student-my-participation.component';
 import { DashStudentCohortsComponent } from './dash-student-cohorts.component';
+import { CohortParticipantUiExampleComponent } from './cohorts/cohort-participant-ui-example.component';
 const routes: Routes = [
   {
     path: '',
@@ -181,7 +182,7 @@ const routes: Routes = [
         component: DashStudentCohortsComponent,
         data: {
           pageTitle: 'My Cohorts',
-          pageSubtitle: 'View cohorts you belong to and participate in cohort discussions',
+          pageSubtitle: 'Participant view — MVP UI spec with documentation links',
           pageIcon: 'fas fa-users',
         }
       },
@@ -252,6 +253,8 @@ const routes: Routes = [
     StudentProfileUiComponent,
     DashStudentMyOrganizationsComponent,
     DashStudentMyParticipationComponent,
+    DashStudentCohortsComponent,
+    CohortParticipantUiExampleComponent,
   ],
   declarations: [
     // Non-standalone components would go here
