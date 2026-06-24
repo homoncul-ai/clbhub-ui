@@ -2,8 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
-import { getCohortMvpDocExplanation, CohortMvpDocSection } from './cohort-mvp-documentation';
+import {
+  CohortMvpDocSection,
+  getCohortMvpDoc,
+  getCohortMvpDocExplanation,
+} from './cohort-mvp-documentation';
 
+/**
+ * MDB modal service assigns `data` fields directly onto this component instance
+ * via Object.assign — not via modalRef.data.
+ */
 @Component({
   selector: 'app-cohort-mvp-doc-modal',
   standalone: true,
@@ -22,15 +30,14 @@ import { getCohortMvpDocExplanation, CohortMvpDocSection } from './cohort-mvp-do
         <span class="badge bg-light text-dark" *ngIf="contextLabel">{{ contextLabel }}</span>
       </div>
 
-      <div class="cohort-mvp-doc-explanation mb-4" *ngIf="explanation">
+      <div class="cohort-mvp-doc-explanation mb-4">
         <h6 class="explanation-heading">{{ explanationHeading }}</h6>
         <p class="explanation-text mb-0">{{ explanation }}</p>
       </div>
 
-      <div class="cohort-mvp-doc-requirements">
+      <div class="cohort-mvp-doc-requirements" *ngIf="requirementsMarkdown">
         <h6 class="requirements-heading">MVP requirements</h6>
         <app-std-markdown-display
-          *ngIf="requirementsMarkdown"
           [markdown]="requirementsMarkdown"
           maxHeight="45vh">
         </app-std-markdown-display>
@@ -85,8 +92,12 @@ import { getCohortMvpDocExplanation, CohortMvpDocSection } from './cohort-mvp-do
   `],
 })
 export class CohortMvpDocModalComponent implements OnInit {
+  /** Set by MdbModalService from open({ data: { doc } }). */
   doc: CohortMvpDocSection | null = null;
+  /** Fallback if only docId is passed. */
+  docId = '';
   contextLabel = '';
+
   explanation = '';
   requirementsMarkdown = '';
 
@@ -107,22 +118,28 @@ export class CohortMvpDocModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const data = (this.modalRef as MdbModalRef<CohortMvpDocModalComponent> & {
-      data?: { doc?: CohortMvpDocSection; contextLabel?: string };
-    }).data;
+    this.resolveDoc();
+    this.buildContent();
+  }
 
-    this.doc = data?.doc ?? null;
-    this.contextLabel = data?.contextLabel?.trim() ?? '';
-
-    if (this.doc) {
-      this.explanation = getCohortMvpDocExplanation(this.doc.id, this.contextLabel || undefined);
-      this.requirementsMarkdown = this.stripRequirementsHeading(this.doc.markdown);
+  private resolveDoc(): void {
+    if (!this.doc && this.docId) {
+      this.doc = getCohortMvpDoc(this.docId) ?? null;
     }
   }
 
-  /** The markdown field already includes a heading; strip it for the requirements sub-section. */
-  private stripRequirementsHeading(markdown: string): string {
-    return markdown.replace(/^\*\*MVP requirements\*\*\s*/i, '').trim();
+  private buildContent(): void {
+    if (!this.doc) {
+      this.explanation = 'Documentation for this feature is not available.';
+      this.requirementsMarkdown = '';
+      return;
+    }
+
+    const label = this.contextLabel?.trim() || undefined;
+    this.explanation = getCohortMvpDocExplanation(this.doc.id, label);
+    this.requirementsMarkdown = this.doc.markdown
+      .replace(/^\*\*MVP requirements\*\*\s*/i, '')
+      .trim();
   }
 
   closeModal(): void {

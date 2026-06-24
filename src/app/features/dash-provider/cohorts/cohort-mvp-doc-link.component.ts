@@ -1,13 +1,13 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { MdbModalModule, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { getCohortMvpDoc } from './cohort-mvp-documentation';
 import { CohortMvpDocModalComponent } from './cohort-mvp-doc-modal.component';
 
 @Component({
   selector: 'app-cohort-mvp-doc-link',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MdbModalModule],
   template: `
     <button
       type="button"
@@ -55,7 +55,11 @@ export class CohortMvpDocLinkComponent {
 
     this.modalService.open(CohortMvpDocModalComponent, {
       modalClass: 'modal-lg modal-dialog-scrollable modal-dialog-centered',
-      data: { doc, contextLabel: this.label || undefined },
+      data: {
+        doc,
+        docId: this.docId,
+        contextLabel: this.label?.trim() || '',
+      },
     });
   }
 }
