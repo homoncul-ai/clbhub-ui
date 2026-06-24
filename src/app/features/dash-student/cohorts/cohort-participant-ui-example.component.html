@@ -32,6 +32,29 @@
 
     <!-- HOME -->
     <div *ngIf="currentTabId === 'home'" class="ui-section">
+      <div class="ui-card mb-3">
+        <div class="ui-card-header">
+          <h5>
+            Recent notifications
+            <app-cohort-mvp-doc-link docId="notifications-engagement" label="Nudges"></app-cohort-mvp-doc-link>
+          </h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let n of mockRecentNotifications" class="list-group-item">
+            <i class="fas me-2"
+              [class.fa-bell]="n.type === 'reminder'"
+              [class.fa-hand-point-right]="n.type === 'nudge'"
+              [class.fa-bullhorn]="n.type === 'announcement'"
+              [class.fa-book]="n.type === 'resource'"
+              [class.text-primary]="n.type === 'reminder'"
+              [class.text-warning]="n.type === 'nudge'"
+              [class.text-info]="n.type === 'announcement' || n.type === 'resource'"></i>
+            {{ n.text }}
+            <span class="text-muted small float-end">{{ n.when }}</span>
+          </li>
+        </ul>
+      </div>
+
       <div class="row g-3">
         <div class="col-lg-8">
           <div class="ui-card">
@@ -90,13 +113,27 @@
           <div class="ui-card">
             <div class="ui-card-header">
               <h5>
-                Leader announcements
-                <app-cohort-mvp-doc-link docId="bookclub-communication" label="Announcements"></app-cohort-mvp-doc-link>
+                Related resources
+                <app-cohort-mvp-doc-link docId="seminar-resource-library" label="Resources"></app-cohort-mvp-doc-link>
               </h5>
             </div>
-            <div *ngFor="let ann of mockAnnouncements" class="p-3 border-bottom">
-              <strong>{{ ann.title }}</strong>
-              <div class="small text-muted">{{ ann.date }} · Leader only channel</div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let res of mockRelatedResources" class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span>
+                    <i class="fas me-2 text-muted" [ngClass]="relatedResourceIcon(res.type)"></i>
+                    {{ res.title }}
+                  </span>
+                  <span class="badge bg-light text-dark ms-2">{{ relatedResourceLabel(res.type) }}</span>
+                </div>
+                <div class="small text-muted mt-1">
+                  {{ res.date }}
+                  <span *ngIf="res.isNew" class="badge bg-success ms-1">New</span>
+                </div>
+              </li>
+            </ul>
+            <div class="p-2 border-top small text-muted">
+              New links, documents, videos, and people added to your cohort
             </div>
           </div>
 
@@ -121,8 +158,84 @@
 
     <!-- ACTIVITIES -->
     <div *ngIf="currentTabId === 'activities'" class="ui-section">
+      <div class="ui-card mb-3">
+        <div class="ui-card-header">
+          <h5>
+            <i class="fas fa-calendar-week me-2"></i>Week {{ mockCurrentWeek.week }} · {{ mockCurrentWeek.dateRange }}
+            <app-cohort-mvp-doc-link docId="seminar-program-builder"></app-cohort-mvp-doc-link>
+          </h5>
+        </div>
+        <div class="p-3">
+          <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+            <div>
+              <div class="text-muted small mb-1">Current Activity: {{ mockCurrentActivity.due }}</div>
+              <h6 class="mb-1">{{ mockCurrentActivity.title }}</h6>
+              <span class="badge bg-light text-dark me-2">{{ mockCurrentActivity.type }}</span>
+              <span class="badge bg-primary">{{ mockCurrentActivity.status }}</span>
+            </div>
+            <button
+              *ngIf="!currentActivityStarted"
+              class="btn btn-sm btn-primary"
+              (click)="startCurrentActivity()">
+              Start
+            </button>
+            <button
+              *ngIf="currentActivityStarted"
+              class="btn btn-sm btn-success">
+              Finish
+            </button>
+          </div>
+
+          <div class="mb-3">
+            <h6 class="text-muted small text-uppercase mb-2">Resources</h6>
+            <table class="table table-sm mb-0">
+              <thead>
+                <tr>
+                  <th>Resource</th>
+                  <th>Type</th>
+                  <th class="text-center" style="width: 5rem;">Viewed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let res of mockCurrentActivityResources">
+                  <td>
+                    <i class="fas me-2 text-muted" [ngClass]="relatedResourceIcon(res.type)"></i>
+                    {{ res.title }}
+                  </td>
+                  <td><span class="badge bg-light text-dark">{{ relatedResourceLabel(res.type) }}</span></td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      [checked]="res.viewed"
+                      (change)="res.viewed = !res.viewed" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <h6 class="text-muted small text-uppercase mb-2">Reflect</h6>
+            <label class="form-label small">{{ mockCurrentActivityReflection.prompt }}</label>
+            <textarea
+              class="form-control form-control-sm"
+              rows="3"
+              placeholder="Share your reflection…"
+              [(ngModel)]="mockCurrentActivityReflection.response"></textarea>
+          </div>
+
+          <div>
+            <h6 class="text-muted small text-uppercase mb-2">Description</h6>
+            <app-std-markdown-display
+              [markdown]="mockCurrentActivity.description">
+            </app-std-markdown-display>
+          </div>
+        </div>
+      </div>
+
       <div class="row g-3">
-        <div class="col-lg-8">
+        <div class="col-12">
           <div class="ui-card">
             <div class="ui-card-header">
               <h5>
@@ -154,19 +267,78 @@
             </table>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="col-lg-4">
-          <div class="ui-card">
+    <!-- RESOURCES -->
+    <div *ngIf="currentTabId === 'resources'" class="ui-section">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="ui-card h-100">
             <div class="ui-card-header">
               <h5>
-                Session resources
-                <app-cohort-mvp-doc-link docId="seminar-resource-library"></app-cohort-mvp-doc-link>
+                <i class="fas fa-link me-2"></i>Links
+                <app-cohort-mvp-doc-link docId="seminar-resource-library" label="Resources"></app-cohort-mvp-doc-link>
               </h5>
             </div>
             <ul class="list-group list-group-flush">
-              <li *ngFor="let res of mockSessionResources" class="list-group-item">
-                <div><i class="fas fa-file me-2"></i>{{ res.title }}</div>
-                <span class="badge bg-light text-dark mt-1">{{ res.linkedTo }}</span>
+              <li *ngFor="let item of mockResourceLinks" class="list-group-item d-flex justify-content-between">
+                <span>{{ item.title }}</span>
+                <span class="text-muted small">{{ item.added }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                <i class="fas fa-file me-2"></i>Documents
+                <app-cohort-mvp-doc-link docId="seminar-resource-library" label="Resources"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let item of mockResourceDocuments" class="list-group-item d-flex justify-content-between">
+                <span><i class="fas fa-file me-2 text-muted"></i>{{ item.title }}</span>
+                <span class="text-muted small">{{ item.added }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                <i class="fas fa-video me-2"></i>Videos
+                <app-cohort-mvp-doc-link docId="seminar-resource-library" label="Resources"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let item of mockResourceVideos" class="list-group-item d-flex justify-content-between">
+                <span><i class="fas fa-play-circle me-2 text-muted"></i>{{ item.title }}</span>
+                <span class="text-muted small">{{ item.added }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                <i class="fas fa-user me-2"></i>People
+                <app-cohort-mvp-doc-link docId="seminar-resource-library" label="Resources"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let item of mockResourcePeople" class="list-group-item">
+                <div class="d-flex justify-content-between">
+                  <strong>{{ item.title }}</strong>
+                  <span class="text-muted small">{{ item.added }}</span>
+                </div>
+                <span class="badge bg-light text-dark mt-1">{{ item.role }}</span>
               </li>
             </ul>
           </div>
@@ -271,7 +443,7 @@
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" *ngIf="uiConfig.member.showingMyHours">
           <div class="ui-card h-100">
             <div class="ui-card-header">
               <h5>
@@ -290,7 +462,7 @@
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" *ngIf="uiConfig.member.showingMilestoneBadges">
           <div class="ui-card">
             <div class="ui-card-header">
               <h5>
@@ -363,6 +535,23 @@
             <input class="form-control form-control-sm" [value]="goal" [placeholder]="i === 0 ? 'e.g. Learn if nursing is right for me' : 'Optional'" readonly />
           </div>
           <button class="btn btn-sm btn-primary" disabled>Save goals</button>
+        </div>
+      </div>
+
+      <div class="ui-card mb-3">
+        <div class="ui-card-header">
+          <h5>
+            Setup Notifications
+            <app-cohort-mvp-doc-link docId="notifications-engagement" label="Reminders"></app-cohort-mvp-doc-link>
+          </h5>
+        </div>
+        <div class="p-3">
+          <p class="small text-muted">Choose which cohort notifications you want to receive.</p>
+          <div *ngFor="let opt of mockSetupNotifications" class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" [checked]="opt.enabled" disabled />
+            <label class="form-check-label">{{ opt.label }}</label>
+          </div>
+          <button class="btn btn-sm btn-primary mt-2" disabled>Save notification settings</button>
         </div>
       </div>
 
@@ -441,31 +630,6 @@
             — you are a <strong>Participant</strong> (not Leader, Observer, or Sponsor).
           </p>
         </div>
-      </div>
-    </div>
-
-    <!-- NOTIFICATIONS -->
-    <div *ngIf="currentTabId === 'notifications'" class="ui-section">
-      <div class="ui-card">
-        <div class="ui-card-header">
-          <h5>
-            Recent notifications
-            <app-cohort-mvp-doc-link docId="notifications-engagement" label="Nudges"></app-cohort-mvp-doc-link>
-          </h5>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let n of mockRecentNotifications" class="list-group-item">
-            <i class="fas me-2"
-              [class.fa-bell]="n.type === 'reminder'"
-              [class.fa-hand-point-right]="n.type === 'nudge'"
-              [class.fa-bullhorn]="n.type === 'announcement'"
-              [class.text-primary]="n.type === 'reminder'"
-              [class.text-warning]="n.type === 'nudge'"
-              [class.text-info]="n.type === 'announcement'"></i>
-            {{ n.text }}
-            <span class="text-muted small float-end">{{ n.when }}</span>
-          </li>
-        </ul>
       </div>
     </div>
 
