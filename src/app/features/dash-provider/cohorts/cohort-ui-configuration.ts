@@ -1,6 +1,8 @@
 export interface CohortUIMemberConfiguration {
   showingMyHours: boolean;
   showingMilestoneBadges: boolean;
+  showingMilestonePhases: boolean;
+  showingUpcoming: boolean;
 }
 
 export interface CohortUIConfiguration {
@@ -12,6 +14,8 @@ export function createDefaultCohortUIConfiguration(): CohortUIConfiguration {
     member: {
       showingMyHours: true,
       showingMilestoneBadges: true,
+      showingMilestonePhases: true,
+      showingUpcoming: true,
     },
   };
 }
@@ -21,5 +25,7 @@ export const COHORT_UI_CONFIGURATION_WIREFRAME: CohortUIConfiguration = {
   member: {
     showingMyHours: false,
     showingMilestoneBadges: false,
+    showingMilestonePhases: false,
+    showingUpcoming: false,
   },
 };

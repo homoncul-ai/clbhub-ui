@@ -129,11 +129,34 @@ Post one takeaway in the cohort channel by end of week.`,
     { week: 5, title: 'Quiz: Healthcare basics', type: 'Quiz', status: 'Locked', due: 'Jul 4' },
   ];
 
-  mockRelatedResources = [
-    { type: 'link', title: 'Lawrence General Hospital careers page', date: 'Jun 10', isNew: true },
-    { type: 'document', title: 'Healthcare Pathway Guide.pdf', date: 'Jun 8', isNew: true },
-    { type: 'video', title: 'Day in the life of a CNA', date: 'Jun 5', isNew: false },
-    { type: 'person', title: 'Maria Lopez — Nurse Practitioner', date: 'Jun 3', isNew: true },
+  mockCalendarMonths = [
+    {
+      month: 'June 2026',
+      activities: [
+        { date: 'Jun 3', title: 'Orientation Zoom', type: 'Event', status: 'Complete' },
+        { date: 'Jun 5', title: 'Watch: Day in the life of a CNA', type: 'Read / watch', status: 'Complete' },
+        { date: 'Jun 12', title: 'Attend: Nursing panel Zoom', type: 'Attend event', status: 'Upcoming', current: true },
+        { date: 'Jun 20', title: 'Job shadow at Lawrence General', type: 'Job shadow', status: 'Not started' },
+        { date: 'Jun 27', title: 'Reflection: What surprised you?', type: 'Reflection', status: 'Locked' },
+      ],
+    },
+    {
+      month: 'July 2026',
+      activities: [
+        { date: 'Jul 4', title: 'Quiz: Healthcare basics', type: 'Quiz', status: 'Locked' },
+        { date: 'Jul 11', title: 'Professional conversation check-in', type: 'Conversation', status: 'Locked' },
+        { date: 'Jul 18', title: 'Volunteer shift @ Whittier clinic', type: 'Volunteer', status: 'Locked' },
+        { date: 'Jul 25', title: 'Mid-cohort self-assessment', type: 'Check-in', status: 'Locked' },
+      ],
+    },
+    {
+      month: 'August 2026',
+      activities: [
+        { date: 'Aug 1', title: 'Shadow reflection share-out', type: 'Reflection', status: 'Locked' },
+        { date: 'Aug 8', title: 'Career pathway planning session', type: 'Attend event', status: 'Locked' },
+        { date: 'Aug 15', title: 'Cohort closing celebration', type: 'Event', status: 'Locked' },
+      ],
+    },
   ];
 
   mockResourceLinks = [
@@ -201,11 +224,6 @@ Post one takeaway in the cohort channel by end of week.`,
     'What is one thing you would like to explore more?',
     'Any barriers we should know about?',
   ];
-
-  mockLeaderMessage = {
-    from: 'Dr. Sarah Chen (Cohort Leader)',
-    preview: 'Great progress on Week 1! Let me know if you need help scheduling your shadow.',
-  };
 
   mockConsentSettings = [
     { key: 'aggregate', label: 'Aggregate-only (default)', enabled: true },

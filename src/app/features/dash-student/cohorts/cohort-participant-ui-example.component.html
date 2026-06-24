@@ -72,18 +72,20 @@
                 <dt>Schedule</dt><dd>{{ mockCohort.startDate }} – {{ mockCohort.endDate }}</dd>
               </dl>
 
-              <h6 class="subsection-title mt-3">
-                Milestone phases
-                <app-cohort-mvp-doc-link docId="creation-config" label="Phases"></app-cohort-mvp-doc-link>
-              </h6>
-              <div class="phase-pills">
-                <span *ngFor="let phase of mockPhases"
-                  class="badge me-2 mb-2"
-                  [class.bg-success]="phase.active"
-                  [class.bg-light]="!phase.active"
-                  [class.text-dark]="!phase.active">
-                  {{ phase.name }}<span *ngIf="phase.active"> (current)</span>
-                </span>
+              <div *ngIf="uiConfig.member.showingMilestonePhases">
+                <h6 class="subsection-title mt-3">
+                  Milestone phases
+                  <app-cohort-mvp-doc-link docId="creation-config" label="Phases"></app-cohort-mvp-doc-link>
+                </h6>
+                <div class="phase-pills">
+                  <span *ngFor="let phase of mockPhases"
+                    class="badge me-2 mb-2"
+                    [class.bg-success]="phase.active"
+                    [class.bg-light]="!phase.active"
+                    [class.text-dark]="!phase.active">
+                    {{ phase.name }}<span *ngIf="phase.active"> (current)</span>
+                  </span>
+                </div>
               </div>
 
               <div class="progress mt-3 progress-thin">
@@ -94,6 +96,40 @@
           </div>
 
           <div class="ui-card mt-3">
+            <div class="ui-card-header">
+              <h5>
+                <i class="fas fa-calendar-alt me-2"></i>Activity calendar
+                <app-cohort-mvp-doc-link docId="seminar-program-builder"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="activity-calendar-scroll">
+              <div *ngFor="let month of mockCalendarMonths" class="calendar-month">
+                <h6 class="calendar-month-title">{{ month.month }}</h6>
+                <ul class="list-group list-group-flush">
+                  <li
+                    *ngFor="let act of month.activities"
+                    class="list-group-item calendar-activity-item"
+                    [class.calendar-activity-current]="act.current">
+                    <div class="d-flex justify-content-between align-items-start gap-2">
+                      <div>
+                        <span class="calendar-date">{{ act.date }}</span>
+                        <span class="calendar-activity-title">{{ act.title }}</span>
+                        <span class="badge bg-light text-dark ms-2">{{ act.type }}</span>
+                      </div>
+                      <span class="badge calendar-status-badge"
+                        [class.bg-success]="act.status === 'Complete'"
+                        [class.bg-primary]="act.status === 'Upcoming'"
+                        [class.bg-secondary]="act.status === 'Not started' || act.status === 'Locked'">
+                        {{ act.status }}
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-card mt-3" *ngIf="uiConfig.member.showingUpcoming">
             <div class="ui-card-header">
               <h5>
                 Upcoming
@@ -113,43 +149,35 @@
           <div class="ui-card">
             <div class="ui-card-header">
               <h5>
-                Related resources
-                <app-cohort-mvp-doc-link docId="seminar-resource-library" label="Resources"></app-cohort-mvp-doc-link>
-              </h5>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li *ngFor="let res of mockRelatedResources" class="list-group-item">
-                <div class="d-flex justify-content-between align-items-start">
-                  <span>
-                    <i class="fas me-2 text-muted" [ngClass]="relatedResourceIcon(res.type)"></i>
-                    {{ res.title }}
-                  </span>
-                  <span class="badge bg-light text-dark ms-2">{{ relatedResourceLabel(res.type) }}</span>
-                </div>
-                <div class="small text-muted mt-1">
-                  {{ res.date }}
-                  <span *ngIf="res.isNew" class="badge bg-success ms-1">New</span>
-                </div>
-              </li>
-            </ul>
-            <div class="p-2 border-top small text-muted">
-              New links, documents, videos, and people added to your cohort
-            </div>
-          </div>
-
-          <div class="ui-card mt-3">
-            <div class="ui-card-header">
-              <h5>
-                Message from leader
-                <app-cohort-mvp-doc-link docId="leader-checkins" label="1:1 messaging"></app-cohort-mvp-doc-link>
+                Current Activity
+                <app-cohort-mvp-doc-link docId="seminar-program-builder"></app-cohort-mvp-doc-link>
               </h5>
             </div>
             <div class="p-3">
-              <div class="msg-incoming">
-                <strong>{{ mockLeaderMessage.from }}</strong>
-                <p class="small mb-0 mt-1">{{ mockLeaderMessage.preview }}</p>
-              </div>
-              <button class="btn btn-sm btn-outline-primary mt-2" disabled>Reply privately</button>
+              <h6 class="mb-1">{{ mockCurrentActivity.title }}</h6>
+              <p class="small text-muted mb-3">
+                Week {{ mockCurrentWeek.week }} · {{ mockCurrentWeek.dateRange }}
+              </p>
+              <button type="button" class="btn btn-sm btn-outline-primary mb-3" (click)="openMessageLeader()">
+                <i class="fas fa-envelope me-1"></i>Message Leader
+              </button>
+
+              <h6 class="text-muted small text-uppercase mb-2">Activity Resources</h6>
+              <ul class="list-group list-group-flush mb-3">
+                <li *ngFor="let res of mockCurrentActivityResources" class="list-group-item px-0">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span>
+                      <i class="fas me-2 text-muted" [ngClass]="relatedResourceIcon(res.type)"></i>
+                      {{ res.title }}
+                    </span>
+                    <span class="badge bg-light text-dark ms-2">{{ relatedResourceLabel(res.type) }}</span>
+                  </div>
+                </li>
+              </ul>
+
+              <button type="button" class="btn btn-sm btn-link p-0" (click)="selectTab('activities')">
+                View full activity <i class="fas fa-arrow-right ms-1"></i>
+              </button>
             </div>
           </div>
         </div>
