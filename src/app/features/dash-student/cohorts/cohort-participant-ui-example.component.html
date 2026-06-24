@@ -119,67 +119,6 @@
       </div>
     </div>
 
-    <!-- ONBOARDING -->
-    <div *ngIf="currentTabId === 'onboarding'" class="ui-section">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <div class="ui-card h-100">
-            <div class="ui-card-header">
-              <h5>
-                Welcome checklist
-                <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Checklist"></app-cohort-mvp-doc-link>
-              </h5>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li *ngFor="let item of mockWelcomeChecklist" class="list-group-item">
-                <input type="checkbox" class="form-check-input me-2" [checked]="item.done" disabled />
-                {{ item.step }}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="ui-card h-100">
-            <div class="ui-card-header">
-              <h5>
-                How I joined (citizen-initiated)
-                <app-cohort-mvp-doc-link docId="onboard-citizen-initiated"></app-cohort-mvp-doc-link>
-              </h5>
-            </div>
-            <ol class="list-group list-group-flush list-group-numbered">
-              <li *ngFor="let step of mockSignupFlow" class="list-group-item d-flex justify-content-between align-items-center">
-                {{ step.step }}
-                <i class="fas fa-check text-success" *ngIf="step.done"></i>
-              </li>
-            </ol>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="ui-card">
-            <div class="ui-card-header">
-              <h5>
-                Consents at enrollment
-                <app-cohort-mvp-doc-link docId="consent-privacy"></app-cohort-mvp-doc-link>
-              </h5>
-            </div>
-            <div class="p-3">
-              <div *ngFor="let c of mockConsentsAtSignup" class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" [checked]="c.checked" disabled />
-                <label class="form-check-label">{{ c.label }}</label>
-              </div>
-              <p class="small text-muted mb-0 mt-2">
-                Participant role assignment:
-                <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Roles"></app-cohort-mvp-doc-link>
-                — you are a <strong>Participant</strong> (not Leader, Observer, or Sponsor).
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- ACTIVITIES -->
     <div *ngIf="currentTabId === 'activities'" class="ui-section">
       <div class="row g-3">
@@ -309,6 +248,23 @@
     <!-- PROGRESS -->
     <div *ngIf="currentTabId === 'progress'" class="ui-section">
       <div class="row g-3">
+        <div class="col-12">
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h5>
+                Welcome checklist
+                <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Checklist"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let item of mockWelcomeChecklist" class="list-group-item">
+                <input type="checkbox" class="form-check-input me-2" [checked]="item.done" disabled />
+                {{ item.step }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
         <div class="col-md-6">
           <div class="ui-card h-100">
             <div class="ui-card-header">
@@ -393,34 +349,56 @@
       </div>
     </div>
 
-    <!-- PRIVACY -->
-    <div *ngIf="currentTabId === 'privacy'" class="ui-section">
+    <!-- CONSENTS -->
+    <div *ngIf="currentTabId === 'consents'" class="ui-section">
       <div class="ui-card">
         <div class="ui-card-header">
           <h5>
-            My consent preferences
+            Consents at enrollment
             <app-cohort-mvp-doc-link docId="consent-privacy"></app-cohort-mvp-doc-link>
           </h5>
         </div>
         <div class="p-3">
-          <p class="small text-muted">Control what sponsors and observers can see. You can update these at any time.</p>
-          <div *ngFor="let pref of mockConsentSettings" class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" [checked]="pref.enabled" disabled />
-            <label class="form-check-label">{{ pref.label }}</label>
+          <div *ngFor="let c of mockConsentsAtSignup" class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" [checked]="c.checked" disabled />
+            <label class="form-check-label">{{ c.label }}</label>
           </div>
-          <div class="alert alert-light border small mb-0">
-            <i class="fas fa-child me-2"></i>
-            Minor/underage: parental consent & guardian-linked account
-            <app-cohort-mvp-doc-link docId="consent-privacy" label="Minor handling"></app-cohort-mvp-doc-link>
-          </div>
+          <p class="small text-muted mb-0 mt-2">
+            Participant role assignment:
+            <app-cohort-mvp-doc-link docId="enrollment-onboarding" label="Roles"></app-cohort-mvp-doc-link>
+            — you are a <strong>Participant</strong> (not Leader, Observer, or Sponsor).
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- NOTIFICATIONS -->
-    <div *ngIf="currentTabId === 'notifications'" class="ui-section">
+    <!-- PREFERENCES -->
+    <div *ngIf="currentTabId === 'preferences'" class="ui-section">
       <div class="row g-3">
-        <div class="col-md-5">
+        <div class="col-md-6">
+          <div class="ui-card h-100">
+            <div class="ui-card-header">
+              <h5>
+                Consent preferences
+                <app-cohort-mvp-doc-link docId="consent-privacy"></app-cohort-mvp-doc-link>
+              </h5>
+            </div>
+            <div class="p-3">
+              <p class="small text-muted">Control what sponsors and observers can see. You can update these at any time.</p>
+              <div *ngFor="let pref of mockConsentSettings" class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" [checked]="pref.enabled" disabled />
+                <label class="form-check-label">{{ pref.label }}</label>
+              </div>
+              <div class="alert alert-light border small mb-0">
+                <i class="fas fa-child me-2"></i>
+                Minor/underage: parental consent & guardian-linked account
+                <app-cohort-mvp-doc-link docId="consent-privacy" label="Minor handling"></app-cohort-mvp-doc-link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
           <div class="ui-card h-100">
             <div class="ui-card-header">
               <h5>
@@ -451,30 +429,31 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="col-md-7">
-          <div class="ui-card h-100">
-            <div class="ui-card-header">
-              <h5>
-                Recent notifications
-                <app-cohort-mvp-doc-link docId="notifications-engagement" label="Nudges"></app-cohort-mvp-doc-link>
-              </h5>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li *ngFor="let n of mockRecentNotifications" class="list-group-item">
-                <i class="fas me-2"
-                  [class.fa-bell]="n.type === 'reminder'"
-                  [class.fa-hand-point-right]="n.type === 'nudge'"
-                  [class.fa-bullhorn]="n.type === 'announcement'"
-                  [class.text-primary]="n.type === 'reminder'"
-                  [class.text-warning]="n.type === 'nudge'"
-                  [class.text-info]="n.type === 'announcement'"></i>
-                {{ n.text }}
-                <span class="text-muted small float-end">{{ n.when }}</span>
-              </li>
-            </ul>
-          </div>
+    <!-- NOTIFICATIONS -->
+    <div *ngIf="currentTabId === 'notifications'" class="ui-section">
+      <div class="ui-card">
+        <div class="ui-card-header">
+          <h5>
+            Recent notifications
+            <app-cohort-mvp-doc-link docId="notifications-engagement" label="Nudges"></app-cohort-mvp-doc-link>
+          </h5>
         </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let n of mockRecentNotifications" class="list-group-item">
+            <i class="fas me-2"
+              [class.fa-bell]="n.type === 'reminder'"
+              [class.fa-hand-point-right]="n.type === 'nudge'"
+              [class.fa-bullhorn]="n.type === 'announcement'"
+              [class.text-primary]="n.type === 'reminder'"
+              [class.text-warning]="n.type === 'nudge'"
+              [class.text-info]="n.type === 'announcement'"></i>
+            {{ n.text }}
+            <span class="text-muted small float-end">{{ n.when }}</span>
+          </li>
+        </ul>
       </div>
     </div>
 

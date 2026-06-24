@@ -18,11 +18,11 @@ export class CohortParticipantUiExampleComponent {
 
   tabs: SimpleTab[] = [
     new SimpleTab('home', 'My Cohort', '', () => this.selectTab('home'), () => true),
-    new SimpleTab('onboarding', 'Onboarding', '', () => this.selectTab('onboarding'), () => true),
     new SimpleTab('activities', 'Activities', '', () => this.selectTab('activities'), () => true),
     new SimpleTab('community', 'Community', '', () => this.selectTab('community'), () => true),
     new SimpleTab('progress', 'My Progress', '', () => this.selectTab('progress'), () => true),
-    new SimpleTab('privacy', 'Privacy', '', () => this.selectTab('privacy'), () => true),
+    new SimpleTab('consents', 'Consents', '', () => this.selectTab('consents'), () => true),
+    new SimpleTab('preferences', 'Preferences', '', () => this.selectTab('preferences'), () => true),
     new SimpleTab('notifications', 'Notifications', '', () => this.selectTab('notifications'), () => true),
   ];
 
@@ -60,15 +60,6 @@ export class CohortParticipantUiExampleComponent {
     { step: 'Set 1–3 personal goals', done: true },
     { step: 'Complete consent preferences', done: false },
     { step: 'Introduce yourself in the cohort channel', done: false },
-  ];
-
-  mockSignupFlow = [
-    { step: 'Found cohort in feed / research', done: true },
-    { step: 'Added to Engagement (thumbs up)', done: true },
-    { step: 'Completed signup form', done: true },
-    { step: 'Checked consents', done: true },
-    { step: 'Pending leader approval → Accepted', done: true },
-    { step: 'Received welcome message', done: true },
   ];
 
   mockConsentsAtSignup = [
