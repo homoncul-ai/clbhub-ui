@@ -173,17 +173,29 @@
               <span class="badge bg-light text-dark me-2">{{ mockCurrentActivity.type }}</span>
               <span class="badge bg-primary">{{ mockCurrentActivity.status }}</span>
             </div>
-            <button
-              *ngIf="!currentActivityStarted"
-              class="btn btn-sm btn-primary"
-              (click)="startCurrentActivity()">
-              Start
-            </button>
-            <button
-              *ngIf="currentActivityStarted"
-              class="btn btn-sm btn-success">
-              Finish
-            </button>
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-sm btn-outline-primary" (click)="openMessageLeader()">
+                <i class="fas fa-envelope me-1"></i>Message Leader
+              </button>
+              <button
+                *ngIf="!currentActivityStarted"
+                class="btn btn-sm btn-primary"
+                (click)="startCurrentActivity()">
+                Start
+              </button>
+              <button
+                *ngIf="currentActivityStarted"
+                class="btn btn-sm btn-success">
+                Finish
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h6 class="text-muted small text-uppercase mb-2">{{ mockCohort.leader }} Notes</h6>
+            <div class="p-3 bg-light rounded border-start border-3 border-primary">
+              <p class="mb-0 small">{{ mockCurrentActivityLeaderNotes.notes }}</p>
+            </div>
           </div>
 
           <div class="mb-3">

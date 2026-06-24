@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { CohortMvpDocLinkComponent } from '@app/features/dash-provider/cohorts/cohort-mvp-doc-link.component';
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
+import { CohortParticipantLeaderMessageModalComponent } from './cohort-participant-leader-message-modal.component';
 import {
   CohortUIConfiguration,
   COHORT_UI_CONFIGURATION_WIREFRAME,
@@ -20,6 +22,8 @@ import {
 export class CohortParticipantUiExampleComponent {
   @Input() showBackLink = false;
   @Input() uiConfig: CohortUIConfiguration = COHORT_UI_CONFIGURATION_WIREFRAME;
+
+  private modalService = inject(MdbModalService);
 
   currentTabId = 'home';
 
@@ -42,6 +46,7 @@ export class CohortParticipantUiExampleComponent {
     name: 'Healthcare Careers Pathway',
     topic: 'Healthcare Careers',
     leader: 'Dr. Sarah Chen',
+    leaderMessageId: '',
     organization: 'Whittier Regional Vocational High School',
     currentPhase: 'Explore',
     startDate: 'Jun 2, 2026',
@@ -98,6 +103,10 @@ export class CohortParticipantUiExampleComponent {
 ### After
 
 Post one takeaway in the cohort channel by end of week.`,
+  };
+
+  mockCurrentActivityLeaderNotes = {
+    notes: 'This week we connect with nursing professionals across allied health roles. Come curious, bring two questions, and listen for paths that might fit your interests. This panel is a chance for the whole cohort to explore together — there are no wrong questions.',
   };
 
   mockCurrentActivityResources = [
@@ -233,6 +242,16 @@ Post one takeaway in the cohort channel by end of week.`,
 
   startCurrentActivity(): void {
     this.currentActivityStarted = true;
+  }
+
+  openMessageLeader(): void {
+    this.modalService.open(CohortParticipantLeaderMessageModalComponent, {
+      modalClass: 'modal-xl modal-dialog-scrollable',
+      data: {
+        leaderName: this.mockCohort.leader,
+        messageId: this.mockCohort.leaderMessageId,
+      },
+    });
   }
 
   relatedResourceIcon(type: string): string {
