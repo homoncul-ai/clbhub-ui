@@ -178,13 +178,35 @@ const routes: Routes = [
       },
 
       {
+        path: 'cohorts/healthcare-ui-example',
+        component: CohortParticipantUiExampleComponent,
+        data: {
+          presetKey: 'healthcare',
+          showBackLink: true,
+          pageTitle: 'Healthcare Careers Pathway',
+          pageSubtitle: 'Participant UI spec — static mock',
+          pageIcon: 'fas fa-users',
+        },
+      },
+      {
+        path: 'cohorts/ai-exploration-ui-example',
+        component: CohortParticipantUiExampleComponent,
+        data: {
+          presetKey: 'ai-exploration',
+          showBackLink: true,
+          pageTitle: 'AI Exploration Cohort',
+          pageSubtitle: 'Participant UI spec — static mock',
+          pageIcon: 'fas fa-users',
+        },
+      },
+      {
         path: 'cohorts',
         component: DashStudentCohortsComponent,
         data: {
           pageTitle: 'My Cohorts',
-          pageSubtitle: 'Participant view — MVP UI spec with documentation links',
+          pageSubtitle: 'Participant view — MVP UI specs with documentation links',
           pageIcon: 'fas fa-users',
-        }
+        },
       },
 
       { path: 'interests/:interestId/interest', component:DashStudentInterestComponent },

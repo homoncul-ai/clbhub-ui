@@ -1,0 +1,27 @@
+@import '../dash-provider/cohorts/cohort-leader-ui-example.component.scss';
+
+.dash-student-cohorts {
+  padding: 0.5rem 0 2rem;
+}
+
+.cohort-spec-card {
+  border: 1px solid #e5e7eb;
+}
+
+.cohort-spec-dl {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  font-size: 0.875rem;
+
+  dt {
+    font-weight: 600;
+    margin: 0;
+    color: #6b7280;
+  }
+
+  dd {
+    margin: 0;
+  }
+}

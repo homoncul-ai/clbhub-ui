@@ -5,6 +5,9 @@
       <span class="badge bg-warning text-dark me-2">UI Spec Only</span>
       <span class="text-muted">Participant view — static mock, no backend. Click <i class="fas fa-book-open"></i> for MVP documentation.</span>
     </div>
+    <a *ngIf="showBackLink" routerLink=".." class="btn btn-sm btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i> Back to Cohorts
+    </a>
   </div>
 
   <div class="cohort-participant-header">
