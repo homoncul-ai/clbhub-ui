@@ -61,6 +61,7 @@ then
     echo "${appName} starting up on : http://localhost:${port}/ "
 
     echo ng serve
+    export NODE_OPTIONS="${NODE_OPTIONS:-} --max-old-space-size=8192"
     ng serve
 
 else
