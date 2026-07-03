@@ -38,10 +38,10 @@ export const SURVEYS_ROUTES: Routes = [
       ),
   },
   {
-    path: 'youth-career-check',
+    path: 'parent-career-support-check',
     loadComponent: () =>
-      import('./survey-youth-career-check/survey-youth-career-check.component').then(
-        (m) => m.SurveyYouthCareerCheckComponent,
+      import('./survey-parent-career-support-check/survey-parent-career-support-check.component').then(
+        (m) => m.SurveyParentCareerSupportCheckComponent,
       ),
   },
 ];

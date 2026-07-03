@@ -1,0 +1,30 @@
+@import '../survey-ai-summit-signin/survey-ai-summit-signin.component.scss';
+
+.surveys-page {
+  .summary-detail-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .summary-detail-item {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .summary-detail-item dt {
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .summary-choice-list {
+    margin: 0;
+    padding-left: 1rem;
+  }
+
+  .question-block {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    background: #f9fafb;
+  }
+}

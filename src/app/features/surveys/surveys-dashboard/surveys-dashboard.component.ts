@@ -38,6 +38,14 @@ export class SurveysDashboardComponent {
       badgeClass: 'text-bg-success',
     },
     {
+      route: '/public/surveys/parent-career-support-check',
+      title: 'Parent Career Support Check — Jul 03, 2026',
+      subtitle: 'Understand how families support young people’s career exploration',
+      liveDate: 'Jul 03, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       route: '/public/surveys/ai-summit-signin',
       title: 'AI Summit Sign-in — Jun 10, 2026',
       subtitle: 'Sign in and explore AI-enabled career paths',
