@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../../../../../../clbhub-website"
+		},
+		{
+			"path": "../../../../../../trutesta-prompts"
 		}
 	],
 	"settings": {

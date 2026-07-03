@@ -64,6 +64,13 @@
                 Next
               </button>
               <button
+                *ngIf="canDownloadPdf"
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                (click)="downloadSelectedAsPdf()">
+                Download PDF
+              </button>
+              <button
                 type="button"
                 class="btn btn-sm btn-outline-danger"
                 (click)="deleteSelectedEvent()"
