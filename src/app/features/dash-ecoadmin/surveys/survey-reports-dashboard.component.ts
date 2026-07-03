@@ -41,6 +41,14 @@ export class SurveyReportsDashboardComponent {
       badgeClass: 'text-bg-success',
     },
     {
+      key: 'youth_career_check',
+      title: 'Youth Career Check — Jul 03, 2026',
+      subtitle: 'Youth career exploration habits, AI use, and cohort interest',
+      liveDate: 'Jul 03, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       key: 'checkin',
       title: 'Event Check-in: JM Chamber AI Class — May 31, 2026',
       subtitle: 'CLBHub sign-ups and AI course registrations',

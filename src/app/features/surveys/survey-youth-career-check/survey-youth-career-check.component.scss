@@ -1,0 +1,52 @@
+@import '../survey-ai-summit-signin/survey-ai-summit-signin.component.scss';
+
+.question-block + .question-block {
+  padding-top: 1.25rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.summary-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  background: #f8fafc;
+}
+
+.summary-detail-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.summary-detail-item {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.summary-detail-item dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.summary-detail-item dd {
+  margin: 0;
+  color: #1e293b;
+}
+
+.summary-choice-list {
+  padding-left: 1.1rem;
+  margin: 0;
+}
+
+.summary-choice-list li + li {
+  margin-top: 0.25rem;
+}
+
+.follow-up-note {
+  font-size: 0.95rem;
+  color: #334155;
+  line-height: 1.55;
+}

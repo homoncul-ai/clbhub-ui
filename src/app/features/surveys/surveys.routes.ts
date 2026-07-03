@@ -37,4 +37,11 @@ export const SURVEYS_ROUTES: Routes = [
         (m) => m.SurveyAiWorkplaceSkillSummaryComponent,
       ),
   },
+  {
+    path: 'youth-career-check',
+    loadComponent: () =>
+      import('./survey-youth-career-check/survey-youth-career-check.component').then(
+        (m) => m.SurveyYouthCareerCheckComponent,
+      ),
+  },
 ];

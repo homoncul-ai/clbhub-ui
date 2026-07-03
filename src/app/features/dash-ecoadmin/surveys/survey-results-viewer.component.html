@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="card-body" *ngIf="selectedEvent as event">
-            <div class="row g-2 mb-3 top-facts" *ngIf="isAiWorkplaceSkillSummary; else defaultTopFacts">
+            <div class="row g-2 mb-3 top-facts" *ngIf="isAiWorkplaceSkillSummary || isYouthCareerCheck; else defaultTopFacts">
               <div class="col-md-6">
                 <div class="fact-label">Email</div>
                 <div class="fact-value">{{ selectedSurveyData['email'] || '—' }}</div>
@@ -183,7 +183,7 @@
             </ng-container>
 
             <ng-template #workplaceOrDefaultSurveyAnswers>
-              <ng-container *ngIf="isAiWorkplaceSkillSummary; else defaultSurveyAnswers">
+              <ng-container *ngIf="isAiWorkplaceSkillSummary; else youthCareerCheckOrDefaultSurveyAnswers">
                 <div class="summary-box summary-general mb-4">
                   <h6 class="summary-heading">Attendee information</h6>
                   <p class="mb-1 small">
@@ -290,6 +290,134 @@
                         </ul>
                         <span *ngIf="!getStringList(selectedSurveyData, 'aiProficiencyImpact').length" class="text-muted">None selected</span>
                       </dd>
+                    </div>
+                  </dl>
+                </div>
+              </ng-container>
+            </ng-template>
+
+            <ng-template #youthCareerCheckOrDefaultSurveyAnswers>
+              <ng-container *ngIf="isYouthCareerCheck; else defaultSurveyAnswers">
+                <div class="summary-box summary-general mb-4">
+                  <h6 class="summary-heading">About you</h6>
+                  <p class="mb-1 small"><strong>Age range:</strong> {{ selectedSurveyData['ageRange'] || '—' }}</p>
+                  <p class="mb-1 small"><strong>Current status:</strong> {{ selectedSurveyData['currentStatus'] || '—' }}</p>
+                  <p class="mb-0 small"><strong>Rough location:</strong> {{ selectedSurveyData['roughLocation'] || '—' }}</p>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">How you explore careers</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Career exploration stage</dt>
+                      <dd>{{ selectedSurveyData['careerExplorationStage'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Information sources</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'careerInfoSources').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'careerInfoSources')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'careerInfoSources').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">AI in career exploration</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>AI tool use</dt>
+                      <dd>{{ selectedSurveyData['aiToolUse'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>AI helpfulness</dt>
+                      <dd>{{ selectedSurveyData['aiHelpfulness'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>AI experience</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'aiExperience').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'aiExperience')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'aiExperience').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Who supports your career search</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Support people</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'supportPeople').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'supportPeople')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'supportPeople').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Program involvement</dt>
+                      <dd>{{ selectedSurveyData['involvedInPrograms'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Planning frequency</dt>
+                      <dd>{{ selectedSurveyData['planningFrequency'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Planning approach</dt>
+                      <dd>{{ selectedSurveyData['planningApproach'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Planning timeframe</dt>
+                      <dd>{{ selectedSurveyData['planningTimeframe'] || '—' }}</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Cohort interest &amp; feedback</h3>
+                  <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Cohort interest</dt>
+                      <dd>{{ selectedSurveyData['cohortInterest'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Activities</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'cohortActivities').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'cohortActivities')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'cohortActivities').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Participation frequency</dt>
+                      <dd>{{ selectedSurveyData['participationFrequency'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Motivators</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'cohortMotivators').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'cohortMotivators')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'cohortMotivators').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Feedback</dt>
+                      <dd>{{ selectedSurveyData['feedback'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Obstacles</dt>
+                      <dd>{{ selectedSurveyData['obstacles'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Ideas</dt>
+                      <dd>{{ selectedSurveyData['ideas'] || '—' }}</dd>
                     </div>
                   </dl>
                 </div>

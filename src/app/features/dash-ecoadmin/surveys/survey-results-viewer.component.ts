@@ -64,6 +64,12 @@ export class SurveyResultsViewerComponent implements OnInit {
       subject: 'Survey: AI Workplace Skill Summary',
       description: 'Employer perspectives on baseline digital readiness for AI-era graduates.',
     },
+    youth_career_check: {
+      key: 'youth_career_check',
+      label: 'Youth Career Check — Jul 03, 2026',
+      subject: 'Survey: Youth Career Check',
+      description: 'Youth career exploration habits, AI use, and cohort interest.',
+    },
     npo_job_finder: {
       key: 'npo_job_finder',
       label: 'Non-profit job search assistance — Mar 10, 2025',
@@ -181,6 +187,10 @@ export class SurveyResultsViewerComponent implements OnInit {
     return this.surveyKey === 'ai_workplace_skill_summary';
   }
 
+  get isYouthCareerCheck(): boolean {
+    return this.surveyKey === 'youth_career_check';
+  }
+
   get aiSummitSubmissionSummaries(): InterestSubmissionSummary[] {
     return this.buildAiSummitSummaries(this.selectedSurveyData);
   }
@@ -270,6 +280,7 @@ export class SurveyResultsViewerComponent implements OnInit {
       ...Object.keys(this.helpOptionLabels),
       ...(this.isAiSummitSignin ? this.aiSummitReservedFields : []),
       ...(this.isAiWorkplaceSkillSummary ? this.aiWorkplaceSkillSummaryReservedFields : []),
+      ...(this.isYouthCareerCheck ? this.youthCareerCheckReservedFields : []),
     ]);
     const extras: Array<{ label: string; value: string }> = [];
     Object.keys(data).forEach((key) => {
@@ -309,6 +320,40 @@ export class SurveyResultsViewerComponent implements OnInit {
     'graduatePreparedness',
     'expectedSupervision',
     'aiProficiencyImpact',
+  ];
+
+  private readonly youthCareerCheckReservedFields = [
+    'ageRange',
+    'currentStatus',
+    'currentStatusOther',
+    'roughLocation',
+    'careerExplorationStage',
+    'careerInfoSources',
+    'careerInfoSourcesOther',
+    'aiToolUse',
+    'aiHelpfulness',
+    'aiExperience',
+    'aiExperienceOther',
+    'supportPeople',
+    'supportPeopleOther',
+    'involvedInPrograms',
+    'programTypes',
+    'programTypesOther',
+    'planningFrequency',
+    'planningApproach',
+    'planningTimeframe',
+    'cohortInterest',
+    'cohortActivities',
+    'cohortActivitiesOther',
+    'participationFrequency',
+    'cohortMotivators',
+    'cohortMotivatorsOther',
+    'feedback',
+    'obstacles',
+    'ideas',
+    'followUpConsent',
+    'email',
+    'clbHubAccountInterest',
   ];
 
   selectBucket(index: number): void {
@@ -428,8 +473,8 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   eventLabel(event: UtilmonReportingEventGETData): string {
     const map = this.extractSurveyData(event);
-    if (this.isAiWorkplaceSkillSummary) {
-      return map['email'] || event.parentEntityName || event.id || 'Survey response';
+    if (this.isAiWorkplaceSkillSummary || this.isYouthCareerCheck) {
+      return map['email'] || map['name'] || event.parentEntityName || event.id || 'Survey response';
     }
     return map['name'] || map['email'] || event.parentEntityName || event.id || 'Survey response';
   }

@@ -30,6 +30,14 @@ export class SurveysDashboardComponent {
       badgeClass: 'text-bg-success',
     },
     {
+      route: '/public/surveys/youth-career-check',
+      title: 'Youth Career Check — Jul 03, 2026',
+      subtitle: 'Understand how young people explore careers and use AI resources',
+      liveDate: 'Jul 03, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       route: '/public/surveys/ai-summit-signin',
       title: 'AI Summit Sign-in — Jun 10, 2026',
       subtitle: 'Sign in and explore AI-enabled career paths',
