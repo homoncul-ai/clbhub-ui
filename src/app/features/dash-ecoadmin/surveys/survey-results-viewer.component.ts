@@ -6,6 +6,10 @@ import {
   UtilmonReportingEventCriteria,
   UtilmonReportingEventGETData,
 } from '@app/restsvc/hccl.service';
+import {
+  buildAiWorkplaceSkillSummaryPostscript,
+  downloadPostscriptDocument,
+} from '@app/features/surveys/survey-ai-workplace-skill-summary/ai-workplace-skill-summary-postscript.util';
 
 interface SurveyDefinition {
   key: string;
@@ -166,6 +170,10 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   get canDelete(): boolean {
     return !!this.selectedEvent && !this.deleting;
+  }
+
+  get canDownloadPostscript(): boolean {
+    return this.isAiWorkplaceSkillSummary && !!this.selectedEvent;
   }
 
   get isAiSummitSignin(): boolean {
@@ -340,6 +348,46 @@ export class SurveyResultsViewerComponent implements OnInit {
     }
     this.selectedAbsoluteIndex -= 1;
     this.activeBucketIndex = Math.floor(this.selectedAbsoluteIndex / this.pageBucketSize);
+  }
+
+  downloadSelectedAsPostscript(): void {
+    const event = this.selectedEvent;
+    if (!event || !this.isAiWorkplaceSkillSummary) {
+      return;
+    }
+
+    const data = this.selectedSurveyData;
+    const postscript = buildAiWorkplaceSkillSummaryPostscript({
+      surveyTitle: this.currentSurvey.label,
+      submittedAt: this.eventDate(event),
+      email: `${data['email'] || ''}`.trim(),
+      wantsFollowUpSurvey: this.wantsFollowUpSurvey(data),
+      ageRange: `${data['ageRange'] || ''}`.trim(),
+      primaryIndustry: this.displayPrimaryIndustry(data),
+      baselineEssentials: {
+        highSchool: this.getTierStringList(data, 'baselineEssentials', 'highSchool'),
+        college: this.getTierStringList(data, 'baselineEssentials', 'college'),
+        nonDegreed: this.getTierStringList(data, 'baselineEssentials', 'nonDegreed'),
+      },
+      graduatePreparedness: {
+        highSchool: this.getTierStringValue(data, 'graduatePreparedness', 'highSchool'),
+        college: this.getTierStringValue(data, 'graduatePreparedness', 'college'),
+        nonDegreed: this.getTierStringValue(data, 'graduatePreparedness', 'nonDegreed'),
+      },
+      expectedSupervision: {
+        highSchool: this.getTierStringValue(data, 'expectedSupervision', 'highSchool'),
+        college: this.getTierStringValue(data, 'expectedSupervision', 'college'),
+        nonDegreed: this.getTierStringValue(data, 'expectedSupervision', 'nonDegreed'),
+      },
+      aiProficiencyImpact: this.getStringList(data, 'aiProficiencyImpact'),
+    });
+
+    const emailPart = `${data['email'] || event.id || 'response'}`
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    downloadPostscriptDocument(postscript, `ai-workplace-skill-summary-${emailPart}.ps`);
   }
 
   deleteSelectedEvent(): void {

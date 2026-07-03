@@ -64,6 +64,13 @@
                 Next
               </button>
               <button
+                *ngIf="canDownloadPostscript"
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                (click)="downloadSelectedAsPostscript()">
+                Download PostScript
+              </button>
+              <button
                 type="button"
                 class="btn btn-sm btn-outline-danger"
                 (click)="deleteSelectedEvent()"
