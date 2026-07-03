@@ -223,26 +223,13 @@
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
           <p class="text-muted small mb-4">Tell us how confident you feel supporting the young person with each of the following areas.</p>
 
-          <div class="question-block mb-4" *ngFor="let row of confidenceRows">
-            <label class="form-label">{{ row.label }}</label>
-            <div class="option-list" role="radiogroup" [attr.aria-label]="row.label">
-              <label class="option-card option-card-radio" [class.selected]="form.controls[row.key].value === 'very_confident'">
-                <input type="radio" class="option-card-radio-input" [name]="row.key" [checked]="form.controls[row.key].value === 'very_confident'" (change)="form.controls[row.key].setValue('very_confident')" />
-                <span class="option-card-label">Very confident</span>
-              </label>
-              <label class="option-card option-card-radio" [class.selected]="form.controls[row.key].value === 'somewhat_confident'">
-                <input type="radio" class="option-card-radio-input" [name]="row.key" [checked]="form.controls[row.key].value === 'somewhat_confident'" (change)="form.controls[row.key].setValue('somewhat_confident')" />
-                <span class="option-card-label">Somewhat confident</span>
-              </label>
-              <label class="option-card option-card-radio" [class.selected]="form.controls[row.key].value === 'not_very_confident'">
-                <input type="radio" class="option-card-radio-input" [name]="row.key" [checked]="form.controls[row.key].value === 'not_very_confident'" (change)="form.controls[row.key].setValue('not_very_confident')" />
-                <span class="option-card-label">Not very confident</span>
-              </label>
-              <label class="option-card option-card-radio" [class.selected]="form.controls[row.key].value === 'not_confident_at_all'">
-                <input type="radio" class="option-card-radio-input" [name]="row.key" [checked]="form.controls[row.key].value === 'not_confident_at_all'" (change)="form.controls[row.key].setValue('not_confident_at_all')" />
-                <span class="option-card-label">Not confident at all</span>
-              </label>
-            </div>
+          <div class="question-block mb-4" [formGroup]="form">
+            <label class="form-label">How confident do you feel helping the young person with each of the following?</label>
+            <app-radio-choice-grid
+              [rows]="confidenceRows"
+              [options]="confidenceOptions"
+              [selectedValues]="getConfidenceSelectionMap()"
+              (selectionChange)="onConfidenceSelectionChange($event)"></app-radio-choice-grid>
           </div>
 
           <div class="question-block mb-4">
@@ -429,7 +416,7 @@
             <dl class="summary-detail-list">
               <div class="summary-detail-item" *ngFor="let row of confidenceRows">
                 <dt>{{ row.label }}</dt>
-                <dd>{{ form.controls[row.key].value ? form.controls[row.key].value : '—' }}</dd>
+                <dd>{{ getConfidenceLabel(form.controls[row.key].value) }}</dd>
               </div>
               <div class="summary-detail-item">
                 <dt>Support areas</dt>

@@ -1,0 +1,30 @@
+<div class="radio-choice-grid">
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle mb-0">
+      <thead>
+        <tr>
+          <th scope="col" class="text-nowrap">Area</th>
+          <th *ngFor="let option of options" scope="col" class="text-center text-nowrap">
+            {{ option.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows">
+          <th scope="row" class="fw-normal">{{ row.label }}</th>
+          <td *ngFor="let option of options" class="text-center">
+            <label class="radio-choice-grid__cell" [attr.aria-label]="row.label + ' - ' + option.label">
+              <input
+                type="radio"
+                [name]="row.key"
+                [value]="option.id"
+                [checked]="selectedValues[row.key] === option.id"
+                [disabled]="disabled"
+                (change)="handleSelection(row.key, option.id)" />
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

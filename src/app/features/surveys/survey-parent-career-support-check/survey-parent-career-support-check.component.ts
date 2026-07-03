@@ -6,6 +6,7 @@ import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-m
 import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-service.model';
 import { HcclService, SurveyResponsePOSTData } from '@app/restsvc/hccl.service';
 import { RecaptchaDisclosureComponent } from '@app/shared/components/recaptcha-disclosure/recaptcha-disclosure.component';
+import { RadioChoiceGridComponent } from '@app/components/_global/radio-choice-grid/radio-choice-grid.component';
 import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { SurveysPublicHeaderComponent } from '../components/surveys-public-header.component';
 
@@ -30,6 +31,7 @@ interface SurveyOption {
     SimpleMessagesSectionComponent,
     SurveysPublicHeaderComponent,
     RecaptchaDisclosureComponent,
+    RadioChoiceGridComponent,
   ],
   templateUrl: './survey-parent-career-support-check.component.html',
   styleUrl: './survey-parent-career-support-check.component.scss',
@@ -230,6 +232,13 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
     { key: 'confidenceFindingTrustworthyInfo', label: 'Finding trustworthy career information' },
   ] as const;
 
+  readonly confidenceOptions = [
+    { id: 'very_confident', label: 'Very confident' },
+    { id: 'somewhat_confident', label: 'Somewhat confident' },
+    { id: 'not_very_confident', label: 'Not very confident' },
+    { id: 'not_confident_at_all', label: 'Not confident at all' },
+  ];
+
   currentStep = 1;
   maxStepReached = 1;
   submitting = false;
@@ -363,6 +372,22 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
 
   get showOpportunityTypesOtherField(): boolean {
     return this.selectedOpportunityTypes.has('other');
+  }
+
+  onConfidenceSelectionChange(event: { rowKey: string; value: string }): void {
+    this.form.controls[event.rowKey].setValue(event.value);
+  }
+
+  getConfidenceSelectionMap(): Record<string, string> {
+    return this.confidenceRows.reduce<Record<string, string>>((acc, row) => {
+      acc[row.key] = this.form.controls[row.key].value || '';
+      return acc;
+    }, {});
+  }
+
+  getConfidenceLabel(value: string | null | undefined): string {
+    const selected = this.confidenceOptions.find((option) => option.id === value);
+    return selected?.label || value || '—';
   }
 
   nextStep(): void {

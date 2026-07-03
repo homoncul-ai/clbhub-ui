@@ -1,0 +1,26 @@
+.radio-choice-grid {
+  overflow-x: auto;
+
+  table {
+    min-width: 720px;
+  }
+
+  th,
+  td {
+    vertical-align: middle;
+  }
+
+  .radio-choice-grid__cell {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2.25rem;
+    cursor: pointer;
+  }
+
+  input[type='radio'] {
+    margin: 0;
+    transform: scale(1.05);
+  }
+}
