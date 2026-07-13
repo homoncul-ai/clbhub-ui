@@ -63,7 +63,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/debug/loggers",
       method: "GET",
-      params: { pageNumber: this.convertToString(pageNumber), pageSize: this.convertToString(pageSize) },
+      params: { "pageNumber": this.convertToString(pageNumber), "pageSize": this.convertToString(pageSize) },
     };
     return this.request<any>(request);
   }
@@ -81,7 +81,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions",
       method: "GET",
-      params: { status: this.convertToString(status), name: this.convertToString(name), pageNumber: this.convertToString(pageNumber), pageSize: this.convertToString(pageSize), isPaging: this.convertToString(isPaging) },
+      params: { "status": this.convertToString(status), "name": this.convertToString(name), "pageNumber": this.convertToString(pageNumber), "pageSize": this.convertToString(pageSize), "isPaging": this.convertToString(isPaging) },
     };
     return this.request<any>(request);
   }
@@ -99,7 +99,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + job_definition_id,
       method: "GET",
-      params: { isError: this.convertToString(isError) },
+      params: { "isError": this.convertToString(isError) },
     };
     return this.request<any>(request);
   }
@@ -134,7 +134,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/initialize",
       method: "POST",
-      params: { enableJob: this.convertToString(enableJob) },
+      params: { "enableJob": this.convertToString(enableJob) },
     };
     return this.request<any>(request);
   }
@@ -143,7 +143,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/job-definitions/" + definition_id + "/process-logs",
       method: "GET",
-      params: { name: this.convertToString(name), dateCreated: this.convertToString(dateCreated), isNotCompleted: this.convertToString(isNotCompleted), pageNumber: this.convertToString(pageNumber), pageSize: this.convertToString(pageSize), isPaging: this.convertToString(isPaging) },
+      params: { "name": this.convertToString(name), "dateCreated": this.convertToString(dateCreated), "isNotCompleted": this.convertToString(isNotCompleted), "pageNumber": this.convertToString(pageNumber), "pageSize": this.convertToString(pageSize), "isPaging": this.convertToString(isPaging) },
     };
     return this.request<any>(request);
   }
@@ -220,7 +220,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/service-event-logs/" + service_event_log_id,
       method: "GET",
-      params: { isError: this.convertToString(isError) },
+      params: { "isError": this.convertToString(isError) },
     };
     return this.request<any>(request);
   }
@@ -308,7 +308,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/audit-event-logs/" + audit_event_log_id,
       method: "GET",
-      params: { isError: this.convertToString(isError) },
+      params: { "isError": this.convertToString(isError) },
     };
     return this.request<any>(request);
   }
@@ -377,7 +377,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentryfeedinstance/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<CatalogEntryFeedInstanceGETData>(request);
   }
@@ -429,7 +429,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentryfeedprofile/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<CatalogEntryFeedProfileGETData>(request);
   }
@@ -490,7 +490,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentryinterest/" + id,
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<CatalogEntryInterestGETData>(request);
   }
@@ -586,7 +586,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/catalogentry/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<CatalogEntryGETData>(request);
   }
@@ -982,7 +982,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/feedentryinstance/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<FeedEntryInstanceGETData>(request);
   }
@@ -1034,7 +1034,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/feedentry/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<FeedEntryGETData>(request);
   }
@@ -1095,7 +1095,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/catalog/hcclorganizationinterest/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<HcclOrganizationInterestGETData>(request);
   }
@@ -1156,7 +1156,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/cohort/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<CohortGETData>(request);
   }
@@ -1724,7 +1724,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/paipromptref/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PAiPromptRefGETData>(request);
   }
@@ -1776,7 +1776,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/paistructuredqueryjob/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PAiStructuredQueryJobGETData>(request);
   }
@@ -1828,7 +1828,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pemailmessage/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PEmailMessageGETData>(request);
   }
@@ -1880,7 +1880,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/pentitytagval/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PEntityTagValGETData>(request);
   }
@@ -2327,7 +2327,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pcontract/pcontractactivationcode/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PContractActivationCodeGETData>(request);
   }
@@ -2379,7 +2379,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pcontract/pcontractparticipant/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PContractParticipantGETData>(request);
   }
@@ -2431,7 +2431,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pcontract/pcontract/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PContractGETData>(request);
   }
@@ -2483,7 +2483,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pcontract/pcontractversioninstance/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PContractVersionInstanceGETData>(request);
   }
@@ -2535,7 +2535,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pcontract/pcontractversion/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<PContractVersionGETData>(request);
   }
@@ -3103,7 +3103,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccladdr/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<HcclAddrGETData>(request);
   }
@@ -3456,7 +3456,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserinvite/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<HcclUserInviteGETData>(request);
   }
@@ -3947,7 +3947,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequestdeliverable/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<WorkRequestDeliverableGETData>(request);
   }
@@ -4128,7 +4128,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/tix/workrequest/" + id + "/hint",
       method: "GET",
-      params: { hint: this.convertToString(hint) },
+      params: { "hint": this.convertToString(hint) },
     };
     return this.request<WorkRequestGETData>(request);
   }
@@ -4707,7 +4707,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/public/handle-invite-action",
       method: "GET",
-      params: { inviteId: this.convertToString(inviteId), actionCode: this.convertToString(actionCode), r: this.convertToString(r), sig: this.convertToString(sig) },
+      params: { "inviteId": this.convertToString(inviteId), "actionCode": this.convertToString(actionCode), "r": this.convertToString(r), "sig": this.convertToString(sig) },
     };
     return this.request<HandleInviteActionResponse>(request);
   }
@@ -4719,6 +4719,24 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<PostmarkWebhookResponse>(request);
+  }
+
+  onboardInviteComplete(body: OnboardStudentPOSTData): Observable<OnboardInvitedUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/invite/complete",
+      method: "GET",
+      body: body,
+    };
+    return this.request<OnboardInvitedUIData>(request);
+  }
+
+  onboardInviteSetup(invitedId: string): Observable<OnboardInvitedUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/onboard/invite/setup",
+      method: "GET",
+      params: { "invitedId": this.convertToString(invitedId) },
+    };
+    return this.request<OnboardInvitedUIData>(request);
   }
 
   onboardInvited(body: OnboardInvitedRequest): Observable<OnboardInvitedResponse> {
@@ -4757,20 +4775,11 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
-  resolveOnboardInvitedUIData(invitedId: string): Observable<OnboardInvitedUIData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/public/onboard/invite/setup",
-      method: "GET",
-      params: { invitedId: this.convertToString(invitedId) },
-    };
-    return this.request<OnboardInvitedUIData>(request);
-  }
-
   resolvePublicSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student/setup",
       method: "GET",
-      params: { interest_id: this.convertToString(interest_id) },
+      params: { "interest_id": this.convertToString(interest_id) },
     };
     return this.request<OnboardStudentUIData>(request);
   }
@@ -4806,7 +4815,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/onboard/" + hccl_org_id + "/setupdata",
       method: "GET",
-      params: { userId: this.convertToString(userId) },
+      params: { "userId": this.convertToString(userId) },
     };
     return this.request<HcclOrgSetupData>(request);
   }
@@ -4842,7 +4851,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/invitation/user-invite-create/newmessage",
       method: "GET",
-      params: { inviteeId: this.convertToString(inviteeId) },
+      params: { "inviteeId": this.convertToString(inviteeId) },
     };
     return this.request<CreateInviteActionUIData>(request);
   }
@@ -4860,9 +4869,18 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/invitation/user-invite-action/ui",
       method: "GET",
-      params: { inviteId: this.convertToString(inviteId) },
+      params: { "inviteId": this.convertToString(inviteId) },
     };
     return this.request<HandleInviteActionUIData>(request);
+  }
+
+  loadManageUserUIData(userId: string): Observable<ManageUserUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/manageuser-ui",
+      method: "GET",
+      params: { "userId": this.convertToString(userId) },
+    };
+    return this.request<ManageUserUIData>(request);
   }
 
   lookupAddress(body: string): Observable<OnboardAddressResponse> {
@@ -4872,6 +4890,15 @@ export class HcclService extends CommonRequestServiceCaller {
       body: body,
     };
     return this.request<OnboardAddressResponse>(request);
+  }
+
+  manageUserAction(body: ManageUserRequest): Observable<ManageUserResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/onboard/onboard/manageuser",
+      method: "POST",
+      body: body,
+    };
+    return this.request<ManageUserResponse>(request);
   }
 
   onboardCatalogEntry(body: OnboardCatalogEntryPOSTData): Observable<OnboardCatalogEntryResponse> {
@@ -4912,7 +4939,7 @@ export class HcclService extends CommonRequestServiceCaller {
 
   onboardStudentPost(body: OnboardStudentPOSTData): Observable<OnboardResponse> {
     const request: CommonServiceRequest = {
-      url: "/hccl/onboard/onboard/invite",
+      url: "/hccl/onboard/onboard/student",
       method: "POST",
       body: body,
     };
@@ -4965,7 +4992,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pmessage/entries/" + entryId + "/mention",
       method: "PUT",
-      params: { mentionedUserId: this.convertToString(mentionedUserId), mentionText: this.convertToString(mentionText) },
+      params: { "mentionedUserId": this.convertToString(mentionedUserId), "mentionText": this.convertToString(mentionText) },
     };
     return this.request<any>(request);
   }
@@ -5009,7 +5036,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/pmessage/users/" + userId + "/messages",
       method: "GET",
-      params: { limit: this.convertToString(limit) },
+      params: { "limit": this.convertToString(limit) },
     };
     return this.request<PMessageEntryGETDataSearchResults>(request);
   }
@@ -5084,7 +5111,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/realm/info",
       method: "GET",
-      params: { inviteeId: this.convertToString(inviteeId) },
+      params: { "inviteeId": this.convertToString(inviteeId) },
     };
     return this.request<RealmInfoGETData>(request);
   }
@@ -5169,7 +5196,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/students/join-family",
       method: "GET",
-      params: { code: this.convertToString(code) },
+      params: { "code": this.convertToString(code) },
     };
     return this.request<HandleActivationCodeResponse>(request);
   }
@@ -5178,7 +5205,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/students/current-feed",
       method: "GET",
-      params: { refreshFeed: this.convertToString(refreshFeed) },
+      params: { "refreshFeed": this.convertToString(refreshFeed) },
     };
     return this.request<UserFeedGETData>(request);
   }
@@ -5347,7 +5374,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/tixui/get-context",
       method: "GET",
-      params: { userProfileId: this.convertToString(userProfileId) },
+      params: { "userProfileId": this.convertToString(userProfileId) },
     };
     return this.request<HcclUserContextGETData>(request);
   }
@@ -5433,7 +5460,7 @@ export class HcclService extends CommonRequestServiceCaller {
     const request: CommonServiceRequest = {
       url: "/hccl/servicelib/payload/" + entity_type + "/" + id,
       method: "GET",
-      params: { datasets: this.convertToString(datasets) },
+      params: { "datasets": this.convertToString(datasets) },
     };
     return this.request<any>(request);
   }
@@ -10923,7 +10950,6 @@ export interface HcclUserInviteGETData {
   parentName?: string;
   invitedById?: string;
   niceName?: string;
-  dateExpires?: DateGETData;
   organization?: HcclOrganizationGETData;
   createdByUserProfile?: HcclUserProfileGETData;
   callbackUrl?: string;
@@ -12942,6 +12968,37 @@ export interface HandleInviteActionResponse {
   tuple?: EntityTuple;
 }
 
+export interface OnboardInvitedUIData {
+  messages?: SimpleMessageList;
+  invite?: HcclUserInviteGETData;
+  languageCodesSb?: MenuControlDataList;
+  schoolsSb?: MenuControlDataList;
+  schoolId?: string;
+  mapSchoolIdToCounselorSb?: any;
+}
+
+export interface OnboardOrgUserPOSTData {
+  organizationCode: string;
+  firstName?: string;
+  lastName?: string;
+  messageHandle?: string;
+  userName?: string;
+  emailAddress?: string;
+  cellPhone?: string;
+  initialPassword?: string;
+  requiringImmediatePasswordUpdate?: boolean;
+  roles?: string[];
+  profileTypeCode?: string;
+}
+
+export interface OnboardStudentPOSTData {
+  schoolId?: string;
+  counselorId?: string;
+  consents: MultiConsentRequestPOSTData;
+  orgUserData: OnboardOrgUserPOSTData;
+  captchaToken?: string;
+}
+
 export interface OnboardInvitedResponse {
   messages?: SimpleMessageList;
   dashboardUrl?: string;
@@ -12985,37 +13042,6 @@ export interface OnboardFamilyPOSTData {
   family?: FamilyUnitPOSTData;
   parents?: OnboardFamilyMemberPOSTData[];
   students?: OnboardFamilyMemberPOSTData[];
-}
-
-export interface OnboardOrgUserPOSTData {
-  organizationCode: string;
-  firstName?: string;
-  lastName?: string;
-  messageHandle?: string;
-  userName?: string;
-  emailAddress?: string;
-  cellPhone?: string;
-  initialPassword?: string;
-  requiringImmediatePasswordUpdate?: boolean;
-  roles?: string[];
-  profileTypeCode?: string;
-}
-
-export interface OnboardStudentPOSTData {
-  schoolId?: string;
-  counselorId?: string;
-  consents: MultiConsentRequestPOSTData;
-  orgUserData: OnboardOrgUserPOSTData;
-  captchaToken?: string;
-}
-
-export interface OnboardInvitedUIData {
-  messages?: SimpleMessageList;
-  invite?: HcclUserInviteGETData;
-  languageCodesSb?: MenuControlDataList;
-  schoolsSb?: MenuControlDataList;
-  schoolId?: string;
-  mapSchoolIdToCounselorSb?: any;
 }
 
 export interface ConsentRequestGETData {
@@ -13128,9 +13154,27 @@ export interface CreateInviteActionUIData {
   message?: PMessageGETData;
 }
 
+export interface ManageUserUIData {
+  messages?: SimpleMessageList;
+  user?: HcclUserGETData;
+}
+
 export interface OnboardAddressResponse {
   messages?: SimpleMessageList;
   hcclAddr?: HcclAddrGETData;
+}
+
+export interface ManageUserResponse {
+  messages?: SimpleMessageList;
+  user?: HcclUserGETData;
+}
+
+export interface ManageUserRequest {
+  actionCode?: string;
+  hcclUserId?: string;
+  person?: HcclPersonPOSTData;
+  updatedEmailAddress?: string;
+  newPassword?: string;
 }
 
 export interface OnboardCatalogEntryResponse {

@@ -20569,6 +20569,85 @@
         }
       }
     },
+    "/hccl/public/onboard/invite/complete": {
+      "get": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Load the setup for the student UI. ",
+        "operationId": "onboardInviteComplete",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardStudentPOSTData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardInvitedUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/public/onboard/invite/setup": {
+      "get": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Load the setup for the student UI. ",
+        "operationId": "onboardInviteSetup",
+        "parameters": [
+          {
+            "name": "invitedId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardInvitedUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/public/onboard/invite": {
       "post": {
         "tags": [
@@ -20709,46 +20788,6 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/OnboardResponse"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Invalid Id, No Data Updated or Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/public/onboard/invite/setup": {
-      "get": {
-        "tags": [
-          "/public"
-        ],
-        "summary": "Load the setup for the student UI. ",
-        "operationId": "resolveOnboardInvitedUIData",
-        "parameters": [
-          {
-            "name": "invitedId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/OnboardInvitedUIData"
                 }
               }
             }
@@ -21215,6 +21254,46 @@
         }
       }
     },
+    "/hccl/onboard/onboard/manageuser-ui": {
+      "get": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "setup the  user for update/modification.",
+        "operationId": "loadManageUserUIData",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManageUserUIData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/onboard/onboard/lookup-address": {
       "post": {
         "tags": [
@@ -21238,6 +21317,45 @@
               "application/json;charset=UTF-8": {
                 "schema": {
                   "$ref": "#/components/schemas/OnboardAddressResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/onboard/onboard/manageuser": {
+      "post": {
+        "tags": [
+          "/onboard"
+        ],
+        "summary": "Setup a user .",
+        "operationId": "manageUserAction",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/ManageUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManageUserResponse"
                 }
               }
             }
@@ -21410,12 +21528,12 @@
         }
       }
     },
-    "/hccl/onboard/onboard/invite": {
+    "/hccl/onboard/onboard/student": {
       "post": {
         "tags": [
           "/onboard"
         ],
-        "summary": "Creates an invitation .",
+        "summary": "OnboardStudent (untested).",
         "operationId": "onboardStudent_1",
         "requestBody": {
           "content": {
@@ -50832,6 +50950,103 @@
           }
         }
       },
+      "OnboardInvitedUIData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          },
+          "languageCodesSb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "schoolsSb": {
+            "$ref": "#/components/schemas/MenuControlDataList"
+          },
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapSchoolIdToCounselorSb": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/MenuControlDataList"
+            }
+          }
+        }
+      },
+      "OnboardOrgUserPOSTData": {
+        "required": [
+          "organizationCode"
+        ],
+        "type": "object",
+        "properties": {
+          "organizationCode": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "messageHandle": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "cellPhone": {
+            "type": "string"
+          },
+          "initialPassword": {
+            "type": "string"
+          },
+          "requiringImmediatePasswordUpdate": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "profileTypeCode": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardStudentPOSTData": {
+        "required": [
+          "consents",
+          "orgUserData"
+        ],
+        "type": "object",
+        "properties": {
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "counselorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
+          },
+          "orgUserData": {
+            "$ref": "#/components/schemas/OnboardOrgUserPOSTData"
+          },
+          "captchaToken": {
+            "type": "string"
+          }
+        }
+      },
       "OnboardInvitedResponse": {
         "type": "object",
         "properties": {
@@ -50989,103 +51204,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OnboardFamilyMemberPOSTData"
-            }
-          }
-        }
-      },
-      "OnboardOrgUserPOSTData": {
-        "required": [
-          "organizationCode"
-        ],
-        "type": "object",
-        "properties": {
-          "organizationCode": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "messageHandle": {
-            "type": "string"
-          },
-          "userName": {
-            "type": "string"
-          },
-          "emailAddress": {
-            "type": "string"
-          },
-          "cellPhone": {
-            "type": "string"
-          },
-          "initialPassword": {
-            "type": "string"
-          },
-          "requiringImmediatePasswordUpdate": {
-            "type": "boolean"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "profileTypeCode": {
-            "type": "string"
-          }
-        }
-      },
-      "OnboardStudentPOSTData": {
-        "required": [
-          "consents",
-          "orgUserData"
-        ],
-        "type": "object",
-        "properties": {
-          "schoolId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "counselorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "consents": {
-            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
-          },
-          "orgUserData": {
-            "$ref": "#/components/schemas/OnboardOrgUserPOSTData"
-          },
-          "captchaToken": {
-            "type": "string"
-          }
-        }
-      },
-      "OnboardInvitedUIData": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "invite": {
-            "$ref": "#/components/schemas/HcclUserInviteGETData"
-          },
-          "languageCodesSb": {
-            "$ref": "#/components/schemas/MenuControlDataList"
-          },
-          "schoolsSb": {
-            "$ref": "#/components/schemas/MenuControlDataList"
-          },
-          "schoolId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "mapSchoolIdToCounselorSb": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/MenuControlDataList"
             }
           }
         }
@@ -51399,6 +51517,17 @@
           }
         }
       },
+      "ManageUserUIData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "user": {
+            "$ref": "#/components/schemas/HcclUserGETData"
+          }
+        }
+      },
       "OnboardAddressResponse": {
         "type": "object",
         "properties": {
@@ -51407,6 +51536,38 @@
           },
           "hcclAddr": {
             "$ref": "#/components/schemas/HcclAddrGETData"
+          }
+        }
+      },
+      "ManageUserResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "user": {
+            "$ref": "#/components/schemas/HcclUserGETData"
+          }
+        }
+      },
+      "ManageUserRequest": {
+        "type": "object",
+        "properties": {
+          "actionCode": {
+            "type": "string"
+          },
+          "hcclUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "person": {
+            "$ref": "#/components/schemas/HcclPersonPOSTData"
+          },
+          "updatedEmailAddress": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
           }
         }
       },

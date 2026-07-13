@@ -1,0 +1,620 @@
+# EcoAdmin User Management — Implementation Spec
+
+**Purpose:** Cursor prompt for building a unified user management experience in the EcoAdmin dashboard. This page lets EcoAdmins search for users, inspect account details, and perform admin actions via the existing `ManageUserRequest` / `ManageUserUtils` backend.
+
+**Repos:** `trutesta-hccl-mdb5-ui` (Angular frontend) and `trutesta-hccl-service` (Java backend).
+
+**Backend status:** User admin actions are **implemented** in `ManageUserUtils.INSTANCE` and exposed via `POST /hccl/onboard/onboard/manageuser`. The UI should call this single endpoint for all mutations — do **not** build separate per-action REST endpoints.
+
+---
+
+## 1. Background & Domain Model
+
+HCCL separates **identity** (who can log in) from **context** (which org/role they operate under).
+
+### HcclUser — login account (Keycloak-backed)
+
+| Field | Meaning |
+|-------|---------|
+| `id` | UUID |
+| `name` | Display name |
+| `businessCode` | Unique username key; typically matches Keycloak username |
+| `externalUserId` | Keycloak user UUID |
+| `externalUserName` | Keycloak username |
+| `available` | `1` = active, `0` = inactive |
+| `personId` / `person` | Linked `HcclPerson` contact record |
+| `userProfiles[]` | Nested profiles when fetched with `optionalDataHint: "all"` |
+
+### HcclUserProfile — org/role context
+
+| Field | Meaning |
+|-------|---------|
+| `id` | Profile UUID (app session context) |
+| `userId` | FK → `HcclUser` |
+| `userCode` | Org-scoped login code |
+| `messageHandle` | Display handle |
+| `userEmail` | Email on this profile |
+| `organizationId` / `organization` | FK → `HcclOrganization` |
+| `profileTypeCode` | e.g. `Student`, `EcoAdmin`, `Guidance` |
+| `roles[]` | App roles |
+| `available` | `1` = active, `0` = inactive |
+| `dateFirstLogin` | First login (profile-level) |
+| `dateRegistrationComplete` | Registration completion |
+
+```mermaid
+erDiagram
+    HcclUser ||--o{ HcclUserProfile : "has profiles"
+    HcclUser ||--|| HcclPerson : "contact info"
+    HcclUserProfile }o--|| HcclOrganization : "belongs to"
+    HcclUserProfile ||--o{ HcclUserProfileRole : "has roles"
+    HcclUser ||--|| KeycloakUser : "externalUserId"
+```
+
+---
+
+## 2. Goals
+
+Build `/ecoadmin-dashboard/user-management` as a unified admin page.
+
+### In scope
+
+- Search users by name, email, username, and message handle
+- User detail page with accordion sections (not tabs)
+- All admin mutations via `manageUserAction(ManageUserRequest)`
+- View login events / profile list (read-only queries)
+
+### Out of scope
+
+- Multi-profile dashboard switching UX
+- Bulk user operations
+- Separate REST endpoints per action (backend uses one `ManageUserRequest` dispatcher)
+- Replacing low-level CRUD pages (`/hcclusers`, `/hccluserprofiles`)
+
+---
+
+## 3. Backend — ManageUser API (already implemented)
+
+All user admin mutations go through **`ManageUserUtils.INSTANCE.handleManageUserRequest()`**, invoked by `OnboardServices.manageUserAction()`.
+
+### Endpoints (in swagger / `hccl.service.ts`)
+
+| Operation | Method | Endpoint | Angular method |
+|-----------|--------|----------|----------------|
+| Load user for admin UI | GET | `/hccl/onboard/onboard/manageuser-ui?userId={uuid}` | `loadManageUserUIData(userId)` |
+| Execute admin action | POST | `/hccl/onboard/onboard/manageuser` | `manageUserAction(body)` |
+
+### Request — `ManageUserRequest`
+
+```typescript
+interface ManageUserRequest {
+  actionCode?: string;           // required — see action table below
+  hcclUserId?: string;           // required — UUID of HcclUser
+  person?: HcclPersonPOSTData;   // required for UpdatePersonalInfo
+  updatedEmailAddress?: string;  // required for ChangeEmail
+  newPassword?: string;          // optional for TriggerUpdatePassword (admin set)
+}
+```
+
+### Response — `ManageUserResponse` / `ManageUserUIData`
+
+Both extend `SimpleResponse` and include:
+
+```typescript
+interface ManageUserResponse {
+  messages?: SimpleMessageList;  // check hasErrors() after every action
+  user?: HcclUserGETData;        // refreshed user (except DeleteUserCompletely)
+}
+```
+
+**UI pattern after every action:**
+
+```typescript
+this.hcclService.manageUserAction(req).subscribe(rsp => {
+  if (rsp.messages?.hasErrors()) {
+    this.errorMessages = rsp.messages;
+    return;
+  }
+  this.user = rsp.user ?? this.user;
+  this.successMessage = rsp.messages; // info messages like "user-enabled"
+});
+```
+
+### Action codes — `ManageUserActionCodes`
+
+Defined in `trutesta-hccl-restlib/.../usermgt/ManageUserActionCodes.java`. Use these exact string values in `actionCode`:
+
+| Constant | `actionCode` value | Required request fields | Backend behavior (`ManageUserUtils`) |
+|----------|-------------------|-------------------------|--------------------------------------|
+| `ENABLE_USER` | `EnableUser` | `hcclUserId` | Sets `available=1` on user + all profiles; syncs Keycloak `enabled=true` |
+| `DISABLE_USER` | `DisableUser` | `hcclUserId` | Sets `available=0` on user + all profiles; syncs Keycloak `enabled=false` |
+| `DELETE_USER_COMPLETELY` | `DeleteUserCompletely` | `hcclUserId` | Deletes profile roles → profiles → Keycloak user → HcclUser → HcclPerson |
+| `UPDATE_PERSONAL_INFO` | `UpdatePersonalInfo` | `hcclUserId`, `person` | Updates `HcclPerson`; updates `HcclUser.name` if `person.name` set |
+| `TRIGGER_UPDATE_PASSWORD` | `TriggerUpdatePassword` | `hcclUserId` | If `newPassword` set → admin reset via Keycloak; else → send `UPDATE_PASSWORD` email |
+| `CHANGE_EMAIL` | `ChangeEmail` | `hcclUserId`, `updatedEmailAddress` | Updates email on person, all profiles, and Keycloak |
+
+### Example requests
+
+**Activate user:**
+
+```json
+{
+  "actionCode": "EnableUser",
+  "hcclUserId": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+**Set password (admin):**
+
+```json
+{
+  "actionCode": "TriggerUpdatePassword",
+  "hcclUserId": "550e8400-e29b-41d4-a716-446655440000",
+  "newPassword": "NewSecurePass123!"
+}
+```
+
+**Send password-reset email (user self-service):**
+
+```json
+{
+  "actionCode": "TriggerUpdatePassword",
+  "hcclUserId": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+**Update personal info:**
+
+```json
+{
+  "actionCode": "UpdatePersonalInfo",
+  "hcclUserId": "550e8400-e29b-41d4-a716-446655440000",
+  "person": {
+    "name": "Sam Hauser",
+    "firstName": "Sam",
+    "lastName": "Hauser",
+    "messageHandle": "sam.hauser",
+    "userEmail": "sam@school.edu",
+    "available": 1,
+    "businessCode": "sam@school.edu",
+    "languageCode": "en-US"
+  }
+}
+```
+
+**Change email:**
+
+```json
+{
+  "actionCode": "ChangeEmail",
+  "hcclUserId": "550e8400-e29b-41d4-a716-446655440000",
+  "updatedEmailAddress": "new.email@school.edu"
+}
+```
+
+**Delete user completely:**
+
+```json
+{
+  "actionCode": "DeleteUserCompletely",
+  "hcclUserId": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+### Response info/error codes
+
+| Code | Meaning |
+|------|---------|
+| `user-enabled` | EnableUser succeeded |
+| `user-disabled` | DisableUser succeeded |
+| `user-deleted` | DeleteUserCompletely succeeded |
+| `personal-info-updated` | UpdatePersonalInfo succeeded |
+| `password-reset` | TriggerUpdatePassword with newPassword succeeded |
+| `password-update-email-sent` | TriggerUpdatePassword email sent |
+| `email-changed` | ChangeEmail succeeded |
+| `keycloak-sync-skipped` | Warning — Keycloak enable/disable not synced |
+| `keycloak-delete-skipped` | Warning — Keycloak account not deleted |
+| `keycloak-email-skipped` | Warning — Keycloak email not updated |
+| `missing-user-id` | hcclUserId not provided |
+| `missing-action` | actionCode not provided |
+| `user-not-found` | User UUID not found |
+| `unknown-action` | Unrecognized actionCode |
+| `missing-person` | UpdatePersonalInfo without person |
+| `missing-email` | ChangeEmail without updatedEmailAddress |
+| `missing-username` | TriggerUpdatePassword — no Keycloak username |
+| `password-reset-failed` | Keycloak password reset failed |
+| `password-email-failed` | Keycloak execute-actions email failed |
+
+### Keycloak integration (handled by backend)
+
+`ManageUserUtils` delegates to `HcclSecurityUtils`:
+
+| Action | Keycloak operation |
+|--------|-------------------|
+| EnableUser / DisableUser | `setUserEnabled(userName, enabled)` |
+| TriggerUpdatePassword + newPassword | `resetPassword(userName, pass)` |
+| TriggerUpdatePassword (no password) | `sendPasswordUpdateEmail(userName)` — sets `UPDATE_PASSWORD` required action + `executeActionsEmail` |
+| ChangeEmail | `updateUserEmail(userName, email)` |
+| DeleteUserCompletely | `deleteKeycloakUser(userName)` |
+
+Keycloak sync is skipped gracefully (warning in `messages`) when Keycloak is unavailable or `HcclConfig.isCreatingKeycloakUser()` is false.
+
+### Tests
+
+`TestManageUserUtils` in `trutesta-hccl-services` exercises every action via `ManageUserUtils.INSTANCE.createTestUser(name)`.
+
+---
+
+## 4. Routes & Navigation
+
+### New routes
+
+Add to `src/app/features/dash-ecoadmin/dash-ecoadmin.module.ts`:
+
+| Route | Component |
+|-------|-----------|
+| `user-management` | `UserManagementListComponent` |
+| `user-management/:userId` | `UserManagementDetailComponent` |
+
+Full URLs:
+- `/ecoadmin-dashboard/user-management`
+- `/ecoadmin-dashboard/user-management/{hcclUserId}`
+
+### Menu
+
+Add to `buildEcoAdminMenu()` under **"Users and Orgs Setup"**:
+
+```typescript
+{
+  label: 'User Management',
+  route: '/ecoadmin-dashboard/user-management',
+  icon: 'fas fa-users-cog'
+}
+```
+
+### Access control
+
+Require EcoAdmin role (`AuthGuard` + profile type `EcoAdmin`).
+
+---
+
+## 5. Page 1 — User Search List
+
+**New file:** `src/app/features/dash-ecoadmin/user-management/user-management-list.component.ts`
+
+Extend `AbstractListComponent<HcclUserGETData, HcclUserCriteria, HcclUserGETDataSearchResults>`.
+
+### Search
+
+Placeholder: *Search by name, email, username, or handle*
+
+Use combined search:
+1. `findHcclUsers({ searchByText, ... })` — matches name, businessCode, externalUserName
+2. `findHcclUserProfiles({ searchByText, userEmail, messageHandle, ... })` — merge by `userId`
+
+### Grid columns
+
+| Column | Source |
+|--------|--------|
+| Name | `HcclUser.name` |
+| Username | `businessCode` / `externalUserName` |
+| Email | Primary profile `userEmail` |
+| Status | `available` → Active / Inactive badge |
+| Profiles | Count of profiles |
+| Last Updated | `dateLastUpdated.formattedDate` |
+
+Row click → `/ecoadmin-dashboard/user-management/{userId}`
+
+### List config
+
+```typescript
+this.searchHeadingLabel = 'User Management';
+this.showingAddButton = false;
+this.showingIdCheckbox = false;
+this.searchPlaceholder = 'Search by name, email, username, or handle';
+```
+
+---
+
+## 6. Page 2 — User Detail (Accordion Layout)
+
+**New files:**
+- `user-management-detail.component.ts`
+- `user-management-detail.component.html`
+- `user-management-detail.component.scss`
+
+### Data loading
+
+```typescript
+// Primary load — includes nested userProfiles when available
+this.hcclService.loadManageUserUIData(userId).subscribe(ui => {
+  this.user = ui.user;
+  this.messages = ui.messages;
+});
+
+// Supplement: profiles, login events (read-only)
+this.hcclService.findHcclUserProfiles({ userId, isPaging: false });
+this.hcclService.findUtilmonReportingEvents({ /* filter by userEmail */ });
+```
+
+Prefer `loadManageUserUIData` over raw `getHcclUserById` — it is the admin-purpose endpoint.
+
+### Page header
+
+User name, username (`businessCode`), status badge, back link to list.
+
+### Action bar — maps to `ManageUserActionCodes`
+
+All buttons call `hcclService.manageUserAction(req)`. **Do not** call separate PUT/DELETE endpoints for these operations.
+
+| UI Button | `actionCode` | Extra fields | Confirm dialog |
+|-----------|--------------|--------------|----------------|
+| **Activate** | `EnableUser` | `hcclUserId` | "Activate this user account?" |
+| **Deactivate** | `DisableUser` | `hcclUserId` | "Deactivate? User will not be able to log in." |
+| **Set Password** | `TriggerUpdatePassword` | `hcclUserId`, `newPassword` | Modal with password + confirm |
+| **Send Reset Link** | `TriggerUpdatePassword` | `hcclUserId` only (no `newPassword`) | "Send password-reset email to {email}?" |
+| **Delete User** | `DeleteUserCompletely` | `hcclUserId` | Destructive — type username to confirm |
+| **Save Details** | `UpdatePersonalInfo` | `hcclUserId`, `person` | Inline save in Details accordion |
+| **Change Email** | `ChangeEmail` | `hcclUserId`, `updatedEmailAddress` | Modal or inline with confirm |
+
+Disable buttons while `manageUserAction` is in flight. On success, refresh from `rsp.user`. On `DeleteUserCompletely` success, navigate back to list.
+
+### TypeScript action helper (recommended)
+
+```typescript
+// user-management-action-codes.ts
+export const ManageUserActionCodes = {
+  ENABLE_USER: 'EnableUser',
+  DISABLE_USER: 'DisableUser',
+  DELETE_USER_COMPLETELY: 'DeleteUserCompletely',
+  UPDATE_PERSONAL_INFO: 'UpdatePersonalInfo',
+  TRIGGER_UPDATE_PASSWORD: 'TriggerUpdatePassword',
+  CHANGE_EMAIL: 'ChangeEmail',
+} as const;
+
+// In detail component:
+invokeAction(actionCode: string, extras?: Partial<ManageUserRequest>): void {
+  const req: ManageUserRequest = {
+    actionCode,
+    hcclUserId: this.userId,
+    ...extras,
+  };
+  this.hcclService.manageUserAction(req).subscribe(rsp => this.handleActionResponse(rsp, actionCode));
+}
+```
+
+---
+
+### Accordion Section 1 — Details
+
+**Header:** `User Details` (icon: `fas fa-user`)
+
+**Read-only:** ID, username, Keycloak ID, Keycloak username, person ID, dates.
+
+**Editable** (saved via `UpdatePersonalInfo`):
+
+| UI field | `person` field |
+|----------|----------------|
+| Display name | `name` (also updates `HcclUser.name`) |
+| First name | `firstName` |
+| Last name | `lastName` |
+| Message handle | `messageHandle` |
+| Cell phone | `cellPhoneNumber` |
+| Work phone | `workPhoneNumber` |
+| Language | `languageCode` |
+
+Use `app-std-mdb-form-text`, `app-std-mdb-phone`. Status (`available`) is changed via Activate/Deactivate buttons, not inline edit.
+
+**Change email** is a separate action (`ChangeEmail`) — do not bundle into `UpdatePersonalInfo`.
+
+---
+
+### Accordion Section 2 — Events (Logins)
+
+**Header:** `Login & Events` (icon: `fas fa-history`)
+
+Read-only queries (not `ManageUserRequest` actions):
+
+| Data | Source |
+|------|--------|
+| First login | Earliest `HcclUserProfile.dateFirstLogin` |
+| Registration complete | `dateRegistrationComplete` |
+| Monthly login counts | `findUtilmonLoginYearmos({ userEmail })` |
+| Event log | `findUtilmonReportingEvents({ userEmail })` |
+
+Show empty state when no events: *"No login events recorded for this user."*
+
+---
+
+### Accordion Section 3 — Organizations (Profiles)
+
+**Header:** `Organizations & Profiles` (icon: `fas fa-building`)
+
+Read-only table of `HcclUserProfile` records for `userId`. Link to `/ecoadmin-dashboard/hccluserprofiles/{profileId}/details` for deep edit.
+
+Profile-level activate/deactivate is **not** a separate `ManageUserRequest` action today — `EnableUser`/`DisableUser` operate on user + all profiles together. Do not add per-profile toggle buttons unless a new action code is added to the backend.
+
+---
+
+## 7. Modals
+
+### Set Password Modal
+
+Fields: new password, confirm password (must match).
+
+On submit:
+
+```typescript
+this.invokeAction(ManageUserActionCodes.TRIGGER_UPDATE_PASSWORD, {
+  newPassword: this.form.value.password,
+});
+```
+
+### Send Reset Link Modal
+
+Confirmation only — no `newPassword`:
+
+```typescript
+this.invokeAction(ManageUserActionCodes.TRIGGER_UPDATE_PASSWORD);
+```
+
+### Change Email Modal
+
+Field: `updatedEmailAddress`.
+
+```typescript
+this.invokeAction(ManageUserActionCodes.CHANGE_EMAIL, {
+  updatedEmailAddress: this.form.value.email,
+});
+```
+
+### Delete User Modal
+
+- Summarize: profiles, roles, Keycloak account, person record will be deleted
+- Require typing username (`businessCode`) to confirm
+- On submit: `DeleteUserCompletely` → navigate to list on success
+
+---
+
+## 8. Read-only API (search & display)
+
+These endpoints support list/detail display only — not mutations:
+
+| Operation | Method | Endpoint |
+|-----------|--------|----------|
+| Search users | POST | `/hccl/teams/hccluser/query` |
+| Search profiles | POST | `/hccl/teams/hccluserprofile/query` |
+| Login year aggregates | POST | `/hccl/utilmon/utilmonloginyearmo/query` |
+| Login events | POST | `/hccl/utilmon/utilmonreportingevent/query` |
+| Load admin UI data | GET | `/hccl/onboard/onboard/manageuser-ui` |
+
+---
+
+## 9. File Checklist
+
+### New files (UI)
+
+```
+src/app/features/dash-ecoadmin/user-management/
+  user-management-list.component.ts
+  user-management-detail.component.ts
+  user-management-detail.component.html
+  user-management-detail.component.scss
+  user-management-action-codes.ts       // mirror ManageUserActionCodes
+  set-password-modal.component.ts
+  set-password-modal.component.html
+  change-email-modal.component.ts
+  delete-user-modal.component.ts
+  index.ts
+```
+
+### Modified files (UI)
+
+| File | Change |
+|------|--------|
+| `dash-ecoadmin.module.ts` | Routes + imports |
+| `menu.service.ts` | Menu item |
+
+### Backend (already done — do not recreate)
+
+| File | Purpose |
+|------|---------|
+| `ManageUserActionCodes.java` | Action code constants |
+| `ManageUserRequest.java` | Request POJO |
+| `ManageUserResponse.java` | Response POJO |
+| `ManageUserUIData.java` | UI load response |
+| `ManageUserUtils.java` | Action dispatcher + Keycloak sync |
+| `OnboardServices.java` | REST endpoints |
+| `TestManageUserUtils.java` | Unit tests for all actions |
+| `HcclSecurityUtils.java` | Keycloak helpers |
+
+---
+
+## 10. UI Patterns
+
+- **List:** `AbstractListComponent` + DHTMLX grid
+- **Accordion:** `MdbAccordionModule` — reference `student-ui.component.html`
+- **Forms:** `app-std-mdb-form-text`, `app-std-mdb-phone`
+- **Messages:** `SimpleMessageList` from response — `rsp.messages.hasErrors()`
+- **Modals:** `MdbModalService` — reference `onboard-org-user-modal.component.ts`
+- **Status badges:** `badge bg-success` (active), `badge bg-secondary` (inactive)
+
+---
+
+## 11. Implementation Phases
+
+### Phase 1 — UI shell
+
+1. List + detail routes and menu item
+2. Search via `findHcclUsers` + `findHcclUserProfiles`
+3. Detail load via `loadManageUserUIData`
+4. Accordion: Details, Events, Organizations (read-only)
+
+### Phase 2 — Wire admin actions
+
+1. Action bar: EnableUser, DisableUser, DeleteUserCompletely
+2. Set Password + Send Reset Link modals → `TriggerUpdatePassword`
+3. Details save → `UpdatePersonalInfo`
+4. Change Email modal → `ChangeEmail`
+5. Handle `messages` errors/info on every action
+
+### Phase 3 — Polish
+
+1. Events accordion with `UtilmonReportingEvent` query
+2. Loading states, disabled buttons during requests
+3. Navigate away after delete; refresh `rsp.user` after other actions
+
+---
+
+## 12. Acceptance Criteria
+
+- [ ] `/ecoadmin-dashboard/user-management` in eco-admin menu
+- [ ] Search finds users by name, email, username, handle
+- [ ] Detail page loads via `loadManageUserUIData(userId)`
+- [ ] Three accordion sections: Details, Events, Organizations
+- [ ] **Activate** calls `manageUserAction({ actionCode: 'EnableUser' })`
+- [ ] **Deactivate** calls `manageUserAction({ actionCode: 'DisableUser' })`
+- [ ] **Set Password** calls `manageUserAction({ actionCode: 'TriggerUpdatePassword', newPassword })`
+- [ ] **Send Reset Link** calls `manageUserAction({ actionCode: 'TriggerUpdatePassword' })` without `newPassword`
+- [ ] **Save Details** calls `manageUserAction({ actionCode: 'UpdatePersonalInfo', person })`
+- [ ] **Change Email** calls `manageUserAction({ actionCode: 'ChangeEmail', updatedEmailAddress })`
+- [ ] **Delete** calls `manageUserAction({ actionCode: 'DeleteUserCompletely' })` with confirmation
+- [ ] All actions check `rsp.messages.hasErrors()` and display feedback
+- [ ] Successful non-delete actions refresh user from `rsp.user`
+- [ ] No direct PUT/DELETE on `hccluser` for admin actions (use `manageUserAction` only)
+
+---
+
+## 13. Reference File Index
+
+### UI (`trutesta-hccl-mdb5-ui`)
+
+| Path | Relevance |
+|------|-----------|
+| `src/app/restsvc/hccl.service.ts` | `loadManageUserUIData`, `manageUserAction`, `ManageUserRequest` |
+| `src/app/features/dash-ecoadmin/dash-ecoadmin.module.ts` | Routes |
+| `src/app/shell/services/menu.service.ts` | Menu |
+| `src/app/components/_crud/hccluser/hccluser-list.component.ts` | List pattern |
+| `src/app/components/_crud/hccluserprofile/student-ui.component.html` | Accordion pattern |
+| `src/app/features/dash-ecoadmin/orgs/onboard-org-user-modal.component.ts` | Modal pattern |
+
+### Backend (`trutesta-hccl-service`)
+
+| Path | Relevance |
+|------|-----------|
+| `trutesta-hccl-restlib/.../usermgt/ManageUserActionCodes.java` | Action constants |
+| `trutesta-hccl-restlib/.../usermgt/ManageUserRequest.java` | Request contract |
+| `trutesta-hccl-restlib/.../usermgt/ManageUserResponse.java` | Response contract |
+| `trutesta-hccl-restlib/.../usermgt/ManageUserUIData.java` | UI load contract |
+| `trutesta-hccl-services/.../utils/ManageUserUtils.java` | Action implementation |
+| `trutesta-hccl-services/.../rest/impl/OnboardServices.java` | REST endpoints |
+| `trutesta-hccl-services/.../test/model/TestManageUserUtils.java` | Action tests |
+| `trutesta-hccl-utils/.../HcclSecurityUtils.java` | Keycloak operations |
+
+---
+
+*Use this spec as the Cursor prompt to implement the user management pages. All admin mutations go through `manageUserAction` — the backend is ready.*
+
+
+<script>markdeepOptions = {tocStyle: 'none'};</script>
+<link rel="stylesheet" href="${realm_public_url_prefix}/company-whitepaper.css">
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js"></script><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
