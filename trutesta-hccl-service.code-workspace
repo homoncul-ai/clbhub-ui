@@ -1,16 +1,16 @@
 {
 	"folders": [
 		{
-			"path": "../../../../../../trutesta-hccl-service"
+			"path": "../trutesta-hccl-service"
 		},
 		{
-			"path": "../../../../.."
+			"path": "."
 		},
 		{
-			"path": "../../../../../../clbhub-website"
+			"path": "../clbhub-website"
 		},
 		{
-			"path": "../../../../../../trutesta-prompts"
+			"path": "../trutesta-prompts"
 		}
 	],
 	"settings": {
