@@ -5244,13 +5244,13 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PersonalStatementResumeGETData>(request);
   }
 
-  searchCatalog(body: SearchCatalogRequest): Observable<PersonalStatementResumeGETData> {
+  searchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
     const request: CommonServiceRequest = {
-      url: "/hccl/search/{id}/add-entries",
+      url: "/hccl/search/catalog/add-entries",
       method: "POST",
       body: body,
     };
-    return this.request<PersonalStatementResumeGETData>(request);
+    return this.request<SearchCatalogResponse>(request);
   }
 
   joinFamily(code: string): Observable<HandleActivationCodeResponse> {
@@ -13501,6 +13501,13 @@ export interface SearchCatalogRequest {
   searchByDateRange?: CriteriaDateRange;
   catalogTypeCodes?: string[];
   savingSearchResults?: boolean;
+}
+
+export interface SearchCatalogResponse {
+  messages?: SimpleMessageList;
+  theRequest?: SearchCatalogRequest;
+  vocationEncodingId?: string;
+  results?: VeiSearchResultsGETData;
 }
 
 export interface HandleActivationCodeResponse {

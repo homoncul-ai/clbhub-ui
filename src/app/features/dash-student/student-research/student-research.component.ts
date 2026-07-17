@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 import { CatalogEntryListComponent } from "@app/components/_crud/catalogentry/catalogentry-list.component";
+import { CatalogSearchListComponent } from '@app/components/_crud/catalogentry/catalog-search-list.component';
 import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry-ui/catalogentry-ui.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogEntryCriteria } from '@app/restsvc/hccl.service';
@@ -35,7 +36,7 @@ export type { ResearchSection };
 @Component({
   selector: 'app-student-research',
   standalone: true,
-  imports: [CommonModule, MdbAccordionModule, CatalogEntryListComponent, CatalogEntryUiComponent],
+  imports: [CommonModule, MdbAccordionModule, CatalogEntryListComponent, CatalogSearchListComponent, CatalogEntryUiComponent],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -73,14 +74,25 @@ export type { ResearchSection };
                 <span class="fw-bold">{{ section.title }}</span>
               </ng-template>
               <ng-template mdbAccordionItemBody>
-                <app-catalogentry-list
+                <app-catalog-search-list
+                  *ngIf="section.key === 'catalog-search'; else standardCatalogEntryList"
                   [criteria]="getCatalogEntryListCriteria(section.key)"
                   [showingSearchHeading]="false"
                   [showingGoButton]="false"
                   [showingAddButton]="false"
                   [showingIdCheckbox]="false"
                   [onRowClickBehavior]="getCatalogEntryRowClickBehavior()">
-                </app-catalogentry-list>
+                </app-catalog-search-list>
+                <ng-template #standardCatalogEntryList>
+                  <app-catalogentry-list
+                    [criteria]="getCatalogEntryListCriteria(section.key)"
+                    [showingSearchHeading]="false"
+                    [showingGoButton]="false"
+                    [showingAddButton]="false"
+                    [showingIdCheckbox]="false"
+                    [onRowClickBehavior]="getCatalogEntryRowClickBehavior()">
+                  </app-catalogentry-list>
+                </ng-template>
 
                 <div #selectedEntry class="mt-3" *ngIf="selectedCatalogEntryId">
                   <app-catalogentry-ui [catalogEntryId]="selectedCatalogEntryId"></app-catalogentry-ui>
