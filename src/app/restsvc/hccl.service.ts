@@ -11067,8 +11067,10 @@ export interface HcclUserInviteGETData {
   dateExpires?: DateGETData;
   jsonData?: string;
   available?: number;
+  dateAccepted?: DateGETData;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  currentStateDateEntered?: DateGETData;
   inviteeId?: string;
   parentId?: string;
   parentEntityType?: string;
@@ -13578,8 +13580,8 @@ export interface EntityState {
   categories?: string[];
   nextStates?: string[];
   openState?: boolean;
-  closedState?: boolean;
   cancelledState?: boolean;
+  closedState?: boolean;
 }
 
 export interface EntityStateTransition {

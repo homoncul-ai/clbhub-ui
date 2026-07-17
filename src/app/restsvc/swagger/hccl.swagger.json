@@ -44207,6 +44207,9 @@
           "notes": {
             "type": "string"
           },
+          "dateExpires": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
           "jsonData": {
             "type": "string"
           },
@@ -44214,12 +44217,18 @@
             "type": "integer",
             "format": "int32"
           },
+          "dateAccepted": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
           "currentStateCode": {
             "type": "string"
           },
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "$ref": "#/components/schemas/DateGETData"
           },
           "inviteeId": {
             "type": "string",
@@ -52845,10 +52854,10 @@
           "openState": {
             "type": "boolean"
           },
-          "closedState": {
+          "cancelledState": {
             "type": "boolean"
           },
-          "cancelledState": {
+          "closedState": {
             "type": "boolean"
           }
         }
