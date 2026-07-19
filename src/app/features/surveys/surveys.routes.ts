@@ -44,4 +44,11 @@ export const SURVEYS_ROUTES: Routes = [
         (m) => m.SurveyParentCareerSupportCheckComponent,
       ),
   },
+  {
+    path: 'youth-career-check',
+    loadComponent: () =>
+      import('./survey-youth-career-check/survey-youth-career-check.component').then(
+        (m) => m.SurveyYouthCareerCheckComponent,
+      ),
+  },
 ];
