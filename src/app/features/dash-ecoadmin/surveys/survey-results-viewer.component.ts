@@ -563,6 +563,7 @@ export class SurveyResultsViewerComponent implements OnInit {
       pageNumber: 1,
       pageSize: this.maxResults,
       isPaging: true,
+      orderByHint: 'dateCreated desc',
     };
     if (this.currentSurvey.applicationCode) {
       criteria.applicationCode = this.currentSurvey.applicationCode;
@@ -573,7 +574,7 @@ export class SurveyResultsViewerComponent implements OnInit {
     this.hcclService.findUtilmonReportingEvents(criteria).subscribe({
       next: (response) => {
         this.loading = false;
-        this.events = response?.searchResults || [];
+        this.events = this.sortEventsByMostRecent(response?.searchResults || []);
         if (!this.events.length) {
           this.selectedAbsoluteIndex = -1;
           this.activeBucketIndex = 0;
@@ -589,6 +590,24 @@ export class SurveyResultsViewerComponent implements OnInit {
         this.error = 'Unable to load survey results.';
       },
     });
+  }
+
+  private sortEventsByMostRecent(
+    events: UtilmonReportingEventGETData[],
+  ): UtilmonReportingEventGETData[] {
+    return [...events].sort((a, b) => this.eventTimestamp(b) - this.eventTimestamp(a));
+  }
+
+  private eventTimestamp(event: UtilmonReportingEventGETData): number {
+    const created = event.dateCreated?.dateMilliseconds;
+    if (created != null) {
+      return created;
+    }
+    const updated = event.dateLastUpdated?.dateMilliseconds;
+    if (updated != null) {
+      return updated;
+    }
+    return 0;
   }
 
   private extractSurveyData(event: UtilmonReportingEventGETData | null): Record<string, any> {
