@@ -303,6 +303,33 @@ body {
 
 .sidenav {
   background: linear-gradient(148deg, #ffffff 25%, #8db392 99%, #ffffff 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidenav > .sidenav-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidenav .sidenav-logo {
+  flex: 0 0 auto;
+}
+
+.sidenav .treeview-container {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: none !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidenav .side-nav-bottom-text {
+  flex: 0 0 auto;
 }
 
 .dhx_tree {
@@ -329,9 +356,7 @@ body {
 }
 
 .side-nav-bottom-text {
-  position: absolute !important;
-  bottom: 10px !important;
-  width: 100% !important;
+  width: 100%;
 }
 
 // START USER AVATAR

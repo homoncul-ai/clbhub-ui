@@ -312,9 +312,8 @@ body {
 }
 
 .side-nav-bottom-text {
-  position: absolute !important;
-  bottom: 10px !important;
-  width: 100% !important;
+  flex-shrink: 0;
+  width: 100%;
 }
 
 // START USER AVATAR
