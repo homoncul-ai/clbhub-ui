@@ -60,9 +60,6 @@ then
 
     echo "${appName} starting up on : http://localhost:${port}/ "
 
-    # Large Angular app; default Node heap (~2GB) is not enough for ng serve
-    export NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--max-old-space-size=4096"
-
     echo ng serve
     ng serve
 
