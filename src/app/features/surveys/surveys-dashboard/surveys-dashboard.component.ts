@@ -8,6 +8,7 @@ interface SurveyListItem {
   title: string;
   subtitle: string;
   liveDate: string;
+  dateCreated: string;
   badge: string;
   badgeClass: string;
 }
@@ -22,10 +23,11 @@ interface SurveyListItem {
 export class SurveysDashboardComponent {
   readonly surveys: SurveyListItem[] = [
     {
-      route: '/public/surveys/ai-workplace-skill-summary',
-      title: 'AI Workplace Skill Summary — Jun 10, 2026',
-      subtitle: 'Employer perspectives on AI-era graduate readiness',
-      liveDate: 'Jun 10, 2026',
+      route: '/public/surveys/parent-career-support-check',
+      title: 'Parent Career Support Check — Jul 03, 2026',
+      subtitle: 'Understand how families support young people’s career exploration',
+      liveDate: 'Jul 03, 2026',
+      dateCreated: '2026-07-03T11:25:25-04:00',
       badge: 'New',
       badgeClass: 'text-bg-success',
     },
@@ -34,14 +36,16 @@ export class SurveysDashboardComponent {
       title: 'Youth Career Check — Jul 03, 2026',
       subtitle: 'Understand how young people explore careers and use AI resources',
       liveDate: 'Jul 03, 2026',
+      dateCreated: '2026-07-03T11:03:52-04:00',
       badge: 'New',
       badgeClass: 'text-bg-success',
     },
     {
-      route: '/public/surveys/parent-career-support-check',
-      title: 'Parent Career Support Check — Jul 03, 2026',
-      subtitle: 'Understand how families support young people’s career exploration',
-      liveDate: 'Jul 03, 2026',
+      route: '/public/surveys/ai-workplace-skill-summary',
+      title: 'AI Workplace Skill Summary — Jun 10, 2026',
+      subtitle: 'Employer perspectives on AI-era graduate readiness',
+      liveDate: 'Jun 10, 2026',
+      dateCreated: '2026-06-12T11:04:06-04:00',
       badge: 'New',
       badgeClass: 'text-bg-success',
     },
@@ -50,6 +54,7 @@ export class SurveysDashboardComponent {
       title: 'AI Summit Sign-in — Jun 10, 2026',
       subtitle: 'Sign in and explore AI-enabled career paths',
       liveDate: 'Jun 10, 2026',
+      dateCreated: '2026-06-11T17:36:55-04:00',
       badge: 'New',
       badgeClass: 'text-bg-success',
     },
@@ -58,6 +63,16 @@ export class SurveysDashboardComponent {
       title: 'Event Check-in: JM Chamber AI Class — May 31, 2026',
       subtitle: 'Sign up for CLBHub and register for an AI course',
       liveDate: 'May 31, 2026',
+      dateCreated: '2026-06-01T08:04:17-04:00',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
+      route: '/public/surveys/register-interest',
+      title: 'Register your interest in CLBHub — Apr 29, 2026',
+      subtitle: "We haven't launched yet — let us know you're interested!",
+      liveDate: 'Apr 29, 2026',
+      dateCreated: '2026-04-29T09:58:54-04:00',
       badge: 'New',
       badgeClass: 'text-bg-success',
     },
@@ -66,16 +81,9 @@ export class SurveysDashboardComponent {
       title: 'Non-profit job search assistance — Mar 10, 2025',
       subtitle: 'Survey: Do you have a job for me?',
       liveDate: 'Mar 10, 2025',
+      dateCreated: '2026-04-13T22:28:15-04:00',
       badge: 'Open',
       badgeClass: 'text-bg-primary',
     },
-    {
-      route: '/public/surveys/register-interest',
-      title: 'Register your interest in CLBHub — Apr 29, 2026',
-      subtitle: "We haven't launched yet — let us know you're interested!",
-      liveDate: 'Apr 29, 2026',
-      badge: 'New',
-      badgeClass: 'text-bg-success',
-    },
-  ];
+  ].sort((a, b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated));
 }
