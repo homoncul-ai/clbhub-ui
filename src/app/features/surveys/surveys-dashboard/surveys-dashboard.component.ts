@@ -21,7 +21,7 @@ interface SurveyListItem {
   styleUrl: './surveys-dashboard.component.scss',
 })
 export class SurveysDashboardComponent {
-  readonly surveys: SurveyListItem[] = [
+  private readonly allSurveys: SurveyListItem[] = [
     {
       route: '/public/surveys/parent-career-support-check',
       title: 'Parent Career Support Check — Jul 03, 2026',
@@ -86,4 +86,18 @@ export class SurveysDashboardComponent {
       badgeClass: 'text-bg-primary',
     },
   ].sort((a, b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated));
+
+  private readonly oneMonthAgoMs = (() => {
+    const cutoff = new Date();
+    cutoff.setMonth(cutoff.getMonth() - 1);
+    return cutoff.getTime();
+  })();
+
+  readonly recentSurveys = this.allSurveys.filter(
+    (survey) => Date.parse(survey.dateCreated) >= this.oneMonthAgoMs,
+  );
+
+  readonly olderSurveys = this.allSurveys.filter(
+    (survey) => Date.parse(survey.dateCreated) < this.oneMonthAgoMs,
+  );
 }

@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
+import {
+  getAdminSurveyRoute,
+  getOlderSurveys,
+  getRecentSurveys,
+  SurveyRegistryEntry,
+} from '@app/features/surveys/survey-registry';
 
 export interface MenuItem {
   id?: string;
@@ -357,6 +363,34 @@ export class MenuService {
       componentName: '',
       icon: icon
     };
+  }
+
+  private surveyResultsMenuItem(survey: SurveyRegistryEntry): MenuItem {
+    return {
+      level: 1,
+      label: survey.title,
+      route: getAdminSurveyRoute(survey),
+      componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
+      componentName: 'SurveyResultsViewerComponent',
+      icon: survey.menuIcon,
+    };
+  }
+
+  private addSurveySidebarItems(surveysGroup: MenuItem): void {
+    for (const survey of getRecentSurveys()) {
+      this.addChildMenuItem(surveysGroup, this.surveyResultsMenuItem(survey));
+    }
+
+    const olderSurveys = getOlderSurveys();
+    if (olderSurveys.length === 0) {
+      return;
+    }
+
+    const olderSurveysGroup = this.newGroupMenuItem('Older surveys', 'fas fa-archive');
+    for (const survey of olderSurveys) {
+      this.addChildMenuItem(olderSurveysGroup, this.surveyResultsMenuItem(survey));
+    }
+    this.addChildMenuItem(surveysGroup, olderSurveysGroup);
   }
 
 
@@ -849,11 +883,8 @@ export class MenuService {
     const vocationEncodingRefList = this.copyMenuItem(MENU_CONSTANTS.EA_VOCATIONENCODINGREF_LIST);
     this.addChildMenuItem(vocodeGroup, vocationEncodingRefList);
 
-    // Add survey reporting views (alphabetical)
-    const surveyNpoJobFinder = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEY_NPO_JOB_FINDER_LIST);
-    this.addChildMenuItem(surveysGroup, surveyNpoJobFinder);
-    const surveyRegisterInterest = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEY_REGISTER_INTEREST_LIST);
-    this.addChildMenuItem(surveysGroup, surveyRegisterInterest);
+    // Add survey reporting views (recent first, then an Older surveys group)
+    this.addSurveySidebarItems(surveysGroup);
 
     // Reporting group
     const reportingGroup = this.newGroupMenuItem('Reporting', 'fas fa-chart-bar');
@@ -1697,24 +1728,6 @@ EA_SURVEYS_DASHBOARD: {
   componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-reports-dashboard.component',
   componentName: 'SurveyReportsDashboardComponent',
   icon: 'fas fa-clipboard-list',
-},
-
-EA_SURVEY_NPO_JOB_FINDER_LIST: {
-  level: 2,
-  label: 'Non-profit job search assistance — Mar 10, 2025',
-  route: '/ecoadmin-dashboard/surveys/npo_job_finder',
-  componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
-  componentName: 'SurveyResultsViewerComponent',
-  icon: 'fas fa-list-check'
-},
-
-EA_SURVEY_REGISTER_INTEREST_LIST: {
-  level: 2,
-  label: 'Register your interest in CLBHub — Apr 29, 2026',
-  route: '/ecoadmin-dashboard/surveys/register_interest',
-  componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-results-viewer.component',
-  componentName: 'SurveyResultsViewerComponent',
-  icon: 'fas fa-envelope'
 },
 
 EA_DIAGNOSTICS: {
