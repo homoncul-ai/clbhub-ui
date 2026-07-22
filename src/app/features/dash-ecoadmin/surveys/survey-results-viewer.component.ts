@@ -82,6 +82,12 @@ export class SurveyResultsViewerComponent implements OnInit {
       subject: 'Survey: Parent Career Support Check',
       description: 'Family support for youth career exploration and planning.',
     },
+    youth_career_check: {
+      key: 'youth_career_check',
+      label: 'Youth Career Check — Jul 03, 2026',
+      subject: 'Survey: Youth Career Check',
+      description: 'How young people explore careers, use AI resources, and engage with support programs.',
+    },
   };
 
   loading = false;
@@ -442,7 +448,7 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   eventLabel(event: UtilmonReportingEventGETData): string {
     const map = this.extractSurveyData(event);
-    if (this.isAiWorkplaceSkillSummary) {
+    if (this.isAiWorkplaceSkillSummary || this.isYouthCareerCheck) {
       return map['email'] || event.parentEntityName || event.id || 'Survey response';
     }
     return map['name'] || map['email'] || event.parentEntityName || event.id || 'Survey response';
@@ -458,6 +464,12 @@ export class SurveyResultsViewerComponent implements OnInit {
     }
     if (`${data['canContactForFeedback'] || ''}` === 'yes') {
       return true;
+    }
+    if (`${data['followUpConsent'] || ''}` === 'yes') {
+      return true;
+    }
+    if (this.isYouthCareerCheck) {
+      return false;
     }
     return !!(`${data['email'] || ''}`.trim());
   }

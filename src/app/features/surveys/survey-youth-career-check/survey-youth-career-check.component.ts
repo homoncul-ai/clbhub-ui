@@ -51,11 +51,11 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
   readonly steps: SurveyStepDefinition[] = [
     { step: 1, title: 'Intro', subtitle: 'Learn about the survey and what you will answer.' },
     { step: 2, title: 'About You', subtitle: 'Share a little about yourself so we can understand who this reaches.' },
-    { step: 3, title: 'How You Explore Careers', subtitle: 'Choose the ways you learn about jobs and training.' },
-    { step: 4, title: 'AI in Career Exploration', subtitle: 'Tell us how you use AI in your search for opportunities.' },
-    { step: 5, title: 'Who Supports Your Career Search', subtitle: 'Share who is involved and how you plan for the future.' },
-    { step: 6, title: 'Cohort Interest', subtitle: 'Tell us what kinds of group activities would feel useful.' },
-    { step: 7, title: 'Ideas & Open Feedback', subtitle: 'Share what would help you most and what gets in the way.' },
+    { step: 3, title: 'How You Explore Careers & AI', subtitle: 'Tell us how you explore career options and how you use AI.' },
+    { step: 4, title: 'Who Is Involved & How You Plan', subtitle: 'Share who supports your career search and how you approach planning.' },
+    { step: 5, title: 'CLBHub & Cohort Interest', subtitle: 'Tell us what online tools and cohort-style activities would feel useful.' },
+    { step: 6, title: 'Ideas & Open Feedback', subtitle: 'Share what would help you most and any suggestions for CLBHub.' },
+    { step: 7, title: 'Follow-up', subtitle: 'Let us know if we can contact you in the future.' },
     { step: 8, title: 'Submit Results', subtitle: 'Review and submit your responses.' },
   ];
 
@@ -63,13 +63,50 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
   readonly stepNumbers = this.steps.map((step) => step.step);
 
   readonly ageRangeOptions: string[] = ['13–15', '16–18', '19–22', '23–26', 'Prefer not to say'];
-  readonly currentStatusOptions: SurveyOption[] = [
-    { id: 'middle_high_school', label: 'Middle/high school student' },
-    { id: 'college_postsecondary', label: 'College/postsecondary student' },
-    { id: 'working', label: 'Working (part-time or full-time)' },
-    { id: 'not_school_or_working', label: 'Not currently in school or working' },
+
+  readonly workStatusOptions: SurveyOption[] = [
+    { id: 'full_time', label: 'Working full-time' },
+    { id: 'part_time', label: 'Working part-time' },
+    { id: 'self_employed', label: 'Self-employed or freelancing' },
+    { id: 'looking_for_work', label: 'Looking for work' },
+    { id: 'not_working', label: 'Not currently working' },
+    { id: 'unable_to_work', label: 'Unable to work at this time' },
     { id: 'other', label: 'Other' },
   ];
+
+  readonly educationStatusOptions: SurveyOption[] = [
+    { id: 'high_school', label: 'High school student' },
+    { id: 'college_university', label: 'College or university student' },
+    { id: 'trade_school', label: 'Trade school or vocational program' },
+    { id: 'apprenticeship', label: 'Apprenticeship' },
+    { id: 'other_postsecondary', label: 'Other postsecondary education or certification program' },
+    { id: 'not_enrolled', label: 'Not currently enrolled in school or training' },
+    { id: 'graduated', label: 'Graduated and not currently enrolled' },
+    { id: 'other', label: 'Other' },
+  ];
+  readonly workGoalsOptions: SurveyOption[] = [
+    { id: 'active_specific', label: 'They are actively working toward a specific career.' },
+    { id: 'few_deciding', label: 'They have a few careers in mind but are still deciding.' },
+    { id: 'exploring_many', label: 'They are exploring many different career options.' },
+    { id: 'any_job', label: 'They are mainly focused on finding any job right now.' },
+    { id: 'unsure_pursue', label: 'They are unsure what type of work they want to pursue.' },
+    { id: 'not_thinking', label: 'They are not currently thinking about work or careers.' },
+    { id: 'not_sure', label: "I'm not sure." },
+  ];
+
+  readonly educationGoalsOptions: SurveyOption[] = [
+    { id: 'four_year', label: 'Attend a four-year college or university' },
+    { id: 'two_year', label: 'Attend a two-year/community college' },
+    { id: 'trade_school', label: 'Complete a trade school or vocational program' },
+    { id: 'apprenticeship', label: 'Complete an apprenticeship' },
+    { id: 'certifications', label: 'Earn certifications or industry credentials' },
+    { id: 'military', label: 'Join the military' },
+    { id: 'workforce', label: 'Enter the workforce after finishing current schooling' },
+    { id: 'still_exploring', label: 'Still exploring different education or training paths' },
+    { id: 'not_sure', label: 'Not sure' },
+    { id: 'other', label: 'Other' },
+  ];
+
   readonly careerExplorationOptions: SurveyOption[] = [
     { id: 'not_started', label: 'I haven’t really started yet' },
     { id: 'browsed_a_bit', label: 'I’ve browsed a bit but not in depth' },
@@ -77,6 +114,7 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
     { id: 'have_direction', label: 'I have a direction but I’m still confirming' },
     { id: 'set_on_path', label: 'I’m pretty set on a path and building toward it' },
   ];
+
   readonly infoSourceOptions: SurveyOption[] = [
     { id: 'online_searches', label: 'Online searches or videos' },
     { id: 'school', label: 'School classes or guidance office' },
@@ -88,21 +126,15 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
     { id: 'employers', label: 'Employers or people already working in jobs' },
     { id: 'other', label: 'Other' },
   ];
+
   readonly aiToolUseOptions: SurveyOption[] = [
     { id: 'frequently', label: 'Yes, frequently' },
     { id: 'few_times', label: 'Yes, a few times' },
-    { id: 'interested', label: 'No, but I’m interested in trying it' },
+    { id: 'interested', label: "No, but I'm interested in trying it" },
     { id: 'no', label: 'No' },
-    { id: 'not_sure', label: 'I’m not sure' },
+    { id: 'not_sure', label: "I'm not sure" },
   ];
-  readonly aiHelpfulnessOptions: SurveyOption[] = [
-    { id: 'very_helpful', label: 'Very helpful' },
-    { id: 'somewhat_helpful', label: 'Somewhat helpful' },
-    { id: 'neutral', label: 'Neutral' },
-    { id: 'not_very_helpful', label: 'Not very helpful' },
-    { id: 'not_helpful', label: 'Not helpful at all' },
-    { id: 'not_sure', label: 'I’m not sure' },
-  ];
+
   readonly aiExperienceOptions: SurveyOption[] = [
     { id: 'discover_options', label: 'It helped me discover new career options.' },
     { id: 'answer_questions', label: 'It helped answer my questions.' },
@@ -116,65 +148,113 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
   readonly supportPersonOptions: SurveyOption[] = [
     { id: 'mostly_myself', label: 'I mostly do it on my own' },
     { id: 'parents', label: 'Parents or guardians' },
-    { id: 'family', label: 'Other family members' },
+    { id: 'other_family', label: 'Other family members' },
     { id: 'friends', label: 'Friends or classmates' },
     { id: 'teachers', label: 'Teachers or coaches' },
     { id: 'mentors', label: 'Mentors (formal or informal)' },
-    { id: 'counselor', label: 'School counselor or career advisor' },
+    { id: 'school_counselor', label: 'School counselor or career advisor' },
     { id: 'nonprofit_staff', label: 'Staff from a nonprofit or youth program' },
     { id: 'other', label: 'Other' },
   ];
+
   readonly programInvolvementOptions: SurveyOption[] = [
     { id: 'actively_involved', label: 'Yes, I’m actively involved' },
     { id: 'used_to_be', label: 'I used to be involved' },
     { id: 'aware_not_involved', label: 'I’m aware of programs but not involved' },
     { id: 'not_aware', label: 'I’m not aware of any programs like that' },
   ];
+
   readonly programTypeOptions: SurveyOption[] = [
     { id: 'afterschool', label: 'After-school program' },
-    { id: 'youth_employment', label: 'Youth employment or summer jobs program' },
-    { id: 'faith_community', label: 'Faith-based or community organization' },
+    { id: 'summer_jobs', label: 'Youth employment or summer jobs program' },
+    { id: 'faith_based', label: 'Faith-based or community organization' },
     { id: 'skills_training', label: 'Skills training or certification program' },
     { id: 'mentoring', label: 'Mentoring program' },
     { id: 'other', label: 'Other' },
   ];
-  readonly planningFrequencyOptions: SurveyOption[] = [
-    { id: 'almost_daily', label: 'Almost every day' },
-    { id: 'few_times_week', label: 'A few times a week' },
-    { id: 'about_once_month', label: 'About once a month' },
-    { id: 'few_times_year', label: 'A few times a year' },
-    { id: 'only_big_events', label: 'Only when something big happens' },
-  ];
+
   readonly planningApproachOptions: SurveyOption[] = [
     { id: 'only_when_brought_up', label: 'I only think about it when someone else brings it up' },
-    { id: 'occasionally_own', label: 'I think about it on my own occasionally, but haven’t taken many steps' },
-    { id: 'explore_here_and_there', label: 'I explore on my own here and there: reading, watching videos, talking to people' },
-    { id: 'regular_time', label: 'I regularly set aside time to research and work toward a career direction' },
-    { id: 'consistent_focus', label: 'It’s a consistent focus. I’m actively building skills, seeking experiences, or making plans' },
+    { id: 'occasionally_no_steps', label: "I think about it on my own occasionally, but haven't taken many steps" },
+    { id: 'explore_here_there', label: 'I explore on my own here and there: reading, watching videos, talking to people' },
+    { id: 'regular_research', label: 'I regularly set aside time to research and work toward a career direction' },
+    { id: 'consistent_focus', label: "It's a consistent focus. I'm actively building skills, seeking experiences, or making plans" },
   ];
+
   readonly planningTimeframeOptions: SurveyOption[] = [
     { id: '3_6_months', label: 'The next 3–6 months' },
     { id: '1_2_years', label: 'The next 1–2 years' },
     { id: '3_5_years', label: 'The next 3–5 years' },
-    { id: 'over_5_years', label: 'Longer than 5 years' },
+    { id: 'longer_5_years', label: 'Longer than 5 years' },
     { id: 'not_sure', label: 'Not sure' },
   ];
+
+  readonly onlineToolInterestOptions: SurveyOption[] = [
+    { id: 'very_interested', label: 'Very interested' },
+    { id: 'somewhat_interested', label: 'Somewhat interested' },
+    { id: 'not_sure', label: 'Not sure' },
+    { id: 'not_interested', label: 'Not interested' },
+  ];
+
+  readonly onlineToolFeatureGroups: { title: string; options: SurveyOption[] }[] = [
+    {
+      title: 'Personalization',
+      options: [
+        { id: 'describe_interests', label: 'Describe my interests' },
+        { id: 'tailored_feed', label: 'Feed tailored to my needs' },
+      ],
+    },
+    {
+      title: 'Career Information and Learning',
+      options: [
+        { id: 'career_info', label: 'Information about careers' },
+        { id: 'state_federal_resources', label: 'Information digested and presented from state/federal resources' },
+        { id: 'tutorials', label: 'Tutorials' },
+      ],
+    },
+    {
+      title: 'Career Preparation',
+      options: [
+        { id: 'resume_building', label: 'Resume building' },
+        { id: 'track_certifications', label: 'Tracking my certifications' },
+      ],
+    },
+    {
+      title: 'Opportunities',
+      options: [
+        { id: 'projects_join', label: 'Projects I could join' },
+        { id: 'volunteer_opps', label: 'Volunteer opportunities' },
+        { id: 'signup_interest', label: 'Sign-up to show interest' },
+      ],
+    },
+    {
+      title: 'Support & Community',
+      options: [
+        { id: 'advisory_team', label: 'Having an advisory team available to message' },
+        { id: 'cohort', label: 'Cohort (see next question)' },
+      ],
+    },
+  ];
+
+  readonly onlineToolFeatureOptions: SurveyOption[] = this.onlineToolFeatureGroups.flatMap((group) => group.options);
   readonly cohortInterestOptions: SurveyOption[] = [
     { id: 'very_interested', label: 'Very interested' },
     { id: 'somewhat_interested', label: 'Somewhat interested' },
     { id: 'not_sure', label: 'Not sure' },
     { id: 'not_interested', label: 'Not interested' },
   ];
+
   readonly cohortActivityOptions: SurveyOption[] = [
     { id: 'in_person', label: 'In-person group sessions/discussion circles' },
-    { id: 'online_group', label: 'Online group meetings or video calls' },
-    { id: 'site_visits', label: 'Visiting workplaces (site visits, job shadows)' },
-    { id: 'projects', label: 'Short projects or challenges related to a job' },
-    { id: 'mentoring', label: 'One-on-one conversations with mentors' },
-    { id: 'workshops', label: 'Short courses or workshops (online or in person)' },
+    { id: 'online_meetings', label: 'Online group meetings or video calls' },
+    { id: 'workplace_visits', label: 'Visiting workplaces (site visits, job shadows)' },
+    { id: 'short_projects', label: 'Short projects or challenges related to a job' },
+    { id: 'one_on_one', label: 'One-on-one conversations with mentors' },
+    { id: 'short_courses', label: 'Short courses or workshops (online or in person)' },
     { id: 'group_chat', label: 'Group chat or online community focused on a career topic' },
     { id: 'other', label: 'Other activities' },
   ];
+
   readonly participationFrequencyOptions: SurveyOption[] = [
     { id: 'multiple_times_week', label: 'Multiple times a week' },
     { id: 'once_week', label: 'Once a week' },
@@ -183,18 +263,18 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
     { id: 'occasional_events', label: 'Only for occasional events' },
     { id: 'not_sure', label: 'Not sure' },
   ];
+
   readonly cohortMotivatorOptions: SurveyOption[] = [
     { id: 'flexible_schedule', label: 'Flexible schedule or low time commitment' },
-    { id: 'local_or_online', label: 'Activities close to home or accessible online' },
+    { id: 'close_to_home', label: 'Activities close to home or accessible online' },
     { id: 'stipend', label: 'Stipend or small incentives' },
-    { id: 'jobs_or_internships', label: 'Clear connection to jobs or internships' },
+    { id: 'clear_connection', label: 'Clear connection to jobs or internships' },
     { id: 'trusted_adult', label: 'A trusted adult or organization running it' },
-    { id: 'friends', label: 'Participating with friends' },
+    { id: 'with_friends', label: 'Participating with friends' },
     { id: 'other', label: 'Other' },
   ];
 
   currentStep = 1;
-  maxStepReached = 1;
   submitting = false;
   submitted = false;
   contactConsentAtSubmit = '';
@@ -204,83 +284,53 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
   selectedAiExperience = new Set<string>();
   selectedSupportPeople = new Set<string>();
   selectedProgramTypes = new Set<string>();
+  selectedOnlineToolFeatures = new Set<string>();
   selectedCohortActivities = new Set<string>();
   selectedCohortMotivators = new Set<string>();
 
   readonly form = this.fb.nonNullable.group({
     ageRange: [''],
-    currentStatus: [''],
-    currentStatusOther: [''],
-    roughLocation: [''],
+    workStatus: [''],
+    workStatusOther: [''],
+    educationStatus: [''],
+    educationStatusOther: [''],
+    workGoals: [''],
+    educationGoals: [''],
+    educationGoalsOther: [''],
     careerExplorationStage: [''],
     careerInfoSourcesOther: [''],
     aiToolUse: [''],
-    aiHelpfulness: [''],
     aiExperienceOther: [''],
     supportPeopleOther: [''],
     involvedInPrograms: [''],
     programTypesOther: [''],
-    planningFrequency: [''],
     planningApproach: [''],
     planningTimeframe: [''],
+    onlineToolInterest: [''],
     cohortInterest: [''],
     cohortActivitiesOther: [''],
     participationFrequency: [''],
     cohortMotivatorsOther: [''],
     feedback: [''],
-    obstacles: [''],
     ideas: [''],
     followUpConsent: [''],
     email: [''],
     clbHubAccountInterest: [''],
   });
-
-  ngOnInit(): void {
-    const pageParam = this.route.snapshot.queryParamMap.get('page');
-    if (pageParam === 'thank-you') {
-      this.showThankYouPage(this.readStoredContactConsent());
-    } else {
-      const initialPage = this.parsePageParam(pageParam);
-      if (initialPage !== null) {
-        this.currentStep = initialPage;
-        this.maxStepReached = Math.max(this.maxStepReached, this.currentStep);
-      } else {
-        this.syncPageQueryParam(this.currentStep);
-      }
-    }
-
-    this.route.queryParamMap.subscribe((params) => {
-      const rawPage = params.get('page');
-      if (rawPage === 'thank-you') {
-        this.showThankYouPage(this.readStoredContactConsent());
-        return;
-      }
-
-      const page = this.parsePageParam(rawPage);
-      if (page !== null) {
-        this.currentStep = page;
-        this.maxStepReached = Math.max(this.maxStepReached, this.currentStep);
-      }
-      this.scrollToTop();
-    });
-
-    if (this.captchaEnabled) {
-      void this.recaptchaService.preload();
-    }
-
-    this.scrollToTop();
-  }
-
   get currentStepDefinition(): SurveyStepDefinition {
-    return this.steps[this.currentStep - 1] || this.steps[0];
+    return this.steps[this.currentStep - 1];
   }
 
-  get optedInToFollowUpSurvey(): boolean {
-    return this.contactConsentAtSubmit === 'yes';
+  get showWorkStatusOtherField(): boolean {
+    return this.form.controls.workStatus.value === 'other';
   }
 
-  get showCurrentStatusOtherField(): boolean {
-    return this.form.controls.currentStatus.value === 'other';
+  get showEducationStatusOtherField(): boolean {
+    return this.form.controls.educationStatus.value === 'other';
+  }
+
+  get showEducationGoalsOtherField(): boolean {
+    return this.form.controls.educationGoals.value === 'other';
   }
 
   get showInfoSourceOtherField(): boolean {
@@ -307,6 +357,52 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
     return this.selectedCohortMotivators.has('other');
   }
 
+  get optedInToFollowUpSurvey(): boolean {
+    return this.contactConsentAtSubmit === 'yes';
+  }
+
+  ngOnInit(): void {
+    const pageParam = this.route.snapshot.queryParamMap.get('page');
+    if (pageParam === 'thank-you') {
+      this.showThankYouPage(this.readStoredContactConsent());
+    } else {
+      const step = this.parsePageParam(pageParam);
+      this.currentStep = step || 1;
+      this.syncPageQueryParam(this.currentStep);
+    }
+
+    this.route.queryParamMap.subscribe((params) => {
+      const rawPage = params.get('page');
+      if (rawPage === 'thank-you') {
+        this.showThankYouPage(this.readStoredContactConsent());
+        return;
+      }
+      const step = this.parsePageParam(rawPage);
+      if (step && step !== this.currentStep) {
+        this.currentStep = step;
+        this.setMessages([]);
+        this.scrollToTop();
+      }
+    });
+  }
+
+  canNavigateTo(step: number): boolean {
+    if (this.submitted) {
+      return false;
+    }
+    return step >= 1 && step <= this.totalSteps;
+  }
+
+  goToStep(step: number): void {
+    if (!this.canNavigateTo(step)) {
+      return;
+    }
+    this.setMessages([]);
+    this.currentStep = step;
+    this.syncPageQueryParam(step);
+    this.scrollToTop();
+  }
+
   nextStep(): void {
     const validationMessages = this.validateCurrentStep();
     if (validationMessages.length) {
@@ -316,7 +412,6 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
 
     this.setMessages([]);
     this.currentStep = Math.min(this.currentStep + 1, this.totalSteps);
-    this.maxStepReached = Math.max(this.maxStepReached, this.currentStep);
     this.syncPageQueryParam(this.currentStep);
     this.scrollToTop();
   }
@@ -324,20 +419,6 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
   prevStep(): void {
     this.setMessages([]);
     this.currentStep = Math.max(this.currentStep - 1, 1);
-    this.syncPageQueryParam(this.currentStep);
-    this.scrollToTop();
-  }
-
-  canNavigateTo(step: number): boolean {
-    return step >= 1 && step <= this.maxStepReached && step !== this.currentStep;
-  }
-
-  goToStep(step: number): void {
-    if (!this.canNavigateTo(step)) {
-      return;
-    }
-    this.setMessages([]);
-    this.currentStep = step;
     this.syncPageQueryParam(this.currentStep);
     this.scrollToTop();
   }
@@ -362,13 +443,12 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
     if (this.captchaEnabled) {
       try {
         captchaToken = await this.recaptchaService.execute(this.surveyCode);
-      } catch {
-        this.submitting = false;
-        this.setMessages([{ message: 'We could not verify the survey submission. Please try again.', severity: 1 }]);
-        return;
-      }
-
-      if (!captchaToken) {
+        if (!captchaToken) {
+          this.submitting = false;
+          this.setMessages([{ message: 'We could not verify the survey submission. Please try again.', severity: 1 }]);
+          return;
+        }
+      } catch (err) {
         this.submitting = false;
         this.setMessages([{ message: 'We could not verify the survey submission. Please try again.', severity: 1 }]);
         return;
@@ -380,44 +460,49 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
       pagePath: this.pagePath,
       ...(this.captchaEnabled ? { captchaToken } : {}),
       ageRange: this.form.controls.ageRange.value || '',
-      currentStatus: this.getSelectedLabel(this.currentStatusOptions, this.form.controls.currentStatus.value),
-      currentStatusOther: this.form.controls.currentStatusOther.value || '',
-      roughLocation: this.form.controls.roughLocation.value || '',
+      
+      currentStatus: `Work: ${this.getSelectedLabel(this.workStatusOptions, this.form.controls.workStatus.value, this.form.controls.workStatusOther.value)} | Education: ${this.getSelectedLabel(this.educationStatusOptions, this.form.controls.educationStatus.value, this.form.controls.educationStatusOther.value)}`,
+      
+      workStatus: this.getSelectedLabel(this.workStatusOptions, this.form.controls.workStatus.value),
+      workStatusOther: this.form.controls.workStatusOther.value || '',
+      educationStatus: this.getSelectedLabel(this.educationStatusOptions, this.form.controls.educationStatus.value),
+      educationStatusOther: this.form.controls.educationStatusOther.value || '',
+      
+      workGoals: this.getSelectedLabel(this.workGoalsOptions, this.form.controls.workGoals.value),
+      educationGoals: this.getSelectedLabel(this.educationGoalsOptions, this.form.controls.educationGoals.value),
+      educationGoalsOther: this.form.controls.educationGoalsOther.value || '',
+      
       careerExplorationStage: this.getSelectedLabel(this.careerExplorationOptions, this.form.controls.careerExplorationStage.value),
-      careerInfoSources: this.selectedInfoSources.size
-        ? Array.from(this.selectedInfoSources).map((value) => this.getLabelFromOption(this.infoSourceOptions, value))
-        : [],
+      careerInfoSources: this.selectedInfoSources.size ? Array.from(this.selectedInfoSources).map(id => this.getLabelFromOption(this.infoSourceOptions, id, this.form.controls.careerInfoSourcesOther.value)) : [],
       careerInfoSourcesOther: this.form.controls.careerInfoSourcesOther.value || '',
+      
       aiToolUse: this.getSelectedLabel(this.aiToolUseOptions, this.form.controls.aiToolUse.value),
-      aiHelpfulness: this.getSelectedLabel(this.aiHelpfulnessOptions, this.form.controls.aiHelpfulness.value),
-      aiExperience: this.selectedAiExperience.size
-        ? Array.from(this.selectedAiExperience).map((value) => this.getLabelFromOption(this.aiExperienceOptions, value))
-        : [],
+      
+      onlineToolInterest: this.getSelectedLabel(this.onlineToolInterestOptions, this.form.controls.onlineToolInterest.value),
+      onlineToolFeatures: this.selectedOnlineToolFeatures.size ? Array.from(this.selectedOnlineToolFeatures).map(id => this.getLabelFromOption(this.onlineToolFeatureOptions, id)) : [],
+      
+      aiExperience: this.selectedAiExperience.size ? Array.from(this.selectedAiExperience).map(id => this.getLabelFromOption(this.aiExperienceOptions, id, this.form.controls.aiExperienceOther.value)) : [],
       aiExperienceOther: this.form.controls.aiExperienceOther.value || '',
-      supportPeople: this.selectedSupportPeople.size
-        ? Array.from(this.selectedSupportPeople).map((value) => this.getLabelFromOption(this.supportPersonOptions, value))
-        : [],
+      
+      supportPeople: this.selectedSupportPeople.size ? Array.from(this.selectedSupportPeople).map(id => this.getLabelFromOption(this.supportPersonOptions, id, this.form.controls.supportPeopleOther.value)) : [],
       supportPeopleOther: this.form.controls.supportPeopleOther.value || '',
+      
       involvedInPrograms: this.getSelectedLabel(this.programInvolvementOptions, this.form.controls.involvedInPrograms.value),
-      programTypes: this.selectedProgramTypes.size
-        ? Array.from(this.selectedProgramTypes).map((value) => this.getLabelFromOption(this.programTypeOptions, value))
-        : [],
+      programTypes: this.selectedProgramTypes.size ? Array.from(this.selectedProgramTypes).map(id => this.getLabelFromOption(this.programTypeOptions, id, this.form.controls.programTypesOther.value)) : [],
       programTypesOther: this.form.controls.programTypesOther.value || '',
-      planningFrequency: this.getSelectedLabel(this.planningFrequencyOptions, this.form.controls.planningFrequency.value),
+      
       planningApproach: this.getSelectedLabel(this.planningApproachOptions, this.form.controls.planningApproach.value),
       planningTimeframe: this.getSelectedLabel(this.planningTimeframeOptions, this.form.controls.planningTimeframe.value),
+      
       cohortInterest: this.getSelectedLabel(this.cohortInterestOptions, this.form.controls.cohortInterest.value),
-      cohortActivities: this.selectedCohortActivities.size
-        ? Array.from(this.selectedCohortActivities).map((value) => this.getLabelFromOption(this.cohortActivityOptions, value))
-        : [],
+      cohortActivities: this.selectedCohortActivities.size ? Array.from(this.selectedCohortActivities).map(id => this.getLabelFromOption(this.cohortActivityOptions, id, this.form.controls.cohortActivitiesOther.value)) : [],
       cohortActivitiesOther: this.form.controls.cohortActivitiesOther.value || '',
+      
       participationFrequency: this.getSelectedLabel(this.participationFrequencyOptions, this.form.controls.participationFrequency.value),
-      cohortMotivators: this.selectedCohortMotivators.size
-        ? Array.from(this.selectedCohortMotivators).map((value) => this.getLabelFromOption(this.cohortMotivatorOptions, value))
-        : [],
+      cohortMotivators: this.selectedCohortMotivators.size ? Array.from(this.selectedCohortMotivators).map(id => this.getLabelFromOption(this.cohortMotivatorOptions, id, this.form.controls.cohortMotivatorsOther.value)) : [],
       cohortMotivatorsOther: this.form.controls.cohortMotivatorsOther.value || '',
+      
       feedback: this.form.controls.feedback.value || '',
-      obstacles: this.form.controls.obstacles.value || '',
       ideas: this.form.controls.ideas.value || '',
       followUpConsent: this.form.controls.followUpConsent.value || '',
       email: this.form.controls.email.value?.trim() || '',
@@ -442,7 +527,6 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
           queryParamsHandling: 'merge',
           replaceUrl: true,
         });
-        this.submitting = false;
       },
       error: (error) => {
         this.submitting = false;
@@ -458,123 +542,28 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
   }
 
   private validateCurrentStep(): SimpleMessage[] {
-    const messages: SimpleMessage[] = [];
-
-    if (this.currentStep === 2) {
-      if (!this.form.controls.currentStatus.value) {
-        messages.push({ message: 'Please choose your current status.', severity: 1 });
-      }
-      if (this.form.controls.currentStatus.value === 'other' && !this.form.controls.currentStatusOther.value?.trim()) {
-        messages.push({ message: 'Please describe your current status.', severity: 1 });
-      }
-    }
-
-    if (this.currentStep === 3) {
-      if (!this.form.controls.careerExplorationStage.value) {
-        messages.push({ message: 'Please choose how much you have explored careers so far.', severity: 1 });
-      }
-      if (!this.selectedInfoSources.size && !this.form.controls.careerInfoSourcesOther.value?.trim()) {
-        messages.push({ message: 'Please select at least one place you usually get career information from.', severity: 1 });
-      }
-    }
-
-    if (this.currentStep === 4) {
-      if (!this.form.controls.aiToolUse.value) {
-        messages.push({ message: 'Please tell us whether you have used AI tools for career exploration.', severity: 1 });
-      }
-      if (!this.form.controls.aiHelpfulness.value) {
-        messages.push({ message: 'Please tell us how helpful you think AI is for career exploration.', severity: 1 });
-      }
-      if (!this.selectedAiExperience.size && !this.form.controls.aiExperienceOther.value?.trim()) {
-        messages.push({ message: 'Please select at least one experience with AI or add a note in the other field.', severity: 1 });
-      }
-    }
-
-    if (this.currentStep === 5) {
-      if (!this.selectedSupportPeople.size && !this.form.controls.supportPeopleOther.value?.trim()) {
-        messages.push({ message: 'Please tell us who is usually involved in your career planning.', severity: 1 });
-      }
-      if (!this.form.controls.involvedInPrograms.value) {
-        messages.push({ message: 'Please tell us whether you are involved in a community, nonprofit, or youth program.', severity: 1 });
-      }
-      if (!this.form.controls.planningFrequency.value) {
-        messages.push({ message: 'Please tell us how often you think about or work on your career plans.', severity: 1 });
-      }
-      if (!this.form.controls.planningApproach.value) {
-        messages.push({ message: 'Please tell us how you describe your approach to exploring career options.', severity: 1 });
-      }
-      if (!this.form.controls.planningTimeframe.value) {
-        messages.push({ message: 'Please tell us what timeframe you are mainly planning for right now.', severity: 1 });
-      }
-    }
-
-    if (this.currentStep === 6) {
-      if (!this.form.controls.cohortInterest.value) {
-        messages.push({ message: 'Please tell us how interested you would be in a small cohort.', severity: 1 });
-      }
-      if (!this.selectedCohortActivities.size && !this.form.controls.cohortActivitiesOther.value?.trim()) {
-        messages.push({ message: 'Please select at least one kind of activity you would be willing to do.', severity: 1 });
-      }
-      if (!this.form.controls.participationFrequency.value) {
-        messages.push({ message: 'Please let us know how often you would realistically participate.', severity: 1 });
-      }
-      if (!this.selectedCohortMotivators.size && !this.form.controls.cohortMotivatorsOther.value?.trim()) {
-        messages.push({ message: 'Please select at least one thing that would make you more likely to join a cohort.', severity: 1 });
-      }
-    }
-
-    if (this.currentStep === 7) {
-      return messages;
-    }
-
-    return messages;
+    // All questions are optional!
+    return [];
   }
 
   getSelectedLabel(options: SurveyOption[], value: string, otherValue = ''): string {
     if (value === 'other') {
-      const customValue = otherValue?.trim();
-      return customValue ? `Other: ${customValue}` : options.find((option) => option.id === value)?.label || '';
+      return otherValue ? `Other: ${otherValue}` : 'Other';
     }
-    return options.find((option) => option.id === value)?.label || '';
+    const found = options.find((opt) => opt.id === value);
+    return found ? found.label : value;
   }
 
   getLabelFromOption(options: SurveyOption[], value: string, otherValue = ''): string {
     if (value === 'other') {
-      const customValue = otherValue?.trim();
-      return customValue ? `Other: ${customValue}` : options.find((option) => option.id === value)?.label || value;
+      return otherValue ? `Other: ${otherValue}` : 'Other';
     }
-    return options.find((option) => option.id === value)?.label || value;
+    const found = options.find((opt) => opt.id === value);
+    return found ? found.label : value;
   }
 
   private setMessages(messages: SimpleMessage[]): void {
     this.messagesList = { messages };
-  }
-
-  private parsePageParam(raw: string | null): number | null {
-    if (!raw) {
-      return null;
-    }
-    const parsed = Number.parseInt(raw, 10);
-    if (Number.isNaN(parsed)) {
-      return null;
-    }
-    if (parsed < 1 || parsed > this.totalSteps) {
-      return null;
-    }
-    return parsed;
-  }
-
-  private syncPageQueryParam(step: number): void {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { page: step },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
-  }
-
-  private scrollToTop(): void {
-    window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
   private showThankYouPage(consent: string): void {
@@ -596,5 +585,31 @@ export class SurveyYouthCareerCheckComponent implements OnInit {
       return;
     }
     window.sessionStorage.setItem(SurveyYouthCareerCheckComponent.CONTACT_CONSENT_STORAGE_KEY, consent);
+  }
+
+  private parsePageParam(raw: string | null): number | null {
+    if (!raw) {
+      return null;
+    }
+    const parsed = parseInt(raw, 10);
+    if (isNaN(parsed) || parsed < 1 || parsed > this.totalSteps) {
+      return null;
+    }
+    return parsed;
+  }
+
+  private syncPageQueryParam(step: number): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: step },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
+
+  private scrollToTop(): void {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 }

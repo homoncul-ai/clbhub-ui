@@ -57,6 +57,14 @@ export class SurveyReportsDashboardComponent {
       badgeClass: 'text-bg-success',
     },
     {
+      key: 'youth_career_check',
+      title: 'Youth Career Check — Jul 03, 2026',
+      subtitle: 'Understand how young people explore careers and use AI resources',
+      liveDate: 'Jul 03, 2026',
+      badge: 'New',
+      badgeClass: 'text-bg-success',
+    },
+    {
       key: 'npo_job_finder',
       title: 'Non-profit job search assistance — Mar 10, 2025',
       subtitle: 'Survey: Do you have a job for me?',

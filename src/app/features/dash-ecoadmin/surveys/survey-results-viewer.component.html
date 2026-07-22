@@ -302,11 +302,12 @@
                   <h6 class="summary-heading">About you</h6>
                   <p class="mb-1 small"><strong>Age range:</strong> {{ selectedSurveyData['ageRange'] || '—' }}</p>
                   <p class="mb-1 small"><strong>Current status:</strong> {{ selectedSurveyData['currentStatus'] || '—' }}</p>
-                  <p class="mb-0 small"><strong>Rough location:</strong> {{ selectedSurveyData['roughLocation'] || '—' }}</p>
+                  <p class="mb-1 small"><strong>Work goals:</strong> {{ selectedSurveyData['workGoals'] || '—' }}</p>
+                  <p class="mb-0 small"><strong>Education goals:</strong> {{ selectedSurveyData['educationGoals'] || '—' }}</p>
                 </div>
 
                 <div class="interest-summary-section mb-3">
-                  <h3 class="interest-section-title">How you explore careers</h3>
+                  <h3 class="interest-section-title">How you explore careers &amp; AI</h3>
                   <dl class="summary-detail-list">
                     <div class="summary-detail-item">
                       <dt>Career exploration stage</dt>
@@ -321,19 +322,9 @@
                         <span *ngIf="!getStringList(selectedSurveyData, 'careerInfoSources').length" class="text-muted">None selected</span>
                       </dd>
                     </div>
-                  </dl>
-                </div>
-
-                <div class="interest-summary-section mb-3">
-                  <h3 class="interest-section-title">AI in career exploration</h3>
-                  <dl class="summary-detail-list">
                     <div class="summary-detail-item">
                       <dt>AI tool use</dt>
                       <dd>{{ selectedSurveyData['aiToolUse'] || '—' }}</dd>
-                    </div>
-                    <div class="summary-detail-item">
-                      <dt>AI helpfulness</dt>
-                      <dd>{{ selectedSurveyData['aiHelpfulness'] || '—' }}</dd>
                     </div>
                     <div class="summary-detail-item">
                       <dt>AI experience</dt>
@@ -364,8 +355,13 @@
                       <dd>{{ selectedSurveyData['involvedInPrograms'] || '—' }}</dd>
                     </div>
                     <div class="summary-detail-item">
-                      <dt>Planning frequency</dt>
-                      <dd>{{ selectedSurveyData['planningFrequency'] || '—' }}</dd>
+                      <dt>Program types</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'programTypes').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'programTypes')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'programTypes').length" class="text-muted">None selected</span>
+                      </dd>
                     </div>
                     <div class="summary-detail-item">
                       <dt>Planning approach</dt>
@@ -379,8 +375,21 @@
                 </div>
 
                 <div class="interest-summary-section mb-3">
-                  <h3 class="interest-section-title">Cohort interest &amp; feedback</h3>
+                  <h3 class="interest-section-title">CLBHub &amp; cohort interest</h3>
                   <dl class="summary-detail-list">
+                    <div class="summary-detail-item">
+                      <dt>Online tool interest</dt>
+                      <dd>{{ selectedSurveyData['onlineToolInterest'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Online tool features</dt>
+                      <dd>
+                        <ul *ngIf="getStringList(selectedSurveyData, 'onlineToolFeatures').length" class="summary-choice-list">
+                          <li *ngFor="let item of getStringList(selectedSurveyData, 'onlineToolFeatures')">{{ item }}</li>
+                        </ul>
+                        <span *ngIf="!getStringList(selectedSurveyData, 'onlineToolFeatures').length" class="text-muted">None selected</span>
+                      </dd>
+                    </div>
                     <div class="summary-detail-item">
                       <dt>Cohort interest</dt>
                       <dd>{{ selectedSurveyData['cohortInterest'] || '—' }}</dd>
@@ -407,17 +416,27 @@
                         <span *ngIf="!getStringList(selectedSurveyData, 'cohortMotivators').length" class="text-muted">None selected</span>
                       </dd>
                     </div>
+                  </dl>
+                </div>
+
+                <div class="interest-summary-section mb-3">
+                  <h3 class="interest-section-title">Ideas &amp; follow-up</h3>
+                  <dl class="summary-detail-list">
                     <div class="summary-detail-item">
                       <dt>Feedback</dt>
                       <dd>{{ selectedSurveyData['feedback'] || '—' }}</dd>
                     </div>
                     <div class="summary-detail-item">
-                      <dt>Obstacles</dt>
-                      <dd>{{ selectedSurveyData['obstacles'] || '—' }}</dd>
-                    </div>
-                    <div class="summary-detail-item">
                       <dt>Ideas</dt>
                       <dd>{{ selectedSurveyData['ideas'] || '—' }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>Follow-up consent</dt>
+                      <dd>{{ formatContactConsent(selectedSurveyData['followUpConsent']) }}</dd>
+                    </div>
+                    <div class="summary-detail-item">
+                      <dt>CLBHub account interest</dt>
+                      <dd>{{ formatContactConsent(selectedSurveyData['clbHubAccountInterest']) }}</dd>
                     </div>
                   </dl>
                 </div>
