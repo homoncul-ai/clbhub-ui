@@ -7,6 +7,8 @@ import {
   UtilmonReportingEventGETData,
 } from '@app/restsvc/hccl.service';
 import { downloadAiWorkplaceSkillSummaryPdf } from '@app/features/surveys/survey-ai-workplace-skill-summary/ai-workplace-skill-summary-pdf.util';
+import { downloadParentCareerSupportCheckPdf } from '@app/features/surveys/survey-parent-career-support-check/parent-career-support-check-pdf.util';
+import { downloadYouthCareerCheckPdf } from '@app/features/surveys/survey-youth-career-check/youth-career-check-pdf.util';
 
 interface SurveyDefinition {
   key: string;
@@ -182,7 +184,10 @@ export class SurveyResultsViewerComponent implements OnInit {
   }
 
   get canDownloadPdf(): boolean {
-    return this.isAiWorkplaceSkillSummary && !!this.selectedEvent;
+    return (
+      (this.isAiWorkplaceSkillSummary || this.isYouthCareerCheck || this.isParentCareerSupportCheck)
+      && !!this.selectedEvent
+    );
   }
 
   get isAiSummitSignin(): boolean {
@@ -369,44 +374,117 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   downloadSelectedAsPdf(): void {
     const event = this.selectedEvent;
-    if (!event || !this.isAiWorkplaceSkillSummary) {
+    if (!event || !this.canDownloadPdf) {
       return;
     }
 
     const data = this.selectedSurveyData;
-    const emailPart = `${data['email'] || event.id || 'response'}`
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+    const emailPart = this.sanitizePdfFilenamePart(`${data['email'] || event.id || 'response'}`);
 
-    downloadAiWorkplaceSkillSummaryPdf(
-      {
-        surveyTitle: this.currentSurvey.label,
-        submittedAt: this.eventDate(event),
-        email: `${data['email'] || ''}`.trim(),
-        wantsFollowUpSurvey: this.wantsFollowUpSurvey(data),
-        ageRange: `${data['ageRange'] || ''}`.trim(),
-        primaryIndustry: this.displayPrimaryIndustry(data),
-        baselineEssentials: {
-          highSchool: this.getTierStringList(data, 'baselineEssentials', 'highSchool'),
-          college: this.getTierStringList(data, 'baselineEssentials', 'college'),
-          nonDegreed: this.getTierStringList(data, 'baselineEssentials', 'nonDegreed'),
+    if (this.isAiWorkplaceSkillSummary) {
+      downloadAiWorkplaceSkillSummaryPdf(
+        {
+          surveyTitle: this.currentSurvey.label,
+          submittedAt: this.eventDate(event),
+          email: `${data['email'] || ''}`.trim(),
+          wantsFollowUpSurvey: this.wantsFollowUpSurvey(data),
+          ageRange: `${data['ageRange'] || ''}`.trim(),
+          primaryIndustry: this.displayPrimaryIndustry(data),
+          baselineEssentials: {
+            highSchool: this.getTierStringList(data, 'baselineEssentials', 'highSchool'),
+            college: this.getTierStringList(data, 'baselineEssentials', 'college'),
+            nonDegreed: this.getTierStringList(data, 'baselineEssentials', 'nonDegreed'),
+          },
+          graduatePreparedness: {
+            highSchool: this.getTierStringValue(data, 'graduatePreparedness', 'highSchool'),
+            college: this.getTierStringValue(data, 'graduatePreparedness', 'college'),
+            nonDegreed: this.getTierStringValue(data, 'graduatePreparedness', 'nonDegreed'),
+          },
+          expectedSupervision: {
+            highSchool: this.getTierStringValue(data, 'expectedSupervision', 'highSchool'),
+            college: this.getTierStringValue(data, 'expectedSupervision', 'college'),
+            nonDegreed: this.getTierStringValue(data, 'expectedSupervision', 'nonDegreed'),
+          },
+          aiProficiencyImpact: this.getStringList(data, 'aiProficiencyImpact'),
         },
-        graduatePreparedness: {
-          highSchool: this.getTierStringValue(data, 'graduatePreparedness', 'highSchool'),
-          college: this.getTierStringValue(data, 'graduatePreparedness', 'college'),
-          nonDegreed: this.getTierStringValue(data, 'graduatePreparedness', 'nonDegreed'),
+        `ai-workplace-skill-summary-${emailPart}.pdf`,
+      );
+      return;
+    }
+
+    if (this.isYouthCareerCheck) {
+      downloadYouthCareerCheckPdf(
+        {
+          surveyTitle: this.currentSurvey.label,
+          submittedAt: this.eventDate(event),
+          email: `${data['email'] || ''}`.trim(),
+          followUpSurvey: `${data['followUpConsent'] || ''}` === 'yes',
+          ageRange: `${data['ageRange'] || ''}`.trim(),
+          workStatus: `${data['workStatus'] || ''}`.trim(),
+          educationStatus: `${data['educationStatus'] || ''}`.trim(),
+          workGoals: `${data['workGoals'] || ''}`.trim(),
+          educationGoals: `${data['educationGoals'] || ''}`.trim(),
+          careerExplorationStage: `${data['careerExplorationStage'] || ''}`.trim(),
+          careerInfoSources: this.getStringList(data, 'careerInfoSources'),
+          aiToolUse: `${data['aiToolUse'] || ''}`.trim(),
+          aiExperience: this.getStringList(data, 'aiExperience'),
+          supportPeople: this.getStringList(data, 'supportPeople'),
+          involvedInPrograms: `${data['involvedInPrograms'] || ''}`.trim(),
+          programTypes: this.getStringList(data, 'programTypes'),
+          planningApproach: `${data['planningApproach'] || ''}`.trim(),
+          planningTimeframe: `${data['planningTimeframe'] || ''}`.trim(),
+          onlineToolInterest: `${data['onlineToolInterest'] || ''}`.trim(),
+          onlineToolFeatures: this.getStringList(data, 'onlineToolFeatures'),
+          cohortInterest: `${data['cohortInterest'] || ''}`.trim(),
+          cohortActivities: this.getStringList(data, 'cohortActivities'),
+          participationFrequency: `${data['participationFrequency'] || ''}`.trim(),
+          cohortMotivators: this.getStringList(data, 'cohortMotivators'),
+          feedback: `${data['feedback'] || ''}`.trim(),
+          ideas: `${data['ideas'] || ''}`.trim(),
+          followUpConsent: `${data['followUpConsent'] || ''}`.trim(),
+          clbHubAccountInterest: `${data['clbHubAccountInterest'] || ''}`.trim(),
         },
-        expectedSupervision: {
-          highSchool: this.getTierStringValue(data, 'expectedSupervision', 'highSchool'),
-          college: this.getTierStringValue(data, 'expectedSupervision', 'college'),
-          nonDegreed: this.getTierStringValue(data, 'expectedSupervision', 'nonDegreed'),
+        `youth-career-check-${emailPart}.pdf`,
+      );
+      return;
+    }
+
+    if (this.isParentCareerSupportCheck) {
+      downloadParentCareerSupportCheckPdf(
+        {
+          surveyTitle: this.currentSurvey.label,
+          submittedAt: this.eventDate(event),
+          email: `${data['email'] || ''}`.trim(),
+          followUpSurvey: `${data['followUpConsent'] || ''}` === 'yes',
+          relationship: `${data['relationship'] || ''}`.trim(),
+          youngPersonStatus: `${data['youngPersonStatus'] || ''}`.trim(),
+          youngPersonWorkStatus: `${data['youngPersonWorkStatus'] || ''}`.trim(),
+          youngPersonEducationStatus: `${data['youngPersonEducationStatus'] || ''}`.trim(),
+          youngPersonWorkGoals: `${data['youngPersonWorkGoals'] || ''}`.trim(),
+          youngPersonEducationGoals: `${data['youngPersonEducationGoals'] || ''}`.trim(),
+          involvementFrequency: `${data['involvementFrequency'] || ''}`.trim(),
+          workLifeAspirations: this.getStringList(data, 'workLifeAspirations'),
+          involvementPreferences: this.getStringList(data, 'involvementPreferences'),
+          informationSources: this.getStringList(data, 'informationSources'),
+          youthExplorationOutlook: `${data['youthExplorationOutlook'] || ''}`.trim(),
+          youthInvestigationAreas: this.getStringList(data, 'youthInvestigationAreas'),
+          confidenceExploringCareers: `${data['confidenceExploringCareers'] || ''}`.trim(),
+          confidenceEducationTraining: `${data['confidenceEducationTraining'] || ''}`.trim(),
+          confidenceWorkExperiences: `${data['confidenceWorkExperiences'] || ''}`.trim(),
+          confidenceTrustworthyInfo: `${data['confidenceTrustworthyInfo'] || ''}`.trim(),
+          biggestChallenge: `${data['biggestChallenge'] || ''}`.trim(),
+          aiUse: `${data['aiUse'] || ''}`.trim(),
+          aiFeelingAboutYouth: `${data['aiFeelingAboutYouth'] || ''}`.trim(),
+          aiOpinion: this.getStringList(data, 'aiOpinion'),
+          aiThoughts: `${data['aiThoughts'] || ''}`.trim(),
+          clbHubImprovement: `${data['clbHubImprovement'] || ''}`.trim(),
+          additionalFeedback: `${data['additionalFeedback'] || ''}`.trim(),
+          followUpConsent: `${data['followUpConsent'] || ''}`.trim(),
+          clbHubAccountInterest: `${data['clbHubAccountInterest'] || ''}`.trim(),
         },
-        aiProficiencyImpact: this.getStringList(data, 'aiProficiencyImpact'),
-      },
-      `ai-workplace-skill-summary-${emailPart}.pdf`,
-    );
+        `parent-career-support-check-${emailPart}.pdf`,
+      );
+    }
   }
 
   deleteSelectedEvent(): void {
@@ -649,6 +727,14 @@ export class SurveyResultsViewerComponent implements OnInit {
         .filter(Boolean);
     }
     return [];
+  }
+
+  private sanitizePdfFilenamePart(value: string): string {
+    return value
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
   }
 
   private formatDisplayValue(value: unknown): string {
