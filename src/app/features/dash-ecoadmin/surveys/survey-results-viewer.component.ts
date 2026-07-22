@@ -448,7 +448,7 @@ export class SurveyResultsViewerComponent implements OnInit {
 
   eventLabel(event: UtilmonReportingEventGETData): string {
     const map = this.extractSurveyData(event);
-    if (this.isAiWorkplaceSkillSummary || this.isYouthCareerCheck) {
+    if (this.isAiWorkplaceSkillSummary || this.isYouthCareerCheck || this.isParentCareerSupportCheck) {
       return map['email'] || event.parentEntityName || event.id || 'Survey response';
     }
     return map['name'] || map['email'] || event.parentEntityName || event.id || 'Survey response';

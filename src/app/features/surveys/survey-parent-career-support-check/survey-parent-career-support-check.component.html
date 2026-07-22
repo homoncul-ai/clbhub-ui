@@ -27,46 +27,52 @@
         <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
         <h2 class="h4 mb-3">Thank you!</h2>
         <p class="thank-you-message mb-0" *ngIf="optedInToFollowUpSurvey">
-          Your Parent Career Support Check has been submitted. We may contact you in the future about career exploration programs, surveys, or opportunities.
+          Your Parent Career Support Check has been submitted. Your responses will help us better understand how families support young people's career exploration, what resources parents need, and how educators, community organizations, and workforce partners can better connect families with meaningful career opportunities. We may contact you in the future about career exploration programs, surveys, or opportunities.
         </p>
         <p class="thank-you-message mb-0" *ngIf="!optedInToFollowUpSurvey">
-          Your Parent Career Support Check has been submitted. Your responses will help us better understand how families support young people’s career exploration and how we can connect families with meaningful opportunities.
+          Your Parent Career Support Check has been submitted. Your responses will help us better understand how families support young people's career exploration, what resources parents need, and how educators, community organizations, and workforce partners can better connect families with meaningful career opportunities.
+        </p>
+        <p class="thank-you-message mt-3 mb-0">
+          If you have any additional thoughts, feedback, or suggestions you'd like to share, we'd love to hear from you. Please email us at info&#64;clbhub.org.
         </p>
       </div>
 
       <div *ngIf="!submitted">
         <app-simple-messages-section [messagesList]="messagesList"></app-simple-messages-section>
 
+        <!-- STEP 1: INTRO -->
         <div *ngIf="currentStep === 1">
           <div class="survey-hero mb-4">
             <p class="survey-kicker mb-1">Family Support</p>
             <h1 class="survey-body-title mb-2">Parent Career Support Check</h1>
-            <p class="intro-subtitle mb-0">Understanding how parents and guardians support young people’s career exploration</p>
+            <p class="intro-subtitle mb-0">Understanding how parents and guardians support young people's career exploration</p>
           </div>
 
           <div class="intro-purpose mb-4">
             <p class="mb-0">
-              <strong>Your answers will help educators, youth programs, community organizations, and workforce partners design supports that make career exploration more accessible and useful for families.</strong>
-              This survey helps us understand how families support career exploration, what resources they use, and how confident they feel guiding young people.
+              <strong>Your responses will help us better understand the needs, challenges, and priorities of parents as we continue developing CLBHub.</strong>
+              By learning what information families need, how they prefer to communicate, and where they need the most support, we can focus on building the resources, tools, and opportunities that matter most to parents and the young people they support.
             </p>
           </div>
 
           <div class="intro-content">
             <p>
-              Parents and guardians play an important role in helping young people explore careers, education, and training opportunities. This short survey is designed to better understand how families support career exploration, what resources they use, and how organizations can better communicate with and support families.
-            </p>
-            <p>
-              The survey takes about 5–10 minutes. You can move freely between steps and review your answers before submitting.
+              Parents and guardians play an important role in helping young people explore careers, education, and training opportunities. This survey is designed to better understand how families support career exploration, what resources they use, how confident they feel guiding young people, and how organizations can better communicate with and support families.
             </p>
 
             <h3 class="intro-section-title">What you'll answer</h3>
             <ul class="intro-theme-list">
               <li>About you and the young person</li>
               <li>Your involvement in career exploration</li>
-              <li>How the young person explores careers and uses AI</li>
+              <li>Youth's career exploration</li>
               <li>Your confidence supporting career exploration</li>
-              <li>Your communication preferences and feedback</li>
+              <li>Technology &amp; AI</li>
+              <li>Your ideas and feedback</li>
+              <li>Follow-up</li>
             </ul>
+            <p class="mt-3">
+              This survey takes about 5–10 minutes. Please answer the questions about one child or young person that you primarily support. You can move freely between steps and review your answers before submitting.
+            </p>
           </div>
 
           <div class="d-flex justify-content-end mt-4">
@@ -76,83 +82,129 @@
           </div>
         </div>
 
+        <!-- STEP 2: ABOUT YOU AND THE YOUNG PERSON -->
         <div *ngIf="currentStep === 2" [formGroup]="form">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-          <p class="text-muted small mb-4">Tell us a little about your role and the young person you support.</p>
+          <p class="text-muted small mb-4">Tell us a little about your role and the young person you support. All questions are optional.</p>
 
           <div class="row g-3">
             <div class="col-12 col-md-6">
-              <label class="form-label" for="relationship">What is your relationship to the young person you are answering about?</label>
+              <label class="form-label" for="relationship">What is your relationship to the young person you are answering about? <span class="text-muted fw-normal">(optional)</span></label>
               <select id="relationship" class="form-select" formControlName="relationship">
                 <option value="">Select one</option>
                 <option *ngFor="let option of relationshipOptions" [value]="option.id">{{ option.label }}</option>
               </select>
             </div>
-            <div class="col-12 col-md-6" *ngIf="showRelationshipOtherField" [formGroup]="form">
-              <label class="form-label" for="relationshipOther">Please describe your relationship</label>
+            <div class="col-12 col-md-6" *ngIf="showRelationshipOtherField">
+              <label class="form-label" for="relationshipOther">Please describe your relationship <span class="text-muted fw-normal">(optional)</span></label>
               <input id="relationshipOther" class="form-control" type="text" formControlName="relationshipOther" />
             </div>
+
             <div class="col-12">
-              <label class="form-label" for="roughLocation">Rough location <span class="text-muted fw-normal">(optional)</span></label>
-              <input id="roughLocation" class="form-control" type="text" formControlName="roughLocation" placeholder="City, town, or ZIP/postal code" />
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label" for="employmentStatus">Which best describes your current employment status?</label>
-              <select id="employmentStatus" class="form-select" formControlName="employmentStatus">
-                <option value="">Select one</option>
-                <option *ngFor="let option of employmentStatusOptions" [value]="option.id">{{ option.label }}</option>
-              </select>
-            </div>
-            <div class="col-12 col-md-6" *ngIf="showEmploymentStatusOtherField" [formGroup]="form">
-              <label class="form-label" for="employmentStatusOther">Please describe your employment status</label>
-              <input id="employmentStatusOther" class="form-control" type="text" formControlName="employmentStatusOther" />
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label" for="youngPersonStatus">Which best describes the young person’s current status?</label>
+              <label class="form-label" for="youngPersonStatus">Which best describes the young person's current status? <span class="text-muted fw-normal">(optional)</span></label>
               <select id="youngPersonStatus" class="form-select" formControlName="youngPersonStatus">
                 <option value="">Select one</option>
                 <option *ngFor="let option of youngPersonStatusOptions" [value]="option.id">{{ option.label }}</option>
               </select>
             </div>
-            <div class="col-12 col-md-6" *ngIf="showYoungPersonStatusOtherField" [formGroup]="form">
-              <label class="form-label" for="youngPersonStatusOther">Please describe the young person’s current status</label>
+            <div class="col-12" *ngIf="showYoungPersonStatusOtherField">
+              <label class="form-label" for="youngPersonStatusOther">Please specify other status <span class="text-muted fw-normal">(optional)</span></label>
               <input id="youngPersonStatusOther" class="form-control" type="text" formControlName="youngPersonStatusOther" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="youngPersonWorkStatus">Which best describes the young person's current work status? <span class="text-muted fw-normal">(optional)</span></label>
+              <select id="youngPersonWorkStatus" class="form-select" formControlName="youngPersonWorkStatus">
+                <option value="">Select one</option>
+                <option *ngFor="let option of youngPersonWorkStatusOptions" [value]="option.id">{{ option.label }}</option>
+              </select>
+            </div>
+            <div class="col-12" *ngIf="showYoungPersonWorkStatusOtherField">
+              <label class="form-label" for="youngPersonWorkStatusOther">Please specify other work status <span class="text-muted fw-normal">(optional)</span></label>
+              <input id="youngPersonWorkStatusOther" class="form-control" type="text" formControlName="youngPersonWorkStatusOther" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="youngPersonEducationStatus">Which best describes the young person's current education status? <span class="text-muted fw-normal">(optional)</span></label>
+              <select id="youngPersonEducationStatus" class="form-select" formControlName="youngPersonEducationStatus">
+                <option value="">Select one</option>
+                <option *ngFor="let option of youngPersonEducationStatusOptions" [value]="option.id">{{ option.label }}</option>
+              </select>
+            </div>
+            <div class="col-12" *ngIf="showYoungPersonEducationStatusOtherField">
+              <label class="form-label" for="youngPersonEducationStatusOther">Please specify other education status <span class="text-muted fw-normal">(optional)</span></label>
+              <input id="youngPersonEducationStatusOther" class="form-control" type="text" formControlName="youngPersonEducationStatusOther" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="youngPersonWorkGoals">Which best describes the young person's current work goals? <span class="text-muted fw-normal">(optional)</span></label>
+              <select id="youngPersonWorkGoals" class="form-select" formControlName="youngPersonWorkGoals">
+                <option value="">Select one</option>
+                <option *ngFor="let option of youngPersonWorkGoalsOptions" [value]="option.id">{{ option.label }}</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="youngPersonEducationGoals">Which best describes the young person's current educational goals? <span class="text-muted fw-normal">(optional)</span></label>
+              <select id="youngPersonEducationGoals" class="form-select" formControlName="youngPersonEducationGoals">
+                <option value="">Select one</option>
+                <option *ngFor="let option of youngPersonEducationGoalsOptions" [value]="option.id">{{ option.label }}</option>
+              </select>
+            </div>
+            <div class="col-12" *ngIf="showYoungPersonEducationGoalsOtherField">
+              <label class="form-label" for="youngPersonEducationGoalsOther">Please specify other educational goals <span class="text-muted fw-normal">(optional)</span></label>
+              <input id="youngPersonEducationGoalsOther" class="form-control" type="text" formControlName="youngPersonEducationGoalsOther" />
             </div>
           </div>
 
           <ng-container *ngTemplateOutlet="navButtons"></ng-container>
         </div>
 
+        <!-- STEP 3: YOUR INVOLVEMENT -->
         <div *ngIf="currentStep === 3">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-          <p class="text-muted small mb-4">Tell us how involved you are in helping the young person explore careers and where you get trusted information.</p>
+          <p class="text-muted small mb-4">Tell us how involved you are in helping the young person explore careers and where you get trusted information. All questions are optional.</p>
 
           <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label">How involved are you in helping the young person explore careers or plan for their future?</label>
-            <div class="option-list" role="radiogroup" aria-label="Involvement level">
-              <label *ngFor="let option of involvementLevelOptions" class="option-card option-card-radio" [class.selected]="form.controls.involvementLevel.value === option.id">
-                <input type="radio" class="option-card-radio-input" name="involvementLevel" [checked]="form.controls.involvementLevel.value === option.id" (change)="form.controls.involvementLevel.setValue(option.id)" />
+            <label class="form-label">How involved are you in helping the young person explore careers or plan for their future? <span class="text-muted fw-normal">(optional)</span></label>
+            <div class="option-list" role="radiogroup" aria-label="Involvement frequency">
+              <label *ngFor="let option of involvementFrequencyOptions" class="option-card option-card-radio" [class.selected]="form.controls.involvementFrequency.value === option.id">
+                <input type="radio" class="option-card-radio-input" name="involvementFrequency" [checked]="form.controls.involvementFrequency.value === option.id" (change)="form.controls.involvementFrequency.setValue(option.id)" />
                 <span class="option-card-label">{{ option.label }}</span>
               </label>
             </div>
           </div>
 
           <div class="question-block mb-4">
-            <label class="form-label">Which of the following have you helped with? Select all that apply.</label>
-            <div class="option-list" role="group" aria-label="Involvement activities">
-              <label *ngFor="let option of involvementActivityOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedInvolvementActivities, option.id)">
-                <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedInvolvementActivities, option.id)" (change)="toggleMultiSelection(selectedInvolvementActivities, option.id)" />
-                <span class="option-card-label">{{ option.label }}</span>
-              </label>
-            </div>
-            <div class="mt-3" *ngIf="showInvolvementActivitiesOtherField" [formGroup]="form">
-              <label class="form-label" for="involvementActivitiesOther">Please specify</label>
-              <input id="involvementActivitiesOther" class="form-control" type="text" formControlName="involvementActivitiesOther" />
+            <label class="form-label">"What would you like for your child in their work life?" Select up to {{ maxWorkLifeAspirationSelections }}. <span class="text-muted fw-normal">(optional)</span></label>
+            <p class="small text-muted mb-3" *ngIf="selectedWorkLifeAspirations.size >= maxWorkLifeAspirationSelections">You have selected the maximum of {{ maxWorkLifeAspirationSelections }} options.</p>
+            <div *ngFor="let group of workLifeAspirationGroups" class="mb-3">
+              <p class="small fw-semibold text-secondary mb-2">{{ group.title }}</p>
+              <div class="option-list" role="group" [attr.aria-label]="group.title">
+                <label *ngFor="let option of group.options" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedWorkLifeAspirations, option.id)" [class.disabled]="isWorkLifeAspirationDisabled(option.id)">
+                  <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedWorkLifeAspirations, option.id)" [disabled]="isWorkLifeAspirationDisabled(option.id)" (change)="toggleWorkLifeAspiration(option.id)" />
+                  <span class="option-card-label">{{ option.label }}</span>
+                </label>
+              </div>
             </div>
           </div>
 
           <div class="question-block mb-4">
-            <label class="form-label">Where do you usually get trusted information about careers, education, or training opportunities for the young person? Select all that apply.</label>
+            <label class="form-label">How would you like to be involved? Select all that apply. <span class="text-muted fw-normal">(optional)</span></label>
+            <div class="option-list" role="group" aria-label="Involvement preferences">
+              <label *ngFor="let option of involvementPreferenceOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedInvolvementPreferences, option.id)">
+                <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedInvolvementPreferences, option.id)" (change)="toggleMultiSelection(selectedInvolvementPreferences, option.id)" />
+                <span class="option-card-label">{{ option.label }}</span>
+              </label>
+            </div>
+            <div class="mt-3" *ngIf="showInvolvementPreferencesOtherField" [formGroup]="form">
+              <label class="form-label" for="involvementPreferencesOther">Please specify <span class="text-muted fw-normal">(optional)</span></label>
+              <input id="involvementPreferencesOther" class="form-control" type="text" formControlName="involvementPreferencesOther" />
+            </div>
+          </div>
+
+          <div class="question-block mb-4">
+            <label class="form-label">Where would you look to get trusted information about careers, education, or training opportunities for the young person? Select all that apply. <span class="text-muted fw-normal">(optional)</span></label>
             <div class="option-list" role="group" aria-label="Information sources">
               <label *ngFor="let option of informationSourceOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedInformationSources, option.id)">
                 <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedInformationSources, option.id)" (change)="toggleMultiSelection(selectedInformationSources, option.id)" />
@@ -160,7 +212,7 @@
               </label>
             </div>
             <div class="mt-3" *ngIf="showInformationSourcesOtherField" [formGroup]="form">
-              <label class="form-label" for="informationSourcesOther">Please specify</label>
+              <label class="form-label" for="informationSourcesOther">Please specify <span class="text-muted fw-normal">(optional)</span></label>
               <input id="informationSourcesOther" class="form-control" type="text" formControlName="informationSourcesOther" />
             </div>
           </div>
@@ -168,32 +220,76 @@
           <ng-container *ngTemplateOutlet="navButtons"></ng-container>
         </div>
 
+        <!-- STEP 4: YOUTH'S EXPLORATION -->
         <div *ngIf="currentStep === 4">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-          <p class="text-muted small mb-4">Tell us how the young person explores careers and how AI fits into that process.</p>
+          <p class="text-muted small mb-4">Share how the young person may explore careers over the next few months. All questions are optional.</p>
 
           <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label">How interested or enthusiastic does the young person seem about exploring careers or planning for their future?</label>
-            <div class="option-list" role="radiogroup" aria-label="Youth enthusiasm">
-              <label *ngFor="let option of youthEnthusiasmOptions" class="option-card option-card-radio" [class.selected]="form.controls.youngPersonEnthusiasm.value === option.id">
-                <input type="radio" class="option-card-radio-input" name="youngPersonEnthusiasm" [checked]="form.controls.youngPersonEnthusiasm.value === option.id" (change)="form.controls.youngPersonEnthusiasm.setValue(option.id)" />
+            <label class="form-label">Looking ahead over the next three months, what do you think the young person will do regarding career exploration? <span class="text-muted fw-normal">(optional)</span></label>
+            <div class="option-list" role="radiogroup" aria-label="Youth exploration outlook">
+              <label *ngFor="let option of youthExplorationOutlookOptions" class="option-card option-card-radio" [class.selected]="form.controls.youthExplorationOutlook.value === option.id">
+                <input type="radio" class="option-card-radio-input" name="youthExplorationOutlook" [checked]="form.controls.youthExplorationOutlook.value === option.id" (change)="form.controls.youthExplorationOutlook.setValue(option.id)" />
                 <span class="option-card-label">{{ option.label }}</span>
               </label>
             </div>
           </div>
 
-          <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label">Overall, how would you describe the young person’s current level of career exploration?</label>
-            <div class="option-list" role="radiogroup" aria-label="Youth exploration level">
-              <label *ngFor="let option of youthExplorationLevelOptions" class="option-card option-card-radio" [class.selected]="form.controls.youngPersonExplorationLevel.value === option.id">
-                <input type="radio" class="option-card-radio-input" name="youngPersonExplorationLevel" [checked]="form.controls.youngPersonExplorationLevel.value === option.id" (change)="form.controls.youngPersonExplorationLevel.setValue(option.id)" />
+          <div class="question-block mb-4">
+            <label class="form-label">What could you see your young person investigating in the next 3 months? Select all that apply. <span class="text-muted fw-normal">(optional)</span></label>
+            <div class="option-list" role="group" aria-label="Youth investigation areas">
+              <label *ngFor="let option of youthInvestigationAreaOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedYouthInvestigationAreas, option.id)">
+                <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedYouthInvestigationAreas, option.id)" (change)="toggleMultiSelection(selectedYouthInvestigationAreas, option.id)" />
                 <span class="option-card-label">{{ option.label }}</span>
               </label>
             </div>
+            <div class="mt-3" *ngIf="showYouthInvestigationAreasOtherField" [formGroup]="form">
+              <label class="form-label" for="youthInvestigationAreasOther">Please specify <span class="text-muted fw-normal">(optional)</span></label>
+              <input id="youthInvestigationAreasOther" class="form-control" type="text" formControlName="youthInvestigationAreasOther" />
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- STEP 5: CONFIDENCE -->
+        <div *ngIf="currentStep === 5">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Tell us how confident you feel supporting the young person and what challenges you face. All questions are optional.</p>
+
+          <div class="question-block mb-4" [formGroup]="form">
+            <label class="form-label">How confident would you feel helping the young person with each of the following? <span class="text-muted fw-normal">(optional)</span></label>
+            <app-radio-choice-grid
+              [rows]="confidenceRows"
+              [options]="confidenceOptions"
+              [selectedValues]="getConfidenceSelectionMap()"
+              (selectionChange)="onConfidenceSelectionChange($event)"></app-radio-choice-grid>
           </div>
 
           <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label">Has the young person used AI tools such as ChatGPT, Gemini, or Copilot to explore careers, education, or future opportunities?</label>
+            <label class="form-label">What do you feel will be the biggest challenge in helping the young person prepare for their future? <span class="text-muted fw-normal">(optional)</span></label>
+            <div class="option-list" role="radiogroup" aria-label="Biggest challenge">
+              <label *ngFor="let option of biggestChallengeOptions" class="option-card option-card-radio" [class.selected]="form.controls.biggestChallenge.value === option.id">
+                <input type="radio" class="option-card-radio-input" name="biggestChallenge" [checked]="form.controls.biggestChallenge.value === option.id" (change)="form.controls.biggestChallenge.setValue(option.id)" />
+                <span class="option-card-label">{{ option.label }}</span>
+              </label>
+            </div>
+            <div class="mt-3" *ngIf="showBiggestChallengeOtherField">
+              <label class="form-label" for="biggestChallengeOther">Please describe the challenge <span class="text-muted fw-normal">(optional)</span></label>
+              <input id="biggestChallengeOther" class="form-control" type="text" formControlName="biggestChallengeOther" />
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- STEP 6: TECHNOLOGY & AI -->
+        <div *ngIf="currentStep === 6">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Share how the young person uses AI and your thoughts on it. All questions are optional.</p>
+
+          <div class="question-block mb-4" [formGroup]="form">
+            <label class="form-label">Has the young person used artificial intelligence (AI) tools (such as ChatGPT, Gemini, or Copilot) to explore careers, education, or future opportunities? <span class="text-muted fw-normal">(optional)</span></label>
             <div class="option-list" role="radiogroup" aria-label="AI use">
               <label *ngFor="let option of aiUseOptions" class="option-card option-card-radio" [class.selected]="form.controls.aiUse.value === option.id">
                 <input type="radio" class="option-card-radio-input" name="aiUse" [checked]="form.controls.aiUse.value === option.id" (change)="form.controls.aiUse.setValue(option.id)" />
@@ -202,8 +298,18 @@
             </div>
           </div>
 
+          <div class="question-block mb-4" [formGroup]="form">
+            <label class="form-label">Overall, how do you feel about the young person using AI to help explore careers? <span class="text-muted fw-normal">(optional)</span></label>
+            <div class="option-list" role="radiogroup" aria-label="AI feeling">
+              <label *ngFor="let option of aiFeelingOptions" class="option-card option-card-radio" [class.selected]="form.controls.aiFeelingAboutYouth.value === option.id">
+                <input type="radio" class="option-card-radio-input" name="aiFeelingAboutYouth" [checked]="form.controls.aiFeelingAboutYouth.value === option.id" (change)="form.controls.aiFeelingAboutYouth.setValue(option.id)" />
+                <span class="option-card-label">{{ option.label }}</span>
+              </label>
+            </div>
+          </div>
+
           <div class="question-block mb-4">
-            <label class="form-label">Which best describes your opinion of AI as a career exploration tool? Select all that apply.</label>
+            <label class="form-label">Which best describes your opinion of AI as a career exploration tool? Select all that apply. <span class="text-muted fw-normal">(optional)</span></label>
             <div class="option-list" role="group" aria-label="AI opinions">
               <label *ngFor="let option of aiOpinionOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedAiOpinion, option.id)">
                 <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedAiOpinion, option.id)" (change)="toggleMultiSelection(selectedAiOpinion, option.id)" />
@@ -211,126 +317,72 @@
               </label>
             </div>
             <div class="mt-3" *ngIf="showAiOpinionOtherField" [formGroup]="form">
-              <label class="form-label" for="aiOpinionOther">Please specify</label>
+              <label class="form-label" for="aiOpinionOther">Please specify <span class="text-muted fw-normal">(optional)</span></label>
               <input id="aiOpinionOther" class="form-control" type="text" formControlName="aiOpinionOther" />
             </div>
           </div>
 
+          <div class="question-block mb-4" [formGroup]="form">
+            <label class="form-label" for="aiThoughts">Please share your thoughts on AI usage. <span class="text-muted fw-normal">(optional)</span></label>
+            <textarea id="aiThoughts" class="form-control" rows="3" formControlName="aiThoughts"></textarea>
+          </div>
+
           <ng-container *ngTemplateOutlet="navButtons"></ng-container>
         </div>
 
-        <div *ngIf="currentStep === 5">
+        <!-- STEP 7: IDEAS & FEEDBACK -->
+        <div *ngIf="currentStep === 7" [formGroup]="form">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-          <p class="text-muted small mb-4">Tell us how confident you feel supporting the young person with each of the following areas.</p>
+          <p class="text-muted small mb-4">Share what would help us improve CLBHub for families and youth. All questions are optional.</p>
 
-          <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label">How confident do you feel helping the young person with each of the following?</label>
-            <app-radio-choice-grid
-              [rows]="confidenceRows"
-              [options]="confidenceOptions"
-              [selectedValues]="getConfidenceSelectionMap()"
-              (selectionChange)="onConfidenceSelectionChange($event)"></app-radio-choice-grid>
+          <div class="question-block mb-4">
+            <p class="small text-muted mb-3 follow-up-note">
+              CLBHub is a free platform that connects families with career exploration resources, opportunities, and community programs. If you're interested, we'll send additional information to the email address you provide. If you have any questions, feel free to contact us at info&#64;clbhub.org.
+            </p>
+            <label class="form-label" for="clbHubImprovement">If you could improve one thing about CLBHub or career exploration resources for families, what would it be? Be sure to consider the resources, tools, or features CLBHub could offer and how it could resolve challenges during career exploration. <span class="text-muted fw-normal">(optional)</span></label>
+            <textarea id="clbHubImprovement" class="form-control" rows="4" formControlName="clbHubImprovement"></textarea>
           </div>
 
           <div class="question-block mb-4">
-            <label class="form-label">Which areas would you like more information or support with? Select all that apply.</label>
-            <div class="option-list" role="group" aria-label="Support areas">
-              <label *ngFor="let option of supportAreaOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedSupportAreas, option.id)">
-                <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedSupportAreas, option.id)" (change)="toggleMultiSelection(selectedSupportAreas, option.id)" />
-                <span class="option-card-label">{{ option.label }}</span>
-              </label>
-            </div>
-            <div class="mt-3" *ngIf="showSupportAreasOtherField" [formGroup]="form">
-              <label class="form-label" for="supportAreasOther">Please specify</label>
-              <input id="supportAreasOther" class="form-control" type="text" formControlName="supportAreasOther" />
-            </div>
-          </div>
-
-          <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label">What do you feel is the biggest challenge in helping the young person prepare for their future?</label>
-            <div class="option-list" role="radiogroup" aria-label="Biggest challenge">
-              <label *ngFor="let option of biggestChallengeOptions" class="option-card option-card-radio" [class.selected]="form.controls.biggestChallenge.value === option.id">
-                <input type="radio" class="option-card-radio-input" name="biggestChallenge" [checked]="form.controls.biggestChallenge.value === option.id" (change)="form.controls.biggestChallenge.setValue(option.id)" />
-                <span class="option-card-label">{{ option.label }}</span>
-              </label>
-            </div>
-            <div class="mt-3" *ngIf="showBiggestChallengeOtherField" [formGroup]="form">
-              <label class="form-label" for="biggestChallengeOther">Please describe the challenge</label>
-              <input id="biggestChallengeOther" class="form-control" type="text" formControlName="biggestChallengeOther" />
-            </div>
+            <label class="form-label" for="additionalFeedback">Do you have any additional feedback, ideas, or suggestions that would help us improve CLBHub for families and youth? <span class="text-muted fw-normal">(optional)</span></label>
+            <textarea id="additionalFeedback" class="form-control" rows="4" formControlName="additionalFeedback"></textarea>
           </div>
 
           <ng-container *ngTemplateOutlet="navButtons"></ng-container>
         </div>
 
-        <div *ngIf="currentStep === 6">
-          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-          <p class="text-muted small mb-4">Tell us how you would like organizations to share career opportunities and resources with you.</p>
-
-          <div class="question-block mb-4">
-            <label class="form-label">How would you prefer organizations to share career opportunities and resources with you? Select all that apply.</label>
-            <div class="option-list" role="group" aria-label="Communication channels">
-              <label *ngFor="let option of communicationChannelOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedCommunicationChannels, option.id)">
-                <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedCommunicationChannels, option.id)" (change)="toggleMultiSelection(selectedCommunicationChannels, option.id)" />
-                <span class="option-card-label">{{ option.label }}</span>
-              </label>
-            </div>
-            <div class="mt-3" *ngIf="showCommunicationChannelsOtherField" [formGroup]="form">
-              <label class="form-label" for="communicationChannelsOther">Please specify</label>
-              <input id="communicationChannelsOther" class="form-control" type="text" formControlName="communicationChannelsOther" />
-            </div>
-          </div>
-
-          <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label">How often would you like to receive information about career opportunities, programs, or events?</label>
-            <div class="option-list" role="radiogroup" aria-label="Communication frequency">
-              <label *ngFor="let option of communicationFrequencyOptions" class="option-card option-card-radio" [class.selected]="form.controls.communicationFrequency.value === option.id">
-                <input type="radio" class="option-card-radio-input" name="communicationFrequency" [checked]="form.controls.communicationFrequency.value === option.id" (change)="form.controls.communicationFrequency.setValue(option.id)" />
-                <span class="option-card-label">{{ option.label }}</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="question-block mb-4">
-            <label class="form-label">What types of opportunities would you most like to hear about? Select all that apply.</label>
-            <div class="option-list" role="group" aria-label="Opportunity types">
-              <label *ngFor="let option of opportunityTypeOptions" class="option-card option-card-checkbox" [class.selected]="isOptionSelected(selectedOpportunityTypes, option.id)">
-                <input type="checkbox" class="option-card-checkbox-input" [checked]="isOptionSelected(selectedOpportunityTypes, option.id)" (change)="toggleMultiSelection(selectedOpportunityTypes, option.id)" />
-                <span class="option-card-label">{{ option.label }}</span>
-              </label>
-            </div>
-            <div class="mt-3" *ngIf="showOpportunityTypesOtherField" [formGroup]="form">
-              <label class="form-label" for="opportunityTypesOther">Please specify</label>
-              <input id="opportunityTypesOther" class="form-control" type="text" formControlName="opportunityTypesOther" />
-            </div>
-          </div>
-
-          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
-        </div>
-
-        <div *ngIf="currentStep === 7">
-          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
-          <p class="text-muted small mb-4">Share your own ideas and open feedback about how organizations can better support families and youth.</p>
-
-          <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label" for="feedback">In your own words, what kinds of resources or support would help you better guide the young person in planning for their future? <span class="text-muted fw-normal">(optional)</span></label>
-            <textarea id="feedback" class="form-control" rows="3" formControlName="feedback"></textarea>
-          </div>
-
-          <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label" for="obstacles">Is there anything that makes it harder for you to support the young person’s career exploration or planning? <span class="text-muted fw-normal">(optional)</span></label>
-            <textarea id="obstacles" class="form-control" rows="3" formControlName="obstacles"></textarea>
-          </div>
-
-          <div class="question-block mb-4" [formGroup]="form">
-            <label class="form-label" for="ideas">Any additional thoughts or suggestions about how organizations could better support families and youth during career exploration? <span class="text-muted fw-normal">(optional)</span></label>
-            <textarea id="ideas" class="form-control" rows="3" formControlName="ideas"></textarea>
-          </div>
-
-          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
-        </div>
-
+        <!-- STEP 8: FOLLOW-UP -->
         <div *ngIf="currentStep === 8" [formGroup]="form">
+          <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
+          <p class="text-muted small mb-4">Let us know if we can contact you in the future. All questions are optional.</p>
+
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="followUpConsent">May we contact you in the future about career exploration programs, surveys, or opportunities? <span class="text-muted fw-normal">(optional)</span></label>
+              <select id="followUpConsent" class="form-select" formControlName="followUpConsent">
+                <option value="">Select one</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="email">If yes, what is the best email address to reach you? <span class="text-muted fw-normal">(optional)</span></label>
+              <input id="email" class="form-control" type="email" formControlName="email" placeholder="you@example.com" />
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="clbHubAccountInterest">Would you like information about creating a free CLBHub account to access career exploration resources and future opportunities? <span class="text-muted fw-normal">(optional)</span></label>
+              <select id="clbHubAccountInterest" class="form-select" formControlName="clbHubAccountInterest">
+                <option value="">Select one</option>
+                <option *ngFor="let option of clbHubAccountInterestOptions" [value]="option.id">{{ option.label }}</option>
+              </select>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="navButtons"></ng-container>
+        </div>
+
+        <!-- STEP 9: SUBMIT / REVIEW -->
+        <div *ngIf="currentStep === 9">
           <h2 class="h5 mb-1">{{ currentStepDefinition.title }}</h2>
           <p class="text-muted small mb-4">Review your responses below, then submit.</p>
 
@@ -342,16 +394,24 @@
                 <dd>{{ form.controls.relationship.value ? getSelectedLabel(relationshipOptions, form.controls.relationship.value, form.controls.relationshipOther.value) : '—' }}</dd>
               </div>
               <div class="summary-detail-item">
-                <dt>Rough location</dt>
-                <dd>{{ form.controls.roughLocation.value || '—' }}</dd>
-              </div>
-              <div class="summary-detail-item">
-                <dt>Employment status</dt>
-                <dd>{{ form.controls.employmentStatus.value ? getSelectedLabel(employmentStatusOptions, form.controls.employmentStatus.value, form.controls.employmentStatusOther.value) : '—' }}</dd>
-              </div>
-              <div class="summary-detail-item">
-                <dt>Young person’s status</dt>
+                <dt>Young person's status</dt>
                 <dd>{{ form.controls.youngPersonStatus.value ? getSelectedLabel(youngPersonStatusOptions, form.controls.youngPersonStatus.value, form.controls.youngPersonStatusOther.value) : '—' }}</dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Work status</dt>
+                <dd>{{ form.controls.youngPersonWorkStatus.value ? getSelectedLabel(youngPersonWorkStatusOptions, form.controls.youngPersonWorkStatus.value, form.controls.youngPersonWorkStatusOther.value) : '—' }}</dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Education status</dt>
+                <dd>{{ form.controls.youngPersonEducationStatus.value ? getSelectedLabel(youngPersonEducationStatusOptions, form.controls.youngPersonEducationStatus.value, form.controls.youngPersonEducationStatusOther.value) : '—' }}</dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Work goals</dt>
+                <dd>{{ form.controls.youngPersonWorkGoals.value ? getSelectedLabel(youngPersonWorkGoalsOptions, form.controls.youngPersonWorkGoals.value) : '—' }}</dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Educational goals</dt>
+                <dd>{{ form.controls.youngPersonEducationGoals.value ? getSelectedLabel(youngPersonEducationGoalsOptions, form.controls.youngPersonEducationGoals.value, form.controls.youngPersonEducationGoalsOther.value) : '—' }}</dd>
               </div>
             </dl>
           </div>
@@ -360,16 +420,25 @@
             <h3 class="interest-section-title">Your involvement in career exploration</h3>
             <dl class="summary-detail-list">
               <div class="summary-detail-item">
-                <dt>Involvement level</dt>
-                <dd>{{ form.controls.involvementLevel.value ? getSelectedLabel(involvementLevelOptions, form.controls.involvementLevel.value) : '—' }}</dd>
+                <dt>Involvement frequency</dt>
+                <dd>{{ form.controls.involvementFrequency.value ? getSelectedLabel(involvementFrequencyOptions, form.controls.involvementFrequency.value) : '—' }}</dd>
               </div>
               <div class="summary-detail-item">
-                <dt>Activities helped with</dt>
+                <dt>Work life aspirations</dt>
                 <dd>
-                  <ul *ngIf="selectedInvolvementActivities.size" class="summary-choice-list">
-                    <li *ngFor="let value of selectedInvolvementActivities">{{ getLabelFromOption(involvementActivityOptions, value, form.controls.involvementActivitiesOther.value) }}</li>
+                  <ul *ngIf="selectedWorkLifeAspirations.size" class="summary-choice-list">
+                    <li *ngFor="let value of selectedWorkLifeAspirations">{{ getLabelFromOption(workLifeAspirationOptions, value) }}</li>
                   </ul>
-                  <span *ngIf="!selectedInvolvementActivities.size" class="text-muted">None selected</span>
+                  <span *ngIf="!selectedWorkLifeAspirations.size" class="text-muted">None selected</span>
+                </dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>How you'd like to be involved</dt>
+                <dd>
+                  <ul *ngIf="selectedInvolvementPreferences.size" class="summary-choice-list">
+                    <li *ngFor="let value of selectedInvolvementPreferences">{{ getLabelFromOption(involvementPreferenceOptions, value, form.controls.involvementPreferencesOther.value) }}</li>
+                  </ul>
+                  <span *ngIf="!selectedInvolvementPreferences.size" class="text-muted">None selected</span>
                 </dd>
               </div>
               <div class="summary-detail-item">
@@ -385,27 +454,19 @@
           </div>
 
           <div class="interest-summary-section mb-3">
-            <h3 class="interest-section-title">Youth exploration and AI</h3>
+            <h3 class="interest-section-title">Youth's exploration</h3>
             <dl class="summary-detail-list">
               <div class="summary-detail-item">
-                <dt>Young person’s enthusiasm</dt>
-                <dd>{{ form.controls.youngPersonEnthusiasm.value ? getSelectedLabel(youthEnthusiasmOptions, form.controls.youngPersonEnthusiasm.value) : '—' }}</dd>
+                <dt>Next 3 months outlook</dt>
+                <dd>{{ form.controls.youthExplorationOutlook.value ? getSelectedLabel(youthExplorationOutlookOptions, form.controls.youthExplorationOutlook.value) : '—' }}</dd>
               </div>
               <div class="summary-detail-item">
-                <dt>Current exploration level</dt>
-                <dd>{{ form.controls.youngPersonExplorationLevel.value ? getSelectedLabel(youthExplorationLevelOptions, form.controls.youngPersonExplorationLevel.value) : '—' }}</dd>
-              </div>
-              <div class="summary-detail-item">
-                <dt>AI use</dt>
-                <dd>{{ form.controls.aiUse.value ? getSelectedLabel(aiUseOptions, form.controls.aiUse.value) : '—' }}</dd>
-              </div>
-              <div class="summary-detail-item">
-                <dt>AI opinions</dt>
+                <dt>Areas they may investigate</dt>
                 <dd>
-                  <ul *ngIf="selectedAiOpinion.size" class="summary-choice-list">
-                    <li *ngFor="let value of selectedAiOpinion">{{ getLabelFromOption(aiOpinionOptions, value, form.controls.aiOpinionOther.value) }}</li>
+                  <ul *ngIf="selectedYouthInvestigationAreas.size" class="summary-choice-list">
+                    <li *ngFor="let value of selectedYouthInvestigationAreas">{{ getLabelFromOption(youthInvestigationAreaOptions, value, form.controls.youthInvestigationAreasOther.value) }}</li>
                   </ul>
-                  <span *ngIf="!selectedAiOpinion.size" class="text-muted">None selected</span>
+                  <span *ngIf="!selectedYouthInvestigationAreas.size" class="text-muted">None selected</span>
                 </dd>
               </div>
             </dl>
@@ -419,15 +480,6 @@
                 <dd>{{ getConfidenceLabel(form.controls[row.key].value) }}</dd>
               </div>
               <div class="summary-detail-item">
-                <dt>Support areas</dt>
-                <dd>
-                  <ul *ngIf="selectedSupportAreas.size" class="summary-choice-list">
-                    <li *ngFor="let value of selectedSupportAreas">{{ getLabelFromOption(supportAreaOptions, value, form.controls.supportAreasOther.value) }}</li>
-                  </ul>
-                  <span *ngIf="!selectedSupportAreas.size" class="text-muted">None selected</span>
-                </dd>
-              </div>
-              <div class="summary-detail-item">
                 <dt>Biggest challenge</dt>
                 <dd>{{ form.controls.biggestChallenge.value ? getSelectedLabel(biggestChallengeOptions, form.controls.biggestChallenge.value, form.controls.biggestChallengeOther.value) : '—' }}</dd>
               </div>
@@ -435,29 +487,28 @@
           </div>
 
           <div class="interest-summary-section mb-3">
-            <h3 class="interest-section-title">Communication preferences</h3>
+            <h3 class="interest-section-title">Technology &amp; AI</h3>
             <dl class="summary-detail-list">
               <div class="summary-detail-item">
-                <dt>Communication channels</dt>
+                <dt>AI use</dt>
+                <dd>{{ form.controls.aiUse.value ? getSelectedLabel(aiUseOptions, form.controls.aiUse.value) : '—' }}</dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>Feeling about youth using AI</dt>
+                <dd>{{ form.controls.aiFeelingAboutYouth.value ? getSelectedLabel(aiFeelingOptions, form.controls.aiFeelingAboutYouth.value) : '—' }}</dd>
+              </div>
+              <div class="summary-detail-item">
+                <dt>AI opinions</dt>
                 <dd>
-                  <ul *ngIf="selectedCommunicationChannels.size" class="summary-choice-list">
-                    <li *ngFor="let value of selectedCommunicationChannels">{{ getLabelFromOption(communicationChannelOptions, value, form.controls.communicationChannelsOther.value) }}</li>
+                  <ul *ngIf="selectedAiOpinion.size" class="summary-choice-list">
+                    <li *ngFor="let value of selectedAiOpinion">{{ getLabelFromOption(aiOpinionOptions, value, form.controls.aiOpinionOther.value) }}</li>
                   </ul>
-                  <span *ngIf="!selectedCommunicationChannels.size" class="text-muted">None selected</span>
+                  <span *ngIf="!selectedAiOpinion.size" class="text-muted">None selected</span>
                 </dd>
               </div>
               <div class="summary-detail-item">
-                <dt>Communication frequency</dt>
-                <dd>{{ form.controls.communicationFrequency.value ? getSelectedLabel(communicationFrequencyOptions, form.controls.communicationFrequency.value) : '—' }}</dd>
-              </div>
-              <div class="summary-detail-item">
-                <dt>Opportunity types</dt>
-                <dd>
-                  <ul *ngIf="selectedOpportunityTypes.size" class="summary-choice-list">
-                    <li *ngFor="let value of selectedOpportunityTypes">{{ getLabelFromOption(opportunityTypeOptions, value, form.controls.opportunityTypesOther.value) }}</li>
-                  </ul>
-                  <span *ngIf="!selectedOpportunityTypes.size" class="text-muted">None selected</span>
-                </dd>
+                <dt>Thoughts on AI usage</dt>
+                <dd>{{ form.controls.aiThoughts.value || '—' }}</dd>
               </div>
             </dl>
           </div>
@@ -466,45 +517,32 @@
             <h3 class="interest-section-title">Ideas &amp; feedback</h3>
             <dl class="summary-detail-list">
               <div class="summary-detail-item">
-                <dt>Resources or support that would help</dt>
-                <dd>{{ form.controls.feedback.value || '—' }}</dd>
+                <dt>CLBHub improvement</dt>
+                <dd>{{ form.controls.clbHubImprovement.value || '—' }}</dd>
               </div>
               <div class="summary-detail-item">
-                <dt>Things that make support harder</dt>
-                <dd>{{ form.controls.obstacles.value || '—' }}</dd>
-              </div>
-              <div class="summary-detail-item">
-                <dt>Other ideas or thoughts</dt>
-                <dd>{{ form.controls.ideas.value || '—' }}</dd>
+                <dt>Additional feedback</dt>
+                <dd>{{ form.controls.additionalFeedback.value || '—' }}</dd>
               </div>
             </dl>
           </div>
 
-          <div class="summary-box summary-general mb-4" [formGroup]="form">
+          <div class="summary-box summary-general mb-4">
             <h3 class="interest-section-title mb-3">Follow-up</h3>
-            <div class="row g-3">
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="followUpConsent">May we contact you in the future about career exploration programs, surveys, or opportunities?</label>
-                <select id="followUpConsent" class="form-select" formControlName="followUpConsent">
-                  <option value="">Select one</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
+            <dl class="summary-detail-list">
+              <div class="summary-detail-item">
+                <dt>Contact consent</dt>
+                <dd>{{ form.controls.followUpConsent.value === 'yes' ? 'Yes' : form.controls.followUpConsent.value === 'no' ? 'No' : '—' }}</dd>
               </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="email">Email <span class="text-muted fw-normal">(optional)</span></label>
-                <input id="email" class="form-control" type="email" formControlName="email" placeholder="you@example.com" />
+              <div class="summary-detail-item">
+                <dt>Email</dt>
+                <dd>{{ form.controls.email.value || '—' }}</dd>
               </div>
-              <div class="col-12">
-                <label class="form-label" for="clbHubAccountInterest">Would you like information about creating a free CLBHub account?</label>
-                <p class="small text-muted mb-2">CLBHub is a free platform that connects families with career exploration resources, opportunities, and community programs. If you're interested, we'll send additional information to the email address you provided. If you have any questions, feel free to contact us at info&#64;clbhub.org.</p>
-                <select id="clbHubAccountInterest" class="form-select" formControlName="clbHubAccountInterest">
-                  <option value="">Select one</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
+              <div class="summary-detail-item">
+                <dt>CLBHub account interest</dt>
+                <dd>{{ form.controls.clbHubAccountInterest.value ? getSelectedLabel(clbHubAccountInterestOptions, form.controls.clbHubAccountInterest.value) : '—' }}</dd>
               </div>
-            </div>
+            </dl>
           </div>
 
           <div *ngIf="captchaEnabled" class="mt-3">
