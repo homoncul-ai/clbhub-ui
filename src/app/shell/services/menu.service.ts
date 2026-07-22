@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 import {
   getAdminSurveyRoute,
-  getOlderSurveys,
   getRecentSurveys,
   SurveyRegistryEntry,
 } from '@app/features/surveys/survey-registry';
@@ -380,17 +379,6 @@ export class MenuService {
     for (const survey of getRecentSurveys()) {
       this.addChildMenuItem(surveysGroup, this.surveyResultsMenuItem(survey));
     }
-
-    const olderSurveys = getOlderSurveys();
-    if (olderSurveys.length === 0) {
-      return;
-    }
-
-    const olderSurveysGroup = this.newGroupMenuItem('Older surveys', 'fas fa-archive');
-    for (const survey of olderSurveys) {
-      this.addChildMenuItem(olderSurveysGroup, this.surveyResultsMenuItem(survey));
-    }
-    this.addChildMenuItem(surveysGroup, olderSurveysGroup);
   }
 
 
@@ -883,7 +871,7 @@ export class MenuService {
     const vocationEncodingRefList = this.copyMenuItem(MENU_CONSTANTS.EA_VOCATIONENCODINGREF_LIST);
     this.addChildMenuItem(vocodeGroup, vocationEncodingRefList);
 
-    // Add survey reporting views (recent first, then an Older surveys group)
+    // Add recent survey reporting views to the sidebar
     this.addSurveySidebarItems(surveysGroup);
 
     // Reporting group
