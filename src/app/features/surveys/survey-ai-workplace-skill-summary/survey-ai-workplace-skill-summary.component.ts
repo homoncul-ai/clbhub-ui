@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -9,6 +9,17 @@ import { SimpleMessage, SimpleMessageList } from '@app/restsvc/common-request-se
 import { RecaptchaDisclosureComponent } from '@app/shared/components/recaptcha-disclosure/recaptcha-disclosure.component';
 import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { SurveysPublicHeaderComponent } from '../components/surveys-public-header.component';
+import {
+  SurveyDraftV1,
+  arrayToSet,
+  clearSurveyDraft,
+  loadSurveyDraft,
+  mapToObject,
+  objectToMap,
+  saveSurveyDraft,
+  setToArray,
+  surveyDraftHasProgress,
+} from '../utils/survey-draft-storage';
 
 interface SurveyStepDefinition {
   step: number;
@@ -48,7 +59,7 @@ type GraduateTier = 'highSchool' | 'college' | 'nonDegreed';
   templateUrl: './survey-ai-workplace-skill-summary.component.html',
   styleUrl: './survey-ai-workplace-skill-summary.component.scss',
 })
-export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
+export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
   private readonly route = inject(ActivatedRoute);
@@ -56,6 +67,9 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   private readonly recaptchaService = inject(RecaptchaService);
 
   private static readonly CONTACT_CONSENT_STORAGE_KEY = 'ai-workplace-skill-summary-contact-consent';
+  private static readonly DRAFT_SAVE_DEBOUNCE_MS = 250;
+
+  private draftSaveTimer: ReturnType<typeof setTimeout> | null = null;
 
   /** Requires reCAPTCHA v3 verification before submit on the final step. */
   readonly captchaEnabled = true;
@@ -224,6 +238,8 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   submitted = false;
   contactConsentAtSubmit = '';
   messagesList: SimpleMessageList = { messages: [] };
+  showResumePrompt = false;
+  pendingDraft: SurveyDraftV1 | null = null;
 
   selectedIndustrySector = '';
   selectedBaselineEssentials = new Set<string>();
@@ -242,11 +258,19 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     if (pageParam === 'thank-you') {
       this.showThankYouPage(this.readStoredContactConsent());
     } else {
-      const initialPage = this.parsePageParam(pageParam);
-      if (initialPage !== null) {
-        this.currentStep = initialPage;
+      const draft = loadSurveyDraft(this.surveyCode);
+      if (surveyDraftHasProgress(draft)) {
+        this.pendingDraft = draft;
+        this.showResumePrompt = true;
+        this.currentStep = 1;
+        this.syncPageQueryParam(1);
       } else {
-        this.syncPageQueryParam(this.currentStep);
+        const initialPage = this.parsePageParam(pageParam);
+        if (initialPage !== null) {
+          this.currentStep = initialPage;
+        } else {
+          this.syncPageQueryParam(this.currentStep);
+        }
       }
     }
 
@@ -254,6 +278,9 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
       const rawPage = params.get('page');
       if (rawPage === 'thank-you') {
         this.showThankYouPage(this.readStoredContactConsent());
+        return;
+      }
+      if (this.showResumePrompt) {
         return;
       }
 
@@ -268,9 +295,38 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     if (this.captchaEnabled) {
       void this.recaptchaService.preload();
     }
+    this.form.valueChanges.subscribe(() => this.scheduleDraftSave());
     setTimeout(() => {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }, 0);
+  }
+
+  ngOnDestroy(): void {
+    if (this.draftSaveTimer != null) {
+      clearTimeout(this.draftSaveTimer);
+      this.draftSaveTimer = null;
+    }
+  }
+
+  continueDraft(): void {
+    if (!this.pendingDraft) {
+      this.showResumePrompt = false;
+      return;
+    }
+    this.hydrateAnswers(this.pendingDraft.answers);
+    const step = Math.min(Math.max(this.pendingDraft.currentStep || 1, 1), this.totalSteps);
+    this.showResumePrompt = false;
+    this.pendingDraft = null;
+    this.goToStep(step);
+    this.scheduleDraftSave();
+  }
+
+  startOver(): void {
+    clearSurveyDraft(this.surveyCode);
+    this.pendingDraft = null;
+    this.showResumePrompt = false;
+    this.resetAnswersToDefaults();
+    this.goToStep(1);
   }
 
   get optedInToFollowUpSurvey(): boolean {
@@ -294,19 +350,25 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
   }
 
   nextStep(): void {
+    if (this.showResumePrompt) {
+      return;
+    }
     this.goToStep(this.currentStep + 1);
   }
 
   prevStep(): void {
+    if (this.showResumePrompt) {
+      return;
+    }
     this.goToStep(this.currentStep - 1);
   }
 
   canNavigateTo(step: number): boolean {
-    return !this.submitted && step >= 1 && step <= this.totalSteps && step !== this.currentStep;
+    return !this.showResumePrompt && !this.submitted && step >= 1 && step <= this.totalSteps && step !== this.currentStep;
   }
 
   goToStep(step: number): void {
-    if (this.submitted) {
+    if (this.submitted || this.showResumePrompt) {
       return;
     }
 
@@ -319,6 +381,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     this.currentStep = target;
     this.syncPageQueryParam(target);
     this.scrollToTop();
+    this.scheduleDraftSave();
     if (this.captchaEnabled && target === this.totalSteps) {
       void this.recaptchaService.preload();
     }
@@ -329,6 +392,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     if (sector !== 'Other') {
       this.form.controls.primaryIndustryOther.setValue('');
     }
+    this.scheduleDraftSave();
   }
 
   isIndustrySectorSelected(sector: string): boolean {
@@ -360,6 +424,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
 
   selectGraduatePrep(tier: GraduateTier, optionId: string): void {
     this.selectedGraduatePreparedness.set(tier, optionId);
+    this.scheduleDraftSave();
   }
 
   getGraduatePrepLabel(tier: GraduateTier): string {
@@ -382,6 +447,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
 
   selectSupervisionLevel(tier: GraduateTier, levelId: string): void {
     this.selectedSupervisionLevels.set(tier, levelId);
+    this.scheduleDraftSave();
   }
 
   getSupervisionLevelLabel(tier: GraduateTier): string {
@@ -398,6 +464,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
     } else {
       set.add(value);
     }
+    this.scheduleDraftSave();
   }
 
   isSelected(set: Set<string>, value: string): boolean {
@@ -476,6 +543,7 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
       .pipe(finalize(() => (this.submitting = false)))
       .subscribe({
         next: (response) => {
+          clearSurveyDraft(this.surveyCode);
           this.messagesList = response?.messages || { messages: [] };
           this.contactConsentAtSubmit = wantsFollowUpSurvey ? 'yes' : 'no';
           sessionStorage.setItem(
@@ -532,5 +600,71 @@ export class SurveyAiWorkplaceSkillSummaryComponent implements OnInit {
 
   private scrollToTop(): void {
     setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }), 0);
+  }
+
+  private scheduleDraftSave(): void {
+    if (this.showResumePrompt || this.submitted) {
+      return;
+    }
+    if (this.draftSaveTimer != null) {
+      clearTimeout(this.draftSaveTimer);
+    }
+    this.draftSaveTimer = setTimeout(() => {
+      this.draftSaveTimer = null;
+      this.persistDraftNow();
+    }, SurveyAiWorkplaceSkillSummaryComponent.DRAFT_SAVE_DEBOUNCE_MS);
+  }
+
+  private persistDraftNow(): void {
+    if (this.showResumePrompt || this.submitted) {
+      return;
+    }
+    saveSurveyDraft(this.surveyCode, {
+      currentStep: this.currentStep,
+      answers: this.serializeAnswers(),
+    });
+  }
+
+  private serializeAnswers(): Record<string, unknown> {
+    return {
+      form: this.form.getRawValue(),
+      selectedIndustrySector: this.selectedIndustrySector,
+      selectedBaselineEssentials: setToArray(this.selectedBaselineEssentials),
+      selectedGraduatePreparedness: mapToObject(this.selectedGraduatePreparedness),
+      selectedSupervisionLevels: mapToObject(this.selectedSupervisionLevels),
+      selectedMarketValueImpacts: setToArray(this.selectedMarketValueImpacts),
+    };
+  }
+
+  private hydrateAnswers(answers: Record<string, unknown>): void {
+    const formValue = answers['form'];
+    if (formValue && typeof formValue === 'object') {
+      this.form.patchValue(formValue as Record<string, string>);
+    }
+    this.selectedIndustrySector =
+      typeof answers['selectedIndustrySector'] === 'string' ? answers['selectedIndustrySector'] : '';
+    this.selectedBaselineEssentials = arrayToSet(answers['selectedBaselineEssentials']);
+    this.selectedGraduatePreparedness = objectToMap(answers['selectedGraduatePreparedness']) as Map<
+      GraduateTier,
+      string
+    >;
+    this.selectedSupervisionLevels = objectToMap(answers['selectedSupervisionLevels']) as Map<
+      GraduateTier,
+      string
+    >;
+    this.selectedMarketValueImpacts = arrayToSet(answers['selectedMarketValueImpacts']);
+  }
+
+  private resetAnswersToDefaults(): void {
+    this.form.reset({
+      ageRange: '',
+      email: '',
+      primaryIndustryOther: '',
+    });
+    this.selectedIndustrySector = '';
+    this.selectedBaselineEssentials = new Set();
+    this.selectedGraduatePreparedness = new Map();
+    this.selectedSupervisionLevels = new Map();
+    this.selectedMarketValueImpacts = new Set();
   }
 }

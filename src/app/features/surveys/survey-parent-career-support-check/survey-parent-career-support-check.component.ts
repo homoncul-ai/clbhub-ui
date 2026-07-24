@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -9,6 +9,15 @@ import { RecaptchaDisclosureComponent } from '@app/shared/components/recaptcha-d
 import { RadioChoiceGridComponent } from '@app/components/_global/radio-choice-grid/radio-choice-grid.component';
 import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { SurveysPublicHeaderComponent } from '../components/surveys-public-header.component';
+import {
+  SurveyDraftV1,
+  arrayToSet,
+  clearSurveyDraft,
+  loadSurveyDraft,
+  saveSurveyDraft,
+  setToArray,
+  surveyDraftHasProgress,
+} from '../utils/survey-draft-storage';
 
 interface SurveyStepDefinition {
   step: number;
@@ -36,7 +45,7 @@ interface SurveyOption {
   templateUrl: './survey-parent-career-support-check.component.html',
   styleUrl: './survey-parent-career-support-check.component.scss',
 })
-export class SurveyParentCareerSupportCheckComponent implements OnInit {
+export class SurveyParentCareerSupportCheckComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
   private readonly route = inject(ActivatedRoute);
@@ -44,6 +53,9 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
   private readonly recaptchaService = inject(RecaptchaService);
 
   private static readonly CONTACT_CONSENT_STORAGE_KEY = 'parent-career-support-contact-consent';
+  private static readonly DRAFT_SAVE_DEBOUNCE_MS = 250;
+
+  private draftSaveTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly captchaEnabled = true;
   readonly surveyTitle = 'Parent Career Support Check';
@@ -294,6 +306,8 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
   submitted = false;
   contactConsentAtSubmit = '';
   messagesList: SimpleMessageList = { messages: [] };
+  showResumePrompt = false;
+  pendingDraft: SurveyDraftV1 | null = null;
 
   selectedWorkLifeAspirations = new Set<string>();
   selectedInvolvementPreferences = new Set<string>();
@@ -340,15 +354,26 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
     if (pageParam === 'thank-you') {
       this.showThankYouPage(this.readStoredContactConsent());
     } else {
-      const step = this.parsePageParam(pageParam);
-      this.currentStep = step || 1;
-      this.syncPageQueryParam(this.currentStep);
+      const draft = loadSurveyDraft(this.surveyCode);
+      if (surveyDraftHasProgress(draft)) {
+        this.pendingDraft = draft;
+        this.showResumePrompt = true;
+        this.currentStep = 1;
+        this.syncPageQueryParam(1);
+      } else {
+        const step = this.parsePageParam(pageParam);
+        this.currentStep = step || 1;
+        this.syncPageQueryParam(this.currentStep);
+      }
     }
 
     this.route.queryParamMap.subscribe((params) => {
       const rawPage = params.get('page');
       if (rawPage === 'thank-you') {
         this.showThankYouPage(this.readStoredContactConsent());
+        return;
+      }
+      if (this.showResumePrompt) {
         return;
       }
       const step = this.parsePageParam(rawPage);
@@ -363,7 +388,36 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
       void this.recaptchaService.preload();
     }
 
+    this.form.valueChanges.subscribe(() => this.scheduleDraftSave());
     this.scrollToTop();
+  }
+
+  ngOnDestroy(): void {
+    if (this.draftSaveTimer != null) {
+      clearTimeout(this.draftSaveTimer);
+      this.draftSaveTimer = null;
+    }
+  }
+
+  continueDraft(): void {
+    if (!this.pendingDraft) {
+      this.showResumePrompt = false;
+      return;
+    }
+    this.hydrateAnswers(this.pendingDraft.answers);
+    const step = Math.min(Math.max(this.pendingDraft.currentStep || 1, 1), this.totalSteps);
+    this.showResumePrompt = false;
+    this.pendingDraft = null;
+    this.goToStep(step);
+    this.scheduleDraftSave();
+  }
+
+  startOver(): void {
+    clearSurveyDraft(this.surveyCode);
+    this.pendingDraft = null;
+    this.showResumePrompt = false;
+    this.resetAnswersToDefaults();
+    this.goToStep(1);
   }
 
   get currentStepDefinition(): SurveyStepDefinition {
@@ -416,6 +470,7 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
 
   onConfidenceSelectionChange(event: { rowKey: string; value: string }): void {
     this.form.controls[event.rowKey].setValue(event.value);
+    this.scheduleDraftSave();
   }
 
   getConfidenceSelectionMap(): Record<string, string> {
@@ -431,23 +486,27 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
   }
 
   canNavigateTo(step: number): boolean {
-    if (this.submitted) {
+    if (this.showResumePrompt || this.submitted) {
       return false;
     }
     return step >= 1 && step <= this.totalSteps;
   }
 
   goToStep(step: number): void {
-    if (!this.canNavigateTo(step)) {
+    if (this.showResumePrompt || !this.canNavigateTo(step)) {
       return;
     }
     this.setMessages([]);
     this.currentStep = step;
     this.syncPageQueryParam(step);
     this.scrollToTop();
+    this.scheduleDraftSave();
   }
 
   nextStep(): void {
+    if (this.showResumePrompt) {
+      return;
+    }
     const validationMessages = this.validateCurrentStep();
     if (validationMessages.length) {
       this.setMessages(validationMessages);
@@ -458,13 +517,18 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
     this.currentStep = Math.min(this.currentStep + 1, this.totalSteps);
     this.syncPageQueryParam(this.currentStep);
     this.scrollToTop();
+    this.scheduleDraftSave();
   }
 
   prevStep(): void {
+    if (this.showResumePrompt) {
+      return;
+    }
     this.setMessages([]);
     this.currentStep = Math.max(this.currentStep - 1, 1);
     this.syncPageQueryParam(this.currentStep);
     this.scrollToTop();
+    this.scheduleDraftSave();
   }
 
   toggleMultiSelection(set: Set<string>, value: string): void {
@@ -473,15 +537,18 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
     } else {
       set.add(value);
     }
+    this.scheduleDraftSave();
   }
 
   toggleWorkLifeAspiration(value: string): void {
     if (this.selectedWorkLifeAspirations.has(value)) {
       this.selectedWorkLifeAspirations.delete(value);
+      this.scheduleDraftSave();
       return;
     }
     if (this.selectedWorkLifeAspirations.size < this.maxWorkLifeAspirationSelections) {
       this.selectedWorkLifeAspirations.add(value);
+      this.scheduleDraftSave();
     }
   }
 
@@ -570,6 +637,7 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
 
     this.hcclService.saveSurveyResponse(payload).subscribe({
       next: () => {
+        clearSurveyDraft(this.surveyCode);
         this.contactConsentAtSubmit = this.form.controls.followUpConsent.value === 'yes' ? 'yes' : 'no';
         this.saveContactConsentToSessionStorage(this.contactConsentAtSubmit);
         this.showThankYouPage(this.contactConsentAtSubmit);
@@ -663,5 +731,92 @@ export class SurveyParentCareerSupportCheckComponent implements OnInit {
       return;
     }
     window.sessionStorage.setItem(SurveyParentCareerSupportCheckComponent.CONTACT_CONSENT_STORAGE_KEY, consent);
+  }
+
+  private scheduleDraftSave(): void {
+    if (this.showResumePrompt || this.submitted) {
+      return;
+    }
+    if (this.draftSaveTimer != null) {
+      clearTimeout(this.draftSaveTimer);
+    }
+    this.draftSaveTimer = setTimeout(() => {
+      this.draftSaveTimer = null;
+      this.persistDraftNow();
+    }, SurveyParentCareerSupportCheckComponent.DRAFT_SAVE_DEBOUNCE_MS);
+  }
+
+  private persistDraftNow(): void {
+    if (this.showResumePrompt || this.submitted) {
+      return;
+    }
+    saveSurveyDraft(this.surveyCode, {
+      currentStep: this.currentStep,
+      answers: this.serializeAnswers(),
+    });
+  }
+
+  private serializeAnswers(): Record<string, unknown> {
+    return {
+      form: this.form.getRawValue(),
+      selectedWorkLifeAspirations: setToArray(this.selectedWorkLifeAspirations),
+      selectedInvolvementPreferences: setToArray(this.selectedInvolvementPreferences),
+      selectedInformationSources: setToArray(this.selectedInformationSources),
+      selectedYouthInvestigationAreas: setToArray(this.selectedYouthInvestigationAreas),
+      selectedAiOpinion: setToArray(this.selectedAiOpinion),
+    };
+  }
+
+  private hydrateAnswers(answers: Record<string, unknown>): void {
+    const formValue = answers['form'];
+    if (formValue && typeof formValue === 'object') {
+      this.form.patchValue(formValue as Record<string, string>);
+    }
+    this.selectedWorkLifeAspirations = arrayToSet(answers['selectedWorkLifeAspirations']);
+    this.selectedInvolvementPreferences = arrayToSet(answers['selectedInvolvementPreferences']);
+    this.selectedInformationSources = arrayToSet(answers['selectedInformationSources']);
+    this.selectedYouthInvestigationAreas = arrayToSet(answers['selectedYouthInvestigationAreas']);
+    this.selectedAiOpinion = arrayToSet(answers['selectedAiOpinion']);
+  }
+
+  private resetAnswersToDefaults(): void {
+    this.form.reset({
+      relationship: '',
+      relationshipOther: '',
+      youngPersonStatus: '',
+      youngPersonStatusOther: '',
+      youngPersonWorkStatus: '',
+      youngPersonWorkStatusOther: '',
+      youngPersonEducationStatus: '',
+      youngPersonEducationStatusOther: '',
+      youngPersonWorkGoals: '',
+      youngPersonEducationGoals: '',
+      youngPersonEducationGoalsOther: '',
+      involvementFrequency: '',
+      involvementPreferencesOther: '',
+      informationSourcesOther: '',
+      youthExplorationOutlook: '',
+      youthInvestigationAreasOther: '',
+      biggestChallenge: '',
+      biggestChallengeOther: '',
+      confidenceExploringCareers: '',
+      confidenceEducationTraining: '',
+      confidenceWorkExperiences: '',
+      confidenceTrustworthyInfo: '',
+      aiUse: '',
+      aiFeelingAboutYouth: '',
+      aiOpinionOther: '',
+      aiThoughts: '',
+      clbHubImprovement: '',
+      additionalFeedback: '',
+      followUpConsent: '',
+      email: '',
+      clbHubAccountInterest: '',
+    });
+    this.selectedWorkLifeAspirations = new Set();
+    this.selectedInvolvementPreferences = new Set();
+    this.selectedInformationSources = new Set();
+    this.selectedYouthInvestigationAreas = new Set();
+    this.selectedAiOpinion = new Set();
   }
 }

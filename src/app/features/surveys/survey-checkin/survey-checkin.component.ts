@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
@@ -11,6 +11,15 @@ import { RecaptchaService } from '@app/shared/services/recaptcha.service';
 import { SurveysPublicHeaderComponent } from '../components/surveys-public-header.component';
 import { CAREER_LADDERS, CareerLadder } from '@app/shared/data/career-ladders';
 import { GOOGLE_AI_COURSES, GoogleAICourse } from '@app/shared/data/google-ai-courses';
+import {
+  SurveyDraftV1,
+  arrayToSet,
+  clearSurveyDraft,
+  loadSurveyDraft,
+  saveSurveyDraft,
+  setToArray,
+  surveyDraftHasProgress,
+} from '../utils/survey-draft-storage';
 
 @Component({
   selector: 'app-survey-checkin',
@@ -27,10 +36,15 @@ import { GOOGLE_AI_COURSES, GoogleAICourse } from '@app/shared/data/google-ai-co
   templateUrl: './survey-checkin.component.html',
   styleUrl: './survey-checkin.component.scss',
 })
-export class SurveyCheckinComponent implements OnInit {
+export class SurveyCheckinComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly hcclService = inject(HcclService);
   private readonly recaptchaService = inject(RecaptchaService);
+
+  private static readonly DRAFT_SAVE_DEBOUNCE_MS = 250;
+  private draftSaveTimer: ReturnType<typeof setTimeout> | null = null;
+
+  readonly surveyCode = 'checkin';
 
   currentStep = 1;
   totalSteps = 4;
@@ -40,6 +54,8 @@ export class SurveyCheckinComponent implements OnInit {
   loadingUiData = false;
   preloadFailed = false;
   messagesList: SimpleMessageList = { messages: [] };
+  showResumePrompt = false;
+  pendingDraft: SurveyDraftV1 | null = null;
 
   schoolSelectData: MenuControlDataList | null = null;
   readonly careerLadders: CareerLadder[] = CAREER_LADDERS;
@@ -78,9 +94,58 @@ export class SurveyCheckinComponent implements OnInit {
   readonly aiHubUrl = 'https://aihub.masstech.org/google-certificates';
 
   ngOnInit(): void {
+    const draft = loadSurveyDraft(this.surveyCode);
+    if (surveyDraftHasProgress(draft)) {
+      this.pendingDraft = draft;
+      this.showResumePrompt = true;
+      this.currentStep = 1;
+      this.maxStepReached = 1;
+    }
+
     this.loadSchoolData();
     void this.recaptchaService.preload();
+    this.form.valueChanges.subscribe(() => this.scheduleDraftSave());
     setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }), 0);
+  }
+
+  ngOnDestroy(): void {
+    if (this.draftSaveTimer != null) {
+      clearTimeout(this.draftSaveTimer);
+      this.draftSaveTimer = null;
+    }
+  }
+
+  continueDraft(): void {
+    if (!this.pendingDraft) {
+      this.showResumePrompt = false;
+      return;
+    }
+    this.hydrateAnswers(this.pendingDraft.answers);
+    const step = Math.min(Math.max(this.pendingDraft.currentStep || 1, 1), this.totalSteps);
+    const savedMax =
+      typeof this.pendingDraft.answers['maxStepReached'] === 'number'
+        ? this.pendingDraft.answers['maxStepReached']
+        : step;
+    this.maxStepReached = Math.max(1, Math.min(Math.max(savedMax, step), this.totalSteps));
+    this.showResumePrompt = false;
+    this.pendingDraft = null;
+    this.currentStep = step;
+    this.setMessages([]);
+    this.scheduleDraftSave();
+  }
+
+  startOver(): void {
+    clearSurveyDraft(this.surveyCode);
+    this.pendingDraft = null;
+    this.showResumePrompt = false;
+    this.resetAnswersToDefaults();
+    this.currentStep = 1;
+    this.maxStepReached = 1;
+    this.setMessages([]);
+  }
+
+  onDraftFieldChange(): void {
+    this.scheduleDraftSave();
   }
 
   loadSchoolData(): void {
@@ -115,6 +180,7 @@ export class SurveyCheckinComponent implements OnInit {
     this.form.controls.schoolId.setValue(selected?.id || '');
     this.form.controls.schoolId.markAsTouched();
     this.selectedSchoolName = selected?.name || '';
+    this.scheduleDraftSave();
   }
 
   get computedAge(): number | null {
@@ -143,6 +209,7 @@ export class SurveyCheckinComponent implements OnInit {
     } else {
       this.selectedInterests.add(id);
     }
+    this.scheduleDraftSave();
   }
 
   isInterestSelected(id: string): boolean {
@@ -151,9 +218,13 @@ export class SurveyCheckinComponent implements OnInit {
 
   selectCourse(courseId: string): void {
     this.selectedCourseId = courseId;
+    this.scheduleDraftSave();
   }
 
   nextStep(): void {
+    if (this.showResumePrompt) {
+      return;
+    }
     if (this.currentStep === 1) {
       const msgs = this.validateStep1();
       if (msgs.length) {
@@ -168,16 +239,21 @@ export class SurveyCheckinComponent implements OnInit {
     this.setMessages([]);
     this.currentStep = Math.min(this.currentStep + 1, this.totalSteps);
     this.maxStepReached = Math.max(this.maxStepReached, this.currentStep);
+    this.scheduleDraftSave();
   }
 
   prevStep(): void {
+    if (this.showResumePrompt) {
+      return;
+    }
     this.setMessages([]);
     this.currentStep = Math.max(this.currentStep - 1, 1);
+    this.scheduleDraftSave();
   }
 
   /** True when the given step has already been reached and can be navigated to directly. */
   canNavigateTo(step: number): boolean {
-    return step >= 1 && step <= this.maxStepReached && step !== this.currentStep;
+    return !this.showResumePrompt && step >= 1 && step <= this.maxStepReached && step !== this.currentStep;
   }
 
   /** Jump directly to a previously reached step (via the dots). */
@@ -187,6 +263,7 @@ export class SurveyCheckinComponent implements OnInit {
     }
     this.setMessages([]);
     this.currentStep = step;
+    this.scheduleDraftSave();
   }
 
   private validateStep1(): SimpleMessage[] {
@@ -244,6 +321,7 @@ export class SurveyCheckinComponent implements OnInit {
       finalize(() => (this.submitting = false))
     ).subscribe({
       next: (response) => {
+        clearSurveyDraft(this.surveyCode);
         this.messagesList = response?.messages || { messages: [] };
         this.submitted = true;
       },
@@ -266,5 +344,77 @@ export class SurveyCheckinComponent implements OnInit {
 
   private setMessages(messages: SimpleMessage[]): void {
     this.messagesList = { messages };
+  }
+
+  private scheduleDraftSave(): void {
+    if (this.showResumePrompt || this.submitted) {
+      return;
+    }
+    if (this.draftSaveTimer != null) {
+      clearTimeout(this.draftSaveTimer);
+    }
+    this.draftSaveTimer = setTimeout(() => {
+      this.draftSaveTimer = null;
+      this.persistDraftNow();
+    }, SurveyCheckinComponent.DRAFT_SAVE_DEBOUNCE_MS);
+  }
+
+  private persistDraftNow(): void {
+    if (this.showResumePrompt || this.submitted) {
+      return;
+    }
+    saveSurveyDraft(this.surveyCode, {
+      currentStep: this.currentStep,
+      answers: this.serializeAnswers(),
+    });
+  }
+
+  private serializeAnswers(): Record<string, unknown> {
+    return {
+      form: this.form.getRawValue(),
+      selectedInterests: setToArray(this.selectedInterests),
+      otherInterest: this.otherInterest,
+      selectedCourseId: this.selectedCourseId,
+      courseGoals: this.courseGoals,
+      wantsGuidance: this.wantsGuidance,
+      selectedSchoolName: this.selectedSchoolName,
+      messageHandleEdited: this.messageHandleEdited,
+      maxStepReached: this.maxStepReached,
+    };
+  }
+
+  private hydrateAnswers(answers: Record<string, unknown>): void {
+    const formValue = answers['form'];
+    if (formValue && typeof formValue === 'object') {
+      this.form.patchValue(formValue as Record<string, string | number | boolean>);
+    }
+    this.selectedInterests = arrayToSet(answers['selectedInterests']);
+    this.otherInterest = typeof answers['otherInterest'] === 'string' ? answers['otherInterest'] : '';
+    this.selectedCourseId = typeof answers['selectedCourseId'] === 'string' ? answers['selectedCourseId'] : '';
+    this.courseGoals = typeof answers['courseGoals'] === 'string' ? answers['courseGoals'] : '';
+    this.wantsGuidance = answers['wantsGuidance'] === true;
+    this.selectedSchoolName =
+      typeof answers['selectedSchoolName'] === 'string' ? answers['selectedSchoolName'] : '';
+    this.messageHandleEdited = answers['messageHandleEdited'] === true;
+  }
+
+  private resetAnswersToDefaults(): void {
+    this.form.reset({
+      firstName: '',
+      lastName: '',
+      email: '',
+      messageHandle: '',
+      birthMonth: 0,
+      birthYear: 0,
+      schoolId: '',
+      acceptTos: false,
+    });
+    this.selectedInterests = new Set();
+    this.otherInterest = '';
+    this.selectedCourseId = '';
+    this.courseGoals = '';
+    this.wantsGuidance = false;
+    this.selectedSchoolName = '';
+    this.messageHandleEdited = false;
   }
 }

@@ -38,6 +38,17 @@
       </div>
 
       <div *ngIf="!submitted">
+        <div
+          *ngIf="showResumePrompt"
+          class="alert alert-info d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-4"
+          role="status">
+          <span>Continue where you left off?</span>
+          <div class="d-flex gap-2 flex-shrink-0">
+            <button type="button" class="btn btn-primary btn-sm" (click)="continueDraft()">Continue</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="startOver()">Start over</button>
+          </div>
+        </div>
+
         <app-simple-messages-section [messagesList]="messagesList"></app-simple-messages-section>
 
         <!-- STEP 1: INTRO -->
