@@ -1,0 +1,53 @@
+<div class="modal-header text-white">
+  <h5 class="modal-title">Change Email</h5>
+  <span class="fa fa-times cursorPointer" (click)="onCancel()"></span>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="emailForm">
+    <div class="form-symbols-text text-end">
+      <small class="text-muted">
+        <span class="requiredField">* </span>Required fields
+      </small>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-10 offset-md-1">
+
+          <p *ngIf="currentEmail" class="text-muted">
+            Current email: <strong>{{ currentEmail }}</strong>
+          </p>
+
+          <app-std-mdb-form-text
+            prefix="changeEmail"
+            name="updatedEmailAddress"
+            label="New Email Address"
+            [required]="true"
+            [error]="error"
+            formControlName="updatedEmailAddress">
+          </app-std-mdb-form-text>
+
+          <div class="alert alert-info mt-2">
+            <i class="fas fa-info-circle me-2"></i>
+            This updates the email on the person record, all profiles, and Keycloak.
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    (click)="onSubmit()"
+    [disabled]="!emailForm.valid">
+    Change Email
+  </button>
+  <button type="button" class="btn btn-sm btn-dark" (click)="onCancel()">
+    Cancel
+  </button>
+</div>

@@ -775,6 +775,10 @@ export class MenuService {
     this.addChildMenuItem(courseGroup, paiPromptRefList);
 
 
+    // user management
+    const userManagement = this.copyMenuItem(MENU_CONSTANTS.EA_USER_MANAGEMENT);
+    this.addChildMenuItem(clschoolGroup, userManagement);
+
     // clschool list
     const clschoolList = this.copyMenuItem(MENU_CONSTANTS.EA_CLSCHOOL_LIST);
     this.addChildMenuItem(clschoolGroup, clschoolList);
@@ -1381,6 +1385,15 @@ EA_HCCLUSER_LIST: {
   "componentPath" : "/src/app/components/_crud/hccluser/hccluser-list.component",
   "componentName" : "HcclUserListComponent",
   "icon" : "fas fa-users"
+},
+
+EA_USER_MANAGEMENT: {
+  "level" : 2,
+  "label" : "User Management",
+  "route" : "/ecoadmin-dashboard/user-management",
+  "componentPath" : "/src/app/features/dash-ecoadmin/user-management/user-management-list.component",
+  "componentName" : "UserManagementListComponent",
+  "icon" : "fas fa-users-cog"
 },
 
 

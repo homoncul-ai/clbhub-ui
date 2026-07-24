@@ -80,6 +80,8 @@ import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.com
 import { SurveyResultsViewerComponent } from './surveys/survey-results-viewer.component';
 import { SurveyReportsDashboardComponent } from './surveys/survey-reports-dashboard.component';
 import { DiagnosticsComponent } from './reporting/diagnostics.component';
+import { UserManagementListComponent } from './user-management/user-management-list.component';
+import { UserManagementDetailComponent } from './user-management/user-management-detail.component';
 
 const routes: Routes = [
   {
@@ -165,6 +167,9 @@ const routes: Routes = [
       { path: 'hcclusers/:id/:tabId', component: HcclUserGroupComponent },
       { path: 'hcclusers/:id', redirectTo: 'hcclusers/:id/details', pathMatch: 'full' },
       { path: 'hcclusers', component: HcclUserListComponent },
+
+      { path: 'user-management/:userId', component: UserManagementDetailComponent },
+      { path: 'user-management', component: UserManagementListComponent },
 
       { path: 'hccluserprofiles/create', component: HcclUserProfileGroupComponent },
       { path: 'hccluserprofiles/:id/:tabId', component: HcclUserProfileGroupComponent },
@@ -363,7 +368,9 @@ const routes: Routes = [
     UistarterHomeComponent,
     SurveyResultsViewerComponent,
     SurveyReportsDashboardComponent,
-    DiagnosticsComponent
+    DiagnosticsComponent,
+    UserManagementListComponent,
+    UserManagementDetailComponent
   ]
 })
 export class DashEcoAdminModule { } 

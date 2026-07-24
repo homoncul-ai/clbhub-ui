@@ -1,0 +1,20 @@
+.user-management-detail {
+  padding: 1rem 0;
+
+  .action-bar {
+    align-items: center;
+  }
+
+  .accordion-body-content {
+    padding: 0.5rem 0.25rem;
+  }
+
+  dt {
+    font-weight: 600;
+    color: var(--bs-secondary-color, #6c757d);
+  }
+
+  dd {
+    margin-bottom: 0.25rem;
+  }
+}

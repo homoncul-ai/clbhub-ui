@@ -1,0 +1,45 @@
+<div class="modal-header text-white">
+  <h5 class="modal-title">Delete User</h5>
+  <span class="fa fa-times cursorPointer" (click)="onCancel()"></span>
+</div>
+
+<div class="modal-body">
+  <div class="alert alert-danger">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    This permanently deletes <strong>{{ displayName }}</strong> and cannot be undone.
+  </div>
+
+  <p class="mb-1">The following will be removed:</p>
+  <ul>
+    <li>All profile roles</li>
+    <li>All user profiles</li>
+    <li>The Keycloak login account</li>
+    <li>The HcclUser and linked person record</li>
+  </ul>
+
+  <div class="mt-3">
+    <label class="form-label">
+      Type <strong>{{ username }}</strong> to confirm:
+    </label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="typedConfirmation"
+      name="typedConfirmation"
+      autocomplete="off"
+      placeholder="{{ username }}" />
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-sm btn-danger"
+    (click)="onConfirm()"
+    [disabled]="!canDelete">
+    Delete User
+  </button>
+  <button type="button" class="btn btn-sm btn-dark" (click)="onCancel()">
+    Cancel
+  </button>
+</div>
