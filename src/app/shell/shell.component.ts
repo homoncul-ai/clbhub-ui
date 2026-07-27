@@ -127,7 +127,61 @@ onHeaderAction(key: string): void {
       if (Array.isArray(openedIds)) {
         openedIds.forEach(id => this.tree.open(id));
       }
+
+      this.syncTreeSelectionToRoute();
     }
+  }
+
+  /**
+   * Drive DHTMLX selection from the current router URL so only the active
+   * route's menu item stays highlighted (clears stale click selections).
+   */
+  private syncTreeSelectionToRoute(): void {
+    if (!this.tree) {
+      return;
+    }
+
+    const currentUrl = (this._router.url || '').split('?')[0].split('#')[0];
+    const matchedId = this.findMenuItemIdByRoute(this.menuItems, currentUrl);
+
+    try {
+      this.tree.selection.remove();
+    } catch {
+      // Selection API may throw if tree data is empty
+    }
+
+    if (matchedId && this.tree.data.exists(matchedId)) {
+      this.tree.selection.add(matchedId);
+    }
+  }
+
+  /**
+   * Find the tree node id whose data.route best matches the given URL:
+   * exact match first, otherwise the longest route that is a path prefix.
+   */
+  private findMenuItemIdByRoute(items: any[], url: string): string | null {
+    let bestId: string | null = null;
+    let bestLen = -1;
+
+    const walk = (nodes: any[]) => {
+      for (const item of nodes) {
+        const route = item?.data?.route;
+        if (typeof route === 'string' && route.length > 0) {
+          const isExact = url === route;
+          const isPrefix = url.startsWith(route.endsWith('/') ? route : route + '/');
+          if ((isExact || isPrefix) && route.length > bestLen) {
+            bestId = item.id;
+            bestLen = route.length;
+          }
+        }
+        if (item.items?.length) {
+          walk(item.items);
+        }
+      }
+    };
+
+    walk(items);
+    return bestId;
   }
 
   userDetails: any = null;
@@ -182,11 +236,17 @@ onHeaderAction(key: string): void {
       autoWidth: true
     });
     this.tree.data.parse(this.menuItems);
+    this.syncTreeSelectionToRoute();
 
     this.tree.events.on("itemClick", (id: string) => {
       const menuItem = this.findMenuItemById(this.menuItems, id);
       if (menuItem?.data?.route) {
+        // NavigationEnd → updateTree() → syncTreeSelectionToRoute() is the
+        // single source of truth for selection; do not select here.
         this._router.navigate([menuItem.data.route]);
+      } else {
+        // Folder / non-route click still updates DHTMLX selection; restore route match.
+        setTimeout(() => this.syncTreeSelectionToRoute(), 0);
       }
     });
 
