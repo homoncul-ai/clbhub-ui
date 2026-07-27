@@ -10,7 +10,7 @@ const distSurveysDir = path.join(distDir, 'public', 'surveys');
 
 app.use(express.json({ limit: '1mb' }));
 
-// Run the app by serving the static files
+// Run the app by serving the static files    test for blank commit
 // in the dist directory
 app.use(kcApplicationPath, express.static(distDir));
 
