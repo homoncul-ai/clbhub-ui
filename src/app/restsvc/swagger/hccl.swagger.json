@@ -4731,6 +4731,240 @@
         }
       }
     },
+    "/hccl/catalog/searchcatalogresponselog": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Create a new SearchCatalogResponseLog.",
+        "operationId": "createSearchCatalogResponseLog_1",
+        "requestBody": {
+          "description": "New SearchCatalogResponseLog data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchCatalogResponseLogPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/searchcatalogresponselog/{id}": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getSearchCatalogResponseLogById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCatalogResponseLogGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Updates and existing SearchCatalogResponseLog.",
+        "operationId": "updateSearchCatalogResponseLogById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated SearchCatalogResponseLog data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchCatalogResponseLogPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Deletes an existing SearchCatalogResponseLog.",
+        "operationId": "deleteSearchCatalogResponseLogById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/searchcatalogresponselog/query": {
+      "post": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches all SearchCatalogResponseLogs.",
+        "operationId": "findSearchCatalogResponseLogs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchCatalogResponseLogCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCatalogResponseLogGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/catalog/searchcatalogresponselog/{id}/hint": {
+      "get": {
+        "tags": [
+          "/catalog"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getSearchCatalogResponseLogByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCatalogResponseLogGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/experience/cohort": {
       "post": {
         "tags": [
@@ -22692,6 +22926,39 @@
         }
       }
     },
+    "/hccl/search/{id}/add-entries": {
+      "post": {
+        "summary": "Add resume entries to a resume",
+        "operationId": "searchCatalog",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchCatalogRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/students/join-family": {
       "get": {
         "tags": [
@@ -30149,6 +30416,222 @@
           "currentStateDateEntered": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "SearchCatalogResponseLogPOSTData": {
+        "required": [
+          "searchPhrase",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "searchPhrase": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "searchCatalogResponseJson": {
+            "type": "string"
+          },
+          "resultsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchDurationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "searchQualityCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "SearchCatalogResponseLogGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "searchPhrase": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "searchCatalogResponseJson": {
+            "type": "string"
+          },
+          "resultsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchDurationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "searchQualityCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchCatalogResponseLogGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchCatalogResponseLogGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "SearchCatalogResponseLogCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "searchPhrase": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resultsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchDurationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "searchQualityCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchCatalogResponseLogPUTData": {
+        "required": [
+          "searchPhrase",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "searchPhrase": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "searchCatalogResponseJson": {
+            "type": "string"
+          },
+          "resultsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchDurationMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "searchQualityCode": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
           }
         }
       },
@@ -43724,6 +44207,9 @@
           "notes": {
             "type": "string"
           },
+          "dateExpires": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
           "jsonData": {
             "type": "string"
           },
@@ -43731,12 +44217,18 @@
             "type": "integer",
             "format": "int32"
           },
+          "dateAccepted": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
           "currentStateCode": {
             "type": "string"
           },
           "currentStateTransitionId": {
             "type": "string",
             "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "$ref": "#/components/schemas/DateGETData"
           },
           "inviteeId": {
             "type": "string",
@@ -52062,6 +52554,64 @@
           }
         }
       },
+      "SearchCatalogRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "catalogTypeCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "savingSearchResults": {
+            "type": "boolean"
+          }
+        }
+      },
       "HandleActivationCodeResponse": {
         "type": "object",
         "properties": {
@@ -52301,13 +52851,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

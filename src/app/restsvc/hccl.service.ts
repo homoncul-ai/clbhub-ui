@@ -1109,6 +1109,58 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<any>(request);
   }
 
+  createSearchCatalogResponseLog(body: SearchCatalogResponseLogPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/searchcatalogresponselog",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getSearchCatalogResponseLogById(id: string): Observable<SearchCatalogResponseLogGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/searchcatalogresponselog/" + id,
+      method: "GET",
+    };
+    return this.request<SearchCatalogResponseLogGETData>(request);
+  }
+
+  updateSearchCatalogResponseLogById(id: string, body: SearchCatalogResponseLogPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/searchcatalogresponselog/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteSearchCatalogResponseLogById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/searchcatalogresponselog/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findSearchCatalogResponseLogs(body: SearchCatalogResponseLogCriteria): Observable<SearchCatalogResponseLogGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/searchcatalogresponselog/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SearchCatalogResponseLogGETDataSearchResults>(request);
+  }
+
+  getSearchCatalogResponseLogByIdWithHint(id: string, hint: string): Observable<SearchCatalogResponseLogGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/catalog/searchcatalogresponselog/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<SearchCatalogResponseLogGETData>(request);
+  }
+
   createCohort(body: CohortPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/cohort",
@@ -5192,6 +5244,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<PersonalStatementResumeGETData>(request);
   }
 
+  searchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/search/catalog/add-entries",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SearchCatalogResponse>(request);
+  }
+
   joinFamily(code: string): Observable<HandleActivationCodeResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/students/join-family",
@@ -7155,6 +7216,69 @@ export interface HcclOrganizationInterestPUTData {
   currentStateCode: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
+}
+
+export interface SearchCatalogResponseLogPOSTData {
+  searchPhrase: string;
+  userProfileId: string;
+  vocationEncodingId?: string;
+  searchCatalogResponseJson?: string;
+  resultsCount?: number;
+  searchDurationMs?: number;
+  searchQualityCode?: string;
+}
+
+export interface SearchCatalogResponseLogGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  searchPhrase?: string;
+  userProfileId?: string;
+  vocationEncodingId?: string;
+  searchCatalogResponseJson?: string;
+  resultsCount?: number;
+  searchDurationMs?: number;
+  searchQualityCode?: string;
+}
+
+export interface SearchCatalogResponseLogGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: SearchCatalogResponseLogGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface SearchCatalogResponseLogCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  searchPhrase?: string;
+  userProfileId?: string;
+  vocationEncodingId?: string;
+  resultsCount?: number;
+  searchDurationMs?: number;
+  searchQualityCode?: string;
+}
+
+export interface SearchCatalogResponseLogPUTData {
+  searchPhrase: string;
+  userProfileId: string;
+  vocationEncodingId?: string;
+  searchCatalogResponseJson?: string;
+  resultsCount?: number;
+  searchDurationMs?: number;
+  searchQualityCode?: string;
 }
 
 export interface CohortPOSTData {
@@ -10940,10 +11064,13 @@ export interface HcclUserInviteGETData {
   teamId?: string;
   inviteCode?: string;
   notes?: string;
+  dateExpires?: DateGETData;
   jsonData?: string;
   available?: number;
+  dateAccepted?: DateGETData;
   currentStateCode?: string;
   currentStateTransitionId?: string;
+  currentStateDateEntered?: DateGETData;
   inviteeId?: string;
   parentId?: string;
   parentEntityType?: string;
@@ -13361,6 +13488,29 @@ export interface ResumeUpdateEntryPOSTData {
   entryJson?: string;
 }
 
+export interface SearchCatalogRequest {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  catalogTypeCodes?: string[];
+  savingSearchResults?: boolean;
+}
+
+export interface SearchCatalogResponse {
+  messages?: SimpleMessageList;
+  theRequest?: SearchCatalogRequest;
+  vocationEncodingId?: string;
+  results?: VeiSearchResultsGETData;
+}
+
 export interface HandleActivationCodeResponse {
   messages?: SimpleMessageList;
   family?: FamilyUnitGETData;
@@ -13437,9 +13587,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
