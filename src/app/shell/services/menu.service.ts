@@ -707,6 +707,11 @@ export class MenuService {
     const dashboard = this.copyMenuItem(MENU_CONSTANTS.EA_DASHBOARD);
     this.addMenuItem(menu, dashboard);
 
+    // User Management (top-level)
+    const userManagement = this.copyMenuItem(MENU_CONSTANTS.EA_USER_MANAGEMENT);
+    userManagement.level = 1;
+    this.addMenuItem(menu, userManagement);
+
     const onboarding = this.newGroupMenuItem('Onboarding', 'fas fa-users');
     this.addChildMenuItem(onboarding, this.copyMenuItem(MENU_CONSTANTS.EA_ORGSCHOOLS_LIST));
     this.addChildMenuItem(onboarding, this.copyMenuItem(MENU_CONSTANTS.EA_ORGNONPROFITS_LIST));
@@ -774,10 +779,6 @@ export class MenuService {
     const paiPromptRefList = this.copyMenuItem(MENU_CONSTANTS.EA_PAIPROMPTREF_LIST);
     this.addChildMenuItem(courseGroup, paiPromptRefList);
 
-
-    // user management
-    const userManagement = this.copyMenuItem(MENU_CONSTANTS.EA_USER_MANAGEMENT);
-    this.addChildMenuItem(clschoolGroup, userManagement);
 
     // clschool list
     const clschoolList = this.copyMenuItem(MENU_CONSTANTS.EA_CLSCHOOL_LIST);
