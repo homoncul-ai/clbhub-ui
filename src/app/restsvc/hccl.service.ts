@@ -11080,7 +11080,6 @@ export interface HcclUserInviteGETData {
   organization?: HcclOrganizationGETData;
   createdByUserProfile?: HcclUserProfileGETData;
   callbackUrl?: string;
-  dateExpires?: DateGETData;
 }
 
 export interface HcclUserInviteGETDataSearchResults {
