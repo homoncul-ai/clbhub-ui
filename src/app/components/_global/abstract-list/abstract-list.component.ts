@@ -76,6 +76,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected selectedId: string | null = null;
   protected showingAdvancedSearch: boolean = false;
   protected showingButtonBar: boolean = false;
+  isLoading = false;
 
   protected searchHeading: string = 'Entities';
   protected hcclService = inject(HcclService);
@@ -203,8 +204,8 @@ implements OnInit, AfterViewInit, OnDestroy {
 
       this.addGridEventListeners(this.grid)
 
-      // Load initial data
-      this.loadGridData();
+      // Load on next tick so isLoading is applied outside AfterViewInit CD
+      setTimeout(() => this.loadGridData(), 0);
 
       // Add resize listener to recalculate grid height
       this.setupResizeListener();
@@ -400,7 +401,8 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
   protected loadGridDataCall(criteria: TCriteria) {
     console.log('Loading entities with criteria:', criteria);
-    
+    this.isLoading = true;
+
     this.findEntities(criteria).subscribe({
       next: (response: TSearchResults) => {
         if (this.hasSearchResults(response)) {
@@ -423,19 +425,25 @@ implements OnInit, AfterViewInit, OnDestroy {
               }
               return data;
             })
+            .then(() => {
+              this.isLoading = false;
+            })
             .catch(error => {
               console.error('Error in preprocessing or processing entities:', error);
               this.grid.data.parse([]);
+              this.isLoading = false;
             });
         
         } else {
           this.grid.data.parse([]);
+          this.isLoading = false;
           console.log("No entities found");
         }
       },
       error: (error) => {
         console.error('Error loading entity data:', error);
         this.grid.data.parse([]);
+        this.isLoading = false;
       }
     });
   }

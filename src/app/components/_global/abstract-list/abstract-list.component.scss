@@ -16,10 +16,15 @@
   height: auto;
 }
 
+.search-list-container.auto-height-mode .search-list-grid-wrapper,
 .search-list-container.auto-height-mode .search-list-grid {
   flex: none;
   min-height: auto;
   max-height: none;
+}
+
+.search-list-container.auto-height-mode .search-list-grid-wrapper.is-loading {
+  min-height: 160px;
 }
 
 .search-list-grid--auto-height {
@@ -186,6 +191,33 @@
     background-color: #e0e0e0;
   }
   
+  .search-list-grid-wrapper {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-list-grid-wrapper.is-loading {
+    min-height: 160px;
+  }
+
+  .search-list-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.75);
+    z-index: 9999;
+    min-height: 160px;
+    pointer-events: none;
+  }
+
   .search-list-grid {
     /* Revert some previous styles to get standard table appearance */
     border: 1px solid #ddd; /* Outer border */

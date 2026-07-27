@@ -43,7 +43,14 @@
         <span class="material-icons" aria-label="Add">{{ addButtonLabel }}</span>
       </button>
     </div>
-    <div #gridContainer class="search-list-grid"></div>
+    <div class="search-list-grid-wrapper" [class.is-loading]="isLoading">
+      <div #gridContainer class="search-list-grid"></div>
+      <div class="search-list-loading-overlay" *ngIf="isLoading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
   </form>
 
   <div *ngIf="false">
