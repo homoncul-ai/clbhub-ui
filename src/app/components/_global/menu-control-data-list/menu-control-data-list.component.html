@@ -12,8 +12,7 @@
     
     <option 
       *ngFor="let item of menuItems" 
-      [value]="item.id"
-      [selected]="item.selected == true">
+      [value]="item.id">
       {{ item.name || 'Unnamed Item' }}
     </option>
   </select>

@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogEntryCriteria, CatalogEntryGETData, CatalogEntryPOSTData, CatalogEntryPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CatalogEntryCriteria, CatalogEntryGETData, CatalogEntryPOSTData, CatalogEntryPUTData, FeedEntryGETData, FeedEntryPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
-import { Observable, map } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
 import { AvailableSelectorComponent } from '@app/components/_global/available-selector/available-selector.component';
@@ -15,18 +14,19 @@ import { DategetdataDisplayComponent } from '@app/components/_global/dategetdata
 import { StdMdbFormTextComponent } from '@app/components/_global/std-mdb-form-text/std-mdb-form-text.component';
 import { StdMdbFormTextareaComponent } from '@app/components/_global/std-mdb-form-textarea/std-mdb-form-textarea.component';
 import { StdBooleanComponent } from '@app/components/_global/std-boolean/std-boolean.component';
+import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
 
 @Component({
   selector: 'app-catalogentry-crud',
   templateUrl: './catalogentry-crud.component.html',
   styleUrl: '../../_global/abstract-crud/abstract-crud.component.scss',
-  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, 
+  imports: [CommonModule, FormsModule, MdbFormsModule, TranslateModule, MdbAccordionModule,
     StdMdbFormTextComponent, StdMdbFormTextareaComponent, StdBooleanComponent,
     SimpleMessagesSectionComponent, MenuControlDataListComponent,
     AvailableSelectorComponent, DategetdataDisplayComponent],
   standalone: true
 })
-export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntryCrudWrapper> implements OnInit, OnChanges {
+export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntryCrudWrapper> implements OnInit {
 /**
  * This is a component that will be used to create, read, update and delete Catalog Entry
  * It will use the AbstractCrudComponent to handle the CRUD operations
@@ -50,6 +50,41 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
   // Error property for form validation
   public error: any = null;
+
+  /** When checked (default), catalog entry save also updates the linked feed entry. */
+  public autoUpdateFeedEntry: boolean = true;
+
+  /**
+   * Sentinel for “use Catalog’s default signup packet” (saved as null signupPacketId).
+   * Kept as a non-UUID so it never collides with a real packet id.
+   */
+  public static readonly CATALOG_DEFAULT_SIGNUP_PACKET = '__CATALOG_DEFAULT__';
+
+  /** Bound to the signup packet dropdown (packet id or CATALOG_DEFAULT_SIGNUP_PACKET). */
+  public signupPacketSelection: string = CatalogEntryCrudComponent.CATALOG_DEFAULT_SIGNUP_PACKET;
+
+  /** Stable dropdown menu (built once on load — not a getter — so the select keeps its selection). */
+  public signupPacketMenuWithDefault: MenuControlDataList | null = null;
+
+  /** Date-only form values (yyyy-MM-dd) for native date inputs. */
+  public dateStartInput: string = '';
+  public dateEndInput: string = '';
+
+  /** Accordion section currently open (onboard-style single-open layout). */
+  public accordionId: string = 'info';
+
+  /** Today's date for create / unpublished display (yyyy-MM-dd). */
+  public get todayDisplayDate(): string {
+    return this.toDateInput(new Date().toISOString());
+  }
+
+  public openAccordion(id: string): void {
+    this.accordionId = id;
+  }
+
+  public isAccordionCollapsed(id: string): boolean {
+    return this.accordionId !== id;
+  }
 
   // Validation methods
   private validateEntryCode(entryCode: string): string | null {
@@ -154,12 +189,151 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
 
   protected async loadEntityByIdCall(id: string): Promise<CatalogEntryCrudWrapper> {
-    var hint = this.getMode() === CRUD_MODES.EDIT ? "edit" : "";
+    // Use modeName (Input), not getMode(): prepareEditMode loads before setMode(EDIT),
+    // so getMode() is still unset and would request hint="" (no signupPacketMenu).
+    const wantsEditHint =
+      this.modeName === CRUD_MODES.EDIT ||
+      this.modeName === 'edit' ||
+      this.getMode() === CRUD_MODES.EDIT;
+    const hint = wantsEditHint ? 'edit' : '';
     const catalogEntry = await this.hcclService.getCatalogEntryByIdWithHint(id, hint).toPromise();
       if (catalogEntry) {
-        return new CatalogEntryCrudWrapper(catalogEntry, this.hcclService);
+        const wrapper = new CatalogEntryCrudWrapper(catalogEntry, this.hcclService);
+        this.initEditFormState(catalogEntry);
+        return wrapper;
       }
       throw new Error('Catalog Entry not found');
+  }
+
+  private initEditFormState(catalogEntry: CatalogEntryGETData): void {
+    this.dateStartInput = this.toDateInput(catalogEntry.dateStart);
+    this.dateEndInput = this.toDateInput(catalogEntry.dateEnd);
+    this.autoUpdateFeedEntry = true;
+    this.signupPacketMenuWithDefault = this.buildSignupPacketMenuWithDefault(catalogEntry);
+    this.initSignupPacketSelection(catalogEntry);
+  }
+
+  /**
+   * Edit hint may resolve a null DB signupPacketId to the Catalog packet.
+   * Prefer the menu’s selected flag (set from the raw DB id) to detect Catalog default.
+   */
+  private initSignupPacketSelection(catalogEntry: CatalogEntryGETData): void {
+    const menuItems = catalogEntry.signupPacketMenu?.menuItems || [];
+    const selected = menuItems.find(item => item.selected === true);
+    if (selected?.id) {
+      this.signupPacketSelection = selected.id;
+      return;
+    }
+    // No explicit packet in DB → Catalog default (even if GET signupPacketId was resolved).
+    this.signupPacketSelection = CatalogEntryCrudComponent.CATALOG_DEFAULT_SIGNUP_PACKET;
+  }
+
+  /**
+   * Backend toMenu labels SignupPacket via toString(): "Name available: 1".
+   * Clean that for display, drop selected flags (ngModel owns selection), append Catalog default.
+   */
+  private buildSignupPacketMenuWithDefault(catalogEntry: CatalogEntryGETData): MenuControlDataList {
+    const baseItems = catalogEntry.signupPacketMenu?.menuItems || [];
+    const packetItems: MenuControlData[] = baseItems
+      .filter(item => item.id && item.id !== CatalogEntryCrudComponent.CATALOG_DEFAULT_SIGNUP_PACKET)
+      .map(item => ({
+        id: item.id,
+        name: this.cleanSignupPacketLabel(item.name),
+      }));
+
+    const catalogPacketId = catalogEntry.catalog?.signupPacketId;
+    const catalogPacket = catalogPacketId
+      ? packetItems.find(item => item.id === catalogPacketId)
+      : null;
+    const defaultLabel = catalogPacket?.name
+      ? `Catalog default (${catalogPacket.name})`
+      : 'Catalog default';
+
+    return {
+      menuItems: [
+        ...packetItems,
+        {
+          id: CatalogEntryCrudComponent.CATALOG_DEFAULT_SIGNUP_PACKET,
+          name: defaultLabel,
+        },
+      ],
+    };
+  }
+
+  private cleanSignupPacketLabel(name: string | undefined): string {
+    const raw = (name || '').trim();
+    if (!raw) {
+      return 'Unnamed Signup Packet';
+    }
+    // Strip backend toString suffix: " available: 0|1|2"
+    return raw.replace(/\s+available:\s*\d+\s*$/i, '').trim() || raw;
+  }
+
+  /**
+   * Normalize DateGETData / ISO strings to yyyy-MM-dd for <input type="date">.
+   * Same approach as experience-edit / onboard (no timezone math when ISO prefix exists).
+   */
+  private toDateInput(value: any): string {
+    if (!value) {
+      return '';
+    }
+
+    if (typeof value === 'string') {
+      return value.substring(0, 10);
+    }
+
+    for (const candidate of [value.date, value.formattedDateTime, value.formattedDate, value.isoDate, value.isoDateTime]) {
+      if (typeof candidate === 'string' && /^\d{4}-\d{2}-\d{2}/.test(candidate)) {
+        return candidate.substring(0, 10);
+      }
+    }
+
+    if (value.year && value.month && value.dayOfMonth) {
+      const mm = String(value.month).padStart(2, '0');
+      const dd = String(value.dayOfMonth).padStart(2, '0');
+      return `${value.year}-${mm}-${dd}`;
+    }
+
+    if (typeof value.dateMilliseconds === 'number') {
+      const dt = new Date(value.dateMilliseconds);
+      if (!isNaN(dt.getTime())) {
+        return dt.toISOString().substring(0, 10);
+      }
+    }
+
+    return '';
+  }
+
+  /**
+   * Convert date-only (yyyy-MM-dd) to backend @JsonFormat pattern yyyy-MM-dd'T'HH:mm:ss.
+   */
+  private toApiDateTime(value: string | undefined | null): string | undefined {
+    if (!value) {
+      return undefined;
+    }
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return undefined;
+    }
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+      return `${trimmed}T00:00:00`;
+    }
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+      return trimmed;
+    }
+    return trimmed;
+  }
+
+  public isEventType(): boolean {
+    return (this.catalogTypeCode || '').toLowerCase() === 'event';
+  }
+
+  private resolveSignupPacketIdForSave(): string | null {
+    const selection = (this.signupPacketSelection || '').trim();
+    if (!selection || selection === CatalogEntryCrudComponent.CATALOG_DEFAULT_SIGNUP_PACKET) {
+      return null;
+    }
+    return selection;
   }
   
 
@@ -188,7 +362,8 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
        integrationEntityType: catalogEntryData.integrationEntityType || '',
        integrationEntityName: catalogEntryData.integrationEntityName || '',
        catalogTypeCode: catalogEntryData.catalogTypeCode || '',
-       catalogTypeId: catalogEntryData.catalogTypeId || ''
+       catalogTypeId: catalogEntryData.catalogTypeId || '',
+       dateListingStarts: this.toApiDateTime(this.todayDisplayDate),
      };
 
      try {
@@ -216,31 +391,81 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
       if (!catalogEntryData.id) {
         throw new Error('Catalog Entry ID is required for update');    }
 
+      // Explicit null inherits Catalog signup packet.
       const putData: CatalogEntryPUTData = {
         catalogId: catalogEntryData.catalogId || '',
-        signupPacketId: catalogEntryData.signupPacketId,
+        signupPacketId: this.resolveSignupPacketIdForSave() as unknown as string,
         entryCode: catalogEntryData.entryCode || '',
         title: catalogEntryData.title || '',
         shortDescription: catalogEntryData.shortDescription || '',
         description: catalogEntryData.description || '',
         notes: catalogEntryData.notes || '',
-        available: catalogEntryData.available || 1,
+        available: catalogEntryData.available ?? 1,
         url: catalogEntryData.url || '',
         vocodeInstanceId: catalogEntryData.vocodeInstanceId || '',
         integrationEntityId: catalogEntryData.integrationEntityId || '',
         integrationEntityType: catalogEntryData.integrationEntityType || '',
         integrationEntityName: catalogEntryData.integrationEntityName || '',
         catalogTypeCode: catalogEntryData.catalogTypeCode || '',
-        catalogTypeId: catalogEntryData.catalogTypeId || ''
+        catalogTypeId: catalogEntryData.catalogTypeId || '',
+        ageRequired: catalogEntryData.ageRequired,
+        tarotFileId: catalogEntryData.tarotFileId,
+        tarotFileUrl: catalogEntryData.tarotFileUrl,
+        hcclAddrId: catalogEntryData.hcclAddrId,
+        // Preserve existing publish date (read-only). If unset, stamp today.
+        dateListingStarts: this.toApiDateTime(
+          this.toDateInput(catalogEntryData.dateListingStarts) || this.todayDisplayDate
+        ),
+        dateStart: this.toApiDateTime(this.dateStartInput),
+        dateEnd: this.toApiDateTime(this.dateEndInput),
       };
 
       try {
         await this.hcclService.updateCatalogEntryById(catalogEntryData.id, putData).toPromise();
+
+        if (this.autoUpdateFeedEntry) {
+          await this.syncFeedEntryFromCatalogEntry(catalogEntryData);
+        }
+
         this.clearValidationErrors(); // Clear errors on success
       } catch (error) {
         console.error('Update error:', error);
         throw error;
       }
+  }
+
+  /**
+   * Mirror createStarterFeedEntry mapping onto the linked feed entry (when present).
+   */
+  private async syncFeedEntryFromCatalogEntry(catalogEntryData: CatalogEntryGETData): Promise<void> {
+    const feedEntry = catalogEntryData.feedEntry;
+    if (!feedEntry?.id) {
+      console.warn('No linked feed entry to sync for catalog entry', catalogEntryData.id);
+      return;
+    }
+
+    const mdContents = catalogEntryData.description || catalogEntryData.mdContents || '';
+    const putData: FeedEntryPUTData = {
+      feedTypeCode: feedEntry.feedTypeCode || 'CatalogEntry',
+      feedSubTypeCode: catalogEntryData.catalogTypeCode || feedEntry.feedSubTypeCode,
+      title: catalogEntryData.title || '',
+      mdContents,
+      // mdMore is a feed UI truncation concern — preserve existing feed value.
+      mdMore: feedEntry.mdMore,
+      imageFileId: catalogEntryData.tarotFileId || feedEntry.imageFileId,
+      imageFileUrl: catalogEntryData.tarotFileUrl || feedEntry.imageFileUrl,
+      version: feedEntry.version,
+      subjectEntityId: feedEntry.subjectEntityId || catalogEntryData.id,
+      subjectEntityType: feedEntry.subjectEntityType || catalogEntryData.entityType,
+      subjectEntityName: feedEntry.subjectEntityName || catalogEntryData.title,
+      hcclAddrId: catalogEntryData.hcclAddrId || feedEntry.hcclAddrId,
+      postedByEntityId: feedEntry.postedByEntityId,
+      postedByEntityType: feedEntry.postedByEntityType,
+      postedByEntityName: feedEntry.postedByEntityName,
+      postedByEntityExtra: feedEntry.postedByEntityExtra,
+    };
+
+    await this.hcclService.updateFeedEntryById(feedEntry.id, putData).toPromise();
   }
 
   protected async deleteEntityData(id: string): Promise<boolean> {
@@ -393,6 +618,20 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
     data.getData().catalogTypeCode = value;
   }
 
+  public get ageRequired(): number | null {
+    const value = this.getCurrentEntity().getData().ageRequired;
+    return value === undefined || value === null ? null : value;
+  }
+
+  public set ageRequired(value: number | null) {
+    var data = super.getEntityForSet();
+    data.getData().ageRequired = value === null ? undefined : value;
+  }
+
+  public get dateListingStarts() {
+    return this.getCurrentEntity().getData().dateListingStarts || null;
+  }
+
   // Signup Packet ID - the selected signup packet for this catalog entry
   public get signupPacketId(): string {
     return this.getCurrentEntity().getData().signupPacketId || '';
@@ -400,7 +639,7 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
   public set signupPacketId(value: string) {
     var data = super.getEntityForSet();
-    data.getData().signupPacketId = value;
+    data.getData().signupPacketId = value || undefined;
   }
 
   // Menu getters - these come from the entity's menus property
@@ -410,6 +649,10 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
 
   public get signupPacketMenu(): MenuControlDataList | null {
     return this.getCurrentEntity().getData().signupPacketMenu || null;
+  }
+
+  public get linkedFeedEntry(): FeedEntryGETData | null {
+    return this.getCurrentEntity().getData().feedEntry || null;
   }
 
   /**
@@ -588,4 +831,4 @@ export class CatalogEntryCrudWrapper extends EntityWrapper<CatalogEntryGETData> 
     });
     return { menuItems: menuItems } as MenuControlDataList;
   }
-} 
+}

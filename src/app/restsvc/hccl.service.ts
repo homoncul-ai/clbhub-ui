@@ -5916,9 +5916,14 @@ export interface CatalogEntryGETData {
   entryStatusCode?: string;
   online?: number;
   available?: number;
+  dateUnavailable?: DateGETData;
   url?: string;
   tarotFileId?: string;
   tarotFileUrl?: string;
+  dateListingStarts?: DateGETData;
+  dateListingEnds?: DateGETData;
+  dateStart?: DateGETData;
+  dateEnd?: DateGETData;
   vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;

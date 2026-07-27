@@ -173,95 +173,226 @@
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <form (ngSubmit)="updateEntity(getCurrentEntity())">
-        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <div class="form-actions" style="display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #dee2e6;">
           <button type="submit" class="btn btn-success">Save</button>
           <button type="button" (click)="switchToDetailMode()" class="btn btn-secondary">Cancel</button>
         </div>
 
-        <div class="form-group">
-          <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntry" 
-          name="entryCode"
-          label="Entry Code"
-          [required]="true"
-          [maxLength]="50"
-          [error]="error"
-          [(ngModel)]="entryCode">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntry" 
-          name="title"
-          label="Title"
-          [required]="true"
-          [maxLength]="255"
-          [error]="error"
-          [(ngModel)]="title">
-        </app-std-mdb-form-text>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="catalogEntry" 
-          name="shortDescription"
-          label="Short Description"
-          [required]="true"
-          [maxLength]="1024"
-          [error]="error"
-          [(ngModel)]="shortDescription">
-        </app-std-mdb-form-textarea>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="catalogEntry" 
-          name="description"
-          label="Description"
-          [required]="true"
-          [error]="error"
-          [(ngModel)]="description">
-        </app-std-mdb-form-textarea>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-textarea 
-          prefix="catalogEntry" 
-          name="notes"
-          label="Notes"
-          [error]="error"
-          [(ngModel)]="notes">
-        </app-std-mdb-form-textarea>
-        </div>
-        <div class="mb-4">
-          <label>Available:</label>
-          <app-available-selector [(ngModel)]="available"></app-available-selector>
-        </div>
-        <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntry" 
-          name="url"
-          label="URL"
-          [error]="error"
-          [(ngModel)]="url">
-        </app-std-mdb-form-text>
-        </div>
-        <!-- <div class="mb-4">
-        <app-std-mdb-form-text 
-          prefix="catalogEntry" 
-          name="vocodeInstanceId"
-          label="Vocode Instance ID"
-          [error]="error"
-          [(ngModel)]="vocodeInstanceId">
-        </app-std-mdb-form-text>
-        </div> -->
-         
-            <!-- Signup Packet selection -->
-            <div class="mb-4" *ngIf="signupPacketMenu">
-              <label>Signup Packet:</label>
-              <app-menu-control-data-list [menuControlDataList]="signupPacketMenu" [(ngModel)]="signupPacketId"></app-menu-control-data-list>
-            </div>
-        </div>
+        <mdb-accordion [multiple]="false">
+          <!-- 1. Catalog Entry Info -->
+          <mdb-accordion-item
+            [collapsed]="isAccordionCollapsed('info')"
+            (itemShow)="openAccordion('info')">
+            <ng-template mdbAccordionItemHeader>
+              <i class="fas fa-info-circle me-2"></i>
+              1. Catalog Entry Info
+            </ng-template>
+            <ng-template mdbAccordionItemBody>
+              <div class="accordion-body-content">
+                <p class="text-muted small mb-3">
+                  These fields drive search results and the student feed entry.
+                  <span *ngIf="catalogTypeCode" class="ms-1">Type: <strong>{{ catalogTypeCode }}</strong></span>
+                </p>
 
-    
+                <div class="mb-4">
+                  <app-std-mdb-form-text
+                    prefix="catalogEntry"
+                    name="entryCode"
+                    label="Entry Code"
+                    [required]="true"
+                    [maxLength]="50"
+                    [error]="error"
+                    [(ngModel)]="entryCode">
+                  </app-std-mdb-form-text>
+                </div>
+                <div class="mb-4">
+                  <app-std-mdb-form-text
+                    prefix="catalogEntry"
+                    name="title"
+                    label="Title"
+                    [required]="true"
+                    [maxLength]="255"
+                    [error]="error"
+                    [(ngModel)]="title">
+                  </app-std-mdb-form-text>
+                </div>
+                <div class="mb-4">
+                  <app-std-mdb-form-textarea
+                    prefix="catalogEntry"
+                    name="shortDescription"
+                    label="Short Description"
+                    [required]="true"
+                    [maxLength]="1024"
+                    [error]="error"
+                    [(ngModel)]="shortDescription">
+                  </app-std-mdb-form-textarea>
+                </div>
+                <div class="mb-4">
+                  <app-std-mdb-form-textarea
+                    prefix="catalogEntry"
+                    name="description"
+                    label="Description"
+                    [required]="true"
+                    [error]="error"
+                    [(ngModel)]="description">
+                  </app-std-mdb-form-textarea>
+                </div>
+                <div class="mb-4">
+                  <app-std-mdb-form-text
+                    prefix="catalogEntry"
+                    name="url"
+                    label="URL"
+                    [error]="error"
+                    [(ngModel)]="url">
+                  </app-std-mdb-form-text>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="catalogEntry-ageRequired">Age Required</label>
+                  <input
+                    id="catalogEntry-ageRequired"
+                    type="number"
+                    class="form-control"
+                    name="ageRequired"
+                    [(ngModel)]="ageRequired" />
+                  <div class="form-text">Used for age icons on the student feed (e.g. 18 for Over 18).</div>
+                </div>
+                <div class="mb-4">
+                  <app-std-mdb-form-textarea
+                    prefix="catalogEntry"
+                    name="notes"
+                    label="Notes"
+                    [error]="error"
+                    [(ngModel)]="notes">
+                  </app-std-mdb-form-textarea>
+                </div>
+                <div class="form-check mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="autoUpdateFeedEntry"
+                    name="autoUpdateFeedEntry"
+                    [(ngModel)]="autoUpdateFeedEntry" />
+                  <label class="form-check-label" for="autoUpdateFeedEntry">
+                    Automatically update feed entry
+                  </label>
+                  <div class="form-text">
+                    When checked, saving also syncs the linked feed entry from this catalog entry (title, description, type, image, address).
+                    <span *ngIf="!linkedFeedEntry?.id" class="text-warning d-block">No linked feed entry was loaded for this catalog entry.</span>
+                  </div>
+                </div>                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-outline-primary" (click)="openAccordion('publish')">
+                    Continue to Publish Info
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </mdb-accordion-item>
+
+          <!-- 2. Publish Info -->
+          <mdb-accordion-item
+            [collapsed]="isAccordionCollapsed('publish')"
+            (itemShow)="openAccordion('publish')">
+            <ng-template mdbAccordionItemHeader>
+              <i class="fas fa-bullhorn me-2"></i>
+              2. Publish Info
+            </ng-template>
+            <ng-template mdbAccordionItemBody>
+              <div class="accordion-body-content">
+                <div class="mb-4">
+                  <label class="form-label">Available (Publish / Unpublish)</label>
+                  <app-available-selector [(available)]="available"></app-available-selector>
+                  <div class="form-text">Turn off to unpublish; turn on to publish for search/feed.</div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label">Date Published</label>
+                  <div>
+                    <app-dategetdata-display
+                      *ngIf="dateListingStarts"
+                      [data]="dateListingStarts">
+                    </app-dategetdata-display>
+                    <span *ngIf="!dateListingStarts">{{ todayDisplayDate }}</span>
+                  </div>
+                  <div class="form-text">Last publish date</div>
+                </div>
+                <div class="d-flex gap-2">
+                  <button *ngIf="isEventType()" type="button" class="btn btn-outline-primary" (click)="openAccordion('event')">
+                    Continue to Event Dates
+                  </button>
+                  <button *ngIf="!isEventType()" type="button" class="btn btn-outline-primary" (click)="openAccordion('signup')">
+                    Continue to Signup
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </mdb-accordion-item>
+
+          <!-- 3. Event Dates (event type only) -->
+          <mdb-accordion-item
+            *ngIf="isEventType()"
+            [collapsed]="isAccordionCollapsed('event')"
+            (itemShow)="openAccordion('event')">
+            <ng-template mdbAccordionItemHeader>
+              <i class="fas fa-calendar-alt me-2"></i>
+              3. Event Dates
+            </ng-template>
+            <ng-template mdbAccordionItemBody>
+              <div class="accordion-body-content">
+                <div class="row g-3 mb-4">
+                  <div class="col-md-6">
+                    <label class="form-label" for="catalogEntry-dateStart">Event Start</label>
+                    <input
+                      id="catalogEntry-dateStart"
+                      type="date"
+                      class="form-control"
+                      name="dateStart"
+                      [(ngModel)]="dateStartInput" />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="catalogEntry-dateEnd">Event End</label>
+                    <input
+                      id="catalogEntry-dateEnd"
+                      type="date"
+                      class="form-control"
+                      name="dateEnd"
+                      [(ngModel)]="dateEndInput" />
+                  </div>
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-outline-primary" (click)="openAccordion('signup')">
+                    Continue to Signup
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </mdb-accordion-item>
+
+          <!-- 4. Signup -->
+          <mdb-accordion-item
+            [collapsed]="isAccordionCollapsed('signup')"
+            (itemShow)="openAccordion('signup')">
+            <ng-template mdbAccordionItemHeader>
+              <i class="fas fa-file-signature me-2"></i>
+              {{ isEventType() ? '4' : '3' }}. Signup
+            </ng-template>
+            <ng-template mdbAccordionItemBody>
+              <div class="accordion-body-content">
+                <div class="mb-2" *ngIf="signupPacketMenuWithDefault as signupMenu">
+                  <label class="form-label">Signup Packet</label>
+                  <app-menu-control-data-list
+                    [menuControlDataList]="signupMenu"
+                    [(ngModel)]="signupPacketSelection"
+                    name="signupPacketSelection"
+                    [placeholder]="'Select a signup packet...'">
+                  </app-menu-control-data-list>
+                  <div class="form-text">
+                    Choose a custom packet, or “Catalog default” to use the Catalog’s signup packet.
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </mdb-accordion-item>
+        </mdb-accordion>
+
       </form>
     </div>
   </div>
