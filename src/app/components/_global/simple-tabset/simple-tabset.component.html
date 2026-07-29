@@ -1,14 +1,14 @@
 <div class="tabset">
   <ul class="tab-nav" *ngIf="displayMode === 'tabs'">
-    <li 
-      *ngFor="let tab of tabs"
-      [class.active]="tab.id === currentTabId"
-      (click)="selectTab(tab.id)"
-      class="tab-item">
-      <ng-container *ngIf="tab.showingTabFunction()">
+    <ng-container *ngFor="let tab of tabs">
+      <li
+        *ngIf="tab.showingTabFunction()"
+        [class.active]="tab.id === currentTabId"
+        (click)="selectTab(tab.id)"
+        class="tab-item">
         {{ tab.label }}
-      </ng-container>
-    </li>
+      </li>
+    </ng-container>
   </ul>
   <div class="button-bar" *ngIf="displayMode === 'buttons'">
     <button *ngFor="let tab of tabs" (click)="selectTab(tab.id)">

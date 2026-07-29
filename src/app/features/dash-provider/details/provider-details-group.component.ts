@@ -74,20 +74,20 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
           return this.entity !== null;
         }
       ),
-      new SimpleTab('staffmember', 'Staff Member', '', 
-        () => {
-          this.router.navigate([baseRoute, 'staffmember']);
-        },
-        () => {
-          return this.entity !== null && this.childId !== undefined;
-        }
-      ),
       new SimpleTab('invitations', 'Invitations', '', 
         () => {
           this.router.navigate([baseRoute, 'invitations']);
         },
         () => {
           return this.entity !== null;
+        }
+      ),
+      new SimpleTab('staffmember', 'Staff Member', '', 
+        () => {
+          this.router.navigate([baseRoute, 'staffmember', this.childId]);
+        },
+        () => {
+          return this.currentTabId === 'staffmember';
         }
       )
     ];
@@ -128,6 +128,20 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
     return {
       organizationId: this.organizationId
     };
+  }
+
+  protected override populateFromParams(params: any): void {
+    super.populateFromParams(params);
+    // Always sync from the route: parent only sets these when previously empty.
+    if (params['tabId']) {
+      this.tabId = params['tabId'];
+    }
+    this.childId = params['childId'];
+  }
+
+  protected override calculateTabIdFromUrl(tabId_in: string): string {
+    // Route is details/:tabId/:childId — last URL segment is often childId, not tabId.
+    return this.tabId || tabId_in || this.getDefaultTabId();
   }
 
 }
