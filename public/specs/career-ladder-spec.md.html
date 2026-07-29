@@ -1,0 +1,268 @@
+<meta charset="utf-8">
+<title>Career Ladder Spec</title>
+
+[← Specs index](./)
+
+# Career Ladder Spec
+
+JSON and bean model for creating **CareerLadder** and **CareerLadderRung** content, plus how a learner progresses through a ladder in the system.
+
+---
+
+## Reference beans (setup / catalog)
+
+| # | Bean | Role |
+|---|------|------|
+| 1 | **CareerLadderRef** | Reference for a career ladder (e.g. healthcare-aide). |
+| 2 | **CareerLadderRungRef** | A rung on a ladder. Links to an action-group definition of what that rung asks of the learner. |
+| 3 | **PActionGroupRef** | Aspiration / plan template — e.g. “get a job as a CNA.” Like a test plan: what we’re going to do. |
+| 4 | **PActionDetailRef** | A concrete thing you can sign up for and be evaluated on (entry + completion). Master/detail to **PLinkedQualifier**. Examples: babysit, work on a job site, complete a training program. |
+| 5 | **PLinkedQualifier** | Links a **PActionDetailRef** to a **QualifierRef**. Each goal has requirements / outcomes. |
+| 6 | **QualifierRef** | A requirement or qualification that can appear on a resume. Examples: GED, a certification, lift 50 lbs, town residency, Over18, merit badge. |
+| 7 | **QualifierTypeRef** | Type of qualifier: Education, Certification, Intrinsic, etc. |
+
+### PLinkedQualifier types
+
+- **Requirement** — Needed before starting or applying (used to gauge suitability).
+- **Earned** — Qualification gained once the learner finishes the activity (class, experience, exam).
+
+---
+
+## Instance beans (per learner)
+
+| # | Bean | Example |
+|---|------|---------|
+| 1 | **PActionGroupInstance** | Yvonne wants to become a day-care specialist, level 1. |
+| 2 | **PActionDetailInstance** | Yvonne will babysit — the detail instance carries a score. |
+| 3 | **PLinkedQualifierInstance** | Yvonne’s readiness for “likes kids,” readiness for first aid. |
+
+### Related beans
+
+**PQualification** — Links a **QualifierRef**, type, and experience to a user.
+
+- Rocco earned his GED via Experience:GED Test at HHS — summer 2025 (notes, optional approver).
+- Default facts (e.g. Rocco is over 18).
+- Used for gates: can Rocco take a college-level course? Work as a store clerk at night?
+
+**Experience** — Concrete offering that can award qualifiers.
+
+- Samantha Watson taught an AI cohort over the summer.
+- Learners who complete that class receive a GED-related certificate (example of Experience → Qualifier).
+
+---
+
+## How beans fit together
+
+```text
+CareerLadderRef
+  └── CareerLadderRungRef[]          (ordered rungs)
+        └── PActionGroupRef          (what this rung asks you to do)
+              └── PActionDetailRef[] (sign-up activities)
+                    └── PLinkedQualifier[]  → QualifierRef (+ QualifierTypeRef)
+                          ├── Requirement
+                          └── Earned
+
+Per learner:
+  PActionGroupInstance
+    └── PActionDetailInstance[]
+          └── PLinkedQualifierInstance[]
+  PQualification[]  (earned / attested quals on the person)
+```
+
+Public API shape (for import / browse) maps roughly to:
+
+- Ladder → **CareerLadderRef** (+ nested rung summaries)
+- Rung → **CareerLadderRungRef** (+ requirements, skills, certifications as **QualifierRef** / linked content)
+- Certifications / tutorials → catalog of **QualifierRef** / **PActionDetailRef**-style offerings
+
+---
+
+## JSON example — rung
+
+Maps to **CareerLadderRungRef** content (plus linked certifications as **QualifierRef**).
+
+```json
+{
+  "slug": "cna",
+  "title": "Certified Nursing Assistant (CNA)",
+  "shortTitle": "CNA",
+  "oneLiner": "Pass a 75–100 hour MA-approved CNA program — work in nursing homes, hospitals, and rehabs.",
+  "summary": "A CNA is a state-registered aide who works under the direction of a nurse, mostly in nursing homes, rehabs, and hospitals. In MA, you complete a Department of Public Health (DPH) approved Nurse Aide Training Program (typically 75–100 hours, 4–8 weeks), then pass the MA Nurse Aide Competency Exam (written + skills) to be added to the MA Nurse Aide Registry. Many MA employers will hire you BEFORE you certify and pay for the training — long-term care facilities especially. The CNA credential is portable across all 50 states (with reciprocity) and is the most common stepping stone into LPN and RN school.",
+  "payHint": "$19–$28/hr in MA. Hospitals and union nursing homes pay the high end; weekend and overnight differentials add 10–25%.",
+  "ageNote": "Must be at least 16 to enroll in a MA CNA program; most employers hire at 18+.",
+  "requirements": [
+    {
+      "label": "Complete a MA DPH-approved Nurse Aide Training Program",
+      "detail": "75–100 hours of classroom + clinical (typically 4–8 weeks). Offered at MA community colleges, vocational schools, the American Red Cross, and many long-term care employers (often free if you commit to working there)."
+    },
+    {
+      "label": "Pass the MA Nurse Aide Competency Exam",
+      "detail": "Two parts: written (multiple choice) and skills (5 randomly-selected hands-on tasks performed for an evaluator). Administered by Prometric or the Red Cross in MA."
+    },
+    {
+      "label": "Listed on the MA Nurse Aide Registry",
+      "detail": "Once you pass, MA DPH adds you to the registry. Renew every 2 years (requires at least 8 hours of paid nurse-aide work in the prior 24 months)."
+    },
+    {
+      "label": "CORI + fingerprint background check",
+      "detail": "Required for placement and certification."
+    }
+  ],
+  "skills": [
+    "Activities of Daily Living (ADLs) — bathing, dressing, feeding, toileting",
+    "Vital signs (BP, pulse, respiration, temperature, pulse ox)",
+    "Safe patient handling, transfers, and gait belt use",
+    "Infection control and PPE use",
+    "Charting in EHR systems (Epic, MatrixCare, PointClickCare)",
+    "Recognizing changes in patient status and reporting up the chain"
+  ],
+  "standOut": [
+    {
+      "type": "certification",
+      "certification": {
+        "id": "ma-cna",
+        "name": "MA Certified Nursing Assistant (CNA)",
+        "shortName": "CNA"
+      },
+      "note": "The CNA itself opens hospital and union jobs that PCAs can't access."
+    },
+    {
+      "type": "certification",
+      "certification": {
+        "id": "cpr-fa",
+        "name": "CPR & First Aid",
+        "shortName": "CPR / FA"
+      },
+      "note": "BLS-level CPR is required by virtually all MA hospitals and most nursing homes."
+    },
+    {
+      "type": "text",
+      "text": "Free CNA training programs at MA long-term care facilities (sign-on bonus + paid training)"
+    },
+    {
+      "type": "text",
+      "text": "Vocational high school health science track (Worcester Tech, Madison Park, Greater Lowell Tech)"
+    },
+    {
+      "type": "text",
+      "text": "MassReconnect — free community college for adults 25+ without a degree"
+    },
+    {
+      "type": "text",
+      "text": "Bilingual in any of MA's most common languages"
+    }
+  ],
+  "takeAStep": [
+    "Look up MA DPH-approved Nurse Aide Training Programs at your nearest community college",
+    "Call 3 local nursing homes and ask if they offer paid CNA training",
+    "Apply for the Red Cross CNA program (Boston, Springfield, Worcester sites)",
+    "Get your CPR / BLS card scheduled — you'll need it for clinicals anyway"
+  ],
+  "certifications": [
+    {
+      "id": "cpr-fa",
+      "name": "CPR & First Aid",
+      "shortName": "CPR / FA"
+    },
+    {
+      "id": "ma-cna",
+      "name": "MA Certified Nursing Assistant (CNA)",
+      "shortName": "CNA"
+    },
+    {
+      "id": "hha-75hr",
+      "name": "Home Health Aide (HHA) Training — 75 hours",
+      "shortName": "HHA"
+    }
+  ]
+}
+```
+
+---
+
+## JSON example — career ladder
+
+Maps to **CareerLadderRef** with ordered **CareerLadderRungRef** summaries and ladder-level certifications (**QualifierRef**).
+
+```json
+{
+  "slug": "healthcare-aide",
+  "rungs": [
+    {
+      "slug": "home-health-aide",
+      "title": "Home Health Aide / Personal Care Aide",
+      "shortTitle": "HHA / PCA",
+      "oneLiner": "Help seniors and people with disabilities live at home — paid, no license required."
+    },
+    {
+      "slug": "cna",
+      "title": "Certified Nursing Assistant (CNA)",
+      "shortTitle": "CNA",
+      "oneLiner": "Pass a 75–100 hour MA-approved CNA program — work in nursing homes, hospitals, and rehabs."
+    },
+    {
+      "slug": "lpn",
+      "title": "Licensed Practical Nurse (LPN)",
+      "shortTitle": "LPN",
+      "oneLiner": "1 year of MA-approved practical nursing school + NCLEX-PN — your first nursing license."
+    },
+    {
+      "slug": "rn",
+      "title": "Registered Nurse (RN)",
+      "shortTitle": "RN",
+      "oneLiner": "ADN or BSN + NCLEX-RN — the credential that opens every hospital, ICU, and specialty in MA."
+    },
+    {
+      "slug": "nurse-leader",
+      "title": "Charge Nurse / Nurse Manager / NP",
+      "shortTitle": "Nurse Leader",
+      "oneLiner": "Lead a unit, specialize as an NP, or run hospital operations — the top of the ladder."
+    }
+  ],
+  "certifications": [
+    { "id": "ged-healthcare", "name": "High School Diploma or GED / HiSET", "shortName": "HS / GED" },
+    { "id": "cpr-fa", "name": "CPR & First Aid", "shortName": "CPR / FA" },
+    { "id": "cpr-bls", "name": "BLS for Healthcare Providers", "shortName": "BLS" },
+    { "id": "hha-75hr", "name": "Home Health Aide (HHA) Training — 75 hours", "shortName": "HHA" },
+    { "id": "ma-cna", "name": "MA Certified Nursing Assistant (CNA)", "shortName": "CNA" },
+    { "id": "ma-lpn", "name": "MA Licensed Practical Nurse (LPN)", "shortName": "LPN" },
+    { "id": "ma-rn", "name": "MA Registered Nurse (RN)", "shortName": "RN" },
+    { "id": "acls-pals", "name": "ACLS & PALS", "shortName": "ACLS / PALS" },
+    { "id": "ma-np", "name": "MA Nurse Practitioner (NP) Authorization", "shortName": "NP" },
+    { "id": "ancc-leadership", "name": "ANCC Nurse Executive / Leadership Certification", "shortName": "ANCC Exec" }
+  ]
+}
+```
+
+---
+
+## User interaction narratives
+
+### Narrative 1 — Yvonne: first rung, “try before you commit”
+
+Yvonne is 17 and curious about working with kids and elders. She opens the **healthcare-aide** ladder (**CareerLadderRef**) and browses rungs. The **home-health-aide** rung feels reachable; the **cna** rung looks like a stretch.
+
+She “starts” the HHA/PCA rung. The system creates a **PActionGroupInstance** aimed at that rung’s **PActionGroupRef**. Under it she sees concrete next steps as **PActionDetailRef** items — e.g. a short first-aid workshop and a supervised babysitting / companion shift. She signs up for babysitting; that creates a **PActionDetailInstance**.
+
+Before she can start, the system checks **PLinkedQualifier** rows of type **Requirement** (e.g. Over18 may be waived for school-sponsored babysitting; “likes working with people” readiness). Her counselor marks readiness on a **PLinkedQualifierInstance**. After a few scored babysitting sessions, her **PActionDetailInstance** score improves. Completing CPR awards a **PQualification** linked to **QualifierRef** `cpr-fa` (type **Earned**), which later unlocks CNA clinicals.
+
+In product terms: browse ladder → pick a rung → get a personal action plan → complete small activities → accumulate qualifiers → see the next rung light up.
+
+### Narrative 2 — Rocco: climbing with quals and an employer-paid program
+
+Rocco already works nights as a store clerk and has a GED on file as a **PQualification** (from Experience:GED Test at HHS). He opens the same ladder, skips HHA, and targets **cna**.
+
+The CNA rung’s **PActionGroupRef** lists details: enroll in a DPH-approved program, pass the competency exam, land on the registry. Requirement **PLinkedQualifier**s ask for HS/GED, age 16+, and ideally CPR. His GED **PQualification** satisfies the education gate; he still needs CPR, so the UI surfaces a **PActionDetailRef** for a weekend BLS class.
+
+He uses the research section to find a DPH-approved program, and signs up. 
+
+Completing the program + exam creates **PQualification**s for `ma-cna` (and updates readiness **PLinkedQualifierInstance**s). His **PActionGroupInstance** for the CNA rung moves to complete. The ladder UI advances his “current rung” toward **lpn**, showing remaining requirements (NCLEX path, time-on-job) without inventing progress he hasn’t earned.
+
+In product terms: existing quals short-circuit requirements → learner commits to a rung → experiences and employer programs feed **PQualification** → completion of the group instance is the signal that the rung is done and the next one is in play.
+
+
+
+<script>markdeepOptions = {tocStyle: 'long'};</script>
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
