@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { MenuService } from '@app/shell/services/menu.service';
 import { CatalogCriteria, CatalogGETData, HcclService } from '@app/restsvc/hccl.service';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { AbstractMultimodeComponent } from '@app/components/_global/abstract-multimode/abstract-multimode.component';
@@ -138,6 +139,7 @@ import { EditCatalogModalComponent } from './edit-catalog-modal.component';
 })
 export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<HcclOrganizationCrudWrapper> {
   private modalService = inject(MdbModalService);
+  private menuService = inject(MenuService);
   private addModalRef: MdbModalRef<AddCatalogModalComponent> | null = null;
   private editModalRef: MdbModalRef<EditCatalogModalComponent> | null = null;
 
@@ -222,7 +224,10 @@ export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<
    * Navigate to catalog detail page
    */
   protected viewCatalog(catalog: CatalogGETData): void {
-    this.router.navigate(['/catalogs', catalog.id]);
+    if (!catalog?.id) {
+      return;
+    }
+    this.router.navigate(['/provider-dashboard/catalogs', catalog.id]);
   }
 
   /**
@@ -249,7 +254,8 @@ export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<
   }
 
   /**
-   * Refresh the catalog list after adding a new catalog
+   * Refresh the catalog list after adding/updating a catalog,
+   * and rebuild the sidebar so labels (e.g. business code) update immediately.
    */
   private async refreshCatalogs(): Promise<void> {
     const catalogcriteria: CatalogCriteria = {
@@ -261,5 +267,6 @@ export class ProviderCatalogTabDashComponent extends AbstractMultimodeComponent<
     
     const catalogs = await this.hcclService.findCatalogs(catalogcriteria).toPromise();
     this.catalogList = catalogs?.searchResults || [];
+    this.menuService.requestMenuRefresh();
   }
 }

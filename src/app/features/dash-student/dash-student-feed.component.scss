@@ -7,9 +7,211 @@ $border-radius: 16px;
 $transition: all 0.25s ease;
 
 .feed-page {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0;
   padding: 24px;
+}
+
+.feed-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.feed-main {
+  flex: 1;
+  min-width: 0;
+  max-width: 800px;
+}
+
+.feed-filters {
+  flex: 0 0 280px;
+  position: sticky;
+  top: 24px;
+}
+
+.filters-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  padding: 20px;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+
+  i {
+    color: #667eea;
+    font-size: 16px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+}
+
+.filter-section {
+  margin-bottom: 20px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.filter-section-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.filter-checkbox,
+.filter-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: #334155;
+  cursor: pointer;
+  margin: 0;
+
+  input {
+    width: 16px;
+    height: 16px;
+    accent-color: #667eea;
+    cursor: pointer;
+  }
+}
+
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: #f9fafb;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+
+  i {
+    font-size: 0.85rem;
+    width: 16px;
+    text-align: center;
+  }
+
+  &:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  &.active {
+    background: rgba(102, 126, 234, 0.08);
+    color: #667eea;
+    border-color: #667eea;
+  }
+}
+
+.filter-date-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-preset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f9fafb;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  &.active {
+    background: rgba(102, 126, 234, 0.08);
+    color: #667eea;
+    border-color: #667eea;
+  }
+}
+
+.filter-preset-btn-more {
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+.filter-date-summary {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.filters-footer {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.clear-filters-btn {
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 10px;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f8fafc;
+    color: #334155;
+    border-color: rgba(148, 163, 184, 0.5);
+  }
+}
+
+.filters-count {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  font-size: 0.8rem;
+  color: #64748b;
+  text-align: center;
 }
 
 // Loading State
@@ -426,6 +628,21 @@ $radius-lg: 14px;
   }
 }
 
+.feed-date-created {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: $text-muted;
+}
+
+.feed-date-created-label {
+  font-weight: 600;
+  color: $text-sub;
+}
+
 .feed-source {
   position: relative;
   display: inline-flex;
@@ -557,6 +774,34 @@ $radius-lg: 14px;
 }
 
 // Responsive
+@media (max-width: 992px) {
+  .feed-layout {
+    flex-direction: column;
+  }
+
+  .feed-main {
+    max-width: none;
+    width: 100%;
+  }
+
+  .feed-filters {
+    flex: none;
+    width: 100%;
+    position: static;
+  }
+
+  .filter-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .filter-btn {
+      width: auto;
+      flex: 1 1 calc(50% - 4px);
+      min-width: 120px;
+    }
+  }
+}
+
 // Mobile tweaks
 @media (max-width: 768px) {
   .feed-item { border-radius: 16px; }

@@ -191,8 +191,19 @@
               <div class="accordion-body-content">
                 <p class="text-muted small mb-3">
                   These fields drive search results and the student feed entry.
-                  <span *ngIf="catalogTypeCode" class="ms-1">Type: <strong>{{ catalogTypeCode }}</strong></span>
                 </p>
+
+                <div class="mb-4" *ngIf="catalogTypeMenu">
+                  <label class="form-label">Entry Type</label>
+                  <app-menu-control-data-list
+                    [menuControlDataList]="catalogTypeMenu"
+                    [(ngModel)]="catalogTypeId"
+                    name="catalogTypeId"
+                    [placeholder]="'Select entry type...'"
+                    (selectionChange)="onCatalogTypeSelectionChange($event)">
+                  </app-menu-control-data-list>
+                  <div class="form-text">Controls feed subtype and whether event date fields apply (e.g. course, main, event).</div>
+                </div>
 
                 <div class="mb-4">
                   <app-std-mdb-form-text
@@ -302,17 +313,6 @@
                   <label class="form-label">Available (Publish / Unpublish)</label>
                   <app-available-selector [(available)]="available"></app-available-selector>
                   <div class="form-text">Turn off to unpublish; turn on to publish for search/feed.</div>
-                </div>
-                <div class="mb-4">
-                  <label class="form-label">Date Published</label>
-                  <div>
-                    <app-dategetdata-display
-                      *ngIf="dateListingStarts"
-                      [data]="dateListingStarts">
-                    </app-dategetdata-display>
-                    <span *ngIf="!dateListingStarts">{{ todayDisplayDate }}</span>
-                  </div>
-                  <div class="form-text">Last publish date</div>
                 </div>
                 <div class="d-flex gap-2">
                   <button *ngIf="isEventType()" type="button" class="btn btn-outline-primary" (click)="openAccordion('event')">
@@ -439,22 +439,6 @@
       <div class="detail-group">
         <label>URL:</label>
         <span>{{ getCurrentEntity().getData().url }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Vocode Instance ID:</label>
-        <span>{{ getCurrentEntity().getData().vocodeInstanceId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Integration Entity ID:</label>
-        <span>{{ getCurrentEntity().getData().integrationEntityId }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Integration Entity Type:</label>
-        <span>{{ getCurrentEntity().getData().integrationEntityType }}</span>
-      </div>
-      <div class="detail-group">
-        <label>Integration Entity Name:</label>
-        <span>{{ getCurrentEntity().getData().integrationEntityName }}</span>
       </div>
       <div class="detail-group">
         <label>Date Created:</label>

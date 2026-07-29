@@ -1,12 +1,8 @@
-
 <div *ngIf="!loading">
     <app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId" ></app-simple-tabset>
-  <pre>
-  <!-- id:{{ this.id }}
-  type:{{ this.getCurrentEntity().getData().catalogTypeId }} -->
-</pre>
-  <div *ngIf="currentTabId === 'dash'">   
-    <app-catalogentry-list [criteria]="getCatalogEntryCriteria()" 
+  <div *ngIf="currentTabId === 'dash' && id">   
+    <app-catalogentry-list
+    [criteria]="getCatalogEntryCriteria()" 
     [onRowClickBehavior]="getCatalogEntryOnClickBehavior()"
     [showingAddButton]="true"
     [showingGoButton]="false"
@@ -18,10 +14,6 @@
 
     <div *ngIf="catalogEntryId != ''">
       <app-catalogentry-ui [id]="this.catalogEntryId"></app-catalogentry-ui>
-    <!-- <app-catalogentry-crud [id]="this.catalogEntryId" [modeName]="'section'"></app-catalogentry-crud> -->
     </div>
   </div>
-
-{{currentTabId}}
-{{this.id}}
-{{loading}} 
+</div>

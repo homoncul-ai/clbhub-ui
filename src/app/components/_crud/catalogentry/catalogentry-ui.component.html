@@ -9,7 +9,7 @@
 </div>
 
 <div *ngIf="currentTabId === 'details' && this.isReadOnly() == false" >
-  <app-catalogentry-crud [id]="id" modeName="edit" ></app-catalogentry-crud>
+  <app-catalogentry-crud [id]="id" modeName="detail" ></app-catalogentry-crud>
 </div>
 <div *ngIf="currentTabId === 'details' && this.isReadOnly() == true">
   <app-catalogentry-crud [id]="id" modeName="card"></app-catalogentry-crud>

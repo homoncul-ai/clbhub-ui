@@ -5,7 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractCrudComponent } from '@app/components/_global/abstract-crud/abstract-crud.component';
 import { EntityWrapper } from '@app/models/crud-entity-wrapper';
-import { CatalogEntryCriteria, CatalogEntryGETData, CatalogEntryPOSTData, CatalogEntryPUTData, FeedEntryGETData, FeedEntryPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
+import { CatalogEntryCriteria, CatalogEntryGETData, CatalogEntryPOSTData, CatalogEntryPUTData, CatalogTypeRefGETData, FeedEntryGETData, FeedEntryPUTData, HcclService, MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
 import { CRUD_MODES } from '@app/@core/constants';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { MenuControlDataListComponent } from '@app/components/_global/menu-control-data-list/menu-control-data-list.component';
@@ -63,8 +63,12 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
   /** Bound to the signup packet dropdown (packet id or CATALOG_DEFAULT_SIGNUP_PACKET). */
   public signupPacketSelection: string = CatalogEntryCrudComponent.CATALOG_DEFAULT_SIGNUP_PACKET;
 
-  /** Stable dropdown menu (built once on load — not a getter — so the select keeps its selection). */
+  /** Stable dropdown menu (built once on load — not a getter). */
   public signupPacketMenuWithDefault: MenuControlDataList | null = null;
+
+  /** Catalog entry type options (course, main, event, etc.). */
+  public catalogTypeMenu: MenuControlDataList | null = null;
+  private catalogTypeById = new Map<string, CatalogTypeRefGETData>();
 
   /** Date-only form values (yyyy-MM-dd) for native date inputs. */
   public dateStartInput: string = '';
@@ -199,6 +203,7 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
     const catalogEntry = await this.hcclService.getCatalogEntryByIdWithHint(id, hint).toPromise();
       if (catalogEntry) {
         const wrapper = new CatalogEntryCrudWrapper(catalogEntry, this.hcclService);
+        await this.loadCatalogTypeMenu();
         this.initEditFormState(catalogEntry);
         return wrapper;
       }
@@ -211,6 +216,48 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
     this.autoUpdateFeedEntry = true;
     this.signupPacketMenuWithDefault = this.buildSignupPacketMenuWithDefault(catalogEntry);
     this.initSignupPacketSelection(catalogEntry);
+    this.syncCatalogTypeCodeFromId(catalogEntry.catalogTypeId);
+  }
+
+  private async loadCatalogTypeMenu(): Promise<void> {
+    try {
+      const response = await this.hcclService.findCatalogTypeRefs({
+        pageNumber: 1,
+        pageSize: 200,
+        isPaging: true,
+      }).toPromise();
+      const types = response?.searchResults || [];
+      this.catalogTypeById = new Map(
+        types.filter((t) => t.id).map((t) => [t.id!, t])
+      );
+      const menuItems: MenuControlData[] = types
+        .filter((t) => t.id)
+        .map((t) => ({
+          id: t.id,
+          name: t.name && t.businessCode ? `${t.name} (${t.businessCode})` : (t.businessCode || t.name || 'Unknown'),
+        }));
+      this.catalogTypeMenu = { menuItems };
+    } catch (error) {
+      console.error('Failed to load catalog entry types:', error);
+      this.catalogTypeMenu = null;
+      this.catalogTypeById = new Map();
+    }
+  }
+
+  private syncCatalogTypeCodeFromId(typeId: string | undefined): void {
+    if (!typeId) {
+      return;
+    }
+    const match = this.catalogTypeById.get(typeId);
+    if (match?.businessCode) {
+      this.catalogTypeCode = match.businessCode;
+    }
+  }
+
+  public onCatalogTypeSelectionChange(selected: MenuControlData | null): void {
+    if (selected?.id) {
+      this.catalogTypeId = selected.id;
+    }
   }
 
   /**
@@ -335,6 +382,14 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
     }
     return selection;
   }
+
+  /**
+   * Backend @Size(min=1) rejects empty strings — omit blank optional fields instead.
+   */
+  private optionalString(value: string | undefined | null): string | undefined {
+    const trimmed = (value || '').trim();
+    return trimmed ? trimmed : undefined;
+  }
   
 
   protected override async createEntityDataCall(entity: CatalogEntryCrudWrapper): Promise<any> {
@@ -356,11 +411,11 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
        description: catalogEntryData.description || '',
        notes: catalogEntryData.notes || '',
        available: catalogEntryData.available || 1,
-       url: catalogEntryData.url || '',
-       vocodeInstanceId: catalogEntryData.vocodeInstanceId || '',
-       integrationEntityId: catalogEntryData.integrationEntityId || '',
-       integrationEntityType: catalogEntryData.integrationEntityType || '',
-       integrationEntityName: catalogEntryData.integrationEntityName || '',
+       url: this.optionalString(catalogEntryData.url),
+       vocodeInstanceId: this.optionalString(catalogEntryData.vocodeInstanceId),
+       integrationEntityId: this.optionalString(catalogEntryData.integrationEntityId),
+       integrationEntityType: this.optionalString(catalogEntryData.integrationEntityType),
+       integrationEntityName: this.optionalString(catalogEntryData.integrationEntityName),
        catalogTypeCode: catalogEntryData.catalogTypeCode || '',
        catalogTypeId: catalogEntryData.catalogTypeId || '',
        dateListingStarts: this.toApiDateTime(this.todayDisplayDate),
@@ -401,21 +456,21 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
         description: catalogEntryData.description || '',
         notes: catalogEntryData.notes || '',
         available: catalogEntryData.available ?? 1,
-        url: catalogEntryData.url || '',
-        vocodeInstanceId: catalogEntryData.vocodeInstanceId || '',
-        integrationEntityId: catalogEntryData.integrationEntityId || '',
-        integrationEntityType: catalogEntryData.integrationEntityType || '',
-        integrationEntityName: catalogEntryData.integrationEntityName || '',
+        url: this.optionalString(catalogEntryData.url),
+        vocodeInstanceId: this.optionalString(catalogEntryData.vocodeInstanceId),
+        integrationEntityId: this.optionalString(catalogEntryData.integrationEntityId),
+        integrationEntityType: this.optionalString(catalogEntryData.integrationEntityType),
+        integrationEntityName: this.optionalString(catalogEntryData.integrationEntityName),
         catalogTypeCode: catalogEntryData.catalogTypeCode || '',
         catalogTypeId: catalogEntryData.catalogTypeId || '',
         ageRequired: catalogEntryData.ageRequired,
-        tarotFileId: catalogEntryData.tarotFileId,
-        tarotFileUrl: catalogEntryData.tarotFileUrl,
-        hcclAddrId: catalogEntryData.hcclAddrId,
-        // Preserve existing publish date (read-only). If unset, stamp today.
-        dateListingStarts: this.toApiDateTime(
-          this.toDateInput(catalogEntryData.dateListingStarts) || this.todayDisplayDate
-        ),
+        tarotFileId: this.optionalString(catalogEntryData.tarotFileId),
+        tarotFileUrl: this.optionalString(catalogEntryData.tarotFileUrl),
+        hcclAddrId: this.optionalString(catalogEntryData.hcclAddrId),
+        // Required for Hibernate @Version — PUT copyFromPUTData overwrites entity.version when omitted.
+        ...(catalogEntryData.version != null ? { version: catalogEntryData.version } : {}),
+        // Preserve listing start when set; leave unset for legacy rows (display falls back to dateCreated).
+        dateListingStarts: this.toApiDateTime(this.toDateInput(catalogEntryData.dateListingStarts)),
         dateStart: this.toApiDateTime(this.dateStartInput),
         dateEnd: this.toApiDateTime(this.dateEndInput),
       };
@@ -616,6 +671,16 @@ export class CatalogEntryCrudComponent extends AbstractCrudComponent<CatalogEntr
   public set catalogTypeCode(value: string) {
     var data = super.getEntityForSet();
     data.getData().catalogTypeCode = value;
+  }
+
+  public get catalogTypeId(): string {
+    return this.getCurrentEntity().getData().catalogTypeId || '';
+  }
+
+  public set catalogTypeId(value: string) {
+    var data = super.getEntityForSet();
+    data.getData().catalogTypeId = value;
+    this.syncCatalogTypeCodeFromId(value);
   }
 
   public get ageRequired(): number | null {

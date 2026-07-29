@@ -39,6 +39,24 @@ export class ProviderCatalogGroupComponent extends AbstractEntityGroupComponent<
       // Call parent ngOnInit after setting the ID
     });
   }
+
+  /**
+   * Always take catalog id/tab from the route. The base class only sets id when empty,
+   * so navigating Catalog A → Catalog B reused the old id and showed A's entries.
+   */
+  protected override populateFromParams(params: any): void {
+    if (params['id']) {
+      if (this.id && this.id !== params['id']) {
+        this.catalogEntryId = '';
+      }
+      this.id = params['id'];
+    }
+    if (params['tabId']) {
+      this.tabId = params['tabId'];
+    } else if (!this.tabId) {
+      this.tabId = this.getDefaultTabId();
+    }
+  }
  
   protected organizationId : string = '';
   protected getOrganizationId(): string {

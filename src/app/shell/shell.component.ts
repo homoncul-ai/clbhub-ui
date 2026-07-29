@@ -132,6 +132,19 @@ onHeaderAction(key: string): void {
     }
   }
 
+  /** Rebuild sidebar from current context without navigating away. */
+  private refreshMenuInPlace(): void {
+    const context = this.hcclContextService.getContext();
+    if (!context) {
+      return;
+    }
+    const dashboardType = this._menuService.getDashboardTypeFromContext(context);
+    this._menuService.getMenuItemsAsyc(context, dashboardType).then((newRawMenu) => {
+      this.menuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
+      this.updateTree();
+    });
+  }
+
   /**
    * Drive DHTMLX selection from the current router URL so only the active
    * route's menu item stays highlighted (clears stale click selections).
@@ -218,6 +231,10 @@ onHeaderAction(key: string): void {
          
         });
     }
+
+    this._menuService.menuRefreshRequested$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.refreshMenuInPlace());
 
     const onNavigationEnd = this._router.events.pipe(filter(event => event instanceof NavigationEnd));
     merge(this._translateService.onLangChange, onNavigationEnd)

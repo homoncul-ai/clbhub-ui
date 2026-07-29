@@ -15,6 +15,10 @@ import {
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { FeedListingDetailsModalComponent } from './feed-listing-details-modal.component';
+import {
+  FeedDateRangeModalComponent,
+  FeedDateRangeModalResult
+} from './feed-date-range-modal.component';
 import { catchError, filter, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 
@@ -55,6 +59,60 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   feedEntries: FeedEntryDisplayData[] = [];
   loading: boolean = true;
   error: string | null = null;
+
+  over18Only = false;
+  selectedCategory = 'all';
+  dateStart = '';
+  dateEnd = '';
+  activeDatePreset: 'today' | 'last7' | 'thisMonth' | 'last30' | 'custom' | null = null;
+
+  readonly categoryOptions = [
+    { code: 'all', label: 'All', icon: 'fas fa-th-large' },
+    { code: 'job', label: 'Jobs', icon: 'fas fa-briefcase' },
+    { code: 'course', label: 'Courses', icon: 'fas fa-graduation-cap' },
+    { code: 'event', label: 'Events', icon: 'fas fa-calendar-alt' },
+    { code: 'career', label: 'Careers', icon: 'fas fa-compass' }
+  ];
+
+  readonly datePresets = [
+    { code: 'today' as const, label: 'Today' },
+    { code: 'last7' as const, label: 'Last 7 days' },
+    { code: 'thisMonth' as const, label: 'This month' },
+    { code: 'last30' as const, label: 'Last 30 days' }
+  ];
+
+  get filteredFeedEntries(): FeedEntryDisplayData[] {
+    let entries = [...this.feedEntries];
+
+    if (this.over18Only) {
+      entries = entries.filter(entry => (entry.catalogEntry?.ageRequired ?? 0) >= 18);
+    }
+
+    if (this.selectedCategory !== 'all') {
+      entries = entries.filter(entry => this.getEntryTypeCode(entry) === this.selectedCategory);
+    }
+
+    if (this.dateStart || this.dateEnd) {
+      const startMs = this.dateStart ? this.getStartOfDayMs(this.dateStart) : Number.NEGATIVE_INFINITY;
+      const endMs = this.dateEnd ? this.getEndOfDayMs(this.dateEnd) : Number.POSITIVE_INFINITY;
+      entries = entries.filter(entry => {
+        const entryMs = this.getDateCreatedMs(entry);
+        return entryMs >= startMs && entryMs <= endMs;
+      });
+    }
+
+    entries.sort((a, b) => {
+      const aMs = this.getDateCreatedMs(a);
+      const bMs = this.getDateCreatedMs(b);
+      return bMs - aMs;
+    });
+
+    return entries;
+  }
+
+  get hasActiveFilters(): boolean {
+    return this.over18Only || this.selectedCategory !== 'all' || !!this.dateStart || !!this.dateEnd;
+  }
 
   ngOnInit(): void {
     this.syncHeaderActions();
@@ -145,6 +203,161 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
     this.loadFeed(true);
   }
 
+  selectCategory(category: string): void {
+    this.selectedCategory = category;
+  }
+
+  clearFilters(): void {
+    this.over18Only = false;
+    this.selectedCategory = 'all';
+    this.clearDateRange();
+  }
+
+  applyDatePreset(preset: 'today' | 'last7' | 'thisMonth' | 'last30'): void {
+    const today = this.getTodayString();
+
+    switch (preset) {
+      case 'today':
+        this.dateEnd = today;
+        break;
+      case 'last7':
+        this.dateStart = this.addDaysToDateString(today, -6);
+        this.dateEnd = today;
+        break;
+      case 'thisMonth':
+        this.dateStart = this.getFirstDayOfMonthString(today);
+        this.dateEnd = today;
+        break;
+      case 'last30':
+        this.dateStart = this.addDaysToDateString(today, -29);
+        this.dateEnd = today;
+        break;
+    }
+
+    this.activeDatePreset = preset;
+  }
+
+  openDateRangeModal(): void {
+    const modalRef = this.modalService.open(FeedDateRangeModalComponent, {
+      modalClass: 'modal-dialog-centered',
+      data: {
+        dateStart: this.dateStart,
+        dateEnd: this.dateEnd
+      }
+    });
+
+    modalRef.onClose.subscribe((result: FeedDateRangeModalResult | undefined) => {
+      if (!result) {
+        return;
+      }
+
+      this.dateStart = result.dateStart;
+      this.dateEnd = result.dateEnd;
+      this.syncActiveDatePreset();
+    });
+  }
+
+  get dateRangeSummary(): string | null {
+    if (!this.dateStart && !this.dateEnd) {
+      return null;
+    }
+
+    if (this.dateStart && this.dateEnd) {
+      return `${this.formatDisplayDate(this.dateStart)} – ${this.formatDisplayDate(this.dateEnd)}`;
+    }
+
+    if (this.dateStart) {
+      return `From ${this.formatDisplayDate(this.dateStart)}`;
+    }
+
+    return `Through ${this.formatDisplayDate(this.dateEnd)}`;
+  }
+
+  private clearDateRange(): void {
+    this.dateStart = '';
+    this.dateEnd = '';
+    this.activeDatePreset = null;
+  }
+
+  private syncActiveDatePreset(): void {
+    if (!this.dateStart && !this.dateEnd) {
+      this.activeDatePreset = null;
+      return;
+    }
+
+    const today = this.getTodayString();
+    const ranges = {
+      today: { start: '', end: today },
+      last7: { start: this.addDaysToDateString(today, -6), end: today },
+      thisMonth: { start: this.getFirstDayOfMonthString(today), end: today },
+      last30: { start: this.addDaysToDateString(today, -29), end: today }
+    };
+
+    for (const [preset, range] of Object.entries(ranges) as Array<
+      ['today' | 'last7' | 'thisMonth' | 'last30', { start: string; end: string }]
+    >) {
+      if (this.dateStart === range.start && this.dateEnd === range.end) {
+        this.activeDatePreset = preset;
+        return;
+      }
+    }
+
+    this.activeDatePreset = 'custom';
+  }
+
+  private getTodayString(): string {
+    return this.formatDateString(new Date());
+  }
+
+  private formatDateString(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  private addDaysToDateString(dateValue: string, days: number): string {
+    const [year, month, day] = dateValue.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    date.setDate(date.getDate() + days);
+    return this.formatDateString(date);
+  }
+
+  private getFirstDayOfMonthString(dateValue: string): string {
+    const [year, month] = dateValue.split('-').map(Number);
+    return `${year}-${String(month).padStart(2, '0')}-01`;
+  }
+
+  private formatDisplayDate(dateValue: string): string {
+    const [year, month, day] = dateValue.split('-').map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+
+  private getEntryTypeCode(entry: FeedEntryDisplayData): string {
+    return (entry.feedEntry?.feedSubTypeCode || entry.catalogEntry?.catalogTypeCode || '').toLowerCase();
+  }
+
+  private getDateCreatedMs(entry: FeedEntryDisplayData): number {
+    return (
+      entry.dateCreated?.dateMilliseconds ??
+      entry.feedEntry?.dateCreated?.dateMilliseconds ??
+      entry.catalogEntry?.dateCreated?.dateMilliseconds ??
+      0
+    );
+  }
+
+  private getStartOfDayMs(dateValue: string): number {
+    return new Date(`${dateValue}T00:00:00`).getTime();
+  }
+
+  private getEndOfDayMs(dateValue: string): number {
+    return new Date(`${dateValue}T23:59:59.999`).getTime();
+  }
+
   toggleMore(entry: FeedEntryDisplayData): void {
     if (!entry.feedEntry?.mdMore) {
       return;
@@ -205,6 +418,44 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
       entry.catalogEntry?.catalog?.entityDisplayName ||
       this.formatSourceUrl(entry.catalogEntry?.url)
     );
+  }
+
+  getDateCreatedLabel(entry: FeedEntryDisplayData): string | null {
+    const dateCreated =
+      entry.dateCreated ??
+      entry.feedEntry?.dateCreated ??
+      entry.catalogEntry?.dateCreated;
+
+    if (!dateCreated) {
+      return null;
+    }
+
+    if (dateCreated.formattedDate) {
+      return dateCreated.formattedDate;
+    }
+
+    if (dateCreated.formattedDateTime) {
+      return dateCreated.formattedDateTime;
+    }
+
+    const ms = dateCreated.dateMilliseconds;
+    if (ms) {
+      return new Date(ms).toLocaleDateString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+
+    if (dateCreated.date) {
+      return new Date(dateCreated.date).toLocaleDateString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+
+    return null;
   }
 
   getAgeRestriction(entry: FeedEntryDisplayData): FeedAgeIcon | null {

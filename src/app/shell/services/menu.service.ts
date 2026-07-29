@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 import {
   getAdminSurveyRoute,
@@ -25,6 +26,14 @@ export interface MenuItem {
 })
 export class MenuService {
   constructor(private hcclService: HcclService) {
+  }
+
+  /** Request shell to rebuild the sidebar menu (e.g. after catalog rename). */
+  private readonly menuRefreshSubject = new Subject<void>();
+  public readonly menuRefreshRequested$ = this.menuRefreshSubject.asObservable();
+
+  public requestMenuRefresh(): void {
+    this.menuRefreshSubject.next();
   }
 
 
