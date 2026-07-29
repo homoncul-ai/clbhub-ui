@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { AbstractEntityGroupComponent } from '@app/components/_global/abstract-entity-group/abstract-entity-group.component';
 import { HcclUserProfileCrudWrapper } from '@app/components/_crud/hccluserprofile/hccluserprofile-crud.component';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
-import { HcclUserContextGETData, HcclUserProfileCriteria, WorkQueueGETData, WorkRequestCriteria } from '@app/restsvc/hccl.service';
+import { HcclUserInviteCriteria, HcclUserProfileCriteria } from '@app/restsvc/hccl.service';
 import { ProviderDetailsTabMyschoolComponent } from './provider-details-tab-myschool.component';
+import { ProviderDetailsInvitationsListComponent } from './provider-details-invitations-list.component';
 import { HcclOrganizationCrudWrapper } from '@app/components/_crud/hcclorganization/hcclorganization-crud.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { OrgSchoolStaffListComponent } from '@app/features/dash-ecoadmin/orgs/org-school-staff-list.component';
@@ -14,7 +15,7 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 @Component({
   selector: 'app-provider-details-group',
   standalone: true,
-  imports: [CommonModule, SimpleTabsetComponent, ProviderDetailsTabMyschoolComponent,OrgSchoolStaffListComponent,OrgSchoolStaffCrudComponent,MdbModalModule],
+  imports: [CommonModule, SimpleTabsetComponent, ProviderDetailsTabMyschoolComponent, OrgSchoolStaffListComponent, OrgSchoolStaffCrudComponent, ProviderDetailsInvitationsListComponent, MdbModalModule],
   templateUrl: './provider-details-group.component.html',
   styleUrl: './provider-details-group.component.scss'
 })
@@ -80,6 +81,14 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
         () => {
           return this.entity !== null && this.childId !== undefined;
         }
+      ),
+      new SimpleTab('invitations', 'Invitations', '', 
+        () => {
+          this.router.navigate([baseRoute, 'invitations']);
+        },
+        () => {
+          return this.entity !== null;
+        }
       )
     ];
   }
@@ -113,6 +122,12 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
       return urlParts
     };
     return o;
+  }
+
+  protected getCriteriaForInvitations(): HcclUserInviteCriteria {
+    return {
+      organizationId: this.organizationId
+    };
   }
 
 }

@@ -12,10 +12,15 @@
     <app-org-school-staff-list [criteria]="getCriteriaForStaff()" [onRowClickBehavior]="onClickOrgStaffRowBehavior()"></app-org-school-staff-list>
   </div>
   
+  <div *ngIf="currentTabId === 'invitations'">
+    <app-provider-details-invitations-list [criteria]="getCriteriaForInvitations()"></app-provider-details-invitations-list>
+  </div>
   
   <div *ngIf="currentTabId === 'staffmember'">
    <app-org-school-staff-crud [id]="childId" modeName="details" ></app-org-school-staff-crud> 
   </div>
+
+  
 
   <div *ngIf="this.isShowingDebug()">
     <li>CurrentId :{{currentTabId}}</li>
