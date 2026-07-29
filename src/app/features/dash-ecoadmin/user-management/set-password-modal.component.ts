@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-
-import { StdMdbFormTextComponent } from '../../../components/_global/std-mdb-form-text/std-mdb-form-text.component';
 
 /**
  * Result emitted on successful submit.
@@ -26,30 +25,39 @@ export interface SetPasswordModalResult {
 @Component({
   selector: 'app-set-password-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, StdMdbFormTextComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './set-password-modal.component.html',
 })
 export class SetPasswordModalComponent {
   passwordForm: FormGroup;
-  error: any = {};
 
   constructor(
     public modalRef: MdbModalRef<SetPasswordModalComponent>,
     private formBuilder: FormBuilder,
   ) {
-    this.passwordForm = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
-      confirmPassword: ['', [Validators.required]],
-    });
+    this.passwordForm = this.formBuilder.group(
+      {
+        password: [
+          '',
+          [Validators.required, Validators.minLength(8), Validators.maxLength(255)],
+        ],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validators: [this.passwordsMatchValidator] },
+    );
   }
 
-  get passwordsMatch(): boolean {
-    const { password, confirmPassword } = this.passwordForm.value;
-    return !!password && password === confirmPassword;
+  get passwordsMismatch(): boolean {
+    const confirmPasswordControl = this.passwordForm.get('confirmPassword');
+    return (
+      this.passwordForm.hasError('passwordMismatch') &&
+      confirmPasswordControl != null &&
+      (confirmPasswordControl.dirty || confirmPasswordControl.touched)
+    );
   }
 
   onSubmit(): void {
-    if (this.passwordForm.valid && this.passwordsMatch) {
+    if (this.passwordForm.valid) {
       const result: SetPasswordModalResult = {
         newPassword: this.passwordForm.value.password,
       };
@@ -63,5 +71,14 @@ export class SetPasswordModalComponent {
 
   onCancel(): void {
     this.modalRef.close(null);
+  }
+
+  private passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    if (!password || !confirmPassword) {
+      return null;
+    }
+    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 }

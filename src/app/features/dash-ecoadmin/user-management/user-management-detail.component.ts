@@ -28,6 +28,7 @@ import {
   ManageUserActionCodes,
   firstMessageText,
   hasErrors,
+  hasWarnings,
 } from './user-management-action-codes';
 import {
   SetPasswordModalComponent,
@@ -83,6 +84,7 @@ export class UserManagementDetailComponent implements OnInit {
   loadError = '';
 
   errorMessages: SimpleMessageList | null = null;
+  warningMessages: SimpleMessageList | null = null;
   successMessage: SimpleMessageList | null = null;
 
   detailsForm: FormGroup;
@@ -225,6 +227,10 @@ export class UserManagementDetailComponent implements OnInit {
     return firstMessageText(this.successMessage ?? undefined);
   }
 
+  get warningText(): string {
+    return firstMessageText(this.warningMessages ?? undefined);
+  }
+
   get errorText(): string {
     return firstMessageText(this.errorMessages ?? undefined);
   }
@@ -245,6 +251,7 @@ export class UserManagementDetailComponent implements OnInit {
     };
     this.actionInProgress = true;
     this.errorMessages = null;
+    this.warningMessages = null;
     this.successMessage = null;
     this.hcclService.manageUserAction(req).subscribe({
       next: (rsp) => this.handleActionResponse(rsp, actionCode),
@@ -263,11 +270,18 @@ export class UserManagementDetailComponent implements OnInit {
     this.actionInProgress = false;
     if (hasErrors(rsp.messages)) {
       this.errorMessages = rsp.messages ?? null;
+      this.warningMessages = null;
       this.successMessage = null;
       return;
     }
     this.errorMessages = null;
-    this.successMessage = rsp.messages ?? null;
+    if (hasWarnings(rsp.messages)) {
+      this.warningMessages = rsp.messages ?? null;
+      this.successMessage = null;
+    } else {
+      this.warningMessages = null;
+      this.successMessage = rsp.messages ?? null;
+    }
 
     if (actionCode === ManageUserActionCodes.DELETE_USER_COMPLETELY) {
       this.router.navigate(['/ecoadmin-dashboard/user-management']);

@@ -39,6 +39,15 @@ export function hasErrors(messages?: SimpleMessageList): boolean {
   );
 }
 
+/** True when the backend reported warnings (e.g. partial success). */
+export function hasWarnings(messages?: SimpleMessageList): boolean {
+  return (
+    messages?.messages?.some(
+      (m) => (m.severity ?? MESSAGE_SEVERITY.INFO) === MESSAGE_SEVERITY.WARNING,
+    ) ?? false
+  );
+}
+
 /**
  * Extract a human-readable string from a SimpleMessageList for display.
  */
