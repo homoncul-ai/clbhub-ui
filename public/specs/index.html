@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLBHub Specs</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f6f8;
+      --bg-accent: #e8eef5;
+      --card: #ffffff;
+      --text: #15202b;
+      --muted: #5b6b7c;
+      --border: rgba(21, 32, 43, 0.1);
+      --accent: #0f5c8c;
+      --accent-soft: #d9ebf7;
+      --chip: #eef3f7;
+      --shadow: 0 12px 32px rgba(21, 32, 43, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1419;
+        --bg-accent: #1a2330;
+        --card: #1a2330;
+        --text: #f3f6f8;
+        --muted: #a8b6c4;
+        --border: rgba(243, 246, 248, 0.12);
+        --accent: #7ec2eb;
+        --accent-soft: rgba(126, 194, 235, 0.14);
+        --chip: rgba(243, 246, 248, 0.08);
+        --shadow: none;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 80% 50% at 10% -10%, var(--bg-accent), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 0%, var(--accent-soft), transparent),
+        var(--bg);
+      padding: 2.5rem 1.25rem 3.5rem;
+    }
+
+    .page {
+      width: min(920px, 100%);
+      margin: 0 auto;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.92rem;
+    }
+
+    .nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav a:hover { text-decoration: underline; }
+
+    .hero {
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.6rem;
+    }
+
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 42rem;
+      font-size: 1.1rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.4rem 1.45rem 1.25rem;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 140ms ease, border-color 140ms ease;
+      min-height: 220px;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .card .meta {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 0.22rem 0.55rem;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+    }
+
+    .card h2 {
+      margin: 0 0 0.55rem;
+      font-size: 1.35rem;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin: 0;
+      flex: 1;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    .card .cta {
+      margin-top: 1.1rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .footnote {
+      margin-top: 2.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <a href="/public">← Public home</a>
+      <a href="/public/docs">Documentation</a>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">CLBHub · Internal specs</p>
+      <h1>Product &amp; implementation specs</h1>
+      <p class="lede">
+        Working specs for UI and backend features — bean models, APIs, and user journeys.
+        Open a card to read the full Markdeep document.
+      </p>
+    </header>
+
+    <section class="grid" aria-label="Spec documents">
+      <a class="card" href="career-ladder-spec.md.html">
+        <div class="meta">
+          <span class="chip">Career pathways</span>
+          <span class="chip">Beans</span>
+          <span class="chip">Narratives</span>
+        </div>
+        <h2>Career Ladder Spec</h2>
+        <p>
+          Reference and instance beans for ladders and rungs
+          (<strong>CareerLadderRef</strong>, <strong>PActionGroupRef</strong>,
+          <strong>QualifierRef</strong>, and more), JSON shapes, and learner journeys.
+        </p>
+        <span class="cta">Read spec →</span>
+      </a>
+
+      <a class="card" href="user-management-spec.md.html">
+        <div class="meta">
+          <span class="chip">EcoAdmin</span>
+          <span class="chip">ManageUser</span>
+          <span class="chip">Keycloak</span>
+        </div>
+        <h2>User Management Spec</h2>
+        <p>
+          Unified EcoAdmin user management: search users, inspect profiles, and run admin
+          actions through <code>ManageUserRequest</code> / <code>ManageUserUtils</code>.
+        </p>
+        <span class="cta">Read spec →</span>
+      </a>
+    </section>
+
+    <p class="footnote">
+      Specs live under <code>/public/specs</code> and render with Markdeep.
+      Add new <code>*.md.html</code> files here and link them from this index.
+    </p>
+  </main>
+</body>
+</html>
