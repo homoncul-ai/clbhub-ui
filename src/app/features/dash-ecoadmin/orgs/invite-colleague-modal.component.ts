@@ -47,8 +47,10 @@ export class InviteColleagueModalComponent implements OnInit {
     this.inviteForm.reset();
 
     if (this.modalRef && (this.modalRef as any).data) {
-      this.organizationId = (this.modalRef as any).data.organizationId || this.organizationId;
-      this.teamId = (this.modalRef as any).data.teamId || this.teamId;
+      const data = (this.modalRef as any).data;
+      this.organizationId = data.organizationId || this.organizationId;
+      this.teamId = data.teamId || this.teamId;
+      this.inviteCode = data.inviteCode || this.inviteCode;
     }
   }
 
@@ -61,6 +63,11 @@ export class InviteColleagueModalComponent implements OnInit {
       return;
     }
 
+    if (!this.organizationId) {
+      this.error = 'Missing organization for this invite. Reload the page and try again.';
+      return;
+    }
+
     if (this.inviteForm.valid) {
       this.isLoading = true;
       this.error = null;
@@ -69,13 +76,14 @@ export class InviteColleagueModalComponent implements OnInit {
       const inviteData: HcclUserInvitePOSTData = {
         emailAddress: formData.emailAddress,
         organizationId: this.organizationId,
-        teamId: this.teamId,
         inviteCode: this.inviteCode || this.generateInviteCode(),
         notes: formData.notes || '--- no notes ---',
-        //dateExpires: this.toApiDateTime('2026-03-01'),
         available: 1,
         currentStateCode: 'NEW'
       };
+      if (this.teamId) {
+        inviteData.teamId = this.teamId;
+      }
 
       this.hcclService.createHcclUserInvite(inviteData).subscribe({
         next: () => {
@@ -85,7 +93,7 @@ export class InviteColleagueModalComponent implements OnInit {
         error: (error) => {
           this.isLoading = false;
           this.error = error;
-          console.error('Invite colleague error:', error);
+          console.error('Invite colleague error:', error, 'payload:', inviteData);
         }
       });
     } else {
@@ -132,14 +140,27 @@ export class InviteColleagueModalComponent implements OnInit {
     if (typeof this.error === 'string') {
       return this.error;
     }
-    if (typeof this.error?.error === 'string') {
-      return this.error.error;
+    const body = this.error?.error;
+    if (typeof body === 'string') {
+      return body;
     }
-    if (this.error?.error?.message) {
-      return this.error.error.message;
+    if (body?.errorMessage) {
+      return body.errorMessage;
     }
-    if (this.error?.message) {
+    if (body?.message) {
+      return body.message;
+    }
+    if (body?.developerMessage) {
+      return body.developerMessage;
+    }
+    if (Array.isArray(body?.messages) && body.messages.length > 0) {
+      return body.messages.map((m: any) => m.message || m.errorMessage || m).join(' ');
+    }
+    if (this.error?.message && !this.error.message.startsWith('Http failure')) {
       return this.error.message;
+    }
+    if (this.error?.status === 500) {
+      return 'Invite failed on the server (500). Common causes: invite already sent to this email, email delivery failure, or missing organization. Check the Response body in DevTools for details.';
     }
     if (this.error?.status && this.error?.statusText) {
       return `Request failed (${this.error.status} ${this.error.statusText}).`;

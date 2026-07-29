@@ -249,7 +249,7 @@
       <!-- Always use the form {{ attributeName }} to display the attribute value -->
       <!-- If the attribute is a date, use the app-dategetdata-display component to display the value -->
       <!-- If the attribute is boolean, use the <app-std-boolean  readonly=true component to display the value -->
-        <app-hccluser-crud [id]="userId" [modeName]="CRUD_MODES.SECTION"></app-hccluser-crud>
+        <app-hccluser-crud *ngFor="let _ of [userSectionRefreshKey]" [id]="userId" [modeName]="CRUD_MODES.SECTION"></app-hccluser-crud>
 
         <div class="detail-group">
           <label>User Code :</label>

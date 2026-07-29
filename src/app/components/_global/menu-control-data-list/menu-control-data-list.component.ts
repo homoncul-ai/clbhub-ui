@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef, forwardRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service';
@@ -17,39 +17,38 @@ import { MenuControlDataList, MenuControlData } from '@app/restsvc/hccl.service'
     }
   ]
 })
-export class MenuControlDataListComponent implements OnInit, ControlValueAccessor {
+export class MenuControlDataListComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() menuControlDataList: MenuControlDataList | null = null;
+  /** When set, selects this menu item id without treating it as a user-initiated change. */
+  @Input() selectedId: string | null = null;
   @Input() placeholder: string = 'Select an option...';
   @Input() disabled: boolean = false;
-  @Input() readonly: boolean = false; // if true, dropdown is read-only and cannot be changed
+  @Input() readonly: boolean = false;
   
   @Output() selectionChange = new EventEmitter<MenuControlData | null>();
   
   selectedItem: MenuControlData | null = null;
-  private _value: string = '';
+  value: string = '';
+
+  private cdr = inject(ChangeDetectorRef);
   private onChange = (value: string) => {};
   private onTouched = () => {};
+  private suppressEmptyClear = false;
 
   ngOnInit(): void {
-  }
-  
-  get value(): string {
-    return this._value;
+    this.syncSelectionFromMenu(false);
   }
 
-  set value(val: string) {
-    if (this._value !== val) {
-      this._value = val || '';
-      this.updateSelectedItem();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['menuControlDataList'] || changes['selectedId']) {
+      this.syncSelectionFromMenu(false);
     }
   }
 
   writeValue(value: string): void {
-    // Only update if value actually changed to avoid infinite loops
-    if (this._value !== (value || '')) {
-      this._value = value || '';
-      this.updateSelectedItem();
-    }
+    this.value = value || '';
+    this.selectedItem = this.findItem(this.value);
+    this.cdr.detectChanges();
   }
 
   registerOnChange(fn: any): void {
@@ -65,33 +64,66 @@ export class MenuControlDataListComponent implements OnInit, ControlValueAccesso
   }
   
   onValueChange(newValue: string): void {
-    // Prevent selection change if component is readonly
     if (this.readonly) {
       return;
     }
+
+    // Native <select> can emit "" while options are still rendering; don't clear an authoritative selection.
+    if (!newValue && (this.selectedId || this.suppressEmptyClear)) {
+      this.value = this.selectedId || this.value;
+      this.cdr.detectChanges();
+      return;
+    }
     
-    const selectedId = newValue || '';
-    this._value = selectedId;
-    this.updateSelectedItem();
-    this.onChange(selectedId);
+    this.value = newValue || '';
+    this.selectedItem = this.findItem(this.value);
+    this.onChange(this.value);
+    this.selectionChange.emit(this.selectedItem);
   }
 
   onBlur(): void {
     this.onTouched();
   }
 
-  private updateSelectedItem(): void {
-    if (this._value && this.menuControlDataList?.menuItems) {
-      this.selectedItem = this.menuControlDataList.menuItems.find(item => item.id === this._value) || null;
-      this.selectionChange.emit(this.selectedItem);
-    } else {
-      this.selectedItem = null;
-      this.selectionChange.emit(null);
+  private syncSelectionFromMenu(emitChange: boolean): void {
+    const items = this.menuControlDataList?.menuItems;
+    if (!items?.length) {
+      return;
     }
+
+    const preferredId = this.selectedId || this.value;
+    const selected =
+      (preferredId ? items.find(item => item.id === preferredId) : undefined) ||
+      items.find(item => item.selected === true);
+
+    if (!selected?.id) {
+      return;
+    }
+
+    this.suppressEmptyClear = true;
+    this.value = selected.id;
+    this.selectedItem = selected;
+    this.cdr.detectChanges();
+
+    // Allow empty clears again after options have had a chance to bind.
+    setTimeout(() => {
+      this.suppressEmptyClear = false;
+    }, 0);
+
+    if (emitChange) {
+      this.onChange(this.value);
+      this.selectionChange.emit(selected);
+    }
+  }
+
+  private findItem(id: string): MenuControlData | null {
+    if (!id || !this.menuControlDataList?.menuItems) {
+      return null;
+    }
+    return this.menuControlDataList.menuItems.find(item => item.id === id) || null;
   }
   
   get menuItems(): MenuControlData[] {
-    var x :MenuControlData[] = this.menuControlDataList?.menuItems || [];
-    return x;
+    return this.menuControlDataList?.menuItems || [];
   }
 }

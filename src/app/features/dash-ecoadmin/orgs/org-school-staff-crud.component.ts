@@ -55,6 +55,8 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
 
   // Error property for form validation
   public error: any = null;
+  /** Bumped after save so nested user section reloads fresh data. */
+  public userSectionRefreshKey = 0;
 
   // Validation methods
   private validateUserId(userId: string): string | null {
@@ -226,14 +228,15 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
       organizationId: data.organizationId || '',
       profileTypeCode: data.profileTypeCode || '',
       userEmail: data.userEmail,
-      cellPhoneNumber: data.cellPhoneNumber,
-      workPhoneNumber: data.workPhoneNumber,
+      // Omit blank phones — API rejects "" (size must be 1–255) but accepts absent/null.
+      cellPhoneNumber: data.cellPhoneNumber?.trim() || undefined,
+      workPhoneNumber: data.workPhoneNumber?.trim() || undefined,
       externalUserId: data.externalUserId,
       externalUserEntityType: data.externalUserEntityType,
       externalUserName: data.externalUserName,
       available: data.available || 1,
       personId: data.personId || '',
-      name: data.theUser?.name || ''
+      name: data.theUser?.name || data.entityDisplayName || ''
     };
     
     await this.hcclService.updateHcclUserProfileById(data.id || '', putData).toPromise();
@@ -248,14 +251,27 @@ export class OrgSchoolStaffCrudComponent extends AbstractCrudComponent<HcclUserP
     return HcclUserProfileCrudWrapper.newInstanceForCreate(this.hcclService);
   }
 
+  protected override onAfterUpdate(): void {
+    this.userSectionRefreshKey++;
+    // Dropdown labels come from context.userProfileMenu — refresh so name changes appear.
+    this.hcclContextService.refreshContext().subscribe();
+    super.onAfterUpdate();
+  }
+
   // Getter and setter methods for form binding
 
   public get name(): string {
     return this.entity?.getData().theUser?.name || '';
   }
   public set name(value: string) {
-    if (this.entity) {
-      this.entity.getData().theUser?.name;
+    if (!this.entity) {
+      return;
+    }
+    const data = this.entity.getData();
+    if (!data.theUser) {
+      data.theUser = { name: value } as any;
+    } else {
+      data.theUser.name = value;
     }
   }
 

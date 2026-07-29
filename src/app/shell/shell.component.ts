@@ -204,6 +204,7 @@ onHeaderAction(key: string): void {
   // User profile menu properties
   userProfileMenu: any = null;
   selectedUserProfile: MenuControlData | null = null;
+  currentUserProfileId: string = '';
   hcclUserContext: HcclUserContextGETData | null = null;
 
   ngOnInit() {
@@ -219,6 +220,20 @@ onHeaderAction(key: string): void {
     this.user = `${this.userDetails?.firstName} ${this.userDetails?.lastName}`;
     this.loggedInUserInitials = this.user.match(/\b(\w)/g)?.join('');
 
+    // Keep the profile dropdown in sync whenever context refreshes (e.g. after name edit).
+    this.hcclContextService.context$
+      .pipe(
+        filter((ctx): ctx is HcclUserContextGETData => !!ctx?.userProfileMenu),
+        untilDestroyed(this)
+      )
+      .subscribe(context => {
+        this.currentUserProfileId = context.currentUserProfileId || '';
+        // New object reference so the dropdown reliably rerenders options + selection.
+        this.userProfileMenu = context.userProfileMenu
+          ? { ...context.userProfileMenu, menuItems: [...(context.userProfileMenu.menuItems || [])] }
+          : null;
+      });
+
     // Subscribe to HCCL context changes to update user profile menu
     if (this.hcclContextService.isInitialized() == false) {
         this.hcclContextService.initializeContext();
@@ -227,9 +242,15 @@ onHeaderAction(key: string): void {
            // alert('shell.component.ts: User profile menu updated: ' +  context?.currentUserProfileId + ' ' + currentUrl);
            
           this.userProfileMenu = context.userProfileMenu;
+          this.currentUserProfileId = context.currentUserProfileId || '';
           this.setupForUserProfileContext(context, currentUrl);
          
         });
+    } else {
+      const context = this.hcclContextService.getContext();
+      this.userProfileMenu = context.userProfileMenu;
+      this.currentUserProfileId = context.currentUserProfileId || '';
+      this.setupForUserProfileContext(context, currentUrl);
     }
 
     this._menuService.menuRefreshRequested$

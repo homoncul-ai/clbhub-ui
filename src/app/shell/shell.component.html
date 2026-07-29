@@ -104,6 +104,7 @@
         <li class="nav-item ms-3">
           <app-menu-control-data-list
             [menuControlDataList]="userProfileMenu"
+            [selectedId]="currentUserProfileId"
             placeholder="Select user profile..."
             [disabled]="!userProfileMenu"
             (selectionChange)="onUserProfileChange($event)">
