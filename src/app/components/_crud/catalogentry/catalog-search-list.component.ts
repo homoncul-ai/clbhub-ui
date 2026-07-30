@@ -1,3 +1,4 @@
+import { SearchCatalogResponse } from './../../../restsvc/hccl.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -38,8 +39,8 @@ export class CatalogSearchListComponent extends CatalogEntryListComponent {
     }
 
     const request = this.buildSearchCatalogRequest(criteria, searchText);
-    return this.hcclService.searchCatalog(request).pipe(
-      map((response) =>
+    return this.hcclService.publicSearchCatalog(request).pipe(
+      map((response: SearchCatalogResponse ) =>
         response.results?.catalogEntries ?? { searchResults: [], pagingInfo: { totalRows: 0 } }
       )
     );

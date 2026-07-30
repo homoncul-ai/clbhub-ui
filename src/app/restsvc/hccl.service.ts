@@ -4827,6 +4827,15 @@ export class HcclService extends CommonRequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  publicSearchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/catalog-entries",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SearchCatalogResponse>(request);
+  }
+
   resolvePublicSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student/setup",
@@ -5919,6 +5928,10 @@ export interface CatalogEntryGETData {
   url?: string;
   tarotFileId?: string;
   tarotFileUrl?: string;
+  dateListingStarts?: DateGETData;
+  dateListingEnds?: DateGETData;
+  dateStart?: DateGETData;
+  dateEnd?: DateGETData;
   vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;
@@ -13169,6 +13182,29 @@ export interface OnboardFamilyPOSTData {
   family?: FamilyUnitPOSTData;
   parents?: OnboardFamilyMemberPOSTData[];
   students?: OnboardFamilyMemberPOSTData[];
+}
+
+export interface SearchCatalogRequest {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  catalogTypeCodes?: string[];
+  savingSearchResults?: boolean;
+}
+
+export interface SearchCatalogResponse {
+  messages?: SimpleMessageList;
+  theRequest?: SearchCatalogRequest;
+  vocationEncodingId?: string;
+  results?: VeiSearchResultsGETData;
 }
 
 export interface ConsentRequestGETData {
