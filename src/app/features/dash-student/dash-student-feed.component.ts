@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
@@ -53,6 +53,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   private hcclService = inject(HcclService);
   private pageHeaderActionService = inject(PageHeaderActionService);
   private modalService = inject(MdbModalService);
+  private hostElement = inject(ElementRef);
   private detailsModalRef: MdbModalRef<FeedListingDetailsModalComponent> | null = null;
   private destroy$ = new Subject<void>();
 
@@ -65,6 +66,9 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   dateStart = '';
   dateEnd = '';
   activeDatePreset: 'today' | 'last7' | 'thisMonth' | 'last30' | 'custom' | null = null;
+
+  readonly pageSize = 50;
+  currentPage = 1;
 
   readonly categoryOptions = [
     { code: 'all', label: 'All', icon: 'fas fa-th-large' },
@@ -108,6 +112,56 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
     });
 
     return entries;
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredFeedEntries.length / this.pageSize));
+  }
+
+  get visiblePageNumbers(): Array<number | 'ellipsis'> {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    if (total <= 9) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    const pages = new Set<number>();
+    pages.add(1);
+    pages.add(total);
+    for (let p = current - 2; p <= current + 2; p++) {
+      if (p >= 1 && p <= total) {
+        pages.add(p);
+      }
+    }
+
+    const sorted = Array.from(pages).sort((a, b) => a - b);
+    const result: Array<number | 'ellipsis'> = [];
+    let previous = 0;
+    for (const page of sorted) {
+      if (previous && page - previous > 1) {
+        result.push('ellipsis');
+      }
+      result.push(page);
+      previous = page;
+    }
+    return result;
+  }
+
+  get pagedFeedEntries(): FeedEntryDisplayData[] {
+    const page = Math.min(this.currentPage, this.totalPages);
+    const start = (page - 1) * this.pageSize;
+    return this.filteredFeedEntries.slice(start, start + this.pageSize);
+  }
+
+  get pageRangeLabel(): string {
+    const total = this.filteredFeedEntries.length;
+    if (total === 0) {
+      return '0 of 0';
+    }
+    const page = Math.min(this.currentPage, this.totalPages);
+    const start = (page - 1) * this.pageSize + 1;
+    const end = Math.min(page * this.pageSize, total);
+    return `${start}–${end} of ${total}`;
   }
 
   get hasActiveFilters(): boolean {
@@ -187,6 +241,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
             isExpanded: false
           }));
         }
+        this.currentPage = 1;
         this.loading = false;
         this.syncHeaderActions();
       },
@@ -205,12 +260,53 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
 
   selectCategory(category: string): void {
     this.selectedCategory = category;
+    this.currentPage = 1;
+  }
+
+  onOver18OnlyChange(): void {
+    this.currentPage = 1;
   }
 
   clearFilters(): void {
     this.over18Only = false;
     this.selectedCategory = 'all';
     this.clearDateRange();
+    this.currentPage = 1;
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage -= 1;
+      this.scrollFeedPaginationIntoView();
+    }
+  }
+
+  goToNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage += 1;
+      this.scrollFeedPaginationIntoView();
+    }
+  }
+
+  goToPage(page: number | string): void {
+    if (page === 'ellipsis') {
+      return;
+    }
+    const target = Number(page);
+    if (!Number.isFinite(target) || target < 1 || target > this.totalPages || target === this.currentPage) {
+      return;
+    }
+    this.currentPage = target;
+    this.scrollFeedPaginationIntoView();
+  }
+
+  private scrollFeedPaginationIntoView(): void {
+    setTimeout(() => {
+      const pagination = this.hostElement.nativeElement.querySelector(
+        '.feed-pagination'
+      ) as HTMLElement | null;
+      pagination?.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    }, 50);
   }
 
   applyDatePreset(preset: 'today' | 'last7' | 'thisMonth' | 'last30'): void {
@@ -235,6 +331,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
     }
 
     this.activeDatePreset = preset;
+    this.currentPage = 1;
   }
 
   openDateRangeModal(): void {
@@ -254,6 +351,7 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
       this.dateStart = result.dateStart;
       this.dateEnd = result.dateEnd;
       this.syncActiveDatePreset();
+      this.currentPage = 1;
     });
   }
 

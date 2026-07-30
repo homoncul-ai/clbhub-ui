@@ -106,15 +106,27 @@ export class IntegrationsHomeComponent extends AbstractEntityGroupComponent<Hccl
   }
 
   protected getSchoolsCriteria(): CLSchoolCriteria {
-    return {};
+    return {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
   }
 
   protected getStudentsCriteria(): CLStudentCriteria {
-    return {};
+    return {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
   }
 
   protected getGuidanceCriteria(): CLGuidanceCriteria {
-    return {};
+    return {
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
+    };
   }
   protected getOnRowClickBehavior(): OnRowClickBehavior {
     return OnRowClickBehavior.getOnRowClickDoNothing();

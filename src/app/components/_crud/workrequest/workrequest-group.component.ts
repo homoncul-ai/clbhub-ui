@@ -183,8 +183,11 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
  
   get itemsCriteria(): WorkRequestItemCriteria {
-    var criteria: WorkRequestItemCriteria = {  
-      workRequestId: this.id
+    var criteria: WorkRequestItemCriteria = {
+      workRequestId: this.id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     }
     return criteria;
   }
@@ -202,8 +205,11 @@ export class WorkRequestGroupComponent extends AbstractEntityGroupComponent<Work
   }
 
   getLogsCriteria(): WorkRequestLogCriteria {
-    var criteria: WorkRequestLogCriteria = {  
+    var criteria: WorkRequestLogCriteria = {
       workRequestId: this.id || '',
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     }
     return criteria;
   }

@@ -244,7 +244,10 @@ export class StudentWorkRequestsComponent extends AbstractEntityGroupComponent<H
 
   protected getWorkRequestCriteriaForMyTickets(): WorkRequestCriteria {
     return {
-      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().id || ''
+      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().id || '',
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 

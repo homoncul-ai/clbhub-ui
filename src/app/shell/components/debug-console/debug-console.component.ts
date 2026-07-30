@@ -13,25 +13,40 @@ import { DebugLog } from '@app/shell/services/debug-log';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="debug-console" *ngIf="enabled" [class.collapsed]="collapsed">
-      <div class="debug-console-header">
-        <span class="debug-console-title">
-          <i class="fas fa-bug me-2"></i>Debug
-          <span class="debug-console-count">({{ messages.length }})</span>
-        </span>
-        <span class="debug-console-actions">
-          <button type="button" class="debug-btn" (click)="clear()" title="Clear">
-            <i class="fas fa-trash"></i>
-          </button>
-          <button type="button" class="debug-btn" (click)="toggleCollapsed()" [title]="collapsed ? 'Expand' : 'Collapse'">
-            <i class="fas" [class.fa-chevron-up]="collapsed" [class.fa-chevron-down]="!collapsed"></i>
-          </button>
-        </span>
+    <ng-container *ngIf="enabled">
+      <div class="debug-console" *ngIf="!hidden" [class.collapsed]="collapsed">
+        <div class="debug-console-header">
+          <span class="debug-console-title">
+            <i class="fas fa-bug me-2"></i>Debug
+            <span class="debug-console-count">({{ messages.length }})</span>
+          </span>
+          <span class="debug-console-actions">
+            <button type="button" class="debug-btn" (click)="clear()" title="Clear">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button type="button" class="debug-btn" (click)="toggleCollapsed()" [title]="collapsed ? 'Expand' : 'Collapse'">
+              <i class="fas" [class.fa-chevron-up]="collapsed" [class.fa-chevron-down]="!collapsed"></i>
+            </button>
+            <button type="button" class="debug-btn" (click)="hide()" title="Hide">
+              <i class="fas fa-times"></i>
+            </button>
+          </span>
+        </div>
+        <div #scrollArea class="debug-console-body" *ngIf="!collapsed">
+          <div class="debug-line" *ngFor="let line of messages">{{ line }}</div>
+        </div>
       </div>
-      <div #scrollArea class="debug-console-body" *ngIf="!collapsed">
-        <div class="debug-line" *ngFor="let line of messages">{{ line }}</div>
-      </div>
-    </div>
+      <button
+        *ngIf="hidden"
+        type="button"
+        class="debug-restore"
+        (click)="show()"
+        title="Show debug console"
+      >
+        <i class="fas fa-bug"></i>
+        <span *ngIf="messages.length" class="debug-restore-count">{{ messages.length }}</span>
+      </button>
+    </ng-container>
   `,
   styles: [`
     .debug-console {
@@ -98,6 +113,33 @@ import { DebugLog } from '@app/shell/services/debug-log';
       line-height: 1.4;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     }
+
+    .debug-restore {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 2147483647;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      background: #252526;
+      color: #9cdcfe;
+      border: 1px solid #444;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 12px;
+    }
+
+    .debug-restore:hover {
+      background: #3a3a3a;
+    }
+
+    .debug-restore-count {
+      color: #808080;
+    }
   `],
 })
 export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecked {
@@ -105,6 +147,7 @@ export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecke
 
   enabled = DebugLog.enabled;
   collapsed = false;
+  hidden = false;
   messages: string[] = [];
 
   private sub?: Subscription;
@@ -141,6 +184,15 @@ export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecke
 
   toggleCollapsed(): void {
     this.collapsed = !this.collapsed;
+    this.shouldScroll = true;
+  }
+
+  hide(): void {
+    this.hidden = true;
+  }
+
+  show(): void {
+    this.hidden = false;
     this.shouldScroll = true;
   }
 }

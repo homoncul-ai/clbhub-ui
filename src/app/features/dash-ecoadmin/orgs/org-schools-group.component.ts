@@ -108,7 +108,10 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
 
   protected getCriteria(): HcclOrganizationCriteria {
     var x: HcclOrganizationCriteria = { 
-      organizationTypeCode: this.organizationTypeCode
+      organizationTypeCode: this.organizationTypeCode,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
     return x;
   }
@@ -166,7 +169,10 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
   protected getCriteriaForStaff(): HcclUserProfileCriteria {
     var x: HcclUserProfileCriteria = { 
       organizationId: this.id,
-      findingColleagues: true
+      findingColleagues: true,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
     return x;
   }
@@ -201,7 +207,10 @@ export class OrgSchoolsGroupComponent extends AbstractEntityGroupComponent<HcclO
 
   protected getCriteriaForInvitations(): HcclUserInviteCriteria {
     var x: HcclUserInviteCriteria = { 
-      organizationId: this.id
+      organizationId: this.id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
     return x;
   }

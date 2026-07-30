@@ -190,7 +190,10 @@ export class GuidanceTicketModalComponent implements OnInit {
   private async loadPersonalStatementMenu(): Promise<void> {
     try {
       const criteria: PersonalStatementCriteria = {
-        parentEntityId: this.userProfileId
+        parentEntityId: this.userProfileId,
+        pageNumber: 1,
+        pageSize: 50,
+        isPaging: true
         // Add any specific criteria for personal statements
         // For now, we'll get all personal statements for the current user
       };

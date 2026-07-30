@@ -107,7 +107,10 @@ export class ProviderWorkrequestGroupComponent extends AbstractEntityGroupCompon
 
   protected getWorkRequestCriteriaForMyTickets(): WorkRequestCriteria {
     return {
-      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().id || ''
+      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().id || '',
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 }

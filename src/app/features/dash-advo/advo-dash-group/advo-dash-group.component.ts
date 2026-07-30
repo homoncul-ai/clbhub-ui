@@ -84,6 +84,9 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
       const criteria: WorkRequestCriteria = {
         workQueueId: queue.id,
         currentStateCode: 'initial',
+        pageNumber: 1,
+        pageSize: 50,
+        isPaging: true,
       }
 
       this.workRequestListBlocks.push(new WorkRequestListBlock(queue?.businessCode || '', '', criteria));
@@ -108,7 +111,10 @@ export class AdvoDashGroupComponent extends AbstractEntityGroupComponent<HcclUse
 
   getMyAcceptedOpenTickets(): WorkRequestCriteria {
     return {
-      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().userId || ''
+      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().userId || '',
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 

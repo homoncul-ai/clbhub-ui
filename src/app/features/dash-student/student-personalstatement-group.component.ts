@@ -206,7 +206,10 @@ export class StudentPersonalStatementGroupComponent extends AbstractEntityGroupC
     return {
       personalStatementId: this.id,
       interestRangeMin: 1,
-      interestRangeMax: 11
+      interestRangeMax: 11,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 

@@ -43,7 +43,7 @@
 
       <!-- Feed Container -->
       <div class="feed-container" *ngIf="!loading && filteredFeedEntries.length > 0">
-        <div class="feed-item" *ngFor="let entry of filteredFeedEntries; let i = index">
+        <div class="feed-item" *ngFor="let entry of pagedFeedEntries; let i = index">
           <ng-container *ngIf="entry.feedEntry as feedEntry">
 
             <div class="feed-card-top">
@@ -161,6 +161,44 @@
 
           </ng-container>
         </div>
+
+        <div class="feed-pagination" *ngIf="filteredFeedEntries.length > pageSize">
+          <button
+            type="button"
+            class="feed-page-btn"
+            [disabled]="currentPage <= 1"
+            (click)="goToPreviousPage()">
+            <i class="fas fa-chevron-left"></i>
+            Previous
+          </button>
+          <div class="feed-page-center">
+            <div class="feed-page-bubbles" role="navigation" aria-label="Pagination">
+              <ng-container *ngFor="let page of visiblePageNumbers">
+                <span *ngIf="page === 'ellipsis'" class="feed-page-ellipsis" aria-hidden="true">…</span>
+                <button
+                  *ngIf="page !== 'ellipsis'"
+                  type="button"
+                  class="feed-page-bubble"
+                  [class.active]="page === currentPage"
+                  [disabled]="page === currentPage"
+                  [attr.aria-current]="page === currentPage ? 'page' : null"
+                  [attr.aria-label]="'Go to page ' + page"
+                  (click)="goToPage(page)">
+                  {{ page }}
+                </button>
+              </ng-container>
+            </div>
+            <span class="feed-page-range">({{ pageRangeLabel }})</span>
+          </div>
+          <button
+            type="button"
+            class="feed-page-btn"
+            [disabled]="currentPage >= totalPages"
+            (click)="goToNextPage()">
+            Next
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -174,7 +212,7 @@
         <div class="filter-section">
           <label class="filter-section-label">Age</label>
           <label class="filter-checkbox">
-            <input type="checkbox" [(ngModel)]="over18Only" />
+            <input type="checkbox" [(ngModel)]="over18Only" (ngModelChange)="onOver18OnlyChange()" />
             <span>Over 18 only</span>
           </label>
         </div>
@@ -224,7 +262,8 @@
         </div>
 
         <div class="filters-count" *ngIf="feedEntries.length > 0">
-          Showing {{ filteredFeedEntries.length }} of {{ feedEntries.length }}
+          Showing {{ pageRangeLabel }}
+          <span *ngIf="hasActiveFilters"> (filtered from {{ feedEntries.length }})</span>
         </div>
       </div>
     </aside>

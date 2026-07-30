@@ -51,6 +51,41 @@
         </div>
       </div>
     </div>
+    <div class="search-list-server-pagination" *ngIf="showingServerPagination">
+      <button
+        type="button"
+        class="search-list-page-btn"
+        [disabled]="currentPage <= 1 || isLoading"
+        (click)="goToPreviousPage()">
+        Previous
+      </button>
+      <div class="search-list-page-center">
+        <div class="search-list-page-bubbles" role="navigation" aria-label="Pagination">
+          <ng-container *ngFor="let page of getVisiblePageNumbers()">
+            <span *ngIf="page === 'ellipsis'" class="search-list-page-ellipsis" aria-hidden="true">…</span>
+            <button
+              *ngIf="page !== 'ellipsis'"
+              type="button"
+              class="search-list-page-bubble"
+              [class.active]="page === currentPage"
+              [disabled]="isLoading || page === currentPage"
+              [attr.aria-current]="page === currentPage ? 'page' : null"
+              [attr.aria-label]="'Go to page ' + page"
+              (click)="goToPage(page)">
+              {{ page }}
+            </button>
+          </ng-container>
+        </div>
+        <span class="search-list-page-range">({{ pageRangeLabel }})</span>
+      </div>
+      <button
+        type="button"
+        class="search-list-page-btn"
+        [disabled]="currentPage >= getTotalPages() || isLoading"
+        (click)="goToNextPage()">
+        Next
+      </button>
+    </div>
   </form>
 
   <div *ngIf="false">

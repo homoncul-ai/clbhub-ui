@@ -68,6 +68,7 @@ export class OnboardOrgUserModalComponent implements OnInit {
         this.validationErrors.email = undefined;
         return this.hcclService.findHcclUserProfiles({
           userEmail: email,
+          pageNumber: 1,
           pageSize: 1,
           isPaging: true
         });
@@ -103,6 +104,7 @@ export class OnboardOrgUserModalComponent implements OnInit {
         return this.hcclService.findHcclUserProfiles({
           searchByText: searchUserName,
           userCode: searchUserName, // Also check userCode field
+          pageNumber: 1,
           pageSize: 10,
           isPaging: true
         });

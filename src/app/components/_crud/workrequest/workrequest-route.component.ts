@@ -123,7 +123,10 @@ export class WorkRequestRouteComponent extends AbstractMultimodeComponent<WorkRe
 
   get itemsCriteria(): WorkRequestItemCriteria {
     var criteria: WorkRequestItemCriteria = {  
-      workRequestId: this.id
+      workRequestId: this.id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     }
     return criteria;
   }

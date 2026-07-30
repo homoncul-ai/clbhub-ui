@@ -72,6 +72,8 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected grid: any;
   protected isDhtmlxLoaded = false;
   private resizeListener?: () => void;
+  private keepPaginationInView = false;
+  private hostElement = inject(ElementRef);
 
   protected selectedId: string | null = null;
   protected showingAdvancedSearch: boolean = false;
@@ -84,6 +86,9 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected route = inject(ActivatedRoute);
   protected hcclContextService = inject(HcclContextService);
   protected totalRows: number = 0;
+  protected currentPage: number = 1;
+  protected pageSize: number = 50;
+  protected lastSearchByText: string | undefined = undefined;
 
   protected modalService: MdbModalService = inject(MdbModalService);
 
@@ -322,7 +327,8 @@ implements OnInit, AfterViewInit, OnDestroy {
     }
     gridHeight = 'auto';
 
-    // Initialize DHTMLX grid with pagination and drag and drop
+    // Server-side paging is handled by AbstractList controls below the grid.
+    // Keep DHTMLX client pagination off so Next/Prev map to API pageNumber.
     this.grid = new dhx.Grid(this.gridContainer.nativeElement, {
       columns: columns,
       css: useAutoHeight ? "search-list-grid search-list-grid--auto-height" : "search-list-grid",
@@ -335,12 +341,7 @@ implements OnInit, AfterViewInit, OnDestroy {
       drag: true, // Enable drag and drop
       footer: footer,
       pagination: {
-        limit: 10,
-        enabled: true,
-        countable: true,
-        navs: true,
-        pageSizes: [10, 20, 50],
-        range: true,
+        enabled: false
       }
     });
   }
@@ -382,14 +383,34 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
 
   currentCriteria: TCriteria | null = null;
-  private loadGridData(searchByText?: string) {
-    const criteria = this.criteria || this.createCriteria();
+  private loadGridData(searchByText?: string, resetPage: boolean = false) {
+    if (resetPage) {
+      this.currentPage = 1;
+    }
+
+    // Merge list defaults with parent criteria so filter fields cannot wipe paging.
+    const criteria = {
+      ...this.createCriteria(),
+      ...(this.criteria || {})
+    } as TCriteria;
+
+    if (searchByText !== undefined) {
+      this.lastSearchByText = searchByText;
+    }
+    const activeSearchByText = searchByText !== undefined ? searchByText : this.lastSearchByText;
     
-    if (searchByText && searchByText.trim() !== '') {
-      (criteria as any).searchByText = searchByText; 
+    if (activeSearchByText && activeSearchByText.trim() !== '') {
+      (criteria as any).searchByText = activeSearchByText; 
     }
     if (this.criteria == null && this.selectedId && this.selectedId.trim() !== '') {
       (criteria as any).ids = [this.selectedId];
+    }
+
+    if ((criteria as any).isPaging !== false) {
+      this.pageSize = Number((criteria as any).pageSize) || this.pageSize || 50;
+      (criteria as any).pageNumber = this.currentPage;
+      (criteria as any).pageSize = this.pageSize;
+      (criteria as any).isPaging = true;
     }
 
     this.currentCriteria = criteria;
@@ -399,6 +420,118 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected getTotalRows(): number {
     return this.totalRows;
   }
+
+  protected getTotalPages(): number {
+    if (!this.pageSize || this.pageSize <= 0) {
+      return 1;
+    }
+    return Math.max(1, Math.ceil(this.totalRows / this.pageSize));
+  }
+
+  /**
+   * Page numbers (and optional ellipsis markers) shown as clickable bubbles.
+   * Keeps the control compact when there are many pages.
+   */
+  protected getVisiblePageNumbers(): Array<number | 'ellipsis'> {
+    const total = this.getTotalPages();
+    const current = this.currentPage;
+    if (total <= 9) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    const pages = new Set<number>();
+    pages.add(1);
+    pages.add(total);
+    for (let p = current - 2; p <= current + 2; p++) {
+      if (p >= 1 && p <= total) {
+        pages.add(p);
+      }
+    }
+
+    const sorted = Array.from(pages).sort((a, b) => a - b);
+    const result: Array<number | 'ellipsis'> = [];
+    let previous = 0;
+    for (const page of sorted) {
+      if (previous && page - previous > 1) {
+        result.push('ellipsis');
+      }
+      result.push(page);
+      previous = page;
+    }
+    return result;
+  }
+
+  protected get showingServerPagination(): boolean {
+    const criteria = this.currentCriteria as any;
+    if (criteria && criteria.isPaging === false) {
+      return false;
+    }
+    return this.totalRows > this.pageSize;
+  }
+
+  protected get pageRangeLabel(): string {
+    if (this.totalRows <= 0) {
+      return '0 of 0';
+    }
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.totalRows);
+    return `${start}–${end} of ${this.totalRows}`;
+  }
+
+  public goToPreviousPage(): void {
+    if (this.currentPage <= 1 || this.isLoading) {
+      return;
+    }
+    this.currentPage -= 1;
+    this.keepPaginationInView = true;
+    this.loadGridData();
+  }
+
+  public goToNextPage(): void {
+    if (this.currentPage >= this.getTotalPages() || this.isLoading) {
+      return;
+    }
+    this.currentPage += 1;
+    this.keepPaginationInView = true;
+    this.loadGridData();
+  }
+
+  public goToPage(page: number | string): void {
+    if (page === 'ellipsis' || this.isLoading) {
+      return;
+    }
+    const target = Number(page);
+    const total = this.getTotalPages();
+    if (!Number.isFinite(target) || target < 1 || target > total || target === this.currentPage) {
+      return;
+    }
+    this.currentPage = target;
+    this.keepPaginationInView = true;
+    this.loadGridData();
+  }
+
+  /**
+   * After a page change, keep the pagination bar visible at the bottom of the viewport.
+   */
+  protected scrollPaginationIntoViewIfNeeded(): void {
+    if (!this.keepPaginationInView) {
+      return;
+    }
+    this.keepPaginationInView = false;
+
+    // Wait for grid height / DOM to settle after parse.
+    setTimeout(() => {
+      const host = this.hostElement?.nativeElement as HTMLElement | undefined;
+      const pagination = host?.querySelector?.(
+        '.search-list-server-pagination, .feed-pagination'
+      ) as HTMLElement | null;
+      if (!pagination) {
+        return;
+      }
+      pagination.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    }, 50);
+  }
+
   protected loadGridDataCall(criteria: TCriteria) {
     console.log('Loading entities with criteria:', criteria);
     this.isLoading = true;
@@ -407,9 +540,20 @@ implements OnInit, AfterViewInit, OnDestroy {
       next: (response: TSearchResults) => {
         if (this.hasSearchResults(response)) {
           const entities = this.getSearchResults(response);
-          const pagingInfo = (response as any).pagingInfo || { totalRows: 0 };
-          if (pagingInfo) {
-            this.totalRows = pagingInfo.totalRows;
+          const pagingInfo = (response as any).pagingInfo;
+          if (pagingInfo?.pageNumber) {
+            this.currentPage = Number(pagingInfo.pageNumber) || this.currentPage;
+          }
+          if (pagingInfo?.pageSize) {
+            this.pageSize = Number(pagingInfo.pageSize) || this.pageSize;
+          }
+          if (pagingInfo?.totalRows != null && pagingInfo.totalRows !== '') {
+            this.totalRows = Number(pagingInfo.totalRows);
+          } else if (entities.length >= this.pageSize) {
+            // API did not return a total; assume at least one more page exists.
+            this.totalRows = this.currentPage * this.pageSize + 1;
+          } else {
+            this.totalRows = (this.currentPage - 1) * this.pageSize + entities.length;
           }
           // Set up fk data, whatever else.
           const ids: string[] = entities.map((entity: T) => this.extractId(entity));
@@ -427,23 +571,29 @@ implements OnInit, AfterViewInit, OnDestroy {
             })
             .then(() => {
               this.isLoading = false;
+              this.scrollPaginationIntoViewIfNeeded();
             })
             .catch(error => {
               console.error('Error in preprocessing or processing entities:', error);
               this.grid.data.parse([]);
               this.isLoading = false;
+              this.scrollPaginationIntoViewIfNeeded();
             });
         
         } else {
           this.grid.data.parse([]);
+          this.totalRows = 0;
           this.isLoading = false;
+          this.scrollPaginationIntoViewIfNeeded();
           console.log("No entities found");
         }
       },
       error: (error) => {
         console.error('Error loading entity data:', error);
         this.grid.data.parse([]);
+        this.totalRows = 0;
         this.isLoading = false;
+        this.scrollPaginationIntoViewIfNeeded();
       }
     });
   }
@@ -579,12 +729,12 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onRefresh() {
-    this.loadGridData();
+    this.loadGridData(undefined, false);
   }
 
   public onSearch(query: string) {
     this.actionCode = 'search';
-    this.loadGridData(query);
+    this.loadGridData(query, true);
   }
 
   public onFormSubmit(event: Event) {

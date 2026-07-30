@@ -186,6 +186,7 @@ export class InviteColleagueModalComponent implements OnInit {
         return this.hcclService.findHcclUserProfiles({
           userEmail: email,
           organizationId: this.organizationId,
+          pageNumber: 1,
           pageSize: 1,
           isPaging: true
         });

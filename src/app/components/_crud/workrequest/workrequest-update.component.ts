@@ -204,8 +204,11 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
   }
 
   get itemsCriteria(): WorkRequestItemCriteria {
-    var criteria: WorkRequestItemCriteria = {  
-      workRequestId: this.id
+    var criteria: WorkRequestItemCriteria = {
+      workRequestId: this.id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     }
     return criteria;
   }
@@ -283,7 +286,10 @@ export class WorkrequestUpdateComponent extends AbstractMultimodeComponent<WorkR
     if (this.isTicketCompleted()) {
       // Load deliverables
       const delivCrit : WorkItemDeliverableCriteria = {
-        workRequestId: this.entity.getId()
+        workRequestId: this.entity.getId(),
+        pageNumber: 1,
+        pageSize: 50,
+        isPaging: true
       }
       const delivsRsp = await this.hcclService.findWorkItemDeliverables(delivCrit).toPromise();
       const delivs : WorkItemDeliverableGETDataSearchResults = delivsRsp as WorkItemDeliverableGETDataSearchResults;

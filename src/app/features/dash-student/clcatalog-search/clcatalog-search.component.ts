@@ -78,6 +78,9 @@ export class CLCatalogSearchComponent implements OnInit {
     const criteria: CatalogEntryCriteria = {
       catalogId: this.selectedCatalogs.join(','), // Join selected catalogs
       searchByText: this.simpleKeyword,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
     };
     console.log("Search criteria: " + JSON.stringify(criteria))
 
@@ -108,6 +111,9 @@ export class CLCatalogSearchComponent implements OnInit {
 
     const criteria: CatalogEntryCriteria = {
       catalogId: this.selectedCatalogs.join(','), // Join selected catalogs
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
     };
 
     if (this.advKeyword) {

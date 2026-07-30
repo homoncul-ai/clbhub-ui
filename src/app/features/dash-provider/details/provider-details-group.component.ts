@@ -102,7 +102,10 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
     var x: HcclUserProfileCriteria = { 
       organizationId: this.organizationId,
       available: 1,
-      findingColleagues: true
+      findingColleagues: true,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
     return x;
   }
@@ -126,7 +129,10 @@ export class ProviderDetailsGroupComponent extends AbstractEntityGroupComponent<
 
   protected getCriteriaForInvitations(): HcclUserInviteCriteria {
     return {
-      organizationId: this.organizationId
+      organizationId: this.organizationId,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 

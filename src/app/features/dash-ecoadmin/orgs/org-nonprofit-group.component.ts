@@ -96,7 +96,10 @@ export class OrgNonprofitGroupComponent extends AbstractEntityGroupComponent<Hcc
 
   protected getCriteria(): HcclOrganizationCriteria {
     var x: HcclOrganizationCriteria = { 
-      organizationTypeCode: this.organizationTypeCode
+      organizationTypeCode: this.organizationTypeCode,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
     return x;
   }
@@ -153,7 +156,10 @@ export class OrgNonprofitGroupComponent extends AbstractEntityGroupComponent<Hcc
 
   protected getCriteriaForStaff(): HcclUserProfileCriteria {
     var x: HcclUserProfileCriteria = { 
-      organizationId: this.id
+      organizationId: this.id,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
     return x;
   }

@@ -132,7 +132,10 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
 
   getMyAcceptedOpenTickets(): WorkRequestCriteria {
     return {
-      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().userId || ''
+      acceptedByUserId: this.hcclContextService.getCurrentUserProfile().userId || '',
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 
@@ -150,7 +153,10 @@ export class AdvoStudentsGroupComponent extends AbstractEntityGroupComponent<Hcc
   getMyStudentTicketsCriteria(): WorkRequestCriteria {
     var clientId = this.childId || '';
     var criteria: WorkRequestCriteria = {
-      clientUserProfileId: clientId
+      clientUserProfileId: clientId,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
     return criteria;
   }

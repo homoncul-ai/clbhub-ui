@@ -44,7 +44,10 @@ extends AbstractMultimodeComponent<PersonalStatementCrudWrapper> implements OnIn
     return {
       personalStatementId: this.id,
       interestRangeMin: 5,
-      interestRangeMax: 11
+      interestRangeMax: 11,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true
     };
   }
 
