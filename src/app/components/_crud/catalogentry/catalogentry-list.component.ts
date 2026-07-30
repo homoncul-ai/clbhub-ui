@@ -29,6 +29,18 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
   private dateStartRangeTo = '';
   private dateStartRangeModalOpen = false;
   private dateStartFilterWired = false;
+  private entryTypeFilterWired = false;
+  private selectedEntryTypeCode = '';
+
+  /** Same type vocabulary as the student feed filters, plus main. */
+  private readonly entryTypeOptions: Array<{ code: string; label: string }> = [
+    { code: '', label: 'All types' },
+    { code: 'main', label: 'Main' },
+    { code: 'job', label: 'Jobs' },
+    { code: 'course', label: 'Courses' },
+    { code: 'event', label: 'Events' },
+    { code: 'career', label: 'Careers' },
+  ];
 
   constructor(
     protected override router: Router
@@ -55,17 +67,20 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
   protected override addGridEventListeners(grid: any): void {
     super.addGridEventListeners(grid);
     this.dateStartFilterWired = false;
+    this.entryTypeFilterWired = false;
     this.wireDateStartRangeFilter(grid);
+    this.wireEntryTypeFilter(grid);
   }
 
-  /** Start Date uses a custom header control, not free-text inputFilter. */
+  /** Start Date / Entry Type use custom header controls, not free-text inputFilter. */
   protected override handleColumnFilterChange(colId: string, _value: string): boolean {
-    return colId === 'dateStart';
+    return colId === 'dateStart' || colId === 'entryTypeCode';
   }
 
   protected override restoreServerSideColumnFilterInputs(): void {
     super.restoreServerSideColumnFilterInputs();
     this.updateDateStartFilterHeaderLabel();
+    this.updateEntryTypeFilterHeaderValue();
   }
 
   protected getGridColumns(): any[] {
@@ -73,7 +88,19 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
      // { id: 'id', header: [{ text: 'ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       //{ id: 'catalogId', header: [{ text: 'Catalog ID', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
       { id: 'entryCode', header: [{ text: 'Entry Code', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
-      { id: 'entryTypeCode', header: [{ text: 'Entry Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 120, adjust: true },
+      {
+        id: 'entryTypeCode',
+        sortable: true,
+        header: [
+          { text: 'Entry Type', align: 'center' },
+          {
+            htmlEnable: true,
+            text: this.buildEntryTypeFilterHeaderHtml(),
+          },
+        ],
+        minWidth: 130,
+        adjust: true,
+      },
       { id: 'title', header: [{ text: 'Title', align: 'center' }, { content: 'inputFilter' }], minWidth: 200, maxWidth: 300, adjust: true },
       {
         id: 'dateStart',
@@ -123,7 +150,7 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
     const entryCode = this.columnFilters['entryCode']?.trim() || '';
     const title = this.columnFilters['title']?.trim() || '';
     const shortDescription = this.columnFilters['shortDescription']?.trim() || '';
-    const entryTypeCode = this.columnFilters['entryTypeCode']?.trim() || '';
+    const entryTypeCode = this.selectedEntryTypeCode.trim();
     const hasDateRange = !!this.dateStartRangeFrom || !!this.dateStartRangeTo;
 
     const hasTextFilter =
@@ -214,6 +241,115 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
     }
 
     setTimeout(() => this.updateDateStartFilterHeaderLabel(), 0);
+  }
+
+  private wireEntryTypeFilter(grid: any): void {
+    if (this.entryTypeFilterWired || !grid) {
+      return;
+    }
+    this.entryTypeFilterWired = true;
+
+    const host = this.gridContainer?.nativeElement as HTMLElement | undefined;
+    if (host && !host.dataset['entryTypeFilterDelegate']) {
+      host.dataset['entryTypeFilterDelegate'] = '1';
+      host.addEventListener(
+        'change',
+        (event: Event) => {
+          const target = event.target as HTMLSelectElement | null;
+          if (!target?.classList?.contains('catalog-entry-type-filter')) {
+            return;
+          }
+          event.stopPropagation();
+          this.onEntryTypeFilterChange(target.value || '');
+        },
+        true
+      );
+      // Keep native select interaction from bubbling into grid header sort/click handling.
+      host.addEventListener(
+        'click',
+        (event: MouseEvent) => {
+          const target = event.target as HTMLElement | null;
+          if (!target?.closest?.('.catalog-entry-type-filter')) {
+            return;
+          }
+          event.stopPropagation();
+        },
+        true
+      );
+      host.addEventListener(
+        'mousedown',
+        (event: MouseEvent) => {
+          const target = event.target as HTMLElement | null;
+          if (!target?.closest?.('.catalog-entry-type-filter')) {
+            return;
+          }
+          event.stopPropagation();
+        },
+        true
+      );
+    }
+
+    setTimeout(() => this.updateEntryTypeFilterHeaderValue(), 0);
+  }
+
+  private onEntryTypeFilterChange(value: string): void {
+    this.selectedEntryTypeCode = (value || '').trim();
+    if (this.selectedEntryTypeCode) {
+      this.columnFilters['entryTypeCode'] = this.selectedEntryTypeCode;
+    } else {
+      delete this.columnFilters['entryTypeCode'];
+    }
+    this.updateEntryTypeFilterHeaderValue();
+    this.loadGridData(undefined, true);
+  }
+
+  private buildEntryTypeFilterHeaderHtml(): string {
+    const options = this.entryTypeOptions
+      .map((opt) => {
+        const selected = opt.code === this.selectedEntryTypeCode ? ' selected' : '';
+        return `<option value="${opt.code}"${selected}>${opt.label}</option>`;
+      })
+      .join('');
+    const active = !!this.selectedEntryTypeCode;
+    const border = active ? '#94a3b8' : '#e5e7eb';
+    const color = active ? '#0f172a' : '#9ca3af';
+    const background = active ? '#f8fafc' : '#ffffff';
+    return `
+      <select
+        class="catalog-entry-type-filter${active ? ' is-active' : ''}"
+        title="Filter by entry type"
+        style="
+          box-sizing: border-box;
+          display: block;
+          width: calc(100% - 4px);
+          min-height: 26px;
+          margin: 2px;
+          padding: 3px 24px 3px 8px;
+          border: 1px solid ${border};
+          border-radius: 4px;
+          background: ${background};
+          color: ${color};
+          font: 400 12px/1.2 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+          cursor: pointer;
+          appearance: auto;
+          box-shadow: inset 0 1px 1px rgba(15, 23, 42, 0.03);
+        "
+      >${options}</select>
+    `.replace(/\s+/g, ' ').trim();
+  }
+
+  private updateEntryTypeFilterHeaderValue(): void {
+    const host = this.gridContainer?.nativeElement as HTMLElement | undefined;
+    const select = host?.querySelector?.('.catalog-entry-type-filter') as HTMLSelectElement | null;
+    if (!select) {
+      return;
+    }
+    select.value = this.selectedEntryTypeCode;
+    const active = !!this.selectedEntryTypeCode;
+    select.classList.toggle('is-active', active);
+    select.style.borderColor = active ? '#94a3b8' : '#e5e7eb';
+    select.style.color = active ? '#0f172a' : '#9ca3af';
+    select.style.background = active ? '#f8fafc' : '#ffffff';
   }
 
   private buildDateStartFilterHeaderHtml(): string {
@@ -440,8 +576,13 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
       if (!matchesField(row.shortDescription, filters.shortDescription)) {
         return false;
       }
-      if (!matchesField(row.catalogTypeCode, filters.entryTypeCode)) {
-        return false;
+      if (filters.entryTypeCode) {
+        const rowType = (row.catalogTypeCode || '').toLowerCase();
+        const wanted = filters.entryTypeCode.toLowerCase();
+        // Exact match like the feed type filter (job/course/event/career/main).
+        if (rowType !== wanted) {
+          return false;
+        }
       }
       if (!matchesDateStartRange(row)) {
         return false;
