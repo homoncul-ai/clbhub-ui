@@ -31,7 +31,17 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
     this.searchHeading = 'Catalog Entries';
     this.showingAddButton = true;
     this.showingIdCheckbox = true;
+    // Header filters must hit beyond the current page (see findEntities client filter path).
+    this.usingServerSideColumnFilters = true;
     //this.searchPlaceholder = ...
+  }
+
+  /**
+   * Text/column text filters are applied in findEntities. Do not put them on
+   * searchByText — QA postgres SQL for that field is broken (invalid query).
+   */
+  protected override applyColumnFiltersToCriteria(_criteria: CatalogEntryCriteria): void {
+    // Intentionally empty: columnFilters is read directly in findEntities.
   }
 
   protected getGridColumns(): any[] {
@@ -71,7 +81,118 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
         map(response => response.catalogEntries ?? { searchResults: [] })
       );
     }
-    return this.hcclService.findCatalogEntrys(criteria);
+
+    const topSearch = criteria.searchByText?.trim() || '';
+    const entryCode = this.columnFilters['entryCode']?.trim() || '';
+    const title = this.columnFilters['title']?.trim() || '';
+    const shortDescription = this.columnFilters['shortDescription']?.trim() || '';
+    const entryTypeCode = this.columnFilters['entryTypeCode']?.trim() || '';
+
+    const hasTextFilter =
+      (!!topSearch && topSearch !== '*') ||
+      !!entryCode ||
+      !!title ||
+      !!shortDescription ||
+      !!entryTypeCode;
+
+    // Never send searchByText to the API until the postgres predicate is fixed in QA.
+    const { searchByText: _ignored, catalogTypeCode: _typeIgnored, ...base } = criteria;
+    const apiCriteria: CatalogEntryCriteria = { ...base };
+
+    if (!hasTextFilter) {
+      return this.hcclService.findCatalogEntrys(apiCriteria);
+    }
+
+    // Broader fetch, then filter + page client-side (covers full result set up to maxResults).
+    const fetchCriteria: CatalogEntryCriteria = {
+      ...apiCriteria,
+      isPaging: false,
+      maxResults: criteria.maxResults && criteria.maxResults > 0 ? criteria.maxResults : 5000,
+    };
+    delete fetchCriteria.pageNumber;
+    delete fetchCriteria.pageSize;
+
+    const pageNumber = Number(criteria.pageNumber) || 1;
+    const pageSize = Number(criteria.pageSize) || this.pageSize || 50;
+
+    return this.hcclService.findCatalogEntrys(fetchCriteria).pipe(
+      map((response) => {
+        let rows = response.searchResults || [];
+        rows = this.filterCatalogEntriesClientSide(rows, {
+          topSearch,
+          entryCode,
+          title,
+          shortDescription,
+          entryTypeCode,
+        });
+        const start = (pageNumber - 1) * pageSize;
+        return {
+          searchResults: rows.slice(start, start + pageSize),
+          pagingInfo: {
+            totalRows: rows.length,
+            pageNumber,
+            pageSize,
+          },
+        };
+      })
+    );
+  }
+
+  private filterCatalogEntriesClientSide(
+    rows: CatalogEntryGETData[],
+    filters: {
+      topSearch: string;
+      entryCode: string;
+      title: string;
+      shortDescription: string;
+      entryTypeCode: string;
+    }
+  ): CatalogEntryGETData[] {
+    const matchesField = (value: string | undefined, needle: string): boolean => {
+      if (!needle || needle === '*') {
+        return true;
+      }
+      const hay = (value || '').toLowerCase();
+      const n = needle.toLowerCase();
+      if (n.includes('*')) {
+        const pattern = n
+          .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+          .replace(/\*/g, '.*');
+        return new RegExp(`^${pattern}$`, 'i').test(value || '');
+      }
+      return hay.includes(n);
+    };
+
+    return rows.filter((row) => {
+      if (filters.topSearch && filters.topSearch !== '*') {
+        const top = filters.topSearch.toLowerCase();
+        const fields = [
+          row.entryCode || '',
+          row.title || '',
+          row.shortDescription || '',
+          row.catalogTypeCode || '',
+        ];
+        const hit = top.includes('*')
+          ? fields.some((f) => matchesField(f, filters.topSearch))
+          : fields.some((f) => f.toLowerCase().includes(top));
+        if (!hit) {
+          return false;
+        }
+      }
+      if (!matchesField(row.entryCode, filters.entryCode)) {
+        return false;
+      }
+      if (!matchesField(row.title, filters.title)) {
+        return false;
+      }
+      if (!matchesField(row.shortDescription, filters.shortDescription)) {
+        return false;
+      }
+      if (!matchesField(row.catalogTypeCode, filters.entryTypeCode)) {
+        return false;
+      }
+      return true;
+    });
   }
 
   protected hasSearchResults(response: CatalogEntryGETDataSearchResults): boolean {
@@ -94,4 +215,4 @@ export class CatalogEntryListComponent extends AbstractListComponent<CatalogEntr
 
   
   
-} 
+}
