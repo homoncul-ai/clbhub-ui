@@ -21272,6 +21272,42 @@
         }
       }
     },
+    "/hccl/public/catalog-entries": {
+      "post": {
+        "tags": [
+          "/public"
+        ],
+        "summary": "Add resume entries to a resume",
+        "operationId": "publicSearchCatalog",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchCatalogRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCatalogResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/public/onboard/student/setup": {
       "get": {
         "tags": [
@@ -21380,42 +21416,6 @@
           },
           "401": {
             "description": "Unauthorized - Invalid Signature"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/public/catalog-entries": {
-      "post": {
-        "tags": [
-          "/public"
-        ],
-        "summary": "Add resume entries to a resume",
-        "operationId": "searchCatalog",
-        "requestBody": {
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchCatalogRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid Data"
           },
           "500": {
             "description": "System Error"
@@ -23199,7 +23199,7 @@
     "/hccl/search/catalog-entries": {
       "post": {
         "summary": "Add resume entries to a resume",
-        "operationId": "searchCatalog_1",
+        "operationId": "searchCatalog",
         "requestBody": {
           "content": {
             "application/json;charset=UTF-8": {
@@ -23215,7 +23215,7 @@
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalStatementResumeGETData"
+                  "$ref": "#/components/schemas/SearchCatalogResponse"
                 }
               }
             }
@@ -26181,6 +26181,18 @@
           },
           "tarotFileUrl": {
             "type": "string"
+          },
+          "dateListingStarts": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "dateListingEnds": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "dateStart": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "dateEnd": {
+            "$ref": "#/components/schemas/DateGETData"
           },
           "vocodeInstanceId": {
             "type": "string",
@@ -52174,6 +52186,82 @@
           }
         }
       },
+      "SearchCatalogRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "catalogTypeCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "savingSearchResults": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SearchCatalogResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "theRequest": {
+            "$ref": "#/components/schemas/SearchCatalogRequest"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "results": {
+            "$ref": "#/components/schemas/VeiSearchResultsGETData"
+          }
+        }
+      },
       "ConsentRequestGETData": {
         "type": "object",
         "properties": {
@@ -52295,64 +52383,6 @@
             "additionalProperties": {
               "type": "object"
             }
-          }
-        }
-      },
-      "SearchCatalogRequest": {
-        "type": "object",
-        "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isPaging": {
-            "type": "boolean"
-          },
-          "ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          "idsToExclude": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          "searchByText": {
-            "type": "string"
-          },
-          "maxResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "orderByHint": {
-            "type": "string"
-          },
-          "optionalDataHint": {
-            "type": "string"
-          },
-          "predicateHint": {
-            "$ref": "#/components/schemas/CriteriaPredicateHint"
-          },
-          "searchByDateRange": {
-            "$ref": "#/components/schemas/CriteriaDateRange"
-          },
-          "catalogTypeCodes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "savingSearchResults": {
-            "type": "boolean"
           }
         }
       },

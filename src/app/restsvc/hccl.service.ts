@@ -4873,6 +4873,15 @@ export class HcclService extends RequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  publicSearchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/catalog-entries",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SearchCatalogResponse>(request);
+  }
+
   resolvePublicSignupUIData(interest_id: string): Observable<OnboardStudentUIData> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/onboard/student/setup",
@@ -4898,15 +4907,6 @@ export class HcclService extends RequestServiceCaller {
       body: body,
     };
     return this.request<SimpleResponse>(request);
-  }
-
-  searchCatalog(body: SearchCatalogRequest): Observable<PersonalStatementResumeGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/public/catalog-entries",
-      method: "POST",
-      body: body,
-    };
-    return this.request<PersonalStatementResumeGETData>(request);
   }
 
   getEntityMapForFK(entity_type: string, body: any): Observable<HcclUserContextGETData> {
@@ -5299,13 +5299,13 @@ export class HcclService extends RequestServiceCaller {
     return this.request<PersonalStatementResumeGETData>(request);
   }
 
-  searchCatalogPost(body: SearchCatalogRequest): Observable<PersonalStatementResumeGETData> {
+  searchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/search/catalog-entries",
       method: "POST",
       body: body,
     };
-    return this.request<PersonalStatementResumeGETData>(request);
+    return this.request<SearchCatalogResponse>(request);
   }
 
   joinFamily(code: string): Observable<HandleActivationCodeResponse> {
@@ -5974,6 +5974,10 @@ export interface CatalogEntryGETData {
   url?: string;
   tarotFileId?: string;
   tarotFileUrl?: string;
+  dateListingStarts?: DateGETData;
+  dateListingEnds?: DateGETData;
+  dateStart?: DateGETData;
+  dateEnd?: DateGETData;
   vocodeInstanceId?: string;
   integrationEntityId?: string;
   integrationEntityType?: string;
@@ -13285,6 +13289,29 @@ export interface OnboardFamilyPOSTData {
   students?: OnboardFamilyMemberPOSTData[];
 }
 
+export interface SearchCatalogRequest {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  catalogTypeCodes?: string[];
+  savingSearchResults?: boolean;
+}
+
+export interface SearchCatalogResponse {
+  messages?: SimpleMessageList;
+  theRequest?: SearchCatalogRequest;
+  vocationEncodingId?: string;
+  results?: VeiSearchResultsGETData;
+}
+
 export interface ConsentRequestGETData {
   title?: string;
   consentMessage?: string;
@@ -13328,22 +13355,6 @@ export interface SurveyResponsePOSTData {
   subject?: string;
   emailFrom?: string;
   mapJsonData?: any;
-}
-
-export interface SearchCatalogRequest {
-  pageNumber?: number;
-  pageSize?: number;
-  isPaging?: boolean;
-  ids?: string[];
-  idsToExclude?: string[];
-  searchByText?: string;
-  maxResults?: number;
-  orderByHint?: string;
-  optionalDataHint?: string;
-  predicateHint?: CriteriaPredicateHint;
-  searchByDateRange?: CriteriaDateRange;
-  catalogTypeCodes?: string[];
-  savingSearchResults?: boolean;
 }
 
 export interface HcclUserContextGETData {
