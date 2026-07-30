@@ -98,7 +98,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected columnFilters: Record<string, string> = {};
   private columnFilterDebounceHandle: ReturnType<typeof setTimeout> | null = null;
   private columnFilterDebounceMs = 350;
-  private restoringColumnFilters = false;
+  protected restoringColumnFilters = false;
   /** True while top-bar and/or column filters are actively narrowing results. */
   private searchFilterActive = false;
   /** Page the user was on before entering a search; restored when search is cleared. */
@@ -296,7 +296,13 @@ implements OnInit, AfterViewInit, OnDestroy {
           ? ''
           : Array.isArray(value)
             ? value.map((v) => String(v)).join(' ').trim()
-            : String(value).trim();
+            : value instanceof Date && !Number.isNaN(value.getTime())
+              ? value.toISOString().slice(0, 10)
+              : String(value).trim();
+
+      if (this.handleColumnFilterChange(key, normalized)) {
+        return;
+      }
 
       if (normalized) {
         this.columnFilters[key] = normalized;
@@ -312,6 +318,14 @@ implements OnInit, AfterViewInit, OnDestroy {
         this.loadGridData(undefined, true);
       }, this.columnFilterDebounceMs);
     });
+  }
+
+  /**
+   * Subclasses can handle a column filter specially (e.g. open a modal).
+   * Return true to skip the default columnFilters + reload behavior.
+   */
+  protected handleColumnFilterChange(_colId: string, _value: string): boolean {
+    return false;
   }
 
   /**
@@ -458,7 +472,7 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
 
   currentCriteria: TCriteria | null = null;
-  private loadGridData(searchByText?: string, resetPage: boolean = false) {
+  protected loadGridData(searchByText?: string, resetPage: boolean = false) {
     if (searchByText !== undefined) {
       this.lastSearchByText = searchByText;
     }
