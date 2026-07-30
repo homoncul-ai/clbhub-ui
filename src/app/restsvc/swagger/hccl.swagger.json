@@ -20929,43 +20929,21 @@
       }
     },
     "/hccl/public/handle-invite-action": {
-      "get": {
+      "post": {
         "tags": [
           "/public"
         ],
         "summary": "Handle an invitation.",
         "operationId": "handlePublicInviteAction",
-        "parameters": [
-          {
-            "name": "inviteId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "actionCode",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "r",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "sig",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HandleInviteActionPOSTData"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Ok",
@@ -21038,7 +21016,7 @@
       }
     },
     "/hccl/public/onboard/invite/complete": {
-      "get": {
+      "post": {
         "tags": [
           "/public"
         ],
@@ -28918,6 +28896,9 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "registerMethod": {
+            "type": "string"
           },
           "languageCode": {
             "type": "string"
@@ -45813,6 +45794,11 @@
             "type": "string",
             "format": "uuid"
           },
+          "registerMethod": {
+            "maxLength": 255,
+            "minLength": 2,
+            "type": "string"
+          },
           "languageCode": {
             "maxLength": 255,
             "minLength": 2,
@@ -45923,6 +45909,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "registerMethod": {
+            "type": "string"
+          },
           "languageCode": {
             "type": "string"
           },
@@ -45987,6 +45976,11 @@
           "personId": {
             "type": "string",
             "format": "uuid"
+          },
+          "registerMethod": {
+            "maxLength": 255,
+            "minLength": 2,
+            "type": "string"
           },
           "languageCode": {
             "maxLength": 255,
@@ -51922,6 +51916,39 @@
           },
           "tuple": {
             "$ref": "#/components/schemas/EntityTuple"
+          },
+          "redirectUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "HandleInviteActionPOSTData": {
+        "type": "object",
+        "properties": {
+          "realmName": {
+            "type": "string"
+          },
+          "sig": {
+            "type": "string"
+          },
+          "inviteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "mapContext": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
           }
         }
       },
@@ -51982,10 +52009,16 @@
           "initialPassword": {
             "type": "string"
           },
+          "registerMethod": {
+            "type": "string"
+          },
           "creatingKeyloakUser": {
             "type": "boolean"
           },
           "requiringImmediatePasswordUpdate": {
+            "type": "boolean"
+          },
+          "requiringEmailValidation": {
             "type": "boolean"
           },
           "roles": {
@@ -52459,30 +52492,6 @@
             "additionalProperties": {
               "type": "object"
             }
-          }
-        }
-      },
-      "HandleInviteActionPOSTData": {
-        "type": "object",
-        "properties": {
-          "inviteId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "accepted": {
-            "type": "boolean"
-          },
-          "mapContext": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
-          },
-          "consents": {
-            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
           }
         }
       },
@@ -53355,13 +53364,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }

@@ -4801,11 +4801,11 @@ export class HcclService extends RequestServiceCaller {
     return this.request<PostmarkWebhookResponse>(request);
   }
 
-  handlePublicInviteAction(inviteId: string, actionCode: string, r: string, sig: string): Observable<HandleInviteActionResponse> {
+  handlePublicInviteAction(body: HandleInviteActionPOSTData): Observable<HandleInviteActionResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/handle-invite-action",
-      method: "GET",
-      params: { "inviteId": this.convertToString(inviteId), "actionCode": this.convertToString(actionCode), "r": this.convertToString(r), "sig": this.convertToString(sig) },
+      method: "POST",
+      body: body,
     };
     return this.request<HandleInviteActionResponse>(request);
   }
@@ -6776,6 +6776,7 @@ export interface HcclUserGETData {
   externalUserName?: string;
   available?: number;
   personId?: string;
+  registerMethod?: string;
   languageCode?: string;
   birthYear?: number;
   birthMonth?: number;
@@ -11496,6 +11497,7 @@ export interface HcclUserPOSTData {
   externalUserName?: string;
   available: number;
   personId: string;
+  registerMethod?: string;
   languageCode: string;
   birthYear?: number;
   birthMonth?: number;
@@ -11528,6 +11530,7 @@ export interface HcclUserCriteria {
   externalUserName?: string;
   available?: number;
   personId?: string;
+  registerMethod?: string;
   languageCode?: string;
   birthYear?: number;
   birthMonth?: number;
@@ -11543,6 +11546,7 @@ export interface HcclUserPUTData {
   externalUserName?: string;
   available: number;
   personId: string;
+  registerMethod?: string;
   languageCode: string;
   birthYear?: number;
   birthMonth?: number;
@@ -13210,6 +13214,17 @@ export interface HandleInviteActionResponse {
   messages?: SimpleMessageList;
   notes?: string;
   tuple?: EntityTuple;
+  redirectUrl?: string;
+}
+
+export interface HandleInviteActionPOSTData {
+  realmName?: string;
+  sig?: string;
+  inviteId?: string;
+  notes?: string;
+  accepted?: boolean;
+  mapContext?: any;
+  consents?: MultiConsentRequestPOSTData;
 }
 
 export interface OnboardInvitedUIData {
@@ -13230,8 +13245,10 @@ export interface OnboardOrgUserPOSTData {
   emailAddress?: string;
   cellPhone?: string;
   initialPassword?: string;
+  registerMethod?: string;
   creatingKeyloakUser?: boolean;
   requiringImmediatePasswordUpdate?: boolean;
+  requiringEmailValidation?: boolean;
   roles?: string[];
   profileTypeCode?: string;
 }
@@ -13379,14 +13396,6 @@ export interface SimpleRestActionResponse {
   data?: any;
   actionFormData?: any;
   mapFormElements?: any;
-}
-
-export interface HandleInviteActionPOSTData {
-  inviteId?: string;
-  notes?: string;
-  accepted?: boolean;
-  mapContext?: any;
-  consents?: MultiConsentRequestPOSTData;
 }
 
 export interface CreateInviteActionResponse {
@@ -13704,9 +13713,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

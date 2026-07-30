@@ -23,4 +23,11 @@ export const ONBOARD_ROUTES: Routes = [
     loadComponent: () =>
       import('./onboard-business-user/onboard-business-user.component').then((m) => m.OnboardBusinessUserComponent),
   },
+  {
+    path: 'colleague/complete',
+    loadComponent: () =>
+      import('./onboard-invite/onboard-invite-colleague/onboard-invite-colleague.component').then(
+        (m) => m.OnboardInviteColleagueComponent
+      ),
+  },
 ];
