@@ -2,15 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {  SimpleMessage, SimpleMessageList, DateGETData ,Reference, RelationshipGETData, JobProcessLogPUTData , ServiceManifest, LoggerConfigurationData, LoggerConfigurationPUTData, JobDefinitionPOSTData, JobDefinitionCriteria, JobDefinitionPUTData, JobProcessLogPOSTData} from './common-request-service.model';
-import { CommonServiceRequest } from './common-request-service.model';
-import { RequestServiceCaller } from './request-service-caller';
+import { CommonRequestServiceCaller, CommonServiceRequest } from './common-request-service.model';
+import { AppConstants } from '@app/shell/services/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HcclService extends RequestServiceCaller {
-  constructor(http: HttpClient) {
-    super(http, "hccl");
+export class HcclService extends CommonRequestServiceCaller {
+  constructor(http: HttpClient, appConstants: AppConstants) {
+    super(http);
+
+  // Hard code it if you want
+   // const baseUrl: string = "http://localhost:8099/trutesta-hccl-services";
+    const baseUrl: string = appConstants.endPoints()?.hcclServicesEndPoint;
+    console.log("Setting HcclService baseUrl to " + baseUrl);
+    this.setBaseUrl(baseUrl);
   }
 
   getCurrentManifest(): Observable<any> {
@@ -2324,58 +2330,6 @@ export class HcclService extends RequestServiceCaller {
       body: body,
     };
     return this.request<PMessageGETDataSearchResults>(request);
-  }
-
-  createPSurveyRef(body: PSurveyRefPOSTData): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/pattern/psurveyref",
-      method: "POST",
-      body: body,
-    };
-    return this.requestCreate<any>(request);
-  }
-
-  getPSurveyRefById(id: string): Observable<PSurveyRefGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/pattern/psurveyref/" + id,
-      method: "GET",
-    };
-    return this.request<PSurveyRefGETData>(request);
-  }
-
-  updatePSurveyRefById(id: string, body: PSurveyRefPUTData): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/pattern/psurveyref/" + id,
-      method: "PUT",
-      body: body,
-    };
-    return this.request<any>(request);
-  }
-
-  deletePSurveyRefById(id: string): Observable<any> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/pattern/psurveyref/" + id,
-      method: "DELETE",
-    };
-    return this.request<any>(request);
-  }
-
-  findPSurveyRefs(body: PSurveyRefCriteria): Observable<PSurveyRefGETDataSearchResults> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/pattern/psurveyref/query",
-      method: "POST",
-      body: body,
-    };
-    return this.request<PSurveyRefGETDataSearchResults>(request);
-  }
-
-  getPSurveyRefByIdWithHint(id: string, hint: string): Observable<PSurveyRefGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/pattern/psurveyref/" + id + "/hint",
-      method: "GET",
-      params: { "hint": this.convertToString(hint) },
-    };
-    return this.request<PSurveyRefGETData>(request);
   }
 
   createPContractActivationCode(body: PContractActivationCodePOSTData): Observable<any> {
@@ -4900,15 +4854,6 @@ export class HcclService extends RequestServiceCaller {
     return this.request<SimpleResponse>(request);
   }
 
-  searchCatalog(body: SearchCatalogRequest): Observable<PersonalStatementResumeGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/public/catalog-entries",
-      method: "POST",
-      body: body,
-    };
-    return this.request<PersonalStatementResumeGETData>(request);
-  }
-
   getEntityMapForFK(entity_type: string, body: any): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/mapfk/" + entity_type,
@@ -5299,13 +5244,13 @@ export class HcclService extends RequestServiceCaller {
     return this.request<PersonalStatementResumeGETData>(request);
   }
 
-  searchCatalogPost(body: SearchCatalogRequest): Observable<PersonalStatementResumeGETData> {
+  searchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
     const request: CommonServiceRequest = {
-      url: "/hccl/search/catalog-entries",
+      url: "/hccl/search/catalog/add-entries",
       method: "POST",
       body: body,
     };
-    return this.request<PersonalStatementResumeGETData>(request);
+    return this.request<SearchCatalogResponse>(request);
   }
 
   joinFamily(code: string): Observable<HandleActivationCodeResponse> {
@@ -9398,64 +9343,6 @@ export interface PMessagePUTData {
   dateLastEntry?: string;
 }
 
-export interface PSurveyRefPOSTData {
-  name: string;
-  surveyCode: string;
-  description?: string;
-  available: number;
-  dateStart?: string;
-  dateEnd?: string;
-}
-
-export interface PSurveyRefGETData {
-  id?: string;
-  createdByInfo?: Reference;
-  dateCreated?: DateGETData;
-  lastUpdatedByInfo?: Reference;
-  dateLastUpdated?: DateGETData;
-  entityDisplayName?: string;
-  entityType?: string;
-  name?: string;
-  surveyCode?: string;
-  description?: string;
-  available?: number;
-}
-
-export interface PSurveyRefGETDataSearchResults {
-  pagingInfo?: DCPageData;
-  searchResults?: PSurveyRefGETData[];
-  filter?: BaseCriteria;
-}
-
-export interface PSurveyRefCriteria {
-  pageNumber?: number;
-  pageSize?: number;
-  isPaging?: boolean;
-  ids?: string[];
-  idsToExclude?: string[];
-  searchByText?: string;
-  maxResults?: number;
-  orderByHint?: string;
-  optionalDataHint?: string;
-  predicateHint?: CriteriaPredicateHint;
-  searchByDateRange?: CriteriaDateRange;
-  name?: string;
-  surveyCode?: string;
-  description?: string;
-  available?: number;
-  dateStart?: string;
-  dateEnd?: string;
-}
-
-export interface PSurveyRefPUTData {
-  name: string;
-  surveyCode: string;
-  description?: string;
-  available: number;
-  dateStart?: string;
-  dateEnd?: string;
-}
-
 export interface PContractActivationCodePOSTData {
   userProfileId: string;
   activationActionCode: string;
@@ -13226,7 +13113,6 @@ export interface OnboardOrgUserPOSTData {
   emailAddress?: string;
   cellPhone?: string;
   initialPassword?: string;
-  creatingKeyloakUser?: boolean;
   requiringImmediatePasswordUpdate?: boolean;
   roles?: string[];
   profileTypeCode?: string;
@@ -13328,22 +13214,6 @@ export interface SurveyResponsePOSTData {
   subject?: string;
   emailFrom?: string;
   mapJsonData?: any;
-}
-
-export interface SearchCatalogRequest {
-  pageNumber?: number;
-  pageSize?: number;
-  isPaging?: boolean;
-  ids?: string[];
-  idsToExclude?: string[];
-  searchByText?: string;
-  maxResults?: number;
-  orderByHint?: string;
-  optionalDataHint?: string;
-  predicateHint?: CriteriaPredicateHint;
-  searchByDateRange?: CriteriaDateRange;
-  catalogTypeCodes?: string[];
-  savingSearchResults?: boolean;
 }
 
 export interface HcclUserContextGETData {
@@ -13615,6 +13485,29 @@ export interface ResumeReorderEntriesPOSTData {
 
 export interface ResumeUpdateEntryPOSTData {
   entryJson?: string;
+}
+
+export interface SearchCatalogRequest {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  catalogTypeCodes?: string[];
+  savingSearchResults?: boolean;
+}
+
+export interface SearchCatalogResponse {
+  messages?: SimpleMessageList;
+  theRequest?: SearchCatalogRequest;
+  vocationEncodingId?: string;
+  results?: VeiSearchResultsGETData;
 }
 
 export interface HandleActivationCodeResponse {
