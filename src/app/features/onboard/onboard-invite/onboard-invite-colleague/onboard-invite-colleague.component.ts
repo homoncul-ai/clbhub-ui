@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { SimpleMessagesSectionComponent } from '@app/components/_global/simple-messages-section/simple-messages-section.component';
 import { SimpleMessageList } from '@app/restsvc/common-request-service.model';
@@ -28,7 +28,6 @@ import { OnboardPublicHeaderComponent } from '../../components/onboard-public-he
 export class OnboardInviteColleagueComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly hcclService = inject(HcclService);
 
   loading = false;
@@ -168,11 +167,8 @@ export class OnboardInviteColleagueComponent implements OnInit {
             };
             return;
           }
-          if (redirectUrl.startsWith('http')) {
-            window.location.assign(redirectUrl);
-            return;
-          }
-          this.router.navigateByUrl(redirectUrl);
+          // Hard redirect so Keycloak auth runs when leaving the public area.
+          window.location.assign(redirectUrl);
         },
         error: () => {
           this.messagesList = {
