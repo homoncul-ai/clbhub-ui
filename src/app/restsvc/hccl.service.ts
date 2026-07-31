@@ -4926,15 +4926,6 @@ export class HcclService extends RequestServiceCaller {
     return this.request<SimpleResponse>(request);
   }
 
-  searchCatalog(body: SearchCatalogRequest): Observable<PersonalStatementResumeGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/public/catalog-entries",
-      method: "POST",
-      body: body,
-    };
-    return this.request<PersonalStatementResumeGETData>(request);
-  }
-
   getEntityMapForFK(entity_type: string, body: any): Observable<HcclUserContextGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/intg/mapfk/" + entity_type,
@@ -5240,6 +5231,14 @@ export class HcclService extends RequestServiceCaller {
     return this.request<WorkRequestDashboardUIGETData>(request);
   }
 
+  getAfterChangeUserProfileGETData(): Observable<AfterChangeUserProfileGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/realm/after-change-user-profile",
+      method: "GET",
+    };
+    return this.request<AfterChangeUserProfileGETData>(request);
+  }
+
   newMessageInviteUIGet(inviteeId: string): Observable<RealmInfoGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/realm/info",
@@ -5325,13 +5324,13 @@ export class HcclService extends RequestServiceCaller {
     return this.request<PersonalStatementResumeGETData>(request);
   }
 
-  searchCatalogPost(body: SearchCatalogRequest): Observable<PersonalStatementResumeGETData> {
+  searchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/search/catalog-entries",
       method: "POST",
       body: body,
     };
-    return this.request<PersonalStatementResumeGETData>(request);
+    return this.request<SearchCatalogResponse>(request);
   }
 
   joinFamily(code: string): Observable<HandleActivationCodeResponse> {
@@ -6094,6 +6093,7 @@ export interface ConsentRequestPOSTData {
   contractVersionId?: string;
   agreeValue?: string;
   consenting?: boolean;
+  contractParticipantId?: string;
 }
 
 export interface DateRangeGETData {
@@ -9611,6 +9611,7 @@ export interface PContractParticipantCriteria {
   loginSessionId?: string;
   digitalHash?: string;
   agreeData?: string;
+  signed?: boolean;
 }
 
 export interface PContractParticipantPUTData {
@@ -13360,6 +13361,7 @@ export interface ConsentRequestGETData {
   consentMessage?: string;
   mdContents?: string;
   contractVersionId?: string;
+  contractParticipantId?: string;
   contract?: PContractVersionGETData;
 }
 
@@ -13398,22 +13400,6 @@ export interface SurveyResponsePOSTData {
   subject?: string;
   emailFrom?: string;
   mapJsonData?: any;
-}
-
-export interface SearchCatalogRequest {
-  pageNumber?: number;
-  pageSize?: number;
-  isPaging?: boolean;
-  ids?: string[];
-  idsToExclude?: string[];
-  searchByText?: string;
-  maxResults?: number;
-  orderByHint?: string;
-  optionalDataHint?: string;
-  predicateHint?: CriteriaPredicateHint;
-  searchByDateRange?: CriteriaDateRange;
-  catalogTypeCodes?: string[];
-  savingSearchResults?: boolean;
 }
 
 export interface HcclUserContextGETData {
@@ -13662,6 +13648,12 @@ export interface WorkRequestDashboardUIGETData {
   mapStats?: any;
 }
 
+export interface AfterChangeUserProfileGETData {
+  consents?: MultiConsentRequestGETData;
+  userProfileBirthMonthNotSet?: boolean;
+  userProfile?: HcclUserProfileGETData;
+}
+
 export interface RealmInfoGETData {
   mapLocus: HcclAddrGETData;
   mapRadiusMiles: number;
@@ -13755,9 +13747,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

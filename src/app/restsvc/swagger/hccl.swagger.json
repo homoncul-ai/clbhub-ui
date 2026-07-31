@@ -22886,6 +22886,36 @@
         }
       }
     },
+    "/hccl/realm/after-change-user-profile": {
+      "get": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Call any time we change the userProfile id.",
+        "operationId": "getAfterChangeUserProfileGETData",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/AfterChangeUserProfileGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/realm/info": {
       "get": {
         "tags": [
@@ -26534,6 +26564,10 @@
           },
           "consenting": {
             "type": "boolean"
+          },
+          "contractParticipantId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -38955,6 +38989,9 @@
           },
           "agreeData": {
             "type": "string"
+          },
+          "signed": {
+            "type": "boolean"
           }
         }
       },
@@ -52393,6 +52430,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "contractParticipantId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "contract": {
             "$ref": "#/components/schemas/PContractVersionGETData"
           }
@@ -53159,6 +53200,20 @@
           }
         }
       },
+      "AfterChangeUserProfileGETData": {
+        "type": "object",
+        "properties": {
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestGETData"
+          },
+          "userProfileBirthMonthNotSet": {
+            "type": "boolean"
+          },
+          "userProfile": {
+            "$ref": "#/components/schemas/HcclUserProfileGETData"
+          }
+        }
+      },
       "RealmInfoGETData": {
         "required": [
           "mapLocus",
@@ -53446,13 +53501,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }
