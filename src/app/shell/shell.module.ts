@@ -28,6 +28,7 @@ import { MdbTreeviewModule } from 'mdb-angular-treeview';
 import { GravatarModule } from 'ngx-gravatar';
 import { MenuControlDataListComponent } from '../components/_global/menu-control-data-list/menu-control-data-list.component';
 import { SimpleTabsetComponent } from '../components/_global/simple-tabset/simple-tabset.component';
+import { ConsentRequiredModalComponent } from './components/consent-required-modal/consent-required-modal.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { SimpleTabsetComponent } from '../components/_global/simple-tabset/simpl
     MdbTreeviewModule,
     GravatarModule,
     MenuControlDataListComponent,
-    SimpleTabsetComponent
+    SimpleTabsetComponent,
+    ConsentRequiredModalComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [ShellComponent],

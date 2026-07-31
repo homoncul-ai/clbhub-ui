@@ -23,6 +23,7 @@ import { effect } from '@angular/core';
 import { AppConstants } from './services/config.service';
 import { HcclUserContextGETData, MenuControlData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from './services/hccl-context.service';
+import { ConsentGateService } from './services/consent-gate.service';
 import { PageHeaderAction, PageHeaderActionService } from './services/page-header-action.service';
 import { MenuControlDataListComponent } from '../components/_global/menu-control-data-list/menu-control-data-list.component';
 
@@ -46,7 +47,9 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   private resizeSubscription!: Subscription;
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
   private hcclContextService = inject(HcclContextService);
+  private consentGateService = inject(ConsentGateService);
   protected readonly contextLoading = this.hcclContextService.isLoading;
+  protected readonly consentModalOpen = this.consentGateService.isModalOpen;
   
   constructor(
     private _router: Router,
@@ -293,17 +296,23 @@ onHeaderAction(key: string): void {
     this.loggedInUserInitials = this.user.match(/\b(\w)/g)?.join('');
 
     // Keep the profile dropdown in sync whenever context refreshes (e.g. after name edit).
+    // Also run the consent gate whenever an HCCLUserProfile becomes active.
     this.hcclContextService.context$
-      .pipe(
-        filter((ctx): ctx is HcclUserContextGETData => !!ctx?.userProfileMenu),
-        untilDestroyed(this)
-      )
+      .pipe(untilDestroyed(this))
       .subscribe(context => {
-        this.currentUserProfileId = context.currentUserProfileId || '';
-        // New object reference so the dropdown reliably rerenders options + selection.
-        this.userProfileMenu = context.userProfileMenu
-          ? { ...context.userProfileMenu, menuItems: [...(context.userProfileMenu.menuItems || [])] }
-          : null;
+        if (context?.userProfileMenu) {
+          this.currentUserProfileId = context.currentUserProfileId || '';
+          // New object reference so the dropdown reliably rerenders options + selection.
+          this.userProfileMenu = {
+            ...context.userProfileMenu,
+            menuItems: [...(context.userProfileMenu.menuItems || [])],
+          };
+        } else if (!context) {
+          this.currentUserProfileId = '';
+          this.userProfileMenu = null;
+        }
+
+        this.consentGateService.onProfileActivated(context);
       });
 
     // Subscribe to HCCL context changes to update user profile menu
@@ -433,6 +442,11 @@ onHeaderAction(key: string): void {
     return titles;
   }
 
+  /** TEMP: remove when real consent accept flow is wired. */
+  onConsentModalTempDismiss(): void {
+    this.consentGateService.markConsentsAccepted();
+  }
+
   async logout() {
     const localStorgeAttributes = [];
     for (let index = 0; index < localStorgeAttributes.length; index++) {
@@ -442,6 +456,7 @@ onHeaderAction(key: string): void {
 
     // Clear userProfileId cookie on logout
     this.hcclContextService.clearUserProfileIdCookie();
+    this.consentGateService.reset();
    
     this.appConstants.logout();
   }

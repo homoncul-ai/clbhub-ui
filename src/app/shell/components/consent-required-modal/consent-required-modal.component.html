@@ -1,0 +1,15 @@
+<div
+  class="consent-required-overlay"
+  *ngIf="open"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Consent required">
+  <div class="consent-required-dialog">
+    <!-- Blank for now: wire contract-section + accept actions when backend APIs are ready. -->
+
+    <!-- TEMP: remove before final version -->
+    <button type="button" class="btn btn-secondary consent-temp-dismiss" (click)="onTempDismiss()">
+      Dismiss (temp)
+    </button>
+  </div>
+</div>

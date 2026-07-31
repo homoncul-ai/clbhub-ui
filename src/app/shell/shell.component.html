@@ -7,6 +7,11 @@
   </div>
 </div>
 
+<app-consent-required-modal
+  [open]="consentModalOpen()"
+  (dismiss)="onConsentModalTempDismiss()">
+</app-consent-required-modal>
+
 <mdb-sidenav-layout>
   <!-- Common Header -->
   <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-primary fixed-top w-100">
