@@ -8,7 +8,8 @@ export class GlobalConstants {
   public static apiServicesConstants = {
     constants: {
       tenantEndPoint: '${serviceUrlPrefix}/dc-tenant-service/tenants/',
-      hcclServicesEndPoint: '${serviceUrlPrefix}/trutesta-hccl-services',
+      hcclServicesEndPointInternal: 'http://localhost:8099/trutesta-hccl-services',
+      hcclServicesEndPoint: 'https://gbs-qa.trutesta.io/trutesta-hccl-services',
     },
   };
 

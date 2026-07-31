@@ -4873,6 +4873,23 @@ export class HcclService extends RequestServiceCaller {
     return this.request<OnboardResponse>(request);
   }
 
+  publicFindPSurveyRefs(body: PSurveyRefCriteria): Observable<PSurveyRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/surveys/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PSurveyRefGETDataSearchResults>(request);
+  }
+
+  publicGetPSurveyRefById(id: string): Observable<PSurveyRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/public/survey/" + id,
+      method: "GET",
+    };
+    return this.request<PSurveyRefGETData>(request);
+  }
+
   publicSearchCatalog(body: SearchCatalogRequest): Observable<SearchCatalogResponse> {
     const request: CommonServiceRequest = {
       url: "/hccl/public/catalog-entries",
@@ -13738,9 +13755,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
