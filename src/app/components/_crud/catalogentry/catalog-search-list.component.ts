@@ -1,18 +1,13 @@
-import { SearchCatalogResponse } from './../../../restsvc/hccl.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { map, Observable, of } from 'rxjs';
-import {
-  CatalogEntryCriteria,
-  CatalogEntryGETDataSearchResults,
-  SearchCatalogRequest,
-} from '@app/restsvc/hccl.service';
 import { SimpleButtonbarComponent } from '@app/components/_global/simple-buttonbar/simple-buttonbar.component';
 import { CatalogEntryListComponent } from './catalogentry-list.component';
 
 /**
- * Catalog search list backed by SearchCatalogServices / SearchCatalogRequest.
+ * Catalog search list for Research. Uses CatalogEntryListComponent search/filter
+ * behavior (client-side text filter over a broader fetch — avoids broken QA
+ * searchByText SQL until the service fix is deployed).
  */
 @Component({
   selector: 'app-catalog-search-list',
@@ -28,43 +23,5 @@ export class CatalogSearchListComponent extends CatalogEntryListComponent {
     this.showingAddButton = false;
     this.showingIdCheckbox = false;
     this.showingGoButton = false;
-  }
-
-  protected override findEntities(
-    criteria: CatalogEntryCriteria
-  ): Observable<CatalogEntryGETDataSearchResults> {
-    const searchText = criteria.searchByText?.trim();
-    if (!searchText) {
-      return of({ searchResults: [], pagingInfo: { totalRows: 0 } });
-    }
-
-    const request = this.buildSearchCatalogRequest(criteria, searchText);
-    return this.hcclService.publicSearchCatalog(request).pipe(
-      map((response: SearchCatalogResponse ) =>
-        response.results?.catalogEntries ?? { searchResults: [], pagingInfo: { totalRows: 0 } }
-      )
-    );
-  }
-
-  private buildSearchCatalogRequest(
-    criteria: CatalogEntryCriteria,
-    searchText: string
-  ): SearchCatalogRequest {
-    const catalogTypeCodes = criteria.catalogTypeCodes?.length
-      ? criteria.catalogTypeCodes
-      : criteria.catalogTypeCode
-        ? [criteria.catalogTypeCode]
-        : undefined;
-
-    return {
-      searchByText: searchText,
-      pageNumber: criteria.pageNumber,
-      pageSize: criteria.pageSize,
-      isPaging: criteria.isPaging,
-      maxResults: criteria.maxResults,
-      orderByHint: criteria.orderByHint,
-      catalogTypeCodes,
-      savingSearchResults: true,
-    };
   }
 }

@@ -606,16 +606,17 @@ export class MenuService {
     const participation = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PARTICIPATION);
     this.addMenuItem(menu, participation);
 
-    const cohorts = this.copyMenuItem(MENU_CONSTANTS.STUDENT_COHORTS);
-    this.addMenuItem(menu, cohorts);
+    // Cohorts is intentionally hidden for now; keep constant/route for future re-enable.
+    // const cohorts = this.copyMenuItem(MENU_CONSTANTS.STUDENT_COHORTS);
+    // this.addMenuItem(menu, cohorts);
 
     // Add Career Goals (Personal Statements list)
     var courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
     this.addMenuItem(menu, courses);
 
-    // Add My Organizations under Personal Goals
-    const myOrganizations = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MY_ORGANIZATIONS);
-    this.addMenuItem(menu, myOrganizations);
+    // My Organizations is intentionally hidden for now; keep constant/route for future re-enable.
+    // const myOrganizations = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MY_ORGANIZATIONS);
+    // this.addMenuItem(menu, myOrganizations);
     
     // Add dynamic menu items for each personal statement
     if (this.personalStatements && this.personalStatements.length > 0) {
@@ -665,17 +666,17 @@ export class MenuService {
         // this.addMenuItem(menu, engage);
     
  
-    // Add My Communications (top-level, after Personal Goals)
-    const m2 = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
-    m2.level = 1;
-    m2.route = `/student-dashboard/messages`;
-    this.addMenuItem(menu, m2);
+    // My Communications is intentionally hidden for now; keep constant/route for future re-enable.
+    // const m2 = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
+    // m2.level = 1;
+    // m2.route = `/student-dashboard/messages`;
+    // this.addMenuItem(menu, m2);
 
-    // Add Research with child screens
+    // Add Research (child screens Careers/Orgs/Items intentionally hidden for now).
     const research = this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH);
-    this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_CAREERS));
-    this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ORGS));
-    this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ITEMS));
+    // this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_CAREERS));
+    // this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ORGS));
+    // this.addChildMenuItem(research, this.copyMenuItem(MENU_CONSTANTS.STUDENT_RESEARCH_ITEMS));
     this.addMenuItem(menu, research);
 
     // Guidance & Support is intentionally hidden for now.

@@ -6,6 +6,8 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 export interface FeedDateRangeModalData {
   dateStart?: string;
   dateEnd?: string;
+  title?: string;
+  helpText?: string;
 }
 
 export interface FeedDateRangeModalResult {
@@ -20,12 +22,12 @@ export interface FeedDateRangeModalResult {
   template: `
     <div class="feed-date-range-modal">
       <div class="modal-header">
-        <h5 class="modal-title">Custom date range</h5>
+        <h5 class="modal-title">{{ title }}</h5>
         <button type="button" class="btn-close" (click)="cancel()" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
-        <p class="modal-help">Choose a specific date range to filter feed items by when they were created.</p>
+        <p class="modal-help">{{ helpText }}</p>
 
         <label class="date-field">
           <span>From</span>
@@ -139,6 +141,8 @@ export interface FeedDateRangeModalResult {
 export class FeedDateRangeModalComponent implements OnInit {
   dateStart = '';
   dateEnd = '';
+  title = 'Custom date range';
+  helpText = 'Choose a specific date range to filter feed items by when they were created.';
 
   constructor(public modalRef: MdbModalRef<FeedDateRangeModalComponent>) {}
 
@@ -146,6 +150,12 @@ export class FeedDateRangeModalComponent implements OnInit {
     const data = (this.modalRef as any).data as FeedDateRangeModalData | undefined;
     this.dateStart = data?.dateStart || '';
     this.dateEnd = data?.dateEnd || '';
+    if (data?.title) {
+      this.title = data.title;
+    }
+    if (data?.helpText) {
+      this.helpText = data.helpText;
+    }
   }
 
   get hasInvalidRange(): boolean {

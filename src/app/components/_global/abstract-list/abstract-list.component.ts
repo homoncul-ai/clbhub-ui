@@ -90,6 +90,20 @@ implements OnInit, AfterViewInit, OnDestroy {
   protected pageSize: number = 50;
   protected lastSearchByText: string | undefined = undefined;
 
+  /**
+   * When true, header inputFilters trigger a server reload (full DB) instead of
+   * filtering only the rows currently on the page. Needed with server-side paging.
+   */
+  protected usingServerSideColumnFilters = false;
+  protected columnFilters: Record<string, string> = {};
+  private columnFilterDebounceHandle: ReturnType<typeof setTimeout> | null = null;
+  private columnFilterDebounceMs = 350;
+  protected restoringColumnFilters = false;
+  /** True while top-bar and/or column filters are actively narrowing results. */
+  private searchFilterActive = false;
+  /** Page the user was on before entering a search; restored when search is cleared. */
+  private pageBeforeSearch: number | null = null;
+
   protected modalService: MdbModalService = inject(MdbModalService);
 
 
@@ -131,6 +145,11 @@ implements OnInit, AfterViewInit, OnDestroy {
     if (this.resizeListener) {
       window.removeEventListener('resize', this.resizeListener);
       this.resizeListener = undefined;
+    }
+
+    if (this.columnFilterDebounceHandle) {
+      clearTimeout(this.columnFilterDebounceHandle);
+      this.columnFilterDebounceHandle = null;
     }
     
     // Destroy grid if it exists
@@ -208,6 +227,7 @@ implements OnInit, AfterViewInit, OnDestroy {
       });
 
       this.addGridEventListeners(this.grid)
+      this.attachServerSideColumnFilterListeners(this.grid);
 
       // Load on next tick so isLoading is applied outside AfterViewInit CD
       setTimeout(() => this.loadGridData(), 0);
@@ -253,6 +273,75 @@ implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     }
+  }
+
+  /**
+   * Wire header filters to server reloads when usingServerSideColumnFilters is on.
+   * Cancels DHTMLX client filtering so filters are not limited to the current page.
+   */
+  protected attachServerSideColumnFilterListeners(grid: any): void {
+    if (!this.usingServerSideColumnFilters || !grid?.events) {
+      return;
+    }
+
+    grid.events.on('beforeFilter', (_value: any, _colId?: string | number) => false);
+
+    grid.events.on('filterChange', (value: any, colId: string | number) => {
+      if (this.restoringColumnFilters) {
+        return;
+      }
+      const key = String(colId);
+      const normalized =
+        value == null
+          ? ''
+          : Array.isArray(value)
+            ? value.map((v) => String(v)).join(' ').trim()
+            : value instanceof Date && !Number.isNaN(value.getTime())
+              ? value.toISOString().slice(0, 10)
+              : String(value).trim();
+
+      if (this.handleColumnFilterChange(key, normalized)) {
+        return;
+      }
+
+      if (normalized) {
+        this.columnFilters[key] = normalized;
+      } else {
+        delete this.columnFilters[key];
+      }
+
+      if (this.columnFilterDebounceHandle) {
+        clearTimeout(this.columnFilterDebounceHandle);
+      }
+      this.columnFilterDebounceHandle = setTimeout(() => {
+        this.columnFilterDebounceHandle = null;
+        this.loadGridData(undefined, true);
+      }, this.columnFilterDebounceMs);
+    });
+  }
+
+  /**
+   * Subclasses can handle a column filter specially (e.g. open a modal).
+   * Return true to skip the default columnFilters + reload behavior.
+   */
+  protected handleColumnFilterChange(_colId: string, _value: string): boolean {
+    return false;
+  }
+
+  /**
+   * Map active header filter values onto API criteria. Override per entity.
+   * Default: first non-empty filter value becomes searchByText.
+   */
+  protected applyColumnFiltersToCriteria(criteria: TCriteria): void {
+    const values = Object.values(this.columnFilters).filter((v) => !!v?.trim());
+    if (!values.length) {
+      return;
+    }
+    const existing = ((criteria as any).searchByText as string | undefined)?.trim();
+    const columnSearch = values.join(' ');
+    (criteria as any).searchByText = existing
+      ? `${existing} ${columnSearch}`
+      : columnSearch;
   }
 
   protected calculateGridHeight(): void {
@@ -383,10 +472,32 @@ implements OnInit, AfterViewInit, OnDestroy {
   }
 
   currentCriteria: TCriteria | null = null;
-  private loadGridData(searchByText?: string, resetPage: boolean = false) {
-    if (resetPage) {
-      this.currentPage = 1;
+  protected loadGridData(searchByText?: string, resetPage: boolean = false) {
+    if (searchByText !== undefined) {
+      this.lastSearchByText = searchByText;
     }
+    const activeSearchByText = searchByText !== undefined ? searchByText : this.lastSearchByText;
+    const willBeFiltered = this.isSearchFilterActive(activeSearchByText);
+    const wasFiltered = this.searchFilterActive;
+
+    if (resetPage) {
+      if (!wasFiltered && willBeFiltered) {
+        // Entering search from browse — remember page, then show matches from page 1.
+        this.pageBeforeSearch = this.currentPage;
+        this.currentPage = 1;
+      } else if (wasFiltered && !willBeFiltered) {
+        // Cleared back to wildcard — return to the page where search began.
+        this.currentPage = this.pageBeforeSearch && this.pageBeforeSearch > 0
+          ? this.pageBeforeSearch
+          : 1;
+        this.pageBeforeSearch = null;
+      } else if (willBeFiltered) {
+        // Still searching (refined query) — restart at page 1.
+        this.currentPage = 1;
+      }
+    }
+
+    this.searchFilterActive = willBeFiltered;
 
     // Merge list defaults with parent criteria so filter fields cannot wipe paging.
     const criteria = {
@@ -394,16 +505,15 @@ implements OnInit, AfterViewInit, OnDestroy {
       ...(this.criteria || {})
     } as TCriteria;
 
-    if (searchByText !== undefined) {
-      this.lastSearchByText = searchByText;
-    }
-    const activeSearchByText = searchByText !== undefined ? searchByText : this.lastSearchByText;
-    
     if (activeSearchByText && activeSearchByText.trim() !== '') {
       (criteria as any).searchByText = activeSearchByText; 
     }
     if (this.criteria == null && this.selectedId && this.selectedId.trim() !== '') {
       (criteria as any).ids = [this.selectedId];
+    }
+
+    if (this.usingServerSideColumnFilters) {
+      this.applyColumnFiltersToCriteria(criteria);
     }
 
     if ((criteria as any).isPaging !== false) {
@@ -416,6 +526,14 @@ implements OnInit, AfterViewInit, OnDestroy {
     this.currentCriteria = criteria;
    // alert('loadGridData criteria: ' + JSON.stringify(criteria));
     this.loadGridDataCall(criteria);
+  }
+
+  /** Top-bar text and/or column header filters are narrowing the list. */
+  protected isSearchFilterActive(searchByText?: string | null): boolean {
+    const text = (searchByText ?? '').trim();
+    const hasTopSearch = !!text && text !== '*';
+    const hasColumnFilters = Object.values(this.columnFilters).some((v) => !!v?.trim());
+    return hasTopSearch || hasColumnFilters;
   }
   protected getTotalRows(): number {
     return this.totalRows;
@@ -555,6 +673,16 @@ implements OnInit, AfterViewInit, OnDestroy {
           } else {
             this.totalRows = (this.currentPage - 1) * this.pageSize + entities.length;
           }
+
+          // Restored pre-search page may be past the end if the list shrank.
+          const totalPages = this.getTotalPages();
+          if (this.currentPage > totalPages) {
+            this.currentPage = totalPages;
+            this.isLoading = false;
+            this.loadGridData(undefined, false);
+            return;
+          }
+
           // Set up fk data, whatever else.
           const ids: string[] = entities.map((entity: T) => this.extractId(entity));
           
@@ -632,6 +760,32 @@ implements OnInit, AfterViewInit, OnDestroy {
     }));
     this.grid.data.parse(gridData);
     console.log("Loaded entities:", gridData.length);
+    this.restoreServerSideColumnFilterInputs();
+  }
+
+  /** Keep header filter text after a server reload (parse can reset client filter state). */
+  protected restoreServerSideColumnFilterInputs(): void {
+    if (!this.usingServerSideColumnFilters || !this.grid || typeof this.grid.getHeaderFilter !== 'function') {
+      return;
+    }
+    this.restoringColumnFilters = true;
+    try {
+      Object.entries(this.columnFilters).forEach(([colId, value]) => {
+        try {
+          const headerFilter = this.grid.getHeaderFilter(colId);
+          if (headerFilter && typeof headerFilter.setValue === 'function') {
+            headerFilter.setValue(value);
+          }
+        } catch (error) {
+          console.warn('Unable to restore header filter for column', colId, error);
+        }
+      });
+    } finally {
+      // Allow filterChange from setValue to settle before accepting user input again.
+      setTimeout(() => {
+        this.restoringColumnFilters = false;
+      }, 0);
+    }
   }
 
   /**
