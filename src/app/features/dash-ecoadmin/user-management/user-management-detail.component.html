@@ -65,6 +65,7 @@
       <button
         type="button"
         class="btn btn-sm btn-primary"
+        *ngIf="canManageCredentials"
         [disabled]="actionInProgress"
         (click)="openSetPasswordModal()">
         <i class="fas fa-key me-1"></i> Set Password
@@ -72,6 +73,7 @@
       <button
         type="button"
         class="btn btn-sm btn-outline-primary"
+        *ngIf="canManageCredentials"
         [disabled]="actionInProgress"
         (click)="sendResetLink()">
         <i class="fas fa-envelope me-1"></i> Send Reset Link
@@ -79,6 +81,7 @@
       <button
         type="button"
         class="btn btn-sm btn-outline-secondary"
+        *ngIf="canManageCredentials"
         [disabled]="actionInProgress"
         (click)="openChangeEmailModal()">
         <i class="fas fa-at me-1"></i> Change Email
@@ -118,6 +121,8 @@
                   <dd class="col-7 text-break">{{ user.externalUserId || '-' }}</dd>
                   <dt class="col-5">Keycloak Username</dt>
                   <dd class="col-7">{{ user.externalUserName || '-' }}</dd>
+                  <dt class="col-5">Register Method</dt>
+                  <dd class="col-7">{{ user.registerMethod || '(undefined)' }}</dd>
                 </dl>
               </div>
               <div class="col-md-6">

@@ -134,6 +134,11 @@ export class UserManagementDetailComponent implements OnInit {
       next: (ui) => {
         this.loading = false;
         this.user = ui.user ?? null;
+        // Temporary debug: log registerMethod for the loaded user.
+        console.log(
+          `[UserManagement] registerMethod for ${this.user?.businessCode || userId}:`,
+          this.user?.registerMethod ?? '(undefined)',
+        );
         if (hasErrors(ui.messages)) {
           this.errorMessages = ui.messages ?? null;
         }
@@ -205,6 +210,11 @@ export class UserManagementDetailComponent implements OnInit {
 
   get isActive(): boolean {
     return this.user?.available === 1;
+  }
+
+  /** Password/email actions are hidden for broker-registered users. */
+  get canManageCredentials(): boolean {
+    return this.user?.registerMethod !== 'broker';
   }
 
   get statusLabel(): string {

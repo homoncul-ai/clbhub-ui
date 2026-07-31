@@ -69,6 +69,7 @@ export class UserManagementListComponent extends AbstractListComponent<
         },
       },
       { id: 'profileCount', header: [{ text: 'Profiles', align: 'center' }], minWidth: 90, align: 'center', adjust: true },
+      { id: 'registerMethod', header: [{ text: 'Register Method', align: 'center' }, { content: 'inputFilter' }], minWidth: 140, adjust: true },
       { id: 'dateLastUpdated', header: [{ text: 'Last Updated', align: 'center' }], minWidth: 140, adjust: true },
     ];
   }
@@ -187,7 +188,15 @@ export class UserManagementListComponent extends AbstractListComponent<
   protected getSearchResults(
     response: HcclUserGETDataSearchResults,
   ): UserRow[] {
-    return (response.searchResults as UserRow[]) || [];
+    const rows = (response.searchResults as UserRow[]) || [];
+    // Temporary debug: log registerMethod for each user.
+    rows.forEach((u) => {
+      console.log(
+        `[UserManagement] registerMethod for ${u.businessCode || u.id}:`,
+        u.registerMethod ?? '(undefined)',
+      );
+    });
+    return rows;
   }
 
   protected override formatEntityData(entity: UserRow): any {
@@ -195,6 +204,7 @@ export class UserManagementListComponent extends AbstractListComponent<
       username: entity.businessCode || entity.externalUserName || '',
       email: entity.__email || '',
       profileCount: entity.__profileCount ?? 0,
+      registerMethod: entity.registerMethod ?? '(undefined)',
       dateLastUpdated: entity.dateLastUpdated?.formattedDate || '',
     };
   }
