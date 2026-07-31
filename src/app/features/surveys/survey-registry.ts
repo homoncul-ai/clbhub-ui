@@ -166,31 +166,9 @@ function withAvailabilityBadges(
   };
 }
 
-function dateCreatedIsoFromRef(ref: PSurveyRefGETData): string | undefined {
-  const d = ref.dateCreated;
-  if (!d) {
-    return undefined;
-  }
-  if (typeof d.dateMilliseconds === 'number' && !Number.isNaN(d.dateMilliseconds)) {
-    return new Date(d.dateMilliseconds).toISOString();
-  }
-  if (d.date) {
-    const parsed = new Date(d.date as unknown as string | number | Date);
-    if (!Number.isNaN(parsed.getTime())) {
-      return parsed.toISOString();
-    }
-  }
-  if (d.formattedDateTime && !Number.isNaN(Date.parse(d.formattedDateTime))) {
-    return new Date(d.formattedDateTime).toISOString();
-  }
-  if (d.formattedDate && !Number.isNaN(Date.parse(d.formattedDate))) {
-    return new Date(d.formattedDate).toISOString();
-  }
-  return undefined;
-}
-
 /**
- * Overlay PSurveyRef DB name/description/available onto the static registry (routes/icons stay local).
+ * Overlay PSurveyRef DB name/description/available onto the static registry (routes/icons/live dates stay local).
+ * Registry dateCreated is kept for "recent vs older" (DB row created-at is not the survey live date).
  * When availableOnly is true (public directory), only entries with a matching ref and available === 1.
  */
 export function mergeSurveyRefsOntoRegistry(
@@ -215,7 +193,6 @@ export function mergeSurveyRefsOntoRegistry(
         ...entry,
         title: ref.name || entry.title,
         subtitle: ref.description || entry.subtitle,
-        dateCreated: dateCreatedIsoFromRef(ref) || entry.dateCreated,
       },
       ref.available,
     );
