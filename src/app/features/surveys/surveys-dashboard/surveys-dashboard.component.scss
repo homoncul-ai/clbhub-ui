@@ -36,8 +36,14 @@
 }
 
 .col-status {
-  flex: 0 0 72px;
+  flex: 0 0 auto;
+  min-width: 88px;
+  max-width: 160px;
   text-align: right;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.25rem;
 }
 
 @media (max-width: 575.98px) {

@@ -131,16 +131,54 @@ export class SurveyResultsViewerComponent implements OnInit {
     'sendInviteToClbHub',
   ];
 
+  /** DB title/description overlay when PSurveyRef is available. */
+  catalogTitle: string | null = null;
+  catalogDescription: string | null = null;
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const key = (params['surveyKey'] || 'npo_job_finder').toString();
       this.surveyKey = this.surveys[key] ? key : 'npo_job_finder';
+      this.catalogTitle = null;
+      this.catalogDescription = null;
+      this.loadCatalogMetadata();
       this.loadSurveyEvents();
     });
   }
 
   get currentSurvey(): SurveyDefinition {
     return this.surveys[this.surveyKey] || this.surveys['npo_job_finder'];
+  }
+
+  get displayLabel(): string {
+    return this.catalogTitle || this.currentSurvey.label;
+  }
+
+  get displayDescription(): string {
+    return this.catalogDescription || this.currentSurvey.description;
+  }
+
+  private loadCatalogMetadata(): void {
+    this.hcclService
+      .findPSurveyRefs({
+        pageNumber: 1,
+        pageSize: 1,
+        isPaging: true,
+        surveyCode: this.surveyKey,
+      })
+      .subscribe({
+        next: (response) => {
+          const row = (response.searchResults || [])[0];
+          if (!row) {
+            return;
+          }
+          this.catalogTitle = row.name || null;
+          this.catalogDescription = row.description || null;
+        },
+        error: (err) => {
+          console.warn('Could not load PSurveyRef metadata for results viewer', err);
+        },
+      });
   }
 
   get selectedEvent(): UtilmonReportingEventGETData | null {

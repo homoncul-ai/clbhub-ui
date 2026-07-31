@@ -78,9 +78,12 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
             const newRawMenu = dashboardType ? this._menuService.getMenuItems(dashboardType) : [];
             const newMenuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
             this.menuItems = newMenuItems;
+            // First load: parse tree data. Later navigations only sync selection —
+            // full rebuild on every NavigationEnd left stale --selected highlights.
+            this.updateTree();
+          } else {
+            this.syncTreeSelectionToRoute();
           }
-
-          this.updateTree();
         //  }
       });
   }
@@ -120,6 +123,10 @@ onHeaderAction(key: string): void {
       //alert("Tree updated:" + this.menuItems.length);
       const openedIds = this.tree.getState().opened;
 
+      // Clear selection before rebuild — DHTMLX keeps selected ids across parse
+      // when menu item ids are stable labels, which causes multi-highlight.
+      this.clearTreeSelection();
+
       this.tree.data.removeAll();
       this.tree.data.parse(this.menuItems);
 
@@ -157,14 +164,79 @@ onHeaderAction(key: string): void {
     const currentUrl = (this._router.url || '').split('?')[0].split('#')[0];
     const matchedId = this.findMenuItemIdByRoute(this.menuItems, currentUrl);
 
+    this.clearTreeSelection();
+
+    if (matchedId && this.tree.data.exists(matchedId)) {
+      this.tree.selection.add(matchedId);
+    }
+
+    // DHTMLX can leave --selected/--focused classes on siblings after
+    // programmatic nav; force the DOM to match the single active route.
+    setTimeout(() => this.applyExclusiveActiveDom(matchedId), 0);
+  }
+
+  private clearTreeSelection(): void {
+    if (!this.tree?.selection) {
+      return;
+    }
     try {
+      const selectedIds: string[] =
+        typeof this.tree.selection.getIds === 'function'
+          ? [...(this.tree.selection.getIds() || [])]
+          : [];
+      selectedIds.forEach((id: string) => {
+        try {
+          this.tree.selection.remove(id);
+        } catch {
+          // ignore
+        }
+      });
       this.tree.selection.remove();
     } catch {
       // Selection API may throw if tree data is empty
     }
+  }
 
-    if (matchedId && this.tree.data.exists(matchedId)) {
-      this.tree.selection.add(matchedId);
+  private applyExclusiveActiveDom(matchedId: string | null): void {
+    const root = this.treeContainer?.nativeElement as HTMLElement | undefined;
+    if (!root) {
+      return;
+    }
+
+    root
+      .querySelectorAll(
+        '.dhx_tree-list-item--selected, .dhx_tree-folder--selected, ' +
+          '.dhx_tree-list-item--focused, .dhx_tree-folder--focused',
+      )
+      .forEach((el) => {
+        el.classList.remove(
+          'dhx_tree-list-item--selected',
+          'dhx_tree-folder--selected',
+          'dhx_tree-list-item--focused',
+          'dhx_tree-folder--focused',
+        );
+      });
+
+    if (!matchedId) {
+      return;
+    }
+
+    const escaped =
+      typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
+        ? CSS.escape(matchedId)
+        : matchedId.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+    const node = root.querySelector(
+      `[data-dhx-id="${escaped}"], [dhx_id="${escaped}"]`,
+    ) as HTMLElement | null;
+    const row = (node?.closest('.dhx_tree-folder, .dhx_tree-list-item') ||
+      node) as HTMLElement | null;
+    if (!row) {
+      return;
+    }
+    if (row.classList.contains('dhx_tree-folder')) {
+      row.classList.add('dhx_tree-folder--selected');
+    } else {
+      row.classList.add('dhx_tree-list-item--selected');
     }
   }
 
@@ -271,7 +343,8 @@ onHeaderAction(key: string): void {
   ngAfterViewInit() {
     this.tree = new dhx.Tree(this.treeContainer.nativeElement, {
       css: "dhx_widget--bordered",
-      autoWidth: true
+      autoWidth: true,
+      multiselection: false,
     });
     this.tree.data.parse(this.menuItems);
     this.syncTreeSelectionToRoute();

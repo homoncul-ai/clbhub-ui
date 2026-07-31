@@ -79,6 +79,8 @@ import { PAIPromptRefListComponent } from '../../components/_crud/paiprompt/paip
 import { UistarterHomeComponent } from '../../views/uistarter/uistarter-home.component';
 import { SurveyResultsViewerComponent } from './surveys/survey-results-viewer.component';
 import { SurveyReportsDashboardComponent } from './surveys/survey-reports-dashboard.component';
+import { PSurveyRefListComponent } from '../../components/_crud/psurveyref/psurveyref-list.component';
+import { PSurveyRefGroupComponent } from '../../components/_crud/psurveyref/psurveyref-group.component';
 import { DiagnosticsComponent } from './reporting/diagnostics.component';
 import { UserManagementListComponent } from './user-management/user-management-list.component';
 import { UserManagementDetailComponent } from './user-management/user-management-detail.component';
@@ -282,6 +284,11 @@ const routes: Routes = [
       // UI starter route
       { path: 'uistarter', component: UistarterHomeComponent },
 
+      // Survey catalog management (must be before surveys/:surveyKey)
+      { path: 'surveys/manage/:id/:tabId', component: PSurveyRefGroupComponent },
+      { path: 'surveys/manage/:id', redirectTo: 'surveys/manage/:id/details', pathMatch: 'full' },
+      { path: 'surveys/manage', component: PSurveyRefListComponent },
+
       // Survey reporting routes
       { path: 'surveys/:surveyKey', component: SurveyResultsViewerComponent },
       { path: 'surveys', component: SurveyReportsDashboardComponent },
@@ -368,6 +375,8 @@ const routes: Routes = [
     UistarterHomeComponent,
     SurveyResultsViewerComponent,
     SurveyReportsDashboardComponent,
+    PSurveyRefListComponent,
+    PSurveyRefGroupComponent,
     DiagnosticsComponent,
     UserManagementListComponent,
     UserManagementDetailComponent

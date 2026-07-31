@@ -1,11 +1,16 @@
 <div class="survey-viewer container-fluid py-3">
-  <a routerLink="/ecoadmin-dashboard/surveys" class="d-inline-block mb-3 small text-decoration-none">
-    &larr; All surveys
-  </a>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <a routerLink="/ecoadmin-dashboard/surveys" class="small text-decoration-none">
+      &larr; All surveys
+    </a>
+    <a class="btn btn-outline-primary btn-sm" routerLink="/ecoadmin-dashboard/surveys/manage">
+      Manage surveys
+    </a>
+  </div>
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <div>
-      <h2 class="mb-1">Surveys: {{ currentSurvey.label }}</h2>
-      <div class="text-muted small">{{ currentSurvey.description }}</div>
+      <h2 class="mb-1">Surveys: {{ displayLabel }}</h2>
+      <div class="text-muted small">{{ displayDescription }}</div>
     </div>
     <div class="text-muted small">
       Subject filter: <span class="fw-semibold">{{ currentSurvey.subject }}</span>

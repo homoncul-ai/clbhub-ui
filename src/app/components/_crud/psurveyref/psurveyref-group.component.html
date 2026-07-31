@@ -1,0 +1,8 @@
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId"></app-simple-tabset>
+<div *ngIf="currentTabId === 'details'">
+  <app-psurveyref-crud [id]="id" modeName="detail"></app-psurveyref-crud>
+</div>
+
+<div *ngIf="currentTabId === 'create'">
+  <p class="text-muted p-3">Creating survey refs from the UI is not supported. Survey codes are fixed UI slugs.</p>
+</div>

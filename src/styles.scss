@@ -346,8 +346,25 @@ body {
   padding: 8px !important;
  }
 
-.dhx_tree-folder--focused:before, .dhx_tree-folder:hover:before, .dhx_tree-list-item--focused:before, .dhx_tree-list-item:hover:before {
-  background-color: #acd0b1;
+.dhx_tree-folder--focused:before,
+.dhx_tree-list-item--focused:before {
+  /* Focus is keyboard/click chrome — not "current page". */
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.dhx_tree-folder:hover:before,
+.dhx_tree-list-item:hover:before {
+  background-color: rgba(172, 208, 177, 0.35) !important;
+  box-shadow: none !important;
+}
+
+.dhx_tree-folder--selected:before,
+.dhx_tree-list-item--selected:before,
+.dhx_tree-folder--selected.dhx_tree-folder--focused:before,
+.dhx_tree-list-item--selected.dhx_tree-list-item--focused:before {
+  background-color: #acd0b1 !important;
+  box-shadow: inset 2px 0 0 0 var(--dhx-color-primary) !important;
 }
 
 .dhx_tree-list-item__text {

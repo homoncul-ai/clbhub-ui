@@ -42,6 +42,7 @@ export class AvailableSelectorComponent  {
     }
     const isChecked = event.target.checked;
     const newValue = isChecked ? 1 : 0;
+    this.available = newValue;
     this.availableChange.emit(newValue);
   }
 }

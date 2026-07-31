@@ -5,6 +5,7 @@ import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, 
 import {
   getAdminSurveyRoute,
   getRecentSurveys,
+  mergeSurveyRefsOntoRegistry,
   SurveyRegistryEntry,
 } from '@app/features/surveys/survey-registry';
 
@@ -160,6 +161,8 @@ export class MenuService {
   queues : WorkQueueGETData[] = [];
   catalogs : CatalogGETData[] = [];
   personalStatements: PersonalStatementGETData[] = [];
+  /** Ecoadmin recent surveys for sidebar; null = not loaded (use static fallback). */
+  private surveySidebarItems: SurveyRegistryEntry[] | null = null;
   
   async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
     switch (dashboardType) {
@@ -196,11 +199,24 @@ export class MenuService {
         const psRsp = await this.hcclService.findPersonalStatements(personalStatementCriteria).toPromise();
         this.personalStatements = psRsp?.searchResults as PersonalStatementGETData[] || [];
         break;
+      case 'ecoadmin':
+        try {
+          const surveyRsp = await this.hcclService
+            .findPSurveyRefs({ pageNumber: 1, pageSize: 200, isPaging: true })
+            .toPromise();
+          const merged = mergeSurveyRefsOntoRegistry(surveyRsp?.searchResults || [], {
+            availableOnly: false,
+          });
+          this.surveySidebarItems = getRecentSurveys(merged);
+        } catch (err) {
+          console.error('Failed to load PSurveyRef catalog for ecoadmin sidebar', err);
+          this.surveySidebarItems = null;
+        }
+        break;
       case 'advocate':
       case 'employee':
       case 'nonprofit':
       case 'parent':
-      case 'ecoadmin':
       case 'swcat':
       default:
         break;
@@ -385,7 +401,8 @@ export class MenuService {
   }
 
   private addSurveySidebarItems(surveysGroup: MenuItem): void {
-    for (const survey of getRecentSurveys()) {
+    const surveys = this.surveySidebarItems ?? getRecentSurveys();
+    for (const survey of surveys) {
       this.addChildMenuItem(surveysGroup, this.surveyResultsMenuItem(survey));
     }
   }
@@ -868,6 +885,7 @@ export class MenuService {
     // Add Surveys group
     const surveysGroup = this.copyMenuItem(MENU_CONSTANTS.EA_SURVEYS_DASHBOARD);
     this.addMenuItem(menu, surveysGroup);
+    this.addChildMenuItem(surveysGroup, this.copyMenuItem(MENU_CONSTANTS.EA_SURVEYS_MANAGE));
 
     // Add PersonalStatement
     const personalStatementList = this.copyMenuItem(MENU_CONSTANTS.EA_PERSONALSTATEMENT_LIST);
@@ -1739,6 +1757,15 @@ EA_SURVEYS_DASHBOARD: {
   componentPath: 'src/app/features/dash-ecoadmin/surveys/survey-reports-dashboard.component',
   componentName: 'SurveyReportsDashboardComponent',
   icon: 'fas fa-clipboard-list',
+},
+
+EA_SURVEYS_MANAGE: {
+  level: 2,
+  label: 'Manage Surveys',
+  route: '/ecoadmin-dashboard/surveys/manage',
+  componentPath: 'src/app/components/_crud/psurveyref/psurveyref-list.component',
+  componentName: 'PSurveyRefListComponent',
+  icon: 'fas fa-sliders-h',
 },
 
 EA_DIAGNOSTICS: {
