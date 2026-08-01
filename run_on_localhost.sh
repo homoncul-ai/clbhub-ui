@@ -59,7 +59,7 @@ then
     echo "$(grep -n \"constants\" "${targetConfig}")"
 
     echo "${appName} starting up on : http://localhost:${port}/ "
-
+    export NODE_OPTIONS="--max-old-space-size=4096"
     echo ng serve
     ng serve
 

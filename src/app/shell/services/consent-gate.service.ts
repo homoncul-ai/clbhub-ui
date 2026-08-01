@@ -1,34 +1,41 @@
-import { Injectable, signal } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { HcclUserContextGETData } from '@app/restsvc/hccl.service';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, forkJoin, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  ConsentRequestPOSTData,
+  HcclService,
+  HcclUserContextGETData,
+  MultiConsentRequestGETData,
+  PContractParticipantPUTData,
+} from '@app/restsvc/hccl.service';
 import { Logger } from '@core/services';
-
-/**
- * Temporary stub until backend unsigned-consent APIs are available.
- * Set STUB_HAS_UNSIGNED to false to hide the modal while developing locally.
- * Do not call through hccl.service.ts yet — wire a dedicated HTTP call here later.
- */
-const USE_STUB_UNSIGNED_CONSENTS = true;
-const STUB_HAS_UNSIGNED = true;
 
 const ECOADMIN_PROFILE_TYPES = new Set(['ECOADMIN', 'EDU_ECOADMIN']);
 
-export interface UnsignedConsentsCheckResult {
-  hasUnsigned: boolean;
-}
+/**
+ * TEMP: backend findAllUnsignedContract still returns null, so the GET often
+ * has consents: null. Keep false so we do not open an empty modal.
+ */
+const TEMP_FORCE_SHOW_WHEN_EMPTY = false;
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConsentGateService {
+  private hcclService = inject(HcclService);
   private logger = new Logger('ConsentGateService');
 
   /** When true, the blocking consent modal should be visible. */
   readonly isModalOpen = signal(false);
 
-  /** True while a stub/real unsigned-consent check is in flight. */
+  /** True while unsigned-consent check is in flight. */
   readonly isChecking = signal(false);
+
+  /** True while accept/submit is in flight. */
+  readonly isSubmitting = signal(false);
+
+  /** Unsigned consents for the active profile (shown in the modal). */
+  readonly unsignedConsents = signal<MultiConsentRequestGETData | null>(null);
 
   private lastCheckedProfileId: string | null = null;
 
@@ -38,19 +45,19 @@ export class ConsentGateService {
    */
   onProfileActivated(context: HcclUserContextGETData | null): void {
     if (!context) {
-      this.closeModal();
+      this.resetGateContent();
       return;
     }
 
     if (this.isPublicPath(window.location.pathname)) {
       this.logger.info('Skipping consent gate on public path');
-      this.closeModal();
+      this.resetGateContent();
       return;
     }
 
     const profileId = (context.currentUserProfileId || '').trim();
     if (!profileId) {
-      this.closeModal();
+      this.resetGateContent();
       return;
     }
 
@@ -63,44 +70,72 @@ export class ConsentGateService {
         profileType,
       });
       this.lastCheckedProfileId = profileId;
-      this.closeModal();
+      this.resetGateContent();
       return;
     }
 
     if (profileId === this.lastCheckedProfileId && this.isModalOpen()) {
-      // Same profile still gated — keep modal open.
       return;
     }
 
     if (profileId === this.lastCheckedProfileId && !this.isModalOpen()) {
-      // Already evaluated this profile and it was clear (or stub said no).
       return;
     }
 
     this.lastCheckedProfileId = profileId;
     this.isChecking.set(true);
 
-    this.checkUnsignedConsents(profileId).subscribe({
+    this.hcclService.getAfterChangeUserProfileGETData().subscribe({
       next: (result) => {
-        // Ignore stale responses if the user switched profiles mid-check.
+        // TEMP: inspect unsigned-consent payload from after-change-user-profile
+        console.log('[ConsentGate] getAfterChangeUserProfileGETData response', result);
+        console.log('[ConsentGate] unsigned consents', {
+          profileId,
+          contractCount: result?.consents?.contracts?.length ?? 0,
+          contracts: result?.consents?.contracts ?? [],
+          userProfileBirthMonthNotSet: result?.userProfileBirthMonthNotSet,
+          userProfileId: result?.userProfile?.id,
+          profileTypeCode: result?.userProfile?.profileTypeCode,
+        });
+
         if (this.lastCheckedProfileId !== profileId) {
           return;
         }
         this.isChecking.set(false);
-        if (result.hasUnsigned) {
-          this.logger.info('Unsigned consents require gate', { profileId });
+
+        const consents = result?.consents || null;
+        const contracts = consents?.contracts || [];
+        if (contracts.length > 0) {
+          this.logger.info('Unsigned consents require gate', {
+            profileId,
+            count: contracts.length,
+          });
+          this.unsignedConsents.set(consents);
+          this.isModalOpen.set(true);
+        } else if (TEMP_FORCE_SHOW_WHEN_EMPTY) {
+          // TEMP: open modal anyway so UI can be verified while backend returns null/empty.
+          console.warn(
+            '[ConsentGate] TEMP_FORCE_SHOW_WHEN_EMPTY: opening modal with no contracts (backend consents null/empty)',
+          );
+          this.unsignedConsents.set(consents ?? { contracts: [] });
           this.isModalOpen.set(true);
         } else {
-          this.closeModal();
+          this.resetGateContent();
         }
       },
       error: (err) => {
+        // TEMP: inspect failures from after-change-user-profile
+        console.error('[ConsentGate] getAfterChangeUserProfileGETData failed', {
+          profileId,
+          err,
+        });
+
         if (this.lastCheckedProfileId !== profileId) {
           return;
         }
         this.isChecking.set(false);
         this.logger.error('Consent gate check failed; leaving app usable', err);
-        this.closeModal();
+        this.resetGateContent();
       },
     });
   }
@@ -109,34 +144,114 @@ export class ConsentGateService {
   reset(): void {
     this.lastCheckedProfileId = null;
     this.isChecking.set(false);
-    this.closeModal();
+    this.isSubmitting.set(false);
+    this.resetGateContent();
   }
 
   /**
-   * Placeholder for future accept flow. Call after backend accept succeeds.
+   * TEMP: remove when real accept flow is fully trusted end-to-end.
    */
   markConsentsAccepted(): void {
-    this.closeModal();
+    this.resetGateContent();
   }
 
   /**
-   * Stubbed check. Replace body with real HTTP when supervisor APIs land
-   * (without requiring edits to hccl.service.ts if calling HttpClient here).
+   * Persist accepted consents by updating each unsigned PContractParticipant,
+   * then close the modal. Replace with a dedicated accept endpoint when available.
    */
-  checkUnsignedConsents(userProfileId: string): Observable<UnsignedConsentsCheckResult> {
-    if (USE_STUB_UNSIGNED_CONSENTS) {
-      this.logger.info('Using stub unsigned-consent check', {
-        userProfileId,
-        hasUnsigned: STUB_HAS_UNSIGNED,
-      });
-      return of({ hasUnsigned: STUB_HAS_UNSIGNED }).pipe(delay(0));
+  submitAcceptedConsents(
+    selected: ConsentRequestPOSTData[],
+  ): Observable<boolean> {
+    const pendingContracts = this.unsignedConsents()?.contracts || [];
+
+    // Nothing to sign (e.g. TEMP_FORCE_SHOW_WHEN_EMPTY with null backend consents).
+    if (!pendingContracts.length) {
+      console.warn(
+        '[ConsentGate] Accept with no contracts — closing modal (temp empty-force path)',
+      );
+      this.resetGateContent();
+      return of(true);
     }
 
-    // Future: call backend findAllUnsignedContract (or equivalent) here.
-    return of({ hasUnsigned: false });
+    const updates = selected
+      .map((consent) => consent.contractParticipantId)
+      .filter((id): id is string => !!id && id.trim() !== '');
+
+    if (!updates.length) {
+      this.logger.warn('No contractParticipantId values on accepted consents');
+      console.warn(
+        '[ConsentGate] Accept blocked: contracts exist but no contractParticipantId on selection',
+        { selected, pendingContracts },
+      );
+      return of(false);
+    }
+
+    this.isSubmitting.set(true);
+
+    return forkJoin(
+      updates.map((participantId) => this.signParticipant(participantId)),
+    ).pipe(
+      map((results) => results.every(Boolean)),
+      map((ok) => {
+        this.isSubmitting.set(false);
+        if (ok) {
+          this.resetGateContent();
+        } else {
+          console.warn('[ConsentGate] Accept failed for one or more participants');
+        }
+        return ok;
+      }),
+      catchError((err) => {
+        this.isSubmitting.set(false);
+        this.logger.error('Failed to submit consents', err);
+        console.error('[ConsentGate] Accept submit error', err);
+        return of(false);
+      }),
+    );
   }
 
-  private closeModal(): void {
+  private signParticipant(participantId: string): Observable<boolean> {
+    return this.hcclService.getPContractParticipantById(participantId).pipe(
+      switchMap((existing) => {
+        if (!existing) {
+          return of(false);
+        }
+        const body: PContractParticipantPUTData = {
+          userProfileUsername: existing.userProfileUsername || '',
+          contractVersionInstanceId: existing.contractVersionInstanceId || '',
+          contractVersionId: existing.contractVersionId || '',
+          contractCode: existing.contractCode || '',
+          userProfileId: existing.userProfileId || '',
+          dateSigned: new Date().toISOString(),
+          loginSessionId: existing.loginSessionId || '',
+          digitalHash: existing.digitalHash === 'unsigned' ? 'signed' : existing.digitalHash || 'signed',
+          agreeData: 'true',
+        };
+        return this.hcclService
+          .updatePContractParticipantById(participantId, body)
+          .pipe(
+            map(() => true),
+            catchError((err) => {
+              this.logger.error('Failed to sign participant', {
+                participantId,
+                err,
+              });
+              return of(false);
+            }),
+          );
+      }),
+      catchError((err) => {
+        this.logger.error('Failed to load participant for signing', {
+          participantId,
+          err,
+        });
+        return of(false);
+      }),
+    );
+  }
+
+  private resetGateContent(): void {
+    this.unsignedConsents.set(null);
     this.isModalOpen.set(false);
   }
 

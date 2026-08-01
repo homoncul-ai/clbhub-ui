@@ -21,7 +21,7 @@ import { MenuService, MenuItem } from './services/menu.service';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import { effect } from '@angular/core';
 import { AppConstants } from './services/config.service';
-import { HcclUserContextGETData, MenuControlData } from '@app/restsvc/hccl.service';
+import { HcclUserContextGETData, MenuControlData, ConsentRequestPOSTData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from './services/hccl-context.service';
 import { ConsentGateService } from './services/consent-gate.service';
 import { PageHeaderAction, PageHeaderActionService } from './services/page-header-action.service';
@@ -50,6 +50,8 @@ export class ShellComponent implements OnInit, OnDestroy, AfterViewInit {
   private consentGateService = inject(ConsentGateService);
   protected readonly contextLoading = this.hcclContextService.isLoading;
   protected readonly consentModalOpen = this.consentGateService.isModalOpen;
+  protected readonly consentUnsignedConsents = this.consentGateService.unsignedConsents;
+  protected readonly consentSubmitting = this.consentGateService.isSubmitting;
   
   constructor(
     private _router: Router,
@@ -442,7 +444,20 @@ onHeaderAction(key: string): void {
     return titles;
   }
 
-  /** TEMP: remove when real consent accept flow is wired. */
+  onConsentModalAccept(selected: ConsentRequestPOSTData[]): void {
+    this.consentGateService.submitAcceptedConsents(selected).subscribe({
+      next: (ok) => {
+        if (!ok) {
+          console.error('Consent acceptance failed for one or more contracts');
+        }
+      },
+      error: (err) => {
+        console.error('Consent acceptance failed', err);
+      },
+    });
+  }
+
+  /** TEMP: remove when real consent accept flow is fully trusted. */
   onConsentModalTempDismiss(): void {
     this.consentGateService.markConsentsAccepted();
   }

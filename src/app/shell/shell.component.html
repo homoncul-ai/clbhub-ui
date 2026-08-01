@@ -9,6 +9,9 @@
 
 <app-consent-required-modal
   [open]="consentModalOpen()"
+  [consents]="consentUnsignedConsents()"
+  [submitting]="consentSubmitting()"
+  (accept)="onConsentModalAccept($event)"
   (dismiss)="onConsentModalTempDismiss()">
 </app-consent-required-modal>
 

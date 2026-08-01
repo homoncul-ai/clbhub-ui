@@ -5,11 +5,36 @@
   aria-modal="true"
   aria-label="Consent required">
   <div class="consent-required-dialog">
-    <!-- Blank for now: wire contract-section + accept actions when backend APIs are ready. -->
+    <h5 class="consent-required-title">Agreements required</h5>
+    <p class="consent-required-subtitle">
+      Please review and accept the following before continuing.
+    </p>
 
-    <!-- TEMP: remove before final version -->
-    <button type="button" class="btn btn-secondary consent-temp-dismiss" (click)="onTempDismiss()">
-      Dismiss (temp)
-    </button>
+    <app-contract-section
+      [consents]="consents"
+      [disabled]="submitting"
+      (consentSelectionChange)="onConsentSelectionChange($event)"
+      (allAcceptedChange)="onAllAcceptedChange($event)">
+    </app-contract-section>
+
+    <div class="consent-required-actions">
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="!allAccepted || submitting"
+        (click)="onAccept()">
+        <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Accept and continue
+      </button>
+
+      <!-- TEMP: remove before final version -->
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        [disabled]="submitting"
+        (click)="onTempDismiss()">
+        Dismiss (temp)
+      </button>
+    </div>
   </div>
 </div>

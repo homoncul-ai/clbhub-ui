@@ -25,10 +25,11 @@ export class ContractSectionComponent implements OnChanges {
   activeContract: ConsentRequestGETData | null = null;
 
   ngOnChanges(): void {
+    this.acceptedById = {};
     const contracts = this.contracts;
     for (const contract of contracts) {
       const id = this.getContractId(contract);
-      if (id && this.acceptedById[id] === undefined) {
+      if (id) {
         this.acceptedById[id] = false;
       }
     }
@@ -81,7 +82,8 @@ export class ContractSectionComponent implements OnChanges {
         }
         return {
           contractVersionId: id,
-          agreeValue: 'accepted',
+          contractParticipantId: contract.contractParticipantId || undefined,
+          agreeValue: 'true',
           consenting: true,
         } as ConsentRequestPOSTData;
       })
