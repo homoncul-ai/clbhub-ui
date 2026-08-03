@@ -13649,6 +13649,9 @@ export interface WorkRequestDashboardUIGETData {
 }
 
 export interface AfterChangeUserProfileGETData {
+  firstLogin?: boolean;
+  showingWelcomeMessage?: boolean;
+  showingTooltip?: boolean;
   consents?: MultiConsentRequestGETData;
   userProfileBirthMonthNotSet?: boolean;
   userProfile?: HcclUserProfileGETData;

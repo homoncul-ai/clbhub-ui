@@ -53203,6 +53203,15 @@
       "AfterChangeUserProfileGETData": {
         "type": "object",
         "properties": {
+          "firstLogin": {
+            "type": "boolean"
+          },
+          "showingWelcomeMessage": {
+            "type": "boolean"
+          },
+          "showingTooltip": {
+            "type": "boolean"
+          },
           "consents": {
             "$ref": "#/components/schemas/MultiConsentRequestGETData"
           },
