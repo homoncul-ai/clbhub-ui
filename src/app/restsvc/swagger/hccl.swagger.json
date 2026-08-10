@@ -7431,6 +7431,2814 @@
         }
       }
     },
+    "/hccl/ladder/careerladderref": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new CareerLadderRef.",
+        "operationId": "createCareerLadderRef_1",
+        "requestBody": {
+          "description": "New CareerLadderRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderref/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCareerLadderRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing CareerLadderRef.",
+        "operationId": "updateCareerLadderRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CareerLadderRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing CareerLadderRef.",
+        "operationId": "deleteCareerLadderRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderref/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all CareerLadderRefs.",
+        "operationId": "findCareerLadderRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderref/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCareerLadderRefByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungqualifier": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new CareerLadderRungQualifier.",
+        "operationId": "createCareerLadderRungQualifier_1",
+        "requestBody": {
+          "description": "New CareerLadderRungQualifier data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRungQualifierPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungqualifier/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCareerLadderRungQualifierById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRungQualifierGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing CareerLadderRungQualifier.",
+        "operationId": "updateCareerLadderRungQualifierById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CareerLadderRungQualifier data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRungQualifierPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing CareerLadderRungQualifier.",
+        "operationId": "deleteCareerLadderRungQualifierById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungqualifier/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all CareerLadderRungQualifiers.",
+        "operationId": "findCareerLadderRungQualifiers_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRungQualifierCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRungQualifierGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungqualifier/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCareerLadderRungQualifierByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRungQualifierGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungref": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new CareerLadderRungRef.",
+        "operationId": "createCareerLadderRungRef_1",
+        "requestBody": {
+          "description": "New CareerLadderRungRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRungRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungref/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCareerLadderRungRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRungRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing CareerLadderRungRef.",
+        "operationId": "updateCareerLadderRungRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CareerLadderRungRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRungRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing CareerLadderRungRef.",
+        "operationId": "deleteCareerLadderRungRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungref/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all CareerLadderRungRefs.",
+        "operationId": "findCareerLadderRungRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CareerLadderRungRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRungRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/careerladderrungref/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCareerLadderRungRefByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CareerLadderRungRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailinstance": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new PActionDetailInstance.",
+        "operationId": "createPActionDetailInstance_1",
+        "requestBody": {
+          "description": "New PActionDetailInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionDetailInstancePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailinstance/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionDetailInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionDetailInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing PActionDetailInstance.",
+        "operationId": "updatePActionDetailInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PActionDetailInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionDetailInstancePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing PActionDetailInstance.",
+        "operationId": "deletePActionDetailInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailinstance/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all PActionDetailInstances.",
+        "operationId": "findPActionDetailInstances_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionDetailInstanceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionDetailInstanceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailinstance/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionDetailInstanceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionDetailInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailref": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new PActionDetailRef.",
+        "operationId": "createPActionDetailRef_1",
+        "requestBody": {
+          "description": "New PActionDetailRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionDetailRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailref/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionDetailRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionDetailRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing PActionDetailRef.",
+        "operationId": "updatePActionDetailRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PActionDetailRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionDetailRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing PActionDetailRef.",
+        "operationId": "deletePActionDetailRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailref/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all PActionDetailRefs.",
+        "operationId": "findPActionDetailRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionDetailRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionDetailRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiondetailref/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionDetailRefByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionDetailRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupinstance": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new PActionGroupInstance.",
+        "operationId": "createPActionGroupInstance_1",
+        "requestBody": {
+          "description": "New PActionGroupInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionGroupInstancePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupinstance/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionGroupInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionGroupInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing PActionGroupInstance.",
+        "operationId": "updatePActionGroupInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PActionGroupInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionGroupInstancePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing PActionGroupInstance.",
+        "operationId": "deletePActionGroupInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupinstance/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all PActionGroupInstances.",
+        "operationId": "findPActionGroupInstances_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionGroupInstanceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionGroupInstanceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupinstance/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionGroupInstanceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionGroupInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupref": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new PActionGroupRef.",
+        "operationId": "createPActionGroupRef_1",
+        "requestBody": {
+          "description": "New PActionGroupRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionGroupRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupref/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionGroupRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionGroupRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing PActionGroupRef.",
+        "operationId": "updatePActionGroupRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PActionGroupRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionGroupRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing PActionGroupRef.",
+        "operationId": "deletePActionGroupRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupref/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all PActionGroupRefs.",
+        "operationId": "findPActionGroupRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PActionGroupRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionGroupRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pactiongroupref/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPActionGroupRefByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PActionGroupRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifierinstance": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new PLinkedQualifierInstance.",
+        "operationId": "createPLinkedQualifierInstance_1",
+        "requestBody": {
+          "description": "New PLinkedQualifierInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PLinkedQualifierInstancePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifierinstance/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPLinkedQualifierInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PLinkedQualifierInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing PLinkedQualifierInstance.",
+        "operationId": "updatePLinkedQualifierInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PLinkedQualifierInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PLinkedQualifierInstancePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing PLinkedQualifierInstance.",
+        "operationId": "deletePLinkedQualifierInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifierinstance/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all PLinkedQualifierInstances.",
+        "operationId": "findPLinkedQualifierInstances_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PLinkedQualifierInstanceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PLinkedQualifierInstanceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifierinstance/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPLinkedQualifierInstanceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PLinkedQualifierInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifier": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new PLinkedQualifier.",
+        "operationId": "createPLinkedQualifier_1",
+        "requestBody": {
+          "description": "New PLinkedQualifier data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PLinkedQualifierPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifier/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPLinkedQualifierById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PLinkedQualifierGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing PLinkedQualifier.",
+        "operationId": "updatePLinkedQualifierById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PLinkedQualifier data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PLinkedQualifierPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing PLinkedQualifier.",
+        "operationId": "deletePLinkedQualifierById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifier/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all PLinkedQualifiers.",
+        "operationId": "findPLinkedQualifiers_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PLinkedQualifierCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PLinkedQualifierGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/plinkedqualifier/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPLinkedQualifierByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PLinkedQualifierGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pqualification": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new PQualification.",
+        "operationId": "createPQualification_1",
+        "requestBody": {
+          "description": "New PQualification data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PQualificationPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pqualification/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPQualificationById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PQualificationGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing PQualification.",
+        "operationId": "updatePQualificationById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PQualification data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PQualificationPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing PQualification.",
+        "operationId": "deletePQualificationById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pqualification/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all PQualifications.",
+        "operationId": "findPQualifications_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PQualificationCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PQualificationGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/pqualification/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPQualificationByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PQualificationGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifierref": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new QualifierRef.",
+        "operationId": "createQualifierRef_1",
+        "requestBody": {
+          "description": "New QualifierRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/QualifierRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifierref/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getQualifierRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualifierRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing QualifierRef.",
+        "operationId": "updateQualifierRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated QualifierRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/QualifierRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing QualifierRef.",
+        "operationId": "deleteQualifierRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifierref/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all QualifierRefs.",
+        "operationId": "findQualifierRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/QualifierRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualifierRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifierref/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getQualifierRefByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualifierRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifiertyperef": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Create a new QualifierTypeRef.",
+        "operationId": "createQualifierTypeRef_1",
+        "requestBody": {
+          "description": "New QualifierTypeRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/QualifierTypeRefPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifiertyperef/{id}": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getQualifierTypeRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualifierTypeRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Updates and existing QualifierTypeRef.",
+        "operationId": "updateQualifierTypeRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated QualifierTypeRef data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/QualifierTypeRefPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Deletes an existing QualifierTypeRef.",
+        "operationId": "deleteQualifierTypeRefById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifiertyperef/query": {
+      "post": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches all QualifierTypeRefs.",
+        "operationId": "findQualifierTypeRefs_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/QualifierTypeRefCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualifierTypeRefGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/ladder/qualifiertyperef/{id}/hint": {
+      "get": {
+        "tags": [
+          "/ladder"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getQualifierTypeRefByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualifierTypeRefGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pattern/paipromptref": {
       "post": {
         "tags": [
@@ -34673,6 +37481,2699 @@
           "schoolId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "CareerLadderRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tagline": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tagline": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CareerLadderRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CareerLadderRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tagline": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tagline": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungQualifierPOSTData": {
+        "required": [
+          "linkTypeCode",
+          "pactionDetailRefId",
+          "qualifierRefId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungQualifierGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungQualifierGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CareerLadderRungQualifierGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CareerLadderRungQualifierCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungQualifierPUTData": {
+        "required": [
+          "linkTypeCode",
+          "pactionDetailRefId",
+          "qualifierRefId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "careerLadderRefId",
+          "sequenceOrder",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "shortTitle": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "oneLiner": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "payHint": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "ageNote": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "shortTitle": {
+            "type": "string"
+          },
+          "oneLiner": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "payHint": {
+            "type": "string"
+          },
+          "ageNote": {
+            "type": "string"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CareerLadderRungRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CareerLadderRungRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "shortTitle": {
+            "type": "string"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CareerLadderRungRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "careerLadderRefId",
+          "sequenceOrder",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "shortTitle": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "oneLiner": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "payHint": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "ageNote": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionDetailInstancePOSTData": {
+        "required": [
+          "completedStatus",
+          "pactionDetailRefId",
+          "pactionGroupInstanceId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "detailCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "pactionGroupInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PActionDetailInstanceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "detailCode": {
+            "type": "string"
+          },
+          "pactionGroupInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PActionDetailInstanceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PActionDetailInstanceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PActionDetailInstanceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "detailCode": {
+            "type": "string"
+          },
+          "pactionGroupInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PActionDetailInstancePUTData": {
+        "required": [
+          "completedStatus",
+          "pactionDetailRefId",
+          "pactionGroupInstanceId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "detailCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "pactionGroupInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PActionDetailRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name",
+          "sequenceOrder"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionDetailRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionDetailRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PActionDetailRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PActionDetailRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionDetailRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name",
+          "sequenceOrder"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "catalogEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionGroupInstancePOSTData": {
+        "required": [
+          "completedStatus",
+          "pactionGroupRefId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "instanceCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PActionGroupInstanceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "instanceCode": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PActionGroupInstanceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PActionGroupInstanceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PActionGroupInstanceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupCode": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "instanceCode": {
+            "type": "string"
+          }
+        }
+      },
+      "PActionGroupInstancePUTData": {
+        "required": [
+          "completedStatus",
+          "pactionGroupRefId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionGroupRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "careerLadderRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "completedStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "instanceCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PActionGroupRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionGroupRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionGroupRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PActionGroupRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PActionGroupRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PActionGroupRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "careerLadderRungRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PLinkedQualifierInstancePOSTData": {
+        "required": [
+          "pactionDetailInstanceId",
+          "plinkedQualifierId",
+          "readinessStatus",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "plinkedQualifierId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pactionDetailInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "readinessStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "markedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PLinkedQualifierInstanceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "plinkedQualifierId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pactionDetailInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "type": "string"
+          },
+          "readinessStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "markedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PLinkedQualifierInstanceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PLinkedQualifierInstanceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PLinkedQualifierInstanceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "plinkedQualifierId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pactionDetailInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "type": "string"
+          },
+          "readinessStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "markedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PLinkedQualifierInstancePUTData": {
+        "required": [
+          "pactionDetailInstanceId",
+          "plinkedQualifierId",
+          "readinessStatus",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "plinkedQualifierId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pactionDetailInstanceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "readinessStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "markedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "PLinkedQualifierPOSTData": {
+        "required": [
+          "linkTypeCode",
+          "pactionDetailRefId",
+          "qualifierRefId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PLinkedQualifierGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PLinkedQualifierGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PLinkedQualifierGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PLinkedQualifierCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PLinkedQualifierPUTData": {
+        "required": [
+          "linkTypeCode",
+          "pactionDetailRefId",
+          "qualifierRefId"
+        ],
+        "type": "object",
+        "properties": {
+          "pactionDetailRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "linkTypeCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "waivable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "sequenceOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PQualificationPOSTData": {
+        "required": [
+          "available",
+          "qualifierRefId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "qualifierTypeCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceTypeCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "approverUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateEarned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PQualificationGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "qualifierTypeCode": {
+            "type": "string"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceTypeCode": {
+            "type": "string"
+          },
+          "approverUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PQualificationGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PQualificationGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PQualificationCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "type": "string"
+          },
+          "qualifierTypeCode": {
+            "type": "string"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceTypeCode": {
+            "type": "string"
+          },
+          "approverUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateEarned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PQualificationPUTData": {
+        "required": [
+          "available",
+          "qualifierRefId",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "qualifierTypeCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceTypeCode": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "approverUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateEarned": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name",
+          "qualifierTypeRefId"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "shortName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "qualifierTypeRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierTypeCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "qualifierTypeRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierTypeCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QualifierRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "QualifierRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "qualifierTypeRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierTypeCode": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name",
+          "qualifierTypeRefId"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "shortName": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "qualifierTypeRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualifierTypeCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierTypeRefPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierTypeRefGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierTypeRefGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QualifierTypeRefGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "QualifierTypeRefCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "QualifierTypeRefPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

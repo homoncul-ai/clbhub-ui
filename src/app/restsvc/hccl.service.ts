@@ -1723,6 +1723,630 @@ export class HcclService extends RequestServiceCaller {
     return this.request<CLStudentGETDataSearchResults>(request);
   }
 
+  createCareerLadderRef(body: CareerLadderRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderref",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCareerLadderRefById(id: string): Observable<CareerLadderRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderref/" + id,
+      method: "GET",
+    };
+    return this.request<CareerLadderRefGETData>(request);
+  }
+
+  updateCareerLadderRefById(id: string, body: CareerLadderRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderref/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCareerLadderRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderref/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCareerLadderRefs(body: CareerLadderRefCriteria): Observable<CareerLadderRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CareerLadderRefGETDataSearchResults>(request);
+  }
+
+  getCareerLadderRefByIdWithHint(id: string, hint: string): Observable<CareerLadderRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderref/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<CareerLadderRefGETData>(request);
+  }
+
+  createCareerLadderRungQualifier(body: CareerLadderRungQualifierPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungqualifier",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCareerLadderRungQualifierById(id: string): Observable<CareerLadderRungQualifierGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungqualifier/" + id,
+      method: "GET",
+    };
+    return this.request<CareerLadderRungQualifierGETData>(request);
+  }
+
+  updateCareerLadderRungQualifierById(id: string, body: CareerLadderRungQualifierPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungqualifier/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCareerLadderRungQualifierById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungqualifier/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCareerLadderRungQualifiers(body: CareerLadderRungQualifierCriteria): Observable<CareerLadderRungQualifierGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungqualifier/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CareerLadderRungQualifierGETDataSearchResults>(request);
+  }
+
+  getCareerLadderRungQualifierByIdWithHint(id: string, hint: string): Observable<CareerLadderRungQualifierGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungqualifier/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<CareerLadderRungQualifierGETData>(request);
+  }
+
+  createCareerLadderRungRef(body: CareerLadderRungRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungref",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCareerLadderRungRefById(id: string): Observable<CareerLadderRungRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungref/" + id,
+      method: "GET",
+    };
+    return this.request<CareerLadderRungRefGETData>(request);
+  }
+
+  updateCareerLadderRungRefById(id: string, body: CareerLadderRungRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungref/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCareerLadderRungRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungref/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCareerLadderRungRefs(body: CareerLadderRungRefCriteria): Observable<CareerLadderRungRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CareerLadderRungRefGETDataSearchResults>(request);
+  }
+
+  getCareerLadderRungRefByIdWithHint(id: string, hint: string): Observable<CareerLadderRungRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/careerladderrungref/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<CareerLadderRungRefGETData>(request);
+  }
+
+  createPActionDetailInstance(body: PActionDetailInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailinstance",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPActionDetailInstanceById(id: string): Observable<PActionDetailInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailinstance/" + id,
+      method: "GET",
+    };
+    return this.request<PActionDetailInstanceGETData>(request);
+  }
+
+  updatePActionDetailInstanceById(id: string, body: PActionDetailInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailinstance/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePActionDetailInstanceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailinstance/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPActionDetailInstances(body: PActionDetailInstanceCriteria): Observable<PActionDetailInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailinstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PActionDetailInstanceGETDataSearchResults>(request);
+  }
+
+  getPActionDetailInstanceByIdWithHint(id: string, hint: string): Observable<PActionDetailInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailinstance/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PActionDetailInstanceGETData>(request);
+  }
+
+  createPActionDetailRef(body: PActionDetailRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailref",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPActionDetailRefById(id: string): Observable<PActionDetailRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailref/" + id,
+      method: "GET",
+    };
+    return this.request<PActionDetailRefGETData>(request);
+  }
+
+  updatePActionDetailRefById(id: string, body: PActionDetailRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailref/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePActionDetailRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailref/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPActionDetailRefs(body: PActionDetailRefCriteria): Observable<PActionDetailRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PActionDetailRefGETDataSearchResults>(request);
+  }
+
+  getPActionDetailRefByIdWithHint(id: string, hint: string): Observable<PActionDetailRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiondetailref/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PActionDetailRefGETData>(request);
+  }
+
+  createPActionGroupInstance(body: PActionGroupInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupinstance",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPActionGroupInstanceById(id: string): Observable<PActionGroupInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupinstance/" + id,
+      method: "GET",
+    };
+    return this.request<PActionGroupInstanceGETData>(request);
+  }
+
+  updatePActionGroupInstanceById(id: string, body: PActionGroupInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupinstance/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePActionGroupInstanceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupinstance/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPActionGroupInstances(body: PActionGroupInstanceCriteria): Observable<PActionGroupInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupinstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PActionGroupInstanceGETDataSearchResults>(request);
+  }
+
+  getPActionGroupInstanceByIdWithHint(id: string, hint: string): Observable<PActionGroupInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupinstance/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PActionGroupInstanceGETData>(request);
+  }
+
+  createPActionGroupRef(body: PActionGroupRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupref",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPActionGroupRefById(id: string): Observable<PActionGroupRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupref/" + id,
+      method: "GET",
+    };
+    return this.request<PActionGroupRefGETData>(request);
+  }
+
+  updatePActionGroupRefById(id: string, body: PActionGroupRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupref/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePActionGroupRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupref/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPActionGroupRefs(body: PActionGroupRefCriteria): Observable<PActionGroupRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PActionGroupRefGETDataSearchResults>(request);
+  }
+
+  getPActionGroupRefByIdWithHint(id: string, hint: string): Observable<PActionGroupRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pactiongroupref/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PActionGroupRefGETData>(request);
+  }
+
+  createPLinkedQualifierInstance(body: PLinkedQualifierInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifierinstance",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPLinkedQualifierInstanceById(id: string): Observable<PLinkedQualifierInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifierinstance/" + id,
+      method: "GET",
+    };
+    return this.request<PLinkedQualifierInstanceGETData>(request);
+  }
+
+  updatePLinkedQualifierInstanceById(id: string, body: PLinkedQualifierInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifierinstance/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePLinkedQualifierInstanceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifierinstance/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPLinkedQualifierInstances(body: PLinkedQualifierInstanceCriteria): Observable<PLinkedQualifierInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifierinstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PLinkedQualifierInstanceGETDataSearchResults>(request);
+  }
+
+  getPLinkedQualifierInstanceByIdWithHint(id: string, hint: string): Observable<PLinkedQualifierInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifierinstance/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PLinkedQualifierInstanceGETData>(request);
+  }
+
+  createPLinkedQualifier(body: PLinkedQualifierPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifier",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPLinkedQualifierById(id: string): Observable<PLinkedQualifierGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifier/" + id,
+      method: "GET",
+    };
+    return this.request<PLinkedQualifierGETData>(request);
+  }
+
+  updatePLinkedQualifierById(id: string, body: PLinkedQualifierPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifier/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePLinkedQualifierById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifier/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPLinkedQualifiers(body: PLinkedQualifierCriteria): Observable<PLinkedQualifierGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifier/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PLinkedQualifierGETDataSearchResults>(request);
+  }
+
+  getPLinkedQualifierByIdWithHint(id: string, hint: string): Observable<PLinkedQualifierGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/plinkedqualifier/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PLinkedQualifierGETData>(request);
+  }
+
+  createPQualification(body: PQualificationPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pqualification",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPQualificationById(id: string): Observable<PQualificationGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pqualification/" + id,
+      method: "GET",
+    };
+    return this.request<PQualificationGETData>(request);
+  }
+
+  updatePQualificationById(id: string, body: PQualificationPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pqualification/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePQualificationById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pqualification/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPQualifications(body: PQualificationCriteria): Observable<PQualificationGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pqualification/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PQualificationGETDataSearchResults>(request);
+  }
+
+  getPQualificationByIdWithHint(id: string, hint: string): Observable<PQualificationGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/pqualification/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PQualificationGETData>(request);
+  }
+
+  createQualifierRef(body: QualifierRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifierref",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getQualifierRefById(id: string): Observable<QualifierRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifierref/" + id,
+      method: "GET",
+    };
+    return this.request<QualifierRefGETData>(request);
+  }
+
+  updateQualifierRefById(id: string, body: QualifierRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifierref/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteQualifierRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifierref/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findQualifierRefs(body: QualifierRefCriteria): Observable<QualifierRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifierref/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<QualifierRefGETDataSearchResults>(request);
+  }
+
+  getQualifierRefByIdWithHint(id: string, hint: string): Observable<QualifierRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifierref/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<QualifierRefGETData>(request);
+  }
+
+  createQualifierTypeRef(body: QualifierTypeRefPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifiertyperef",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getQualifierTypeRefById(id: string): Observable<QualifierTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifiertyperef/" + id,
+      method: "GET",
+    };
+    return this.request<QualifierTypeRefGETData>(request);
+  }
+
+  updateQualifierTypeRefById(id: string, body: QualifierTypeRefPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifiertyperef/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteQualifierTypeRefById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifiertyperef/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findQualifierTypeRefs(body: QualifierTypeRefCriteria): Observable<QualifierTypeRefGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifiertyperef/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<QualifierTypeRefGETDataSearchResults>(request);
+  }
+
+  getQualifierTypeRefByIdWithHint(id: string, hint: string): Observable<QualifierTypeRefGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/ladder/qualifiertyperef/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<QualifierTypeRefGETData>(request);
+  }
+
   createPAiPromptRef(body: PAiPromptRefPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/pattern/paipromptref",
@@ -8384,6 +9008,779 @@ export interface CLStudentPUTData {
   firstName: string;
   lastName: string;
   schoolId: string;
+}
+
+export interface CareerLadderRefPOSTData {
+  businessCode: string;
+  name: string;
+  tagline?: string;
+  description?: string;
+  jsonData?: string;
+  available: number;
+}
+
+export interface CareerLadderRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  businessCode?: string;
+  name?: string;
+  tagline?: string;
+  description?: string;
+  jsonData?: string;
+  available?: number;
+}
+
+export interface CareerLadderRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CareerLadderRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CareerLadderRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  businessCode?: string;
+  name?: string;
+  tagline?: string;
+  available?: number;
+}
+
+export interface CareerLadderRefPUTData {
+  businessCode: string;
+  name: string;
+  tagline?: string;
+  description?: string;
+  jsonData?: string;
+  available: number;
+}
+
+export interface CareerLadderRungQualifierPOSTData {
+  pactionDetailRefId: string;
+  qualifierRefId: string;
+  qualifierCode?: string;
+  linkTypeCode: string;
+  waivable?: number;
+  notes?: string;
+  sequenceOrder?: number;
+}
+
+export interface CareerLadderRungQualifierGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  pactionDetailRefId?: string;
+  qualifierRefId?: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  waivable?: number;
+  notes?: string;
+  sequenceOrder?: number;
+}
+
+export interface CareerLadderRungQualifierGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CareerLadderRungQualifierGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CareerLadderRungQualifierCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  pactionDetailRefId?: string;
+  qualifierRefId?: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  waivable?: number;
+  sequenceOrder?: number;
+}
+
+export interface CareerLadderRungQualifierPUTData {
+  pactionDetailRefId: string;
+  qualifierRefId: string;
+  qualifierCode?: string;
+  linkTypeCode: string;
+  waivable?: number;
+  notes?: string;
+  sequenceOrder?: number;
+}
+
+export interface CareerLadderRungRefPOSTData {
+  careerLadderRefId: string;
+  businessCode: string;
+  sequenceOrder: number;
+  title: string;
+  shortTitle?: string;
+  oneLiner?: string;
+  summary?: string;
+  payHint?: string;
+  ageNote?: string;
+  pactionGroupRefId?: string;
+  jsonData?: string;
+  available: number;
+}
+
+export interface CareerLadderRungRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  careerLadderRefId?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  title?: string;
+  shortTitle?: string;
+  oneLiner?: string;
+  summary?: string;
+  payHint?: string;
+  ageNote?: string;
+  pactionGroupRefId?: string;
+  jsonData?: string;
+  available?: number;
+}
+
+export interface CareerLadderRungRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CareerLadderRungRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CareerLadderRungRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  careerLadderRefId?: string;
+  businessCode?: string;
+  sequenceOrder?: number;
+  title?: string;
+  shortTitle?: string;
+  pactionGroupRefId?: string;
+  available?: number;
+}
+
+export interface CareerLadderRungRefPUTData {
+  careerLadderRefId: string;
+  businessCode: string;
+  sequenceOrder: number;
+  title: string;
+  shortTitle?: string;
+  oneLiner?: string;
+  summary?: string;
+  payHint?: string;
+  ageNote?: string;
+  pactionGroupRefId?: string;
+  jsonData?: string;
+  available: number;
+}
+
+export interface PActionDetailInstancePOSTData {
+  pactionDetailRefId: string;
+  detailCode?: string;
+  pactionGroupInstanceId: string;
+  userProfileId: string;
+  score?: number;
+  completedStatus: number;
+  experienceId?: string;
+  notes?: string;
+}
+
+export interface PActionDetailInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  pactionDetailRefId?: string;
+  detailCode?: string;
+  pactionGroupInstanceId?: string;
+  userProfileId?: string;
+  score?: number;
+  completedStatus?: number;
+  experienceId?: string;
+  notes?: string;
+}
+
+export interface PActionDetailInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PActionDetailInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PActionDetailInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  pactionDetailRefId?: string;
+  detailCode?: string;
+  pactionGroupInstanceId?: string;
+  userProfileId?: string;
+  score?: number;
+  completedStatus?: number;
+  experienceId?: string;
+}
+
+export interface PActionDetailInstancePUTData {
+  pactionDetailRefId: string;
+  detailCode?: string;
+  pactionGroupInstanceId: string;
+  userProfileId: string;
+  score?: number;
+  completedStatus: number;
+  experienceId?: string;
+  notes?: string;
+}
+
+export interface PActionDetailRefPOSTData {
+  pactionGroupRefId?: string;
+  businessCode: string;
+  name: string;
+  description?: string;
+  sequenceOrder: number;
+  catalogEntryId?: string;
+  available: number;
+}
+
+export interface PActionDetailRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  pactionGroupRefId?: string;
+  businessCode?: string;
+  name?: string;
+  description?: string;
+  sequenceOrder?: number;
+  catalogEntryId?: string;
+  available?: number;
+}
+
+export interface PActionDetailRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PActionDetailRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PActionDetailRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  pactionGroupRefId?: string;
+  businessCode?: string;
+  name?: string;
+  sequenceOrder?: number;
+  catalogEntryId?: string;
+  available?: number;
+}
+
+export interface PActionDetailRefPUTData {
+  pactionGroupRefId?: string;
+  businessCode: string;
+  name: string;
+  description?: string;
+  sequenceOrder: number;
+  catalogEntryId?: string;
+  available: number;
+}
+
+export interface PActionGroupInstancePOSTData {
+  pactionGroupRefId: string;
+  groupCode?: string;
+  userProfileId: string;
+  careerLadderRungRefId?: string;
+  careerLadderRefId?: string;
+  completedStatus: number;
+  instanceCode?: string;
+  notes?: string;
+}
+
+export interface PActionGroupInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  pactionGroupRefId?: string;
+  groupCode?: string;
+  userProfileId?: string;
+  careerLadderRungRefId?: string;
+  careerLadderRefId?: string;
+  completedStatus?: number;
+  instanceCode?: string;
+  notes?: string;
+}
+
+export interface PActionGroupInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PActionGroupInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PActionGroupInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  pactionGroupRefId?: string;
+  groupCode?: string;
+  userProfileId?: string;
+  careerLadderRungRefId?: string;
+  careerLadderRefId?: string;
+  completedStatus?: number;
+  instanceCode?: string;
+}
+
+export interface PActionGroupInstancePUTData {
+  pactionGroupRefId: string;
+  groupCode?: string;
+  userProfileId: string;
+  careerLadderRungRefId?: string;
+  careerLadderRefId?: string;
+  completedStatus: number;
+  instanceCode?: string;
+  notes?: string;
+}
+
+export interface PActionGroupRefPOSTData {
+  businessCode: string;
+  name: string;
+  description?: string;
+  careerLadderRungRefId?: string;
+  available: number;
+}
+
+export interface PActionGroupRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  businessCode?: string;
+  name?: string;
+  description?: string;
+  careerLadderRungRefId?: string;
+  available?: number;
+}
+
+export interface PActionGroupRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PActionGroupRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PActionGroupRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  businessCode?: string;
+  name?: string;
+  careerLadderRungRefId?: string;
+  available?: number;
+}
+
+export interface PActionGroupRefPUTData {
+  businessCode: string;
+  name: string;
+  description?: string;
+  careerLadderRungRefId?: string;
+  available: number;
+}
+
+export interface PLinkedQualifierInstancePOSTData {
+  plinkedQualifierId: string;
+  pactionDetailInstanceId: string;
+  userProfileId: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  readinessStatus: number;
+  markedByUserProfileId?: string;
+  score?: number;
+  notes?: string;
+}
+
+export interface PLinkedQualifierInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  plinkedQualifierId?: string;
+  pactionDetailInstanceId?: string;
+  userProfileId?: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  readinessStatus?: number;
+  markedByUserProfileId?: string;
+  score?: number;
+  notes?: string;
+}
+
+export interface PLinkedQualifierInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PLinkedQualifierInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PLinkedQualifierInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  plinkedQualifierId?: string;
+  pactionDetailInstanceId?: string;
+  userProfileId?: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  readinessStatus?: number;
+  markedByUserProfileId?: string;
+}
+
+export interface PLinkedQualifierInstancePUTData {
+  plinkedQualifierId: string;
+  pactionDetailInstanceId: string;
+  userProfileId: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  readinessStatus: number;
+  markedByUserProfileId?: string;
+  score?: number;
+  notes?: string;
+}
+
+export interface PLinkedQualifierPOSTData {
+  pactionDetailRefId: string;
+  qualifierRefId: string;
+  qualifierCode?: string;
+  linkTypeCode: string;
+  waivable?: number;
+  notes?: string;
+  sequenceOrder?: number;
+}
+
+export interface PLinkedQualifierGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  pactionDetailRefId?: string;
+  qualifierRefId?: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  waivable?: number;
+  notes?: string;
+  sequenceOrder?: number;
+}
+
+export interface PLinkedQualifierGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PLinkedQualifierGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PLinkedQualifierCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  pactionDetailRefId?: string;
+  qualifierRefId?: string;
+  qualifierCode?: string;
+  linkTypeCode?: string;
+  waivable?: number;
+  sequenceOrder?: number;
+}
+
+export interface PLinkedQualifierPUTData {
+  pactionDetailRefId: string;
+  qualifierRefId: string;
+  qualifierCode?: string;
+  linkTypeCode: string;
+  waivable?: number;
+  notes?: string;
+  sequenceOrder?: number;
+}
+
+export interface PQualificationPOSTData {
+  userProfileId: string;
+  qualifierRefId: string;
+  qualifierCode?: string;
+  qualifierTypeCode?: string;
+  experienceId?: string;
+  sourceTypeCode?: string;
+  approverUserProfileId?: string;
+  dateEarned?: string;
+  notes?: string;
+  available: number;
+}
+
+export interface PQualificationGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  userProfileId?: string;
+  qualifierRefId?: string;
+  qualifierCode?: string;
+  qualifierTypeCode?: string;
+  experienceId?: string;
+  sourceTypeCode?: string;
+  approverUserProfileId?: string;
+  notes?: string;
+  available?: number;
+}
+
+export interface PQualificationGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PQualificationGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PQualificationCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  userProfileId?: string;
+  qualifierRefId?: string;
+  qualifierCode?: string;
+  qualifierTypeCode?: string;
+  experienceId?: string;
+  sourceTypeCode?: string;
+  approverUserProfileId?: string;
+  dateEarned?: string;
+  available?: number;
+}
+
+export interface PQualificationPUTData {
+  userProfileId: string;
+  qualifierRefId: string;
+  qualifierCode?: string;
+  qualifierTypeCode?: string;
+  experienceId?: string;
+  sourceTypeCode?: string;
+  approverUserProfileId?: string;
+  dateEarned?: string;
+  notes?: string;
+  available: number;
+}
+
+export interface QualifierRefPOSTData {
+  businessCode: string;
+  name: string;
+  shortName?: string;
+  description?: string;
+  qualifierTypeRefId: string;
+  qualifierTypeCode?: string;
+  available: number;
+}
+
+export interface QualifierRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  businessCode?: string;
+  name?: string;
+  shortName?: string;
+  description?: string;
+  qualifierTypeRefId?: string;
+  qualifierTypeCode?: string;
+  available?: number;
+}
+
+export interface QualifierRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: QualifierRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface QualifierRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  businessCode?: string;
+  name?: string;
+  shortName?: string;
+  qualifierTypeRefId?: string;
+  qualifierTypeCode?: string;
+  available?: number;
+}
+
+export interface QualifierRefPUTData {
+  businessCode: string;
+  name: string;
+  shortName?: string;
+  description?: string;
+  qualifierTypeRefId: string;
+  qualifierTypeCode?: string;
+  available: number;
+}
+
+export interface QualifierTypeRefPOSTData {
+  businessCode: string;
+  name: string;
+  description?: string;
+  available: number;
+}
+
+export interface QualifierTypeRefGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  businessCode?: string;
+  name?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface QualifierTypeRefGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: QualifierTypeRefGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface QualifierTypeRefCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  businessCode?: string;
+  name?: string;
+  available?: number;
+}
+
+export interface QualifierTypeRefPUTData {
+  businessCode: string;
+  name: string;
+  description?: string;
+  available: number;
 }
 
 export interface PAiPromptRefPOSTData {
