@@ -929,6 +929,12 @@ export class MenuService {
     // Add recent survey reporting views to the sidebar
     this.addSurveySidebarItems(surveysGroup);
 
+    // Data Integrations (Career Ladder + Pursuits reporting)
+    const dataIntegrationsGroup = this.newGroupMenuItem('Data Integrations', 'fas fa-plug');
+    this.addMenuItem(menu, dataIntegrationsGroup);
+    this.addChildMenuItem(dataIntegrationsGroup, this.copyMenuItem(MENU_CONSTANTS.EA_DATA_INTEGRATIONS_CAREER_LADDER));
+    this.addChildMenuItem(dataIntegrationsGroup, this.copyMenuItem(MENU_CONSTANTS.EA_DATA_INTEGRATIONS_PURSUITS));
+
     // Miscellaneous group (after Surveys, before UI Starter)
     const miscellaneousGroup = this.newGroupMenuItem('Miscellaneous', 'fas fa-ellipsis-h');
     this.addMenuItem(menu, miscellaneousGroup);
@@ -1792,6 +1798,24 @@ EA_SURVEYS_MANAGE: {
   componentPath: 'src/app/components/_crud/psurveyref/psurveyref-list.component',
   componentName: 'PSurveyRefListComponent',
   icon: 'fas fa-sliders-h',
+},
+
+EA_DATA_INTEGRATIONS_CAREER_LADDER: {
+  level: 2,
+  label: 'Career Ladder',
+  route: '/ecoadmin-dashboard/data-integrations/career-ladder',
+  componentPath: 'src/app/features/dash-ecoadmin/data-integrations/career-ladder-placeholder.component',
+  componentName: 'CareerLadderPlaceholderComponent',
+  icon: 'fas fa-layer-group',
+},
+
+EA_DATA_INTEGRATIONS_PURSUITS: {
+  level: 2,
+  label: 'Pursuits',
+  route: '/ecoadmin-dashboard/data-integrations/pursuits',
+  componentPath: 'src/app/features/dash-ecoadmin/data-integrations/pursuits-report.component',
+  componentName: 'PursuitsReportComponent',
+  icon: 'fas fa-chart-bar',
 },
 
 EA_DIAGNOSTICS: {
