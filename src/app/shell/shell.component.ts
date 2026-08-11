@@ -257,11 +257,17 @@ onHeaderAction(key: string): void {
       for (const item of nodes) {
         const route = item?.data?.route;
         if (typeof route === 'string' && route.length > 0) {
-          const isExact = url === route;
-          const isPrefix = url.startsWith(route.endsWith('/') ? route : route + '/');
-          if ((isExact || isPrefix) && route.length > bestLen) {
+          // Strip query/hash so tour links still match path-only current URLs.
+          const routePath = route.split('?')[0].split('#')[0];
+          const isExact = url === routePath;
+          // Query-param menu links (e.g. tours) match path exactly only —
+          // avoid `/student-dashboard?...` prefix-matching all student routes.
+          const isPrefix =
+            !route.includes('?') &&
+            url.startsWith(routePath.endsWith('/') ? routePath : routePath + '/');
+          if ((isExact || isPrefix) && routePath.length > bestLen) {
             bestId = item.id;
-            bestLen = route.length;
+            bestLen = routePath.length;
           }
         }
         if (item.items?.length) {
@@ -365,7 +371,8 @@ onHeaderAction(key: string): void {
       if (menuItem?.data?.route) {
         // NavigationEnd → updateTree() → syncTreeSelectionToRoute() is the
         // single source of truth for selection; do not select here.
-        this._router.navigate([menuItem.data.route]);
+        // Use navigateByUrl so menu routes may include query params (e.g. tours).
+        this._router.navigateByUrl(menuItem.data.route);
       } else {
         // Folder / non-route click still updates DHTMLX selection; restore route match.
         setTimeout(() => this.syncTreeSelectionToRoute(), 0);

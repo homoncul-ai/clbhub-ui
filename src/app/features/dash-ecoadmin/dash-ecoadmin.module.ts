@@ -81,7 +81,8 @@ import { SurveyResultsViewerComponent } from './surveys/survey-results-viewer.co
 import { SurveyReportsDashboardComponent } from './surveys/survey-reports-dashboard.component';
 import { PSurveyRefListComponent } from '../../components/_crud/psurveyref/psurveyref-list.component';
 import { PSurveyRefGroupComponent } from '../../components/_crud/psurveyref/psurveyref-group.component';
-import { DiagnosticsComponent } from './reporting/diagnostics.component';
+import { DiagnosticsComponent } from './miscellaneous/diagnostics.component';
+import { TourGuidesDashboardComponent } from './miscellaneous/tour-guides-dashboard.component';
 import { UserManagementListComponent } from './user-management/user-management-list.component';
 import { UserManagementDetailComponent } from './user-management/user-management-detail.component';
 
@@ -293,8 +294,9 @@ const routes: Routes = [
       { path: 'surveys/:surveyKey', component: SurveyResultsViewerComponent },
       { path: 'surveys', component: SurveyReportsDashboardComponent },
 
-      // Reporting routes
-      { path: 'reporting/diagnostics', component: DiagnosticsComponent },
+      // Miscellaneous routes
+      { path: 'miscellaneous/tour-guides', component: TourGuidesDashboardComponent },
+      { path: 'miscellaneous/diagnostics', component: DiagnosticsComponent },
     ]
   }
 ];
@@ -378,6 +380,7 @@ const routes: Routes = [
     PSurveyRefListComponent,
     PSurveyRefGroupComponent,
     DiagnosticsComponent,
+    TourGuidesDashboardComponent,
     UserManagementListComponent,
     UserManagementDetailComponent
   ]
