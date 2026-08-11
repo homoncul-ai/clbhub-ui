@@ -9033,6 +9033,8 @@ export interface CareerLadderRefGETData {
   description?: string;
   jsonData?: string;
   available?: number;
+  externalUrl?: string;
+  externalIconUrl?: string;
 }
 
 export interface CareerLadderRefGETDataSearchResults {
@@ -9166,6 +9168,8 @@ export interface CareerLadderRungRefGETData {
   pactionGroupRefId?: string;
   jsonData?: string;
   available?: number;
+  externalUrl?: string;
+  externalIconUrl?: string;
 }
 
 export interface CareerLadderRungRefGETDataSearchResults {
@@ -9694,6 +9698,7 @@ export interface QualifierRefGETData {
   qualifierTypeRefId?: string;
   qualifierTypeCode?: string;
   available?: number;
+  externalUrl?: string;
 }
 
 export interface QualifierRefGETDataSearchResults {

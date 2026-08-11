@@ -37562,6 +37562,12 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "externalUrl": {
+            "type": "string"
+          },
+          "externalIconUrl": {
+            "type": "string"
           }
         }
       },
@@ -38025,6 +38031,12 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "externalUrl": {
+            "type": "string"
+          },
+          "externalIconUrl": {
+            "type": "string"
           }
         }
       },
@@ -39876,6 +39888,9 @@
           "available": {
             "type": "integer",
             "format": "int32"
+          },
+          "externalUrl": {
+            "type": "string"
           }
         }
       },
