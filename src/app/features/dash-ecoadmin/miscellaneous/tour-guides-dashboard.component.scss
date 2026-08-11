@@ -1,0 +1,47 @@
+.tour-guides-page {
+  padding-top: 20px;
+  max-width: 960px;
+}
+
+.list-group-header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tour-row {
+  display: flex;
+  align-items: center;
+}
+
+.col-tour {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.col-action {
+  flex: 0 0 auto;
+  min-width: 72px;
+  text-align: right;
+}
+
+@media (max-width: 575.98px) {
+  .tour-row {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .col-tour {
+    flex: 1 1 100%;
+  }
+
+  .col-action {
+    flex: 0 0 auto;
+  }
+}

@@ -8,6 +8,11 @@ import {
   mergeSurveyRefsOntoRegistry,
   SurveyRegistryEntry,
 } from '@app/features/surveys/survey-registry';
+import {
+  getTourGuides,
+  getTourLaunchUrl,
+  TourRegistryEntry,
+} from '@app/features/dash-ecoadmin/miscellaneous/tour-registry';
 
 export interface MenuItem {
   id?: string;
@@ -404,6 +409,23 @@ export class MenuService {
     const surveys = this.surveySidebarItems ?? getRecentSurveys();
     for (const survey of surveys) {
       this.addChildMenuItem(surveysGroup, this.surveyResultsMenuItem(survey));
+    }
+  }
+
+  private tourGuideMenuItem(tour: TourRegistryEntry): MenuItem {
+    return {
+      level: 3,
+      label: tour.title,
+      route: getTourLaunchUrl(tour),
+      componentPath: 'src/app/features/dash-ecoadmin/miscellaneous/tour-guides-dashboard.component',
+      componentName: 'TourGuidesDashboardComponent',
+      icon: tour.icon || 'fas fa-route',
+    };
+  }
+
+  private addTourGuideSidebarItems(tourGuidesGroup: MenuItem): void {
+    for (const tour of getTourGuides()) {
+      this.addChildMenuItem(tourGuidesGroup, this.tourGuideMenuItem(tour));
     }
   }
 
@@ -907,11 +929,14 @@ export class MenuService {
     // Add recent survey reporting views to the sidebar
     this.addSurveySidebarItems(surveysGroup);
 
-    // Reporting group
-    const reportingGroup = this.newGroupMenuItem('Reporting', 'fas fa-chart-bar');
-    this.addMenuItem(menu, reportingGroup);
+    // Miscellaneous group (after Surveys, before UI Starter)
+    const miscellaneousGroup = this.newGroupMenuItem('Miscellaneous', 'fas fa-ellipsis-h');
+    this.addMenuItem(menu, miscellaneousGroup);
     const diagnosticsItem = this.copyMenuItem(MENU_CONSTANTS.EA_DIAGNOSTICS);
-    this.addChildMenuItem(reportingGroup, diagnosticsItem);
+    this.addChildMenuItem(miscellaneousGroup, diagnosticsItem);
+    const tourGuidesGroup = this.copyMenuItem(MENU_CONSTANTS.EA_TOUR_GUIDES);
+    this.addChildMenuItem(miscellaneousGroup, tourGuidesGroup);
+    this.addTourGuideSidebarItems(tourGuidesGroup);
 
     // Add UI Starter as the last top-level menu item
     const uiStarter = this.copyMenuItem(MENU_CONSTANTS.EA_UISTARTER);
@@ -1772,10 +1797,19 @@ EA_SURVEYS_MANAGE: {
 EA_DIAGNOSTICS: {
   level: 2,
   label: 'Diagnostics',
-  route: '/ecoadmin-dashboard/reporting/diagnostics',
-  componentPath: 'src/app/features/dash-ecoadmin/reporting/diagnostics.component',
+  route: '/ecoadmin-dashboard/miscellaneous/diagnostics',
+  componentPath: 'src/app/features/dash-ecoadmin/miscellaneous/diagnostics.component',
   componentName: 'DiagnosticsComponent',
   icon: 'fas fa-stethoscope'
+},
+
+EA_TOUR_GUIDES: {
+  level: 2,
+  label: 'Tour Guides',
+  route: '/ecoadmin-dashboard/miscellaneous/tour-guides',
+  componentPath: 'src/app/features/dash-ecoadmin/miscellaneous/tour-guides-dashboard.component',
+  componentName: 'TourGuidesDashboardComponent',
+  icon: 'fas fa-route'
 },
 
 EA_VOCATIONENCODING_LIST: {

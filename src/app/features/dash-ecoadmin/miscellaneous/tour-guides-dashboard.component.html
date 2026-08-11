@@ -1,0 +1,33 @@
+<main class="tour-guides-page container py-4">
+  <section class="card border-0 shadow-sm">
+    <div class="card-body p-4 p-md-5">
+      <h1 class="h4 mb-2">Tour guides</h1>
+      <p class="text-muted mb-0">Choose a tour to open its walkthrough experience.</p>
+
+      <div *ngIf="tours.length" class="list-group mt-4">
+        <div class="list-group-header d-none d-sm-flex">
+          <span class="col-tour">Tour</span>
+          <span class="col-action">Open</span>
+        </div>
+        <a
+          *ngFor="let tour of tours"
+          class="list-group-item list-group-item-action tour-row"
+          [routerLink]="tour.route"
+          [queryParams]="tour.queryParams || {}">
+          <span class="col-tour">
+            <strong>
+              <i *ngIf="tour.icon" class="me-2" [ngClass]="tour.icon" aria-hidden="true"></i>
+              {{ tour.title }}
+            </strong>
+            <span class="d-block text-muted small">{{ tour.subtitle }}</span>
+          </span>
+          <span class="col-action text-muted small">Launch</span>
+        </a>
+      </div>
+
+      <div *ngIf="!tours.length" class="alert alert-secondary mt-4 mb-0">
+        No tours are available yet.
+      </div>
+    </div>
+  </section>
+</main>

@@ -97,12 +97,12 @@ export class SurveyYouthCareerCheckComponent implements OnInit, OnDestroy {
     { id: 'other', label: 'Other' },
   ];
   readonly workGoalsOptions: SurveyOption[] = [
-    { id: 'active_specific', label: 'They are actively working toward a specific career.' },
-    { id: 'few_deciding', label: 'They have a few careers in mind but are still deciding.' },
-    { id: 'exploring_many', label: 'They are exploring many different career options.' },
-    { id: 'any_job', label: 'They are mainly focused on finding any job right now.' },
-    { id: 'unsure_pursue', label: 'They are unsure what type of work they want to pursue.' },
-    { id: 'not_thinking', label: 'They are not currently thinking about work or careers.' },
+    { id: 'active_specific', label: "I'm actively working toward a specific career." },
+    { id: 'few_deciding', label: "I have a few careers in mind but I'm still deciding." },
+    { id: 'exploring_many', label: "I'm exploring many different career options." },
+    { id: 'any_job', label: "I'm mainly focused on finding any job right now." },
+    { id: 'unsure_pursue', label: "I'm unsure what type of work I want to pursue." },
+    { id: 'not_thinking', label: "I'm not currently thinking about work or careers." },
     { id: 'not_sure', label: "I'm not sure." },
   ];
 

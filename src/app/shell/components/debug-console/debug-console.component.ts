@@ -1,19 +1,21 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 import { DebugLog } from '@app/shell/services/debug-log';
 
 /**
  * A small fixed debug console pinned to the bottom of the screen. Visible only
- * when HcclContextService.debugEnabled is true. Messages are appended via
- * HcclContextService.appendDebug(...) and the view always scrolls to the bottom.
+ * when HcclContextService.debugEnabled is true. Hidden on /public routes.
+ * Messages are appended via HcclContextService.appendDebug(...) and the view
+ * always scrolls to the bottom.
  */
 @Component({
   selector: 'app-debug-console',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <ng-container *ngIf="enabled">
+    <ng-container *ngIf="enabled && !onPublicRoute">
       <div class="debug-console" *ngIf="!hidden" [class.collapsed]="collapsed">
         <div class="debug-console-header">
           <span class="debug-console-title">
@@ -148,13 +150,17 @@ export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecke
   enabled = DebugLog.enabled;
   collapsed = false;
   hidden = false;
+  onPublicRoute = false;
   messages: string[] = [];
 
   private sub?: Subscription;
   private shouldScroll = false;
 
+  constructor(private readonly router: Router) {}
+
   ngOnInit(): void {
     this.enabled = DebugLog.enabled;
+    this.onPublicRoute = this.isPublicRoute(this.router.url);
     this.sub = DebugLog.messages$.subscribe((messages) => {
       this.messages = messages;
       this.shouldScroll = true;
@@ -164,6 +170,17 @@ export class DebugConsoleComponent implements OnInit, OnDestroy, AfterViewChecke
         this.enabled = enabled;
       }),
     );
+    this.sub.add(
+      this.router.events
+        .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+        .subscribe((event) => {
+          this.onPublicRoute = this.isPublicRoute(event.urlAfterRedirects);
+        }),
+    );
+  }
+
+  private isPublicRoute(url: string): boolean {
+    return url === '/public' || url.startsWith('/public/');
   }
 
   ngAfterViewChecked(): void {
