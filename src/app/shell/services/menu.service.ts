@@ -1804,8 +1804,8 @@ EA_DATA_INTEGRATIONS_CAREER_LADDER: {
   level: 2,
   label: 'Career Ladder',
   route: '/ecoadmin-dashboard/data-integrations/career-ladder',
-  componentPath: 'src/app/features/dash-ecoadmin/data-integrations/career-ladder-placeholder.component',
-  componentName: 'CareerLadderPlaceholderComponent',
+  componentPath: 'src/app/features/dash-ecoadmin/data-integrations/career-ladder-admin.component',
+  componentName: 'CareerLadderAdminComponent',
   icon: 'fas fa-layer-group',
 },
 
