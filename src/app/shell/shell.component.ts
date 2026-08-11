@@ -126,7 +126,7 @@ onHeaderAction(key: string): void {
   updateTree() {
     if (this.tree) {
       //alert("Tree updated:" + this.menuItems.length);
-      const openedIds = this.tree.getState().opened;
+      const openedIds = this.collectOpenedTreeIds();
 
       // Clear selection before rebuild — DHTMLX keeps selected ids across parse
       // when menu item ids are stable labels, which causes multi-highlight.
@@ -135,13 +135,59 @@ onHeaderAction(key: string): void {
       this.tree.data.removeAll();
       this.tree.data.parse(this.menuItems);
 
-      // Restore open state
-      if (Array.isArray(openedIds)) {
-        openedIds.forEach(id => this.tree.open(id));
+      // Restore previously open folders, then keep the active route path expanded
+      // (e.g. My Pursuits after creating a pursuit triggers a sidebar refresh).
+      const idsToOpen = new Set<string>(openedIds);
+      const currentUrl = (this._router.url || '').split('?')[0].split('#')[0];
+      const matchedId = this.findMenuItemIdByRoute(this.menuItems, currentUrl);
+      if (matchedId) {
+        this.findAncestorIds(this.menuItems, matchedId).forEach((id) => idsToOpen.add(id));
+        idsToOpen.add(matchedId);
       }
+      idsToOpen.forEach((id) => {
+        if (this.tree.data.exists(id)) {
+          this.tree.open(id);
+        }
+      });
 
       this.syncTreeSelectionToRoute();
     }
+  }
+
+  /** Normalize DHTMLX open-state into an id list (API shape varies by version). */
+  private collectOpenedTreeIds(): string[] {
+    try {
+      const state = this.tree?.getState?.() || {};
+      const raw = state.opened ?? state.open;
+      if (Array.isArray(raw)) {
+        return raw.filter((id): id is string => typeof id === 'string' && !!id);
+      }
+      if (raw && typeof raw === 'object') {
+        return Object.keys(raw).filter((id) => !!(raw as Record<string, unknown>)[id]);
+      }
+    } catch {
+      // ignore missing/unsupported getState
+    }
+    return [];
+  }
+
+  /** Ancestor folder ids from root down to (but not including) the target id. */
+  private findAncestorIds(items: any[], targetId: string, trail: string[] = []): string[] {
+    const walk = (nodes: any[], path: string[]): string[] | null => {
+      for (const item of nodes) {
+        if (item.id === targetId) {
+          return path;
+        }
+        if (item.items?.length) {
+          const found = walk(item.items, [...path, item.id]);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    };
+    return walk(items, trail) || [];
   }
 
   /** Rebuild sidebar from current context without navigating away. */
