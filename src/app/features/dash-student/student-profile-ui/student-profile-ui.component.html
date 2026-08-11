@@ -210,6 +210,31 @@
         </div>
       </ng-template>
     </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('invitations')"
+      (itemShow)="openAccordion('invitations')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-envelope-open-text me-2"></i>
+        6. Invitations
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <p class="text-muted mb-3">
+            Invitations you have received, including who invited you.
+          </p>
+
+          <app-hccluserinvite-list
+            *ngIf="inviteeProfileId"
+            [criteria]="getInviteCriteria()"
+            [showingSearchHeading]="false"
+            [showingGoButton]="false"
+            [showingAddButton]="false"
+            [showingIdCheckbox]="false">
+          </app-hccluserinvite-list>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
   </mdb-accordion>
 
   <app-contract-viewer-modal

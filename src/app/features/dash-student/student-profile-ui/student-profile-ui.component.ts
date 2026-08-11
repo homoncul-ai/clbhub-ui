@@ -10,6 +10,7 @@ import {
   HcclPersonGETData,
   HcclPersonPUTData,
   HcclService,
+  HcclUserInviteCriteria,
   MultiConsentRequestGETData,
   StudentProfileUIGETData,
 } from '@app/restsvc/hccl.service';
@@ -18,6 +19,7 @@ import { FamilyunitComponent } from '@app/components/_crud/hccluserprofile/famil
 import { StMdbAddrComponent } from '@app/components/_crud/st-mdb-addr/st-mdb-addr.component';
 import { FeedInputsUiComponent } from '@app/components/_crud/entry_crud/feedinputs-ui/feedinputs-ui.component';
 import { ContractViewerModalComponent } from '@app/components/_global/contract-section/contract-viewer-modal.component';
+import { HcclUserInviteListComponent } from '@app/components/_crud/hccluserinvite/hccluserinvite-list.component';
 
 /** Consent list item from findAllContracts (includes dateSigned). */
 type ProfileConsentItem = ConsentRequestGETData & {
@@ -39,6 +41,7 @@ type StudentProfileWithConsents = StudentProfileUIGETData & {
     StMdbAddrComponent,
     FeedInputsUiComponent,
     ContractViewerModalComponent,
+    HcclUserInviteListComponent,
   ],
   templateUrl: './student-profile-ui.component.html',
   styleUrl: './student-profile-ui.component.scss',
@@ -104,6 +107,22 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
 
   get hasConsents(): boolean {
     return this.consents.length > 0;
+  }
+
+  get inviteeProfileId(): string {
+    return (
+      (this.studentProfileUi.student?.id || '').trim() ||
+      (this.id || '').trim()
+    );
+  }
+
+  getInviteCriteria(): HcclUserInviteCriteria {
+    return {
+      inviteeId: this.inviteeProfileId,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+    };
   }
 
   formatConsentDate(dateSigned?: DateGETData | null): string {
