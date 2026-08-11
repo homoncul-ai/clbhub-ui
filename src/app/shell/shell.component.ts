@@ -196,7 +196,8 @@ onHeaderAction(key: string): void {
     if (!context) {
       return;
     }
-    const dashboardType = this._menuService.getDashboardTypeFromContext(context);
+    // Honor tour preview (e.g. ecoadmin running student onboard tour).
+    const dashboardType = this._menuService.resolveDashboardType(context);
     this._menuService.getMenuItemsAsyc(context, dashboardType).then((newRawMenu) => {
       this.menuItems = this.convertMenuItemsToTreeFormat(newRawMenu);
       this.updateTree();

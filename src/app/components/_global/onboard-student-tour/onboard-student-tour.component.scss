@@ -1,0 +1,37 @@
+/* TourGuide JS base CSS is global; dialog lives on document.body. */
+
+app-onboard-student-tour {
+  display: none;
+}
+
+.onboard-student-tour-dialog {
+  font-family: inherit;
+  box-shadow: 0 8px 28px rgba(26, 39, 54, 0.18);
+  max-width: min(340px, calc(100vw - 24px)) !important;
+}
+
+.onboard-student-tour-dialog--pinned {
+  position: fixed !important;
+  z-index: 10000 !important;
+  /* Inline left/top from pinDialogInViewport win; keep transform cleared. */
+  transform: none !important;
+  margin: 0 !important;
+}
+
+.onboard-student-tour-dialog .tg-dialog-title {
+  color: #1a2736;
+}
+
+.onboard-student-tour-dialog .tg-dialog-btn {
+  border-radius: 6px;
+}
+
+.onboard-student-tour-dialog .tg-dialog-btn:active {
+  color: #fff;
+  background: #1b84ff;
+  border-color: #1b84ff;
+}
+
+.onboard-student-tour-backdrop {
+  border-radius: 8px;
+}

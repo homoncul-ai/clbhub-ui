@@ -31,3 +31,6 @@ export type { MarkdownDialect, MarkdownMode } from './std-markdown-display/std-m
 
 // Entity UI component (polymorphic entity display)
 export { StdEntityUiComponent } from './std-entity-ui/std-entity-ui.component';
+
+// Product tours
+export { OnboardStudentTourComponent } from './onboard-student-tour/onboard-student-tour.component';

@@ -1,4 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
@@ -8,6 +9,7 @@ import {
   MultiConsentRequestGETData,
   PContractParticipantPUTData,
 } from '@app/restsvc/hccl.service';
+import { getStudentWelcomeTourUrl } from '@app/features/dash-ecoadmin/miscellaneous/tour-registry';
 import { Logger } from '@core/services';
 
 const ECOADMIN_PROFILE_TYPES = new Set(['ECOADMIN', 'EDU_ECOADMIN']);
@@ -23,6 +25,7 @@ const TEMP_FORCE_SHOW_WHEN_EMPTY = false;
 })
 export class ConsentGateService {
   private hcclService = inject(HcclService);
+  private router = inject(Router);
   private logger = new Logger('ConsentGateService');
 
   /** When true, the blocking consent modal should be visible. */
@@ -39,24 +42,30 @@ export class ConsentGateService {
 
   private lastCheckedProfileId: string | null = null;
 
+  /** Launch student welcome tour after consent modal closes (first login). */
+  private pendingWelcomeTour = false;
+
   /**
    * Called whenever an HCCLUserProfile becomes active (first resolve after login
    * or a later profile switch). Not keyed off Keycloak login itself.
    */
   onProfileActivated(context: HcclUserContextGETData | null): void {
     if (!context) {
+      this.pendingWelcomeTour = false;
       this.resetGateContent();
       return;
     }
 
     if (this.isPublicPath(window.location.pathname)) {
       this.logger.info('Skipping consent gate on public path');
+      this.pendingWelcomeTour = false;
       this.resetGateContent();
       return;
     }
 
     const profileId = (context.currentUserProfileId || '').trim();
     if (!profileId) {
+      this.pendingWelcomeTour = false;
       this.resetGateContent();
       return;
     }
@@ -70,6 +79,7 @@ export class ConsentGateService {
         profileType,
       });
       this.lastCheckedProfileId = profileId;
+      this.pendingWelcomeTour = false;
       this.resetGateContent();
       return;
     }
@@ -83,6 +93,7 @@ export class ConsentGateService {
     }
 
     this.lastCheckedProfileId = profileId;
+    this.pendingWelcomeTour = false;
     this.isChecking.set(true);
 
     this.hcclService.getAfterChangeUserProfileGETData().subscribe({
@@ -96,12 +107,22 @@ export class ConsentGateService {
           userProfileBirthMonthNotSet: result?.userProfileBirthMonthNotSet,
           userProfileId: result?.userProfile?.id,
           profileTypeCode: result?.userProfile?.profileTypeCode,
+          showingWelcomeMessage: result?.showingWelcomeMessage,
+          firstLogin: result?.firstLogin,
         });
 
         if (this.lastCheckedProfileId !== profileId) {
           return;
         }
         this.isChecking.set(false);
+
+        const resultProfileType = (
+          result?.userProfile?.profileTypeCode ||
+          profileType ||
+          ''
+        ).toUpperCase();
+        const wantsWelcomeTour =
+          !!result?.showingWelcomeMessage && resultProfileType === 'STUDENT';
 
         const consents = result?.consents || null;
         const contracts = consents?.contracts || [];
@@ -110,6 +131,7 @@ export class ConsentGateService {
             profileId,
             count: contracts.length,
           });
+          this.pendingWelcomeTour = wantsWelcomeTour;
           this.unsignedConsents.set(consents);
           this.isModalOpen.set(true);
         } else if (TEMP_FORCE_SHOW_WHEN_EMPTY) {
@@ -117,10 +139,14 @@ export class ConsentGateService {
           console.warn(
             '[ConsentGate] TEMP_FORCE_SHOW_WHEN_EMPTY: opening modal with no contracts (backend consents null/empty)',
           );
+          this.pendingWelcomeTour = wantsWelcomeTour;
           this.unsignedConsents.set(consents ?? { contracts: [] });
           this.isModalOpen.set(true);
         } else {
           this.resetGateContent();
+          if (wantsWelcomeTour) {
+            this.navigateToWelcomeTour();
+          }
         }
       },
       error: (err) => {
@@ -134,6 +160,7 @@ export class ConsentGateService {
           return;
         }
         this.isChecking.set(false);
+        this.pendingWelcomeTour = false;
         this.logger.error('Consent gate check failed; leaving app usable', err);
         this.resetGateContent();
       },
@@ -145,14 +172,15 @@ export class ConsentGateService {
     this.lastCheckedProfileId = null;
     this.isChecking.set(false);
     this.isSubmitting.set(false);
+    this.pendingWelcomeTour = false;
     this.resetGateContent();
   }
 
   /**
-   * TEMP: remove when real accept flow is fully trusted end-to-end.
+   * TEMP: remove when real consent accept flow is fully trusted end-to-end.
    */
   markConsentsAccepted(): void {
-    this.resetGateContent();
+    this.closeGateAndMaybeWelcome();
   }
 
   /**
@@ -169,7 +197,7 @@ export class ConsentGateService {
       console.warn(
         '[ConsentGate] Accept with no contracts — closing modal (temp empty-force path)',
       );
-      this.resetGateContent();
+      this.closeGateAndMaybeWelcome();
       return of(true);
     }
 
@@ -195,7 +223,7 @@ export class ConsentGateService {
       map((ok) => {
         this.isSubmitting.set(false);
         if (ok) {
-          this.resetGateContent();
+          this.closeGateAndMaybeWelcome();
         } else {
           console.warn('[ConsentGate] Accept failed for one or more participants');
         }
@@ -208,6 +236,26 @@ export class ConsentGateService {
         return of(false);
       }),
     );
+  }
+
+  private closeGateAndMaybeWelcome(): void {
+    const shouldWelcome = this.pendingWelcomeTour;
+    this.pendingWelcomeTour = false;
+    this.resetGateContent();
+    if (shouldWelcome) {
+      this.navigateToWelcomeTour();
+    }
+  }
+
+  private navigateToWelcomeTour(): void {
+    const target = getStudentWelcomeTourUrl();
+    const current = this.router.url || '';
+    if (current.includes('tour=onboard-student')) {
+      this.logger.info('Welcome tour already active in URL; skip redirect');
+      return;
+    }
+    this.logger.info('Navigating to student welcome tour', { target });
+    void this.router.navigateByUrl(target);
   }
 
   private signParticipant(participantId: string): Observable<boolean> {
