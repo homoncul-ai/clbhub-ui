@@ -110,7 +110,7 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label" for="workStatus">Which best describes the young person's current work status? <span class="text-muted fw-normal">(optional)</span></label>
+              <label class="form-label" for="workStatus">Which best describes your current work status? <span class="text-muted fw-normal">(optional)</span></label>
               <select id="workStatus" class="form-select" formControlName="workStatus">
                 <option value="">Select one</option>
                 <option *ngFor="let option of workStatusOptions" [value]="option.id">{{ option.label }}</option>
@@ -123,7 +123,7 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label" for="educationStatus">Which best describes the young person's current education status? <span class="text-muted fw-normal">(optional)</span></label>
+              <label class="form-label" for="educationStatus">Which best describes your current education status? <span class="text-muted fw-normal">(optional)</span></label>
               <select id="educationStatus" class="form-select" formControlName="educationStatus">
                 <option value="">Select one</option>
                 <option *ngFor="let option of educationStatusOptions" [value]="option.id">{{ option.label }}</option>
@@ -136,7 +136,7 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label" for="workGoals">Which best describes the young person's current work goals? <span class="text-muted fw-normal">(optional)</span></label>
+              <label class="form-label" for="workGoals">Which best describes your current work goals? <span class="text-muted fw-normal">(optional)</span></label>
               <select id="workGoals" class="form-select" formControlName="workGoals">
                 <option value="">Select one</option>
                 <option *ngFor="let option of workGoalsOptions" [value]="option.id">{{ option.label }}</option>
@@ -144,7 +144,7 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label" for="educationGoals">Which best describes the young person's current educational goals? <span class="text-muted fw-normal">(optional)</span></label>
+              <label class="form-label" for="educationGoals">Which best describes your current educational goals? <span class="text-muted fw-normal">(optional)</span></label>
               <select id="educationGoals" class="form-select" formControlName="educationGoals">
                 <option value="">Select one</option>
                 <option *ngFor="let option of educationGoalsOptions" [value]="option.id">{{ option.label }}</option>
