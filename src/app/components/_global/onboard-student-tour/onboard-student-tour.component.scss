@@ -8,14 +8,21 @@ app-onboard-student-tour {
   font-family: inherit;
   box-shadow: 0 8px 28px rgba(26, 39, 54, 0.18);
   max-width: min(340px, calc(100vw - 24px)) !important;
+  /* Hidden until pinDialogInViewport runs — avoids wrong-position flash. */
+  visibility: hidden;
+  opacity: 0;
 }
 
 .onboard-student-tour-dialog--pinned {
   position: fixed !important;
   z-index: 10000 !important;
-  /* Inline left/top from pinDialogInViewport win; keep transform cleared. */
   transform: none !important;
   margin: 0 !important;
+}
+
+.onboard-student-tour-dialog--ready {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .onboard-student-tour-dialog .tg-dialog-title {

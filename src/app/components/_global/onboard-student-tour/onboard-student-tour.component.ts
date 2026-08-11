@@ -218,19 +218,22 @@ export class OnboardStudentTourComponent implements OnInit, OnDestroy {
       finishLabel: 'Done',
     });
 
+    // Hide until pinned — prevents the buried-corner flash on step changes.
+    this.hideTourDialog(client);
+    this.wrapPositionUpdates(client);
+
     client.onFinish(() => {
       this.handleTourEnded();
     });
     client.onAfterExit(() => {
       this.handleTourEnded();
     });
+    client.onBeforeStepChange(() => {
+      this.hideTourDialog(client);
+    });
     client.onAfterStepChange(() => {
       this.ensureMenuStepVisible(client);
       this.pinDialogInViewport(client);
-      // Beat TourGuide's own position updates (scroll/resize listeners).
-      requestAnimationFrame(() => this.pinDialogInViewport(client));
-      setTimeout(() => this.pinDialogInViewport(client), 50);
-      setTimeout(() => this.pinDialogInViewport(client), 200);
     });
 
     this.client = client;
@@ -239,6 +242,7 @@ export class OnboardStudentTourComponent implements OnInit, OnDestroy {
       await client.start(tourKey);
       // TourGuide can paint an empty first dialog if DOM ids collide with a
       // previous instance; force a content refresh on step 0.
+      this.hideTourDialog(client);
       await client.refreshDialog();
       await client.visitStep(0);
       this.pinDialogInViewport(client);
@@ -251,6 +255,27 @@ export class OnboardStudentTourComponent implements OnInit, OnDestroy {
       this.finishing = false;
       this.endStudentMenuPreview();
     }
+  }
+
+  /** Keep TourGuide's own position updates from flashing the wrong spot. */
+  private wrapPositionUpdates(client: TourGuideClient): void {
+    const original = client.updatePositions.bind(client);
+    client.updatePositions = async () => {
+      this.hideTourDialog(client);
+      await original();
+      this.pinDialogInViewport(client);
+    };
+  }
+
+  private hideTourDialog(client: TourGuideClient): void {
+    const dialog = client.dialog;
+    if (!dialog) {
+      return;
+    }
+    dialog.classList.remove('onboard-student-tour-dialog--ready');
+    dialog.style.visibility = 'hidden';
+    dialog.style.opacity = '0';
+    dialog.style.pointerEvents = 'none';
   }
 
   /**
@@ -314,7 +339,11 @@ export class OnboardStudentTourComponent implements OnInit, OnDestroy {
       bottom: 'auto',
       transform: 'none',
       margin: '0',
+      visibility: 'visible',
+      opacity: '1',
+      pointerEvents: 'auto',
     });
+    dialog.classList.add('onboard-student-tour-dialog--ready');
 
     const arrow = dialog.querySelector('#tg-arrow') as HTMLElement | null;
     if (arrow) {
