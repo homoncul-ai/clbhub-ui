@@ -19,7 +19,7 @@ JSON and bean model for creating **CareerLadder** and **CareerLadderRung** conte
 | 4 | **PActionDetailRef** | A concrete thing you can sign up for and be evaluated on (entry + completion). Master/detail to **PLinkedQualifier**. Examples: babysit, work on a job site, complete a training program. |
 | 5 | **PLinkedQualifier** | Links a **PActionDetailRef** to a **QualifierRef**. Each goal has requirements / outcomes. |
 | 6 | **QualifierRef** | A requirement or qualification that can appear on a resume. Examples: GED, a certification, lift 50 lbs, town residency, Over18, merit badge. |
-| 7 | **QualifierTypeRef** | Type of qualifier: Education, Certification, Intrinsic, etc. |
+| 7 | **QualifierTypeRef** | Type of qualifier: Education, Certification, Intrinsic, Misc, etc. |
 
 ### PLinkedQualifier types
 
@@ -233,6 +233,110 @@ Maps to **CareerLadderRef** with ordered **CareerLadderRungRef** summaries and l
   ]
 }
 ```
+
+---
+
+## Setup to fulfill the narratives
+
+Catalog (reference) rows that must exist before the narratives below can run. Instance beans (`PActionGroupInstance`, `PActionDetailInstance`, `PLinkedQualifierInstance`, `PQualification`) are created at runtime by the narratives — they are not setup.
+
+Seed in this order: **QualifierTypeRef** → **QualifierRef** → **CareerLadderRef** → **CareerLadderRungRef** → **PActionGroupRef** → **PActionDetailRef** → **PLinkedQualifier** → optional **Experience** offerings.
+
+### Shared — QualifierTypeRef
+
+| Code | Used for |
+|------|----------|
+| `Education` | HS / GED |
+| `Certification` | CPR, CNA, HHA |
+| `Intrinsic` | Age, readiness (“likes working with people”) |
+| `Misc` | CORI / fingerprint and other miscellaneous requirements |
+
+### Shared — QualifierRef
+
+| Id | Name | Type | Narratives |
+|----|------|------|------------|
+| `ged-healthcare` | High School Diploma or GED / HiSET | Education | Rocco (already held); CNA requirement |
+| `over-18` | Over 18 | Intrinsic | Yvonne babysitting requirement (waivable for school-sponsored) |
+| `age-16-plus` | At least 16 | Intrinsic | CNA program age gate |
+| `likes-people` | Likes working with people | Intrinsic | Yvonne readiness (counselor-marked) |
+| `cpr-fa` | CPR & First Aid | Certification | Yvonne earns; Rocco needs before clinicals |
+| `ma-cna` | MA Certified Nursing Assistant (CNA) | Certification | Rocco earns on rung complete |
+| `hha-75hr` | Home Health Aide (HHA) Training — 75 hours | Certification | Optional HHA path |
+| `cori-fingerprint` | CORI + fingerprint background check | Misc | CNA placement / certification |
+
+### Shared — CareerLadderRef + CareerLadderRungRef
+
+**CareerLadderRef** `healthcare-aide` — Healthcare Aide (same ladder JSON as above).
+
+Ordered **CareerLadderRungRef**s (narratives exercise the first two; later rungs exist so “next rung” UI has a target):
+
+| Step | Slug | Short title |
+|------|------|-------------|
+| 1 | `home-health-aide` | HHA / PCA |
+| 2 | `cna` | CNA |
+| 3 | `lpn` | LPN |
+| 4 | `rn` | RN |
+| 5 | `nurse-leader` | Nurse Leader |
+
+### Yvonne setup — HHA / “try before you commit”
+
+**PActionGroupRef** on rung `home-health-aide`:
+
+| Code | Role |
+|------|------|
+| `hha-pca-explore` | Aspiration / plan template — explore HHA/PCA via small scored activities |
+
+**PActionDetailRef** under that group:
+
+| Code | Activity | Notes |
+|------|----------|-------|
+| `babysitting-companion` | Supervised babysitting / companion shift | Scoreable; sign-up creates **PActionDetailInstance** |
+| `first-aid-workshop` | Short first-aid / CPR workshop | Completing awards `cpr-fa` |
+
+**PLinkedQualifier** links:
+
+| Detail | Qualifier | Link type | Notes |
+|--------|-----------|-----------|-------|
+| `babysitting-companion` | `over-18` | Requirement | May be waived for school-sponsored babysitting |
+| `babysitting-companion` | `likes-people` | Requirement | Counselor marks readiness on instance |
+| `first-aid-workshop` | `cpr-fa` | Earned | Becomes **PQualification** when workshop completes |
+
+### Rocco setup — CNA climb
+
+**PActionGroupRef** on rung `cna`:
+
+| Code | Role |
+|------|------|
+| `become-ma-cna` | Plan template — DPH program → competency exam → MA Nurse Aide Registry |
+
+**PActionDetailRef** under that group:
+
+| Code | Activity | Notes |
+|------|----------|-------|
+| `dph-cna-program` | Enroll in MA DPH-approved Nurse Aide Training Program | Research / signup surface |
+| `ma-cna-competency-exam` | Pass MA Nurse Aide Competency Exam (written + skills) | |
+| `ma-nurse-aide-registry` | Listed on MA Nurse Aide Registry | Completing group signals rung done |
+| `bls-weekend-class` | Weekend BLS / CPR class | Surfaced when learner lacks `cpr-fa` |
+
+**PLinkedQualifier** links:
+
+| Detail | Qualifier | Link type | Notes |
+|--------|-----------|-----------|-------|
+| `dph-cna-program` | `ged-healthcare` | Requirement | Satisfied by Rocco’s existing **PQualification** |
+| `dph-cna-program` | `age-16-plus` | Requirement | Age gate |
+| `dph-cna-program` | `cpr-fa` | Requirement | Soft/hard gate; UI offers `bls-weekend-class` if missing |
+| `bls-weekend-class` | `cpr-fa` | Earned | Same qualifier Yvonne can earn |
+| `ma-cna-competency-exam` (+ registry) | `ma-cna` | Earned | Completing program + exam awards CNA |
+
+**Experience** (catalog offering used as source of Rocco’s pre-existing GED):
+
+| Code / label | Role |
+|--------------|------|
+| `ged-test-hhs-summer-2025` | “GED Test at HHS — summer 2025” — source Experience for Rocco’s `ged-healthcare` **PQualification** (notes, optional approver) |
+
+### Out of scope for setup
+
+Learner instances, scores, counselor readiness marks, group-instance completion, and “current rung” advancement — those are produced by the narratives.
 
 ---
 
