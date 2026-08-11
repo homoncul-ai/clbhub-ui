@@ -25764,6 +25764,82 @@
         }
       }
     },
+    "/hccl/realm/synchdata": {
+      "post": {
+        "tags": [
+          "/options"
+        ],
+        "summary": "Synchronize External Data.",
+        "operationId": "synchCareerLadders",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/SynchDataRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/SynchDataResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/reporting/pursuitreport": {
+      "post": {
+        "tags": [
+          "/reporting"
+        ],
+        "summary": "Pursuit report: career ladders vs number of people who chose each as their pursuit.",
+        "operationId": "pursuitReport",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PursuitStatsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PursuitStatsResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/resume/{id}/add-entries": {
       "post": {
         "summary": "Add resume entries to a resume",
@@ -29888,11 +29964,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "errorMessageAsString": {
-            "type": "string"
-          },
           "firstErrorMessage": {
             "$ref": "#/components/schemas/SimpleMessage"
+          },
+          "errorMessageAsString": {
+            "type": "string"
           }
         }
       },
@@ -58755,6 +58831,117 @@
           }
         }
       },
+      "SynchDataResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "careerLaddersCreated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "careerLaddersRefreshed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "careerLadderRungsCreated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "careerLadderRungsRefreshed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "qualifiersCreated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "qualifiersRefreshed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rungQualifierLinksCreated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rungQualifierLinksRefreshed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failed": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SynchDataRequest": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "synchingCareerLadders": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PChartGETData": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "chartType": {
+            "type": "string"
+          },
+          "slices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PChartSliceGETData"
+            }
+          }
+        }
+      },
+      "PChartSliceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "url": {
+            "type": "string"
+          },
+          "contextType": {
+            "type": "string"
+          }
+        }
+      },
+      "PursuitStatsResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PChartGETData"
+          }
+        }
+      },
+      "PursuitStatsRequest": {
+        "type": "object"
+      },
       "ResumeAddEntriesPOSTData": {
         "type": "object",
         "properties": {
@@ -59026,13 +59213,13 @@
               "type": "string"
             }
           },
+          "openState": {
+            "type": "boolean"
+          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
-            "type": "boolean"
-          },
-          "openState": {
             "type": "boolean"
           }
         }

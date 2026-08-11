@@ -5872,6 +5872,24 @@ export class HcclService extends RequestServiceCaller {
     return this.request<RealmInfoGETData>(request);
   }
 
+  synchCareerLadders(body: SynchDataRequest): Observable<SynchDataResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/realm/synchdata",
+      method: "POST",
+      body: body,
+    };
+    return this.request<SynchDataResponse>(request);
+  }
+
+  pursuitReport(body: PursuitStatsRequest): Observable<PursuitStatsResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/reporting/pursuitreport",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PursuitStatsResponse>(request);
+  }
+
   addResumeEntries(id: string, body: ResumeAddEntriesPOSTData): Observable<PersonalStatementResumeGETData> {
     const request: CommonServiceRequest = {
       url: "/hccl/resume/" + id + "/add-entries",
@@ -15064,6 +15082,47 @@ export interface RealmInfoGETData {
   mapRadiusMiles: number;
 }
 
+export interface SynchDataResponse {
+  messages?: SimpleMessageList;
+  careerLaddersCreated?: number;
+  careerLaddersRefreshed?: number;
+  careerLadderRungsCreated?: number;
+  careerLadderRungsRefreshed?: number;
+  qualifiersCreated?: number;
+  qualifiersRefreshed?: number;
+  rungQualifierLinksCreated?: number;
+  rungQualifierLinksRefreshed?: number;
+  failed?: number;
+}
+
+export interface SynchDataRequest {
+  messages?: SimpleMessageList;
+  synchingCareerLadders?: boolean;
+}
+
+export interface PChartGETData {
+  title?: string;
+  chartType?: string;
+  slices?: PChartSliceGETData[];
+}
+
+export interface PChartSliceGETData {
+  id?: string;
+  businessCode?: string;
+  label?: string;
+  value?: number;
+  url?: string;
+  contextType?: string;
+}
+
+export interface PursuitStatsResponse {
+  messages?: SimpleMessageList;
+  data?: PChartGETData;
+}
+
+export interface PursuitStatsRequest {
+}
+
 export interface ResumeAddEntriesPOSTData {
   entryIds?: string[];
 }
@@ -15152,9 +15211,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
+  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
-  openState?: boolean;
 }
 
 export interface EntityStateTransition {
