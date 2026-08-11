@@ -164,5 +164,58 @@
         </div>
       </ng-template>
     </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('consents')"
+      (itemShow)="openAccordion('consents')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-file-signature me-2"></i>
+        5. Consents
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <p class="text-muted mb-3">
+            Agreements associated with this profile.
+          </p>
+
+          <div *ngIf="!hasConsents" class="text-muted">
+            No agreements found for this profile.
+          </div>
+
+          <div *ngIf="hasConsents" class="table-responsive">
+            <table class="table align-middle consents-table mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Date signed</th>
+                  <th scope="col">Agreement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let consent of consents">
+                  <td>{{ consent.title || 'Untitled agreement' }}</td>
+                  <td>{{ formatConsentDate(consent.dateSigned) }}</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-link p-0"
+                      (click)="openConsent(consent)">
+                      View what you signed
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
   </mdb-accordion>
+
+  <app-contract-viewer-modal
+    *ngIf="activeConsent"
+    [title]="activeConsent.title || 'Agreement'"
+    [markdown]="activeConsent.mdContents || ''"
+    (close)="closeConsent()">
+  </app-contract-viewer-modal>
 </div>

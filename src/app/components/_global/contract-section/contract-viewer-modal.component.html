@@ -8,4 +8,10 @@
   <div class="modal-body">
     <app-std-markdown-display [markdown]="markdown || ''" [dialect]="'common'" [modeName]="'display'"></app-std-markdown-display>
   </div>
+
+  <footer class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Close
+    </button>
+  </footer>
 </section>
