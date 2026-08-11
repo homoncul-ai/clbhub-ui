@@ -6,6 +6,7 @@ import { CatalogSearchListComponent } from '@app/components/_crud/catalogentry/c
 import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry-ui/catalogentry-ui.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component';
 import { CatalogEntryCriteria } from '@app/restsvc/hccl.service';
+import { StudentResearchCareerLaddersComponent } from '../student-research-career-ladders/student-research-career-ladders.component';
 
 interface ResearchSection {
   key: string;
@@ -20,6 +21,7 @@ export const DEFAULT_STUDENT_RESEARCH_SECTIONS: ResearchSection[] = [
   { key: 'ecosystem', title: 'Ecosystem', icon: 'fas fa-globe', gradient: 'bg-gradient-info' },
   { key: 'catalog-search', title: 'Catalog Search', icon: 'fas fa-search', gradient: 'bg-gradient-teal' },
   { key: 'new-listings', title: 'New Listings', icon: 'fas fa-clipboard-list', gradient: 'bg-gradient-primary' },
+  { key: 'career-ladders', title: 'Career Ladders', icon: 'fas fa-layer-group', gradient: 'bg-gradient-career-ladders' },
 ];
 
 /** Sections used on the My Pursuits page (jobs / courses / careers). */
@@ -36,7 +38,14 @@ export type { ResearchSection };
 @Component({
   selector: 'app-student-research',
   standalone: true,
-  imports: [CommonModule, MdbAccordionModule, CatalogEntryListComponent, CatalogSearchListComponent, CatalogEntryUiComponent],
+  imports: [
+    CommonModule,
+    MdbAccordionModule,
+    CatalogEntryListComponent,
+    CatalogSearchListComponent,
+    CatalogEntryUiComponent,
+    StudentResearchCareerLaddersComponent,
+  ],
   template: `
     <div class="container-fluid">
       <div class="row">
@@ -74,29 +83,35 @@ export type { ResearchSection };
                 <span class="fw-bold">{{ section.title }}</span>
               </ng-template>
               <ng-template mdbAccordionItemBody>
-                <app-catalog-search-list
-                  *ngIf="section.key === 'catalog-search'; else standardCatalogEntryList"
-                  [criteria]="getCatalogEntryListCriteria(section.key)"
-                  [showingSearchHeading]="false"
-                  [showingGoButton]="false"
-                  [showingAddButton]="false"
-                  [showingIdCheckbox]="false"
-                  [onRowClickBehavior]="getCatalogEntryRowClickBehavior()">
-                </app-catalog-search-list>
-                <ng-template #standardCatalogEntryList>
-                  <app-catalogentry-list
+                <app-student-research-career-ladders
+                  *ngIf="section.key === 'career-ladders'; else catalogSectionContent">
+                </app-student-research-career-ladders>
+
+                <ng-template #catalogSectionContent>
+                  <app-catalog-search-list
+                    *ngIf="section.key === 'catalog-search'; else standardCatalogEntryList"
                     [criteria]="getCatalogEntryListCriteria(section.key)"
                     [showingSearchHeading]="false"
                     [showingGoButton]="false"
                     [showingAddButton]="false"
                     [showingIdCheckbox]="false"
                     [onRowClickBehavior]="getCatalogEntryRowClickBehavior()">
-                  </app-catalogentry-list>
-                </ng-template>
+                  </app-catalog-search-list>
+                  <ng-template #standardCatalogEntryList>
+                    <app-catalogentry-list
+                      [criteria]="getCatalogEntryListCriteria(section.key)"
+                      [showingSearchHeading]="false"
+                      [showingGoButton]="false"
+                      [showingAddButton]="false"
+                      [showingIdCheckbox]="false"
+                      [onRowClickBehavior]="getCatalogEntryRowClickBehavior()">
+                    </app-catalogentry-list>
+                  </ng-template>
 
-                <div #selectedEntry class="mt-3" *ngIf="selectedCatalogEntryId">
-                  <app-catalogentry-ui [catalogEntryId]="selectedCatalogEntryId"></app-catalogentry-ui>
-                </div>
+                  <div #selectedEntry class="mt-3" *ngIf="selectedCatalogEntryId">
+                    <app-catalogentry-ui [catalogEntryId]="selectedCatalogEntryId"></app-catalogentry-ui>
+                  </div>
+                </ng-template>
               </ng-template>
             </mdb-accordion-item>
           </mdb-accordion>
@@ -178,6 +193,9 @@ export type { ResearchSection };
     .bg-gradient-teal {
       background: linear-gradient(135deg, #3a8877 0%, #8db392 100%);
     }
+    .bg-gradient-career-ladders {
+      background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+    }
 
     .whats-new-label {
       font-size: 0.8125rem;
@@ -247,14 +265,14 @@ export class StudentResearchComponent {
 
     switch (sectionKey) {
       case 'state-of-ma':
-        // criteria.catalogTypeCodes = ['state-of-ma', 'online-course';
+        // criteria.catalogTypeCodes = ['state-of-ma', 'online-course'];
         // criteria.online = 1;
         return { ...base };
       case 'careers':
-        // criteria.catalogTypeCodes = ['career', 'career-ladder']';
+        // criteria.catalogTypeCodes = ['career', 'career-ladder'];
         return { ...base };
       case 'ecosystem':
-        // criteria.catalogTypeCodes = ['ecosystem', 'main', 'non-profit', 'business', 'school';
+        // criteria.catalogTypeCodes = ['ecosystem', 'main', 'non-profit', 'business', 'school'];
         return { ...base };
       case 'catalog-search':
         return { ...base };

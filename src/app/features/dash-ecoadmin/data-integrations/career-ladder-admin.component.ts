@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -36,6 +37,19 @@ interface RungFormModel {
   available: number;
 }
 
+/** Matches backend SynchDataResponse from POST /hccl/realm/synchdata */
+interface SynchDataResponse {
+  careerLaddersCreated?: number;
+  careerLaddersRefreshed?: number;
+  careerLadderRungsCreated?: number;
+  careerLadderRungsRefreshed?: number;
+  qualifiersCreated?: number;
+  qualifiersRefreshed?: number;
+  rungQualifierLinksCreated?: number;
+  rungQualifierLinksRefreshed?: number;
+  failed?: number;
+}
+
 @Component({
   selector: 'app-career-ladder-admin',
   standalone: true,
@@ -45,12 +59,16 @@ interface RungFormModel {
 })
 export class CareerLadderAdminComponent implements OnInit {
   private readonly hcclService = inject(HcclService);
+  private readonly http = inject(HttpClient);
 
   mode: EditorMode = 'list';
   loading = false;
+  syncing = false;
   saving = false;
   error: string | null = null;
   success: string | null = null;
+  /** Last sync debug summary shown in the UI for troubleshooting. */
+  syncDebug: string | null = null;
 
   searchText = '';
   ladders: CareerLadderRefGETData[] = [];
@@ -95,6 +113,134 @@ export class CareerLadderAdminComponent implements OnInit {
   clearSearch(): void {
     this.searchText = '';
     void this.loadLadders();
+  }
+
+  async syncFromLovable(): Promise<void> {
+    this.syncing = true;
+    this.error = null;
+    this.success = null;
+    this.syncDebug = null;
+
+    const baseUrl = this.hcclService.getBaseUrl();
+    const url = `${baseUrl}/hccl/realm/synchdata`;
+    const body = { synchingCareerLadders: true };
+    const startedAt = Date.now();
+
+    console.log('[CareerLadderAdmin] sync start', {
+      url,
+      baseUrl,
+      body,
+      startedAt: new Date(startedAt).toISOString(),
+    });
+
+    try {
+      // Use HttpClient directly so we avoid CommonRequestServiceCaller.retry(2)
+      // (a long sync should not be retried) and keep the raw HttpErrorResponse.
+      const response = await firstValueFrom(this.http.post<SynchDataResponse>(url, body));
+      const elapsedMs = Date.now() - startedAt;
+      console.log('[CareerLadderAdmin] sync success', { elapsedMs, response });
+
+      const created = response?.careerLaddersCreated ?? 0;
+      const refreshed = response?.careerLaddersRefreshed ?? 0;
+      const rungsCreated = response?.careerLadderRungsCreated ?? 0;
+      const rungsRefreshed = response?.careerLadderRungsRefreshed ?? 0;
+      const failed = response?.failed ?? 0;
+      this.success =
+        `Sync complete in ${Math.round(elapsedMs / 1000)}s: ladders created ${created}, refreshed ${refreshed}; ` +
+        `rungs created ${rungsCreated}, refreshed ${rungsRefreshed}` +
+        (failed ? `; failed ${failed}` : '');
+      this.syncDebug = `OK ${elapsedMs}ms @ ${url}`;
+      await this.loadLadders();
+    } catch (err: unknown) {
+      const elapsedMs = Date.now() - startedAt;
+      this.logSyncFailure(err, url, elapsedMs);
+      this.syncDebug = this.formatSyncDebug(err, url, elapsedMs);
+
+      // Browser/proxy often times out (HTTP 0) while the server keeps syncing.
+      // Reload and treat "we now have ladders" as success with a soft warning.
+      console.log('[CareerLadderAdmin] reloading ladders after sync transport failure');
+      await this.loadLadders();
+
+      if (this.ladders.length > 0 && err instanceof HttpErrorResponse && err.status === 0) {
+        this.error = null;
+        this.success =
+          `Sync appears to have completed on the server (found ${this.ladders.length} ladder(s)), ` +
+          `but the browser connection timed out after ${Math.round(elapsedMs / 1000)}s.`;
+        console.log('[CareerLadderAdmin] treating HTTP 0 as soft success after ladders loaded', {
+          ladderCount: this.ladders.length,
+        });
+      } else {
+        this.error = this.formatSyncError(err, elapsedMs);
+      }
+    } finally {
+      this.syncing = false;
+    }
+  }
+
+  private logSyncFailure(err: unknown, url: string, elapsedMs: number): void {
+    console.error('[CareerLadderAdmin] sync failed', { url, elapsedMs, err });
+    if (err instanceof HttpErrorResponse) {
+      console.error('[CareerLadderAdmin] HttpErrorResponse details', {
+        status: err.status,
+        statusText: err.statusText,
+        url: err.url,
+        name: err.name,
+        message: err.message,
+        ok: err.ok,
+        type: err.type,
+        errorType: err.error?.constructor?.name,
+        error: err.error,
+        headers: err.headers?.keys?.()?.map((k) => `${k}=${err.headers.get(k)}`),
+      });
+      if (err.status === 0) {
+        console.warn(
+          '[CareerLadderAdmin] HTTP 0 usually means the browser/proxy aborted the request ' +
+            '(gateway timeout, CORS, offline, or TLS). Elapsed ~' +
+            Math.round(elapsedMs / 1000) +
+            's — check gbs-qa gateway/proxy timeout and server logs for SynchLadderDataUtils.',
+        );
+      }
+    } else if (err instanceof Error) {
+      console.error('[CareerLadderAdmin] Error details', {
+        name: err.name,
+        message: err.message,
+        stack: err.stack,
+      });
+    }
+  }
+
+  private formatSyncError(err: unknown, elapsedMs: number): string {
+    const secs = Math.round(elapsedMs / 1000);
+    if (err instanceof HttpErrorResponse) {
+      if (err.status === 0) {
+        return (
+          `Sync aborted after ${secs}s (HTTP 0 / network). ` +
+          `Likely a gateway or proxy timeout while pulling from Lovable. ` +
+          `Check server logs for synchAllLadders; data may still have partially synced.`
+        );
+      }
+      return `Sync failed after ${secs}s (HTTP ${err.status} ${err.statusText || ''}). ${err.message}`;
+    }
+    if (err instanceof Error) {
+      return `Sync failed after ${secs}s: ${err.message}`;
+    }
+    return `Sync failed after ${secs}s.`;
+  }
+
+  private formatSyncDebug(err: unknown, url: string, elapsedMs: number): string {
+    if (err instanceof HttpErrorResponse) {
+      const errBody =
+        err.error instanceof ProgressEvent
+          ? `ProgressEvent(type=${err.error.type}, loaded=${err.error.loaded}, total=${err.error.total})`
+          : typeof err.error === 'string'
+            ? err.error
+            : JSON.stringify(err.error);
+      return `FAIL ${elapsedMs}ms status=${err.status} statusText=${err.statusText} url=${err.url || url} body=${errBody}`;
+    }
+    if (err instanceof Error) {
+      return `FAIL ${elapsedMs}ms ${err.name}: ${err.message} url=${url}`;
+    }
+    return `FAIL ${elapsedMs}ms url=${url} err=${String(err)}`;
   }
 
   startCreate(): void {

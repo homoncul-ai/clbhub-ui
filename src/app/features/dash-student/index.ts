@@ -9,4 +9,5 @@ export * from './student-research/student-research.component';
 export * from './student-research-careers/student-research-careers.component';
 export * from './student-research-orgs/student-research-orgs.component';
 export * from './student-research-items/student-research-items.component';
+export * from './student-research-career-ladders/student-research-career-ladders.component';
 export * from './student-profile-ui/student-profile-ui.component';

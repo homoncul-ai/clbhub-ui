@@ -9,10 +9,18 @@
           </p>
         </div>
         <div class="d-flex gap-2" *ngIf="mode === 'list'">
-          <button type="button" class="btn btn-outline-primary btn-sm" [disabled]="loading" (click)="loadLadders()">
+          <button
+            type="button"
+            class="btn btn-outline-success btn-sm"
+            [disabled]="loading || syncing"
+            (click)="syncFromLovable()">
+            <span *ngIf="syncing" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            {{ syncing ? 'Syncing…' : 'Sync from Lovable' }}
+          </button>
+          <button type="button" class="btn btn-outline-primary btn-sm" [disabled]="loading || syncing" (click)="loadLadders()">
             Refresh
           </button>
-          <button type="button" class="btn btn-primary btn-sm" [disabled]="loading" (click)="startCreate()">
+          <button type="button" class="btn btn-primary btn-sm" [disabled]="loading || syncing" (click)="startCreate()">
             Add ladder
           </button>
         </div>
@@ -25,7 +33,9 @@
 
       <div *ngIf="error" class="alert alert-warning">{{ error }}</div>
       <div *ngIf="success" class="alert alert-success">{{ success }}</div>
-      <div *ngIf="loading" class="alert alert-info mb-0">Loading...</div>
+      <div *ngIf="syncDebug" class="alert alert-secondary small font-monospace mb-3">{{ syncDebug }}</div>
+      <div *ngIf="syncing" class="alert alert-info">Syncing career ladders from the MA Career Ladders site…</div>
+      <div *ngIf="loading && !syncing" class="alert alert-info mb-0">Loading...</div>
 
       <!-- LIST -->
       <ng-container *ngIf="mode === 'list' && !loading">
