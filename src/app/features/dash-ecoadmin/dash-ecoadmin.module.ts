@@ -85,6 +85,8 @@ import { DiagnosticsComponent } from './miscellaneous/diagnostics.component';
 import { TourGuidesDashboardComponent } from './miscellaneous/tour-guides-dashboard.component';
 import { UserManagementListComponent } from './user-management/user-management-list.component';
 import { UserManagementDetailComponent } from './user-management/user-management-detail.component';
+import { PursuitsReportComponent } from './data-integrations/pursuits-report.component';
+import { CareerLadderAdminComponent } from './data-integrations/career-ladder-admin.component';
 
 const routes: Routes = [
   {
@@ -297,6 +299,10 @@ const routes: Routes = [
       // Miscellaneous routes
       { path: 'miscellaneous/tour-guides', component: TourGuidesDashboardComponent },
       { path: 'miscellaneous/diagnostics', component: DiagnosticsComponent },
+
+      // Data Integrations
+      { path: 'data-integrations/career-ladder', component: CareerLadderAdminComponent },
+      { path: 'data-integrations/pursuits', component: PursuitsReportComponent },
     ]
   }
 ];
@@ -382,7 +388,9 @@ const routes: Routes = [
     DiagnosticsComponent,
     TourGuidesDashboardComponent,
     UserManagementListComponent,
-    UserManagementDetailComponent
+    UserManagementDetailComponent,
+    PursuitsReportComponent,
+    CareerLadderAdminComponent,
   ]
 })
 export class DashEcoAdminModule { } 

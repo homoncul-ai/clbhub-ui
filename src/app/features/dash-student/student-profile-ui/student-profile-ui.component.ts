@@ -6,19 +6,43 @@ import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import {
   CatalogEntryFeedProfilePOSTData,
   CatalogEntryFeedProfilePUTData,
+  ConsentRequestGETData,
   HcclPersonGETData,
   HcclPersonPUTData,
   HcclService,
+  HcclUserInviteCriteria,
+  MultiConsentRequestGETData,
   StudentProfileUIGETData,
 } from '@app/restsvc/hccl.service';
+import { DateGETData } from '@app/restsvc/common-request-service.model';
 import { FamilyunitComponent } from '@app/components/_crud/hccluserprofile/familyunit-component';
 import { StMdbAddrComponent } from '@app/components/_crud/st-mdb-addr/st-mdb-addr.component';
 import { FeedInputsUiComponent } from '@app/components/_crud/entry_crud/feedinputs-ui/feedinputs-ui.component';
+import { ContractViewerModalComponent } from '@app/components/_global/contract-section/contract-viewer-modal.component';
+import { HcclUserInviteListComponent } from '@app/components/_crud/hccluserinvite/hccluserinvite-list.component';
+
+/** Consent list item from findAllContracts (includes dateSigned). */
+type ProfileConsentItem = ConsentRequestGETData & {
+  dateSigned?: DateGETData | null;
+};
+
+type StudentProfileWithConsents = StudentProfileUIGETData & {
+  consents?: MultiConsentRequestGETData & { contracts?: ProfileConsentItem[] };
+};
 
 @Component({
   selector: 'app-student-profile-ui',
   standalone: true,
-  imports: [CommonModule, FormsModule, MdbAccordionModule, FamilyunitComponent, StMdbAddrComponent, FeedInputsUiComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MdbAccordionModule,
+    FamilyunitComponent,
+    StMdbAddrComponent,
+    FeedInputsUiComponent,
+    ContractViewerModalComponent,
+    HcclUserInviteListComponent,
+  ],
   templateUrl: './student-profile-ui.component.html',
   styleUrl: './student-profile-ui.component.scss',
 })
@@ -41,9 +65,10 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
   feedSaveSuccess = '';
   feedSaving = false;
 
-  private studentProfileUi: StudentProfileUIGETData = {};
+  private studentProfileUi: StudentProfileWithConsents = {};
   personDraft: HcclPersonGETData = {};
   private personSnapshot: HcclPersonGETData = {};
+  activeConsent: ProfileConsentItem | null = null;
 
   useAddressForMatching = false;
 
@@ -65,7 +90,7 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
     return this.accordionId !== id;
   }
 
-  get studentProfile(): StudentProfileUIGETData {
+  get studentProfile(): StudentProfileWithConsents {
     return this.studentProfileUi;
   }
 
@@ -74,6 +99,45 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
     const last = (this.personDraft.lastName || '').trim();
     const fullName = [first, last].filter((part) => !!part).join(' ');
     return fullName ? `Personal Details for ${fullName}` : 'Personal Details';
+  }
+
+  get consents(): ProfileConsentItem[] {
+    return this.studentProfileUi.consents?.contracts || [];
+  }
+
+  get hasConsents(): boolean {
+    return this.consents.length > 0;
+  }
+
+  get inviteeProfileId(): string {
+    return (
+      (this.studentProfileUi.student?.id || '').trim() ||
+      (this.id || '').trim()
+    );
+  }
+
+  getInviteCriteria(): HcclUserInviteCriteria {
+    return {
+      inviteeId: this.inviteeProfileId,
+      pageNumber: 1,
+      pageSize: 50,
+      isPaging: true,
+    };
+  }
+
+  formatConsentDate(dateSigned?: DateGETData | null): string {
+    if (!dateSigned) {
+      return 'Not signed';
+    }
+    return dateSigned.formattedDateTime || dateSigned.formattedDate || 'Not signed';
+  }
+
+  openConsent(consent: ProfileConsentItem): void {
+    this.activeConsent = consent;
+  }
+
+  closeConsent(): void {
+    this.activeConsent = null;
   }
 
   get canSavePerson(): boolean {
@@ -332,7 +396,8 @@ export class StudentProfileUiComponent implements OnInit, OnChanges {
     this.hcclService.resolveStudentProfileData(resolvedId).subscribe({
       next: (data) => {
         this.loading = false;
-        this.studentProfileUi = data || {};
+        this.studentProfileUi = (data || {}) as StudentProfileWithConsents;
+        this.activeConsent = null;
         const person = data?.student?.theUser?.person || {};
         this.personDraft = this.clonePerson(person);
         this.personSnapshot = this.clonePerson(person);

@@ -12,9 +12,9 @@ import {
   CatalogEntryInterestGETData,
   MenuControlDataList
 } from '@app/restsvc/hccl.service';
+import { DateGETData } from '@app/restsvc/common-request-service.model';
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { FeedListingDetailsModalComponent } from './feed-listing-details-modal.component';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import {
   FeedDateRangeModalComponent,
   FeedDateRangeModalResult
@@ -54,7 +54,6 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
   private pageHeaderActionService = inject(PageHeaderActionService);
   private modalService = inject(MdbModalService);
   private hostElement = inject(ElementRef);
-  private detailsModalRef: MdbModalRef<FeedListingDetailsModalComponent> | null = null;
   private destroy$ = new Subject<void>();
 
   feedEntries: FeedEntryDisplayData[] = [];
@@ -100,14 +99,14 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
       const startMs = this.dateStart ? this.getStartOfDayMs(this.dateStart) : Number.NEGATIVE_INFINITY;
       const endMs = this.dateEnd ? this.getEndOfDayMs(this.dateEnd) : Number.POSITIVE_INFINITY;
       entries = entries.filter(entry => {
-        const entryMs = this.getDateCreatedMs(entry);
+        const entryMs = this.getEffectiveDateMs(entry);
         return entryMs >= startMs && entryMs <= endMs;
       });
     }
 
     entries.sort((a, b) => {
-      const aMs = this.getDateCreatedMs(a);
-      const bMs = this.getDateCreatedMs(b);
+      const aMs = this.getEffectiveDateMs(a);
+      const bMs = this.getEffectiveDateMs(b);
       return bMs - aMs;
     });
 
@@ -439,13 +438,17 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
     return (entry.feedEntry?.feedSubTypeCode || entry.catalogEntry?.catalogTypeCode || '').toLowerCase();
   }
 
-  private getDateCreatedMs(entry: FeedEntryDisplayData): number {
+  private getEffectiveDate(entry: FeedEntryDisplayData): DateGETData | undefined {
     return (
-      entry.dateCreated?.dateMilliseconds ??
-      entry.feedEntry?.dateCreated?.dateMilliseconds ??
-      entry.catalogEntry?.dateCreated?.dateMilliseconds ??
-      0
+      entry.catalogEntry?.dateListingStarts ??
+      entry.dateCreated ??
+      entry.feedEntry?.dateCreated ??
+      entry.catalogEntry?.dateCreated
     );
+  }
+
+  private getEffectiveDateMs(entry: FeedEntryDisplayData): number {
+    return this.getEffectiveDate(entry)?.dateMilliseconds ?? 0;
   }
 
   private getStartOfDayMs(dateValue: string): number {
@@ -518,25 +521,32 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
     );
   }
 
-  getDateCreatedLabel(entry: FeedEntryDisplayData): string | null {
-    const dateCreated =
+  getListingDateLabel(entry: FeedEntryDisplayData): string | null {
+    return this.formatDateLabel(entry.catalogEntry?.dateListingStarts);
+  }
+
+  getCreatedDateLabel(entry: FeedEntryDisplayData): string | null {
+    return this.formatDateLabel(
       entry.dateCreated ??
       entry.feedEntry?.dateCreated ??
-      entry.catalogEntry?.dateCreated;
+      entry.catalogEntry?.dateCreated
+    );
+  }
 
-    if (!dateCreated) {
+  private formatDateLabel(dateValue?: DateGETData | null): string | null {
+    if (!dateValue) {
       return null;
     }
 
-    if (dateCreated.formattedDate) {
-      return dateCreated.formattedDate;
+    if (dateValue.formattedDate) {
+      return dateValue.formattedDate;
     }
 
-    if (dateCreated.formattedDateTime) {
-      return dateCreated.formattedDateTime;
+    if (dateValue.formattedDateTime) {
+      return dateValue.formattedDateTime;
     }
 
-    const ms = dateCreated.dateMilliseconds;
+    const ms = dateValue.dateMilliseconds;
     if (ms) {
       return new Date(ms).toLocaleDateString(undefined, {
         month: 'short',
@@ -545,8 +555,8 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
       });
     }
 
-    if (dateCreated.date) {
-      return new Date(dateCreated.date).toLocaleDateString(undefined, {
+    if (dateValue.date) {
+      return new Date(dateValue.date).toLocaleDateString(undefined, {
         month: 'short',
         day: 'numeric',
         year: 'numeric'
@@ -572,20 +582,6 @@ export class DashStudentFeedComponent implements OnInit, OnDestroy {
       return this.buildAgeIcon('under18', ageRequired);
     }
     return this.buildAgeIcon('all_ages');
-  }
-
-  openDetails(entry: FeedEntryDisplayData): void {
-    this.detailsModalRef = this.modalService.open(FeedListingDetailsModalComponent, {
-      modalClass: 'modal-fullscreen',
-      data: {
-        feedEntry: entry.feedEntry,
-        feedInstance: entry
-      }
-    });
-  }
-
-  openMap(entry: FeedEntryDisplayData): void {
-    alert('Map view (coming soon)');
   }
 
   isLiked(entry: FeedEntryDisplayData): boolean {

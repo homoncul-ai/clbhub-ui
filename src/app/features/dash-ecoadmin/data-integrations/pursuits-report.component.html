@@ -1,0 +1,102 @@
+<main class="pursuits-report-page container py-4">
+  <section class="card border-0 shadow-sm">
+    <div class="card-body p-4 p-md-5">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+        <div>
+          <h1 class="h4 mb-2">Pursuits report</h1>
+          <p class="text-muted mb-0">
+            Selection counts by pursuit name (PersonalStatement / student_vocation).
+          </p>
+        </div>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm"
+          [disabled]="loading"
+          (click)="loadReport()">
+          Refresh
+        </button>
+      </div>
+
+      <div class="filters row g-3 align-items-end mb-4">
+        <div class="col-auto">
+          <div class="form-check mt-4">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="activeOnly"
+              [(ngModel)]="activeOnly" />
+            <label class="form-check-label" for="activeOnly">Active only</label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label" for="dateStart">Date start</label>
+          <input
+            id="dateStart"
+            type="date"
+            class="form-control form-control-sm"
+            [(ngModel)]="dateStart" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label" for="dateEnd">Date end</label>
+          <input
+            id="dateEnd"
+            type="date"
+            class="form-control form-control-sm"
+            [(ngModel)]="dateEnd" />
+        </div>
+        <div class="col-auto">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            [disabled]="loading"
+            (click)="applyFilters()">
+            Apply filters
+          </button>
+        </div>
+        <div class="col-auto">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm"
+            [disabled]="loading"
+            (click)="clearFilters()">
+            Clear filters
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="loading" class="alert alert-info mb-0">Loading pursuits...</div>
+      <div *ngIf="error && !loading" class="alert alert-warning mb-0">{{ error }}</div>
+
+      <ng-container *ngIf="!loading && !error">
+        <p class="text-muted small mb-3">
+          {{ rows.length }} pursuit name(s) · {{ totalSelections }} total selection(s)
+        </p>
+
+        <div *ngIf="!rows.length" class="alert alert-light border mb-0">
+          No pursuits found for the current filters.
+        </div>
+
+        <div *ngIf="rows.length" class="chart-container mb-4">
+          <canvas #pursuitsChart></canvas>
+        </div>
+
+        <div *ngIf="rows.length" class="table-responsive">
+          <table class="table table-sm table-striped align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col">Pursuit name</th>
+                <th scope="col" class="text-end">Selections</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of rows">
+                <td>{{ row.name }}</td>
+                <td class="text-end">{{ row.count }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+</main>

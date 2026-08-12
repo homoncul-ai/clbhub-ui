@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HcclService, PersonalStatementGETData, PersonalStatementCriteria, PersonalStatementPOSTData, PersonalStatementPUTData, CatalogEntryCriteria } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { MenuService } from '@app/shell/services/menu.service';
 import { firstValueFrom } from 'rxjs';
 import { DategetdataDisplayComponent } from "../../components/_global/dategetdata-display/dategetdata-display.component";
 import { AbstractListComponent } from '@app/components/_global';
@@ -342,6 +343,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
   constructor(
     private hcclService: HcclService,
     private hcclContextService: HcclContextService,
+    private menuService: MenuService,
     private router: Router
   ) {
     console.log('DashStudentCoursesComponent initialized');
@@ -495,7 +497,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
 
   onWizardComplete(): void {
     this.showWizard = false;
-    this.loadPersonalStatements();
+    this.loadPersonalStatements().then(() => this.menuService.requestMenuRefresh());
   }
 
   /**
@@ -574,7 +576,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
       next: () => {
         this.editing = false;
         this.closeEditModal();
-        this.loadPersonalStatements();
+        this.loadPersonalStatements().then(() => this.menuService.requestMenuRefresh());
       },
       error: (err) => {
         console.error('Error updating pursuit:', err);
@@ -603,7 +605,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
             if (this.selectedPursuit?.id === statement.id) {
               this.selectedPursuit = { ...this.selectedPursuit, status: putData.status };
             }
-            this.loadPersonalStatements();
+            this.loadPersonalStatements().then(() => this.menuService.requestMenuRefresh());
           },
           error: (err) => {
             console.error('Error updating pursuit visibility:', err);
@@ -699,7 +701,7 @@ export class DashStudentPersonalStatementsComponent implements OnInit {
         next: () => {
           this.creating = false;
           this.closeModal();
-          this.loadPersonalStatements();
+          this.loadPersonalStatements().then(() => this.menuService.requestMenuRefresh());
         },
         error: (err) => {
           console.error('Error creating personal statement:', err);

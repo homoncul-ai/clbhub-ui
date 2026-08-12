@@ -1,0 +1,281 @@
+<main class="career-ladder-admin container py-4">
+  <section class="card border-0 shadow-sm">
+    <div class="card-body p-4 p-md-5">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+        <div>
+          <h1 class="h4 mb-2">Career Ladder</h1>
+          <p class="text-muted mb-0">
+            Create and update career ladder templates and their rungs.
+          </p>
+        </div>
+        <div class="d-flex gap-2" *ngIf="mode === 'list'">
+          <button
+            type="button"
+            class="btn btn-outline-success btn-sm"
+            [disabled]="loading || syncing"
+            (click)="syncFromLovable()">
+            <span *ngIf="syncing" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            {{ syncing ? 'Syncing…' : 'Sync from Lovable' }}
+          </button>
+          <button type="button" class="btn btn-outline-primary btn-sm" [disabled]="loading || syncing" (click)="loadLadders()">
+            Refresh
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" [disabled]="loading || syncing" (click)="startCreate()">
+            Add ladder
+          </button>
+        </div>
+        <div class="d-flex gap-2" *ngIf="mode !== 'list'">
+          <button type="button" class="btn btn-outline-secondary btn-sm" [disabled]="saving" (click)="backToList()">
+            Back to list
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-warning">{{ error }}</div>
+      <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+      <div *ngIf="syncDebug" class="alert alert-secondary small font-monospace mb-3">{{ syncDebug }}</div>
+      <div *ngIf="syncing" class="alert alert-info">Syncing career ladders from the MA Career Ladders site…</div>
+      <div *ngIf="loading && !syncing" class="alert alert-info mb-0">Loading...</div>
+
+      <!-- LIST -->
+      <ng-container *ngIf="mode === 'list' && !loading">
+        <div class="row g-2 align-items-end mb-4">
+          <div class="col-md-6">
+            <label class="form-label" for="ladderSearch">Search</label>
+            <input
+              id="ladderSearch"
+              type="search"
+              class="form-control form-control-sm"
+              [(ngModel)]="searchText"
+              (keyup.enter)="applySearch()"
+              placeholder="Name or code" />
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-primary btn-sm" (click)="applySearch()">Search</button>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="clearSearch()">Clear</button>
+          </div>
+        </div>
+
+        <p class="text-muted small mb-3">{{ ladders.length }} ladder(s)</p>
+
+        <div *ngIf="!ladders.length" class="alert alert-light border mb-0">
+          No career ladders found.
+        </div>
+
+        <div *ngIf="ladders.length" class="table-responsive">
+          <table class="table table-sm table-striped align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Code</th>
+                <th scope="col">Tagline</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ladder of ladders">
+                <td>{{ ladder.name }}</td>
+                <td><code>{{ ladder.businessCode }}</code></td>
+                <td class="text-muted">{{ ladder.tagline || '—' }}</td>
+                <td>{{ availableLabel(ladder.available) }}</td>
+                <td class="text-end">
+                  <button type="button" class="btn btn-outline-primary btn-sm" (click)="startEdit(ladder)">
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+
+      <!-- CREATE / EDIT -->
+      <ng-container *ngIf="mode !== 'list' && !loading">
+        <h2 class="h5 mb-3">{{ mode === 'create' ? 'Create ladder' : 'Edit ladder' }}</h2>
+
+        <form class="ladder-form mb-4" (ngSubmit)="saveLadder()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="ladderName">Name</label>
+              <input id="ladderName" class="form-control form-control-sm" [(ngModel)]="form.name" name="name" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="ladderCode">Business code</label>
+              <input
+                id="ladderCode"
+                class="form-control form-control-sm"
+                [(ngModel)]="form.businessCode"
+                name="businessCode"
+                required />
+            </div>
+            <div class="col-md-8">
+              <label class="form-label" for="ladderTagline">Tagline</label>
+              <input id="ladderTagline" class="form-control form-control-sm" [(ngModel)]="form.tagline" name="tagline" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="ladderAvailable">Available</label>
+              <select id="ladderAvailable" class="form-select form-select-sm" [(ngModel)]="form.available" name="available">
+                <option [ngValue]="1">Available</option>
+                <option [ngValue]="2">Prototype</option>
+                <option [ngValue]="0">Unavailable</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="ladderDescription">Description</label>
+              <textarea
+                id="ladderDescription"
+                class="form-control form-control-sm"
+                rows="4"
+                [(ngModel)]="form.description"
+                name="description"></textarea>
+            </div>
+            <div class="col-12" *ngIf="selected?.externalUrl">
+              <label class="form-label">External URL</label>
+              <div>
+                <a [href]="selected?.externalUrl" target="_blank" rel="noopener noreferrer">{{ selected?.externalUrl }}</a>
+                <span class="text-muted small ms-2">(read-only from API)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <button type="submit" class="btn btn-primary btn-sm" [disabled]="saving">
+              {{ saving ? 'Saving...' : 'Save ladder' }}
+            </button>
+            <button
+              *ngIf="mode === 'edit'"
+              type="button"
+              class="btn btn-outline-danger btn-sm"
+              [disabled]="saving"
+              (click)="deleteLadder()">
+              Delete ladder
+            </button>
+          </div>
+        </form>
+
+        <!-- RUNGS (edit only) -->
+        <section *ngIf="mode === 'edit' && selected?.id" class="rungs-section border-top pt-4">
+          <h2 class="h5 mb-3">Rungs</h2>
+
+          <div *ngIf="!rungs.length" class="alert alert-light border mb-3">No rungs yet.</div>
+
+          <div *ngIf="rungs.length" class="table-responsive mb-4">
+            <table class="table table-sm table-striped align-middle mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Code</th>
+                  <th scope="col">Pay hint</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rung of rungs">
+                  <td>{{ rung.sequenceOrder }}</td>
+                  <td>{{ rung.title }}</td>
+                  <td><code>{{ rung.businessCode }}</code></td>
+                  <td class="text-muted">{{ rung.payHint || '—' }}</td>
+                  <td>{{ availableLabel(rung.available) }}</td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-outline-primary btn-sm me-1" (click)="startEditRung(rung)">
+                      Edit
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="deleteRung(rung)">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="h6 mb-3">{{ editingRungId ? 'Edit rung' : 'Add rung' }}</h3>
+          <form class="rung-form" (ngSubmit)="saveRung()">
+            <div class="row g-3">
+              <div class="col-md-2">
+                <label class="form-label" for="rungSeq">Order</label>
+                <input
+                  id="rungSeq"
+                  type="number"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="rungDraft.sequenceOrder"
+                  name="sequenceOrder"
+                  min="1"
+                  required />
+              </div>
+              <div class="col-md-5">
+                <label class="form-label" for="rungTitle">Title</label>
+                <input id="rungTitle" class="form-control form-control-sm" [(ngModel)]="rungDraft.title" name="rungTitle" required />
+              </div>
+              <div class="col-md-5">
+                <label class="form-label" for="rungCode">Business code</label>
+                <input
+                  id="rungCode"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="rungDraft.businessCode"
+                  name="rungBusinessCode"
+                  required />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="rungShort">Short title</label>
+                <input id="rungShort" class="form-control form-control-sm" [(ngModel)]="rungDraft.shortTitle" name="shortTitle" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="rungPay">Pay hint</label>
+                <input id="rungPay" class="form-control form-control-sm" [(ngModel)]="rungDraft.payHint" name="payHint" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="rungAvailable">Available</label>
+                <select
+                  id="rungAvailable"
+                  class="form-select form-select-sm"
+                  [(ngModel)]="rungDraft.available"
+                  name="rungAvailable">
+                  <option [ngValue]="1">Available</option>
+                  <option [ngValue]="2">Prototype</option>
+                  <option [ngValue]="0">Unavailable</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="rungOneLiner">One-liner</label>
+                <input id="rungOneLiner" class="form-control form-control-sm" [(ngModel)]="rungDraft.oneLiner" name="oneLiner" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="rungAge">Age note</label>
+                <input id="rungAge" class="form-control form-control-sm" [(ngModel)]="rungDraft.ageNote" name="ageNote" />
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="rungSummary">Summary</label>
+                <textarea
+                  id="rungSummary"
+                  class="form-control form-control-sm"
+                  rows="3"
+                  [(ngModel)]="rungDraft.summary"
+                  name="summary"></textarea>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <button type="submit" class="btn btn-primary btn-sm" [disabled]="saving">
+                {{ saving ? 'Saving...' : editingRungId ? 'Update rung' : 'Add rung' }}
+              </button>
+              <button
+                *ngIf="editingRungId"
+                type="button"
+                class="btn btn-outline-secondary btn-sm"
+                [disabled]="saving"
+                (click)="cancelRungEdit()">
+                Cancel rung edit
+              </button>
+            </div>
+          </form>
+        </section>
+      </ng-container>
+    </div>
+  </section>
+</main>

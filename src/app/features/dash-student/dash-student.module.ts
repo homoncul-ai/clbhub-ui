@@ -27,6 +27,7 @@ import { StudentResearchComponent } from './student-research/student-research.co
 import { StudentResearchCareersComponent } from './student-research-careers/student-research-careers.component';
 import { StudentResearchOrgsComponent } from './student-research-orgs/student-research-orgs.component';
 import { StudentResearchItemsComponent } from './student-research-items/student-research-items.component';
+import { StudentResearchCareerLaddersComponent } from './student-research-career-ladders/student-research-career-ladders.component';
 import { StudentResumeBuilderComponent } from './student-resumebuilder/student-resumebuilder.component';
 import { StudentPersonalStatementDetailsComponent } from './student-personalstatement-details.component';
 import { StdEntityUiComponent } from '@app/components/_global/std-entity-ui/std-entity-ui.component';
@@ -110,6 +111,15 @@ const routes: Routes = [
         path: 'research/items',
         component: StudentResearchItemsComponent,
         data: { pageTitle: 'Research Items', pageSubtitle: 'Explore listings and opportunities', pageIcon: 'fas fa-clipboard-list' }
+      },
+      {
+        path: 'research/career-ladders',
+        component: StudentResearchCareerLaddersComponent,
+        data: {
+          pageTitle: 'Career Ladders',
+          pageSubtitle: 'Explore Massachusetts career ladders',
+          pageIcon: 'fas fa-layer-group',
+        }
       },
       { path: 'research/:vocationEncodingRefId', redirectTo: 'research/careers/:vocationEncodingRefId', pathMatch: 'full' },
       {

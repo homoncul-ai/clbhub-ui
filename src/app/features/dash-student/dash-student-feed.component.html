@@ -113,9 +113,15 @@
               </button>
             </div>
 
-            <div class="feed-date-created" *ngIf="getDateCreatedLabel(entry) as dateCreated">
-              <span class="feed-date-created-label">Date created:</span>
-              <span>{{ dateCreated }}</span>
+            <div class="feed-dates">
+              <div class="feed-date-created" *ngIf="getListingDateLabel(entry) as listingDate">
+                <span class="feed-date-created-label">Listing date:</span>
+                <span>{{ listingDate }}</span>
+              </div>
+              <div class="feed-date-created" *ngIf="getCreatedDateLabel(entry) as createdDate">
+                <span class="feed-date-created-label">Date created:</span>
+                <span>{{ createdDate }}</span>
+              </div>
             </div>
 
             <a
@@ -142,14 +148,6 @@
                 [title]="isLiked(entry) ? 'Already liked' : 'Like'">
                 <i [class]="isLiked(entry) ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"></i>
                 <span>{{ isLiked(entry) ? 'Liked' : 'Like' }}</span>
-              </button>
-              <button class="action-btn action-btn-labeled" type="button" (click)="openMap(entry)" title="Map">
-                <i class="far fa-map"></i>
-                <span>Map</span>
-              </button>
-              <button class="action-btn action-btn-labeled" type="button" (click)="openDetails(entry)" title="View full listing details">
-                <i class="far fa-file-alt"></i>
-                <span>Details</span>
               </button>
 
               <div class="spacer"></div>
@@ -233,7 +231,7 @@
         </div>
 
         <div class="filter-section">
-          <label class="filter-section-label">Date Created</label>
+          <label class="filter-section-label">Date</label>
           <div class="filter-date-presets">
             <button
               type="button"
