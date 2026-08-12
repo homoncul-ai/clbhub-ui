@@ -12,7 +12,7 @@ import { CatalogEntryGroupComponent } from '@app/components/_crud/catalogentry/c
 import { CatalogEntryUiComponent } from '@app/components/_crud/catalogentry/catalogentry-ui.component';
 import { WorkRequestDeliverableUiComponent } from '@app/components/_crud/workrequestdeliverable-ui/workrequestdeliverable-ui.component';
 import { VocationEncodingDisplayComponent } from '@app/components/_crud/vocationencoding/vocationencoding-display.component';
-import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
+import { CitizenUiComponent } from '@app/components/_crud/hccluserprofile/citizen-ui.component';
 import { HcclOrganizationUiComponent } from '@app/components/_crud/hcclorganization-ui/hcclorganization-ui.component';
 
 /**
@@ -37,7 +37,7 @@ import { HcclOrganizationUiComponent } from '@app/components/_crud/hcclorganizat
     PMessageUiComponent,
     PmfilegroupUiComponent,
     StdBubfileComponent,
-    StudentUiComponent,
+    CitizenUiComponent,
     VocationEncodingDisplayComponent,
     WorkItemDeliverableGroupComponent,
     WorkRequestGroupUIComponent,

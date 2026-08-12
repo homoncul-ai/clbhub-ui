@@ -307,7 +307,7 @@ onHeaderAction(key: string): void {
           const routePath = route.split('?')[0].split('#')[0];
           const isExact = url === routePath;
           // Query-param menu links (e.g. tours) match path exactly only —
-          // avoid `/student-dashboard?...` prefix-matching all student routes.
+          // avoid `/citizen?...` prefix-matching all student routes.
           const isPrefix =
             !route.includes('?') &&
             url.startsWith(routePath.endsWith('/') ? routePath : routePath + '/');
@@ -589,7 +589,7 @@ onHeaderAction(key: string): void {
                               // currentUrl === '/broker-dashboard' ||
                               // currentUrl === '/service-provider-dashboard' ||
                               // currentUrl === '/ecoadmin-dashboard' ||
-                              // currentUrl === '/student-dashboard'
+                              // currentUrl === '/citizen'
                               ;
         
         if (shouldRedirect) {

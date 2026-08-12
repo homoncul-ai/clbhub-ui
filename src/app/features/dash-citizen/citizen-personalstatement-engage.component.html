@@ -1,0 +1,27 @@
+
+<app-catalogentryinterest-list 
+  *ngIf="showInterestList"
+  [criteria]="getInterestCriteria()" 
+  [showingGoButton]="false" 
+  [showingAddButton]="false" 
+  [showingIdCheckbox]="false" 
+  [showingDiagnostics]="false"
+  [showingSearch]="false" 
+  [showingSearchHeading]="false"
+  [selectedIdsCsv]="''"
+  [autoHeight]="true"
+  [maxRows]="20"
+  [onRowClickBehavior]="onInterestRowClickBehavior()"
+  [onFinishLoading]="onFinishLoadingBehavior()"
+  [onDeleteClickBehavior]="getInterestDeleteBehavior()">
+</app-catalogentryinterest-list>
+
+<div class="row" *ngIf="getSelectedInterestId() !== ''">
+  <div class="col-12">
+    <app-citizen-engage-interest 
+      [interestId]="getSelectedInterestId()"
+      (componentRequiresRefresh)="onChildComponentRefresh()">
+    </app-citizen-engage-interest> 
+  </div>
+</div>
+

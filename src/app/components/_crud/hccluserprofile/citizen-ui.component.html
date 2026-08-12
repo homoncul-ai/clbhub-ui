@@ -1,0 +1,213 @@
+<div class="citizen-ui">
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading citizen information...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!loading && !error && userProfileId" class="citizen-ui-content">
+
+    <div *ngIf="inviteActionError" class="alert alert-danger" role="alert">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{ inviteActionError }}
+    </div>
+
+    <mdb-accordion [multiple]="false">
+
+      <!-- Invitations -->
+      <mdb-accordion-item
+        *ngIf="hasOpenInvitations"
+        [collapsed]="isAccordionCollapsed('invitations')"
+        (itemShow)="openAccordion('invitations')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-envelope-open-text me-2"></i>
+          Invitations
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>From</th>
+                    <th>Type</th>
+                    <th>Subject</th>
+                    <th>Expires</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let invite of openInvites">
+                    <td>{{ getInviteFrom(invite) }}</td>
+                    <td>{{ getInviteType(invite) }}</td>
+                    <td>{{ getInviteSubject(invite) }}</td>
+                    <td>{{ getInviteExpires(invite) }}</td>
+                    <td>
+                      <span class="badge bg-info text-dark">{{ invite.currentStateCode }}</span>
+                    </td>
+                    <td class="text-end">
+                      <button
+                        type="button"
+                        class="btn btn-success btn-sm me-2"
+                        [disabled]="isInviteProcessing(invite)"
+                        (click)="handleInviteAction(invite, true)">
+                        <i class="fas fa-check me-1"></i>
+                        {{ isInviteProcessing(invite) ? 'Processing...' : 'Accept' }}
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        [disabled]="isInviteProcessing(invite)"
+                        (click)="handleInviteAction(invite, false)">
+                        <i class="fas fa-times me-1"></i>
+                        Reject
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <ng-container *ngIf="dashData">
+      <!-- Accordion 1: Student Information and Family Unit -->
+      <!-- <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('studentInfo')"
+        (itemShow)="openAccordion('studentInfo')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-user-graduate me-2"></i>
+          Citizen Information and Family Unit
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div class="mb-4" *ngIf="dashData.student?.id">
+              <h6 class="mb-2">Citizen</h6>
+              <app-hccluserprofile-crud [id]="dashData.student!.id" [modeName]="CRUD_MODES.SECTION"></app-hccluserprofile-crud>
+            </div>
+            <div *ngIf="dashData.family">
+              <h6 class="mb-2">Family Unit</h6>
+              <app-familyunit-component [familyUnitGETData]="dashData.family" [profileTypeCode]="dashData.profileTypeCode"></app-familyunit-component>
+            </div>
+            <div *ngIf="!dashData.family" class="text-muted">
+              No family information available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item> -->
+
+      <!-- Accordion 2: School and Advisory Team -->
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('schoolTeam')"
+        (itemShow)="openAccordion('schoolTeam')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-school me-2"></i>
+          School and Advisory Team
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div class="mb-4" *ngIf="dashData.school?.id">
+              <h6 class="mb-2">School</h6>
+              <app-hcclorganization-crud [id]="dashData.school!.id" [modeName]="CRUD_MODES.SECTION"></app-hcclorganization-crud>
+            </div>
+            <div *ngIf="dashData.guidanceTeam?.id">
+              <h6 class="mb-2">Guidance Team</h6>
+              <app-hcclteam-crud [id]="dashData.guidanceTeam!.id" [modeName]="CRUD_MODES.SECTION"></app-hcclteam-crud>
+            </div>
+            <div *ngIf="!dashData.school && !dashData.guidanceTeam" class="text-muted">
+              No school or guidance team information available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <!-- Accordion 3: Student Activity -->
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('studentActivity')"
+        (itemShow)="openAccordion('studentActivity')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-comments me-2"></i>
+          Citizen Advisory Team Messages
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <div *ngIf="dashData.advisoryTeamPMessageId">
+              <app-pmessage-ui [id]="dashData.advisoryTeamPMessageId"></app-pmessage-ui>
+            </div>
+            <div *ngIf="!dashData.advisoryTeamPMessageId" class="text-muted">
+              No advisory team activity available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <!-- Accordion 4: Student Personal Statements -->
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('personalStatements')"
+        (itemShow)="openAccordion('personalStatements')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-compass me-2"></i>
+          Citizen Personal Statements
+        </ng-template>
+        <ng-template mdbAccordionItemBody>
+          <div class="accordion-body-content">
+            <ng-container *ngFor="let ps of dashData.personalStatements || []">
+              <div *ngIf="ps?.id" class="mb-3">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">{{ ps?.name }}</h6>
+                    <span *ngIf="ps?.progress?.progressPercent != null" class="badge bg-primary">
+                      {{ ps?.progress?.progressPercent }}% complete
+                    </span>
+                  </div>
+                  <div class="card-body">
+                    <app-personalstatement-crud [id]="ps?.id ?? ''" [modeName]="CRUD_MODES.SECTION"></app-personalstatement-crud>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <div *ngIf="!dashData.personalStatements?.length" class="text-muted">
+              No personal statements available.
+            </div>
+          </div>
+        </ng-template>
+      </mdb-accordion-item>
+
+      <!-- Accordion 5: Student Work Requests -->
+      <mdb-accordion-item
+        [collapsed]="isAccordionCollapsed('workRequests')"
+        (itemShow)="openAccordion('workRequests')">
+        <ng-template mdbAccordionItemHeader>
+          <i class="fas fa-tasks me-2"></i>
+          Citizen Work Requests
+        </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <pre>{{getMyCitizenTicketsCriteria() | json}}</pre>
+          <app-workrequest-list [criteria]="getMyCitizenTicketsCriteria()" [showingSearchHeading]="false" 
+          [showingSearch]="false" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
+          [onRowClickBehavior]="onClickWorkRequestRow()"></app-workrequest-list>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+      </ng-container>
+    </mdb-accordion>
+  </div>
+
+  
+  <!-- No data state -->
+  <div *ngIf="!loading && !error && !dashData && userProfileId" class="alert alert-warning">
+    No citizen dashboard data found for this user profile.
+  </div>
+</div>

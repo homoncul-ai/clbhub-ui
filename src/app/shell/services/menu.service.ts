@@ -54,7 +54,7 @@ export class MenuService {
 
    * 
    */
-  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat'): string {
+  getRouteFromDashboardType(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'citizen' | 'swcat'): string {
     switch (dashboardType) {
       case 'advocate':
         return 'advocate-dashboard';
@@ -75,8 +75,8 @@ export class MenuService {
 
       case 'ecoadmin':
         return 'ecoadmin-dashboard';
-      case 'student':
-        return 'student-dashboard';
+      case 'citizen':
+        return 'citizen';
       case 'swcat':
         return 'swcat-dashboard';
 
@@ -88,7 +88,7 @@ export class MenuService {
     return '';
   }
 
-  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat' | null {
+  getDashboardTypeFromRoute(route: string): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'citizen' | 'swcat' | null {
     if (route.startsWith('/advocate-dashboard')) {
       return 'advocate';
     } else if (route.startsWith('/nonprofit-dashboard')) {
@@ -101,15 +101,15 @@ export class MenuService {
       return 'employee';
     } else if (route.startsWith('/ecoadmin-dashboard')) {
       return 'ecoadmin';
-    } else if (route.startsWith('/student-dashboard')) {
-      return 'student';
+    } else if (route.startsWith('/citizen')) {
+      return 'citizen';
     } else if (route.startsWith('/swcat-dashboard')) {
       return 'swcat';
     }
     return null;
   }
 
-  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat' {
+  public getDashboardTypeFromContext(context: any): 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'citizen' | 'swcat' {
     if (!context || !context.currentUserProfile) {
       console.log('No user profile in context, defaulting to advocate');
       return 'advocate';
@@ -152,7 +152,7 @@ export class MenuService {
         return 'parent';
 
       case 'STUDENT':
-        return 'student';
+        return 'citizen';
 
       case 'SWCAT':
         return 'swcat';
@@ -169,7 +169,7 @@ export class MenuService {
   /** Ecoadmin recent surveys for sidebar; null = not loaded (use static fallback). */
   private surveySidebarItems: SurveyRegistryEntry[] | null = null;
   
-  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat'): Promise<MenuItem[]> { 
+  async getMenuItemsAsyc(context: HcclUserContextGETData, dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'citizen' | 'swcat'): Promise<MenuItem[]> { 
     switch (dashboardType) {
       case 'service-provider':
         const workQueueCriteria = {
@@ -194,7 +194,7 @@ export class MenuService {
         const catalogs = catalogRsp?.searchResults as CatalogGETData[] || [];
         this.catalogs = catalogs;
         break;
-      case 'student':
+      case 'citizen':
         // Fetch personal statements for the current user profile
         const personalStatementCriteria: PersonalStatementCriteria = {
           parentEntityId: context.currentUserProfileId,
@@ -230,7 +230,7 @@ export class MenuService {
   }
 
 
-  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'student' | 'swcat'): MenuItem[] {
+  getMenuItems(dashboardType: 'advocate' | 'nonprofit' | 'parent' | 'service-provider' | 'employee' | 'ecoadmin' | 'citizen' | 'swcat'): MenuItem[] {
     switch (dashboardType) {
       case 'advocate':
           return this.buildAdvocateMenu();
@@ -244,8 +244,8 @@ export class MenuService {
         return this.buildEmployeeMenu();
       case 'ecoadmin':
         return this.buildEcoAdminMenu();
-      case 'student':
-        return this.buildStudentMenu();
+      case 'citizen':
+        return this.buildCitizenMenu();
       case 'swcat':
         return this.buildSwcatMenu();
       default:
@@ -611,7 +611,7 @@ export class MenuService {
    * Builds the student menu dynamically using the constants and helper methods
    * @returns Array of MenuItem objects for the student dashboard
    */
-  buildStudentMenu(): MenuItem[] {
+  buildCitizenMenu(): MenuItem[] {
     const menu: MenuItem[] = [];
     
     // Add Dashboard with children
@@ -647,9 +647,9 @@ export class MenuService {
           id: `${ps.id}`,
           level: 1,
           label: ps.name || 'Unnamed Career Goal',
-          route: `/student-dashboard/personalstatements/${ps.id}`,
-          componentPath: 'src/app/features/dash-student',
-          componentName: 'student-personalstatement-group',
+          route: `/citizen/personalstatements/${ps.id}`,
+          componentPath: 'src/app/features/dash-citizen',
+          componentName: 'citizen-personalstatement-group',
           icon: 'fas fa-bullseye'
         };
         this.addChildMenuItem(courses, psMenuItem);
@@ -657,18 +657,18 @@ export class MenuService {
         var catalogs = this.copyMenuItem(MENU_CONSTANTS.STUDENT_CATALOG);
         catalogs.id = `${ps.id}_CATALOG`;
         catalogs.level = 2
-        catalogs.route = `/student-dashboard/personalstatements/${ps.id}/search`;
+        catalogs.route = `/citizen/personalstatements/${ps.id}/search`;
         this.addChildMenuItem(psMenuItem, catalogs);
         
         var engage = this.copyMenuItem(MENU_CONSTANTS.STUDENT_ENGAGE);
         engage.id = `${ps.id}_ENGAGE`;
         engage.level = 2
-        engage.route = `/student-dashboard/personalstatements/${ps.id}/engage`;
+        engage.route = `/citizen/personalstatements/${ps.id}/engage`;
         this.addChildMenuItem(psMenuItem, engage);
 
         // var messages = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
         // messages.level = 2
-        // messages.route = `/student-dashboard/personalstatements/${ps.id}/messages`;
+        // messages.route = `/citizen/personalstatements/${ps.id}/messages`;
         // this.addChildMenuItem(psMenuItem, messages);
       }
     }
@@ -691,7 +691,7 @@ export class MenuService {
     // My Communications is intentionally hidden for now; keep constant/route for future re-enable.
     // const m2 = this.copyMenuItem(MENU_CONSTANTS.STUDENT_MESSAGES);
     // m2.level = 1;
-    // m2.route = `/student-dashboard/messages`;
+    // m2.route = `/citizen/messages`;
     // this.addMenuItem(menu, m2);
 
     // Add Research (child screens Careers/Orgs/Items intentionally hidden for now).
@@ -1894,145 +1894,145 @@ EA_ORGNONPROFITS_LIST: {
   STUDENT_DASHBOARD: {
     level: 1,
     label: 'My Dashboard',
-    route: '/student-dashboard/home',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-home',
+    route: '/citizen/home',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-home',
     icon: 'fas fa-tachometer-alt'
   },
   STUDENT_PROFILE: {
     level: 1,
     label: 'My Profile',
-    route: '/student-dashboard/profile',
-    componentPath: 'src/app/features/dash-student/student-profile-ui',
-    componentName: 'student-profile-ui',
+    route: '/citizen/profile',
+    componentPath: 'src/app/features/dash-citizen/citizen-profile-ui',
+    componentName: 'citizen-profile-ui',
     icon: 'fas fa-user'
   },
   STUDENT_PERSONALSTATEMENTS: {
     level: 1,
     label: 'My Pursuits',
-    route: '/student-dashboard/personalstatements',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-personalstatements',
+    route: '/citizen/personalstatements',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-personalstatements',
     icon: 'fas fa-book'
   },
   STUDENT_PROGRESS: {
     level: 1,
     label: 'Progress',
-    route: '/student-dashboard/progress',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-progress',
+    route: '/citizen/progress',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-progress',
     icon: 'fas fa-chart-line'
   },
   STUDENT_GUIDANCE: {
     level: 1,
     label: 'Guidance & Support',
-    route: '/student-dashboard/guidance',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-guidance',
+    route: '/citizen/guidance',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-guidance',
     icon: 'fas fa-life-ring'
   },
   STUDENT_RESEARCH: {
     level: 1,
     label: 'Research',
-    route: '/student-dashboard/research',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'student-research',
+    route: '/citizen/research',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'citizen-research',
     icon: 'fas fa-search'
   },
   STUDENT_RESEARCH_CAREERS: {
     level: 2,
     label: 'Research Careers',
-    route: '/student-dashboard/research/careers',
-    componentPath: 'src/app/features/dash-student/student-research-careers',
-    componentName: 'student-research-careers',
+    route: '/citizen/research/careers',
+    componentPath: 'src/app/features/dash-citizen/citizen-research-careers',
+    componentName: 'citizen-research-careers',
     icon: 'fas fa-search'
   },
   STUDENT_RESEARCH_ORGS: {
     level: 2,
     label: 'Research Orgs',
-    route: '/student-dashboard/research/orgs',
-    componentPath: 'src/app/features/dash-student/student-research-orgs',
-    componentName: 'student-research-orgs',
+    route: '/citizen/research/orgs',
+    componentPath: 'src/app/features/dash-citizen/citizen-research-orgs',
+    componentName: 'citizen-research-orgs',
     icon: 'fas fa-building'
   },
   STUDENT_RESEARCH_ITEMS: {
     level: 2,
     label: 'Research Items',
-    route: '/student-dashboard/research/items',
-    componentPath: 'src/app/features/dash-student/student-research-items',
-    componentName: 'student-research-items',
+    route: '/citizen/research/items',
+    componentPath: 'src/app/features/dash-citizen/citizen-research-items',
+    componentName: 'citizen-research-items',
     icon: 'fas fa-search'
   },
   STUDENT_RESUME_BUILDER: {
     level: 1,
     label: 'Resume Builder',
-    route: '/student-dashboard/resumebuilder',
-    componentPath: 'src/app/features/dash-student/student-resumebuilder',
-    componentName: 'student-resumebuilder',
+    route: '/citizen/resumebuilder',
+    componentPath: 'src/app/features/dash-citizen/citizen-resumebuilder',
+    componentName: 'citizen-resumebuilder',
     icon: 'fas fa-file-alt'
   },
   STUDENT_ENGAGE: {
     level: 1,
     label: 'Engage',
-    route: '/student-dashboard/engage',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-engage',
+    route: '/citizen/engage',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-engage',
     icon: 'fas fa-envelope'
   },
   STUDENT_MESSAGES: {
     level: 1,
     label: 'My Communications',
-    route: '/student-dashboard/messages',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-messages',
+    route: '/citizen/messages',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-messages',
     icon: 'fas fa-envelope'
   },
   STUDENT_MY_ORGANIZATIONS: {
     level: 1,
     label: 'My Organizations',
-    route: '/student-dashboard/my-organizations',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-my-organizations',
+    route: '/citizen/my-organizations',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-my-organizations',
     icon: 'fas fa-building'
   },
   STUDENT_CALENDAR: {
     level: 1,
     label: 'My Calendar',
-    route: '/student-dashboard/calendar',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-calendar',
+    route: '/citizen/calendar',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-calendar',
     icon: 'fas fa-calendar-alt'
   },
   STUDENT_FEED: {
     level: 1,
     label: 'My Feed',
-    route: '/student-dashboard/feed',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-feed',
+    route: '/citizen/feed',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-feed',
     icon: 'fas fa-stream'
   },
   STUDENT_PARTICIPATION: {
     level: 1,
     label: 'My Participation',
-    route: '/student-dashboard/participation',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-my-participation',
+    route: '/citizen/participation',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-my-participation',
     icon: 'fas fa-people-group'
   },
   STUDENT_COHORTS: {
     level: 1,
     label: 'Cohorts',
-    route: '/student-dashboard/cohorts',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-cohorts',
+    route: '/citizen/cohorts',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-cohorts',
     icon: 'fas fa-users'
   },
   STUDENT_INTERESTS: {
     level: 1,
     label: 'Interests',
-    route: '/student-dashboard/interests',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-interests',
+    route: '/citizen/interests',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-interests',
     icon: ''
   },
 
@@ -2040,23 +2040,23 @@ EA_ORGNONPROFITS_LIST: {
 STUDENT_CATALOG: {
   "level" : 2,
   "label" : "Catalog Search",
-  "route" : "/student-dashboard/catalogs",
-  "componentPath" : "src/app/features/dash-studentt",
-  "componentName" : "dash-student-catalog",
+  "route" : "/citizen/catalogs",
+  "componentPath" : "src/app/features/dash-citizen",
+  "componentName" : "dash-citizen-catalog",
   "icon" : "fas fa-list"
 },
   STUDENT_SCHEDULE: {
     level: 1,
     label: 'Schedule',
-    route: '/student-dashboard/schedule',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-schedule',
+    route: '/citizen/schedule',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-schedule',
     icon: 'fas fa-calendar'
   },
   STUDENT_UISTARTER: {
     level: 1,
     label: 'UI Starter',
-    route: '/student-dashboard/uistarter',
+    route: '/citizen/uistarter',
     componentPath: 'src/app/views/uistarter',
     componentName: 'uistarter-home',
     icon: 'fas fa-palette'
@@ -2064,17 +2064,17 @@ STUDENT_CATALOG: {
   STUDENT_RESUMES: {
     level: 1,
     label: 'Resumes',
-    route: '/student-dashboard/resumes',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'dash-student-resumes',
+    route: '/citizen/resumes',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'dash-citizen-resumes',
     icon: 'fas fa-file-alt'
   },
   STUDENT_RESUME_ENTRIES: {
     level: 2,
     label: 'Resume Entries',
-    route: '/student-dashboard/resumeentries',
-    componentPath: 'src/app/features/dash-student',
-    componentName: 'student-resumeentry-group',
+    route: '/citizen/resumeentries',
+    componentPath: 'src/app/features/dash-citizen',
+    componentName: 'citizen-resumeentry-group',
     icon: 'fas fa-list'
   },
 

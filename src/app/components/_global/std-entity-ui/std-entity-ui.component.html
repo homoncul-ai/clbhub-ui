@@ -23,7 +23,7 @@
     <app-pmfilegroup-ui [id]="entityId" [readonly]="readonly"></app-pmfilegroup-ui>
 </div>
 <div *ngIf="entityType === 'studentui' || entityType === 'studentmonitoring'">
-  <app-student-ui [userProfileId]="entityId"></app-student-ui>
+  <app-citizen-ui [userProfileId]="entityId"></app-citizen-ui>
 </div>
 <div *ngIf="entityType === 'vocationencoding'">
   <app-vocationencoding-display [id]="entityId" ></app-vocationencoding-display>

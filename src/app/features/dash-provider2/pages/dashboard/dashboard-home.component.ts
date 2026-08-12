@@ -114,7 +114,7 @@ import { CatalogGETData, WorkRequestDashboardUIGETData, EntityStateStatGETData }
                 <i class="fas fa-book pd-empty-state__icon"></i>
                 <h3 class="pd-empty-state__title">No Catalogs</h3>
                 <p class="pd-empty-state__description">
-                  Create your first catalog to start offering opportunities to students.
+                  Create your first catalog to start offering opportunities to citizens.
                 </p>
                 <a routerLink="../catalogs" class="pd-btn pd-btn--primary">
                   <i class="fas fa-plus"></i>

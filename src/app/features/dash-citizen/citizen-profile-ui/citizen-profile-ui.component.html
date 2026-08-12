@@ -1,0 +1,246 @@
+<div class="citizen-profile-ui">
+  <div *ngIf="loading" class="alert alert-info mb-3">Loading citizen profile...</div>
+  <div *ngIf="error && !loading" class="alert alert-danger mb-3">{{ error }}</div>
+
+  <mdb-accordion *ngIf="!loading && !error" [multiple]="false">
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('personal')"
+      (itemShow)="openAccordion('personal')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-user me-2"></i>
+        1. {{ personalSectionTitle }}
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">First Name</label>
+              <input
+                class="form-control"
+                [(ngModel)]="personDraft.firstName"
+                name="personFirstName" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Last Name</label>
+              <input
+                class="form-control"
+                [(ngModel)]="personDraft.lastName"
+                name="personLastName" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Message Handle</label>
+              <input
+                class="form-control"
+                [(ngModel)]="personDraft.messageHandle"
+                name="personMessageHandle" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                [(ngModel)]="personDraft.userEmail"
+                name="personUserEmail" />
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button
+                class="btn btn-primary"
+                (click)="onSavePersonalDetails()"
+                [disabled]="saving || !canSavePerson">
+                <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
+                {{ saving ? 'Saving...' : 'Save' }}
+              </button>
+              <button
+                class="btn btn-outline-secondary"
+                (click)="onResetPersonalDetails()"
+                [disabled]="saving">
+                Reset
+              </button>
+            </div>
+            <div *ngIf="saveError" class="col-12">
+              <div class="alert alert-danger mb-0">{{ saveError }}</div>
+            </div>
+            <div *ngIf="saveSuccess" class="col-12">
+              <div class="alert alert-success mb-0">{{ saveSuccess }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('family')"
+      (itemShow)="openAccordion('family')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-users me-2"></i>
+        2. Family
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <app-familyunit-component
+            [familyUnitGETData]="citizenProfile.family"
+            [profileTypeCode]="citizenProfile.profileTypeCode">
+          </app-familyunit-component>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('address')"
+      (itemShow)="openAccordion('address')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-location-dot me-2"></i>
+        3. Address 
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <div class="text-muted mb-2" *ngIf="!personDraft.hcclAddrId">
+            Enter your address to enable matching. Your address is not required.
+          </div>
+
+          <div class="mt-3">
+            <app-st-mdb-addr
+              [id]="personDraft.hcclAddrId || null"
+              [parentEntityType]="'person'"
+              [parentEntityId]="personDraft.id || null"
+              [readonly]="false"
+              (addrCreated)="onAddressCreated($event)"
+              [title]="'Address'">
+            </app-st-mdb-addr>
+          </div>
+
+          <div class="mt-3" *ngIf="personDraft.hcclAddrId">
+            <button
+              class="btn btn-outline-danger"
+              type="button"
+              (click)="onDeleteMyAddress()"
+              [disabled]="deletingAddress">
+              <span *ngIf="deletingAddress" class="spinner-border spinner-border-sm me-2"></span>
+              {{ deletingAddress ? 'Deleting...' : 'Delete my address' }}
+            </button>
+          </div>
+
+          <div *ngIf="saveaddressError" class="alert alert-danger mt-3 mb-0">
+            {{ saveaddressError }}
+          </div>
+          <div *ngIf="saveaddress" class="alert alert-success mt-3 mb-0">
+            {{ saveaddress }}
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('feed')"
+      (itemShow)="openAccordion('feed')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-sliders me-2"></i>
+        4. Control your content feed
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <p class="text-muted">
+            Setup the following options to controle your feed of information.
+          </p>
+          <app-feedinputs-ui
+            [catalogEntryFeedProfile]="citizenProfile.feedProfile"
+            [readonly]="false">
+          </app-feedinputs-ui>
+          <div class="d-flex gap-2 mt-3">
+            <button
+              class="btn btn-primary"
+              (click)="onSaveFeedSettings()"
+              [disabled]="feedSaving">
+              <span *ngIf="feedSaving" class="spinner-border spinner-border-sm me-2"></span>
+              {{ feedSaving ? 'Saving...' : 'Save Feed Settings' }}
+            </button>
+          </div>
+          <div *ngIf="feedSaveError" class="alert alert-danger mt-3 mb-0">
+            {{ feedSaveError }}
+          </div>
+          <div *ngIf="feedSaveSuccess" class="alert alert-success mt-3 mb-0">
+            {{ feedSaveSuccess }}
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('consents')"
+      (itemShow)="openAccordion('consents')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-file-signature me-2"></i>
+        5. Consents
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <p class="text-muted mb-3">
+            Agreements associated with this profile.
+          </p>
+
+          <div *ngIf="!hasConsents" class="text-muted">
+            No agreements found for this profile.
+          </div>
+
+          <div *ngIf="hasConsents" class="table-responsive">
+            <table class="table align-middle consents-table mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Date signed</th>
+                  <th scope="col">Agreement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let consent of consents">
+                  <td>{{ consent.title || 'Untitled agreement' }}</td>
+                  <td>{{ formatConsentDate(consent.dateSigned) }}</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-link p-0"
+                      (click)="openConsent(consent)">
+                      View what you signed
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+
+    <mdb-accordion-item
+      [collapsed]="isAccordionCollapsed('invitations')"
+      (itemShow)="openAccordion('invitations')">
+      <ng-template mdbAccordionItemHeader>
+        <i class="fas fa-envelope-open-text me-2"></i>
+        6. Invitations
+      </ng-template>
+      <ng-template mdbAccordionItemBody>
+        <div class="accordion-body-content">
+          <p class="text-muted mb-3">
+            Invitations you have received, including who invited you.
+          </p>
+
+          <app-hccluserinvite-list
+            *ngIf="inviteeProfileId"
+            [criteria]="getInviteCriteria()"
+            [showingSearchHeading]="false"
+            [showingGoButton]="false"
+            [showingAddButton]="false"
+            [showingIdCheckbox]="false">
+          </app-hccluserinvite-list>
+        </div>
+      </ng-template>
+    </mdb-accordion-item>
+  </mdb-accordion>
+
+  <app-contract-viewer-modal
+    *ngIf="activeConsent"
+    [title]="activeConsent.title || 'Agreement'"
+    [markdown]="activeConsent.mdContents || ''"
+    (close)="closeConsent()">
+  </app-contract-viewer-modal>
+</div>

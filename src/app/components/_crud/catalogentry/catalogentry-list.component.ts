@@ -8,7 +8,7 @@ import { SimpleButtonbarComponent } from '@app/components/_global/simple-buttonb
 import {
   FeedDateRangeModalComponent,
   FeedDateRangeModalResult,
-} from '@app/features/dash-student/feed-date-range-modal.component';
+} from '@app/features/dash-citizen/feed-date-range-modal.component';
 
 /**
  * Component for displaying and managing CatalogEntry data using HcclService

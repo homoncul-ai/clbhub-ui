@@ -443,7 +443,7 @@ export class CLStudentCrudWrapper extends EntityWrapper<CLStudentGETData> {
     if (data.businessCode) {
       return data.businessCode;
     }
-    return data.id || 'Unknown CLStudent';
+    return data.id || 'Unknown CL Citizen';
   }
 
   getFullName(): string {

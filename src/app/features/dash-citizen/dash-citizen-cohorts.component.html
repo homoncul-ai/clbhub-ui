@@ -1,0 +1,34 @@
+<div class="dash-citizen-cohorts container-fluid">
+  <div class="cohorts-doc-link mb-3">
+    <a href="/public/docs/cohort-entities.md.html" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm">
+      <i class="fas fa-sitemap me-2"></i>
+      Cohort entity model (Markdeep)
+    </a>
+    <span class="text-muted small ms-2">Entity specification derived from participant UI wireframes</span>
+  </div>
+
+  <p class="text-muted mb-3">
+    Static participant UI specs — open a cohort mock to explore the MVP wireframe with documentation links.
+  </p>
+
+  <div class="row g-3">
+    <div *ngFor="let spec of cohortSpecs" class="col-md-6">
+      <div class="ui-card h-100 cohort-spec-card">
+        <div class="ui-card-body">
+          <h5 class="mb-2">{{ spec.label }}</h5>
+          <p class="text-muted small mb-2">{{ spec.description }}</p>
+          <dl class="cohort-spec-dl mb-3">
+            <dt>Leader</dt>
+            <dd>{{ spec.leader }}</dd>
+            <dt>Schedule</dt>
+            <dd>{{ spec.schedule }}</dd>
+          </dl>
+          <a [routerLink]="spec.route" class="btn btn-outline-success btn-sm">
+            <i class="fas fa-drafting-compass me-2"></i>
+            Open participant UI spec
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

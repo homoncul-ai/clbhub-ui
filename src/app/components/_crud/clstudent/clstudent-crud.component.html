@@ -79,7 +79,7 @@
   <!-- Create Mode -->
   <div *ngIf="getMode() === CRUD_MODES.CREATE" class="create-mode">
     <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
-      <h3 style="margin: 0; color: #333; font-size: 24px;">Create New CL Student</h3>
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Create New CL Citizen</h3>
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <!-- Create Mode Form : Make sure to use this control logic for submit and cancel buttons -->
@@ -166,7 +166,7 @@
   <!-- Edit Mode -->
   <div *ngIf="getMode() === CRUD_MODES.EDIT  && !isLoading" class="edit-mode">
     <div class="crud-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #dee2e6;">
-      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit CL Student</h3>
+      <h3 style="margin: 0; color: #333; font-size: 24px;">Edit CL Citizen</h3>
     </div>
     <div class="form-container" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
       <!-- Edit Mode Form : Make sure to use this control logic for submit and cancel buttons -->
@@ -267,7 +267,7 @@
   <!-- Detail Mode  overlay? -->
   <div *ngIf="getMode() === CRUD_MODES.DETAIL && !isLoading"  class="detail-mode">
     <div class="crud-header">
-      <h3>CL Student Details</h3>
+      <h3>CL Citizen Details</h3>
       <div class="action-buttons">
         <button *ngIf="canCreate" (click)="switchToCreateMode()" class="btn btn-primary">Create New</button>
         <button *ngIf="canEdit" (click)="switchToEditMode()" class="btn btn-secondary">Edit</button> 
@@ -355,9 +355,9 @@
 
   <!-- Delete Mode -->
   <div *ngIf="getMode() === CRUD_MODES.DELETE && !isLoading" class="delete-mode">
-    <h3>Delete CL Student</h3>
+    <h3>Delete CL Citizen</h3>
     <div class="delete-confirmation">
-      <p>Are you sure you want to delete this CL Student?</p>
+      <p>Are you sure you want to delete this CL Citizen?</p>
       <h4>{{ getCurrentEntity().getDisplayText() }}</h4>
       <p>This action cannot be undone.</p>
       <div class="delete-actions">

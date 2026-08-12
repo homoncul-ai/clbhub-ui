@@ -35,7 +35,7 @@ import { CatalogGETData } from '@app/restsvc/hccl.service';
           <i class="fas fa-book pd-empty-state__icon"></i>
           <h3 class="pd-empty-state__title">No Catalogs Yet</h3>
           <p class="pd-empty-state__description">
-            Create your first catalog to start offering opportunities to students.
+            Create your first catalog to start offering opportunities to citizens.
           </p>
           <button class="pd-btn pd-btn--primary pd-btn--lg">
             <i class="fas fa-plus"></i>

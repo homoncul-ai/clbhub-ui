@@ -87,7 +87,7 @@ import { CatalogGETData, CatalogEntryGETData } from '@app/restsvc/hccl.service';
               <i class="fas fa-list pd-empty-state__icon"></i>
               <h3 class="pd-empty-state__title">No Entries</h3>
               <p class="pd-empty-state__description">
-                Add entries to this catalog to make them available to students.
+                Add entries to this catalog to make them available to citizens.
               </p>
               <button class="pd-btn pd-btn--primary">
                 <i class="fas fa-plus"></i>

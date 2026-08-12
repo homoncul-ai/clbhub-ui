@@ -150,8 +150,6 @@ app.get(['/surveys/npo_job_finder', '/surveys/npo_job_finder/'], function (req, 
     }
   });
 });
-// /onboard/student 
-// /onboard/parent
 app.get('*', function (req, res) {
   if (req.path == '/assets/servicemanifest.json') {
     res.sendFile(

@@ -7,17 +7,8 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'onboard',
+        redirectTo: 'surveys',
         pathMatch: 'full',
-      },
-      {
-        path: 'onboard-student',
-        redirectTo: 'onboard/student',
-        pathMatch: 'full',
-      },
-      {
-        path: 'onboard',
-        loadChildren: () => import('./features/onboard/onboard.routes').then(m => m.ONBOARD_ROUTES)
       },
       {
         path: 'surveys',
@@ -25,7 +16,7 @@ export const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'onboard',
+        redirectTo: 'surveys',
       },
     ],
   },
@@ -63,7 +54,12 @@ export const routes: Routes = [
       },
       {
         path: 'student-dashboard',
-        loadChildren: () => import('./features/dash-student/dash-student.module').then(m => m.DashStudentModule)
+        redirectTo: 'citizen',
+        pathMatch: 'prefix'
+      },
+      {
+        path: 'citizen',
+        loadChildren: () => import('./features/dash-citizen/dash-citizen.module').then(m => m.DashCitizenModule)
       },
       {
         path: 'swcat-dashboard',

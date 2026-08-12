@@ -10,7 +10,7 @@ Shows the student name, course, and notes from the student.
     
     <div class="info-row">
       <label class="info-label"> Name:</label>
-      <span class="info-value">{{ getStudentName() }}</span>
+      <span class="info-value">{{ getCitizenName() }}</span>
     </div>
     
     <div class="info-row">
@@ -19,8 +19,8 @@ Shows the student name, course, and notes from the student.
     </div>
     
     <div class="info-row notes-section">
-      <label class="info-label">Notes from Student:</label>
-      <div class="notes-content">{{ getStudentNotes() }}</div>
+      <label class="info-label">Notes from Citizen:</label>
+      <div class="notes-content">{{ getCitizenNotes() }}</div>
     </div> -->
 
     <!-- Messages Section -->
@@ -39,11 +39,11 @@ Shows the student name, course, and notes from the student.
           <table class="table table-striped mb-0">
             <tbody>
               <!-- Student Info -->
-              <tr *ngIf="getStudentName()">
+              <tr *ngIf="getCitizenName()">
                 <th scope="row" class="w-25 bg-light">
-                  <i class="fas fa-user me-2 text-primary"></i>Student
+                  <i class="fas fa-user me-2 text-primary"></i>Citizen
                 </th>
-                <td>{{ getStudentName() }}</td>
+                <td>{{ getCitizenName() }}</td>
               </tr>
               
               <!-- Catalog Entry Info -->
@@ -109,7 +109,7 @@ Shows the student name, course, and notes from the student.
               <!-- Signup Message -->
               <tr *ngIf="getSignupMessage()">
                 <th scope="row" class="bg-light align-top">
-                  <i class="fas fa-comment me-2 text-primary"></i>Student Message
+                  <i class="fas fa-comment me-2 text-primary"></i>Citizen Message
                 </th>
                 <td class="preserve-whitespace">{{ getSignupMessage() }}</td>
               </tr>

@@ -1,0 +1,43 @@
+Path,Feature Label,Component,Icon,Menu Level,Description
+/citizen/home,My Dashboard,DashCitizenHomeComponent,fas fa-tachometer-alt,1,"Welcome back — here's what's new"
+/citizen/profile,My Profile,CitizenProfileUiComponent,fas fa-user,1,"Manage your personal details, family, address, and feed settings"
+/citizen/messages,My Communications,DashCitizenMessagesComponent,fas fa-envelope,1,Message information
+/citizen/messages/:messageId,Message Detail (redirect),DashCitizenMessagesComponent,fas fa-envelope,,Redirects to messages/:messageId/message
+/citizen/messages/:messageId/:tabId,Message Detail Tab,DashCitizenMessagesComponent,fas fa-envelope,,View a specific message with tab
+/citizen/my-organizations,My Organizations,DashCitizenMyOrganizationsComponent,fas fa-building,1,Track organizations you are interested in
+/citizen/calendar,My Calendar,DashCitizenCalendarComponent,fas fa-calendar-alt,1,"Track your appointments, deadlines, and important events"
+/citizen/feed,My Feed,DashCitizenFeedComponent,fas fa-stream,1,"Stay updated with the latest posts and announcements"
+/citizen/personalstatements,Personal Goals,DashCitizenPersonalStatementsComponent,fas fa-book,1,List of personal goal statements
+/citizen/personalstatement-details/:id,Personal Statement Details,CitizenPersonalStatementDetailsComponent,fas fa-book,,View details of a personal statement
+/citizen/personalstatements/:id,Personal Statement Group,CitizenPersonalStatementGroupComponent,fas fa-book,,Personal statement with default tab
+/citizen/personalstatements/:id/:tabId,Personal Statement Tab,CitizenPersonalStatementGroupComponent,fas fa-book,,Personal statement with specific tab
+/citizen/personalstatements/:id/:tabId/:childId,Personal Statement Child,CitizenPersonalStatementGroupComponent,fas fa-book,,Personal statement with child entity
+/citizen/interests,Interests,DashCitizenInterestsComponent,,1,Saved catalog entry interests
+/citizen/interests/:interestId,Interest Detail (redirect),DashCitizenInterestsComponent,,,Redirects to interests/:interestId/interest
+/citizen/interests/:interestId/interest,Interest Detail,DashCitizenInterestComponent,,,View a specific interest
+/citizen/interests/:interestId/:tabId,Interest Tab,DashCitizenInterestsComponent,,,View interest with specific tab
+/citizen/engage,Engage,CitizenEngageComponent,fas fa-envelope,1,Engage with catalog entries
+/citizen/research,Research,CitizenResearchComponent,fas fa-search,1,Research hub for careers and opportunities
+/citizen/research/careers,Research Careers,CitizenResearchCareersComponent,fas fa-search,2,Search vocation encodings and career paths
+/citizen/research/careers/:vocationEncodingRefId,Research Career Detail,CitizenResearchCareersComponent,fas fa-search,,View specific career research
+/citizen/research/orgs,Research Orgs,CitizenResearchOrgsComponent,fas fa-building,2,Research organizations
+/citizen/research/items,Research Items,CitizenResearchItemsComponent,fas fa-search,2,Research catalog items
+/citizen/catalogs,Catalog Search,CitizenCatalogComponent,fas fa-list,2,Search catalogs for opportunities
+/citizen/resumebuilder,Resume Builder,CitizenResumeBuilderComponent,fas fa-file-alt,1,Build and manage resumes
+/citizen/resumeentries,Resume Entries,CitizenResumeEntryGroupComponent,fas fa-file-alt,2,Manage resume entries
+/citizen/resumeentries/:id,Resume Entry Detail (redirect),CitizenResumeEntryGroupComponent,fas fa-file-alt,,Redirects to resumeentries/:id/details
+/citizen/resumeentries/:id/:tabId,Resume Entry Tab,CitizenResumeEntryGroupComponent,fas fa-file-alt,,View resume entry with specific tab
+/citizen/resumes,Resumes,DashCitizenResumesGroupComponent,fas fa-file-alt,1,List of resumes
+/citizen/resumes/:resumeId,Resume Detail (redirect),DashCitizenResumesGroupComponent,fas fa-file-alt,,Redirects to resumes/:resumeId/resume
+/citizen/resumes/:resumeId/resume,Resume Detail,DashCitizenResumesGroupComponent,fas fa-file-alt,,View a specific resume
+/citizen/resumes/:resumeId/:tabId,Resume Tab,DashCitizenResumesGroupComponent,fas fa-file-alt,,View resume with specific tab
+/citizen/progress,Progress,DashCitizenProgressComponent,fas fa-chart-line,1,Track progress
+/citizen/guidance,Guidance & Support,DashCitizenGuidanceComponent,fas fa-life-ring,1,Connect with guidance team
+/citizen/guidance/workrequests,Guidance Tickets,CitizenWorkRequestsComponent,fas fa-life-ring,,List of guidance work requests
+/citizen/guidance/workrequests/:ticketId,Guidance Ticket (redirect),CitizenWorkRequestsComponent,fas fa-life-ring,,Redirects to guidance/workrequests/:ticketId/ticket
+/citizen/guidance/workrequests/:ticketId/:tabId,Guidance Ticket Tab,CitizenWorkRequestsComponent,fas fa-life-ring,,View specific guidance ticket with tab
+/citizen/uistarter,UI Starter,UistarterHomeComponent,fas fa-palette,1,UI component playground
+/citizen/e/:entityType/:entityId,Entity UI,StdEntityUiComponent,,,Generic entity display
+/citizen/e/:entityType/:entityId/:tabId,Entity UI Tab,StdEntityUiComponent,,,Generic entity display with tab
+/citizen/e/:entityType/:entityId/:tabId/:childId,Entity UI Child,StdEntityUiComponent,,,Generic entity display with child
+/citizen/e/:entityType/:entityId/:tabId/:childId/:childTabId,Entity UI Child Tab,StdEntityUiComponent,,,Generic entity display with child tab

@@ -1,0 +1,20 @@
+<app-simple-tabset *ngIf="showingTabset" [tabs]="tabs" [currentTabId]="currentTabId"></app-simple-tabset>
+
+<div *ngIf="currentTabId === 'list'">
+  <div class="mb-3">
+    <button class="btn btn-primary" (click)="openCreateResumeEntryModal()">Create New Resume Entry</button>
+  </div>
+  <app-citizen-resumeentries-list 
+    [onRowClickBehavior]="getResumeEntryRowClickBehavior()"
+    [showingSearch]="false" 
+    [showingSearchHeading]="false" 
+    [showingGoButton]="false" 
+    [showingAddButton]="false" 
+    [showingIdCheckbox]="false">
+  </app-citizen-resumeentries-list>
+</div>
+
+<div *ngIf="currentTabId === 'details'">
+  <app-citizen-resumeentry-details [resumeEntryId]="resumeEntryId || ''"></app-citizen-resumeentry-details>
+</div>
+

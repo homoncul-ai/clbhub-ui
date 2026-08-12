@@ -289,7 +289,7 @@ export class BubaService {
    */
   private calculateRoutePath(entityData: any, bubaData: BubaData,  metadata: EntityMetadata, context: any): string {
     // Get the current dashboard type from context or default
-    const dashboardType = context?.dashboardType || 'student-dashboard';
+    const dashboardType = context?.dashboardType || 'citizen';
     const prefix =  '/' + dashboardType + '/e';
     // Use metadata template to build route path
     let routePath = (metadata.routePathTemplate || '{prefix}/{entityName}/{entityId}')

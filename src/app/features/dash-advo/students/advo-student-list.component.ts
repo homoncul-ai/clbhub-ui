@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, inject } from 
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { GuidanceTicketModalComponent } from '../../dash-student/guidance-ticket-modal.component';
+import { GuidanceTicketModalComponent } from '../../dash-citizen/guidance-ticket-modal.component';
 import { HcclService } from '../../../restsvc/hccl.service';
 import { HcclContextService } from '../../../shell/services/hccl-context.service';
 import { 

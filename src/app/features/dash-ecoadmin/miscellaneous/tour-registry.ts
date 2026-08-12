@@ -16,7 +16,7 @@ export const TOUR_REGISTRY: TourRegistryEntry[] = [
     key: 'onboard-student',
     title: 'Student Onboard Tour',
     subtitle: 'Walk through the student dashboard onboard experience.',
-    route: '/student-dashboard',
+    route: '/citizen',
     queryParams: { tour: 'onboard-student' },
     icon: 'fas fa-graduation-cap',
   },

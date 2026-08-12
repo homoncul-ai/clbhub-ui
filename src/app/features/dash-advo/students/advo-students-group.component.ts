@@ -8,16 +8,16 @@ import { AdvoMessagesComponent } from '../messages/advo-messages.component';
 import { OnRowClickBehavior } from '@app/components/_global/abstract-list/abstract-list.component'; 
 import { HcclUserProfileListComponent } from '@app/components/_crud/hccluserprofile/hccluserprofile-list.component';
 import { WorkRequestListComponent } from '@app/components/_crud/workrequest/workrequest-list.component';
-import { StudentListComponent } from '@app/components/_crud/hccluserprofile/student-list.component';
-import { StudentUiComponent } from '@app/components/_crud/hccluserprofile/student-ui.component';
+import { CitizenListComponent } from '@app/components/_crud/hccluserprofile/citizen-list.component';
+import { CitizenUiComponent } from '@app/components/_crud/hccluserprofile/citizen-ui.component';
 
 @Component({
   selector: 'app-advo-students-group',
   standalone: true,
   imports: [CommonModule, SimpleTabsetComponent, AdvoMessagesComponent,
      HcclUserProfileListComponent, HcclUserProfileCrudComponent,
-     StudentUiComponent,
-     WorkRequestListComponent, StudentListComponent]  ,
+     CitizenUiComponent,
+     WorkRequestListComponent, CitizenListComponent]  ,
   templateUrl: './advo-students-group.component.html',
   styleUrl: './advo-students-group.component.scss'
 })

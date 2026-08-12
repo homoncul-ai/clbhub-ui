@@ -38,7 +38,7 @@ import { WorkRequestGETData, WorkRequestCriteria } from '@app/restsvc/hccl.servi
             <i class="fas fa-tasks pd-empty-state__icon"></i>
             <h3 class="pd-empty-state__title">No Work Requests</h3>
             <p class="pd-empty-state__description">
-              Work requests from students and other stakeholders will appear here.
+              Work requests from citizens and other stakeholders will appear here.
             </p>
           </div>
 

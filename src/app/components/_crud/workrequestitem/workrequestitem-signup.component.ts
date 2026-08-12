@@ -29,9 +29,9 @@ export class WorkRequestItemSignupComponent extends AbstractMultimodeComponent<W
   
 
   // Properties for the signup display
-  protected studentName: string = '';
+  protected citizenName: string = '';
   protected courseName: string = '';
-  protected studentNotes: string = '';
+  protected citizenNotes: string = '';
 
   // Properties for verdict form
   protected verdictAccepted: boolean | null = null;
@@ -98,9 +98,9 @@ export class WorkRequestItemSignupComponent extends AbstractMultimodeComponent<W
     this.workItemFormResponse = wirsp;
     
     // Extract signup data from response
-    this.studentName = wirsp.mapFormElements?.studentName || '';
+    this.citizenName = wirsp.mapFormElements?.studentName || '';
     this.courseName = wirsp.mapFormElements?.courseName || '';
-    this.studentNotes = wirsp.mapFormElements?.studentNotes || '';
+    this.citizenNotes = wirsp.mapFormElements?.studentNotes || '';
     
     this.workItemFormContext = wirsp.context as WorkItemFormContext;
   }
@@ -108,16 +108,16 @@ export class WorkRequestItemSignupComponent extends AbstractMultimodeComponent<W
   protected workItemFormResponse : WorkItemFormResponse | null = null;
   protected workItemFormRequest : WorkItemFormRequest | null = null;
 
-  getStudentName(): string {
-    return this.studentName;
+  getCitizenName(): string {
+    return this.citizenName;
   }
 
   getCourseName(): string {
     return this.courseName;
   }
 
-  getStudentNotes(): string {
-    return this.studentNotes;
+  getCitizenNotes(): string {
+    return this.citizenNotes;
   }
 
   // CatalogEntryInterest data accessors

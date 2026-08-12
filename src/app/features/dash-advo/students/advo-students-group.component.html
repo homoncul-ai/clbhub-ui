@@ -6,16 +6,16 @@
 <div *ngIf="currentTabId === 'home'">
   
   <h4>Students Z</h4>
-  <app-student-list [criteria]="getMyStudentsCriteria()" [showingSearchHeading]="false" 
+  <app-citizen-list [criteria]="getMyStudentsCriteria()" [showingSearchHeading]="false" 
   [showingSearch]="true" [showingGoButton]="false" [showingAddButton]="false" [showingIdCheckbox]="false"
-  [onRowClickBehavior]="onClickRowStudent()"></app-student-list>
+  [onRowClickBehavior]="onClickRowStudent()"></app-citizen-list>
 
 </div>
  
 <div *ngIf="currentTabId === 'student'">
   <!-- <app-hccluserprofile-crud [id]="childId" modeName="detail"></app-hccluserprofile-crud> -->
   <ng-container *ngIf="childId as selectedUserProfileId">
-    <app-student-ui [userProfileId]="selectedUserProfileId"></app-student-ui>
+    <app-citizen-ui [userProfileId]="selectedUserProfileId"></app-citizen-ui>
   </ng-container>
 
 </div> 

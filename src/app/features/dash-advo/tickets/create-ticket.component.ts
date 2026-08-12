@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { GuidanceTicketModalComponent } from '../../dash-student/guidance-ticket-modal.component';
+import { GuidanceTicketModalComponent } from '../../dash-citizen/guidance-ticket-modal.component';
 
 @Component({
   selector: 'app-create-ticket',
