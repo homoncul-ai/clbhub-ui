@@ -3262,6 +3262,162 @@ export class HcclService extends RequestServiceCaller {
     return this.request<PContractVersionGETData>(request);
   }
 
+  createPMergeTmplInstance(body: PMergeTmplInstancePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplinstance",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMergeTmplInstanceById(id: string): Observable<PMergeTmplInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplinstance/" + id,
+      method: "GET",
+    };
+    return this.request<PMergeTmplInstanceGETData>(request);
+  }
+
+  updatePMergeTmplInstanceById(id: string, body: PMergeTmplInstancePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplinstance/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMergeTmplInstanceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplinstance/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMergeTmplInstances(body: PMergeTmplInstanceCriteria): Observable<PMergeTmplInstanceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplinstance/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMergeTmplInstanceGETDataSearchResults>(request);
+  }
+
+  getPMergeTmplInstanceByIdWithHint(id: string, hint: string): Observable<PMergeTmplInstanceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplinstance/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PMergeTmplInstanceGETData>(request);
+  }
+
+  createPMergeTmpl(body: PMergeTmplPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmpl",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMergeTmplById(id: string): Observable<PMergeTmplGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmpl/" + id,
+      method: "GET",
+    };
+    return this.request<PMergeTmplGETData>(request);
+  }
+
+  updatePMergeTmplById(id: string, body: PMergeTmplPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmpl/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMergeTmplById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmpl/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMergeTmpls(body: PMergeTmplCriteria): Observable<PMergeTmplGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmpl/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMergeTmplGETDataSearchResults>(request);
+  }
+
+  getPMergeTmplByIdWithHint(id: string, hint: string): Observable<PMergeTmplGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmpl/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PMergeTmplGETData>(request);
+  }
+
+  createPMergeTmplVersion(body: PMergeTmplVersionPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplversion",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getPMergeTmplVersionById(id: string): Observable<PMergeTmplVersionGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplversion/" + id,
+      method: "GET",
+    };
+    return this.request<PMergeTmplVersionGETData>(request);
+  }
+
+  updatePMergeTmplVersionById(id: string, body: PMergeTmplVersionPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplversion/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deletePMergeTmplVersionById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplversion/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findPMergeTmplVersions(body: PMergeTmplVersionCriteria): Observable<PMergeTmplVersionGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplversion/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMergeTmplVersionGETDataSearchResults>(request);
+  }
+
+  getPMergeTmplVersionByIdWithHint(id: string, hint: string): Observable<PMergeTmplVersionGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge/pmergetmplversion/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<PMergeTmplVersionGETData>(request);
+  }
+
   createProvider(body: ProviderPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/prov/provider",
@@ -5710,6 +5866,83 @@ export class HcclService extends RequestServiceCaller {
     return this.request<SimpleMapEntryResponse>(request);
   }
 
+  beginEditTemplate(mergeTmplId: string): Observable<PMergeTemplateActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/templates/" + mergeTmplId + "/begin-edit",
+      method: "POST",
+    };
+    return this.request<PMergeTemplateActionResponse>(request);
+  }
+
+  checkTemplate(body: CheckTemplatePOSTData): Observable<CheckTemplateResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/check-template",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CheckTemplateResponse>(request);
+  }
+
+  copyTemplate(mergeTmplId: string, body: PMergeCopyTemplatePOSTData): Observable<PMergeTemplateActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/templates/" + mergeTmplId + "/copy",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMergeTemplateActionResponse>(request);
+  }
+
+  createTemplate(body: PMergeCreateTemplatePOSTData): Observable<PMergeTemplateActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/templates",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<PMergeTemplateActionResponse>(request);
+  }
+
+  getEditorSetup(mergeTmplId: string): Observable<PMergeEditorUIResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/templates/" + mergeTmplId + "/setup",
+      method: "GET",
+    };
+    return this.request<PMergeEditorUIResponse>(request);
+  }
+
+  listMergeSchemes(): Observable<MergeSchemeListResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/merge-schemes",
+      method: "GET",
+    };
+    return this.request<MergeSchemeListResponse>(request);
+  }
+
+  mergeTemplate(mergeTmplId: string, body: PMergeMergeTemplatePOSTData): Observable<PMergeMergeTemplateResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/templates/" + mergeTmplId + "/merge",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMergeMergeTemplateResponse>(request);
+  }
+
+  promoteDraftTemplate(mergeTmplId: string): Observable<PMergeTemplateActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/templates/" + mergeTmplId + "/promote",
+      method: "POST",
+    };
+    return this.request<PMergeTemplateActionResponse>(request);
+  }
+
+  updateDraftTemplate(mergeTmplId: string, body: PMergeUpdateDraftPOSTData): Observable<PMergeTemplateActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/pmerge-ui/templates/" + mergeTmplId + "/draft",
+      method: "POST",
+      body: body,
+    };
+    return this.request<PMergeTemplateActionResponse>(request);
+  }
+
   getMessageEntryAttachments(entryId: string): Observable<PMessageAttachmentGETDataSearchResults> {
     const request: CommonServiceRequest = {
       url: "/hccl/pmessage/entries/" + entryId + "/attachments",
@@ -7426,6 +7659,7 @@ export interface HcclPersonGETData {
   hcclAddrId?: string;
   monthBorn?: number;
   yearBorn?: number;
+  niceName?: string;
 }
 
 export interface HcclUserGETData {
@@ -7449,6 +7683,10 @@ export interface HcclUserGETData {
   birthYear?: number;
   birthMonth?: number;
   ageVerifiedById?: string;
+  signedSiteTermsAndConditionsId?: string;
+  requiringCori?: number;
+  signedCoriId?: string;
+  developerFlagsJson?: string;
   person?: HcclPersonGETData;
   userProfiles?: HcclUserProfileGETData[];
 }
@@ -7477,6 +7715,9 @@ export interface HcclUserProfileGETData {
   externalUserName?: string;
   personId?: string;
   registrationJsonData?: string;
+  advisoryTeamId?: string;
+  signedBlanketMessagingConsentId?: string;
+  mdProfessionalBio?: string;
   roles?: string[];
   theUser?: HcclUserGETData;
   organization?: HcclOrganizationGETData;
@@ -11260,6 +11501,233 @@ export interface PContractVersionPUTData {
   agreeDataType: string;
 }
 
+export interface PMergeTmplInstancePOSTData {
+  mergeTmplId: string;
+  mergeTmplVersionId: string;
+  subject?: string;
+  fileName?: string;
+  contents: string;
+  mergeDataJson?: string;
+  mergedByUserProfileId?: string;
+  dateMerged?: string;
+  description?: string;
+}
+
+export interface PMergeTmplInstanceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  mergeTmplId?: string;
+  mergeTmplVersionId?: string;
+  subject?: string;
+  fileName?: string;
+  contents?: string;
+  mergeDataJson?: string;
+  mergedByUserProfileId?: string;
+  description?: string;
+}
+
+export interface PMergeTmplInstanceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMergeTmplInstanceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMergeTmplInstanceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  mergeTmplId?: string;
+  mergeTmplVersionId?: string;
+  subject?: string;
+  mergedByUserProfileId?: string;
+  dateMerged?: string;
+}
+
+export interface PMergeTmplInstancePUTData {
+  mergeTmplId: string;
+  mergeTmplVersionId: string;
+  subject?: string;
+  fileName?: string;
+  contents: string;
+  mergeDataJson?: string;
+  mergedByUserProfileId?: string;
+  dateMerged?: string;
+  description?: string;
+}
+
+export interface PMergeTmplPOSTData {
+  name: string;
+  businessCode: string;
+  templateTypeCode: string;
+  mergeType: string;
+  policyCode?: string;
+  description: string;
+  activeVersionId?: string;
+  inProcessVersionId?: string;
+  available: number;
+  mergingSubject?: number;
+  mergingFileName?: number;
+}
+
+export interface PMergeTmplGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  name?: string;
+  businessCode?: string;
+  templateTypeCode?: string;
+  mergeType?: string;
+  policyCode?: string;
+  description?: string;
+  activeVersionId?: string;
+  inProcessVersionId?: string;
+  available?: number;
+  mergingSubject?: number;
+  mergingFileName?: number;
+}
+
+export interface PMergeTmplGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMergeTmplGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMergeTmplCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  name?: string;
+  businessCode?: string;
+  templateTypeCode?: string;
+  mergeType?: string;
+  policyCode?: string;
+  activeVersionId?: string;
+  inProcessVersionId?: string;
+  available?: number;
+}
+
+export interface PMergeTmplPUTData {
+  name: string;
+  businessCode: string;
+  templateTypeCode: string;
+  mergeType: string;
+  policyCode?: string;
+  description: string;
+  activeVersionId?: string;
+  inProcessVersionId?: string;
+  available: number;
+  mergingSubject?: number;
+  mergingFileName?: number;
+}
+
+export interface PMergeTmplVersionPOSTData {
+  mergeTmplId: string;
+  mergeTmplCode: string;
+  statusCode: string;
+  title: string;
+  contents: string;
+  md5Hash?: string;
+  mergeSchemeCodes?: string;
+  subjectTmpl?: string;
+  fileNameTmpl?: string;
+  datePromoted?: string;
+  promotedByUserProfileId?: string;
+  available: number;
+  version?: number;
+}
+
+export interface PMergeTmplVersionGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  mergeTmplId?: string;
+  mergeTmplCode?: string;
+  statusCode?: string;
+  title?: string;
+  contents?: string;
+  md5Hash?: string;
+  mergeSchemeCodes?: string;
+  subjectTmpl?: string;
+  fileNameTmpl?: string;
+  promotedByUserProfileId?: string;
+  available?: number;
+  version?: number;
+}
+
+export interface PMergeTmplVersionGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: PMergeTmplVersionGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface PMergeTmplVersionCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  mergeTmplId?: string;
+  mergeTmplCode?: string;
+  statusCode?: string;
+  title?: string;
+  md5Hash?: string;
+  datePromoted?: string;
+  promotedByUserProfileId?: string;
+  available?: number;
+  version?: number;
+}
+
+export interface PMergeTmplVersionPUTData {
+  mergeTmplId: string;
+  mergeTmplCode: string;
+  statusCode: string;
+  title: string;
+  contents: string;
+  md5Hash?: string;
+  mergeSchemeCodes?: string;
+  subjectTmpl?: string;
+  fileNameTmpl?: string;
+  datePromoted?: string;
+  promotedByUserProfileId?: string;
+  available: number;
+  version?: number;
+}
+
 export interface ProviderPOSTData {
   name: string;
   businessCode: string;
@@ -12773,6 +13241,9 @@ export interface HcclUserProfilePOSTData {
   registrationJsonData?: string;
   dateFirstLogin?: string;
   dateRegistrationComplete?: string;
+  advisoryTeamId?: string;
+  signedBlanketMessagingConsentId?: string;
+  mdProfessionalBio?: string;
 }
 
 export interface WorkItemFormContext {
@@ -12909,6 +13380,9 @@ export interface HcclUserProfileCriteria {
   personId?: string;
   dateFirstLogin?: string;
   dateRegistrationComplete?: string;
+  advisoryTeamId?: string;
+  signedBlanketMessagingConsentId?: string;
+  mdProfessionalBio?: string;
   findingColleagues?: boolean;
   externalUserIds?: string[];
 }
@@ -12932,6 +13406,9 @@ export interface HcclUserProfilePUTData {
   registrationJsonData?: string;
   dateFirstLogin?: string;
   dateRegistrationComplete?: string;
+  advisoryTeamId?: string;
+  signedBlanketMessagingConsentId?: string;
+  mdProfessionalBio?: string;
   name: string;
 }
 
@@ -12949,6 +13426,11 @@ export interface HcclUserPOSTData {
   birthYear?: number;
   birthMonth?: number;
   ageVerifiedById?: string;
+  signedSiteTermsAndConditionsId?: string;
+  dateCoriValidUntil?: string;
+  requiringCori?: number;
+  signedCoriId?: string;
+  developerFlagsJson?: string;
 }
 
 export interface HcclUserGETDataSearchResults {
@@ -12982,6 +13464,10 @@ export interface HcclUserCriteria {
   birthYear?: number;
   birthMonth?: number;
   ageVerifiedById?: string;
+  signedSiteTermsAndConditionsId?: string;
+  dateCoriValidUntil?: string;
+  requiringCori?: number;
+  signedCoriId?: string;
 }
 
 export interface HcclUserPUTData {
@@ -12998,6 +13484,11 @@ export interface HcclUserPUTData {
   birthYear?: number;
   birthMonth?: number;
   ageVerifiedById?: string;
+  signedSiteTermsAndConditionsId?: string;
+  dateCoriValidUntil?: string;
+  requiringCori?: number;
+  signedCoriId?: string;
+  developerFlagsJson?: string;
 }
 
 export interface TeamMemberRoleRefPOSTData {
@@ -14990,6 +15481,105 @@ export interface SimpleMapEntryResponse {
   searchResults?: SimpleMapEntry[];
 }
 
+export interface PMergeTemplateActionResponse {
+  messages?: SimpleMessageList;
+  template?: PMergeTmplGETData;
+  version?: PMergeTmplVersionGETData;
+}
+
+export interface CheckTemplateResponse {
+  messages?: SimpleMessageList;
+  valid?: boolean;
+  extractedTokens?: string[];
+  invalidTokens?: string[];
+}
+
+export interface CheckTemplatePOSTData {
+  contents?: string;
+  mergeSchemeCodes?: string;
+}
+
+export interface PMergeCopyTemplatePOSTData {
+  name?: string;
+  businessCode?: string;
+  description?: string;
+  available?: number;
+}
+
+export interface PMergeCreateTemplatePOSTData {
+  name?: string;
+  businessCode?: string;
+  templateTypeCode?: string;
+  mergeType?: string;
+  policyCode?: string;
+  description?: string;
+  title?: string;
+  contents?: string;
+  mergeSchemeCodes?: string;
+  available?: number;
+  mergingSubject?: number;
+  mergingFileName?: number;
+  subjectTmpl?: string;
+  fileNameTmpl?: string;
+}
+
+export interface MergeSchemeGETData {
+  businessCode?: string;
+  name?: string;
+  description?: string;
+  mergeDataRootName?: string;
+  mergeDataTypeName?: string;
+  tags?: MergeSchemeTagGETData[];
+}
+
+export interface MergeSchemeTagGETData {
+  tagCode?: string;
+  expr?: string;
+  description?: string;
+  sampleValue?: any;
+}
+
+export interface PMergeEditorUIGETData {
+  template?: PMergeTmplGETData;
+  templateVersion?: PMergeTmplVersionGETData;
+  mergeSchemes?: MergeSchemeGETData[];
+  sampleContext?: any;
+}
+
+export interface PMergeEditorUIResponse {
+  messages?: SimpleMessageList;
+  editorData?: PMergeEditorUIGETData;
+}
+
+export interface MergeSchemeListResponse {
+  messages?: SimpleMessageList;
+  schemes?: MergeSchemeGETData[];
+}
+
+export interface PMergeMergeTemplateResponse {
+  messages?: SimpleMessageList;
+  instance?: PMergeTmplInstanceGETData;
+}
+
+export interface PMergeMergeTemplatePOSTData {
+  mergeTmplVersionId?: string;
+  mergeContext?: any;
+  useSampleContext?: boolean;
+  persist?: boolean;
+  subject?: string;
+  description?: string;
+}
+
+export interface PMergeUpdateDraftPOSTData {
+  title?: string;
+  contents?: string;
+  mergeSchemeCodes?: string;
+  mergingSubject?: number;
+  mergingFileName?: number;
+  subjectTmpl?: string;
+  fileNameTmpl?: string;
+}
+
 export interface CreateActivationCodeResponse {
   messages?: SimpleMessageList;
   activationCode?: string;
@@ -15211,9 +15801,9 @@ export interface EntityState {
   finalState?: boolean;
   categories?: string[];
   nextStates?: string[];
-  openState?: boolean;
   cancelledState?: boolean;
   closedState?: boolean;
+  openState?: boolean;
 }
 
 export interface EntityStateTransition {

@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "../trutesta-prompts"
+		},
+		{
+			"path": "../intigna-msoffice-service"
 		}
 	],
 	"settings": {

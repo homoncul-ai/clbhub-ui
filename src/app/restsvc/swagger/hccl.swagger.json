@@ -14295,6 +14295,708 @@
         }
       }
     },
+    "/hccl/pmerge/pmergetmplinstance": {
+      "post": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Create a new PMergeTmplInstance.",
+        "operationId": "createPMergeTmplInstance_1",
+        "requestBody": {
+          "description": "New PMergeTmplInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplInstancePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmplinstance/{id}": {
+      "get": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMergeTmplInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Updates and existing PMergeTmplInstance.",
+        "operationId": "updatePMergeTmplInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMergeTmplInstance data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplInstancePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Deletes an existing PMergeTmplInstance.",
+        "operationId": "deletePMergeTmplInstanceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmplinstance/query": {
+      "post": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches all PMergeTmplInstances.",
+        "operationId": "findPMergeTmplInstances_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplInstanceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplInstanceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmplinstance/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMergeTmplInstanceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplInstanceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmpl": {
+      "post": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Create a new PMergeTmpl.",
+        "operationId": "createPMergeTmpl_1",
+        "requestBody": {
+          "description": "New PMergeTmpl data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmpl/{id}": {
+      "get": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMergeTmplById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Updates and existing PMergeTmpl.",
+        "operationId": "updatePMergeTmplById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMergeTmpl data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Deletes an existing PMergeTmpl.",
+        "operationId": "deletePMergeTmplById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmpl/query": {
+      "post": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches all PMergeTmpls.",
+        "operationId": "findPMergeTmpls_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmpl/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMergeTmplByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmplversion": {
+      "post": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Create a new PMergeTmplVersion.",
+        "operationId": "createPMergeTmplVersion_1",
+        "requestBody": {
+          "description": "New PMergeTmplVersion data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplVersionPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmplversion/{id}": {
+      "get": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMergeTmplVersionById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplVersionGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Updates and existing PMergeTmplVersion.",
+        "operationId": "updatePMergeTmplVersionById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated PMergeTmplVersion data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplVersionPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Deletes an existing PMergeTmplVersion.",
+        "operationId": "deletePMergeTmplVersionById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmplversion/query": {
+      "post": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches all PMergeTmplVersions.",
+        "operationId": "findPMergeTmplVersions_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeTmplVersionCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplVersionGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge/pmergetmplversion/{id}/hint": {
+      "get": {
+        "tags": [
+          "/pmerge"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getPMergeTmplVersionByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTmplVersionGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/prov/provider": {
       "post": {
         "tags": [
@@ -25041,6 +25743,334 @@
         }
       }
     },
+    "/hccl/pmerge-ui/templates/{mergeTmplId}/begin-edit": {
+      "post": {
+        "summary": "Begin editing a merge template by creating an in-process draft version.",
+        "operationId": "beginEditTemplate",
+        "parameters": [
+          {
+            "name": "mergeTmplId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTemplateActionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/check-template": {
+      "post": {
+        "summary": "Validate template tokens against selected merge schemes.",
+        "operationId": "checkTemplate",
+        "requestBody": {
+          "description": "Template validation request",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckTemplatePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckTemplateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/templates/{mergeTmplId}/copy": {
+      "post": {
+        "summary": "Copy a merge template and its active version to a new business code.",
+        "operationId": "copyTemplate",
+        "parameters": [
+          {
+            "name": "mergeTmplId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Copy request",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeCopyTemplatePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTemplateActionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/templates": {
+      "post": {
+        "summary": "Create a merge template with an initial active version.",
+        "operationId": "createTemplate",
+        "requestBody": {
+          "description": "Template create request",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeCreateTemplatePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTemplateActionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/templates/{mergeTmplId}/setup": {
+      "get": {
+        "summary": "Load merge template editor setup data for a template.",
+        "operationId": "getEditorSetup",
+        "parameters": [
+          {
+            "name": "mergeTmplId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeEditorUIResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/merge-schemes": {
+      "get": {
+        "summary": "List merge schemes available for template configuration.",
+        "operationId": "listMergeSchemes",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/MergeSchemeListResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/templates/{mergeTmplId}/merge": {
+      "post": {
+        "summary": "Merge a template version and return a populated PMergeTmplInstance.",
+        "operationId": "mergeTemplate",
+        "parameters": [
+          {
+            "name": "mergeTmplId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Merge request",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeMergeTemplatePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeMergeTemplateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/templates/{mergeTmplId}/promote": {
+      "post": {
+        "summary": "Promote the in-process draft version to active after validating merge tokens.",
+        "operationId": "promoteDraftTemplate",
+        "parameters": [
+          {
+            "name": "mergeTmplId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTemplateActionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/pmerge-ui/templates/{mergeTmplId}/draft": {
+      "post": {
+        "summary": "Update the in-process draft version of a merge template.",
+        "operationId": "updateDraftTemplate",
+        "parameters": [
+          {
+            "name": "mergeTmplId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Draft update request",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/PMergeUpdateDraftPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMergeTemplateActionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/pmessage/entries/{entryId}/attachments": {
       "get": {
         "summary": "Get attachments for a message entry",
@@ -29964,11 +30994,11 @@
               "$ref": "#/components/schemas/SimpleMessage"
             }
           },
-          "firstErrorMessage": {
-            "$ref": "#/components/schemas/SimpleMessage"
-          },
           "errorMessageAsString": {
             "type": "string"
+          },
+          "firstErrorMessage": {
+            "$ref": "#/components/schemas/SimpleMessage"
           }
         }
       },
@@ -31842,6 +32872,9 @@
           "yearBorn": {
             "type": "integer",
             "format": "int32"
+          },
+          "niceName": {
+            "type": "string"
           }
         }
       },
@@ -31914,6 +32947,21 @@
           "ageVerifiedById": {
             "type": "string",
             "format": "uuid"
+          },
+          "signedSiteTermsAndConditionsId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requiringCori": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "signedCoriId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "developerFlagsJson": {
+            "type": "string"
           },
           "person": {
             "$ref": "#/components/schemas/HcclPersonGETData"
@@ -32002,6 +33050,17 @@
             "format": "uuid"
           },
           "registrationJsonData": {
+            "type": "string"
+          },
+          "advisoryTeamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "signedBlanketMessagingConsentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mdProfessionalBio": {
             "type": "string"
           },
           "roles": {
@@ -45418,6 +46477,814 @@
           }
         }
       },
+      "PMergeTmplInstancePOSTData": {
+        "required": [
+          "contents",
+          "mergeTmplId",
+          "mergeTmplVersionId"
+        ],
+        "type": "object",
+        "properties": {
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileName": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "mergeDataJson": {
+            "type": "string"
+          },
+          "mergedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateMerged": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "PMergeTmplInstanceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "mergeDataJson": {
+            "type": "string"
+          },
+          "mergedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "PMergeTmplInstanceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMergeTmplInstanceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMergeTmplInstanceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "mergedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateMerged": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PMergeTmplInstancePUTData": {
+        "required": [
+          "contents",
+          "mergeTmplId",
+          "mergeTmplVersionId"
+        ],
+        "type": "object",
+        "properties": {
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fileName": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "mergeDataJson": {
+            "type": "string"
+          },
+          "mergedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateMerged": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "PMergeTmplPOSTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "mergeType",
+          "name",
+          "templateTypeCode"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "templateTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mergeType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "policyCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "activeVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inProcessVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingSubject": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingFileName": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeTmplGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "templateTypeCode": {
+            "type": "string"
+          },
+          "mergeType": {
+            "type": "string"
+          },
+          "policyCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "activeVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inProcessVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingSubject": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingFileName": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeTmplGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMergeTmplGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMergeTmplCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "templateTypeCode": {
+            "type": "string"
+          },
+          "mergeType": {
+            "type": "string"
+          },
+          "policyCode": {
+            "type": "string"
+          },
+          "activeVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inProcessVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeTmplPUTData": {
+        "required": [
+          "available",
+          "businessCode",
+          "description",
+          "mergeType",
+          "name",
+          "templateTypeCode"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "businessCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "templateTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mergeType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "policyCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "activeVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inProcessVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingSubject": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingFileName": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeTmplVersionPOSTData": {
+        "required": [
+          "available",
+          "contents",
+          "mergeTmplCode",
+          "mergeTmplId",
+          "statusCode",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "statusCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "md5Hash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mergeSchemeCodes": {
+            "type": "string"
+          },
+          "subjectTmpl": {
+            "type": "string"
+          },
+          "fileNameTmpl": {
+            "type": "string"
+          },
+          "datePromoted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "promotedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeTmplVersionGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplCode": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "md5Hash": {
+            "type": "string"
+          },
+          "mergeSchemeCodes": {
+            "type": "string"
+          },
+          "subjectTmpl": {
+            "type": "string"
+          },
+          "fileNameTmpl": {
+            "type": "string"
+          },
+          "promotedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeTmplVersionGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMergeTmplVersionGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "PMergeTmplVersionCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplCode": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "md5Hash": {
+            "type": "string"
+          },
+          "datePromoted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "promotedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeTmplVersionPUTData": {
+        "required": [
+          "available",
+          "contents",
+          "mergeTmplCode",
+          "mergeTmplId",
+          "statusCode",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "mergeTmplId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeTmplCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "statusCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "md5Hash": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mergeSchemeCodes": {
+            "type": "string"
+          },
+          "subjectTmpl": {
+            "type": "string"
+          },
+          "fileNameTmpl": {
+            "type": "string"
+          },
+          "datePromoted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "promotedByUserProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "ProviderPOSTData": {
         "required": [
           "businessCode",
@@ -50905,6 +52772,17 @@
           "dateRegistrationComplete": {
             "type": "string",
             "format": "date-time"
+          },
+          "advisoryTeamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "signedBlanketMessagingConsentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mdProfessionalBio": {
+            "type": "string"
           }
         }
       },
@@ -51348,6 +53226,17 @@
             "type": "string",
             "format": "date-time"
           },
+          "advisoryTeamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "signedBlanketMessagingConsentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mdProfessionalBio": {
+            "type": "string"
+          },
           "findingColleagues": {
             "type": "boolean"
           },
@@ -51450,6 +53339,17 @@
             "type": "string",
             "format": "date-time"
           },
+          "advisoryTeamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "signedBlanketMessagingConsentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mdProfessionalBio": {
+            "type": "string"
+          },
           "name": {
             "maxLength": 255,
             "minLength": 1,
@@ -51526,6 +53426,25 @@
           "ageVerifiedById": {
             "type": "string",
             "format": "uuid"
+          },
+          "signedSiteTermsAndConditionsId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateCoriValidUntil": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requiringCori": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "signedCoriId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "developerFlagsJson": {
+            "type": "string"
           }
         }
       },
@@ -51637,6 +53556,22 @@
           "ageVerifiedById": {
             "type": "string",
             "format": "uuid"
+          },
+          "signedSiteTermsAndConditionsId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateCoriValidUntil": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requiringCori": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "signedCoriId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -51709,6 +53644,25 @@
           "ageVerifiedById": {
             "type": "string",
             "format": "uuid"
+          },
+          "signedSiteTermsAndConditionsId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateCoriValidUntil": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requiringCori": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "signedCoriId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "developerFlagsJson": {
+            "type": "string"
           }
         }
       },
@@ -58586,6 +60540,279 @@
           }
         }
       },
+      "PMergeTemplateActionResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "template": {
+            "$ref": "#/components/schemas/PMergeTmplGETData"
+          },
+          "version": {
+            "$ref": "#/components/schemas/PMergeTmplVersionGETData"
+          }
+        }
+      },
+      "CheckTemplateResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "valid": {
+            "type": "boolean"
+          },
+          "extractedTokens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "invalidTokens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CheckTemplatePOSTData": {
+        "type": "object",
+        "properties": {
+          "contents": {
+            "type": "string"
+          },
+          "mergeSchemeCodes": {
+            "type": "string"
+          }
+        }
+      },
+      "PMergeCopyTemplatePOSTData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PMergeCreateTemplatePOSTData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "businessCode": {
+            "type": "string"
+          },
+          "templateTypeCode": {
+            "type": "string"
+          },
+          "mergeType": {
+            "type": "string"
+          },
+          "policyCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "mergeSchemeCodes": {
+            "type": "string"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingSubject": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingFileName": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectTmpl": {
+            "type": "string"
+          },
+          "fileNameTmpl": {
+            "type": "string"
+          }
+        }
+      },
+      "MergeSchemeGETData": {
+        "type": "object",
+        "properties": {
+          "businessCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "mergeDataRootName": {
+            "type": "string"
+          },
+          "mergeDataTypeName": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MergeSchemeTagGETData"
+            }
+          }
+        }
+      },
+      "MergeSchemeTagGETData": {
+        "type": "object",
+        "properties": {
+          "tagCode": {
+            "type": "string"
+          },
+          "expr": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sampleValue": {
+            "type": "object"
+          }
+        }
+      },
+      "PMergeEditorUIGETData": {
+        "type": "object",
+        "properties": {
+          "template": {
+            "$ref": "#/components/schemas/PMergeTmplGETData"
+          },
+          "templateVersion": {
+            "$ref": "#/components/schemas/PMergeTmplVersionGETData"
+          },
+          "mergeSchemes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MergeSchemeGETData"
+            }
+          },
+          "sampleContext": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "PMergeEditorUIResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "editorData": {
+            "$ref": "#/components/schemas/PMergeEditorUIGETData"
+          }
+        }
+      },
+      "MergeSchemeListResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "schemes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MergeSchemeGETData"
+            }
+          }
+        }
+      },
+      "PMergeMergeTemplateResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "instance": {
+            "$ref": "#/components/schemas/PMergeTmplInstanceGETData"
+          }
+        }
+      },
+      "PMergeMergeTemplatePOSTData": {
+        "type": "object",
+        "properties": {
+          "mergeTmplVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mergeContext": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "useSampleContext": {
+            "type": "boolean"
+          },
+          "persist": {
+            "type": "boolean"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "PMergeUpdateDraftPOSTData": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "mergeSchemeCodes": {
+            "type": "string"
+          },
+          "mergingSubject": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mergingFileName": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectTmpl": {
+            "type": "string"
+          },
+          "fileNameTmpl": {
+            "type": "string"
+          }
+        }
+      },
       "CreateActivationCodeResponse": {
         "type": "object",
         "properties": {
@@ -59213,13 +61440,13 @@
               "type": "string"
             }
           },
-          "openState": {
-            "type": "boolean"
-          },
           "cancelledState": {
             "type": "boolean"
           },
           "closedState": {
+            "type": "boolean"
+          },
+          "openState": {
             "type": "boolean"
           }
         }
