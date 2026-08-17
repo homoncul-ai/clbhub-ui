@@ -1,0 +1,19 @@
+.pmergetmpl-edit-ui {
+  padding: 1rem 0;
+
+  .details-card {
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--bs-body-bg, #fff);
+  }
+
+  dt {
+    font-weight: 600;
+    color: var(--bs-secondary-color, #6c757d);
+  }
+
+  dd {
+    margin-bottom: 0.5rem;
+  }
+}

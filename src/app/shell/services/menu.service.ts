@@ -929,6 +929,11 @@ export class MenuService {
     // Add recent survey reporting views to the sidebar
     this.addSurveySidebarItems(surveysGroup);
 
+    const documentManagementGroup = this.newGroupMenuItem('Document Management', 'fas fa-file-alt');
+    this.addMenuItem(menu, documentManagementGroup);
+    this.addChildMenuItem(documentManagementGroup, this.copyMenuItem(MENU_CONSTANTS.EA_DOC_MGMT_TEMPLATES));
+    this.addChildMenuItem(documentManagementGroup, this.copyMenuItem(MENU_CONSTANTS.EA_DOC_MGMT_MERGED_INSTANCES));
+
     // Data Integrations (Career Ladder + Pursuits reporting)
     const dataIntegrationsGroup = this.newGroupMenuItem('Data Integrations', 'fas fa-plug');
     this.addMenuItem(menu, dataIntegrationsGroup);
@@ -1798,6 +1803,24 @@ EA_SURVEYS_MANAGE: {
   componentPath: 'src/app/components/_crud/psurveyref/psurveyref-list.component',
   componentName: 'PSurveyRefListComponent',
   icon: 'fas fa-sliders-h',
+},
+
+EA_DOC_MGMT_TEMPLATES: {
+  level: 2,
+  label: 'Templates',
+  route: '/ecoadmin-dashboard/document-management/templates',
+  componentPath: 'src/app/features/dash-ecoadmin/document-management/pmergetmpl-list.component',
+  componentName: 'PMergeTmplListComponent',
+  icon: 'fas fa-file-code',
+},
+
+EA_DOC_MGMT_MERGED_INSTANCES: {
+  level: 2,
+  label: 'Merged Instances',
+  route: '/ecoadmin-dashboard/document-management/merged-instances',
+  componentPath: 'src/app/features/dash-ecoadmin/document-management/pmergetmpl-instances-list.component',
+  componentName: 'PMergeTmplInstancesListComponent',
+  icon: 'fas fa-copy',
 },
 
 EA_DATA_INTEGRATIONS_CAREER_LADDER: {

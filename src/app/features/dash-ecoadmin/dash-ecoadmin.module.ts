@@ -87,6 +87,9 @@ import { UserManagementListComponent } from './user-management/user-management-l
 import { UserManagementDetailComponent } from './user-management/user-management-detail.component';
 import { PursuitsReportComponent } from './data-integrations/pursuits-report.component';
 import { CareerLadderAdminComponent } from './data-integrations/career-ladder-admin.component';
+import { PMergeTmplListComponent } from './document-management/pmergetmpl-list.component';
+import { PMergeTmplEditUiComponent } from './document-management/pmergetmpl-edit-ui.component';
+import { PMergeTmplInstancesListComponent } from './document-management/pmergetmpl-instances-list.component';
 
 const routes: Routes = [
   {
@@ -300,6 +303,11 @@ const routes: Routes = [
       { path: 'miscellaneous/tour-guides', component: TourGuidesDashboardComponent },
       { path: 'miscellaneous/diagnostics', component: DiagnosticsComponent },
 
+      // Document Management
+      { path: 'document-management/templates/:id', component: PMergeTmplEditUiComponent },
+      { path: 'document-management/templates', component: PMergeTmplListComponent },
+      { path: 'document-management/merged-instances', component: PMergeTmplInstancesListComponent },
+
       // Data Integrations
       { path: 'data-integrations/career-ladder', component: CareerLadderAdminComponent },
       { path: 'data-integrations/pursuits', component: PursuitsReportComponent },
@@ -391,6 +399,9 @@ const routes: Routes = [
     UserManagementDetailComponent,
     PursuitsReportComponent,
     CareerLadderAdminComponent,
+    PMergeTmplListComponent,
+    PMergeTmplEditUiComponent,
+    PMergeTmplInstancesListComponent,
   ]
 })
 export class DashEcoAdminModule { } 
