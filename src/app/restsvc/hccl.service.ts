@@ -7275,6 +7275,8 @@ export interface CatalogEntryCriteria {
   subjectEntityName?: string;
   hcclAddrId?: string;
   ageRequired?: number;
+  createdDateRange?: CriteriaDateRange;
+  activeDateRange?: CriteriaDateRange;
   catalogTypeCodes?: string[];
   vocationEncodingId?: string;
   searchingForEditVersion?: boolean;

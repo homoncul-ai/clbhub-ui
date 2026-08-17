@@ -31550,6 +31550,12 @@
             "type": "integer",
             "format": "int32"
           },
+          "createdDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "activeDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
           "catalogTypeCodes": {
             "type": "array",
             "items": {
