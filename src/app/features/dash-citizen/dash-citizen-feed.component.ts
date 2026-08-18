@@ -64,7 +64,6 @@ export class DashCitizenFeedComponent implements OnInit, OnDestroy {
   selectedCategory = 'all';
   dateStart = '';
   dateEnd = '';
-  activeDatePreset: 'today' | 'last7' | 'thisMonth' | 'last30' | 'custom' | null = null;
 
   readonly pageSize = 50;
   currentPage = 1;
@@ -75,13 +74,6 @@ export class DashCitizenFeedComponent implements OnInit, OnDestroy {
     { code: 'course', label: 'Courses', icon: 'fas fa-graduation-cap' },
     { code: 'event', label: 'Events', icon: 'fas fa-calendar-alt' },
     { code: 'career', label: 'Careers', icon: 'fas fa-compass' }
-  ];
-
-  readonly datePresets = [
-    { code: 'today' as const, label: 'Today' },
-    { code: 'last7' as const, label: 'Last 7 days' },
-    { code: 'thisMonth' as const, label: 'This month' },
-    { code: 'last30' as const, label: 'Last 30 days' }
   ];
 
   get filteredFeedEntries(): FeedEntryDisplayData[] {
@@ -308,31 +300,6 @@ export class DashCitizenFeedComponent implements OnInit, OnDestroy {
     }, 50);
   }
 
-  applyDatePreset(preset: 'today' | 'last7' | 'thisMonth' | 'last30'): void {
-    const today = this.getTodayString();
-
-    switch (preset) {
-      case 'today':
-        this.dateEnd = today;
-        break;
-      case 'last7':
-        this.dateStart = this.addDaysToDateString(today, -6);
-        this.dateEnd = today;
-        break;
-      case 'thisMonth':
-        this.dateStart = this.getFirstDayOfMonthString(today);
-        this.dateEnd = today;
-        break;
-      case 'last30':
-        this.dateStart = this.addDaysToDateString(today, -29);
-        this.dateEnd = today;
-        break;
-    }
-
-    this.activeDatePreset = preset;
-    this.currentPage = 1;
-  }
-
   openDateRangeModal(): void {
     const modalRef = this.modalService.open(FeedDateRangeModalComponent, {
       modalClass: 'modal-dialog-centered',
@@ -349,7 +316,6 @@ export class DashCitizenFeedComponent implements OnInit, OnDestroy {
 
       this.dateStart = result.dateStart;
       this.dateEnd = result.dateEnd;
-      this.syncActiveDatePreset();
       this.currentPage = 1;
     });
   }
@@ -373,56 +339,6 @@ export class DashCitizenFeedComponent implements OnInit, OnDestroy {
   private clearDateRange(): void {
     this.dateStart = '';
     this.dateEnd = '';
-    this.activeDatePreset = null;
-  }
-
-  private syncActiveDatePreset(): void {
-    if (!this.dateStart && !this.dateEnd) {
-      this.activeDatePreset = null;
-      return;
-    }
-
-    const today = this.getTodayString();
-    const ranges = {
-      today: { start: '', end: today },
-      last7: { start: this.addDaysToDateString(today, -6), end: today },
-      thisMonth: { start: this.getFirstDayOfMonthString(today), end: today },
-      last30: { start: this.addDaysToDateString(today, -29), end: today }
-    };
-
-    for (const [preset, range] of Object.entries(ranges) as Array<
-      ['today' | 'last7' | 'thisMonth' | 'last30', { start: string; end: string }]
-    >) {
-      if (this.dateStart === range.start && this.dateEnd === range.end) {
-        this.activeDatePreset = preset;
-        return;
-      }
-    }
-
-    this.activeDatePreset = 'custom';
-  }
-
-  private getTodayString(): string {
-    return this.formatDateString(new Date());
-  }
-
-  private formatDateString(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  private addDaysToDateString(dateValue: string, days: number): string {
-    const [year, month, day] = dateValue.split('-').map(Number);
-    const date = new Date(year, month - 1, day);
-    date.setDate(date.getDate() + days);
-    return this.formatDateString(date);
-  }
-
-  private getFirstDayOfMonthString(dateValue: string): string {
-    const [year, month] = dateValue.split('-').map(Number);
-    return `${year}-${String(month).padStart(2, '0')}-01`;
   }
 
   private formatDisplayDate(dateValue: string): string {

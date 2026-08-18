@@ -232,25 +232,14 @@
 
         <div class="filter-section">
           <label class="filter-section-label">Date</label>
-          <div class="filter-date-presets">
-            <button
-              type="button"
-              class="filter-preset-btn"
-              *ngFor="let preset of datePresets"
-              [class.active]="activeDatePreset === preset.code"
-              (click)="applyDatePreset(preset.code)">
-              {{ preset.label }}
-            </button>
-            <button
-              type="button"
-              class="filter-preset-btn filter-preset-btn-more"
-              [class.active]="activeDatePreset === 'custom'"
-              (click)="openDateRangeModal()">
-              <i class="fas fa-calendar-alt"></i>
-              More
-            </button>
-          </div>
-          <p class="filter-date-summary" *ngIf="dateRangeSummary as summary">{{ summary }}</p>
+          <button
+            type="button"
+            class="filter-date-range-btn"
+            [class.active]="!!dateRangeSummary"
+            (click)="openDateRangeModal()">
+            <i class="fas fa-calendar-alt"></i>
+            {{ dateRangeSummary || 'Select range…' }}
+          </button>
         </div>
 
         <div class="filters-footer" *ngIf="hasActiveFilters">

@@ -135,25 +135,26 @@ $transition: all 0.25s ease;
   }
 }
 
-.filter-date-presets {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.filter-preset-btn {
+.filter-date-range-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  width: 100%;
   padding: 8px 12px;
   background: #f9fafb;
-  color: #374151;
+  color: #9ca3af;
   border: 1px solid #e5e7eb;
-  border-radius: 999px;
+  border-radius: 10px;
   font-size: 0.8rem;
   font-weight: 600;
+  text-align: left;
   cursor: pointer;
   transition: all 0.2s;
+
+  i {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
 
   &:hover {
     background: #f3f4f6;
@@ -161,23 +162,10 @@ $transition: all 0.25s ease;
   }
 
   &.active {
-    background: rgba(102, 126, 234, 0.08);
-    color: #667eea;
-    border-color: #667eea;
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #94a3b8;
   }
-}
-
-.filter-preset-btn-more {
-  i {
-    font-size: 0.75rem;
-  }
-}
-
-.filter-date-summary {
-  margin: 10px 0 0;
-  font-size: 0.8rem;
-  color: #64748b;
-  line-height: 1.4;
 }
 
 .filters-footer {
