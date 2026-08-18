@@ -29,6 +29,7 @@ import { GravatarModule } from 'ngx-gravatar';
 import { MenuControlDataListComponent } from '../components/_global/menu-control-data-list/menu-control-data-list.component';
 import { SimpleTabsetComponent } from '../components/_global/simple-tabset/simple-tabset.component';
 import { ConsentRequiredModalComponent } from './components/consent-required-modal/consent-required-modal.component';
+import { OnboardStudentTourComponent } from '../components/_global/onboard-student-tour/onboard-student-tour.component';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { ConsentRequiredModalComponent } from './components/consent-required-mod
     MenuControlDataListComponent,
     SimpleTabsetComponent,
     ConsentRequiredModalComponent,
+    OnboardStudentTourComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [ShellComponent],

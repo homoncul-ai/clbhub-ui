@@ -27,6 +27,16 @@ export interface MenuItem {
 }
 
 
+export type DashboardType =
+  | 'advocate'
+  | 'nonprofit'
+  | 'parent'
+  | 'service-provider'
+  | 'employee'
+  | 'ecoadmin'
+  | 'citizen'
+  | 'swcat';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,8 +48,44 @@ export class MenuService {
   private readonly menuRefreshSubject = new Subject<void>();
   public readonly menuRefreshRequested$ = this.menuRefreshSubject.asObservable();
 
+  /**
+   * When set (e.g. ecoadmin launching the student onboard tour), shell rebuilds
+   * the sidebar as this dashboard type without switching the active profile.
+   */
+  private tourPreviewDashboardType: DashboardType | null = null;
+
   public requestMenuRefresh(): void {
     this.menuRefreshSubject.next();
+  }
+
+  /** Temporarily show another role's sidebar (tour targeting / preview). */
+  public beginTourPreview(dashboardType: DashboardType): void {
+    if (this.tourPreviewDashboardType === dashboardType) {
+      return;
+    }
+    this.tourPreviewDashboardType = dashboardType;
+    this.requestMenuRefresh();
+  }
+
+  /** Restore the real profile sidebar after a tour preview. */
+  public endTourPreview(): void {
+    if (this.tourPreviewDashboardType == null) {
+      return;
+    }
+    this.tourPreviewDashboardType = null;
+    this.requestMenuRefresh();
+  }
+
+  public getTourPreviewDashboardType(): DashboardType | null {
+    return this.tourPreviewDashboardType;
+  }
+
+  /** Context dashboard type, overridden while a tour preview is active. */
+  public resolveDashboardType(context: any): DashboardType {
+    if (this.tourPreviewDashboardType) {
+      return this.tourPreviewDashboardType;
+    }
+    return this.getDashboardTypeFromContext(context);
   }
 
 

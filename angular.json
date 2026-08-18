@@ -18,7 +18,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "ts-md5/dist/md5"
+              "ts-md5/dist/md5",
+              "@sjmc11/tourguidejs"
             ],
             "outputPath": "dist/trutesta-hccl-mdb5-ui",
             "index": "src/index.html",
