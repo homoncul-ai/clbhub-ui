@@ -207,7 +207,7 @@ export class MenuService {
       case 'ecoadmin':
         try {
           const surveyRsp = await this.hcclService
-            .findPSurveyRefs({ pageNumber: 1, pageSize: 200, isPaging: true })
+            .findPSurveyRefs({ pageNumber: 1, pageSize: 50, isPaging: true })
             .toPromise();
           const merged = mergeSurveyRefsOntoRegistry(surveyRsp?.searchResults || [], {
             availableOnly: false,

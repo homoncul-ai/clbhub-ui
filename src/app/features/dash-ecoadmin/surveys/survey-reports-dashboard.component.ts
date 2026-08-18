@@ -38,7 +38,7 @@ export class SurveyReportsDashboardComponent implements OnInit {
     this.loading = true;
     this.error = null;
     this.hcclService
-      .findPSurveyRefs({ pageNumber: 1, pageSize: 200, isPaging: true })
+      .findPSurveyRefs({ pageNumber: 1, pageSize: 50, isPaging: true })
       .subscribe({
         next: (response) => {
           const merged = mergeSurveyRefsOntoRegistry(response.searchResults || [], {
