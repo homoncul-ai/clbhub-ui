@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { firstValueFrom } from 'rxjs';
 
 import { StdMarkdownDisplayComponent } from '@app/components/_global/std-markdown-display/std-markdown-display.component';
@@ -9,15 +10,34 @@ import { SimpleMessageList } from '@app/restsvc/common-request-service.model';
 import {
   HcclService,
   MergeSchemeGETData,
+  MergeSchemeTagGETData,
+  PMergeCreateTemplatePOSTData,
   PMergeTmplGETData,
   PMergeTmplVersionGETData,
   PMergeTemplateActionResponse,
   PMergeUpdateDraftPOSTData,
 } from '@app/restsvc/hccl.service';
 import { ADMIN_DOC_MGMT_TEMPLATES_BASE } from './pmergetmpl-list.component';
+import { PMergePreviewModalComponent } from './pmerge-preview-modal.component';
 
 const SEVERITY_ERROR = 1;
 const SEVERITY_WARNING = 2;
+
+const TEMPLATE_TYPE_OPTIONS: { value: string; label: string }[] = [
+  { value: 'securityEmail', label: 'Security email' },
+  { value: 'contracts', label: 'Contracts' },
+  { value: 'experienceReport', label: 'Experience report' },
+  { value: 'userMonthlyStatus', label: 'User monthly status' },
+  { value: 'email', label: 'Email' },
+];
+
+interface HeaderForm {
+  name: string;
+  businessCode: string;
+  templateTypeCode: string;
+  description: string;
+  mergeType: string;
+}
 
 interface DraftForm {
   title: string;
@@ -29,11 +49,17 @@ interface DraftForm {
   selectedSchemeCodes: string[];
 }
 
+interface PaletteTag {
+  schemeCode: string;
+  schemeName: string;
+  tagCode: string;
+  description: string;
+  sampleValue: string;
+}
+
 /**
  * Template detail + markdown editor driven by PMergeUIServices.
- *
- * View mode shows header details and rendered markdown. Edit begins an
- * in-process draft (if needed); Save Draft and Promote stay on this screen.
+ * Create and edit share this screen.
  */
 @Component({
   selector: 'app-pmergetmpl-edit-ui',
@@ -43,10 +69,16 @@ interface DraftForm {
   styleUrl: './pmergetmpl-edit-ui.component.scss',
 })
 export class PMergeTmplEditUiComponent implements OnInit {
+  @ViewChild(StdMarkdownDisplayComponent) markdownEditor?: StdMarkdownDisplayComponent;
+
   private hcclService = inject(HcclService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private modalService = inject(MdbModalService);
 
+  readonly templateTypeOptions = TEMPLATE_TYPE_OPTIONS;
+
+  isCreateMode = false;
   templateId = '';
   template: PMergeTmplGETData | null = null;
   version: PMergeTmplVersionGETData | null = null;
@@ -55,6 +87,7 @@ export class PMergeTmplEditUiComponent implements OnInit {
   loading = false;
   saving = false;
   promoting = false;
+  previewing = false;
   editing = false;
 
   loadError = '';
@@ -62,14 +95,26 @@ export class PMergeTmplEditUiComponent implements OnInit {
   warningText = '';
   successText = '';
 
+  header: HeaderForm = this.emptyHeader();
   draft: DraftForm = this.emptyDraft();
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      const id = params['id'];
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
       if (id) {
+        this.isCreateMode = false;
         this.templateId = id;
+        this.editing = false;
         void this.loadSetup();
+      } else {
+        this.isCreateMode = true;
+        this.templateId = '';
+        this.template = null;
+        this.version = null;
+        this.editing = true;
+        this.header = this.emptyHeader();
+        this.draft = this.emptyDraft();
+        void this.loadSchemesForCreate();
       }
     });
   }
@@ -78,7 +123,14 @@ export class PMergeTmplEditUiComponent implements OnInit {
     return !!this.template?.inProcessVersionId;
   }
 
+  get showEditor(): boolean {
+    return !this.loading && (this.isCreateMode || !!this.template);
+  }
+
   get versionStatusLabel(): string {
+    if (this.isCreateMode) {
+      return 'New';
+    }
     const status = this.version?.statusCode || '';
     if (status === 'in_process') {
       return 'Draft';
@@ -87,6 +139,13 @@ export class PMergeTmplEditUiComponent implements OnInit {
       return 'Active';
     }
     return status || '—';
+  }
+
+  get templateTypeLabel(): string {
+    const code = this.isCreateMode
+      ? this.header.templateTypeCode
+      : this.template?.templateTypeCode || '';
+    return TEMPLATE_TYPE_OPTIONS.find((opt) => opt.value === code)?.label || code || '—';
   }
 
   get configuredSchemeLabels(): string {
@@ -101,8 +160,53 @@ export class PMergeTmplEditUiComponent implements OnInit {
       .join(', ');
   }
 
+  get paletteTags(): PaletteTag[] {
+    const selected = new Set(this.draft.selectedSchemeCodes);
+    const tags: PaletteTag[] = [];
+    this.allSchemes.forEach((scheme) => {
+      if (!scheme.businessCode || !selected.has(scheme.businessCode)) {
+        return;
+      }
+      (scheme.tags ?? []).forEach((tag: MergeSchemeTagGETData) => {
+        if (!tag.tagCode) {
+          return;
+        }
+        tags.push({
+          schemeCode: scheme.businessCode || '',
+          schemeName: scheme.name || scheme.businessCode || '',
+          tagCode: tag.tagCode,
+          description: tag.description || '',
+          sampleValue: tag.sampleValue == null ? '' : String(tag.sampleValue),
+        });
+      });
+    });
+    return tags;
+  }
+
+  get markdownSource(): string {
+    if (this.isCreateMode) {
+      return '';
+    }
+    return this.version?.contents || '';
+  }
+
   backToList(): void {
     this.router.navigate([ADMIN_DOC_MGMT_TEMPLATES_BASE]);
+  }
+
+  async loadSchemesForCreate(): Promise<void> {
+    this.loading = true;
+    this.loadError = '';
+    this.clearMessages();
+    try {
+      const schemesRsp = await firstValueFrom(this.hcclService.listMergeSchemes());
+      this.allSchemes = schemesRsp.schemes ?? [];
+    } catch (err: unknown) {
+      console.error('Failed to load merge schemes', err);
+      this.loadError = this.extractError(err, 'Unable to load merge schemes.');
+    } finally {
+      this.loading = false;
+    }
   }
 
   async loadSetup(): Promise<void> {
@@ -136,7 +240,7 @@ export class PMergeTmplEditUiComponent implements OnInit {
   }
 
   async startEdit(): Promise<void> {
-    if (!this.templateId || this.saving) {
+    if (this.isCreateMode || !this.templateId || this.saving) {
       return;
     }
     this.clearMessages();
@@ -162,13 +266,27 @@ export class PMergeTmplEditUiComponent implements OnInit {
   }
 
   cancelEdit(): void {
+    if (this.isCreateMode) {
+      this.backToList();
+      return;
+    }
     this.editing = false;
     this.copyVersionToDraft();
     this.clearMessages();
   }
 
+  async save(): Promise<boolean> {
+    if (this.isCreateMode) {
+      return this.saveCreate();
+    }
+    return this.saveDraft();
+  }
+
   async saveDraft(): Promise<boolean> {
     if (!this.templateId || this.saving) {
+      return false;
+    }
+    if (!this.validateRequiredFields()) {
       return false;
     }
     this.saving = true;
@@ -192,8 +310,53 @@ export class PMergeTmplEditUiComponent implements OnInit {
     }
   }
 
+  async saveCreate(): Promise<boolean> {
+    if (this.saving) {
+      return false;
+    }
+    if (!this.validateRequiredFields(true)) {
+      return false;
+    }
+    this.saving = true;
+    this.clearMessages();
+    try {
+      const body: PMergeCreateTemplatePOSTData = {
+        name: this.header.name.trim(),
+        businessCode: this.header.businessCode.trim(),
+        templateTypeCode: this.header.templateTypeCode.trim(),
+        mergeType: this.header.mergeType.trim() || 'md',
+        description: this.header.description.trim(),
+        title: this.draft.title.trim(),
+        contents: this.draft.contents,
+        mergeSchemeCodes: this.draft.selectedSchemeCodes.join(','),
+        available: 1,
+        mergingSubject: this.draft.mergingSubject ? 1 : 0,
+        mergingFileName: this.draft.mergingFileName ? 1 : 0,
+        subjectTmpl: this.draft.subjectTmpl,
+        fileNameTmpl: this.draft.fileNameTmpl,
+      };
+      const rsp = await firstValueFrom(this.hcclService.createTemplate(body));
+      this.applyActionResponse(rsp);
+      const newId = rsp.template?.id || (rsp as { id?: string }).id;
+      if (!this.errorText && newId) {
+        this.router.navigate([ADMIN_DOC_MGMT_TEMPLATES_BASE, newId]);
+        return true;
+      }
+      if (!newId && !this.errorText) {
+        this.errorText = 'Template was created but no id was returned.';
+      }
+      return false;
+    } catch (err: unknown) {
+      console.error('Failed to create template', err);
+      this.errorText = this.extractError(err, 'Unable to create template.');
+      return false;
+    } finally {
+      this.saving = false;
+    }
+  }
+
   async promote(): Promise<void> {
-    if (!this.templateId || this.promoting) {
+    if (this.isCreateMode || !this.templateId || this.promoting) {
       return;
     }
     if (this.editing) {
@@ -222,6 +385,50 @@ export class PMergeTmplEditUiComponent implements OnInit {
     }
   }
 
+  async previewWithDefaults(): Promise<void> {
+    if (!this.templateId || this.previewing) {
+      return;
+    }
+    if (this.editing) {
+      const saved = await this.saveDraft();
+      if (!saved) {
+        return;
+      }
+    }
+    this.previewing = true;
+    this.clearMessages();
+    try {
+      const rsp = await firstValueFrom(
+        this.hcclService.mergeTemplate(this.templateId, {
+          useSampleContext: true,
+          persist: false,
+        }),
+      );
+      const errorText = this.messageText(rsp.messages, SEVERITY_ERROR);
+      this.modalService.open(PMergePreviewModalComponent, {
+        modalClass: 'modal-lg',
+        data: {
+          title: 'Preview with defaults',
+          contents: rsp.instance?.contents || '',
+          subject: rsp.instance?.subject || '',
+          fileName: rsp.instance?.fileName || '',
+          errorText,
+        },
+      });
+    } catch (err: unknown) {
+      console.error('Failed to preview merge', err);
+      this.modalService.open(PMergePreviewModalComponent, {
+        modalClass: 'modal-lg',
+        data: {
+          title: 'Preview with defaults',
+          errorText: this.extractError(err, 'Unable to preview merge.'),
+        },
+      });
+    } finally {
+      this.previewing = false;
+    }
+  }
+
   onMarkdownChange(contents: string): void {
     this.draft.contents = contents;
   }
@@ -246,8 +453,63 @@ export class PMergeTmplEditUiComponent implements OnInit {
     this.draft.selectedSchemeCodes = this.draft.selectedSchemeCodes.filter((c) => c !== code);
   }
 
+  onTagDragStart(event: DragEvent, tagCode: string): void {
+    event.dataTransfer?.setData('text/plain', this.tokenFor(tagCode));
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'copy';
+    }
+  }
+
+  insertTag(tagCode: string): void {
+    if (!this.editing && !this.isCreateMode) {
+      return;
+    }
+    this.markdownEditor?.insertText(this.tokenFor(tagCode));
+  }
+
+  private tokenFor(tagCode: string): string {
+    return `[=${tagCode}]`;
+  }
+
+  private validateRequiredFields(forCreate = false): boolean {
+    this.clearMessages();
+    const missing: string[] = [];
+    if (forCreate) {
+      if (!this.header.name.trim()) {
+        missing.push('Name');
+      }
+      if (!this.header.businessCode.trim()) {
+        missing.push('Code');
+      }
+      if (!this.header.templateTypeCode.trim()) {
+        missing.push('Type');
+      }
+      if (!this.header.description.trim()) {
+        missing.push('Description');
+      }
+    }
+    if (this.draft.mergingSubject && !this.draft.subjectTmpl.trim()) {
+      missing.push('Subject template');
+    }
+    if (this.draft.mergingFileName && !this.draft.fileNameTmpl.trim()) {
+      missing.push('File name template');
+    }
+    if (missing.length > 0) {
+      this.errorText = `Required: ${missing.join(', ')}.`;
+      return false;
+    }
+    return true;
+  }
+
   private copyVersionToDraft(): void {
     const version = this.version;
+    this.header = {
+      name: this.template?.name || '',
+      businessCode: this.template?.businessCode || '',
+      templateTypeCode: this.template?.templateTypeCode || '',
+      description: this.template?.description || '',
+      mergeType: this.template?.mergeType || 'md',
+    };
     this.draft = {
       title: version?.title || '',
       contents: version?.contents || '',
@@ -283,23 +545,22 @@ export class PMergeTmplEditUiComponent implements OnInit {
   }
 
   private applyMessages(messages?: SimpleMessageList): void {
-    const list = messages?.messages ?? [];
-    this.errorText = list
-      .filter((m) => (m.severity ?? 0) === SEVERITY_ERROR)
-      .map((m) => m.message || m.messageCode || '')
-      .filter((t) => t.length > 0)
-      .join(' ');
-    this.warningText = list
-      .filter((m) => (m.severity ?? 0) === SEVERITY_WARNING)
-      .map((m) => m.message || m.messageCode || '')
-      .filter((t) => t.length > 0)
-      .join(' ');
+    this.errorText = this.messageText(messages, SEVERITY_ERROR);
+    this.warningText = this.messageText(messages, SEVERITY_WARNING);
     if (!this.errorText && !this.warningText) {
-      this.successText = list
+      this.successText = (messages?.messages ?? [])
         .map((m) => m.message || m.messageCode || '')
         .filter((t) => t.length > 0)
         .join(' ');
     }
+  }
+
+  private messageText(messages: SimpleMessageList | undefined, severity: number): string {
+    return (messages?.messages ?? [])
+      .filter((m) => (m.severity ?? 0) === severity)
+      .map((m) => m.message || m.messageCode || '')
+      .filter((t) => t.length > 0)
+      .join(' ');
   }
 
   private clearMessages(): void {
@@ -313,6 +574,16 @@ export class PMergeTmplEditUiComponent implements OnInit {
       .split(',')
       .map((code) => code.trim())
       .filter((code) => code.length > 0);
+  }
+
+  private emptyHeader(): HeaderForm {
+    return {
+      name: '',
+      businessCode: '',
+      templateTypeCode: '',
+      description: '',
+      mergeType: 'md',
+    };
   }
 
   private emptyDraft(): DraftForm {

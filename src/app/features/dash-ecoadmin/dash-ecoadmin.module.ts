@@ -304,6 +304,7 @@ const routes: Routes = [
       { path: 'miscellaneous/diagnostics', component: DiagnosticsComponent },
 
       // Document Management
+      { path: 'document-management/templates/create', component: PMergeTmplEditUiComponent },
       { path: 'document-management/templates/:id', component: PMergeTmplEditUiComponent },
       { path: 'document-management/templates', component: PMergeTmplListComponent },
       { path: 'document-management/merged-instances', component: PMergeTmplInstancesListComponent },

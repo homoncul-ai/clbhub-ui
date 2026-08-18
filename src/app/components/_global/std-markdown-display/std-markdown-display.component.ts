@@ -71,6 +71,10 @@ export class StdMarkdownDisplayComponent implements OnChanges, AfterViewInit {
   @Input() maxHeight: string = 'none';
 
   @ViewChild('markdeepFrame') markdeepFrame!: ElementRef<HTMLIFrameElement>;
+  @ViewChild('editorTextarea') editorTextarea?: ElementRef<HTMLTextAreaElement>;
+
+  /** True while a drag is hovering the edit textarea. */
+  isDragOver = false;
 
   /** Rendered HTML for common markdown */
   renderedHtml: SafeHtml = '';
@@ -205,6 +209,53 @@ ${this.escapeHtmlForMarkdeep(this.markdown)}
     // For markdeep, we want to preserve the markdown/markdeep syntax
     // but escape any script tags that might be malicious
     return content.replace(/<script/gi, '&lt;script');
+  }
+
+  /**
+   * Insert text at the textarea caret (used for merge-tag drag/click).
+   */
+  insertText(text: string): void {
+    if (this.modeName !== 'edit' || !text) {
+      return;
+    }
+    const textarea = this.editorTextarea?.nativeElement;
+    const start = textarea?.selectionStart ?? this.editContent.length;
+    const end = textarea?.selectionEnd ?? start;
+    this.editContent = this.editContent.slice(0, start) + text + this.editContent.slice(end);
+    this.contentChange.emit(this.editContent);
+    if (this.isMarkdown) {
+      this.renderEditPreview();
+    }
+    if (textarea) {
+      const pos = start + text.length;
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(pos, pos);
+      });
+    }
+  }
+
+  onEditorDragOver(event: DragEvent): void {
+    if (!event.dataTransfer) {
+      return;
+    }
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+    this.isDragOver = true;
+  }
+
+  onEditorDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = false;
+  }
+
+  onEditorDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = false;
+    const text = event.dataTransfer?.getData('text/plain') || '';
+    if (text) {
+      this.insertText(text);
+    }
   }
 
   /**

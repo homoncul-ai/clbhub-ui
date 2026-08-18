@@ -14,6 +14,14 @@ import {
 export const ADMIN_DOC_MGMT_TEMPLATES_BASE =
   '/ecoadmin-dashboard/document-management/templates';
 
+const TEMPLATE_TYPE_LABELS: Record<string, string> = {
+  securityEmail: 'Security email',
+  contracts: 'Contracts',
+  experienceReport: 'Experience report',
+  userMonthlyStatus: 'User monthly status',
+  email: 'Email',
+};
+
 interface TemplateListRow extends PMergeTmplGETData {
   __mergeSchemeCode?: string;
   __versionNumber?: number | string;
@@ -41,7 +49,7 @@ export class PMergeTmplListComponent extends AbstractListComponent<
     super();
     this.searchHeading = 'Templates';
     this.searchHeadingLabel = 'Templates';
-    this.showingAddButton = false;
+    this.showingAddButton = true;
     this.showingGoButton = false;
     this.showingIdCheckbox = false;
   }
@@ -119,7 +127,7 @@ export class PMergeTmplListComponent extends AbstractListComponent<
   protected override formatEntityData(entity: TemplateListRow): any {
     return {
       code: entity.businessCode || '',
-      type: entity.templateTypeCode || '',
+      type: this.templateTypeLabel(entity.templateTypeCode),
       mergeSchemeCode: entity.__mergeSchemeCode || '',
       versionNumber: entity.__versionNumber ?? '',
       lastEditedBy: entity.__lastEditedBy || entity.lastUpdatedByInfo?.name || '',
@@ -130,6 +138,13 @@ export class PMergeTmplListComponent extends AbstractListComponent<
 
   protected override onRowClick(entityId: string): void {
     this.router.navigate([ADMIN_DOC_MGMT_TEMPLATES_BASE, entityId]);
+  }
+
+  private templateTypeLabel(code?: string): string {
+    if (!code) {
+      return '';
+    }
+    return TEMPLATE_TYPE_LABELS[code] || code;
   }
 
   private collectCurrentVersionIds(tmpls: PMergeTmplGETData[]): string[] {

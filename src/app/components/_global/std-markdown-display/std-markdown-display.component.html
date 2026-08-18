@@ -47,10 +47,15 @@
     <mdb-tabs (activeTabChange)="onEditTabChange($event)">
       <mdb-tab title="Edit">
         <ng-template mdbTabContent>
-          <textarea 
+          <textarea
+            #editorTextarea
             class="markdown-editor"
+            [class.drop-target]="isDragOver"
             [value]="editContent"
             (input)="onEditContentChange($event)"
+            (dragover)="onEditorDragOver($event)"
+            (dragleave)="onEditorDragLeave($event)"
+            (drop)="onEditorDrop($event)"
             placeholder="Enter content...">
           </textarea>
         </ng-template>

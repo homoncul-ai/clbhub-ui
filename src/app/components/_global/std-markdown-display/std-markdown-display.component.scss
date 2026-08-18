@@ -180,6 +180,11 @@
   &::placeholder {
     color: var(--bs-secondary-color, rgba(118, 139, 158, 0.75));
   }
+
+  &.drop-target {
+    border-color: var(--bs-primary, #1B84FF);
+    background-color: var(--bs-primary-bg-subtle, #e7f1ff);
+  }
 }
 
 // Edit toolbar with checkbox
