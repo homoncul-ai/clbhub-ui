@@ -1,0 +1,398 @@
+<meta charset="utf-8">
+<title>CLBHub Cohort and Cohort Experience Model</title>
+
+[← Specs index](./)
+
+# CLBHub Cohort and Cohort Experience Model
+
+## Purpose
+
+In CLBHub, a **cohort** is a durable, leader-guided career community: analogous to a group of students in the same major or a shared career pathway. Cohort members are called **participants**.
+
+A cohort is not a single course, event, or fixed-duration class. It provides long-term identity, strategic guidance, team membership, discussion, and a curated set of career-relevant opportunities. Participants may remain in a cohort until they leave, complete its progression criteria, or are explicitly transferred to another cohort or career-ladder level.
+
+A cohort can have one or more associated **Cohort Experiences**. A Cohort Experience associates a cohort with a reusable Experience and decorates it with cohort-specific context. This document defines the cohort-side association, participant relationship, and roundtable requirement. The separate Experience specification owns the mechanics of creating, scheduling, operating, communicating about, registering for, and completing the underlying Experience.
+
+## Core principle
+
+> A cohort is a leader-guided career community that curates a pathway of opportunities. A Cohort Experience places a particular Experience in that cohort's strategic context and records the cohort participants connected to it.
+
+The responsibility boundary is deliberate:
+
+- **Cohort:** Long-lived, strategic membership, career guidance, team, and overarching goals.
+- **Experience:** The operational activity. It owns the mechanics of running the event or activity.
+- **Cohort Experience:** The association between a Cohort and an Experience, decorated with cohort-specific details, participant relationships, and optional post-experience roundtable requirements.
+- **Cohort Experience Participant:** A participant's relationship to a specific Cohort Experience, including cohort-specific sponsorship information.
+- **Career Ladder:** The organizing framework that gives cohorts career direction, levels, competencies, suggested experiences, and progression guidance.
+
+## Scope and non-goals
+
+This document is intentionally limited to Cohort Experience behavior.
+
+### In scope
+
+- Associating one or more Experiences with a Cohort.
+- Cohort-specific display and contextual fields for an associated Experience.
+- The `CohortExperienceParticipant` relationship.
+- The requirement for a post-experience roundtable.
+- Cohort calendar presentation.
+- Cohort-side examples and lifecycle expectations.
+
+### Out of scope
+
+The **Experience** specification is separate and owns:
+
+- Experience creation and catalog behavior.
+- Scheduling, locations, agendas, capacity, and event occurrences.
+- Registration, waitlists, invitations, public visibility, and public sign-up.
+- Attendance and check-in.
+- Experience roles, operational staff, chaperones, speakers, and logistics.
+- Experience-level chat, materials, tasks, tactical goals, and operational communications.
+- The detailed implementation of roundtables, questions, responses, moderation, and reporting.
+
+This document may refer to those capabilities only to define the integration boundary.
+
+## Conceptual model
+
+```text
+Career Ladder
+  └── Cohort
+        ├── Cohort Team
+        ├── Cohort Leader(s)
+        ├── Cohort Group Chat
+        ├── Strategic Goals and Guidance
+        ├── CohortExperience
+        │     ├── points to Experience
+        │     ├── cohort-specific title and description
+        │     ├── importance
+        │     ├── roundtable requirement
+        │     └── CohortExperienceParticipant
+        │           └── points to Participant
+        │
+        ├── CohortExperience
+        │     └── points to another Experience
+        │
+        └── Cohort membership and transfer history
+```
+
+A Cohort Experience is not a duplicate of an Experience. It is a cohort-specific association that enables the same underlying Experience to be related to multiple cohorts with different context, display text, importance, participant associations, and reflection/roundtable expectations.
+
+## Example
+
+A cohort can arrange or feature a sequence of experiences across a period of time:
+
+```text
+Cohort: Advanced Manufacturing Explorers — Level 1
+
+Week 1
+  CohortExperience: Industry Speaker Week
+  Experience: A Day in the Life of a CNC Machinist
+  Cohort context: Important introductory exposure to manufacturing careers
+  Importance: 5
+  Roundtable required: Yes
+
+Week 2
+  CohortExperience: Museum Exploration
+  Experience: Museum of Science Engineering Exhibit Trip
+  Cohort context: Connects the cohort's career exploration goals to hands-on examples
+  Importance: 4
+  Roundtable required: Yes
+```
+
+The Experience records handle the actual speaker activity and museum trip mechanics. The Cohort Experience records explain why each Experience matters to this cohort and what cohort-level follow-up is expected.
+
+## Entities
+
+### Cohort
+
+`Cohort` is assumed to already exist. No changes to the Cohort entity are required by this specification.
+
+The Cohort is the parent of one or more `CohortExperience` records.
+
+```text
+Cohort
+  1 ──── * CohortExperience
+```
+
+### Experience
+
+`Experience` is assumed to exist and is specified elsewhere. No changes to the Experience entity are defined here.
+
+A `CohortExperience` points to one Experience.
+
+```text
+Experience
+  1 ──── * CohortExperience
+```
+
+This cardinality allows a single reusable Experience to be associated with multiple Cohorts.
+
+### CohortExperience
+
+`CohortExperience` associates one Cohort with one Experience and decorates that relationship with cohort-specific details.
+
+```text
+CohortExperience
+- id
+- cohortId                 // required; points to Cohort
+- experienceId             // required; points to Experience
+- title                    // cohort-calendar title; defaults to Experience title
+- description              // how/why the Experience pertains to this Cohort
+- importance               // integer from 0 through 5; 5 is very important
+- roundtableRequired       // whether CohortExperienceParticipants must complete a roundtable, if applicable
+```
+
+#### Field definitions
+
+| Field | Type | Required | Description |
+|---|---:|---:|---|
+| `id` | identifier | Yes | Unique identity for the Cohort Experience association |
+| `cohortId` | identifier | Yes | The Cohort to which this Experience is associated |
+| `experienceId` | identifier | Yes | The reusable Experience associated with this Cohort |
+| `title` | string | Yes | The title shown on the cohort calendar; defaults to the associated Experience title when created |
+| `description` | text | No | Explains how the Experience pertains to, supports, or advances this Cohort's strategic purpose |
+| `importance` | integer | Yes | Cohort-specific importance from 0 to 5, where 5 means very important |
+| `roundtableRequired` | boolean | Yes | Indicates whether each Cohort Experience Participant is required to answer roundtable questions after the Experience completes |
+
+#### Title behavior
+
+When a Cohort Experience is created, its `title` should default to the associated Experience title. The cohort leader or authorized user may override it to make its meaning clear in the cohort calendar.
+
+Examples:
+
+| Experience title | Cohort Experience title |
+|---|---|
+| A Day in the Life of a CNC Machinist | Industry Speaker Week: CNC Machinist |
+| Museum of Science Engineering Exhibit Trip | Week 2: Engineering Museum Exploration |
+| Intro to CAD Workshop | Recommended CAD Preparation Workshop |
+
+Changing the title on a Cohort Experience should not change the canonical title of the underlying Experience.
+
+#### Description behavior
+
+The `description` is cohort-specific context, not a restatement of the Experience description.
+
+Examples:
+
+- “Introduces participants to a local manufacturing career pathway and supports the cohort's career-exploration goal.”
+- “A recommended follow-up for participants considering robotics or mechanical design roles.”
+- “This visit provides examples for the cohort's next roundtable discussion on engineering career interests.”
+
+#### Importance
+
+`importance` is an integer constrained to `0..5`:
+
+| Value | Suggested meaning |
+|---:|---|
+| 0 | Informational or optional reference |
+| 1 | Low priority |
+| 2 | Helpful |
+| 3 | Recommended |
+| 4 | Highly recommended |
+| 5 | Very important / major cohort priority |
+
+Importance is a guidance and presentation attribute. It does not by itself create registration, attendance, completion, or progression requirements.
+
+#### Roundtable requirement
+
+`roundtableRequired` expresses a cohort-specific follow-up requirement.
+
+When it is `true`, each relevant `CohortExperienceParticipant` must answer the configured roundtable questions after the Experience has completed, subject to the detailed rules in the separate Experience/Roundtable specification.
+
+The Cohort Experience does not define the full roundtable mechanism in this document. It only declares that the cohort requires it.
+
+Potential downstream outcomes include:
+
+- Marking a participant's cohort-side follow-up as pending.
+- Prompting the participant after Experience completion.
+- Allowing a cohort leader to see who has or has not completed the required roundtable.
+- Using responses as evidence for strategic cohort or Career Ladder progress.
+
+### CohortExperienceParticipant
+
+`CohortExperienceParticipant` associates a Participant with a specific Cohort Experience.
+
+```text
+CohortExperienceParticipant
+- id
+- cohortExperienceId       // required; points to CohortExperience
+- participantId            // required; points to Participant
+- sponsoredByOrgId         // organization that sponsored the participant, if applicable
+```
+
+#### Field definitions
+
+| Field | Type | Required | Description |
+|---|---:|---:|---|
+| `id` | identifier | Yes | Unique identity for this participant's Cohort Experience association |
+| `cohortExperienceId` | identifier | Yes | The associated Cohort Experience |
+| `participantId` | identifier | Yes | The Participant connected to this Cohort Experience |
+| `sponsoredByOrgId` | identifier | No | The Organization that sponsored this participant in connection with this Cohort Experience |
+
+`CohortExperienceParticipant` is distinct from any participant record that belongs to the underlying Experience. The Experience specification remains authoritative for operational enrollment, registration, role, attendance, and check-in. This cohort-side record exists to express the participant's cohort context and sponsorship information.
+
+### Relationship diagram
+
+```text
+Cohort
+  1 ──── * CohortExperience
+                * ──── 1 Experience
+                1 ──── * CohortExperienceParticipant
+                              * ──── 1 Participant
+                              * ──── 0..1 Organization (sponsoredByOrgId)
+```
+
+## Cohort Experience lifecycle
+
+The Experience lifecycle is defined elsewhere. The Cohort Experience follows that underlying lifecycle for display and cohort-side follow-up.
+
+### Creation
+
+A cohort leader or authorized user:
+
+1. Selects an existing Experience.
+2. Creates a `CohortExperience` that points to the Cohort and selected Experience.
+3. Uses the Experience title as the default Cohort Experience title.
+4. Adds or edits the cohort-specific title and description.
+5. Sets `importance` from 0 to 5.
+6. Determines whether `roundtableRequired` is true or false.
+7. Associates relevant participants as `CohortExperienceParticipant` records, as appropriate.
+
+The association may be created before participants are connected to it. Participant selection and operational registration remain separate concerns.
+
+### During the Experience
+
+All operational mechanics are managed through the Experience:
+
+- Schedule and agenda.
+- Public listing or private access.
+- Registration and enrollment.
+- Attendance and check-in.
+- Operational participant roles.
+- Materials and messages.
+- Chat and activity logistics.
+
+The cohort calendar presents the Cohort Experience using its cohort-specific `title`, `description`, and `importance` while linking to the underlying Experience for operational details.
+
+### Completion and roundtable follow-up
+
+After the underlying Experience completes:
+
+1. The system identifies the relevant `CohortExperienceParticipant` records.
+2. If `roundtableRequired` is `false`, no cohort-specific roundtable follow-up is required.
+3. If `roundtableRequired` is `true`, each Cohort Experience Participant must answer the roundtable questions for that Cohort Experience, subject to the detailed roundtable rules defined elsewhere.
+4. The system can present outstanding roundtable work in participant and cohort-leader views.
+5. Authorized leaders can use completion and responses as evidence of strategic cohort progress.
+
+The required roundtable is cohort-specific. The same underlying Experience may be linked to another Cohort with a different title, importance, description, or no roundtable requirement.
+
+## Calendar behavior
+
+The cohort calendar should show each `CohortExperience` in the cohort's strategic context.
+
+For a Cohort Experience calendar entry, show:
+
+- Cohort Experience title.
+- Underlying Experience date/time, as supplied by the Experience.
+- Cohort Experience description.
+- Importance indicator.
+- Roundtable-required indicator when applicable.
+- Link to the underlying Experience for operational detail and participation mechanics.
+
+The calendar should not duplicate or become the source of truth for the Experience's scheduling and operations.
+
+## Examples
+
+### Speaker Week
+
+```text
+CohortExperience
+- cohortId: advanced-manufacturing-explorers-level-1
+- experienceId: cnc-machinist-speaker-session
+- title: Industry Speaker Week: CNC Machinist
+- description: Introduces participants to a local manufacturing career pathway and supports the cohort's exploration goal.
+- importance: 5
+- roundtableRequired: true
+```
+
+```text
+CohortExperienceParticipant
+- cohortExperienceId: industry-speaker-week-cnc
+- participantId: participant-123
+- sponsoredByOrgId: beverly-public-schools
+```
+
+### Museum Visit
+
+```text
+CohortExperience
+- cohortId: advanced-manufacturing-explorers-level-1
+- experienceId: museum-science-engineering-trip
+- title: Week 2: Engineering Museum Exploration
+- description: Connects career interests identified in Speaker Week to hands-on engineering and technology exhibits.
+- importance: 4
+- roundtableRequired: true
+```
+
+### Shared Experience, different cohort context
+
+The same Experience can be used by different cohorts without duplication.
+
+```text
+Experience: Regional Robotics Career Panel
+
+CohortExperience A
+- Cohort: Robotics Explorers
+- title: Robotics Career Panel
+- importance: 5
+- description: Core exploration activity for participants considering robotics careers.
+- roundtableRequired: true
+
+CohortExperience B
+- Cohort: Advanced Manufacturing Explorers
+- title: Optional Robotics Career Panel
+- importance: 2
+- description: An elective opportunity for participants interested in automation and controls.
+- roundtableRequired: false
+```
+
+## Data integrity and implementation rules
+
+- `cohortId` and `experienceId` are required for every Cohort Experience.
+- `importance` must be an integer between 0 and 5, inclusive.
+- `title` defaults from the Experience title at creation time but is stored independently thereafter.
+- Changing a Cohort Experience title or description must not change the underlying Experience.
+- A Cohort Experience must not duplicate Experience operational data such as schedule, capacity, registration, attendance, chat, or materials.
+- The Experience is authoritative for operational participation and attendance.
+- `CohortExperienceParticipant` must reference an existing Cohort Experience and Participant.
+- `sponsoredByOrgId` is optional and must reference an existing Organization if supplied.
+- A participant may be associated with more than one Cohort Experience.
+- The same Experience may be associated with multiple Cohorts through multiple Cohort Experience records.
+- The same underlying Experience may have different cohort-specific titles, descriptions, importance levels, and roundtable requirements.
+- A Cohort Experience should not automatically imply that every cohort participant is operationally registered for the Experience.
+- A Cohort Experience Participant should not be assumed to be checked in or to have attended; attendance remains owned by the Experience.
+
+## Open decisions
+
+The following decisions are intentionally left TBD or belong in the separate Experience/Roundtable specification:
+
+- Which cohort-specific details beyond title, description, importance, and roundtable requirement belong on `CohortExperience`.
+- Whether a Cohort Experience can be created from only catalog-backed Experiences or from any existing Experience.
+- Whether a Cohort Experience can associate all current cohort members in bulk.
+- Whether `CohortExperienceParticipant` is automatically created from operational Experience registration, manually selected, or both.
+- Whether a Cohort Experience Participant must be an active member of the Cohort at the time of association.
+- Whether `sponsoredByOrgId` is a snapshot for historical reporting or reflects a current sponsorship relationship.
+- The exact behavior, question set, response model, deadlines, moderation, and reporting of a required roundtable.
+- Whether roundtable completion is required for all Cohort Experience Participants or only those who attended the underlying Experience.
+- Whether a failed/no-show operational participation can exempt, block, or still require a roundtable.
+- How Cohort Experience completion and roundtable responses contribute to Career Ladder or Cohort progress.
+- Whether a Cohort Experience can have more than one underlying Experience.
+
+## Product statement
+
+> In CLBHub, a Cohort Experience associates a strategic cohort with an operational Experience. It decorates that association with cohort-specific context, calendar presentation, importance, participant sponsorship, and an optional requirement for participants to complete a post-experience roundtable.
+
+<script>markdeepOptions = {tocStyle: 'long'};</script>
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
