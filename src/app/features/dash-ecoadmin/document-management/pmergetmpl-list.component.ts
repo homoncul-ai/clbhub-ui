@@ -25,6 +25,7 @@ const TEMPLATE_TYPE_LABELS: Record<string, string> = {
 interface TemplateListRow extends PMergeTmplGETData {
   __mergeSchemeCode?: string;
   __versionNumber?: number | string;
+  __versionStatus?: string;
   __lastEditedBy?: string;
   __dateLastEdited?: string;
 }
@@ -66,6 +67,7 @@ export class PMergeTmplListComponent extends AbstractListComponent<
       { id: 'type', header: [{ text: 'Type', align: 'center' }, { content: 'inputFilter' }], minWidth: 140, adjust: true },
       { id: 'mergeSchemeCode', header: [{ text: 'Merge Scheme', align: 'center' }, { content: 'inputFilter' }], minWidth: 160, adjust: true },
       { id: 'versionNumber', header: [{ text: 'Version', align: 'center' }], minWidth: 90, align: 'center', adjust: true },
+      { id: 'versionStatus', header: [{ text: 'Status', align: 'center' }, { content: 'inputFilter' }], minWidth: 130, align: 'center', adjust: true },
       { id: 'lastEditedBy', header: [{ text: 'Last Edited By', align: 'center' }], minWidth: 150, adjust: true },
       { id: 'dateLastEdited', header: [{ text: 'Date Last Edited', align: 'center' }], minWidth: 150, adjust: true },
     ];
@@ -130,6 +132,7 @@ export class PMergeTmplListComponent extends AbstractListComponent<
       type: this.templateTypeLabel(entity.templateTypeCode),
       mergeSchemeCode: entity.__mergeSchemeCode || '',
       versionNumber: entity.__versionNumber ?? '',
+      versionStatus: entity.__versionStatus || '',
       lastEditedBy: entity.__lastEditedBy || entity.lastUpdatedByInfo?.name || '',
       dateLastEdited:
         entity.__dateLastEdited || entity.dateLastUpdated?.formattedDate || '',
@@ -169,8 +172,24 @@ export class PMergeTmplListComponent extends AbstractListComponent<
       ...tmpl,
       __mergeSchemeCode: version?.mergeSchemeCodes || '',
       __versionNumber: version?.version ?? '',
+      __versionStatus: this.versionStatusLabel(tmpl),
       __lastEditedBy: lastEditedSource.lastUpdatedByInfo?.name || '',
       __dateLastEdited: lastEditedSource.dateLastUpdated?.formattedDate || '',
     };
+  }
+
+  private versionStatusLabel(tmpl: PMergeTmplGETData): string {
+    const hasActive = !!tmpl.activeVersionId;
+    const hasDraft = !!tmpl.inProcessVersionId;
+    if (hasActive && hasDraft) {
+      return 'Active + draft';
+    }
+    if (hasActive) {
+      return 'Active';
+    }
+    if (hasDraft) {
+      return 'Draft';
+    }
+    return '';
   }
 }
