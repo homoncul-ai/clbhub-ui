@@ -1,6 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CohortUIData, HcclService } from '@app/restsvc/hccl.service';
+import {
+  CohortUIData,
+  HcclService,
+  HcclTeamMemberGETData,
+  HcclUserProfileGETData,
+} from '@app/restsvc/hccl.service';
 import { SimpleTab, SimpleTabsetComponent } from '@app/components/_global/simple-tabset/simple-tabset.component';
 import { PMessageUiComponent } from '@app/components/_crud/pmessage-ui/pmessage-ui.component';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
@@ -63,7 +68,7 @@ import { CohortInviteModalComponent } from './cohort-invite-modal.component';
           <div *ngIf="!uiData.members?.length" class="text-muted">No members yet.</div>
           <ul *ngIf="uiData.members?.length" class="list-group">
             <li *ngFor="let member of uiData.members" class="list-group-item">
-              {{ member.entityDisplayName }}
+              {{ member.messageHandle || member.userEmail || member.entityDisplayName }}
             </li>
           </ul>
         </div>
@@ -209,9 +214,7 @@ export class CohortTabsetUiComponent implements OnChanges {
       return;
     }
     this.hcclService.loadCohortUIData(this.id).subscribe({
-      next: (data) => {
-        this.uiData = data;
-      },
+      next: (data) => this.applyCohortUiData(data),
     });
   }
 
@@ -221,17 +224,90 @@ export class CohortTabsetUiComponent implements OnChanges {
     this.inviteSuccess = '';
     this.hcclService.loadCohortUIData(this.id).subscribe({
       next: (data) => {
-        this.uiData = data;
+        this.applyCohortUiData(data);
         this.loading = false;
-        const errors = data.messages?.messages?.filter((m) => m.severity === 1) || [];
-        if (errors.length) {
-          this.error = errors.map((e) => e.message).join(' ');
-        }
       },
       error: () => {
         this.loading = false;
         this.error = 'Failed to load cohort details.';
       },
     });
+  }
+
+  private applyCohortUiData(data: CohortUIData): void {
+    this.uiData = {
+      ...data,
+      members: data.members || [],
+      outstandingInvites: data.outstandingInvites || [],
+    };
+
+    if (!data?.cohort) {
+      const errors = data.messages?.messages?.filter((m) => m.severity === 1) || [];
+      this.error = errors.map((e) => e.message).filter(Boolean).join(' ')
+        || 'Failed to load cohort details.';
+      return;
+    }
+
+    this.error = '';
+    this.loadSupplementalLists();
+  }
+
+  private loadSupplementalLists(): void {
+    if (!this.uiData?.cohort) {
+      return;
+    }
+
+    const teamId = this.uiData.cohort.teamId;
+    if (!this.uiData.members?.length && teamId) {
+      this.hcclService.findHcclTeamMembers({
+        teamId,
+        pageNumber: 1,
+        pageSize: 50,
+        isPaging: true,
+        optionalDataHint: 'all',
+      }).subscribe({
+        next: (results) => {
+          if (!this.uiData) {
+            return;
+          }
+          this.uiData = {
+            ...this.uiData,
+            members: (results.searchResults || []).map((member) => this.toMemberProfile(member)),
+          };
+        },
+      });
+    }
+
+    if (!this.uiData.outstandingInvites?.length && this.id) {
+      this.hcclService.findHcclUserInvites({
+        parentId: this.id,
+        parentEntityType: 'Cohort',
+        currentStateCode: 'initial',
+        pageNumber: 1,
+        pageSize: 50,
+        isPaging: true,
+        optionalDataHint: 'all',
+      }).subscribe({
+        next: (results) => {
+          if (!this.uiData) {
+            return;
+          }
+          this.uiData = {
+            ...this.uiData,
+            outstandingInvites: (results.searchResults || []).filter((invite) => invite.available !== 0),
+          };
+        },
+      });
+    }
+  }
+
+  private toMemberProfile(member: HcclTeamMemberGETData): HcclUserProfileGETData {
+    if (member.userProfile) {
+      return member.userProfile;
+    }
+    return {
+      id: member.userProfileId,
+      entityDisplayName: member.name || member.entityDisplayName,
+    };
   }
 }

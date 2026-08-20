@@ -6,6 +6,9 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { CohortPOSTData, HcclService } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 
+/** Sentinel UUID: JAX-RS @Valid requires teamId, then the backend creates the real cohort team. */
+const TEAM_ID_SENTINEL = '00000000-0000-0000-0000-000000000000';
+
 @Component({
   selector: 'app-cohort-create-modal',
   standalone: true,
@@ -88,6 +91,8 @@ export class CohortCreateModalComponent {
       organizationId: context?.currentUserProfile?.organizationId,
       createdById: context?.currentUserProfileId,
       available: 1,
+      currentStateCode: 'initial',
+      teamId: TEAM_ID_SENTINEL,
     };
 
     this.saving = true;
