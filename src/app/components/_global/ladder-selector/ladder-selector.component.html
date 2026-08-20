@@ -1,0 +1,40 @@
+<div class="ladder-selector">
+  <div class="icon-grid">
+    <div
+      *ngFor="let ladder of filteredLadders"
+      class="icon-tile"
+      [class.selected]="isSelected(ladder.id)"
+      (click)="toggleLadder(ladder)"
+      role="button"
+      tabindex="0"
+      (keydown.enter)="toggleLadder(ladder)"
+      (keydown.space)="toggleLadder(ladder); $event.preventDefault()"
+      [attr.aria-pressed]="isSelected(ladder.id)">
+      <div class="icon-tile-icon">
+        <i [class]="ladder.icon + ' fa-2x'"></i>
+      </div>
+      <div class="icon-tile-label">{{ ladder.name }}</div>
+      <div class="icon-tile-desc">{{ ladder.description }}</div>
+      <div class="icon-tile-check" *ngIf="isSelected(ladder.id)">
+        <i class="fas fa-check-circle"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="chosen-section" *ngIf="chosenLadders.length > 0">
+    <small class="text-muted d-block mb-2">Chosen</small>
+    <div class="chosen-list">
+      <span *ngFor="let ladder of chosenLadders" class="chosen-chip">
+        <i [class]="ladder.icon + ' me-1'"></i>
+        {{ ladder.name }}
+        <button
+          type="button"
+          class="chosen-remove"
+          (click)="removeChosen(ladder, $event)"
+          [attr.aria-label]="'Remove ' + ladder.name">
+          <i class="fas fa-times"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>

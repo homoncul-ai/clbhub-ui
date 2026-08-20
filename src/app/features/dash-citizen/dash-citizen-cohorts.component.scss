@@ -1,4 +1,5 @@
 @import '../dash-provider/cohorts/cohort-leader-ui-example.component.scss';
+@import '../dash-provider/dash-provider-cohorts.component.scss';
 
 .dash-citizen-cohorts {
   padding: 0.5rem 0 2rem;
@@ -23,5 +24,11 @@
 
   dd {
     margin: 0;
+  }
+}
+
+.list-group-item.active {
+  .text-muted {
+    color: rgba(255, 255, 255, 0.75) !important;
   }
 }

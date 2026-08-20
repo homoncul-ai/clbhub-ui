@@ -7,6 +7,7 @@ export { AbstractMultimodeComponent } from './abstract-multimode/abstract-multim
 // Display components
 export { DategetdataDisplayComponent } from './dategetdata-display/dategetdata-display.component';
 export { AvailableSelectorComponent } from './available-selector/available-selector.component';
+export { LadderSelectorComponent } from './ladder-selector/ladder-selector.component';
 export { ReferenceDataComponent } from './reference-data/reference-data.component';
 
 // Control components

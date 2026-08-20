@@ -214,7 +214,7 @@ const routes: Routes = [
         component: DashCitizenCohortsComponent,
         data: {
           pageTitle: 'My Cohorts',
-          pageSubtitle: 'Participant view — MVP UI specs with documentation links',
+          pageSubtitle: 'Your cohorts, materials, and messages',
           pageIcon: 'fas fa-users',
         },
       },
