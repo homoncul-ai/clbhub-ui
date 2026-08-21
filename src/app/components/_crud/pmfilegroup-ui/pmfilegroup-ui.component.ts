@@ -555,12 +555,60 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   downloadFile(): void {
-    if (this.selectedFile?.downloadFileUrl) {
-      const link = document.createElement('a');
-      link.href = this.selectedFile.downloadFileUrl;
-      link.download = this.selectedFile.downloadAs || 'file';
-      link.click();
+    const url = this.selectedFile?.downloadFileUrl || this.selectedFile?.downloadInternalFileUrl;
+    if (!url || !this.selectedFile) {
+      return;
     }
+
+    const fileName = this.selectedFile.downloadAs || 'file';
+    let urlOrigin = '';
+    let urlPath = '';
+    try {
+      const u = new URL(url, window.location.origin);
+      urlOrigin = u.origin;
+      urlPath = u.pathname;
+    } catch {
+      urlOrigin = 'parse-failed';
+    }
+    const isSameOrigin = urlOrigin === window.location.origin;
+
+    // #region agent log
+    fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'H1',location:'pmfilegroup-ui.component.ts:downloadFile:start',message:'download click',data:{downloadAs:fileName,mimeType:this.selectedFile.mimeType||null,fileAccessCode:this.selectedFile.fileAccessCode||null,isSameOrigin,pageOrigin:window.location.origin,urlOrigin,urlPath,usingPublicUrl:!!this.selectedFile.downloadFileUrl},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+
+    // Cross-origin URLs ignore <a download>; fetch as blob and save locally.
+    this.http.get(url, { responseType: 'blob', observe: 'response' }).subscribe({
+      next: (resp) => {
+        const blob = resp.body;
+        const contentType = resp.headers.get('content-type') || blob?.type || '';
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'H2',location:'pmfilegroup-ui.component.ts:downloadFile:blob',message:'download blob fetched',data:{status:resp.status,contentType,blobSize:blob?.size??null,blobType:blob?.type||null,fileName},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+
+        if (!blob || blob.size === 0) {
+          alert('Download failed: empty file');
+          return;
+        }
+
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = objectUrl;
+        link.download = fileName;
+        link.click();
+        URL.revokeObjectURL(objectUrl);
+
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'H4',location:'pmfilegroup-ui.component.ts:downloadFile:saved',message:'local blob download triggered',data:{fileName,blobSize:blob.size},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+      },
+      error: (err) => {
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'H3',location:'pmfilegroup-ui.component.ts:downloadFile:error',message:'download blob fetch failed',data:{status:err?.status||null,errMsg:err?.message||String(err)},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+        console.error('Error downloading file:', err);
+        alert('Error downloading file: ' + (err?.message || 'Unknown error'));
+      }
+    });
   }
 
   /**
