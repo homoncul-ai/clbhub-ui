@@ -15,6 +15,21 @@ export const routes: Routes = [
         loadChildren: () => import('./features/surveys/surveys.routes').then(m => m.SURVEYS_ROUTES)
       },
       {
+        path: 'onboarding',
+        loadChildren: () => import('./features/onboarding/onboarding.routes').then(m => m.ONBOARDING_ROUTES)
+      },
+      {
+        path: 'onboard',
+        loadChildren: () => import('./features/onboarding/onboarding.routes').then(m => m.ONBOARD_LEGACY_ROUTES)
+      },
+      {
+        path: 'citizen',
+        loadComponent: () =>
+          import('./features/onboarding/citizen-onboard/citizen-onboard.component').then(
+            (m) => m.CitizenOnboardComponent,
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'surveys',
       },

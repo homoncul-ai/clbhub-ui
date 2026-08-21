@@ -1,0 +1,116 @@
+.onboard-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 3rem;
+  background-color: #2d3439;
+  background-image:
+    linear-gradient(135deg, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.08) 55%, rgba(0, 0, 0, 0.35) 100%),
+    repeating-linear-gradient(
+      60deg,
+      transparent 0,
+      transparent 42px,
+      rgba(255, 255, 255, 0.03) 42px,
+      rgba(255, 255, 255, 0.03) 84px
+    );
+}
+
+.onboard-brand {
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.onboard-card {
+  width: min(420px, 100%);
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  padding: 1.75rem 1.6rem 1.85rem;
+  border-top: 4px solid #1b84ff;
+}
+
+.onboard-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+  color: #1d2328;
+}
+
+.onboard-subtitle {
+  color: #5c6770;
+  font-size: 0.95rem;
+  margin-bottom: 1.15rem;
+}
+
+.onboard-loading {
+  display: flex;
+  align-items: center;
+  color: #5c6770;
+  padding: 0.5rem 0 1rem;
+}
+
+.required-marker {
+  color: #dc3545;
+  font-weight: 700;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon .form-control {
+  padding-right: 2.4rem;
+}
+
+.input-icon,
+.input-icon-btn {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #dc3545;
+}
+
+.input-icon-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #6c757d;
+  line-height: 1;
+}
+
+.input-icon-btn:hover,
+.input-icon-btn:focus {
+  color: #1b84ff;
+}
+
+.invalid-hint {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.onboard-consents {
+  display: block;
+  margin: 1.15rem 0 1.25rem;
+}
+
+.onboard-submit {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .simple-messages-section {
+  margin-bottom: 1rem;
+}
+
+:host ::ng-deep .simple-messages-section .messages-title {
+  font-size: 0.95rem;
+}

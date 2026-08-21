@@ -1,0 +1,120 @@
+<div class="onboard-page">
+  <header class="onboard-brand">CLBHub</header>
+
+  <section class="onboard-card" aria-labelledby="onboard-title">
+    <h1 id="onboard-title" class="onboard-title">Register</h1>
+    <p class="onboard-subtitle" *ngIf="organizationName">
+      Create your account to join {{ organizationName }}.
+    </p>
+    <p class="onboard-subtitle" *ngIf="!organizationName && setupReady">
+      Create your account to continue.
+    </p>
+
+    <div *ngIf="loading" class="onboard-loading" role="status">
+      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+      Loading invitation…
+    </div>
+
+    <app-simple-messages-section [messagesList]="messagesList"></app-simple-messages-section>
+
+    <form *ngIf="setupReady && !loading" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="mb-3">
+        <label class="form-label" for="onboard-email">
+          Email <span class="required-marker">*</span>
+        </label>
+        <div class="input-with-icon">
+          <input
+            id="onboard-email"
+            class="form-control"
+            type="email"
+            [value]="inviteEmail"
+            readonly
+            autocomplete="username" />
+          <i class="fas fa-lock input-icon" aria-hidden="true" title="Email comes from your invitation"></i>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="onboard-password">
+          Password <span class="required-marker">*</span>
+        </label>
+        <div class="input-with-icon">
+          <input
+            id="onboard-password"
+            class="form-control"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="new-password" />
+          <button
+            type="button"
+            class="input-icon-btn"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+            <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+          </button>
+        </div>
+        <small class="text-muted">8–32 characters.</small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="onboard-confirm-password">
+          Confirm password <span class="required-marker">*</span>
+        </label>
+        <div class="input-with-icon">
+          <input
+            id="onboard-confirm-password"
+            class="form-control"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            autocomplete="new-password" />
+          <button
+            type="button"
+            class="input-icon-btn"
+            (click)="toggleConfirmPasswordVisibility()"
+            [attr.aria-label]="showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'">
+            <i class="fas" [class.fa-eye]="!showConfirmPassword" [class.fa-eye-slash]="showConfirmPassword"></i>
+          </button>
+        </div>
+        <div *ngIf="passwordsMismatch" class="invalid-hint">Passwords do not match.</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="onboard-first-name">
+          First name <span class="required-marker">*</span>
+        </label>
+        <input
+          id="onboard-first-name"
+          class="form-control"
+          type="text"
+          formControlName="firstName"
+          autocomplete="given-name" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="onboard-last-name">
+          Last name <span class="required-marker">*</span>
+        </label>
+        <input
+          id="onboard-last-name"
+          class="form-control"
+          type="text"
+          formControlName="lastName"
+          autocomplete="family-name" />
+      </div>
+
+      <app-contract-section
+        *ngIf="consents?.contracts?.length"
+        class="onboard-consents"
+        [consents]="consents"
+        [disabled]="submitting"
+        (consentSelectionChange)="onConsentSelectionChange($event)"
+        (allAcceptedChange)="onAllAcceptedChange($event)">
+      </app-contract-section>
+
+      <button type="submit" class="btn btn-primary onboard-submit" [disabled]="!canSubmit">
+        <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
+        {{ submitting ? 'Creating account…' : 'Register' }}
+      </button>
+    </form>
+  </section>
+</div>
