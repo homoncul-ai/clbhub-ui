@@ -3,114 +3,263 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { CohortPOSTData, HcclService } from '@app/restsvc/hccl.service';
+import { firstValueFrom } from 'rxjs';
+import { LadderSelectorComponent } from '@app/components/_global/ladder-selector/ladder-selector.component';
+import { PmfilegroupUiComponent } from '@app/components/_crud/pmfilegroup-ui/pmfilegroup-ui.component';
+import {
+  CohortPOSTData,
+  CohortPursuitPOSTData,
+  HcclService,
+  PMFileGroupGETData,
+  PMFileGroupPOSTData,
+} from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { GlobalConstants } from '@app/global-constants';
+import { CareerLadder } from '@app/shared/data/career-ladders';
 
 @Component({
   selector: 'app-cohort-create-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, MdbFormsModule],
-  template: `
-    <div class="modal-header">
-      <h5 class="modal-title">
-        <i class="fas fa-plus-circle me-2"></i>
-        Create Cohort
-      </h5>
-      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
-    </div>
-
-    <div class="modal-body">
-      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-
-      <div class="mb-3">
-        <label class="form-label" for="cohortName">Name</label>
-        <input id="cohortName" class="form-control" [(ngModel)]="name" required />
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="cohortCode">Business Code</label>
-        <input id="cohortCode" class="form-control" [(ngModel)]="businessCode" required />
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="cohortDescription">Description</label>
-        <textarea id="cohortDescription" class="form-control" rows="3" [(ngModel)]="description"></textarea>
-      </div>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-      <button type="button" class="btn btn-primary" [disabled]="saving" (click)="createCohort()">
-        {{ saving ? 'Creating...' : 'Create Cohort' }}
-      </button>
-    </div>
-  `,
-  styles: [`
-    .modal-header {
-      background-color: #f8f9fa;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    }
-
-    .modal-title {
-      color: #333;
-      font-weight: 600;
-    }
-
-    .modal-body {
-      padding: 1.5rem;
-    }
-  `],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MdbFormsModule,
+    LadderSelectorComponent,
+    PmfilegroupUiComponent,
+  ],
+  templateUrl: './cohort-create-modal.component.html',
+  styleUrl: './cohort-create-modal.component.scss',
 })
 export class CohortCreateModalComponent {
   private hcclService = inject(HcclService);
   private hcclContextService = inject(HcclContextService);
 
+  currentPage = 1;
+  readonly totalPages = 3;
+
+  selectedLadder: CareerLadder | null = null;
+  selectedLadderIds: string[] = [];
+  private autoNameFromPursuit = '';
+
   name = '';
   businessCode = '';
-  description = '';
+  mission = '';
+
+  cohortId = '';
+  fileGroup: PMFileGroupGETData | null = null;
+  loadingFileGroup = false;
+  creatingFileGroup = false;
+
   saving = false;
   error = '';
 
   constructor(public modalRef: MdbModalRef<CohortCreateModalComponent>) {}
 
-  createCohort(): void {
+  onLadderSelectionChange(ladders: CareerLadder[]): void {
+    this.selectedLadder = ladders[0] || null;
+    this.selectedLadderIds = this.selectedLadder ? [this.selectedLadder.id] : [];
+
+    if (!this.selectedLadder) {
+      if (this.name === this.autoNameFromPursuit) {
+        this.name = '';
+      }
+      this.autoNameFromPursuit = '';
+      return;
+    }
+
+    const nextAutoName = `Exploring : ${this.selectedLadder.name}`;
+    if (!this.name.trim() || this.name === this.autoNameFromPursuit) {
+      this.name = nextAutoName;
+    }
+    this.autoNameFromPursuit = nextAutoName;
+  }
+
+  nextPage(): void {
     this.error = '';
+    if (this.currentPage === 1 && !this.selectedLadder) {
+      this.error = 'Select one pursuit to continue.';
+      return;
+    }
+    if (this.currentPage < this.totalPages) {
+      this.currentPage += 1;
+    }
+  }
+
+  prevPage(): void {
+    this.error = '';
+    if (this.currentPage === 2 && !this.cohortId) {
+      this.currentPage = 1;
+    }
+  }
+
+  goToMaterialsPage(): void {
+    this.currentPage = 3;
+    void this.ensureFileGroup();
+  }
+
+  async createCohortAndPursuit(): Promise<void> {
+    this.error = '';
+    if (!this.selectedLadder) {
+      this.error = 'Select a pursuit on page 1 first.';
+      return;
+    }
     if (!this.name.trim() || !this.businessCode.trim()) {
       this.error = 'Name and business code are required.';
       return;
     }
 
     const context = this.hcclContextService.getContext();
+    const missionText = (this.mission || this.name).trim();
     const postData: CohortPOSTData = {
       name: this.name.trim(),
       businessCode: this.businessCode.trim(),
-      description: (this.description || this.name).trim(),
+      description: missionText,
+      mdMissionStatement: this.mission.trim() || undefined,
       organizationId: context?.currentUserProfile?.organizationId,
       available: 1,
       teamId: GlobalConstants.UUID_SENTINEL,
-      currentStateCode: "initial",
+      currentStateCode: 'initial',
     };
 
     this.saving = true;
-    this.hcclService.createCohort(postData).subscribe({
-      next: (response: { id?: string; status?: number }) => {
-        this.saving = false;
-        const cohortId = response?.id;
-        if (!cohortId) {
-          this.error = 'Cohort was created but no id was returned.';
-          return;
+    try {
+      const createResponse = await firstValueFrom(this.hcclService.createCohort(postData));
+      const cohortId = createResponse?.id;
+      if (!cohortId) {
+        this.error = 'Cohort was created but no id was returned.';
+        return;
+      }
+      this.cohortId = cohortId;
+
+      const pursuitName = this.selectedLadder.name;
+      let ladderId: string | undefined;
+      try {
+        const ladderResults = await firstValueFrom(
+          this.hcclService.findCareerLadderRefs({
+            businessCode: this.selectedLadder.id,
+            pageNumber: 1,
+            pageSize: 5,
+            isPaging: true,
+          }),
+        );
+        ladderId =
+          ladderResults?.searchResults?.find((r) => r.businessCode === this.selectedLadder!.id)?.id ||
+          ladderResults?.searchResults?.[0]?.id;
+
+        if (!ladderId) {
+          const byName = await firstValueFrom(
+            this.hcclService.findCareerLadderRefs({
+              name: pursuitName,
+              pageNumber: 1,
+              pageSize: 5,
+              isPaging: true,
+            }),
+          );
+          ladderId = byName?.searchResults?.[0]?.id;
         }
-        this.modalRef.close({ created: true, cohortId });
-      },
-      error: () => {
-        this.saving = false;
-        this.error = 'Failed to create cohort.';
-      },
-    });
+      } catch {
+        // Pursuit can still be created without a resolved ladder UUID.
+      }
+
+      const pursuitBody: CohortPursuitPOSTData = {
+        name: pursuitName,
+        cohortId,
+        ladderId,
+        pursuitTypeCode: 'Ladder',
+        rawText: pursuitName,
+        encodingText: pursuitName,
+        status: 1,
+      };
+      await firstValueFrom(this.hcclService.createCohortPursuit(pursuitBody));
+
+      this.currentPage = 3;
+      await this.ensureFileGroup();
+    } catch {
+      this.error = this.cohortId
+        ? 'Cohort was created, but linking the pursuit failed. You can finish and continue on the cohort page.'
+        : 'Failed to create cohort.';
+      if (this.cohortId) {
+        this.currentPage = 3;
+        await this.ensureFileGroup();
+      }
+    } finally {
+      this.saving = false;
+    }
+  }
+
+  private async ensureFileGroup(): Promise<void> {
+    if (!this.cohortId || this.fileGroup || this.creatingFileGroup || this.loadingFileGroup) {
+      return;
+    }
+
+    this.loadingFileGroup = true;
+    this.error = '';
+    try {
+      const existing = await firstValueFrom(
+        this.hcclService.findPMFileGroups({
+          parentEntityId: this.cohortId,
+          parentEntityType: 'Cohort',
+          optionalDataHint: 'all',
+        }),
+      );
+      const found = existing?.searchResults?.[0];
+      if (found) {
+        this.fileGroup = found;
+        return;
+      }
+
+      this.loadingFileGroup = false;
+      this.creatingFileGroup = true;
+      const cohortName = this.name.trim() || 'Cohort';
+      const postData: PMFileGroupPOSTData = {
+        parentEntityType: 'Cohort',
+        parentEntityId: this.cohortId,
+        aspectCode: 'info',
+        title: `${cohortName} Materials`,
+        instructions: 'Cohort materials',
+        available: true,
+      };
+      const createResponse = await firstValueFrom(this.hcclService.createPMFileGroup(postData));
+      if (!createResponse?.id) {
+        this.error = 'Failed to create file group: No ID returned.';
+        return;
+      }
+
+      const reloaded = await firstValueFrom(
+        this.hcclService.findPMFileGroups({
+          parentEntityId: this.cohortId,
+          parentEntityType: 'Cohort',
+          optionalDataHint: 'all',
+        }),
+      );
+      this.fileGroup = reloaded?.searchResults?.[0] || null;
+      if (!this.fileGroup && createResponse.id) {
+        this.fileGroup = await firstValueFrom(
+          this.hcclService.getPMFileGroupById(createResponse.id),
+        );
+      }
+    } catch (err) {
+      console.error('Error preparing cohort file group:', err);
+      this.error = 'Could not prepare materials folder. You can finish and use the Materials tab.';
+    } finally {
+      this.loadingFileGroup = false;
+      this.creatingFileGroup = false;
+    }
+  }
+
+  finish(): void {
+    if (!this.cohortId) {
+      this.error = 'Cohort has not been created yet.';
+      return;
+    }
+    this.modalRef.close({ created: true, cohortId: this.cohortId });
   }
 
   closeModal(): void {
+    if (this.cohortId) {
+      this.modalRef.close({ created: true, cohortId: this.cohortId });
+      return;
+    }
     this.modalRef.close({ created: false });
   }
 }

@@ -1,0 +1,139 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <i class="fas fa-plus-circle me-2"></i>
+    Create Cohort
+  </h5>
+  <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+</div>
+
+<div class="wizard-progress px-4 pt-3">
+  <div class="progress" style="height: 4px;">
+    <div class="progress-bar" [style.width.%]="(currentPage / totalPages) * 100"></div>
+  </div>
+  <small class="text-muted d-block text-center mt-1">Page {{ currentPage }} of {{ totalPages }}</small>
+</div>
+
+<div class="modal-body wizard-body">
+  <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+
+  <!-- PAGE 1: Pursuit -->
+  <div *ngIf="currentPage === 1" class="wizard-page">
+    <h5 class="mb-2">Select a pursuit</h5>
+    <p class="text-muted small mb-3">
+      Choose one career ladder for this cohort. You will be the cohort leader.
+    </p>
+
+    <app-ladder-selector
+      [maxAllowedToChoose]="1"
+      [selectedIds]="selectedLadderIds"
+      (selectionChange)="onLadderSelectionChange($event)">
+    </app-ladder-selector>
+  </div>
+
+  <!-- PAGE 2: Details + create -->
+  <div *ngIf="currentPage === 2" class="wizard-page">
+    <h5 class="mb-2">Cohort details</h5>
+    <p class="text-muted small mb-3" *ngIf="selectedLadder">
+      Pursuit: <strong>{{ selectedLadder.name }}</strong>
+    </p>
+
+    <div class="mb-3">
+      <label class="form-label" for="cohortName">Name</label>
+      <input id="cohortName" class="form-control" [(ngModel)]="name" required [disabled]="!!cohortId" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="cohortCode">Business Code</label>
+      <input id="cohortCode" class="form-control" [(ngModel)]="businessCode" required [disabled]="!!cohortId" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="cohortMission">Mission</label>
+      <textarea
+        id="cohortMission"
+        class="form-control"
+        rows="3"
+        [(ngModel)]="mission"
+        [disabled]="!!cohortId"></textarea>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Materials -->
+  <div *ngIf="currentPage === 3" class="wizard-page">
+    <h5 class="mb-2">Materials</h5>
+    <p class="text-muted small mb-3">
+      Upload documents for this cohort, or skip and finish. You can add more later on the Materials tab.
+    </p>
+
+    <div *ngIf="creatingFileGroup || loadingFileGroup" class="text-center py-4">
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="text-muted mt-2 mb-0">
+        {{ creatingFileGroup ? 'Creating file group...' : 'Loading materials...' }}
+      </p>
+    </div>
+
+    <app-pmfilegroup-ui
+      *ngIf="!creatingFileGroup && !loadingFileGroup && fileGroup"
+      [data]="fileGroup"
+      [readonly]="false">
+    </app-pmfilegroup-ui>
+  </div>
+</div>
+
+<div class="modal-footer wizard-footer">
+  <div class="d-flex justify-content-between w-100">
+    <button
+      *ngIf="currentPage === 2 && !cohortId"
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="prevPage()"
+      [disabled]="saving">
+      <i class="fas fa-arrow-left me-1"></i> Back
+    </button>
+    <div *ngIf="currentPage !== 2 || !!cohortId"></div>
+
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-outline-secondary" (click)="closeModal()" [disabled]="saving">
+        {{ cohortId ? 'Close' : 'Cancel' }}
+      </button>
+
+      <button
+        *ngIf="currentPage === 1"
+        type="button"
+        class="btn btn-primary"
+        (click)="nextPage()"
+        [disabled]="!selectedLadder">
+        Next <i class="fas fa-arrow-right ms-1"></i>
+      </button>
+
+      <button
+        *ngIf="currentPage === 2 && !cohortId"
+        type="button"
+        class="btn btn-primary"
+        (click)="createCohortAndPursuit()"
+        [disabled]="saving">
+        <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+        {{ saving ? 'Creating...' : 'Create Cohort' }}
+      </button>
+
+      <button
+        *ngIf="currentPage === 2 && cohortId"
+        type="button"
+        class="btn btn-primary"
+        (click)="goToMaterialsPage()">
+        Next <i class="fas fa-arrow-right ms-1"></i>
+      </button>
+
+      <button
+        *ngIf="currentPage === 3"
+        type="button"
+        class="btn btn-success"
+        (click)="finish()"
+        [disabled]="saving || creatingFileGroup">
+        Finish
+      </button>
+    </div>
+  </div>
+</div>

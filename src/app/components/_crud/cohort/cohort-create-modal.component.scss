@@ -1,0 +1,27 @@
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.modal-title {
+  color: #333;
+  font-weight: 600;
+}
+
+.wizard-progress {
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.wizard-body {
+  min-height: 320px;
+  max-height: min(70vh, 640px);
+  overflow-y: auto;
+}
+
+.wizard-footer {
+  background: #f8f9fa;
+}
+
+.wizard-page {
+  min-height: 200px;
+}

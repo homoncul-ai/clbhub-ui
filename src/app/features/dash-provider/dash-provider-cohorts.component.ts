@@ -96,7 +96,8 @@ export class DashProviderCohortsComponent
 
   openCreateModal(): void {
     const modalRef = this.modalService.open(CohortCreateModalComponent, {
-      modalClass: 'modal-lg',
+      modalClass: 'modal-xl modal-dialog-centered',
+      ignoreBackdropClick: true,
     });
 
     modalRef.onClose.subscribe((result: any) => {
