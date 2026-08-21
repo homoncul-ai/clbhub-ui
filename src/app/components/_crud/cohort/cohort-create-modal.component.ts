@@ -5,6 +5,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { CohortPOSTData, HcclService } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
+import { GlobalConstants } from '@app/global-constants';
 
 @Component({
   selector: 'app-cohort-create-modal',
@@ -86,8 +87,9 @@ export class CohortCreateModalComponent {
       businessCode: this.businessCode.trim(),
       description: (this.description || this.name).trim(),
       organizationId: context?.currentUserProfile?.organizationId,
-      createdById: context?.currentUserProfileId,
       available: 1,
+      teamId: GlobalConstants.UUID_SENTINEL,
+      currentStateCode: "MA",
     };
 
     this.saving = true;
