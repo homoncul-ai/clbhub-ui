@@ -433,6 +433,9 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     this.hcclService.getPMFileById(pmfileId).subscribe({
       next: (file) => {
         this.selectedFile = file;
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H2',location:'pmfilegroup-ui.component.ts:loadFile:next',message:'getPMFileById result',data:{pmfileId,downloadAs:file?.downloadAs||null,fileAccessCode:file?.fileAccessCode||null,mimeType:file?.mimeType||null,hasDownloadUrl:!!file?.downloadFileUrl,hasInternalUrl:!!file?.downloadInternalFileUrl,fileSize:(file as any)?.fileSize??null,isMarkdownGuess:!!(file?.downloadAs||'').toLowerCase().endsWith('.md')},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
         
         // Set the iframe URL        
         if (file.downloadFileUrl) {
@@ -452,6 +455,9 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       },
       error: (err) => {
         console.error('Error loading file:', err);
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'upload-debug',hypothesisId:'H2',location:'pmfilegroup-ui.component.ts:loadFile:error',message:'getPMFileById failed',data:{pmfileId,errMsg:(err as any)?.message||String(err)},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
         this.loadingFile = false;
         this.selectedFile = null;
         this.selectedFileUrl = null;
@@ -477,6 +483,9 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   private loadMarkdownContent(file: PMFileGETData): void {
     const url = file.downloadFileUrl || file.downloadInternalFileUrl;
     if (!url) {
+      // #region agent log
+      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'upload-debug',hypothesisId:'H3',location:'pmfilegroup-ui.component.ts:loadMarkdownContent:noUrl',message:'no download url for markdown',data:{fileId:file?.id||null,fileAccessCode:file?.fileAccessCode||null},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       this.markdownContent = '';
       this.loadingFile = false;
       return;
@@ -485,12 +494,18 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
 //    alert('url: ' + url);
     this.http.get(url, { responseType: 'text' }).subscribe({
       next: (content) => {
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H3',location:'pmfilegroup-ui.component.ts:loadMarkdownContent:next',message:'markdown content fetched',data:{fileId:file?.id||null,fileAccessCode:file?.fileAccessCode||null,contentLen:content?.length??0,contentPreview:(content||'').slice(0,80),urlHost:(()=>{try{return new URL(url).pathname;}catch{return 'bad-url';}})()},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
         this.markdownContent = content;
         this.markdownDirty = false;
         this.loadingFile = false;
       },
       error: (err) => {
         console.error('Error loading markdown content:', err);
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H3',location:'pmfilegroup-ui.component.ts:loadMarkdownContent:error',message:'markdown content fetch failed',data:{fileId:file?.id||null,status:(err as any)?.status||null,errMsg:(err as any)?.message||String(err)},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
         this.markdownContent = '';
         this.loadingFile = false;
       }
@@ -522,21 +537,33 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       const putData: PMFilePUTData = {
         downloadAs: this.selectedFile.downloadAs || '',
         folderPath: this.selectedFile.folderPath || '/',
-        fileAccessCode: this.selectedFile.fileAccessCode || 'db_text',
+        // Always persist editable markdown as db_text. Uploaded .md files were
+        // previously stored as db_blob, whose public download NPEs (400).
+        fileAccessCode: 'db_text',
         available: this.selectedFile.available,
         parentEntityId: this.selectedFile.parentEntityId || '',
         parentEntityType: this.selectedFile.parentEntityType || 'PMFileGroup',
-        mimeType: this.selectedFile.mimeType || 'text/markdown',
+        mimeType: 'text/markdown',
         fileBlobBase64: contentBase64,
       };
 
+      // #region agent log
+      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H4',location:'pmfilegroup-ui.component.ts:saveMarkdownFile:before',message:'save markdown PUT about to send',data:{fileId:this.selectedFile.id,priorAccessCode:this.selectedFile.fileAccessCode||null,fileAccessCode:putData.fileAccessCode,mimeType:putData.mimeType,downloadAs:putData.downloadAs,contentLen:content?.length??0,base64Len:contentBase64?.length??0},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
+
       await this.hcclService.updatePMFileById(this.selectedFile.id, putData).toPromise();
+      // #region agent log
+      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H4',location:'pmfilegroup-ui.component.ts:saveMarkdownFile:success',message:'save markdown PUT succeeded',data:{fileId:this.selectedFile.id,fileAccessCode:putData.fileAccessCode},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       this.markdownDirty = false;
       
       // Reload the file to get updated URL/data
       this.loadFile(this.selectedFile.id);
     } catch (err) {
       console.error('Error saving markdown file:', err);
+      // #region agent log
+      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H4',location:'pmfilegroup-ui.component.ts:saveMarkdownFile:error',message:'save markdown PUT failed',data:{fileId:this.selectedFile?.id||null,errMsg:(err as any)?.message||String(err),status:(err as any)?.status||null},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       alert('Error saving file: ' + ((err as Error).message || 'Unknown error'));
     } finally {
       this.savingMarkdown = false;

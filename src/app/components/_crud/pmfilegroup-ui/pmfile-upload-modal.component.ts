@@ -230,22 +230,40 @@ export class PmfileUploadModalComponent implements OnInit {
         // Read file as base64
         const base64Content = await this.readFileAsBase64(file);
 
+        const isMarkdown =
+          file.name.toLowerCase().endsWith('.md') &&
+          !file.name.toLowerCase().endsWith('.md.htm');
+
+        // Markdown must use db_text (same as Create Markdown). db_blob downloads
+        // hit a backend NPE on the public dsig URL, so content loads blank.
+        const fileAccessCode = isMarkdown ? 'db_text' : 'db_blob';
+        const mimeType = isMarkdown
+          ? 'text/markdown'
+          : (file.type || 'application/octet-stream');
+
         // Create PMFilePOSTData
         const postData: PMFilePOSTData = {
           downloadAs: file.name,
           folderPath: '/',
-          fileAccessCode: 'db_blob',
+          fileAccessCode,
           available: true,
           parentEntityId: this.pmFileGroupId,
           parentEntityType: 'PMFileGroup',
           fileGroupId: this.pmFileGroupId,
           fileBlobBase64: base64Content,
           fileSize: file.size,
-          mimeType: file.type || 'application/octet-stream'
+          mimeType
         };
 
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H1',location:'pmfile-upload-modal.component.ts:uploadFiles',message:'upload POST about to send',data:{downloadAs:postData.downloadAs,fileAccessCode:postData.fileAccessCode,mimeType:postData.mimeType,fileSize:file.size,base64Len:base64Content?.length??0,browserFileType:file.type||null,isMarkdown},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+
         // Upload the file
-        await this.hcclService.createPMFile(postData).toPromise();
+        const uploadResp = await this.hcclService.createPMFile(postData).toPromise();
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H1',location:'pmfile-upload-modal.component.ts:uploadFiles:response',message:'upload createPMFile response',data:{responseId:uploadResp?.id||null,responseStatus:uploadResp?.status||null,downloadAs:file.name,fileAccessCode},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
         this.uploadedCount++;
 
         // Update progress
