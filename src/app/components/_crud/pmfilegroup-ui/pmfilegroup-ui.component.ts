@@ -85,6 +85,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   private treeInitPending = false;
+  private treeInitRetries = 0;
 
   /**
    * Defer tree initialization to allow Angular change detection to complete
@@ -114,8 +115,17 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     if (!fileGroupId) {
       return;
     }
+
+    // Keep the pane mounted on refresh so #treeContainer is not destroyed (*ngIf loading).
+    const isRefresh = !!this.pmfilegroup;
+
+    // #region agent log
+    fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'A',location:'pmfilegroup-ui.component.ts:loadPMFileGroup:start',message:'loadPMFileGroup start',data:{fileGroupId,isRefresh,hasContainerBefore:!!this.treeContainer?.nativeElement,loadingBefore:this.loading},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
     
-    this.loading = true;
+    if (!isRefresh) {
+      this.loading = true;
+    }
     this.error = null;
     
     // Clear current selection when reloading
@@ -126,8 +136,11 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       next: (data) => {
         this.pmfilegroup = data;
         this.loading = false;
-        // Defer tree initialization to allow Angular to re-render the DOM
-        // (the treeContainer is conditionally rendered based on !loading)
+        // #region agent log
+        const itemCount = (data as any)?.fileTree?.items?.length ?? null;
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'A',location:'pmfilegroup-ui.component.ts:loadPMFileGroup:next',message:'loadPMFileGroup data arrived',data:{hasFileTree:!!data?.fileTree,itemCount,hasContainerNow:!!this.treeContainer?.nativeElement,loading:this.loading,isRefresh},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+        this.treeInitRetries = 0;
         this.deferredInitializeTree();
       },
       error: (err) => {
@@ -139,6 +152,10 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   private initializeTree(): void {
+    // #region agent log
+    fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'A',location:'pmfilegroup-ui.component.ts:initializeTree',message:'initializeTree attempt',data:{hasFileTree:!!this.pmfilegroup?.fileTree,hasContainer:!!this.treeContainer?.nativeElement,itemCount:(this.pmfilegroup as any)?.fileTree?.items?.length??null,loading:this.loading,initialized:this.initialized,treeInitRetries:this.treeInitRetries},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+
     console.log('initializeTree called', {
       hasFileTree: !!this.pmfilegroup?.fileTree,
       hasContainer: !!this.treeContainer?.nativeElement,
@@ -146,9 +163,22 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     });
 
     if (!this.pmfilegroup?.fileTree || !this.treeContainer?.nativeElement) {
+      if (this.pmfilegroup?.fileTree && this.treeInitRetries < 10) {
+        this.treeInitRetries++;
+        // #region agent log
+        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'D',location:'pmfilegroup-ui.component.ts:initializeTree:retry',message:'initializeTree retry waiting for container',data:{treeInitRetries:this.treeInitRetries},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+        setTimeout(() => this.initializeTree(), 50);
+        return;
+      }
+      // #region agent log
+      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'D',location:'pmfilegroup-ui.component.ts:initializeTree:abort',message:'initializeTree aborted',data:{hasFileTree:!!this.pmfilegroup?.fileTree,hasContainer:!!this.treeContainer?.nativeElement,treeInitRetries:this.treeInitRetries},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       console.warn('Cannot initialize tree - missing fileTree or container');
       return;
     }
+
+    this.treeInitRetries = 0;
 
     // Destroy existing tree if any
     if (this.tree) {
@@ -166,6 +196,10 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       // Transform the tree data to add icons based on type
       const treeData = this.transformTreeData(this.pmfilegroup!.fileTree!);
       console.log('Transformed tree data:', treeData);
+
+      // #region agent log
+      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'E',location:'pmfilegroup-ui.component.ts:initializeTree:success',message:'tree parsed successfully',data:{itemCount:(this.pmfilegroup as any)?.fileTree?.items?.length??null},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       
       this.tree.data.parse([treeData]);
 
@@ -565,6 +599,9 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     });
 
     modalRef.onClose.subscribe((result: any) => {
+      // #region agent log
+      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'B',location:'pmfilegroup-ui.component.ts:onCreateMarkdownFile:onClose',message:'markdown modal closed',data:{created:!!result?.created,fileId:result?.fileId||null,fileName:result?.fileName||null},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       if (result && result.created) {
         // Wait a moment for backend to process, then reload the file group to update the tree
         setTimeout(() => {
