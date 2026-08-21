@@ -88,6 +88,8 @@ export class CohortCreateModalComponent {
       description: (this.description || this.name).trim(),
       organizationId: context?.currentUserProfile?.organizationId,
       available: 1,
+      teamId: GlobalConstants.UUID_SENTINEL,
+      currentStateCode: "initial",
     };
 
     this.saving = true;
