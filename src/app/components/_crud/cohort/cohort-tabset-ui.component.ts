@@ -130,7 +130,7 @@ import { CohortInviteModalComponent } from './cohort-invite-modal.component';
           <app-pmfilegroup-ui
             *ngIf="!loadingFileGroup && !creatingFileGroup && fileGroup"
             [data]="fileGroup"
-            [readonly]="true">
+            [readonly]="!canManageMaterials">
           </app-pmfilegroup-ui>
         </div>
 
