@@ -45,7 +45,11 @@
           </button>
         </div>
         <div class="cohort-panel-content">
-          <app-cohort-tabset-ui [id]="selectedCohortId"></app-cohort-tabset-ui>
+          <app-cohort-tabset-ui
+            [id]="selectedCohortId"
+            [canInvite]="canInvite"
+            [canManageMaterials]="canManageMaterials">
+          </app-cohort-tabset-ui>
         </div>
       </div>
     </ng-template>

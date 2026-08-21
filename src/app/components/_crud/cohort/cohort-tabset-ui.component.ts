@@ -192,7 +192,7 @@ export class CohortTabsetUiComponent implements OnChanges {
   @Input() id = '';
   /** When false, hide Invite User and the Invites tab (student view). */
   @Input() canInvite = true;
-  /** When false, hide Create New File Group on Materials (student view). */
+  /** When false, hide Create New File Group. True for SchoolProvider and Nonprofit admin on the org cohorts page. */
   @Input() canManageMaterials = true;
 
   loading = false;
