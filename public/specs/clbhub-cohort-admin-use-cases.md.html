@@ -1,0 +1,309 @@
+<meta charset="utf-8">
+<title>CLBHub Cohort Admin Use Cases</title>
+
+[← Specs index](./)
+
+# CLBHub Cohort Admin Use Cases
+
+## Purpose
+
+This document extracts **admin-facing use cases** for cohort management in CLBHub. It consolidates requirements from:
+
+1. **[clbhub-cohort-experience-model.md](./clbhub-cohort-experience-model.md.html)** — cohort-side `CohortExperience` and `CohortExperienceParticipant` behavior.
+2. **Provider dashboard cohort UI wireframe** — `trutesta-hccl-mdb5-ui/src/app/features/dash-provider/cohorts/` (`cohort-leader-ui-example`, `cohort-mvp-documentation.ts`).
+
+Admin actors include **Cohort Leader**, **Facilitator**, and other **authorized provider users**. Sponsor-facing read-only views are included where the wireframe treats them as a distinct admin persona.
+
+## Origin key
+
+
+| Origin   | Meaning                                                                                |
+| -------- | -------------------------------------------------------------------------------------- |
+| **Spec** | Derived from `clbhub-cohort-experience-model.md` only                                  |
+| **UI**   | Shown or documented in the provider-dash cohort wireframe only                         |
+| **Both** | Present in the experience model and represented (or closely mirrored) in the wireframe |
+
+
+UI references use the wireframe **tab**, **panel title**, and `docId` from `cohort-mvp-documentation.ts` where applicable.
+
+Spec references cite sections of `clbhub-cohort-experience-model.md`.
+
+---
+
+
+
+## A. Cohort structure & lifecycle
+
+
+| ID   | Use case                                                                                                                                                  | Actor  | Origin | Reference                                                                                    |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ | -------------------------------------------------------------------------------------------- |
+| A-01 | **Configure cohort identity** — set name, topic/pathway, duration, capacity, cohort type (e.g. open enrollment / catalog visibility), and start/end dates | Leader | UI     | Tab *1. Structure* → *Creation & Configuration* · `creation-config`                          |
+| A-02 | **Define milestone phases** — create time-bounded chapters (e.g. Explore → Shadow → Reflect) with checkpoint dates                                        | Leader | UI     | Tab *1. Structure* → *Milestone phases* · `creation-config` / label *Phases*                 |
+| A-03 | **Add internal cohort events** — schedule synchronous touchpoints (Zoom, site visits, volunteer days) separate from reusable Experiences                  | Leader | UI     | Tab *1. Structure* → *Internal events* · `creation-config` / label *Events*                  |
+| A-04 | **Set cohort-level goals** — define what a typical participant can reasonably achieve by cohort end                                                       | Leader | UI     | Tab *1. Structure* → *Cohort goals* · `creation-config` / label *Goals*                      |
+| A-05 | **Manage cohort resource folder** — attach guides, videos, employer materials to the cohort                                                               | Leader | UI     | Tab *1. Structure* → *Resources & document folder* · `creation-config` / label *Resources*   |
+| A-06 | **Plan weekly opportunities** — tie weekly focus items (e.g. Zoom panel + job listings) to the cohort calendar                                            | Leader | UI     | Tab *1. Structure* → *Weekly opportunities* · `creation-config` / label *Opportunities*      |
+| A-07 | **Publish cohort for sponsor discovery** — use cohort structure (pathway, capacity, schedule) to signal demand to sponsors even before enrollment fills   | Leader | UI     | Tab *1. Structure* → sponsor activity callout · `creation-config` / label *Sponsor activity* |
+
+
+> **Note:** The experience model assumes `Cohort` already exists and does not define cohort creation fields. Items A-01–A-07 are **UI-only** relative to that spec.
+
+---
+
+
+
+## B. Enrollment & onboarding (admin actions)
+
+
+| ID   | Use case                                                                                                                                                           | Actor  | Origin | Reference                                                                                               |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ------ | ------------------------------------------------------------------------------------------------------- |
+| B-01 | **Review welcome checklist configuration** — ensure first-time orientation steps exist before cohort start                                                         | Leader | UI     | Tab *1. Structure* → *Welcome checklist* · `enrollment-onboarding` / label *Checklist*                  |
+| B-02 | **Assign cohort roles** — manage counts/assignment of Participant, Leader/Facilitator, Observer, Sponsor                                                           | Leader | UI     | Tab *1. Structure* → *Role assignment* · `enrollment-onboarding` / label *Roles*                        |
+| B-03 | **Invite participant by email (leader-initiated)** — enter email, send invite; invitee completes signup, consents, lands as Accepted                               | Leader | UI     | Tab *1. Structure* → *Leader-initiated onboard* · `onboard-leader-initiated`                            |
+| B-04 | **Send welcome message** after successful leader-initiated onboarding                                                                                              | Leader | UI     | Flow note under leader-initiated panel · `onboard-leader-initiated` step 5                              |
+| B-05 | **Review pending join requests (citizen-initiated invite : invitation to add me to the cohort)** — see citizens who requested to join after feed/catalog discovery | Leader | UI     | Tab *1. Structure* → *Citizen-initiated — pending HcclInvites* · `onboard-citizen-initiated`            |
+| B-06 | **Approve or decline pending participant**                                                                                                                         | Leader | UI     | Approve/Decline actions on pending table · `onboard-citizen-initiated` step 7 Accept/decline invitation |
+| B-07 | **Send welcome message** after approving a citizen-initiated request                                                                                               | Leader | UI     | Flow note on pending panel · `onboard-citizen-initiated` step 8                                        |
+
+
+> **Backend alignment:** Leader-initiated invite (B-03) maps to existing platform behavior (`InviteToCohort`, consents, team membership). Not described in the experience model spec.
+
+---
+
+
+
+## C. Cohort Experience association *(experience model core)*
+
+
+| ID   | Use case                                                                                                                                                                  | Actor  | Origin | Reference                                                                                                                                                                                |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C-01 | **Associate an Experience with a Cohort** — create a `CohortExperience` linking `cohortId` + `experienceId`                                                               | Leader | Spec   | Spec § *Cohort Experience lifecycle → Creation* steps 1–2                                                                                                                                |
+| C-02 | **Accept default calendar title from Experience** — on create, title defaults to underlying Experience name                                                               | Leader | Spec   | Spec § *Title behavior*; lifecycle step 3                                                                                                                                                |
+| C-03 | **Override cohort calendar title** — edit title for cohort-specific meaning without changing canonical Experience title                                                   | Leader | Spec   | Spec § *Title behavior*; lifecycle step 4; data rule: title stored independently                                                                                                         |
+| C-04 | **Set cohort-specific description** — explain why the Experience matters to this cohort (not a copy of Experience description)                                            | Leader | Spec   | Spec § *Description behavior*; lifecycle step 4                                                                                                                                          |
+| C-05 | **Set importance (0–5)** — mark strategic priority for calendar presentation and guidance                                                                                 | Leader | Spec   | Spec § *Importance*; lifecycle step 5                                                                                                                                                    |
+| C-06 | **Set roundtable requirement** — declare whether cohort participants must complete post-experience roundtable follow-up                                                   | Leader | Spec   | Spec § *Roundtable requirement*; lifecycle step 6                                                                                                                                        |
+| C-07 | **Associate participants with a Cohort Experience** — create `CohortExperienceParticipant` records for selected cohort members                                            | Leader | Spec   | Spec § *CohortExperienceParticipant*; lifecycle step 7                                                                                                                                   |
+| C-08 | **Record sponsorship on experience participation** — set optional `sponsoredByOrgId` on a Cohort Experience Participant                                                   | Leader | Spec   | Spec § *CohortExperienceParticipant* field `sponsoredByOrgId`                                                                                                                            |
+| C-09 | **View cohort calendar (admin)** — see Cohort Experiences with title, Experience date/time, description, importance, roundtable indicator, link to operational Experience | Leader | Both   | Spec § *Calendar behavior* · UI Tab *1* weekly opportunities / internal events partially mirror calendar planning (`creation-config`) but do not yet model `CohortExperience` explicitly |
+| C-10 | **Create association before participants are linked** — save CohortExperience without yet assigning all participants                                                      | Leader | Spec   | Spec § *Creation* — “association may be created before participants are connected”                                                                                                       |
+
+
+> **UI gap:** The provider wireframe has no dedicated *Cohort Experience* editor yet. Related concepts appear as *Internal events*, *Weekly opportunities*, and *Program builder* activities (UI), which are **not** the same entity as `CohortExperience` in the spec.
+
+---
+
+
+
+## D. Curriculum & content (Seminar layer)
+
+
+| ID   | Use case                                                                                                                                  | Actor  | Origin | Reference                                                          |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ | ------------------------------------------------------------------ |
+| D-01 | **Build structured program** — sequence cohort activities (read/watch, attend event, shadow, reflection, quiz, professional conversation) | Leader | UI     | Tab *2. Seminar* → *Program builder* · `seminar-program-builder`   |
+| D-02 | **Add, edit, and publish program activities** by week                                                                                     | Leader | UI     | Program builder table · `seminar-program-builder`                  |
+| D-03 | **Clone cohort from template** — start from a standard pathway template and customize                                                     | Leader | UI     | *Clone from template* button · `seminar-program-builder`           |
+| D-04 | **Attach resources to sessions** — articles, videos, employer profiles, event listings                                                    | Leader | UI     | Tab *2. Seminar* → *Resource library* · `seminar-resource-library` |
+| D-05 | **Pull opportunities from CLB Hub feed** into cohort content                                                                              | Leader | UI     | *Pull from CLB Hub opportunity feed* · `seminar-resource-library`  |
+
+
+> **Boundary:** Operational Experience mechanics (scheduling, registration, attendance) remain out of scope for the cohort experience spec. Program builder activities (UI) may eventually link to Experiences via `CohortExperience`, but that integration is **not** defined in the wireframe today.
+
+---
+
+
+
+## E. Communication & community (Book Club layer)
+
+
+| ID   | Use case                                                                               | Actor  | Origin | Reference                                                                                       |
+| ---- | -------------------------------------------------------------------------------------- | ------ | ------ | ----------------------------------------------------------------------------------------------- |
+| E-01 | **Manage cohort discussion channels** — cohort-scoped spaces distinct from global feed | Leader | UI     | Tab *3. Book Club* → *Cohort discussion channels* · `bookclub-communication` / label *Channels* |
+| E-02 | **Post leader-only announcements**                                                     | Leader | UI     | *announcements* channel · `bookclub-communication` / label *Announcements*                      |
+| E-03 | **Monitor threaded discussions per activity/session**                                  | Leader | UI     | *Threaded discussions per activity* · `bookclub-communication` / label *Threads*                |
+| E-04 | **Review emoji reactions** as lightweight engagement signal                            | Leader | UI     | Reactions column · `bookclub-communication` / label *Reactions*                                 |
+| E-05 | **Run reflection wall** — structured weekly takeaway posts                             | Leader | UI     | *Reflection wall* · `bookclub-communication` / label *Reflection wall*                          |
+
+
+> **Spec overlap:** Spec § *Roundtable requirement* describes post-Experience structured follow-up (Both conceptually with E-05 reflection wall), but roundtable question sets and moderation are explicitly **out of scope** of the experience model.
+
+---
+
+
+
+## F. Goals, progress & check-ins
+
+
+| ID   | Use case                                                                                                            | Actor  | Origin | Reference                                                                                                                                                     |
+| ---- | ------------------------------------------------------------------------------------------------------------------- | ------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F-01 | **View participant goals and activity completion** across the cohort                                                | Leader | UI     | Tab *4. Goals & Progress* → participant table · `leader-goals-tracking`                                                                                       |
+| F-02 | **Review hours log** per participant for grant/school reporting                                                     | Leader | UI     | Hours log column · `leader-goals-tracking`                                                                                                                    |
+| F-03 | **Identify at-risk participants** and send private nudge                                                            | Leader | UI     | At-risk badge + *Nudge* · `leader-goals-tracking` / label *Bottleneck*                                                                                        |
+| F-04 | **Comment privately on participant goals**                                                                          | Leader | UI     | *Comment* action · `leader-goals-tracking`                                                                                                                    |
+| F-05 | **Conduct exit interviews**                                                                                         | Leader | UI     | *Exit interviews* button · `leader-goals-tracking`                                                                                                            |
+| F-06 | **Publish structured periodic check-in** (3–5 questions)                                                            | Leader | UI     | *Structured check-in* · `leader-checkins`                                                                                                                     |
+| F-07 | **Review aggregated check-in responses and follow-up flags**                                                        | Leader | UI     | Responded/flagged summary · `leader-checkins`                                                                                                                 |
+| F-08 | **Message participant 1:1** outside group channels                                                                  | Leader | UI     | *1:1 messaging* · `leader-checkins` / label *1:1*                                                                                                             |
+| F-09 | **Monitor roundtable completion after Experience ends** — see who has / has not completed required cohort follow-up | Leader | Both   | Spec § *Completion and roundtable follow-up* steps 4–5 · UI: no dedicated roundtable admin panel yet; closest wireframe analog is check-ins / reflection wall |
+| F-10 | **Use roundtable responses as evidence of strategic cohort progress**                                               | Leader | Spec   | Spec § *Completion and roundtable follow-up* step 5; § *Roundtable requirement → Potential downstream outcomes*                                               |
+
+
+---
+
+
+
+## G. Leader operational tools
+
+
+| ID   | Use case                                                                                        | Actor  | Origin | Reference                                                                         |
+| ---- | ----------------------------------------------------------------------------------------------- | ------ | ------ | --------------------------------------------------------------------------------- |
+| G-01 | **View leader dashboard** — enrollment, completion rate, upcoming deadlines, at-risk count      | Leader | UI     | Tab *5. Leader Tools* stat cards · `facilitator-tools` / label *Leader dashboard* |
+| G-02 | **Track live session attendance** (Zoom / in-person)                                            | Leader | UI     | *Attendance tracking* · `facilitator-tools` / label *Attendance*                  |
+| G-03 | **Queue scheduled content** — activities, resources, nudges for future publish dates            | Leader | UI     | *Content scheduling queue* · `facilitator-tools` / label *Scheduling*             |
+| G-04 | **Broadcast announcements with read receipts**                                                  | Leader | UI     | *Announcement read receipts* · `facilitator-tools` / label *Read receipts*        |
+| G-05 | **Export participation reports** — grant compliance, sponsor report, school credit verification | Leader | UI     | *Export reports* · `facilitator-tools` / label *Export*                           |
+
+
+---
+
+
+
+## H. Consent & privacy (admin oversight)
+
+
+| ID   | Use case                                                                                                         | Actor  | Origin | Reference                                                                |
+| ---- | ---------------------------------------------------------------------------------------------------------------- | ------ | ------ | ------------------------------------------------------------------------ |
+| H-01 | **View per-participant consent matrix** — aggregate, progress-visible, contact-shareable, open-to-outreach tiers | Leader | UI     | Tab *6. Consent* → consent matrix · `consent-privacy`                    |
+| H-02 | **Handle minor/guardian-linked accounts**                                                                        | Leader | UI     | *Minor* / *Guardian linked* · `consent-privacy` / label *Minor handling* |
+| H-03 | **Review consent audit log** — who changed what and when                                                         | Leader | UI     | *Consent audit log* · `consent-privacy` / label *Audit log*              |
+
+
+---
+
+
+
+## I. Sponsor admin (read-only MVP in wireframe)
+
+
+| ID   | Use case                                                                               | Actor   | Origin | Reference                                                                                       |
+| ---- | -------------------------------------------------------------------------------------- | ------- | ------ | ----------------------------------------------------------------------------------------------- |
+| I-01 | **View de-identified sponsor dashboard** — completion rate, activity mix, demographics | Sponsor | UI     | Tab *7. Sponsor* · `sponsor-experience` / label *Dashboard*                                     |
+| I-02 | **View opted-in participant cards** and request mediated outreach                      | Sponsor | UI     | *Opted-in participant cards* · `sponsor-experience` / label *Opted-in*                          |
+| I-03 | **Contribute job shadow slots, info sessions, or library resources**                   | Sponsor | UI     | *Sponsor contributions* · `sponsor-experience` / label *Contributions*                          |
+| I-04 | **Generate sponsorship impact report** at cohort end                                   | Sponsor | UI     | *Sponsorship impact report* · `sponsor-experience`                                              |
+| I-05 | **Record sponsor org on Cohort Experience Participant**                                | Leader  | Spec   | Spec § *CohortExperienceParticipant.sponsoredByOrgId* — leader action, sponsor identity as data |
+
+
+---
+
+
+
+## J. Notifications (admin configuration & alerts)
+
+
+| ID   | Use case                                                                      | Actor  | Origin | Reference                                                                                                                                 |
+| ---- | ----------------------------------------------------------------------------- | ------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| J-01 | **Monitor smart nudges sent** for participant inactivity                      | Leader | UI     | Tab *8. Notifications* · `notifications-engagement` / label *Nudges*                                                                      |
+| J-02 | **Monitor upcoming activity reminders** (email/SMS/in-app)                    | Leader | UI     | *Activity reminders* · `notifications-engagement` / label *Reminders*                                                                     |
+| J-03 | **See weekly digest adoption** among participants                             | Leader | UI     | *Weekly digest* · `notifications-engagement` / label *Digest*                                                                             |
+| J-04 | **Receive leader alerts** — no login, overdue check-in, approaching milestone | Leader | UI     | *Leader alerts* list · `notifications-engagement` / label *Leader alerts*                                                                 |
+| J-05 | **Prompt participants after Experience completion** when roundtable required  | Leader | Both   | Spec § *Roundtable requirement → Potential downstream outcomes* · UI: implied by nudges/reminders, no CohortExperience-specific alert yet |
+
+
+---
+
+
+
+## K. Reporting & data
+
+
+| ID   | Use case                                                                | Actor  | Origin | Reference                                                       |
+| ---- | ----------------------------------------------------------------------- | ------ | ------ | --------------------------------------------------------------- |
+| K-01 | **Export weekly cohort status report** (nonprofit accountability)       | Leader | UI     | Tab *9. Reporting* · `reporting-data`                           |
+| K-02 | **Export cohort completion report** (grant applications)                | Leader | UI     | Cohort Completion Report row · `reporting-data`                 |
+| K-03 | **Export anonymized sponsor outcomes**                                  | Leader | UI     | Sponsor Outcomes row · `reporting-data`                         |
+| K-04 | **View pathway interest heatmap** across cohorts for community planning | Leader | UI     | *Pathway interest heatmap* · `reporting-data` / label *Heatmap* |
+
+
+---
+
+
+
+## Coverage summary
+
+
+
+### Spec-only (not yet in provider wireframe)
+
+These admin use cases come from the experience model and need UI/API design:
+
+- **C-01 – C-08, C-10** — full `CohortExperience` / `CohortExperienceParticipant` CRUD
+- **C-03, C-04, C-05, C-06** — cohort-specific title, description, importance, roundtable flag
+- **F-09, F-10** — roundtable completion monitoring and progress evidence (detailed roundtable UX TBD)
+- **I-05** — sponsorship field on experience participation (wireframe has sponsor contributions, not per-experience participant sponsorship)
+
+
+
+### UI-only (not in experience model spec)
+
+The wireframe describes broader cohort MVP admin scope:
+
+- **A-01 – A-07** — cohort creation & configuration
+- **B-01 – B-07** — enrollment & onboarding flows
+- **D-01 – D-05** — seminar program builder & resource library
+- **E-01 – E-05** — book club communication
+- **F-01 – F-08** — goals, hours, nudges, check-ins, 1:1 messaging
+- **G-01 – G-05** — leader dashboard & operational tools
+- **H-01 – H-03** — consent matrix & audit
+- **I-01 – I-04** — sponsor read-only/contribution views
+- **J-01 – J-04** — notifications & leader alerts
+- **K-01 – K-04** — reporting & heatmap
+
+
+
+### Both (conceptual overlap)
+
+
+| Topic                                 | Spec                                              | UI                                                      |
+| ------------------------------------- | ------------------------------------------------- | ------------------------------------------------------- |
+| Cohort calendar presentation          | C-09 calendar fields for CohortExperience         | Weekly opportunities, internal events, program schedule |
+| Post-activity structured follow-up    | Roundtable requirement & completion tracking      | Reflection wall, check-ins, nudges                      |
+| Sponsor relationship to participation | `sponsoredByOrgId` on CohortExperienceParticipant | Sponsor contributions & impact report                   |
+| Leader visibility into engagement     | Roundtable / participant follow-up outcomes       | Dashboard, at-risk list, attendance, read receipts      |
+
+
+---
+
+
+
+## Open admin decisions (from spec)
+
+These affect admin UX but remain TBD in `clbhub-cohort-experience-model.md`:
+
+- Bulk-associate all current cohort members to a Cohort Experience
+- Auto-create `CohortExperienceParticipant` from Experience registration vs manual selection vs both
+- Require active cohort membership at association time
+- Roundtable required for all linked participants vs attendees only
+- Whether no-show exempts roundtable requirement
+- How roundtable completion feeds Career Ladder / cohort progress reporting
+
+---
+
+
+
+## Related artifacts
+
+
+| Artifact                                  | Location                                                                                               |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Experience model spec                     | `tooling/specs/clbhub-cohort-experience-model.md`                                                      |
+| Provider leader wireframe                 | `trutesta-hccl-mdb5-ui/src/app/features/dash-provider/cohorts/cohort-leader-ui-example.component.html` |
+| MVP doc definitions                       | `trutesta-hccl-mdb5-ui/src/app/features/dash-provider/cohorts/cohort-mvp-documentation.ts`             |
+| UI feature toggles (participant sections) | `trutesta-hccl-mdb5-ui/src/app/features/dash-provider/cohorts/cohort-ui-configuration.ts`              |
+
+
+
+<script>markdeepOptions = {tocStyle: 'long'};</script>
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
