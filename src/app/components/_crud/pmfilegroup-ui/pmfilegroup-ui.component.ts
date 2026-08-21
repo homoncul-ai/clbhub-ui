@@ -44,6 +44,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   markdownContent: string = '';
   markdownDirty: boolean = false;
   savingMarkdown: boolean = false;
+  deletingFile: boolean = false;
 
   private tree: any = null;
   private initialized = false;
@@ -559,6 +560,37 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       link.href = this.selectedFile.downloadFileUrl;
       link.download = this.selectedFile.downloadAs || 'file';
       link.click();
+    }
+  }
+
+  /**
+   * Delete the selected file (edit mode / leaders only)
+   */
+  async onDeleteFile(): Promise<void> {
+    if (this.readonly || !this.selectedFile?.id || this.deletingFile) {
+      return;
+    }
+
+    const fileName = this.selectedFile.downloadAs || 'this file';
+    if (!confirm(`Delete "${fileName}"? This cannot be undone.`)) {
+      return;
+    }
+
+    const fileId = this.selectedFile.id;
+    this.deletingFile = true;
+
+    try {
+      await this.hcclService.deletePMFileById(fileId).toPromise();
+      this.selectedFile = null;
+      this.selectedFileUrl = null;
+      this.markdownContent = '';
+      this.markdownDirty = false;
+      this.loadPMFileGroup();
+    } catch (err) {
+      console.error('Error deleting file:', err);
+      alert('Error deleting file: ' + ((err as Error).message || 'Unknown error'));
+    } finally {
+      this.deletingFile = false;
     }
   }
 
