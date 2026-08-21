@@ -1,15 +1,14 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { HcclService, StudentCohortSummaryGETData } from '@app/restsvc/hccl.service';
-import { CohortTabsetUiComponent } from '@app/components/_crud/cohort/cohort-tabset-ui.component';
 import { COHORT_PARTICIPANT_PRESET_LIST } from './cohorts/cohort-participant-mock-presets';
 
 @Component({
   selector: 'app-dash-citizen-cohorts',
   standalone: true,
-  imports: [CommonModule, RouterModule, CohortTabsetUiComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dash-citizen-cohorts.component.html',
   styleUrl: './dash-citizen-cohorts.component.scss',
 })
@@ -17,13 +16,9 @@ export class DashCitizenCohortsComponent implements OnInit, OnDestroy {
   private hcclService = inject(HcclService);
   private destroy$ = new Subject<void>();
 
-  @ViewChild('cohortPanel') cohortPanel?: ElementRef;
-
   loading = true;
   error = '';
   cohorts: StudentCohortSummaryGETData[] = [];
-  selectedCohortId = '';
-  selectedCohortTitle = '';
 
   cohortSpecs = COHORT_PARTICIPANT_PRESET_LIST.map((preset) => ({
     key: preset.key,
@@ -43,18 +38,8 @@ export class DashCitizenCohortsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  selectCohort(cohort: StudentCohortSummaryGETData): void {
-    if (!cohort.cohortId) {
-      return;
-    }
-    this.selectedCohortId = cohort.cohortId;
-    this.selectedCohortTitle = cohort.cohortName || 'Cohort Details';
-    setTimeout(() => this.scrollToPanel(), 50);
-  }
-
-  closeCohortPanel(): void {
-    this.selectedCohortId = '';
-    this.selectedCohortTitle = '';
+  cohortRoute(cohort: StudentCohortSummaryGETData): string[] {
+    return ['/citizen/cohorts', cohort.cohortId || ''];
   }
 
   private loadMyCohorts(): void {
@@ -77,12 +62,5 @@ export class DashCitizenCohortsComponent implements OnInit, OnDestroy {
           this.error = 'Unable to load your cohorts.';
         },
       });
-  }
-
-  private scrollToPanel(): void {
-    this.cohortPanel?.nativeElement?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
   }
 }

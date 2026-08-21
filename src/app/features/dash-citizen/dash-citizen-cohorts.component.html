@@ -26,12 +26,10 @@
   </div>
 
   <div *ngIf="!loading && cohorts.length > 0" class="list-group mb-4">
-    <button
-      type="button"
+    <a
       class="list-group-item list-group-item-action"
       *ngFor="let cohort of cohorts"
-      [class.active]="cohort.cohortId === selectedCohortId"
-      (click)="selectCohort(cohort)">
+      [routerLink]="cohortRoute(cohort)">
       <div class="d-flex justify-content-between align-items-start">
         <div>
           <div class="fw-semibold">
@@ -49,23 +47,7 @@
           {{ cohort.dateCreated?.formattedDate }}
         </small>
       </div>
-    </button>
-  </div>
-
-  <div *ngIf="selectedCohortId" #cohortPanel class="cohort-panel mb-4">
-    <div class="cohort-panel-header">
-      <h4>{{ selectedCohortTitle }}</h4>
-      <button type="button" class="close-panel-btn" (click)="closeCohortPanel()" title="Close panel">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="cohort-panel-content">
-      <app-cohort-tabset-ui
-        [id]="selectedCohortId"
-        [canInvite]="false"
-        [canManageMaterials]="false">
-      </app-cohort-tabset-ui>
-    </div>
+    </a>
   </div>
 
   <hr class="my-4" />

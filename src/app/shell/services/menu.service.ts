@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
+import { CatalogGETData, CohortGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 import {
   getAdminSurveyRoute,
   getRecentSurveys,
@@ -211,6 +211,7 @@ export class MenuService {
   }
   queues : WorkQueueGETData[] = [];
   catalogs : CatalogGETData[] = [];
+  cohorts: CohortGETData[] = [];
   personalStatements: PersonalStatementGETData[] = [];
   /** Ecoadmin recent surveys for sidebar; null = not loaded (use static fallback). */
   private surveySidebarItems: SurveyRegistryEntry[] | null = null;
@@ -239,6 +240,21 @@ export class MenuService {
         const catalogRsp = await this.hcclService.findCatalogs(catalogCriteria).toPromise();
         const catalogs = catalogRsp?.searchResults as CatalogGETData[] || [];
         this.catalogs = catalogs;
+
+        try {
+          const cohortRsp = await this.hcclService.findCohorts({
+            organizationId: context.currentUserProfile.organizationId,
+            pageNumber: 1,
+            pageSize: 100,
+            isPaging: false,
+            maxResults: 100,
+            optionalDataHint: 'all',
+          }).toPromise();
+          this.cohorts = cohortRsp?.searchResults as CohortGETData[] || [];
+        } catch (err) {
+          console.error('Failed to load cohorts for provider sidebar', err);
+          this.cohorts = [];
+        }
         break;
       case 'citizen':
         // Fetch personal statements for the current user profile
@@ -458,6 +474,23 @@ export class MenuService {
     }
   }
 
+  private addOrgCohortSidebarItems(parent: MenuItem, baseRoute: string): void {
+    for (const cohort of this.cohorts) {
+      if (!cohort.id) {
+        continue;
+      }
+      this.addChildMenuItem(parent, {
+        id: `cohort-${cohort.id}`,
+        level: 2,
+        label: cohort.name || cohort.businessCode || 'Cohort',
+        route: `${baseRoute}/${cohort.id}`,
+        componentPath: 'src/app/components/_crud/cohort/cohort-detail-page.component',
+        componentName: 'CohortDetailPageComponent',
+        icon: 'fas fa-users',
+      });
+    }
+  }
+
   private tourGuideMenuItem(tour: TourRegistryEntry): MenuItem {
     return {
       level: 3,
@@ -610,6 +643,7 @@ export class MenuService {
     this.addMenuItem(menu, experiences);
 
     const cohorts = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_COHORTS);
+    this.addOrgCohortSidebarItems(cohorts, '/provider-dashboard/cohorts');
     this.addMenuItem(menu, cohorts);
 
     // Add Catalog Entry Signup Packets
