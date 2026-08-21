@@ -129,10 +129,6 @@ export class PmfileCreateMarkdownModalComponent implements OnInit {
       
       // Create the file
       const response = await this.hcclService.createPMFile(postData).toPromise();
-
-      // #region agent log
-      fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix',hypothesisId:'B',location:'pmfile-create-markdown-modal.component.ts:createFile',message:'createPMFile response',data:{hasResponse:!!response,responseId:response?.id||null,responseStatus:response?.status||null,downloadAs:fullFileName,pmFileGroupId:this.pmFileGroupId},timestamp:Date.now()})}).catch(()=>{});
-      // #endregion
       
       if (response && response.id) {
         // Close modal and signal success

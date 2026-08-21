@@ -255,15 +255,8 @@ export class PmfileUploadModalComponent implements OnInit {
           mimeType
         };
 
-        // #region agent log
-        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H1',location:'pmfile-upload-modal.component.ts:uploadFiles',message:'upload POST about to send',data:{downloadAs:postData.downloadAs,fileAccessCode:postData.fileAccessCode,mimeType:postData.mimeType,fileSize:file.size,base64Len:base64Content?.length??0,browserFileType:file.type||null,isMarkdown},timestamp:Date.now()})}).catch(()=>{});
-        // #endregion
-
         // Upload the file
-        const uploadResp = await this.hcclService.createPMFile(postData).toPromise();
-        // #region agent log
-        fetch('http://127.0.0.1:7439/ingest/cf6584ed-f778-4c37-9144-510549c22bbd',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a7f2a8'},body:JSON.stringify({sessionId:'a7f2a8',runId:'post-fix-upload',hypothesisId:'H1',location:'pmfile-upload-modal.component.ts:uploadFiles:response',message:'upload createPMFile response',data:{responseId:uploadResp?.id||null,responseStatus:uploadResp?.status||null,downloadAs:file.name,fileAccessCode},timestamp:Date.now()})}).catch(()=>{});
-        // #endregion
+        await this.hcclService.createPMFile(postData).toPromise();
         this.uploadedCount++;
 
         // Update progress
