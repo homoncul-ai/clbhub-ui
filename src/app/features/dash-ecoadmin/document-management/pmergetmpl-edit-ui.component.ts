@@ -17,6 +17,7 @@ import {
   PMergeTemplateActionResponse,
   PMergeUpdateDraftPOSTData,
 } from '@app/restsvc/hccl.service';
+import { mergeTemplateWithDefaults } from './pmerge-defaults-merge';
 import { ADMIN_DOC_MGMT_TEMPLATES_BASE } from './pmergetmpl-list.component';
 import { PMergePreviewModalComponent } from './pmerge-preview-modal.component';
 
@@ -385,43 +386,41 @@ export class PMergeTmplEditUiComponent implements OnInit {
     }
   }
 
-  async previewWithDefaults(): Promise<void> {
-    if (!this.templateId || this.previewing) {
+  previewWithDefaults(): void {
+    if (this.previewing) {
       return;
-    }
-    if (this.editing) {
-      const saved = await this.saveDraft();
-      if (!saved) {
-        return;
-      }
     }
     this.previewing = true;
     this.clearMessages();
     try {
-      const rsp = await firstValueFrom(
-        this.hcclService.mergeTemplate(this.templateId, {
-          useSampleContext: true,
-          persist: false,
-        }),
-      );
-      const errorText = this.messageText(rsp.messages, SEVERITY_ERROR);
+      const body = this.draft.contents || this.version?.contents || '';
+      if (!body.trim()) {
+        this.modalService.open(PMergePreviewModalComponent, {
+          modalClass: 'modal-lg',
+          data: {
+            title: 'Preview with defaults',
+            errorText: 'Template contents are empty.',
+          },
+        });
+        return;
+      }
+
+      const schemeCodes = this.draft.selectedSchemeCodes;
+      const contents = mergeTemplateWithDefaults(body, this.allSchemes, schemeCodes);
+      const subject = this.draft.mergingSubject
+        ? mergeTemplateWithDefaults(this.draft.subjectTmpl || '', this.allSchemes, schemeCodes)
+        : '';
+      const fileName = this.draft.mergingFileName
+        ? mergeTemplateWithDefaults(this.draft.fileNameTmpl || '', this.allSchemes, schemeCodes)
+        : '';
+
       this.modalService.open(PMergePreviewModalComponent, {
         modalClass: 'modal-lg',
         data: {
           title: 'Preview with defaults',
-          contents: rsp.instance?.contents || '',
-          subject: rsp.instance?.subject || '',
-          fileName: rsp.instance?.fileName || '',
-          errorText,
-        },
-      });
-    } catch (err: unknown) {
-      console.error('Failed to preview merge', err);
-      this.modalService.open(PMergePreviewModalComponent, {
-        modalClass: 'modal-lg',
-        data: {
-          title: 'Preview with defaults',
-          errorText: this.extractError(err, 'Unable to preview merge.'),
+          contents,
+          subject,
+          fileName,
         },
       });
     } finally {
