@@ -31,6 +31,9 @@
         [(ngModel)]="searchText"
         (ngModelChange)="onSearchChange()" />
     </div>
+    <small class="text-muted d-block mt-1">
+      Matches email, message handle, or user code (not display name). Type at least {{ minSearchLength }} characters.
+    </small>
   </div>
 
   <div *ngIf="searching" class="text-center py-2">
@@ -66,7 +69,7 @@
     *ngIf="!searching && searchText.trim().length >= minSearchLength && searchResults.length === 0"
     class="text-center py-2 text-muted small">
     <i class="fas fa-inbox me-1"></i>
-    No people found for "{{ searchText.trim() }}". Try a message handle or email.
+    No people found for "{{ searchText.trim() }}". Try another email, message handle, or user code.
   </div>
 
   <div

@@ -60,7 +60,7 @@ export class HcclUserProfileSelectorComponent implements OnInit, OnChanges, OnDe
 
   @Input() minSearchLength = 4;
 
-  @Input() placeholder = 'Search by message handle or email (4+ characters)...';
+  @Input() placeholder = 'Search by email, message handle, or user code…';
 
   @Output() selectionChange = new EventEmitter<HcclUserProfileGETData[]>();
 
