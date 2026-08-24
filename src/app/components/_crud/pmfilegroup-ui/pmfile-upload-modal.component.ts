@@ -230,18 +230,29 @@ export class PmfileUploadModalComponent implements OnInit {
         // Read file as base64
         const base64Content = await this.readFileAsBase64(file);
 
+        const isMarkdown =
+          file.name.toLowerCase().endsWith('.md') &&
+          !file.name.toLowerCase().endsWith('.md.htm');
+
+        // Markdown must use db_text (same as Create Markdown). db_blob downloads
+        // hit a backend NPE on the public dsig URL, so content loads blank.
+        const fileAccessCode = isMarkdown ? 'db_text' : 'db_blob';
+        const mimeType = isMarkdown
+          ? 'text/markdown'
+          : (file.type || 'application/octet-stream');
+
         // Create PMFilePOSTData
         const postData: PMFilePOSTData = {
           downloadAs: file.name,
           folderPath: '/',
-          fileAccessCode: 'db_blob',
+          fileAccessCode,
           available: true,
           parentEntityId: this.pmFileGroupId,
           parentEntityType: 'PMFileGroup',
           fileGroupId: this.pmFileGroupId,
           fileBlobBase64: base64Content,
           fileSize: file.size,
-          mimeType: file.type || 'application/octet-stream'
+          mimeType
         };
 
         // Upload the file

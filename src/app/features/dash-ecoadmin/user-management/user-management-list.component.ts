@@ -101,7 +101,7 @@ export class UserManagementListComponent extends AbstractListComponent<
 
     const profiles$ = this.hcclService.findHcclUserProfiles({
       pageNumber: 1,
-      pageSize: 200,
+      pageSize: criteria.pageSize ?? 50,
       isPaging: true,
       searchByText,
     });

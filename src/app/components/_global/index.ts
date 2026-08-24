@@ -7,6 +7,7 @@ export { AbstractMultimodeComponent } from './abstract-multimode/abstract-multim
 // Display components
 export { DategetdataDisplayComponent } from './dategetdata-display/dategetdata-display.component';
 export { AvailableSelectorComponent } from './available-selector/available-selector.component';
+export { LadderSelectorComponent } from './ladder-selector/ladder-selector.component';
 export { ReferenceDataComponent } from './reference-data/reference-data.component';
 
 // Control components
@@ -31,3 +32,6 @@ export type { MarkdownDialect, MarkdownMode } from './std-markdown-display/std-m
 
 // Entity UI component (polymorphic entity display)
 export { StdEntityUiComponent } from './std-entity-ui/std-entity-ui.component';
+
+// Product tours
+export { OnboardStudentTourComponent } from './onboard-student-tour/onboard-student-tour.component';

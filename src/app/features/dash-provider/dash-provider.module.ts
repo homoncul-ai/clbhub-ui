@@ -19,6 +19,7 @@ import { DashProviderMessagesComponent } from './dash-provider-messages.componen
 import { DashProviderSignupPacketsComponent } from './dash-provider-signuppackets.component';
 import { DashProviderCohortsComponent } from './dash-provider-cohorts.component';
 import { CohortLeaderUiExampleComponent } from './cohorts/cohort-leader-ui-example.component';
+import { CohortDetailPageComponent } from '@app/components/_crud/cohort/cohort-detail-page.component';
 import { ProviderExperiencesComponent } from './experiences/provider-experiences.component';
 
 // Shared page-header data so the shell renders a consistent title banner on
@@ -32,6 +33,14 @@ const HDR_CATALOGS = { pageTitle: 'Catalogs', pageSubtitle: 'Manage your catalog
 const HDR_CATALOG = { pageTitle: 'Catalog', pageSubtitle: 'Manage this catalog', pageIcon: 'fas fa-book' };
 const HDR_EXPERIENCES = { pageTitle: 'Experiences', pageSubtitle: 'Search and manage experiences', pageIcon: 'fas fa-compass' };
 const HDR_COHORTS = { pageTitle: 'Cohorts', pageSubtitle: 'Manage cohorts and memberships', pageIcon: 'fas fa-users' };
+const HDR_COHORT_DETAIL = {
+  pageTitle: 'Cohort',
+  pageSubtitle: 'Cohort details, members, and materials',
+  pageIcon: 'fas fa-users',
+  cohortListRoute: '/provider-dashboard/cohorts',
+  canInvite: true,
+  canManageMaterials: true,
+};
 const HDR_COHORTS_LEADER_UI = { pageTitle: 'Cohort Leader UI Spec', pageSubtitle: 'MVP mock — static UI with documentation links', pageIcon: 'fas fa-drafting-compass' };
 const HDR_SIGNUPPACKETS = { pageTitle: 'Signup Packets', pageSubtitle: 'Manage signup packets', pageIcon: 'fas fa-clipboard-list' };
 
@@ -68,6 +77,7 @@ const routes: Routes = [
       { path: 'experiences', component: ProviderExperiencesComponent, data: HDR_EXPERIENCES },
 
       { path: 'cohorts/leader-ui-example', component: CohortLeaderUiExampleComponent, data: HDR_COHORTS_LEADER_UI },
+      { path: 'cohorts/:cohortId', component: CohortDetailPageComponent, data: HDR_COHORT_DETAIL },
       { path: 'cohorts', component: DashProviderCohortsComponent, data: HDR_COHORTS },
 
       // CatalogEntrySignupPacket routes
@@ -100,6 +110,7 @@ const routes: Routes = [
     DashProviderMessagesComponent,
     DashProviderSignupPacketsComponent,
     DashProviderCohortsComponent,
+    CohortDetailPageComponent,
     CohortLeaderUiExampleComponent,
     ProviderExperiencesComponent
   ]

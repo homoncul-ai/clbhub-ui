@@ -39,7 +39,7 @@ export class SurveysDashboardComponent implements OnInit {
     this.hcclService
       .publicFindPSurveyRefs({
         pageNumber: 1,
-        pageSize: 200,
+        pageSize: 50,
         isPaging: true,
         available: 1,
       })

@@ -62,6 +62,14 @@
           <button class="btn-action" (click)="downloadFile()" title="Download">
             <i class="fas fa-download"></i>
           </button>
+          <button
+            *ngIf="!readonly"
+            class="btn-action"
+            (click)="onDeleteFile()"
+            [disabled]="deletingFile"
+            title="Delete file">
+            <i class="fas" [ngClass]="deletingFile ? 'fa-spinner fa-spin' : 'fa-trash'"></i>
+          </button>
         </div>
       </div>
       

@@ -4965,6 +4965,942 @@
         }
       }
     },
+    "/hccl/cohort/cohortexperienceparticipant": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Create a new CohortExperienceParticipant.",
+        "operationId": "createCohortExperienceParticipant_1",
+        "requestBody": {
+          "description": "New CohortExperienceParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortExperienceParticipantPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortexperienceparticipant/{id}": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortExperienceParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortExperienceParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Updates and existing CohortExperienceParticipant.",
+        "operationId": "updateCohortExperienceParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CohortExperienceParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortExperienceParticipantPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Deletes an existing CohortExperienceParticipant.",
+        "operationId": "deleteCohortExperienceParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortexperienceparticipant/query": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches all CohortExperienceParticipants.",
+        "operationId": "findCohortExperienceParticipants_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortExperienceParticipantCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortExperienceParticipantGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortexperienceparticipant/{id}/hint": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortExperienceParticipantByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortExperienceParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortexperience": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Create a new CohortExperience.",
+        "operationId": "createCohortExperience_1",
+        "requestBody": {
+          "description": "New CohortExperience data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortExperiencePOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortexperience/{id}": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortExperienceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortExperienceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Updates and existing CohortExperience.",
+        "operationId": "updateCohortExperienceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CohortExperience data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortExperiencePUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Deletes an existing CohortExperience.",
+        "operationId": "deleteCohortExperienceById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortexperience/query": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches all CohortExperiences.",
+        "operationId": "findCohortExperiences_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortExperienceCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortExperienceGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortexperience/{id}/hint": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortExperienceByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortExperienceGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortparticipant": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Create a new CohortParticipant.",
+        "operationId": "createCohortParticipant_1",
+        "requestBody": {
+          "description": "New CohortParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortParticipantPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortparticipant/{id}": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Updates and existing CohortParticipant.",
+        "operationId": "updateCohortParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CohortParticipant data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortParticipantPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Deletes an existing CohortParticipant.",
+        "operationId": "deleteCohortParticipantById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortparticipant/query": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches all CohortParticipants.",
+        "operationId": "findCohortParticipants_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortParticipantCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortParticipantGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortparticipant/{id}/hint": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortParticipantByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortParticipantGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortpursuit": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Create a new CohortPursuit.",
+        "operationId": "createCohortPursuit_1",
+        "requestBody": {
+          "description": "New CohortPursuit data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortPursuitPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortpursuit/{id}": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortPursuitById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortPursuitGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Updates and existing CohortPursuit.",
+        "operationId": "updateCohortPursuitById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated CohortPursuit data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortPursuitPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Deletes an existing CohortPursuit.",
+        "operationId": "deleteCohortPursuitById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortpursuit/query": {
+      "post": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches all CohortPursuits.",
+        "operationId": "findCohortPursuits_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CohortPursuitCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortPursuitGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort/cohortpursuit/{id}/hint": {
+      "get": {
+        "tags": [
+          "/cohort"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getCohortPursuitByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortPursuitGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/experience/cohort": {
       "post": {
         "tags": [
@@ -18999,6 +19935,240 @@
         }
       }
     },
+    "/hccl/teams/hccluserjoinrequest": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Create a new HcclUserJoinRequest.",
+        "operationId": "createHcclUserJoinRequest_1",
+        "requestBody": {
+          "description": "New HcclUserJoinRequest data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserJoinRequestPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserjoinrequest/{id}": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclUserJoinRequestById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserJoinRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Updates and existing HcclUserJoinRequest.",
+        "operationId": "updateHcclUserJoinRequestById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated HcclUserJoinRequest data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserJoinRequestPUTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "409": {
+            "description": "Conflict, Name Already Exists"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Deletes an existing HcclUserJoinRequest.",
+        "operationId": "deleteHcclUserJoinRequestById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserjoinrequest/query": {
+      "post": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches all HcclUserJoinRequests.",
+        "operationId": "findHcclUserJoinRequests_1",
+        "requestBody": {
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HcclUserJoinRequestCriteria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserJoinRequestGETDataSearchResults"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "206": {
+            "description": "Partial Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/teams/hccluserjoinrequest/{id}/hint": {
+      "get": {
+        "tags": [
+          "/teams"
+        ],
+        "summary": "Fetches based the id.",
+        "operationId": "getHcclUserJoinRequestByIdWithHint_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hint",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HcclUserJoinRequestGETData"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
     "/hccl/teams/hccluserprofilerole": {
       "post": {
         "tags": [
@@ -23873,103 +25043,6 @@
         }
       }
     },
-    "/hccl/cohort-ui/{cohortId}/citizen-invite": {
-      "post": {
-        "summary": "Invite a user to join a cohort.",
-        "operationId": "inviteCitizenToCohort",
-        "parameters": [
-          {
-            "name": "cohortId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Invitation data",
-          "content": {
-            "application/json;charset=UTF-8": {
-              "schema": {
-                "$ref": "#/components/schemas/InviteToCohortPOSTData"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/InviteToCohortResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid Data"
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/cohort-ui/{cohortId}": {
-      "get": {
-        "summary": "Load cohort UI data.",
-        "operationId": "loadCohortUIData",
-        "parameters": [
-          {
-            "name": "cohortId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/CohortUIData"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
-    "/hccl/cohorts-ui/students/my-cohorts": {
-      "get": {
-        "summary": "Load cohort memberships for the current student.",
-        "operationId": "loadMyCohorts",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json;charset=UTF-8": {
-                "schema": {
-                  "$ref": "#/components/schemas/StudentCohortsUIGETData"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "System Error"
-          }
-        }
-      }
-    },
     "/hccl/ai/encode": {
       "post": {
         "tags": [
@@ -28134,6 +29207,183 @@
           },
           "400": {
             "description": "Invalid Id, No Data Updated or Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort-ui/{cohortId}/join-request": {
+      "post": {
+        "summary": "Submit a request to join a cohort.",
+        "operationId": "askToJoinCohort",
+        "parameters": [
+          {
+            "name": "cohortId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Join request data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/JoinCohortRequestPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinCohortRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort-ui/join-request-action": {
+      "post": {
+        "summary": "Approve or decline a cohort join request.",
+        "operationId": "handleJoinRequestAction",
+        "requestBody": {
+          "description": "Join request action data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/HandleJoinActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HandleJoinActionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort-ui/{cohortId}/citizen-invite": {
+      "post": {
+        "summary": "Invite a user to join a cohort.",
+        "operationId": "inviteCitizenToCohort",
+        "parameters": [
+          {
+            "name": "cohortId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Invitation data",
+          "content": {
+            "application/json;charset=UTF-8": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteToCohortPOSTData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteToCohortResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Data"
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohort-ui/{cohortId}": {
+      "get": {
+        "summary": "Load cohort UI data.",
+        "operationId": "loadCohortUIData",
+        "parameters": [
+          {
+            "name": "cohortId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/CohortUIData"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "System Error"
+          }
+        }
+      }
+    },
+    "/hccl/cohorts-ui/students/my-cohorts": {
+      "get": {
+        "summary": "Load cohort memberships for the current student.",
+        "operationId": "loadMyCohorts",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentCohortsUIGETData"
+                }
+              }
+            }
           },
           "500": {
             "description": "System Error"
@@ -34963,12 +36213,818 @@
           }
         }
       },
+      "CohortExperienceParticipantPOSTData": {
+        "required": [
+          "cohortExperienceId",
+          "participantId"
+        ],
+        "type": "object",
+        "properties": {
+          "cohortExperienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sponsoredByOrgId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CohortExperienceParticipantGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "cohortExperienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sponsoredByOrgId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CohortExperienceParticipantGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CohortExperienceParticipantGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CohortExperienceParticipantCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "cohortExperienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sponsoredByOrgId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CohortExperienceParticipantPUTData": {
+        "required": [
+          "cohortExperienceId",
+          "participantId"
+        ],
+        "type": "object",
+        "properties": {
+          "cohortExperienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "participantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sponsoredByOrgId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CohortExperiencePOSTData": {
+        "required": [
+          "cohortId",
+          "experienceId",
+          "importance",
+          "roundtableRequired",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roundtableRequired": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CohortExperienceGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roundtableRequired": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CohortExperienceGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CohortExperienceGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CohortExperienceCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roundtableRequired": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CohortExperiencePUTData": {
+        "required": [
+          "cohortId",
+          "experienceId",
+          "importance",
+          "roundtableRequired",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "experienceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "importance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roundtableRequired": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CohortParticipantPOSTData": {
+        "required": [
+          "cohortId",
+          "currentStateCode",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CohortParticipantGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CohortParticipantGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CohortParticipantGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CohortParticipantCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CohortParticipantPUTData": {
+        "required": [
+          "cohortId",
+          "currentStateCode",
+          "userProfileId"
+        ],
+        "type": "object",
+        "properties": {
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userProfileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CohortPursuitPOSTData": {
+        "required": [
+          "cohortId",
+          "encodingText",
+          "name",
+          "rawText"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "pursuitTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ladderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rawText": {
+            "type": "string"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CohortPursuitGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "pursuitTypeCode": {
+            "type": "string"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ladderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rawText": {
+            "type": "string"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CohortPursuitGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CohortPursuitGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "CohortPursuitCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "name": {
+            "type": "string"
+          },
+          "pursuitTypeCode": {
+            "type": "string"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ladderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CohortPursuitPUTData": {
+        "required": [
+          "cohortId",
+          "encodingText",
+          "name",
+          "rawText"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "pursuitTypeCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ladderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vocationEncodingRefId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rawText": {
+            "type": "string"
+          },
+          "encodingText": {
+            "type": "string"
+          },
+          "vocationEncodingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "CohortPOSTData": {
         "required": [
           "available",
           "businessCode",
+          "currentStateCode",
           "description",
-          "name"
+          "name",
+          "teamId"
         ],
         "type": "object",
         "properties": {
@@ -35028,7 +37084,7 @@
             "minLength": 1,
             "type": "string"
           },
-          "createdById": {
+          "sponsoredByOrgId": {
             "type": "string",
             "format": "uuid"
           },
@@ -35111,7 +37167,7 @@
           "parentName": {
             "type": "string"
           },
-          "createdById": {
+          "sponsoredByOrgId": {
             "type": "string",
             "format": "uuid"
           },
@@ -35234,7 +37290,7 @@
           "parentName": {
             "type": "string"
           },
-          "createdById": {
+          "sponsoredByOrgId": {
             "type": "string",
             "format": "uuid"
           },
@@ -35319,7 +37375,7 @@
             "minLength": 1,
             "type": "string"
           },
-          "createdById": {
+          "sponsoredByOrgId": {
             "type": "string",
             "format": "uuid"
           },
@@ -52515,6 +54571,304 @@
           }
         }
       },
+      "HcclUserJoinRequestPOSTData": {
+        "required": [
+          "currentStateCode",
+          "joinCode",
+          "joinerId"
+        ],
+        "type": "object",
+        "properties": {
+          "joinerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "joinCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "acceptedById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateAccepted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "HcclUserJoinRequestGETData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "lastUpdatedByInfo": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "dateLastUpdated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "entityDisplayName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "joinerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "joinCode": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "acceptedById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentName": {
+            "type": "string"
+          }
+        }
+      },
+      "HcclUserJoinRequestGETDataSearchResults": {
+        "type": "object",
+        "properties": {
+          "pagingInfo": {
+            "$ref": "#/components/schemas/DCPageData"
+          },
+          "searchResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclUserJoinRequestGETData"
+            }
+          },
+          "filter": {
+            "$ref": "#/components/schemas/BaseCriteria"
+          }
+        }
+      },
+      "HcclUserJoinRequestCriteria": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPaging": {
+            "type": "boolean"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idsToExclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "searchByText": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderByHint": {
+            "type": "string"
+          },
+          "optionalDataHint": {
+            "type": "string"
+          },
+          "predicateHint": {
+            "$ref": "#/components/schemas/CriteriaPredicateHint"
+          },
+          "searchByDateRange": {
+            "$ref": "#/components/schemas/CriteriaDateRange"
+          },
+          "joinerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "joinCode": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "acceptedById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateAccepted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentStateCode": {
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "type": "string"
+          },
+          "parentName": {
+            "type": "string"
+          }
+        }
+      },
+      "HcclUserJoinRequestPUTData": {
+        "required": [
+          "currentStateCode",
+          "joinCode",
+          "joinerId"
+        ],
+        "type": "object",
+        "properties": {
+          "joinerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "joinCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "dateExpires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jsonData": {
+            "type": "string"
+          },
+          "acceptedById": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateAccepted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentStateCode": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "currentStateTransitionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentStateDateEntered": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentEntityType": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
       "HcclUserProfileRolePOSTData": {
         "required": [
           "organizationId",
@@ -59372,91 +61726,6 @@
           }
         }
       },
-      "InviteToCohortResponse": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "invite": {
-            "$ref": "#/components/schemas/HcclUserInviteGETData"
-          }
-        }
-      },
-      "InviteToCohortPOSTData": {
-        "type": "object",
-        "properties": {
-          "userProfileToInviteId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "emailAddress": {
-            "type": "string"
-          }
-        }
-      },
-      "CohortUIData": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "cohort": {
-            "$ref": "#/components/schemas/CohortGETData"
-          },
-          "members": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HcclUserProfileGETData"
-            }
-          },
-          "outstandingInvites": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/HcclUserInviteGETData"
-            }
-          }
-        }
-      },
-      "StudentCohortSummaryGETData": {
-        "type": "object",
-        "properties": {
-          "cohortId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "organizationName": {
-            "type": "string"
-          },
-          "cohortName": {
-            "type": "string"
-          },
-          "leaderName": {
-            "type": "string"
-          },
-          "dateCreated": {
-            "$ref": "#/components/schemas/DateGETData"
-          },
-          "messageId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
-      "StudentCohortsUIGETData": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "$ref": "#/components/schemas/SimpleMessageList"
-          },
-          "cohorts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentCohortSummaryGETData"
-            }
-          }
-        }
-      },
       "SearchDistancePOJO": {
         "type": "object",
         "properties": {
@@ -59623,6 +61892,42 @@
           }
         }
       },
+      "ConsentRequestGETData": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "consentMessage": {
+            "type": "string"
+          },
+          "mdContents": {
+            "type": "string"
+          },
+          "contractVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractParticipantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/PContractVersionGETData"
+          }
+        }
+      },
+      "MultiConsentRequestGETData": {
+        "type": "object",
+        "properties": {
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentRequestGETData"
+            }
+          }
+        }
+      },
       "OnboardInvitedUIData": {
         "type": "object",
         "properties": {
@@ -59631,6 +61936,9 @@
           },
           "invite": {
             "$ref": "#/components/schemas/HcclUserInviteGETData"
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestGETData"
           },
           "languageCodesSb": {
             "$ref": "#/components/schemas/MenuControlDataList"
@@ -59963,42 +62271,6 @@
           },
           "results": {
             "$ref": "#/components/schemas/VeiSearchResultsGETData"
-          }
-        }
-      },
-      "ConsentRequestGETData": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "consentMessage": {
-            "type": "string"
-          },
-          "mdContents": {
-            "type": "string"
-          },
-          "contractVersionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "contractParticipantId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "contract": {
-            "$ref": "#/components/schemas/PContractVersionGETData"
-          }
-        }
-      },
-      "MultiConsentRequestGETData": {
-        "type": "object",
-        "properties": {
-          "contracts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ConsentRequestGETData"
-            }
           }
         }
       },
@@ -61639,6 +63911,157 @@
           },
           "messages": {
             "$ref": "#/components/schemas/SimpleMessageList"
+          }
+        }
+      },
+      "JoinCohortRequestResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "joinRequest": {
+            "$ref": "#/components/schemas/HcclUserJoinRequestGETData"
+          }
+        }
+      },
+      "JoinCohortRequestPOSTData": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "HandleJoinActionResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "tuple": {
+            "$ref": "#/components/schemas/EntityTuple"
+          }
+        }
+      },
+      "HandleJoinActionRequest": {
+        "type": "object",
+        "properties": {
+          "sig": {
+            "type": "string"
+          },
+          "joinRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "mapContext": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "consents": {
+            "$ref": "#/components/schemas/MultiConsentRequestPOSTData"
+          }
+        }
+      },
+      "InviteToCohortResponse": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "invite": {
+            "$ref": "#/components/schemas/HcclUserInviteGETData"
+          }
+        }
+      },
+      "InviteToCohortPOSTData": {
+        "type": "object",
+        "properties": {
+          "userProfileToInviteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "emailAddress": {
+            "type": "string"
+          }
+        }
+      },
+      "CohortUIData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "cohort": {
+            "$ref": "#/components/schemas/CohortGETData"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclUserProfileGETData"
+            }
+          },
+          "outstandingInvites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclUserInviteGETData"
+            }
+          },
+          "pendingJoinRequests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HcclUserJoinRequestGETData"
+            }
+          }
+        }
+      },
+      "StudentCohortSummaryGETData": {
+        "type": "object",
+        "properties": {
+          "cohortId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "cohortName": {
+            "type": "string"
+          },
+          "leaderName": {
+            "type": "string"
+          },
+          "dateCreated": {
+            "$ref": "#/components/schemas/DateGETData"
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "StudentCohortsUIGETData": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "$ref": "#/components/schemas/SimpleMessageList"
+          },
+          "cohorts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentCohortSummaryGETData"
+            }
           }
         }
       },

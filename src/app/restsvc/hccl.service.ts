@@ -1155,6 +1155,214 @@ export class HcclService extends RequestServiceCaller {
     return this.request<SearchCatalogResponseLogGETData>(request);
   }
 
+  createCohortExperienceParticipant(body: CohortExperienceParticipantPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperienceparticipant",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCohortExperienceParticipantById(id: string): Observable<CohortExperienceParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperienceparticipant/" + id,
+      method: "GET",
+    };
+    return this.request<CohortExperienceParticipantGETData>(request);
+  }
+
+  updateCohortExperienceParticipantById(id: string, body: CohortExperienceParticipantPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperienceparticipant/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCohortExperienceParticipantById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperienceparticipant/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCohortExperienceParticipants(body: CohortExperienceParticipantCriteria): Observable<CohortExperienceParticipantGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperienceparticipant/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CohortExperienceParticipantGETDataSearchResults>(request);
+  }
+
+  getCohortExperienceParticipantByIdWithHint(id: string, hint: string): Observable<CohortExperienceParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperienceparticipant/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<CohortExperienceParticipantGETData>(request);
+  }
+
+  createCohortExperience(body: CohortExperiencePOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperience",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCohortExperienceById(id: string): Observable<CohortExperienceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperience/" + id,
+      method: "GET",
+    };
+    return this.request<CohortExperienceGETData>(request);
+  }
+
+  updateCohortExperienceById(id: string, body: CohortExperiencePUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperience/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCohortExperienceById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperience/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCohortExperiences(body: CohortExperienceCriteria): Observable<CohortExperienceGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperience/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CohortExperienceGETDataSearchResults>(request);
+  }
+
+  getCohortExperienceByIdWithHint(id: string, hint: string): Observable<CohortExperienceGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortexperience/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<CohortExperienceGETData>(request);
+  }
+
+  createCohortParticipant(body: CohortParticipantPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortparticipant",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCohortParticipantById(id: string): Observable<CohortParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortparticipant/" + id,
+      method: "GET",
+    };
+    return this.request<CohortParticipantGETData>(request);
+  }
+
+  updateCohortParticipantById(id: string, body: CohortParticipantPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortparticipant/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCohortParticipantById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortparticipant/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCohortParticipants(body: CohortParticipantCriteria): Observable<CohortParticipantGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortparticipant/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CohortParticipantGETDataSearchResults>(request);
+  }
+
+  getCohortParticipantByIdWithHint(id: string, hint: string): Observable<CohortParticipantGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortparticipant/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<CohortParticipantGETData>(request);
+  }
+
+  createCohortPursuit(body: CohortPursuitPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortpursuit",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getCohortPursuitById(id: string): Observable<CohortPursuitGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortpursuit/" + id,
+      method: "GET",
+    };
+    return this.request<CohortPursuitGETData>(request);
+  }
+
+  updateCohortPursuitById(id: string, body: CohortPursuitPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortpursuit/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteCohortPursuitById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortpursuit/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findCohortPursuits(body: CohortPursuitCriteria): Observable<CohortPursuitGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortpursuit/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<CohortPursuitGETDataSearchResults>(request);
+  }
+
+  getCohortPursuitByIdWithHint(id: string, hint: string): Observable<CohortPursuitGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort/cohortpursuit/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<CohortPursuitGETData>(request);
+  }
+
   createCohort(body: CohortPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/experience/cohort",
@@ -4339,6 +4547,58 @@ export class HcclService extends RequestServiceCaller {
     return this.request<HcclUserInviteGETData>(request);
   }
 
+  createHcclUserJoinRequest(body: HcclUserJoinRequestPOSTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserjoinrequest",
+      method: "POST",
+      body: body,
+    };
+    return this.requestCreate<any>(request);
+  }
+
+  getHcclUserJoinRequestById(id: string): Observable<HcclUserJoinRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserjoinrequest/" + id,
+      method: "GET",
+    };
+    return this.request<HcclUserJoinRequestGETData>(request);
+  }
+
+  updateHcclUserJoinRequestById(id: string, body: HcclUserJoinRequestPUTData): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserjoinrequest/" + id,
+      method: "PUT",
+      body: body,
+    };
+    return this.request<any>(request);
+  }
+
+  deleteHcclUserJoinRequestById(id: string): Observable<any> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserjoinrequest/" + id,
+      method: "DELETE",
+    };
+    return this.request<any>(request);
+  }
+
+  findHcclUserJoinRequests(body: HcclUserJoinRequestCriteria): Observable<HcclUserJoinRequestGETDataSearchResults> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserjoinrequest/query",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HcclUserJoinRequestGETDataSearchResults>(request);
+  }
+
+  getHcclUserJoinRequestByIdWithHint(id: string, hint: string): Observable<HcclUserJoinRequestGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/teams/hccluserjoinrequest/" + id + "/hint",
+      method: "GET",
+      params: { "hint": this.convertToString(hint) },
+    };
+    return this.request<HcclUserJoinRequestGETData>(request);
+  }
+
   createHcclUserProfileRole(body: HcclUserProfileRolePOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/teams/hccluserprofilerole",
@@ -5459,31 +5719,6 @@ export class HcclService extends RequestServiceCaller {
     return this.request<SignupBehaviorResponse>(request);
   }
 
-  inviteCitizenToCohort(cohortId: string, body: InviteToCohortPOSTData): Observable<InviteToCohortResponse> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/cohort-ui/" + cohortId + "/citizen-invite",
-      method: "POST",
-      body: body,
-    };
-    return this.request<InviteToCohortResponse>(request);
-  }
-
-  loadCohortUIData(cohortId: string): Observable<CohortUIData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/cohort-ui/" + cohortId,
-      method: "GET",
-    };
-    return this.request<CohortUIData>(request);
-  }
-
-  loadMyCohorts(): Observable<StudentCohortsUIGETData> {
-    const request: CommonServiceRequest = {
-      url: "/hccl/cohorts-ui/students/my-cohorts",
-      method: "GET",
-    };
-    return this.request<StudentCohortsUIGETData>(request);
-  }
-
   encodeContent(body: EncodingPOSTData): Observable<any> {
     const request: CommonServiceRequest = {
       url: "/hccl/ai/encode",
@@ -6393,6 +6628,49 @@ export class HcclService extends RequestServiceCaller {
       params: { "userProfileId": this.convertToString(userProfileId) },
     };
     return this.request<HcclUserContextGETData>(request);
+  }
+
+  askToJoinCohort(cohortId: string, body: JoinCohortRequestPOSTData): Observable<JoinCohortRequestResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort-ui/" + cohortId + "/join-request",
+      method: "POST",
+      body: body,
+    };
+    return this.request<JoinCohortRequestResponse>(request);
+  }
+
+  handleJoinRequestAction(body: HandleJoinActionRequest): Observable<HandleJoinActionResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort-ui/join-request-action",
+      method: "POST",
+      body: body,
+    };
+    return this.request<HandleJoinActionResponse>(request);
+  }
+
+  inviteCitizenToCohort(cohortId: string, body: InviteToCohortPOSTData): Observable<InviteToCohortResponse> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort-ui/" + cohortId + "/citizen-invite",
+      method: "POST",
+      body: body,
+    };
+    return this.request<InviteToCohortResponse>(request);
+  }
+
+  loadCohortUIData(cohortId: string): Observable<CohortUIData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohort-ui/" + cohortId,
+      method: "GET",
+    };
+    return this.request<CohortUIData>(request);
+  }
+
+  loadMyCohorts(): Observable<StudentCohortsUIGETData> {
+    const request: CommonServiceRequest = {
+      url: "/hccl/cohorts-ui/students/my-cohorts",
+      method: "GET",
+    };
+    return this.request<StudentCohortsUIGETData>(request);
   }
 
   checkApplicationHealth(): Observable<any> {
@@ -8252,6 +8530,241 @@ export interface SearchCatalogResponseLogPUTData {
   searchQualityCode?: string;
 }
 
+export interface CohortExperienceParticipantPOSTData {
+  cohortExperienceId: string;
+  participantId: string;
+  sponsoredByOrgId?: string;
+}
+
+export interface CohortExperienceParticipantGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  cohortExperienceId?: string;
+  participantId?: string;
+  sponsoredByOrgId?: string;
+}
+
+export interface CohortExperienceParticipantGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CohortExperienceParticipantGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CohortExperienceParticipantCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  cohortExperienceId?: string;
+  participantId?: string;
+  sponsoredByOrgId?: string;
+}
+
+export interface CohortExperienceParticipantPUTData {
+  cohortExperienceId: string;
+  participantId: string;
+  sponsoredByOrgId?: string;
+}
+
+export interface CohortExperiencePOSTData {
+  cohortId: string;
+  experienceId: string;
+  title: string;
+  description?: string;
+  importance: number;
+  roundtableRequired: boolean;
+}
+
+export interface CohortExperienceGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  cohortId?: string;
+  experienceId?: string;
+  title?: string;
+  description?: string;
+  importance?: number;
+  roundtableRequired?: boolean;
+}
+
+export interface CohortExperienceGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CohortExperienceGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CohortExperienceCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  cohortId?: string;
+  experienceId?: string;
+  title?: string;
+  importance?: number;
+  roundtableRequired?: boolean;
+}
+
+export interface CohortExperiencePUTData {
+  cohortId: string;
+  experienceId: string;
+  title: string;
+  description?: string;
+  importance: number;
+  roundtableRequired: boolean;
+}
+
+export interface CohortParticipantPOSTData {
+  cohortId: string;
+  userProfileId: string;
+  comments?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface CohortParticipantGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  cohortId?: string;
+  userProfileId?: string;
+  comments?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+}
+
+export interface CohortParticipantGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CohortParticipantGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CohortParticipantCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  cohortId?: string;
+  userProfileId?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface CohortParticipantPUTData {
+  cohortId: string;
+  userProfileId: string;
+  comments?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+}
+
+export interface CohortPursuitPOSTData {
+  name: string;
+  pursuitTypeCode?: string;
+  cohortId: string;
+  ladderId?: string;
+  vocationEncodingRefId?: string;
+  rawText: string;
+  encodingText: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
+export interface CohortPursuitGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  name?: string;
+  pursuitTypeCode?: string;
+  cohortId?: string;
+  ladderId?: string;
+  vocationEncodingRefId?: string;
+  rawText?: string;
+  encodingText?: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
+export interface CohortPursuitGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: CohortPursuitGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface CohortPursuitCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  name?: string;
+  pursuitTypeCode?: string;
+  cohortId?: string;
+  ladderId?: string;
+  vocationEncodingRefId?: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
+export interface CohortPursuitPUTData {
+  name: string;
+  pursuitTypeCode?: string;
+  cohortId: string;
+  ladderId?: string;
+  vocationEncodingRefId?: string;
+  rawText: string;
+  encodingText: string;
+  vocationEncodingId?: string;
+  status?: number;
+}
+
 export interface CohortPOSTData {
   name: string;
   businessCode: string;
@@ -8260,14 +8773,14 @@ export interface CohortPOSTData {
   available: number;
   jsonData?: string;
   organizationId?: string;
-  currentStateCode?: string;
+  currentStateCode: string;
   currentStateTransitionId?: string;
   currentStateDateEntered?: string;
   parentId?: string;
   parentEntityType?: string;
   parentName?: string;
-  createdById?: string;
-  teamId?: string;
+  sponsoredByOrgId?: string;
+  teamId: string;
   messageId?: string;
   signupPacketId?: string;
 }
@@ -8292,7 +8805,7 @@ export interface CohortGETData {
   parentId?: string;
   parentEntityType?: string;
   parentName?: string;
-  createdById?: string;
+  sponsoredByOrgId?: string;
   teamId?: string;
   messageId?: string;
   signupPacketId?: string;
@@ -8328,7 +8841,7 @@ export interface CohortCriteria {
   parentId?: string;
   parentEntityType?: string;
   parentName?: string;
-  createdById?: string;
+  sponsoredByOrgId?: string;
   teamId?: string;
   messageId?: string;
   signupPacketId?: string;
@@ -8348,7 +8861,7 @@ export interface CohortPUTData {
   parentId?: string;
   parentEntityType?: string;
   parentName?: string;
-  createdById?: string;
+  sponsoredByOrgId?: string;
   teamId: string;
   messageId?: string;
   signupPacketId?: string;
@@ -13173,6 +13686,90 @@ export interface HcclUserInvitePUTData {
   invitedById?: string;
 }
 
+export interface HcclUserJoinRequestPOSTData {
+  joinerId: string;
+  joinCode: string;
+  notes?: string;
+  dateExpires?: string;
+  jsonData?: string;
+  acceptedById?: string;
+  dateAccepted?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
+}
+
+export interface HcclUserJoinRequestGETData {
+  id?: string;
+  createdByInfo?: Reference;
+  dateCreated?: DateGETData;
+  lastUpdatedByInfo?: Reference;
+  dateLastUpdated?: DateGETData;
+  entityDisplayName?: string;
+  entityType?: string;
+  joinerId?: string;
+  joinCode?: string;
+  notes?: string;
+  jsonData?: string;
+  acceptedById?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
+}
+
+export interface HcclUserJoinRequestGETDataSearchResults {
+  pagingInfo?: DCPageData;
+  searchResults?: HcclUserJoinRequestGETData[];
+  filter?: BaseCriteria;
+}
+
+export interface HcclUserJoinRequestCriteria {
+  pageNumber?: number;
+  pageSize?: number;
+  isPaging?: boolean;
+  ids?: string[];
+  idsToExclude?: string[];
+  searchByText?: string;
+  maxResults?: number;
+  orderByHint?: string;
+  optionalDataHint?: string;
+  predicateHint?: CriteriaPredicateHint;
+  searchByDateRange?: CriteriaDateRange;
+  joinerId?: string;
+  joinCode?: string;
+  notes?: string;
+  dateExpires?: string;
+  acceptedById?: string;
+  dateAccepted?: string;
+  currentStateCode?: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
+}
+
+export interface HcclUserJoinRequestPUTData {
+  joinerId: string;
+  joinCode: string;
+  notes?: string;
+  dateExpires?: string;
+  jsonData?: string;
+  acceptedById?: string;
+  dateAccepted?: string;
+  currentStateCode: string;
+  currentStateTransitionId?: string;
+  currentStateDateEntered?: string;
+  parentId?: string;
+  parentEntityType?: string;
+  parentName?: string;
+}
+
 export interface HcclUserProfileRolePOSTData {
   userId: string;
   roleCode: string;
@@ -15074,37 +15671,6 @@ export interface SignupBehaviorResponse {
   participant?: ParticipantGETData;
 }
 
-export interface InviteToCohortResponse {
-  messages?: SimpleMessageList;
-  invite?: HcclUserInviteGETData;
-}
-
-export interface InviteToCohortPOSTData {
-  userProfileToInviteId?: string;
-  emailAddress?: string;
-}
-
-export interface CohortUIData {
-  messages?: SimpleMessageList;
-  cohort?: CohortGETData;
-  members?: HcclUserProfileGETData[];
-  outstandingInvites?: HcclUserInviteGETData[];
-}
-
-export interface StudentCohortSummaryGETData {
-  cohortId?: string;
-  organizationName?: string;
-  cohortName?: string;
-  leaderName?: string;
-  dateCreated?: DateGETData;
-  messageId?: string;
-}
-
-export interface StudentCohortsUIGETData {
-  messages?: SimpleMessageList;
-  cohorts?: StudentCohortSummaryGETData[];
-}
-
 export interface SearchDistancePOJO {
   datapointId?: string;
   distance?: number;
@@ -15167,9 +15733,23 @@ export interface HandleInviteActionPOSTData {
   consents?: MultiConsentRequestPOSTData;
 }
 
+export interface ConsentRequestGETData {
+  title?: string;
+  consentMessage?: string;
+  mdContents?: string;
+  contractVersionId?: string;
+  contractParticipantId?: string;
+  contract?: PContractVersionGETData;
+}
+
+export interface MultiConsentRequestGETData {
+  contracts?: ConsentRequestGETData[];
+}
+
 export interface OnboardInvitedUIData {
   messages?: SimpleMessageList;
   invite?: HcclUserInviteGETData;
+  consents?: MultiConsentRequestGETData;
   languageCodesSb?: MenuControlDataList;
   schoolsSb?: MenuControlDataList;
   schoolId?: string;
@@ -15267,19 +15847,6 @@ export interface SearchCatalogResponse {
   theRequest?: SearchCatalogRequest;
   vocationEncodingId?: string;
   results?: VeiSearchResultsGETData;
-}
-
-export interface ConsentRequestGETData {
-  title?: string;
-  consentMessage?: string;
-  mdContents?: string;
-  contractVersionId?: string;
-  contractParticipantId?: string;
-  contract?: PContractVersionGETData;
-}
-
-export interface MultiConsentRequestGETData {
-  contracts?: ConsentRequestGETData[];
 }
 
 export interface OnboardStudentUIData {
@@ -15867,6 +16434,62 @@ export interface WorkRequestUIControllerGETData {
   showingCreateWorkItem?: boolean;
   createWorkItemActionMenu?: MenuControlDataList;
   messages?: SimpleMessageList;
+}
+
+export interface JoinCohortRequestResponse {
+  messages?: SimpleMessageList;
+  joinRequest?: HcclUserJoinRequestGETData;
+}
+
+export interface JoinCohortRequestPOSTData {
+  notes?: string;
+}
+
+export interface HandleJoinActionResponse {
+  messages?: SimpleMessageList;
+  notes?: string;
+  tuple?: EntityTuple;
+}
+
+export interface HandleJoinActionRequest {
+  sig?: string;
+  joinRequestId?: string;
+  notes?: string;
+  accepted?: boolean;
+  mapContext?: any;
+  consents?: MultiConsentRequestPOSTData;
+}
+
+export interface InviteToCohortResponse {
+  messages?: SimpleMessageList;
+  invite?: HcclUserInviteGETData;
+}
+
+export interface InviteToCohortPOSTData {
+  userProfileToInviteId?: string;
+  emailAddress?: string;
+}
+
+export interface CohortUIData {
+  messages?: SimpleMessageList;
+  cohort?: CohortGETData;
+  members?: HcclUserProfileGETData[];
+  outstandingInvites?: HcclUserInviteGETData[];
+  pendingJoinRequests?: HcclUserJoinRequestGETData[];
+}
+
+export interface StudentCohortSummaryGETData {
+  cohortId?: string;
+  organizationName?: string;
+  cohortName?: string;
+  leaderName?: string;
+  dateCreated?: DateGETData;
+  messageId?: string;
+}
+
+export interface StudentCohortsUIGETData {
+  messages?: SimpleMessageList;
+  cohorts?: StudentCohortSummaryGETData[];
 }
 
 export interface GenericFormUI {

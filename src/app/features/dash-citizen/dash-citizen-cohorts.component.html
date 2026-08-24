@@ -7,6 +7,52 @@
     <span class="text-muted small ms-2">Entity specification derived from participant UI wireframes</span>
   </div>
 
+  <h5 class="mb-3">My Cohorts</h5>
+
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2 text-muted">Loading your cohorts...</p>
+  </div>
+
+  <div *ngIf="!loading && error" class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error && cohorts.length === 0" class="text-muted mb-4">
+    You are not a member of any cohorts yet.
+  </div>
+
+  <div *ngIf="!loading && cohorts.length > 0" class="list-group mb-4">
+    <a
+      class="list-group-item list-group-item-action"
+      *ngFor="let cohort of cohorts"
+      [routerLink]="cohortRoute(cohort)">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <div class="fw-semibold">
+            <i class="fas fa-users me-2"></i>
+            {{ cohort.cohortName || 'Cohort' }}
+          </div>
+          <small class="text-muted d-block mt-1" *ngIf="cohort.organizationName">
+            {{ cohort.organizationName }}
+          </small>
+          <small class="text-muted d-block" *ngIf="cohort.leaderName">
+            Leader: {{ cohort.leaderName }}
+          </small>
+        </div>
+        <small class="text-muted" *ngIf="cohort.dateCreated?.formattedDate">
+          {{ cohort.dateCreated?.formattedDate }}
+        </small>
+      </div>
+    </a>
+  </div>
+
+  <hr class="my-4" />
+
+  <h5 class="mb-2">UI specs (MVP mocks)</h5>
   <p class="text-muted mb-3">
     Static participant UI specs — open a cohort mock to explore the MVP wireframe with documentation links.
   </p>

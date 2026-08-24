@@ -44,6 +44,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   markdownContent: string = '';
   markdownDirty: boolean = false;
   savingMarkdown: boolean = false;
+  deletingFile: boolean = false;
 
   private tree: any = null;
   private initialized = false;
@@ -85,6 +86,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   private treeInitPending = false;
+  private treeInitRetries = 0;
 
   /**
    * Defer tree initialization to allow Angular change detection to complete
@@ -114,8 +116,13 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     if (!fileGroupId) {
       return;
     }
-    
-    this.loading = true;
+
+    // Keep the pane mounted on refresh so #treeContainer is not destroyed (*ngIf loading).
+    const isRefresh = !!this.pmfilegroup;
+
+    if (!isRefresh) {
+      this.loading = true;
+    }
     this.error = null;
     
     // Clear current selection when reloading
@@ -126,8 +133,7 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       next: (data) => {
         this.pmfilegroup = data;
         this.loading = false;
-        // Defer tree initialization to allow Angular to re-render the DOM
-        // (the treeContainer is conditionally rendered based on !loading)
+        this.treeInitRetries = 0;
         this.deferredInitializeTree();
       },
       error: (err) => {
@@ -146,9 +152,16 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
     });
 
     if (!this.pmfilegroup?.fileTree || !this.treeContainer?.nativeElement) {
+      if (this.pmfilegroup?.fileTree && this.treeInitRetries < 10) {
+        this.treeInitRetries++;
+        setTimeout(() => this.initializeTree(), 50);
+        return;
+      }
       console.warn('Cannot initialize tree - missing fileTree or container');
       return;
     }
+
+    this.treeInitRetries = 0;
 
     // Destroy existing tree if any
     if (this.tree) {
@@ -488,11 +501,13 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
       const putData: PMFilePUTData = {
         downloadAs: this.selectedFile.downloadAs || '',
         folderPath: this.selectedFile.folderPath || '/',
-        fileAccessCode: this.selectedFile.fileAccessCode || 'db_text',
+        // Always persist editable markdown as db_text. Uploaded .md files were
+        // previously stored as db_blob, whose public download NPEs (400).
+        fileAccessCode: 'db_text',
         available: this.selectedFile.available,
         parentEntityId: this.selectedFile.parentEntityId || '',
         parentEntityType: this.selectedFile.parentEntityType || 'PMFileGroup',
-        mimeType: this.selectedFile.mimeType || 'text/markdown',
+        mimeType: 'text/markdown',
         fileBlobBase64: contentBase64,
       };
 
@@ -540,11 +555,63 @@ export class PmfilegroupUiComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   downloadFile(): void {
-    if (this.selectedFile?.downloadFileUrl) {
-      const link = document.createElement('a');
-      link.href = this.selectedFile.downloadFileUrl;
-      link.download = this.selectedFile.downloadAs || 'file';
-      link.click();
+    const url = this.selectedFile?.downloadFileUrl || this.selectedFile?.downloadInternalFileUrl;
+    if (!url || !this.selectedFile) {
+      return;
+    }
+
+    const fileName = this.selectedFile.downloadAs || 'file';
+
+    // Cross-origin URLs ignore <a download>; fetch as blob and save locally.
+    this.http.get(url, { responseType: 'blob' }).subscribe({
+      next: (blob) => {
+        if (!blob || blob.size === 0) {
+          alert('Download failed: empty file');
+          return;
+        }
+
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = objectUrl;
+        link.download = fileName;
+        link.click();
+        URL.revokeObjectURL(objectUrl);
+      },
+      error: (err) => {
+        console.error('Error downloading file:', err);
+        alert('Error downloading file: ' + (err?.message || 'Unknown error'));
+      }
+    });
+  }
+
+  /**
+   * Delete the selected file (edit mode / leaders only)
+   */
+  async onDeleteFile(): Promise<void> {
+    if (this.readonly || !this.selectedFile?.id || this.deletingFile) {
+      return;
+    }
+
+    const fileName = this.selectedFile.downloadAs || 'this file';
+    if (!confirm(`Delete "${fileName}"? This cannot be undone.`)) {
+      return;
+    }
+
+    const fileId = this.selectedFile.id;
+    this.deletingFile = true;
+
+    try {
+      await this.hcclService.deletePMFileById(fileId).toPromise();
+      this.selectedFile = null;
+      this.selectedFileUrl = null;
+      this.markdownContent = '';
+      this.markdownDirty = false;
+      this.loadPMFileGroup();
+    } catch (err) {
+      console.error('Error deleting file:', err);
+      alert('Error deleting file: ' + ((err as Error).message || 'Unknown error'));
+    } finally {
+      this.deletingFile = false;
     }
   }
 

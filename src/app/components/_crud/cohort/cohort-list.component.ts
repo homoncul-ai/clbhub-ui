@@ -68,7 +68,7 @@ export class CohortListComponent extends AbstractListComponent<
 
   protected override onAdd(): void {
     const modalRef = this.modalService.open(CohortCreateModalComponent, {
-      modalClass: 'modal-lg modal-dialog-centered',
+      modalClass: 'modal-xl modal-dialog-centered',
       ignoreBackdropClick: true,
     });
 

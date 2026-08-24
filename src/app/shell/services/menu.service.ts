@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { CatalogGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
+import { CatalogGETData, CohortGETData, HcclService, HcclUserContextGETData, WorkQueueGETData, PersonalStatementGETData, PersonalStatementCriteria } from '@app/restsvc/hccl.service';
 import {
   getAdminSurveyRoute,
   getRecentSurveys,
@@ -27,6 +27,16 @@ export interface MenuItem {
 }
 
 
+export type DashboardType =
+  | 'advocate'
+  | 'nonprofit'
+  | 'parent'
+  | 'service-provider'
+  | 'employee'
+  | 'ecoadmin'
+  | 'citizen'
+  | 'swcat';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,8 +48,44 @@ export class MenuService {
   private readonly menuRefreshSubject = new Subject<void>();
   public readonly menuRefreshRequested$ = this.menuRefreshSubject.asObservable();
 
+  /**
+   * When set (e.g. ecoadmin launching the student onboard tour), shell rebuilds
+   * the sidebar as this dashboard type without switching the active profile.
+   */
+  private tourPreviewDashboardType: DashboardType | null = null;
+
   public requestMenuRefresh(): void {
     this.menuRefreshSubject.next();
+  }
+
+  /** Temporarily show another role's sidebar (tour targeting / preview). */
+  public beginTourPreview(dashboardType: DashboardType): void {
+    if (this.tourPreviewDashboardType === dashboardType) {
+      return;
+    }
+    this.tourPreviewDashboardType = dashboardType;
+    this.requestMenuRefresh();
+  }
+
+  /** Restore the real profile sidebar after a tour preview. */
+  public endTourPreview(): void {
+    if (this.tourPreviewDashboardType == null) {
+      return;
+    }
+    this.tourPreviewDashboardType = null;
+    this.requestMenuRefresh();
+  }
+
+  public getTourPreviewDashboardType(): DashboardType | null {
+    return this.tourPreviewDashboardType;
+  }
+
+  /** Context dashboard type, overridden while a tour preview is active. */
+  public resolveDashboardType(context: any): DashboardType {
+    if (this.tourPreviewDashboardType) {
+      return this.tourPreviewDashboardType;
+    }
+    return this.getDashboardTypeFromContext(context);
   }
 
 
@@ -165,6 +211,7 @@ export class MenuService {
   }
   queues : WorkQueueGETData[] = [];
   catalogs : CatalogGETData[] = [];
+  cohorts: CohortGETData[] = [];
   personalStatements: PersonalStatementGETData[] = [];
   /** Ecoadmin recent surveys for sidebar; null = not loaded (use static fallback). */
   private surveySidebarItems: SurveyRegistryEntry[] | null = null;
@@ -193,6 +240,21 @@ export class MenuService {
         const catalogRsp = await this.hcclService.findCatalogs(catalogCriteria).toPromise();
         const catalogs = catalogRsp?.searchResults as CatalogGETData[] || [];
         this.catalogs = catalogs;
+
+        try {
+          const cohortRsp = await this.hcclService.findCohorts({
+            organizationId: context.currentUserProfile.organizationId,
+            pageNumber: 1,
+            pageSize: 100,
+            isPaging: false,
+            maxResults: 100,
+            optionalDataHint: 'all',
+          }).toPromise();
+          this.cohorts = cohortRsp?.searchResults as CohortGETData[] || [];
+        } catch (err) {
+          console.error('Failed to load cohorts for provider sidebar', err);
+          this.cohorts = [];
+        }
         break;
       case 'citizen':
         // Fetch personal statements for the current user profile
@@ -207,7 +269,7 @@ export class MenuService {
       case 'ecoadmin':
         try {
           const surveyRsp = await this.hcclService
-            .findPSurveyRefs({ pageNumber: 1, pageSize: 200, isPaging: true })
+            .findPSurveyRefs({ pageNumber: 1, pageSize: 50, isPaging: true })
             .toPromise();
           const merged = mergeSurveyRefsOntoRegistry(surveyRsp?.searchResults || [], {
             availableOnly: false,
@@ -412,6 +474,23 @@ export class MenuService {
     }
   }
 
+  private addOrgCohortSidebarItems(parent: MenuItem, baseRoute: string): void {
+    for (const cohort of this.cohorts) {
+      if (!cohort.id) {
+        continue;
+      }
+      this.addChildMenuItem(parent, {
+        id: `cohort-${cohort.id}`,
+        level: 2,
+        label: cohort.name || cohort.businessCode || 'Cohort',
+        route: `${baseRoute}/${cohort.id}`,
+        componentPath: 'src/app/components/_crud/cohort/cohort-detail-page.component',
+        componentName: 'CohortDetailPageComponent',
+        icon: 'fas fa-users',
+      });
+    }
+  }
+
   private tourGuideMenuItem(tour: TourRegistryEntry): MenuItem {
     return {
       level: 3,
@@ -564,6 +643,7 @@ export class MenuService {
     this.addMenuItem(menu, experiences);
 
     const cohorts = this.copyMenuItem(MENU_CONSTANTS.PROVIDER_COHORTS);
+    this.addOrgCohortSidebarItems(cohorts, '/provider-dashboard/cohorts');
     this.addMenuItem(menu, cohorts);
 
     // Add Catalog Entry Signup Packets

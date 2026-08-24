@@ -38,6 +38,7 @@ import { DashCitizenMyOrganizationsComponent } from './dash-citizen-my-organizat
 import { DashCitizenMyParticipationComponent } from './dash-citizen-my-participation.component';
 import { DashCitizenCohortsComponent } from './dash-citizen-cohorts.component';
 import { CohortParticipantUiExampleComponent } from './cohorts/cohort-participant-ui-example.component';
+import { CohortDetailPageComponent } from '@app/components/_crud/cohort/cohort-detail-page.component';
 const routes: Routes = [
   {
     path: '',
@@ -210,11 +211,23 @@ const routes: Routes = [
         },
       },
       {
+        path: 'cohorts/:cohortId',
+        component: CohortDetailPageComponent,
+        data: {
+          pageTitle: 'My Cohort',
+          pageSubtitle: 'Your cohort details, materials, and messages',
+          pageIcon: 'fas fa-users',
+          cohortListRoute: '/citizen/cohorts',
+          canInvite: false,
+          canManageMaterials: false,
+        },
+      },
+      {
         path: 'cohorts',
         component: DashCitizenCohortsComponent,
         data: {
           pageTitle: 'My Cohorts',
-          pageSubtitle: 'Participant view — MVP UI specs with documentation links',
+          pageSubtitle: 'Your cohorts, materials, and messages',
           pageIcon: 'fas fa-users',
         },
       },
@@ -287,6 +300,7 @@ const routes: Routes = [
     DashCitizenMyParticipationComponent,
     DashCitizenCohortsComponent,
     CohortParticipantUiExampleComponent,
+    CohortDetailPageComponent,
   ],
   declarations: [
     // Non-standalone components would go here

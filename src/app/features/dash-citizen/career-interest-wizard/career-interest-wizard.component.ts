@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
+import { LadderSelectorComponent } from '@app/components/_global/ladder-selector/ladder-selector.component';
 import { HcclService, PersonalStatementPOSTData, VocationEncodingRefCriteria, VocationEncodingRefGETData } from '@app/restsvc/hccl.service';
 import { HcclContextService } from '@app/shell/services/hccl-context.service';
 import { CAREER_LADDERS, CareerLadder } from '@app/shared/data/career-ladders';
@@ -17,7 +18,7 @@ export interface WizardSelection {
 @Component({
   selector: 'app-career-interest-wizard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LadderSelectorComponent],
   templateUrl: './career-interest-wizard.component.html',
   styleUrl: './career-interest-wizard.component.scss',
 })
@@ -33,8 +34,10 @@ export class CareerInterestWizardComponent {
   submitting = false;
   error = '';
 
-  readonly careerLadders: CareerLadder[] = CAREER_LADDERS;
+  /** No practical cap for citizen multi-select pursuits. */
+  readonly ladderMaxAllowed = 0;
   selectedFromIcons: Set<string> = new Set();
+  selectedIconIds: string[] = [];
 
   searchText = '';
   searchResults: VocationEncodingRefGETData[] = [];
@@ -49,17 +52,9 @@ export class CareerInterestWizardComponent {
     });
   }
 
-  // Page 1: Icon selection
-  toggleIcon(ladder: CareerLadder): void {
-    if (this.selectedFromIcons.has(ladder.id)) {
-      this.selectedFromIcons.delete(ladder.id);
-    } else {
-      this.selectedFromIcons.add(ladder.id);
-    }
-  }
-
-  isIconSelected(id: string): boolean {
-    return this.selectedFromIcons.has(id);
+  onLadderSelectionChange(ladders: CareerLadder[]): void {
+    this.selectedFromIcons = new Set(ladders.map((l) => l.id));
+    this.selectedIconIds = ladders.map((l) => l.id);
   }
 
   // Page 2: Search
@@ -115,7 +110,7 @@ export class CareerInterestWizardComponent {
   // Page 3: Summary helpers
   getIconSelections(): WizardSelection[] {
     return Array.from(this.selectedFromIcons).map(id => {
-      const ladder = this.careerLadders.find(l => l.id === id)!;
+      const ladder = CAREER_LADDERS.find(l => l.id === id)!;
       return { careerLadderId: id, name: ladder.name, icon: ladder.icon, source: 'icon' as const };
     });
   }
@@ -141,6 +136,7 @@ export class CareerInterestWizardComponent {
   removeSelection(sel: WizardSelection): void {
     if (sel.source === 'icon') {
       this.selectedFromIcons.delete(sel.careerLadderId);
+      this.selectedIconIds = Array.from(this.selectedFromIcons);
     } else {
       this.selectedFromSearch.delete(sel.careerLadderId);
     }
