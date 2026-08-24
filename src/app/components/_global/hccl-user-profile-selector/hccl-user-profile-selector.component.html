@@ -1,0 +1,77 @@
+<div class="hccl-user-profile-selector">
+  <div class="chosen-section" *ngIf="chosenProfiles.length > 0">
+    <small class="text-muted d-block mb-2">Chosen</small>
+    <div class="chosen-list">
+      <span
+        *ngFor="let profile of chosenProfiles"
+        class="chosen-chip"
+        [class.locked]="isLocked(profile.id)">
+        <i class="fas fa-user me-1"></i>
+        {{ displayName(profile) }}
+        <span class="chosen-meta" *ngIf="isLocked(profile.id)">(you)</span>
+        <button
+          *ngIf="!isLocked(profile.id)"
+          type="button"
+          class="chosen-remove"
+          (click)="removeChosen(profile, $event)"
+          [attr.aria-label]="'Remove ' + displayName(profile)">
+          <i class="fas fa-times"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <div class="search-box mb-2">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fas fa-search"></i></span>
+      <input
+        type="text"
+        class="form-control"
+        [placeholder]="placeholder"
+        [(ngModel)]="searchText"
+        (ngModelChange)="onSearchChange()" />
+    </div>
+  </div>
+
+  <div *ngIf="searching" class="text-center py-2">
+    <div class="spinner-border spinner-border-sm" role="status">
+      <span class="visually-hidden">Searching...</span>
+    </div>
+    <span class="ms-2 small text-muted">Searching...</span>
+  </div>
+
+  <div *ngIf="!searching && searchResults.length > 0" class="search-results">
+    <button
+      type="button"
+      class="search-result-item"
+      *ngFor="let profile of searchResults"
+      [class.selected]="isSelected(profile.id)"
+      [class.locked]="isLocked(profile.id)"
+      (click)="selectResult(profile)">
+      <div class="d-flex align-items-center justify-content-between w-100">
+        <div class="text-start">
+          <span class="fw-medium d-block">{{ displayName(profile) }}</span>
+          <small class="text-muted d-block">
+            {{ organizationName(profile) }}
+            <span *ngIf="rolesLabel(profile) !== '—'"> · {{ rolesLabel(profile) }}</span>
+          </small>
+        </div>
+        <i class="fas fa-check-circle text-success" *ngIf="isSelected(profile.id)"></i>
+        <i class="fas fa-lock text-muted" *ngIf="isLocked(profile.id) && !isSelected(profile.id)"></i>
+      </div>
+    </button>
+  </div>
+
+  <div
+    *ngIf="!searching && searchText.trim().length >= minSearchLength && searchResults.length === 0"
+    class="text-center py-2 text-muted small">
+    <i class="fas fa-inbox me-1"></i>
+    No people found for "{{ searchText.trim() }}". Try a message handle or email.
+  </div>
+
+  <div
+    *ngIf="searchText.trim().length > 0 && searchText.trim().length < minSearchLength"
+    class="text-muted small">
+    Type at least {{ minSearchLength }} characters to search.
+  </div>
+</div>

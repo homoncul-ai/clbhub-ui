@@ -16,11 +16,11 @@
 <div class="modal-body wizard-body">
   <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
 
-  <!-- PAGE 1: Pursuit -->
+  <!-- PAGE 1: Pursuit + leaders -->
   <div *ngIf="currentPage === 1" class="wizard-page">
     <h5 class="mb-2">Select a pursuit</h5>
     <p class="text-muted small mb-3">
-      Choose one career ladder for this cohort. You will be the cohort leader.
+      Choose one career ladder for this cohort.
     </p>
 
     <app-ladder-selector
@@ -28,6 +28,21 @@
       [selectedIds]="selectedLadderIds"
       (selectionChange)="onLadderSelectionChange($event)">
     </app-ladder-selector>
+
+    <h5 class="mb-2 mt-4">Leaders</h5>
+    <p class="text-muted small mb-3">
+      You are the cohort leader. Add more leaders if you want.
+      Search by email, message handle, or user code (not first/last name).
+    </p>
+
+    <app-hccl-user-profile-selector
+      [criteria]="leaderCriteria"
+      [maxAllowedToChoose]="leaderMaxAllowed"
+      [lockedIds]="lockedLeaderIds"
+      [selectedIds]="selectedLeaderIds"
+      [initialSelected]="initialLeaders"
+      (selectionChange)="onLeaderSelectionChange($event)">
+    </app-hccl-user-profile-selector>
   </div>
 
   <!-- PAGE 2: Details + create -->
