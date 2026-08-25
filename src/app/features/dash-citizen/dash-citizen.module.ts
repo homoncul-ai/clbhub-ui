@@ -226,7 +226,7 @@ const routes: Routes = [
         path: 'cohorts',
         component: DashCitizenCohortsComponent,
         data: {
-          pageTitle: 'My Cohorts',
+          pageTitle: 'Cohorts',
           pageSubtitle: 'Your cohorts, materials, and messages',
           pageIcon: 'fas fa-users',
         },

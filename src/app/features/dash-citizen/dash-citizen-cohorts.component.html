@@ -1,80 +1,27 @@
-<div class="dash-citizen-cohorts container-fluid">
-  <div class="cohorts-doc-link mb-3">
-    <a href="/public/docs/cohort-entities.md.html" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm">
-      <i class="fas fa-sitemap me-2"></i>
-      Cohort entity model (Markdeep)
-    </a>
-    <span class="text-muted small ms-2">Entity specification derived from participant UI wireframes</span>
-  </div>
-
-  <h5 class="mb-3">My Cohorts</h5>
-
-  <div *ngIf="loading" class="text-center py-4">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2 text-muted">Loading your cohorts...</p>
-  </div>
-
-  <div *ngIf="!loading && error" class="alert alert-danger" role="alert">
-    <i class="fas fa-exclamation-triangle me-2"></i>
-    {{ error }}
-  </div>
-
-  <div *ngIf="!loading && !error && cohorts.length === 0" class="text-muted mb-4">
-    You are not a member of any cohorts yet.
-  </div>
-
-  <div *ngIf="!loading && cohorts.length > 0" class="list-group mb-4">
-    <a
-      class="list-group-item list-group-item-action"
-      *ngFor="let cohort of cohorts"
-      [routerLink]="cohortRoute(cohort)">
-      <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <div class="fw-semibold">
-            <i class="fas fa-users me-2"></i>
-            {{ cohort.cohortName || 'Cohort' }}
-          </div>
-          <small class="text-muted d-block mt-1" *ngIf="cohort.organizationName">
-            {{ cohort.organizationName }}
-          </small>
-          <small class="text-muted d-block" *ngIf="cohort.leaderName">
-            Leader: {{ cohort.leaderName }}
-          </small>
-        </div>
-        <small class="text-muted" *ngIf="cohort.dateCreated?.formattedDate">
-          {{ cohort.dateCreated?.formattedDate }}
-        </small>
-      </div>
-    </a>
-  </div>
-
-  <hr class="my-4" />
-
-  <h5 class="mb-2">UI specs (MVP mocks)</h5>
-  <p class="text-muted mb-3">
-    Static participant UI specs — open a cohort mock to explore the MVP wireframe with documentation links.
-  </p>
-
-  <div class="row g-3">
-    <div *ngFor="let spec of cohortSpecs" class="col-md-6">
-      <div class="ui-card h-100 cohort-spec-card">
-        <div class="ui-card-body">
-          <h5 class="mb-2">{{ spec.label }}</h5>
-          <p class="text-muted small mb-2">{{ spec.description }}</p>
-          <dl class="cohort-spec-dl mb-3">
-            <dt>Leader</dt>
-            <dd>{{ spec.leader }}</dd>
-            <dt>Schedule</dt>
-            <dd>{{ spec.schedule }}</dd>
-          </dl>
-          <a [routerLink]="spec.route" class="btn btn-outline-success btn-sm">
-            <i class="fas fa-drafting-compass me-2"></i>
-            Open participant UI spec
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="cohorts-ui-spec-link mb-3">
+  <a
+    *ngFor="let spec of cohortSpecs"
+    [routerLink]="spec.route"
+    class="btn btn-outline-success btn-sm me-2">
+    <i class="fas fa-drafting-compass me-2"></i>
+    Open {{ spec.label }} UI spec (MVP mock)
+  </a>
+  <span class="text-muted small">Static UI with doc links to cohort participant specs.</span>
 </div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">
+    <i class="fas fa-users me-2"></i>
+    Cohorts
+  </h5>
+</div>
+
+<app-citizen-cohort-list
+  [onRowClickBehavior]="cohortRowClickBehavior"
+  [showingSearch]="true"
+  [showingSearchHeading]="false"
+  [showingGoButton]="true"
+  [showingAddButton]="false"
+  [showingIdCheckbox]="false"
+  searchPlaceholder="search by name, organization, or leader, * for wildcard">
+</app-citizen-cohort-list>

@@ -257,6 +257,20 @@ export class MenuService {
         }
         break;
       case 'citizen':
+        this.cohorts = [];
+        try {
+          const myCohortsRsp = await this.hcclService.loadMyCohorts().toPromise();
+          this.cohorts = (myCohortsRsp?.cohorts || [])
+            .filter((cohort) => !!cohort.cohortId)
+            .map((cohort) => ({
+              id: cohort.cohortId,
+              name: cohort.cohortName || 'Cohort',
+            }));
+        } catch (err) {
+          console.error('Failed to load cohorts for citizen sidebar', err);
+          this.cohorts = [];
+        }
+
         // Fetch personal statements for the current user profile
         const personalStatementCriteria: PersonalStatementCriteria = {
           parentEntityId: context.currentUserProfileId,
@@ -708,9 +722,9 @@ export class MenuService {
     const participation = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PARTICIPATION);
     this.addMenuItem(menu, participation);
 
-    // Cohorts is intentionally hidden for now; keep constant/route for future re-enable.
-    // const cohorts = this.copyMenuItem(MENU_CONSTANTS.STUDENT_COHORTS);
-    // this.addMenuItem(menu, cohorts);
+    const cohorts = this.copyMenuItem(MENU_CONSTANTS.STUDENT_COHORTS);
+    this.addOrgCohortSidebarItems(cohorts, '/citizen/cohorts');
+    this.addMenuItem(menu, cohorts);
 
     // Add Career Goals (Personal Statements list)
     var courses = this.copyMenuItem(MENU_CONSTANTS.STUDENT_PERSONALSTATEMENTS);
