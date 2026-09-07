@@ -1,43 +1,16 @@
 {
   "note": "Whatever is 'constants' gets used",
-  "constants-dev": {
-    "Note": "To change the backend - change serviceUrlPrefix value to the new backend url -it is injected from common secrets in the cloud",
-    "clusterType": "dev",
-    "serviceUrlPrefixDEV": "https://devops2.intigna.io",
-    "serviceUrlPrefixLocalAAD": "http://localhost:8099",
-    "serviceUrlPrefix": "http://localhost:8099",
-    "cdnUrlPrefix": "https://cdn-stage.trutesta.io",
-    "keycloakUrlPrefix": "https://keycloak-gbs-dev.trutesta.io",
-    "gbsUrlPrefix": "https://gbs-stage.intertek.com"
-  },
   "constants": {
-    "serviceUrlPrefixd": "https://gbs-qa.trutesta.io",
     "clusterType": "qa",
     "serviceUrlPrefix": "http://localhost:8099",
     "cdnUrlPrefix": "https://cdn.trutesta.io",
     "keycloakUrlPrefix": "https://keycloak-gbs-qa.trutesta.io",
-    "gbsUrlPrefix": "https://gbs-stage.intertek.com",
     "clbhub.captchaSiteKey": "6LeNSiQtAAAAAHQjexlK52yRi8F4lwgPnyaZltpK"
-  },
-  "constantsDev": { 
-    "clusterType": "dev",
-    "serviceUrlPrefix": "https://gbs-sandbox.trutesta.io",
-    "cdnUrlPrefix": "https://cdn.trutesta.io",
-    "keycloakUrlPrefix": "https://keycloak-gbs-sandbox.trutesta.io",
-    "gbsUrlPrefix": "https://gbs-stage.intertek.com"
   },
   "realmsNotes": "Use this to try new realms",
   "realms": {
-    "default": ["Intertek", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
-    "localhostd": ["demo", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
-    "localhosth": ["hccl-TKalZ", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
-    "localhostdx": ["bam-PKwT5", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
-    "localhost": ["Intertek", "71a267d2-7a08-11e7-bb31-be2e44b06b34"],
-    
-    "general-demo.trutesta.io": [
-      "GenDemo",
-      "00000000-0000-0000-0000-000000000000"
-    ]
+    "default": ["hav", "00000000-0000-0000-0000-000000000000"],
+    "localhost": ["hav", "00000000-0000-0000-0000-000000000000"]
   },
   "debugEndpoints": {
     "libraryEndPoint": ""
