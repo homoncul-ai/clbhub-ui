@@ -1,6 +1,9 @@
 #
 # UI Cloudbuilder Yaml.
 # 
+options:
+  logging: CLOUD_LOGGING_ONLY
+
 steps:
 - name: gcr.io/cloud-builders/gsutil
   id: Get M2 Tools
@@ -8,11 +11,11 @@ steps:
   args:
     - -c
     - |
-      gsutil cp gs://cloudbuild-m2-repo/settings_and_scripts.tgz .
+      gsutil cp ${_CLOUDBUILD_ROOT_PATH}/settings_and_scripts.tgz .
       tar xzf settings_and_scripts.tgz
-      gsutil -q stat gs://cloudbuild-m2-repo/ui_cache/${_KC_PROJECT_NAME}.tgz
+      gsutil -q stat ${_CLOUDBUILD_ROOT_PATH}/ui_cache/${_KC_PROJECT_NAME}.tgz
       if [ $? == 0 ]; then
-        gsutil cp  gs://cloudbuild-m2-repo/ui_cache/${_KC_PROJECT_NAME}.tgz .
+        gsutil cp  ${_CLOUDBUILD_ROOT_PATH}/ui_cache/${_KC_PROJECT_NAME}.tgz .
         tar xzf ${_KC_PROJECT_NAME}.tgz
         echo "Unpacked `du -hs node_module*`"
       fi                                                                                                       
@@ -28,7 +31,7 @@ steps:
       buildNumber="`./settings_and_scripts/nextbuildnumber_ui.sh`"
       export imageTag=${_KC_DEPLOY_TAG}
       export imageName=${_KC_PROJECT_NAME}
-      export dockerImageRoot="us-central1-docker.pkg.dev/adam-devops/cloudbuild-docker-repo/${imageName}"
+      export dockerImageRoot="${_DOCKER_REPO_ROOT}/${imageName}"
       export dockerImageName="${dockerImageRoot}:${buildNumber}"
 
       # Read environment variables from disk
@@ -70,4 +73,6 @@ substitutions:
     _KC_DEPLOY_TAG: QA
     _KC_PROJECT_NAME: trutesta-hccl-mdb5-ui
     _MVN_EXTRA_BUILD_DIRS: 
+    _CLOUDBUILD_ROOT_PATH: gs://cloudbuild-m2-repo
+    _DOCKER_REPO_ROOT: us-central1-docker.pkg.dev/adam-devops/cloudbuild-docker-repo
 
